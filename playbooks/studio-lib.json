@@ -1,0 +1,35 @@
+{
+  "name": "STUDIOLIB",
+  "side": "offense",
+  "notes": "Isolation test: no custom plays (needs no mod). Library plays outside the TEST template, a set the template never had (Gun Bunch), CPU weights and audibles.",
+  "formations": [
+    {
+      "formation": "Shotgun",
+      "sets": [
+        {
+          "set": "Y Trips Wk",
+          "plays": [
+            { "play": "Inside Zone", "audible": 2, "cpu": { "FirstDown": 40, "2ndAndShort": 40 } },
+            { "play": "Mtn Mesh" },
+            { "play": "Spacing Snag", "audible": 4, "cpu": { "3rdAndMedium": 40 } },
+            { "play": "Mtn PA Smash Scissors", "cpu": { "Playaction": 40 } },
+            { "play": "Four Verticals" },
+            { "play": "HB Slip Screen", "audible": 3 },
+            { "play": "Slants", "audible": 1 }
+          ]
+        },
+        {
+          "set": "Bunch",
+          "plays": [
+            { "play": "Mesh" },
+            { "play": "Reverse" }
+          ]
+        }
+      ]
+    },
+    { "formation": "Goal Line Offense", "sets": "template" },
+    { "formation": "Special", "sets": "template" },
+    { "formation": "Kickoff", "sets": "template" },
+    { "formation": "Safety Kickoff", "sets": "template" }
+  ]
+}

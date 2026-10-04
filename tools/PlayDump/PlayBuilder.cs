@@ -53,6 +53,7 @@ namespace PlayDump
             foreach (JObject p in spec["plays"])
                 built.Add(BuildPlay(p));
             RegisterGlobal(built);
+            VerifyClosure(built.Select(b => b.entry));
 
             var project = new FrostyProject();
             project.ModSettings.Title = (string)spec["title"] ?? "PB Studio plays";
@@ -232,7 +233,46 @@ namespace PlayDump
                 if (!brtRef.IsInBundle(id))
                     Console.Error.WriteLine($"  WARN {brtRef.Name} is not in {am.GetBundleEntry(id).Name}; {name} won't be added to its ref table");
             addToBrt.Invoke(null, new object[] { entry, brtRef });
+            foreach (Guid dep in asset.Dependencies) PullIntoBundles(am.GetEbxEntry(dep));
             return entry;
+        }
+
+        // Frostbite crashes on load (null deref) when an asset in a loaded bundle references one that no loaded bundle has.
+        // So every existing asset a new one depends on, recursively, must also be in each target bundle (like PlayBundleAddPlugin).
+        readonly HashSet<Guid> pulled = new HashSet<Guid>();
+        readonly List<string> pulledLog = new List<string>();
+
+        void PullIntoBundles(EbxAssetEntry e)
+        {
+            if (e == null || e.IsAdded || !pulled.Add(e.Guid)) return;
+            var added = bundleIds.Where(id => e.AddToBundle(id)).ToList();
+            if (added.Count > 0)
+            {
+                EbxAssetEntry brtRef = Need((string)spec["brtRef"]["Play"]);
+                addToBrt.Invoke(null, new object[] { e, brtRef });
+                pulledLog.Add($"{e.Type} {e.Name} -> +{added.Count} bundle(s)");
+            }
+            foreach (Guid d in e.EnumerateDependencies()) PullIntoBundles(am.GetEbxEntry(d));
+        }
+
+        // Fails the build if any new asset's dependency tree still has a hole in a target bundle.
+        void VerifyClosure(IEnumerable<EbxAssetEntry> roots)
+        {
+            var seen = new HashSet<Guid>();
+            var stack = new Stack<EbxAssetEntry>(roots);
+            var holes = new List<string>();
+            while (stack.Count > 0)
+            {
+                EbxAssetEntry e = stack.Pop();
+                if (e == null || !seen.Add(e.Guid)) continue;
+                foreach (int id in bundleIds)
+                    if (!e.IsInBundle(id)) holes.Add($"{e.Name} not in {am.GetBundleEntry(id).Name}");
+                IEnumerable<Guid> deps = e.IsAdded ? ((EbxAsset)e.ModifiedEntry.DataObject).Dependencies : e.EnumerateDependencies();
+                foreach (Guid d in deps) stack.Push(am.GetEbxEntry(d));
+            }
+            Console.Error.WriteLine($"closure: {seen.Count} assets checked, {pulledLog.Count} existing assets pulled into target bundles");
+            foreach (string l in pulledLog) Console.Error.WriteLine("  pulled " + l);
+            if (holes.Count > 0) throw new InvalidOperationException("bundle closure incomplete:\n  " + string.Join("\n  ", holes));
         }
 
         PointerRef Ref(EbxAsset owner, EbxAssetEntry target)

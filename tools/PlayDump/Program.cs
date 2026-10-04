@@ -63,6 +63,7 @@ namespace PlayDump
                 case "bundles": return CmdBundles(args.Skip(1).ToArray());
                 case "index": return CmdIndex(args[1]);
                 case "library": return LibraryExport.Run(am, args[1]);
+                case "closure": return CmdClosure(args[1], args.Skip(2).ToArray());
                 case "oracle": return Oracle.Run(am, args[1]);
                 case "buildplays":
                     // buildplays <out.fbproject> <out.fbmod> <mod.json> <plays spec...>
@@ -108,6 +109,13 @@ namespace PlayDump
             if (editorGlobals) EditorGlobals.Start(log);
             ProfilesLibrary.Initialize(editorGlobals ? EditorGlobals.Profiles : new List<Profile>());
             ProfilesLibrary.Initialize(Profile);
+            // MMC Editor stages a regenerated SDK (after a game patch) in TmpProfiles and swaps it in on its next start,
+            // and TypeLibrary.Initialize would perform that swap. That's the editor's job: refuse instead of touching its files.
+            string pendingSdk = Path.Combine(editorDir, "TmpProfiles", ProfilesLibrary.SDKFilename + ".dll");
+            if (File.Exists(pendingSdk))
+                throw new InvalidOperationException("MMC Editor has a pending SDK update (" + pendingSdk + "). Close MMC Editor, start it once " +
+                    "so it installs the new SDK and rebuilds its cache, close it again, then rerun.");
+
             byte[] key1 = null;
             if (ProfilesLibrary.RequiresKey)
             {
@@ -208,6 +216,28 @@ namespace PlayDump
                 }
             }
             Console.Error.WriteLine($"indexed {n} plays to {outDir}");
+            return 0;
+        }
+
+        // closure <bundle> <asset...>: every asset reachable through EBX dependencies that is NOT in the bundle.
+        static int CmdClosure(string bundle, string[] names)
+        {
+            int bid = am.GetBundleId(bundle);
+            var seen = new HashSet<Guid>();
+            var stack = new Stack<EbxAssetEntry>(names.Select(n => am.GetEbxEntry(n) ?? throw new ArgumentException("not found: " + n)));
+            int missing = 0;
+            while (stack.Count > 0)
+            {
+                EbxAssetEntry e = stack.Pop();
+                if (!seen.Add(e.Guid)) continue;
+                if (!e.IsInBundle(bid)) { Console.WriteLine($"MISSING {e.Type,-26} {e.Name}"); missing++; }
+                foreach (Guid d in e.EnumerateDependencies())
+                {
+                    EbxAssetEntry de = am.GetEbxEntry(d);
+                    if (de != null) stack.Push(de);
+                }
+            }
+            Console.WriteLine($"{bundle}: {seen.Count} assets in closure, {missing} missing");
             return 0;
         }
 
