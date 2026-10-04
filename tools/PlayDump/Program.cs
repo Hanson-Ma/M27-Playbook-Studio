@@ -33,7 +33,7 @@ namespace PlayDump
             string gameDir = Environment.GetEnvironmentVariable("MADDEN27_DIR") ?? DefaultGameDir;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveFromEditor;
             // Boot() switches the working directory to the editor, so pin caller-relative paths first.
-            if (args.Length > 1 && (args[0] == "dump" || args[0] == "oracle")) args[1] = Path.GetFullPath(args[1]);
+            if (args.Length > 1 && (args[0] == "dump" || args[0] == "oracle" || args[0] == "index")) args[1] = Path.GetFullPath(args[1]);
             if (args.Length == 0)
             {
                 Console.Error.WriteLine("usage:\n  PlayDump types [regex]\n  PlayDump list <Type> [nameRegex]\n  PlayDump dump <outDir> <nameRegex> [--type T] [--max N] [--follow N]");
@@ -53,6 +53,7 @@ namespace PlayDump
                 case "list": return CmdList(args[1], args.Length > 2 ? args[2] : ".");
                 case "dump": return CmdDump(args.Skip(1).ToArray());
                 case "bundles": return CmdBundles(args.Skip(1).ToArray());
+                case "index": return CmdIndex(args[1]);
                 case "oracle": return Oracle.Run(am, args[1]);
                 default: Console.Error.WriteLine("unknown command " + args[0]); return 1;
             }
@@ -148,6 +149,45 @@ namespace PlayDump
                 n++;
             }
             Console.Error.WriteLine($"dumped {n} assets to {outDir}");
+            return 0;
+        }
+
+        // ID lookup tables (TSV) for formations, sets and plays — the IDs the game's DB tables and protobuf refer to.
+        static int CmdIndex(string outDir)
+        {
+            Directory.CreateDirectory(outDir);
+            string Leaf(PointerRef r) => r.Type == PointerRefType.External ? am.GetEbxEntry(r.External.FileGuid)?.Name ?? "" : "";
+
+            using (var w = new StreamWriter(Path.Combine(outDir, "formations.tsv")))
+            {
+                w.WriteLine("formId\tformationName\tformationType\tasset");
+                foreach (var e in am.EnumerateEbx("Formation").OrderBy(e => e.Name))
+                {
+                    dynamic r = am.GetEbx(e).RootObject;
+                    w.WriteLine($"{r.formId}\t{r.formationName}\t{r.formationType}\t{e.Name}");
+                }
+            }
+            using (var w = new StreamWriter(Path.Combine(outDir, "sets.tsv")))
+            {
+                w.WriteLine("setId\tsetName\tclassification\tsetType\tformation\tasset");
+                foreach (var e in am.EnumerateEbx("Set").OrderBy(e => e.Name))
+                {
+                    dynamic r = am.GetEbx(e).RootObject;
+                    w.WriteLine($"{r.setId}\t{r.setName}\t{r.Classification}\t{r.setType}\t{Leaf(r.form)}\t{e.Name}");
+                }
+            }
+            int n = 0;
+            using (var w = new StreamWriter(Path.Combine(outDir, "plays.tsv")))
+            {
+                w.WriteLine("playId\tplayName\toffensePlayType\tdefensePlayType\tset\tasset");
+                foreach (var e in am.EnumerateEbx("Play").OrderBy(e => e.Name))
+                {
+                    dynamic r = am.GetEbx(e).RootObject;
+                    w.WriteLine($"{r.playId}\t{r.playName}\t{r.offensePlayType}\t{r.defensePlayType}\t{Leaf(r.Set)}\t{e.Name}");
+                    if (++n % 2000 == 0) Console.Error.WriteLine($"  {n} plays");
+                }
+            }
+            Console.Error.WriteLine($"indexed {n} plays to {outDir}");
             return 0;
         }
 

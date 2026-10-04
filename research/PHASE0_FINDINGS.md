@@ -51,6 +51,23 @@ Base64 protobuf (432 KB for the Seahawks offense) holding sets, alignments, ever
 - Each Play, Set and PositionAssignmentDefine is a member of the bundle of every book that uses it, plus `globalplaybooksheet_playbooks_brt` for most plays. Examples: Slants is in 17 bundles; Bunch Mesh in 3 (not Seahawks); `WR_Run90for30` in 551, which is why the oracle swap worked with no bundle change.
 - ⇒ When a book references a play, set or assignment that isn't already in its bundle, the bridge must add that asset and its dependencies to the book's bundle (what PlayBundleAddPlugin does, but only for our one book). Check: `PlayDump bundles <asset>...`.
 
+## Custom playbook saves (`Documents\Madden NFL 27\saves\PBOOKOFF-<name>`)
+- `FBCHUNKS` container: magic, version, fixed sizes (0xF000), save timestamp (y/m/d h:m:s as u16s), build string `Madden-27-RL2_5-9171402`, then an EA **TDB** database zero-padded to 61,440 bytes. No container checksum seen.
+- TDB tables (fixed capacity; current/max rows from PBOOKOFF-TEST):
+  | table | rows | fields | meaning |
+  |---|---|---|---|
+  | PGPL | 648/750 | BOKL SETL PLYL PBST PLYT ord_ Flag | play entries: book, setId, **playId**, set, play-type code, order in set, **Flag = audible slot bit (2/4/8/16)** |
+  | PGFM | 11/40 | BOKL PBFM SRFM | formations (formId) |
+  | STID | 56/75 | BOKL SETL PBFM PBST SPF_ | sets in each formation |
+  | STSP | 0/75 | BOKL SETL | ? |
+  | PBAU | 5/50 | BOKL PBPL FTYP PBAU Flag | audible-related (5 slots, all PBPL 0 here) |
+  | PBAI | 1336/2200 | BOKL PLYL AIGR prct | CPU situation weights: playId, situation group, percent |
+  | SLEP | 0/10 | SETL SPF_ | ? |
+- **IDs are the game's own**: PLYL = `Play.playId`, SETL = `Set.setId`, PBFM = `Formation.formId`. All 648 entries resolve via `research/index/*.tsv`.
+- Field bits are little-endian bit-packed. **CRCs: CRC-32/MPEG-2** (poly 04C11DB7, MSB-first, init FFFFFFFF, no xorout). DB header `[db, db+20)`, table index, each table header `[t, t+32)`, and each table body `[t+36, end of max-size records)`. All 16 verify (`tools/tdbcrc.mjs`).
+- ⇒ We can generate custom playbook saves directly, with no Frosty mod needed, as long as the plays exist in the game. Not yet proven: whether the game accepts a file we write.
+- TODO: map AIGR → situation names and PLYT → play type; figure out PBAU/STSP/SLEP and the BOKL value (32764).
+
 ## Oracle test (as designed)
 `mods/phase0-oracle.fbproject`, Seahawks offense, Shotgun → Y Trips Wk:
 - **Slants**: EBX-only edit. Left outside WR is pointed at `WR_Run90for30` (a go) instead of his slant.
