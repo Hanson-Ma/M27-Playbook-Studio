@@ -1,0 +1,33 @@
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  color: var(--text-3);
+  text-decoration: none;
+  border-radius: var(--r-pill);
+  transition:
+    color var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease);
+}
+.link:hover {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+.iconOnly {
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+.withLabel {
+  height: 26px;
+  padding: 0 9px 0 6px;
+}
+.label {
+  padding-top: 1px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,114 @@
+.field {
+  --h: 32px;
+  display: inline-flex;
+  align-items: stretch;
+  min-width: 84px;
+  height: var(--h);
+  border-radius: var(--r-md);
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  color: var(--text);
+  overflow: hidden;
+  transition:
+    border-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
+}
+.field:hover {
+  border-color: var(--line-3);
+}
+.field:focus-within {
+  border-color: var(--text-2);
+  box-shadow: 0 0 0 1px var(--text-2);
+}
+.sm {
+  --h: 26px;
+  font-size: var(--fs-sm);
+  min-width: 70px;
+}
+.invalid {
+  border-color: var(--danger);
+}
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.scrub {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 1px 7px 0 9px;
+  border-right: 1px solid var(--line);
+  color: var(--text-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+}
+.scrub:hover {
+  color: var(--text);
+  background: var(--bg-4);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  width: 0;
+  padding: 0 4px 0 8px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  font-variant-numeric: tabular-nums;
+}
+.input:focus-visible {
+  box-shadow: none;
+}
+.input::placeholder {
+  color: var(--text-4);
+}
+
+.suffix {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding-right: 4px;
+  color: var(--text-3);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.steppers {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 18px;
+  border-left: 1px solid var(--line);
+}
+.stepper {
+  display: grid;
+  place-items: center;
+  flex: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-3);
+}
+.stepper:hover:not(:disabled) {
+  background: var(--bg-4);
+  color: var(--text);
+}
+.stepper:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.stepper + .stepper {
+  border-top: 1px solid var(--line);
+}

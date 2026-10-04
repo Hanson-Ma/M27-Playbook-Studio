@@ -1,0 +1,150 @@
+/* Alignment card: same family as the play-call PlayCard (flat dark art, white marks, condensed uppercase meta). */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  outline: none;
+  transition:
+    transform var(--t-fast) var(--ease),
+    opacity var(--t-med) var(--ease);
+}
+
+.card[data-fill] {
+  height: 100%;
+}
+
+.card[data-fill] .art {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.card[data-clickable] {
+  cursor: pointer;
+}
+
+.card[data-clickable]:hover {
+  transform: translateY(-2px);
+}
+
+.card[data-clickable]:hover .art {
+  filter: brightness(1.14);
+}
+
+.card[data-muted] {
+  opacity: 0.5;
+}
+
+.art {
+  position: relative;
+  aspect-ratio: 2.5 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--field-bg);
+  box-shadow: var(--shadow-1);
+  transition:
+    box-shadow var(--t-fast) var(--ease),
+    filter var(--t-fast) var(--ease);
+}
+
+.card[data-selected] .art {
+  box-shadow: var(--focus), var(--shadow-1);
+}
+
+.field {
+  position: absolute;
+  inset: 0;
+}
+
+.tag,
+.stat {
+  position: absolute;
+  bottom: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.32em 0.6em 0.26em;
+  border-radius: var(--r-xs);
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag {
+  left: 7px;
+  background: var(--slate);
+  color: var(--text);
+}
+
+.stat {
+  right: 7px;
+  max-width: 64%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--scrim);
+  color: var(--text-2);
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.badges {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: flex;
+  gap: 4px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 2px;
+}
+
+.corner {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  display: flex;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.name,
+.subtitle {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.05;
+}
+
+.name {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-2);
+}

@@ -1,0 +1,265 @@
+/* Category chips: solid (tagged), dark with a dot (not tagged), soft (mixed), dashed (suggested). --c = category color. */
+.chip {
+  --h: 26px;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  max-width: 100%;
+  height: var(--h);
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  transition:
+    background var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+.chip_sm {
+  --h: 22px;
+}
+.chipMain {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  height: 100%;
+  padding: 0 10px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.chip_sm .chipMain {
+  gap: 5px;
+  padding: 0 8px;
+  font-size: 12.5px;
+}
+.chipStatic .chipMain {
+  cursor: default;
+}
+.chipLabel {
+  padding-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chipDot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--c);
+}
+.chip_sm .chipDot {
+  width: 7px;
+  height: 7px;
+}
+.chipIcon {
+  flex: none;
+}
+.chipDepth {
+  margin-right: -2px;
+  opacity: 0.55;
+  font-weight: 600;
+}
+.chipCount {
+  font-size: 0.86em;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip_on {
+  background: var(--c);
+  border-color: var(--c);
+  color: var(--text-inv);
+}
+.chip_on .chipDot {
+  background: color-mix(in srgb, var(--text-inv) 55%, var(--c));
+}
+.chip_off {
+  background: var(--bg-3);
+  border-color: var(--line-2);
+  color: var(--text-2);
+}
+.chip_off:hover {
+  border-color: color-mix(in srgb, var(--c) 70%, var(--line-2));
+  color: var(--text);
+}
+.chip_mixed {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 42%, var(--bg-3)) 0 50%, var(--bg-3) 50% 100%);
+  border-color: color-mix(in srgb, var(--c) 75%, transparent);
+  color: var(--text);
+}
+.chip_suggested {
+  background: color-mix(in srgb, var(--c) 9%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--c) 80%, transparent);
+  color: color-mix(in srgb, var(--c) 72%, var(--text));
+}
+.chip_suggested:hover {
+  background: color-mix(in srgb, var(--c) 20%, transparent);
+  color: var(--text);
+}
+.chip:not(.chipStatic):active {
+  transform: scale(0.97);
+}
+.chipCursor {
+  box-shadow: var(--focus);
+}
+
+.chipRemove {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin: 0 3px 0 -5px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  opacity: 0.65;
+  cursor: pointer;
+}
+.chip_sm .chipRemove {
+  width: 16px;
+  height: 16px;
+}
+.chipRemove:hover {
+  opacity: 1;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.dot {
+  display: inline-block;
+  flex: none;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+/* color picker */
+.picker {
+  width: 300px;
+  padding: var(--s3);
+  border-radius: var(--r-lg);
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-2);
+}
+.pickerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s2);
+}
+.pickerTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.pickerNow {
+  width: 28px;
+  height: 14px;
+  border-radius: var(--r-xs);
+  background: var(--c);
+}
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+}
+.swatch {
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--c);
+  cursor: pointer;
+  transition:
+    transform var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
+}
+.swatch:hover {
+  transform: scale(1.12);
+}
+.swatchOn {
+  box-shadow: var(--focus);
+}
+.pickerCustom {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s3);
+}
+.native {
+  width: 32px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: var(--bg-3);
+  cursor: pointer;
+}
+.hexInput {
+  flex: 1;
+  min-width: 0;
+}
+.applyHex {
+  height: 28px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.applyHex:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* thumbnails */
+.thumb {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--field-bg);
+  box-shadow: var(--shadow-1);
+}
+
+/* filter bar */
+.filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+.menuCat {
+  display: inline-block;
+}
+
+.bookPicker {
+  min-width: 220px;
+  max-width: 340px;
+}
+.muted {
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}

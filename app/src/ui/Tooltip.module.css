@@ -1,0 +1,29 @@
+.anchor {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.tip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  max-width: 320px;
+  padding: 5px 9px;
+  border-radius: var(--r-sm);
+  background: var(--bg-4);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-1);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-sm);
+  line-height: 1.3;
+  pointer-events: none;
+  animation: tipIn var(--t-fast) var(--ease);
+}
+
+@keyframes tipIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}

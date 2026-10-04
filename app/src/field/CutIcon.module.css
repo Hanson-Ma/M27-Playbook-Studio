@@ -1,0 +1,25 @@
+/* Cut icon: strokes and fills follow currentColor (set `color` on a parent, e.g. var(--art-route)). */
+.icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  overflow: visible;
+}
+
+.line {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.player {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.6;
+}

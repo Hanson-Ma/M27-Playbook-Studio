@@ -1,0 +1,802 @@
+.inspector {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+.tabsRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--s2) var(--s2);
+  border-bottom: 1px solid var(--line);
+}
+.tab {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 28px;
+  padding: 0 6px;
+  border: none;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+.tab:hover {
+  color: var(--text);
+  background: var(--bg-3);
+}
+.tabOn,
+.tabOn:hover {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.tab:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--s3) var(--s3) var(--s6);
+}
+.empty {
+  margin-top: var(--s6);
+}
+
+/* slot header */
+.slotHead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+}
+.slotTitles {
+  flex: 1;
+  min-width: 0;
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.slotTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-2xl);
+  line-height: 1;
+  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+}
+.role {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--text-3);
+}
+.slotTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+}
+.resetRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  margin-bottom: var(--s3);
+  padding: 4px 4px 4px var(--s3);
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+
+/* lock */
+.lockPanel {
+  margin-bottom: var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--amber);
+  background: var(--bg-2);
+}
+.lockOpen {
+  border-color: var(--line-2);
+}
+.lockTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 4px;
+}
+.lockOpen .lockTitle {
+  color: var(--text-2);
+}
+.lockedBody {
+  margin-top: var(--s2);
+}
+
+/* sections */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+}
+.section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  min-height: 24px;
+}
+.sectionTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.muted {
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}
+.note {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.padded {
+  padding: var(--s3) 0;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  word-break: break-all;
+}
+.fullWidth {
+  width: 100%;
+}
+
+/* tiles (presets, double moves, block tools) */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 6px;
+}
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 4px 6px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text-2);
+  cursor: pointer;
+  transition:
+    transform var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease);
+}
+.tile:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-3);
+  color: var(--text);
+}
+.tile:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+.tileActive {
+  border-color: var(--text);
+  box-shadow: var(--focus);
+  color: var(--text);
+}
+.tileLabel {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  text-align: center;
+}
+.btnGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+/* params */
+.params {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.paramRows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.paramRow {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s2);
+}
+.fieldLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* legs */
+.legs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.legAside,
+.legEmpty {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+  padding: 2px 2px;
+}
+.legEmpty {
+  padding: var(--s3);
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-md);
+  text-align: center;
+}
+.legRow,
+.wpRow {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.legRow:hover,
+.wpRow:hover {
+  border-color: var(--line-3);
+}
+.legSel {
+  border-color: var(--text);
+  box-shadow: var(--focus);
+}
+.legLocked {
+  opacity: 0.6;
+}
+.legLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.legNo {
+  flex: none;
+  min-width: 20px;
+  height: 20px;
+  border-radius: var(--r-pill);
+  background: var(--bg-4);
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.legType {
+  flex: 1;
+  min-width: 0;
+}
+.legNums {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+.legNums4 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+.cutBtn {
+  flex: none;
+  max-width: 170px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-2);
+  background: var(--bg-3);
+  color: var(--text-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.cutBtn:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--line-3);
+}
+.cutOn {
+  color: var(--art-route);
+  border-color: var(--art-route);
+}
+.cutBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* motion */
+.wpList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* steps */
+.stepList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stepCard {
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stepHead {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.stepSum {
+  flex: 1;
+  min-width: 0;
+  font-size: 11.5px;
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stepFields {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 26px;
+}
+.fieldRow {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+}
+.fieldRowWide {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.subTable {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.subRow {
+  display: grid;
+  grid-template-columns: 20px repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  align-items: center;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.subRow > :first-child {
+  grid-row: span 2;
+}
+.addStep {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* info */
+.kv {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 5px var(--s2);
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+.kv dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding-top: 2px;
+}
+.kv dd {
+  margin: 0;
+  color: var(--text-2);
+  min-width: 0;
+}
+.summary {
+  margin: 0;
+  padding-left: 22px;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+/* route library modal */
+.libBody.libBody {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  height: min(70vh, 720px);
+}
+.libBar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+.libType {
+  width: 260px;
+}
+.libGrid {
+  flex: 1;
+  min-height: 0;
+}
+.libTile {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--ease);
+}
+.libTile:hover {
+  border-color: var(--line-3);
+}
+.libTileSel {
+  border-color: var(--text);
+  box-shadow: var(--focus);
+}
+.libName {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-2);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.libType2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* steps the game-side builder can't author (no library instance of the step type) */
+.stepBad {
+  border-color: var(--danger);
+}
+.stepError {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+  color: var(--danger);
+}
+.buildError {
+  margin-bottom: var(--s3);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--danger);
+  background: var(--bg-2);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--text);
+}
+.buildErrorTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--danger);
+  margin-bottom: 4px;
+}
+.buildErrorActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+/* ── v2: simple inspector ── */
+.tabAdvanced {
+  flex: 0 1 auto;
+}
+.tabAdvanced:not(.tabOn) {
+  color: var(--text-3);
+}
+.steps {
+  margin: var(--s4) 0 0;
+  padding: var(--s3) var(--s3) var(--s3) 30px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.steps strong {
+  color: var(--text);
+}
+.quickRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--s3);
+}
+.quickRow:empty {
+  display: none;
+}
+.redDot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--art-primary);
+  margin-right: 2px;
+}
+.spot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: var(--s3);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--text-2);
+}
+.spotOn {
+  border-color: var(--art-motion);
+}
+.spotText {
+  display: flex;
+  gap: 8px;
+}
+.spotText strong {
+  color: var(--text);
+}
+.spotIcon {
+  flex: none;
+  color: var(--text-3);
+  font-size: 15px;
+  line-height: 1.2;
+}
+.spotActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.spotNote {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 var(--s3);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--text-3);
+}
+.spotNote a,
+.spotText a,
+.note a {
+  color: var(--text-2);
+}
+
+/* disclosure sections */
+.disclosureBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 4px 2px 0;
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  text-align: left;
+}
+.disclosureBtn:hover .sectionTitle {
+  color: var(--text);
+}
+.disclosureBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+  border-radius: var(--r-sm);
+}
+.disclosure:not(.disclosureOpen) .sectionTitle {
+  color: var(--text-2);
+}
+.disclosureBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+/* My Routes */
+.myTile {
+  position: relative;
+}
+.myMenu {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.myTile:hover .myMenu,
+.myTile:focus-within .myMenu {
+  opacity: 1;
+}
+.mirrorTag {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.emptyBox {
+  padding: var(--s3);
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-md);
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.helpLink {
+  margin-left: auto;
+}
+.issues {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+.issueError {
+  color: var(--danger);
+}
+.issueWarning {
+  color: var(--warning);
+}
+.limits {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+  line-height: 1.45;
+}
+.legSummary {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cutBtnInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* A route that runs off the field (OffField.tsx). */
+.offField {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--warning) 55%, transparent);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--warning) 10%, transparent);
+  margin-bottom: var(--s3);
+}
+.offFieldIcon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--warning);
+}
+.offFieldBody {
+  flex: 1;
+  min-width: 0;
+}
+.offFieldTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.offFieldText {
+  margin: 2px 0 0;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+.offTag {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warning);
+}

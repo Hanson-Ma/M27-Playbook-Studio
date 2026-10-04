@@ -1,0 +1,223 @@
+/* Play art: Madden colors from tokens.css. Path color is set with `color` so strokes and caps share currentColor. */
+.layer {
+  pointer-events: none;
+}
+
+.path {
+  transition: opacity var(--t-med) var(--ease);
+}
+
+.line {
+  fill: none;
+  stroke: currentColor;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* With non-scaling strokes the dash pattern is in screen pixels too. */
+.dashed {
+  stroke-dasharray: 6 5;
+  stroke-linecap: butt;
+}
+
+.dotted {
+  stroke-dasharray: 1 4;
+}
+
+.capFill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.capStroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+.route {
+  color: var(--art-route);
+}
+.primary {
+  color: var(--art-primary);
+}
+.run {
+  color: var(--art-run);
+}
+.block {
+  color: var(--art-block);
+}
+.motion {
+  color: var(--art-motion);
+}
+.qb {
+  color: var(--art-qb);
+}
+.option {
+  color: var(--art-option);
+}
+.rush {
+  color: var(--art-rush);
+}
+.coverage {
+  color: var(--art-def);
+  opacity: 0.85;
+}
+.realign {
+  color: var(--art-player);
+  opacity: 0.55;
+}
+
+.pathLabel {
+  fill: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  paint-order: stroke;
+  stroke: var(--field-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* zones */
+.zone ellipse {
+  fill: currentColor;
+  fill-opacity: 0.2;
+  stroke: currentColor;
+  stroke-opacity: 0.85;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.zDeep {
+  color: var(--art-zone-deep);
+}
+.zHook {
+  color: var(--art-zone-hook);
+}
+.zFlat {
+  color: var(--art-zone-flat);
+}
+.zCurlflat {
+  color: var(--art-zone-curlflat);
+}
+.zSpy {
+  color: var(--art-zone-spy);
+}
+.zoneLabel {
+  fill: currentColor;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-anchor: middle;
+  dominant-baseline: central;
+  paint-order: stroke;
+  stroke: var(--field-bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.dim {
+  opacity: 0.18;
+}
+
+/* players */
+.players {
+  pointer-events: auto;
+}
+.playersStatic {
+  pointer-events: none;
+}
+
+.player {
+  transition: opacity var(--t-med) var(--ease);
+}
+
+.dimPlayer {
+  opacity: 0.45;
+}
+
+.grab {
+  cursor: grab;
+}
+.grab:active {
+  cursor: grabbing;
+}
+
+.hollow {
+  fill: var(--bg-0);
+  stroke: var(--art-player);
+}
+
+.solid {
+  fill: var(--art-player);
+  stroke: none;
+}
+
+.def {
+  fill: var(--bg-0);
+  stroke: var(--art-def);
+  stroke-linejoin: round;
+}
+
+/* Ring stroke widths come from the renderer (they scale with the detail metrics). */
+.selRing {
+  fill: none;
+  stroke: var(--text);
+}
+
+.selGlow {
+  fill: none;
+  stroke: var(--text);
+  stroke-opacity: 0.22;
+}
+
+.hiRing {
+  fill: none;
+  stroke: var(--text);
+  stroke-opacity: 0.6;
+}
+
+.hit {
+  fill: transparent;
+  stroke: none;
+}
+
+/* Player labels: drawn after every mark, each on an opaque field-colored pill. */
+.labels {
+  pointer-events: none;
+}
+
+.labelTag {
+  transition: opacity var(--t-med) var(--ease);
+}
+
+.labelPill {
+  fill: var(--field-bg);
+  stroke: var(--field-line);
+  stroke-width: 1;
+}
+
+.label {
+  fill: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-anchor: middle;
+}
+
+.labelSelected .label {
+  fill: var(--text);
+}
+
+.labelSelected .labelPill {
+  stroke: var(--line-3);
+}
+
+.slotNum {
+  fill: var(--text);
+}
+
+.slotSep {
+  fill: var(--text-3);
+}

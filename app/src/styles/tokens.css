@@ -1,0 +1,125 @@
+/* Playbook Studio design tokens — Madden 27 play-call look: near-black glass, condensed uppercase type,
+   light-gray active pills, flat dark fields with yellow/red/light-blue route art. Dark theme only. */
+:root {
+  /* type */
+  /* Condensed system fallbacks keep the Madden look when the web fonts can't load (offline): Avenir Next Condensed
+     ships with macOS, Roboto Condensed with many Linux/Android setups, Arial Narrow with Office. */
+  --font-display: "Barlow Condensed", "Avenir Next Condensed", "Roboto Condensed", "Arial Narrow", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --font-body: "Barlow", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-xs: 11px;
+  --fs-sm: 12.5px;
+  --fs-md: 14px;
+  --fs-lg: 17px;
+  --fs-xl: 22px; /* tab labels, play names on cards */
+  --fs-2xl: 28px;
+  --fs-3xl: 40px;
+
+  /* surfaces */
+  --bg-0: #07080a; /* app background */
+  --bg-1: #0e1013; /* panels */
+  --bg-2: #15181c; /* raised / cards */
+  --bg-3: #1d2126; /* inputs, hover */
+  --bg-4: #262b31; /* pressed, selected rows */
+  --glass: rgba(14, 16, 19, 0.78); /* overlays, floating toolbars */
+  --scrim: rgba(0, 0, 0, 0.62);
+
+  --line: #262a30;
+  --line-2: #343941;
+  --line-3: #4a5059;
+
+  /* text */
+  --text: #f3f4f6;
+  --text-2: #b4b9c1; /* secondary: "GUN U OFF TRIPS WK" */
+  --text-3: #7b818a;
+  --text-4: #555b63;
+  --text-inv: #0b0c0e;
+
+  /* Madden tab pills */
+  --pill-bg: #e4e5e7;
+  --pill-fg: #0b0c0e;
+  /* LB/RB-style rounded-rect glyphs (audible glyphs only) */
+  --bumper-bg: #f1f2f4;
+  --bumper-fg: #101114;
+
+  /* status + play-type tags */
+  --blue: #1f56e0; /* PASS tag */
+  --blue-2: #3d74ff;
+  --red: #d0263e; /* RUN tag */
+  --purple: #7e4fe0; /* PLAY ACTION */
+  --teal: #0f9f8f; /* SCREEN */
+  --orange: #e0821d; /* OPTION / RPO */
+  --slate: #56606c; /* SPECIAL / OTHER */
+  --amber: #f0b429; /* NEEDS MOD */
+  --green: #2fb36b; /* OK / saved */
+  --danger: #ef4458;
+  --warning: #f0b429;
+  --info: #5aa9ff;
+
+  /* play art */
+  --field-bg: #1a1c1f;
+  --field-bg-2: #1e2024; /* alternating 5-yd bands */
+  --field-line: #34383e;
+  --field-line-major: #42464d;
+  --field-num: #3c4047;
+  --field-hash: #4d525a;
+  --field-los: #a6acb4;
+  --field-first-down: #d98a3a; /* muted orange: reads as a field marking, not a yellow route */
+  --field-sideline: #5a6069;
+
+  --art-route: #d8d063;
+  --art-primary: #d22e44;
+  --art-run: #d22e44;
+  --art-block: #8d949d;
+  --art-motion: #9fd6f2;
+  --art-qb: #ffffff;
+  --art-option: #e8e8e8;
+  --art-rush: #e2475b;
+  --art-zone-deep: #3c82f6;
+  --art-zone-hook: #e6c229;
+  --art-zone-flat: #5fd8ef;
+  --art-zone-curlflat: #a585f7;
+  --art-zone-spy: #f472b6;
+  --art-player: #f5f6f7;
+  --art-def: #ff6b7a;
+
+  /* controller glyph colors (audible glyphs only: settings.audibleStyle xbox / ps) */
+  --xb-a: #62c046;
+  --xb-b: #e4473c;
+  --xb-x: #3a8ee6;
+  --xb-y: #f1c232;
+  --ps-cross: #7fa8e8;
+  --ps-circle: #e8646d;
+  --ps-square: #d98ad8;
+  --ps-triangle: #42c9a9;
+  --glyph-bg: #17191c;
+
+  /* shape */
+  --r-xs: 3px;
+  --r-sm: 5px;
+  --r-md: 7px;
+  --r-lg: 11px;
+  --r-xl: 16px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 18px 50px rgba(0, 0, 0, 0.6);
+  --focus: 0 0 0 2px #ffffff, 0 0 18px rgba(255, 255, 255, 0.28); /* Madden white selection glow */
+
+  /* spacing scale */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s8: 32px;
+
+  --topbar-h: 64px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 120ms;
+  --t-med: 200ms;
+}

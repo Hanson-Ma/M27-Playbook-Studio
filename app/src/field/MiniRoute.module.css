@@ -1,0 +1,33 @@
+.mini {
+  position: relative;
+  flex: none;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--bg-1);
+  box-shadow: inset 0 0 0 1px var(--line);
+  outline: none;
+  transition:
+    box-shadow var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease),
+    filter var(--t-fast) var(--ease);
+}
+
+.svg {
+  display: block;
+}
+
+.mini[data-clickable] {
+  cursor: pointer;
+}
+
+.mini[data-clickable]:hover {
+  filter: brightness(1.18);
+}
+
+.mini[data-selected] {
+  box-shadow: var(--focus);
+}
+
+.mini:focus-visible {
+  box-shadow: 0 0 0 2px var(--blue-2);
+}

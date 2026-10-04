@@ -1,0 +1,117 @@
+.btn {
+  --h: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: var(--h);
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--text);
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease),
+    opacity var(--t-fast) var(--ease);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+.loading:disabled {
+  opacity: 0.75;
+}
+.text {
+  padding-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sm {
+  --h: 26px;
+  padding: 0 10px;
+  gap: 5px;
+  font-size: 13.5px;
+}
+.md {
+  --h: 32px;
+}
+.lg {
+  --h: 40px;
+  padding: 0 20px;
+  gap: 9px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.block {
+  display: flex;
+  width: 100%;
+}
+.iconOnly {
+  width: var(--h);
+  padding: 0;
+}
+
+/* Madden light pill */
+.primary {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-weight: 700;
+}
+.primary:hover:not(:disabled) {
+  background: var(--bumper-bg);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--text) 22%, transparent);
+}
+
+.secondary {
+  background: var(--bg-3);
+  border-color: var(--line-2);
+}
+.secondary:hover:not(:disabled) {
+  background: var(--bg-4);
+  border-color: var(--line-3);
+}
+
+.ghost {
+  color: var(--text-2);
+}
+.ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+  color: var(--text);
+}
+
+.danger {
+  background: var(--danger);
+  color: var(--text);
+  font-weight: 700;
+}
+.danger:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--danger) 85%, var(--text));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--danger) 40%, transparent);
+}
+
+.active.secondary,
+.active.ghost {
+  background: var(--bg-4);
+  color: var(--text);
+  border-color: var(--line-3);
+}
+.active.primary {
+  box-shadow: var(--focus);
+}

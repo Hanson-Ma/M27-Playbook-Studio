@@ -1,0 +1,180 @@
+.strip {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  min-height: 40px;
+  padding: 4px var(--s4);
+  background: color-mix(in srgb, var(--bg-1) 70%, var(--bg-0));
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+.strip > * {
+  flex: none;
+}
+.meterWrap {
+  flex: none;
+}
+
+.meters {
+  display: flex;
+  gap: var(--s4);
+}
+.meter {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  column-gap: 6px;
+  width: 116px;
+}
+.meterLabel {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.meterValue {
+  justify-self: end;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--text);
+}
+.meterMax {
+  color: var(--text-3);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+}
+.bar {
+  grid-column: 1 / -1;
+  display: flex;
+  height: 3px;
+  margin-top: 3px;
+  border-radius: 3px;
+  background: var(--bg-3);
+  overflow: hidden;
+}
+.barUsed {
+  background: var(--text-2);
+}
+.barTpl {
+  background: var(--line-3);
+}
+.meter.warning .meterValue {
+  color: var(--warning);
+}
+.meter.warning .barUsed {
+  background: var(--warning);
+}
+.meter.danger .barUsed {
+  background: var(--danger);
+}
+.meter.danger .meterValue {
+  color: var(--danger);
+}
+
+.status {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease);
+}
+.pill:hover,
+.pillOpen {
+  border-color: var(--line-3);
+  color: var(--text);
+  background: var(--bg-3);
+}
+.caret {
+  opacity: 0.6;
+}
+.good svg {
+  color: var(--green);
+}
+.warn {
+  border-color: color-mix(in srgb, var(--warning) 45%, transparent);
+}
+.warn svg {
+  color: var(--warning);
+}
+.bad {
+  border-color: color-mix(in srgb, var(--danger) 55%, transparent);
+  background: color-mix(in srgb, var(--danger) 14%, var(--bg-2));
+  color: var(--text);
+}
+.bad svg {
+  color: var(--danger);
+}
+.mod svg {
+  color: var(--amber);
+}
+
+.popover {
+  width: min(560px, calc(100vw - 32px));
+  max-height: min(520px, calc(100vh - 160px));
+  overflow-y: auto;
+  padding: var(--s3);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-lg);
+  background: var(--bg-2);
+  box-shadow: var(--shadow-2);
+}
+.popTitle {
+  margin: var(--s2) 0 4px var(--s2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.popTitle:first-child {
+  margin-top: 0;
+}
+.popLead {
+  margin: 0 var(--s2) var(--s2);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.popBody {
+  display: flex;
+  flex-direction: column;
+}
+.popEmpty {
+  padding: var(--s2);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+}
+.popFoot {
+  margin: var(--s3) var(--s2) 0;
+  padding-top: var(--s2);
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  line-height: 1.45;
+}

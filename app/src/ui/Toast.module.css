@@ -1,0 +1,121 @@
+/* Bottom left, above the screens' bottom status rows (the set editor's GAME CHECKS): the left columns hold lists you
+   don't need right after an action, while the top right holds the screens' own buttons and tabs (designer player
+   tabs, play actions) that a toast there covered right after you used them. Newest toast at the bottom. */
+.stack {
+  position: fixed;
+  bottom: 56px;
+  left: var(--s4);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s2);
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  pointer-events: none;
+}
+
+.toast {
+  --tone: var(--info);
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 8px 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--glass);
+  border: 1px solid var(--line-2);
+  box-shadow: inset 3px 0 0 var(--tone), var(--shadow-2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: slideIn var(--t-med) var(--ease);
+}
+.info {
+  --tone: var(--info);
+}
+.success {
+  --tone: var(--green);
+}
+.warning {
+  --tone: var(--warning);
+}
+.error {
+  --tone: var(--danger);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tone) 22%, transparent);
+  color: var(--tone);
+}
+.content {
+  flex: 1;
+  min-width: 0;
+  padding-top: 2px;
+}
+.message {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+.detail {
+  margin-top: 3px;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.action {
+  flex: none;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 9px;
+  border: 1px solid var(--line-3);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.action:hover {
+  background: var(--bg-4);
+}
+.close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-3);
+}
+.close:hover {
+  background: var(--bg-4);
+  color: var(--text);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}

@@ -1,0 +1,73 @@
+// Alignment-only card for a set (library or custom): flat dark field with the eleven player marks, then the
+// SET NAME and the FORMATION / base line underneath — the play-call card look without routes.
+import { memo, type MouseEvent, type ReactNode } from "react";
+import { Field, PlayArtLayer } from "../../field";
+import { HALF_WIDTH } from "../../model/geometry";
+import type { ArtBounds, PlayArt } from "../../model/types";
+import { useSettings } from "../../state/settings";
+import { cx } from "../../ui";
+import s from "./SetCard.module.css";
+
+/**
+ * Sideline to sideline over the backfield (alignments live between y −9 and the LOS). The viewport is wider than any
+ * card, so "contain" always shows the full width and grows the depth around the alignment — same scale on every card.
+ */
+export const SET_CARD_ASPECT = 2.5;
+const VIEWPORT: ArtBounds = { minX: -HALF_WIDTH, maxX: HALF_WIDTH, minY: -10, maxY: 3 };
+
+export interface SetCardProps {
+  art: PlayArt;
+  name: string;
+  subtitle?: string;
+  selected?: boolean;
+  /** Top-right chips (issue counts, CUSTOM…). */
+  badges?: ReactNode;
+  /** Bottom-left chip on the art. */
+  tag?: ReactNode;
+  /** Bottom-right chip on the art. */
+  stat?: ReactNode;
+  /** Top-left of the art (e.g. a ⋯ menu button). */
+  corner?: ReactNode;
+  muted?: boolean;
+  /** Fill the parent's height (grid cells): the art takes whatever is left above the name. */
+  fill?: boolean;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void;
+  onContextMenu?: (e: MouseEvent<HTMLDivElement>) => void;
+  className?: string;
+}
+
+export const SetCard = memo(function SetCard({ art, name, subtitle, selected, badges, tag, stat, corner, muted, fill, onClick, onDoubleClick, onContextMenu, className }: SetCardProps) {
+  const ballSpot = useSettings((st) => st.ballSpot);
+  return (
+    <div
+      className={cx(s.card, className)}
+      data-selected={selected || undefined}
+      data-muted={muted || undefined}
+      data-fill={fill || undefined}
+      data-clickable={onClick ? true : undefined}
+      role={onClick ? "button" : undefined}
+      aria-pressed={onClick ? !!selected : undefined}
+      title={name}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      onContextMenu={onContextMenu}
+    >
+      <div className={s.art}>
+        <Field viewport={VIEWPORT} ballSpot={ballSpot} className={s.field} label={`${name} alignment`}>
+          <PlayArtLayer art={art} compact />
+        </Field>
+        {tag && <span className={s.tag}>{tag}</span>}
+        {stat && <span className={s.stat}>{stat}</span>}
+        {badges && <span className={s.badges}>{badges}</span>}
+        {corner && <span className={s.corner}>{corner}</span>}
+      </div>
+      <div className={s.meta}>
+        <span className={s.text}>
+          <span className={s.name}>{name}</span>
+          {subtitle && <span className={s.subtitle}>{subtitle}</span>}
+        </span>
+      </div>
+    </div>
+  );
+});

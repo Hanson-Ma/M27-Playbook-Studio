@@ -1,0 +1,66 @@
+/* Step header at the top of each pane: (1) PICK A SET — hint */
+.step {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 8px var(--s4);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-1);
+}
+.stepNum {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-3);
+  color: var(--text-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  transition:
+    background var(--t-med) var(--ease),
+    color var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease);
+}
+.stepText {
+  flex: 1;
+  min-width: 0;
+}
+.stepTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stepHint {
+  margin-top: 1px;
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stepExtra {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stepCurrent .stepNum {
+  background: var(--pill-bg);
+  border-color: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.stepCurrent .stepTitle {
+  color: var(--text);
+}

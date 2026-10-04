@@ -1,0 +1,192 @@
+/* Madden play-call card. Width follows the container; `data-size` scales type and chips. */
+.card {
+  --name-fs: var(--fs-xl);
+  --sub-fs: var(--fs-md);
+  --chip-fs: var(--fs-sm);
+  --chip-inset: 8px;
+  --meta-gap: 9px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--meta-gap);
+  width: 100%;
+  min-width: 0;
+  outline: none;
+  transition:
+    transform var(--t-fast) var(--ease),
+    opacity var(--t-med) var(--ease);
+}
+
+.card[data-size="sm"] {
+  --name-fs: var(--fs-lg);
+  --sub-fs: var(--fs-xs);
+  --chip-fs: 10.5px;
+  --chip-inset: 6px;
+  --meta-gap: 7px;
+}
+
+.card[data-size="lg"] {
+  --name-fs: var(--fs-2xl);
+  --sub-fs: var(--fs-lg);
+  --chip-fs: var(--fs-md);
+  --chip-inset: 10px;
+  --meta-gap: 11px;
+}
+
+.card[data-clickable] {
+  cursor: pointer;
+}
+
+.art {
+  position: relative;
+  aspect-ratio: 2.15 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--field-bg);
+  box-shadow: var(--shadow-1);
+  transition:
+    box-shadow var(--t-fast) var(--ease),
+    filter var(--t-fast) var(--ease);
+}
+
+.field {
+  position: absolute;
+  inset: 0;
+}
+
+.card[data-clickable]:hover {
+  transform: translateY(-2px);
+}
+
+.card[data-clickable]:hover .art {
+  filter: brightness(1.14);
+}
+
+.card[data-selected] .art {
+  box-shadow: var(--focus), var(--shadow-1);
+}
+
+.card:focus-visible .art {
+  box-shadow: 0 0 0 2px var(--blue-2), var(--shadow-1);
+}
+
+.card[data-selected]:focus-visible .art {
+  box-shadow: var(--focus), 0 0 0 4px var(--blue-2);
+}
+
+.card[data-dragging] {
+  opacity: 0.4;
+}
+
+.card[data-muted] {
+  opacity: 0.45;
+}
+
+/* chips on the art */
+.tag,
+.stat,
+.badge {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: var(--r-xs);
+}
+
+.tag {
+  position: absolute;
+  left: var(--chip-inset);
+  bottom: var(--chip-inset);
+  padding: 0.32em 0.6em 0.26em;
+  background: var(--tag);
+  color: var(--text);
+  font-size: var(--chip-fs);
+  font-weight: 700;
+}
+
+.stat {
+  position: absolute;
+  right: var(--chip-inset);
+  bottom: var(--chip-inset);
+  max-width: 62%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0.32em 0.6em 0.26em;
+  background: var(--scrim);
+  color: var(--text-2);
+  font-size: var(--chip-fs);
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.badges {
+  position: absolute;
+  top: var(--chip-inset);
+  right: var(--chip-inset);
+  display: flex;
+  gap: 4px;
+}
+
+.badge {
+  padding: 0.3em 0.55em 0.24em;
+  font-size: calc(var(--chip-fs) - 1px);
+  font-weight: 700;
+}
+
+.custom {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+
+.needsMod {
+  background: var(--amber);
+  color: var(--text-inv);
+}
+
+/* under the art */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 0 2px;
+}
+
+.leading {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.name,
+.subtitle {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.05;
+}
+
+.name {
+  font-size: var(--name-fs);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: var(--sub-fs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+}

@@ -1,0 +1,9 @@
+.center {
+  height: 100%;
+  display: grid;
+  place-items: center;
+
+}
+.loading {
+  width: min(420px, 80vw);
+}

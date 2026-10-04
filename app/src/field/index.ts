@@ -1,0 +1,20 @@
+// Field rendering: scaled SVG field, play art, play cards and route thumbnails (ARCHITECTURE.md "Field rendering").
+export { Field, FieldContext, staticFieldTransform, useFieldTransform } from "./Field";
+export type { CoordsPosition, FieldPointerEvent, FieldProps, FieldTransform, FieldViewport } from "./Field";
+export { fieldMarkings } from "./FieldMarkings";
+export type { FieldMarkingsMode, FieldMarkingsOptions } from "./FieldMarkings";
+export { PathShape, PlayArtLayer, artMetrics, cutSizes } from "./PlayArtLayer";
+export type { ArtMetrics, PlayArtLayerProps } from "./PlayArtLayer";
+export { CARD_ASPECT, PlayCard, cardDepth, cardSubtitle, cardViewport } from "./PlayCard";
+export type { PlayCardProps, PlayCardSize } from "./PlayCard";
+export { MiniRoute, miniRouteArt } from "./MiniRoute";
+export type { MiniRouteProps } from "./MiniRoute";
+export { CutIcon, cutIconShape } from "./CutIcon";
+export type { CutIconProps, CutIconShape } from "./CutIcon";
+export { MotionBounds, motionReach } from "./MotionBounds";
+export type { MotionBoundsProps } from "./MotionBounds";
+export { cutCorners, drawCutPath } from "./cutGeometry";
+export type { CutCorner, CutDrawing, CutSizes } from "./cutGeometry";
+export { ArtGallery } from "./ArtGallery";
+export { lightSlotArt } from "./lightArt";
+export * from "./fieldMath";

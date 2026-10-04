@@ -1,0 +1,39 @@
+.dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bg-0) 60%, transparent);
+}
+.more {
+  margin-left: 1px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--text-3);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.chips > :not(.label) {
+  height: 22px;
+  font-size: var(--fs-xs);
+}
+.label {
+  margin-right: 2px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
