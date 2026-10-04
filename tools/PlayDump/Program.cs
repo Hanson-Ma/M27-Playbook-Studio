@@ -52,6 +52,7 @@ namespace PlayDump
                 case "types": return CmdTypes(args.Length > 1 ? args[1] : ".");
                 case "list": return CmdList(args[1], args.Length > 2 ? args[2] : ".");
                 case "dump": return CmdDump(args.Skip(1).ToArray());
+                case "bundles": return CmdBundles(args.Skip(1).ToArray());
                 case "oracle": return Oracle.Run(am, args[1]);
                 default: Console.Error.WriteLine("unknown command " + args[0]); return 1;
             }
@@ -147,6 +148,20 @@ namespace PlayDump
                 n++;
             }
             Console.Error.WriteLine($"dumped {n} assets to {outDir}");
+            return 0;
+        }
+
+        // Which bundles each named asset lives in (an asset only loads when a bundle containing it is loaded).
+        static int CmdBundles(string[] names)
+        {
+            foreach (string name in names)
+            {
+                EbxAssetEntry e = am.GetEbxEntry(name);
+                if (e == null) { Console.WriteLine($"{name}: NOT FOUND"); continue; }
+                Console.WriteLine($"{e.Type} {e.Name}");
+                foreach (int id in e.EnumerateBundles())
+                    Console.WriteLine("    " + am.GetBundleEntry(id).Name);
+            }
             return 0;
         }
 

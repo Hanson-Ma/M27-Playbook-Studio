@@ -40,7 +40,18 @@ Base64 protobuf (432 KB for the Seahawks offense) holding sets, alignments, ever
 - RunRoute = opcode 8, payload `#6 {#1 distance, #2 direction, #3 speed, #5 facing}` (f32).
 - Tools: `tools/protodump.mjs` (tree), `tools/protofind.mjs` (find a play / assignment with byte offsets).
 
-## Oracle test (pending, run by hand in-game)
+## Oracle result (2026-10-03, in-game, Seahawks Practice)
+- **Slants (EBX-only edit): changed.** The play-call art shows the left WR running a go, and the on-field route matches.
+- **Curls (protobuf-only edit): unchanged** in both the art and on the field.
+- ⇒ **The game builds plays and play art from the EBX tree.** `protobufString` isn't used for on-field play or the play-call art, at least in Practice. Plan: treat the EBX as the source of truth and decide later whether to keep the protobuf in sync (other modes may read it).
+- Play art is generated from the assignments, so the designer never has to draw art separately.
+
+## Bundles
+- Each `PlaybookAsset` lives in its own bundle: `win32/football/gameplay/playbooks/gamesheets/<book>_playbooks_brt`.
+- Each Play, Set and PositionAssignmentDefine is a member of the bundle of every book that uses it, plus `globalplaybooksheet_playbooks_brt` for most plays. Examples: Slants is in 17 bundles; Bunch Mesh in 3 (not Seahawks); `WR_Run90for30` in 551, which is why the oracle swap worked with no bundle change.
+- ⇒ When a book references a play, set or assignment that isn't already in its bundle, the bridge must add that asset and its dependencies to the book's bundle (what PlayBundleAddPlugin does, but only for our one book). Check: `PlayDump bundles <asset>...`.
+
+## Oracle test (as designed)
 `mods/phase0-oracle.fbproject`, Seahawks offense, Shotgun → Y Trips Wk:
 - **Slants**: EBX-only edit. Left outside WR is pointed at `WR_Run90for30` (a go) instead of his slant.
 - **Curls**: protobuf-only edit. Left outside WR's curl stem is 10 → 30 yds. The EBX is unchanged.
