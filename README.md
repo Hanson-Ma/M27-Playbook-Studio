@@ -1,14 +1,14 @@
 # 2026 Playbook
 
 Tooling to design Madden 27 plays and playbooks outside the game and ship them as Frosty mods.
-Offline use only â€” MMC rules forbid mods in online modes.
+Offline use only — MMC rules forbid mods in online modes.
 
 ## Layout
 - `tools/PlayDump/`: .NET Framework 4.8 console tool that loads Madden 27 headlessly through MMC Editor's FrostySdk.
-  - `PlayDump types [regex]` â€” EBX asset counts by type
-  - `PlayDump list <Type> [nameRegex]` â€” asset names
-  - `PlayDump dump <outDir> <nameRegex> [--type T] [--max N] [--follow N]` â€” EBX â†’ JSON (`--follow` inlines referenced assets)
-  - `PlayDump oracle <out.fbproject>` â€” builds the Phase 0 test project
+  - `PlayDump types [regex]` — EBX asset counts by type
+  - `PlayDump list <Type> [nameRegex]` — asset names
+  - `PlayDump dump <outDir> <nameRegex> [--type T] [--max N] [--follow N]` — EBX → JSON (`--follow` inlines referenced assets)
+  - `PlayDump oracle <out.fbproject>` — builds the Phase 0 test project
 - `tools/*.mjs`: Node helpers for the dumps (`summarize`, `booktree`, `protodump`, `protofind`)
 - `research/PHASE0_FINDINGS.md`: data model notes. Dumps and decompiled code are gitignored and can be regenerated.
 - `mods/`: generated `.fbproject` / `.fbmod` files
