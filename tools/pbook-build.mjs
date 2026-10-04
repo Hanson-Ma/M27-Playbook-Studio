@@ -27,13 +27,19 @@ const tsv = name => {
 const enums = JSON.parse(readFileSync(new URL("enums.json", indexDir), "utf8").replace(/^﻿/, ""));
 const norm = s => s.toLowerCase().replace(/[\s_]+/g, " ").trim();
 
-const formations = tsv("formations");
-const sets = tsv("sets");
+const formations = [...tsv("formations"), ...tsv("custom-formations")];
+const sets = [...tsv("sets"), ...tsv("custom-sets")];
 const plays = [...tsv("plays"), ...tsv("custom-plays")];
 // Names repeat (minigames reuse "Shotgun"), so prefer the formation whose asset folder is named after it.
+// Also "Special" exists for both offense (12) and defense (20), so filter by the playbook's side, then prefer a
+// formation the template already contains, then a folder named after it.
+const defenseTypes = new Set(["FormationType_Defense", "FormationType_KickReturn", "FormationType_Safety_KickReturn"]);
+const sideOk = f => (spec.side === "defense") === defenseTypes.has(f.formationType);
 const formByName = name => {
-  const named = formations.filter(x => norm(x.formationName) === norm(name));
-  const f = named.find(x => norm(x.asset.split("/").at(-1)) === norm(name)) ?? named[0];
+  const named = formations.filter(x => norm(x.formationName) === norm(name) && sideOk(x));
+  const f = named.find(x => T.PGFM.rows.some(r => r.PBFM === +x.formId))
+    ?? named.find(x => norm(x.asset.split("/").at(-1)) === norm(name)) ?? named[0];
+  if (!f && collect) return null;
   if (!f) throw new Error(`unknown formation "${name}"`);
   return f;
 };
@@ -41,6 +47,7 @@ const formByName = name => {
 const setByName = (form, name) => {
   const folder = form.asset.slice(0, form.asset.lastIndexOf("/") + 1);
   const s = sets.find(x => x.asset.startsWith(folder) && norm(x.setName) === norm(name));
+  if (!s && collect) return null;
   if (!s) throw new Error(`unknown set "${name}" in ${form.formationName}`);
   return s;
 };
@@ -67,10 +74,13 @@ const out = { PGFM: [], STID: [], PGPL: [], PBAI: [] };
 
 for (const fspec of spec.formations) {
   const form = formByName(fspec.formation);
+  if (!form) continue; // collect pass: custom formation not built yet
   const formId = +form.formId;
   out.PGFM.push(T.PGFM.rows.find(r => r.PBFM === formId) ?? { BOKL: book, PBFM: formId, SRFM: formId });
 
   if (fspec.sets === "template") {
+    if (!T.STID.rows.some(r => r.PBFM === formId))
+      throw new Error(`"${fspec.formation}" (formId ${formId}) has no sets in the template, so "template" would drop it`);
     for (const s of T.STID.rows.filter(r => r.PBFM === formId)) {
       out.STID.push(s);
       const rows = T.PGPL.rows.filter(p => p.SETL === s.SETL).sort((a, b) => a.ord_ - b.ord_);
@@ -82,6 +92,7 @@ for (const fspec of spec.formations) {
 
   for (const sspec of fspec.sets) {
     const set = setByName(form, sspec.set);
+    if (!set) continue; // collect pass: custom set not built yet
     const setId = +set.setId;
     out.STID.push(T.STID.rows.find(r => r.SETL === setId) ?? { BOKL: book, SETL: setId, PBFM: formId, PBST: setId, SPF_: 0 });
     const used = new Set();

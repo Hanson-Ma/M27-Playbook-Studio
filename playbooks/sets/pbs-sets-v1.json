@@ -1,0 +1,41 @@
+{
+  "notes": "First custom sets: a compressed Y Trips in the stock Shotgun formation, and a new formation (Gun PBS) with a spread Trips set.",
+  "formations": [
+    { "name": "Gun PBS", "asset": "PBS_Gun", "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun" }
+  ],
+  "sets": [
+    {
+      "name": "Y Trips Tight Wk",
+      "asset": "PBS_Y_Trips_Tight_Wk",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk",
+      "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
+      "positions": [
+        { "slot": 2, "x": 8.0, "y": -2.2 },
+        { "slot": 4, "x": 13.5, "y": -2.2 }
+      ],
+      "movements": { "M4left": [ { "slot": 4, "x": -8.0, "y": -2.2 } ] },
+      "plays": [
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls", "name": "PBS T Curls", "asset": "PBS_T_Curls" },
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Slants", "name": "PBS T Slants", "asset": "PBS_T_Slants" },
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Inside_Zone", "name": "PBS T Inside Zone", "asset": "PBS_T_Inside_Zone" },
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/HB_Slip_Screen", "name": "PBS T HB Slip Screen", "asset": "PBS_T_HB_Slip_Screen" }
+      ]
+    },
+    {
+      "name": "Trips Open",
+      "asset": "PBS_Trips_Open",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk",
+      "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Gun/PBS_Gun",
+      "positions": [
+        { "slot": 2, "x": 11.5, "y": -2.2 },
+        { "slot": 3, "x": -19.0, "y": -0.8 },
+        { "slot": 4, "x": 19.0, "y": -2.2 }
+      ],
+      "plays": [
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Four_Verticals", "name": "PBS O Four Verticals", "asset": "PBS_O_Four_Verticals" },
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Mtn_Mesh", "name": "PBS O Mtn Mesh", "asset": "PBS_O_Mtn_Mesh" },
+        { "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/HB_Draw", "name": "PBS O HB Draw", "asset": "PBS_O_HB_Draw" }
+      ]
+    }
+  ]
+}

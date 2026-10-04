@@ -11,8 +11,8 @@ const tsv = name => {
   const cols = head.split("\t");
   return rows.map(r => Object.fromEntries(r.split("\t").map((v, i) => [cols[i], v])));
 };
-const forms = new Map(tsv("formations").map(f => [+f.formId, f]));
-const sets = new Map(tsv("sets").map(s => [+s.setId, s]));
+const forms = new Map([...tsv("formations"), ...tsv("custom-formations")].map(f => [+f.formId, f]));
+const sets = new Map([...tsv("sets"), ...tsv("custom-sets")].map(s => [+s.setId, s]));
 const plays = new Map();
 for (const p of [...tsv("plays"), ...tsv("custom-plays")]) (plays.get(+p.playId) ?? plays.set(+p.playId, []).get(+p.playId)).push(p);
 

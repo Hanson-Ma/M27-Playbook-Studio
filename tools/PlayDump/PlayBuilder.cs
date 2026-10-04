@@ -20,15 +20,15 @@ namespace PlayDump
     //  - clones a base Play from the same set (keeps handoff/blocking mechanics that are tied to the alignment),
     //  - per player slot: keeps the base assignment, points at an existing PositionAssignmentDefine, or authors a new one,
     //  - registers new assets in the target bundles + their bundle ref tables, and in GlobalPlaySheet.
-    internal class PlayBuilder
+    internal partial class PlayBuilder
     {
         const string AssignRoot = "football/Gameplay/playbooks/PlayLibrary/Assignments/";
-        readonly AssetManager am;
-        readonly JObject spec;
+        internal readonly AssetManager am;
+        internal readonly JObject spec;
         readonly int[] bundleIds;
         readonly Dictionary<string, object> opcodes = new Dictionary<string, object>();
         readonly HashSet<uint> takenPlayIds;
-        readonly List<string> manifest = new List<string>();
+        internal readonly List<string> manifest = new List<string>();
         readonly MethodInfo addToBrt;
 
         public PlayBuilder(AssetManager am, JObject spec, string indexDir)
@@ -50,6 +50,7 @@ namespace PlayDump
         public void Run(string projectPath, string modPath, string manifestPath)
         {
             var built = new List<(EbxAssetEntry entry, uint playId, string set)>();
+            built.AddRange(new SetBuilder(this).Build(spec, Path.GetDirectoryName(manifestPath)));
             foreach (JObject p in spec["plays"])
                 built.Add(BuildPlay(p));
             // Existing library plays that custom playbooks use but that aren't in the global play sheet (the game drops them).
@@ -79,13 +80,17 @@ namespace PlayDump
             File.WriteAllLines(manifestPath, new[] { "playId\tplayName\toffensePlayType\tdefensePlayType\tset\tasset" }.Concat(manifest));
         }
 
-        (EbxAssetEntry, uint, string) BuildPlay(JObject p)
+        internal (EbxAssetEntry, uint, string) BuildPlay(JObject p)
         {
             EbxAssetEntry baseEntry = Need((string)p["base"]);
             string name = (string)p["name"];
-            string assetName = baseEntry.Name.Substring(0, baseEntry.Name.LastIndexOf('/') + 1) + (string)p["asset"];
+            // "set" (custom sets only): clone the base play into another set (its folder, its Set reference).
+            string setAsset = (string)p["set"];
+            string folderOf = setAsset ?? baseEntry.Name;
+            string assetName = folderOf.Substring(0, folderOf.LastIndexOf('/') + 1) + (string)p["asset"];
             EbxAsset play = CloneAsset(baseEntry, assetName);
             dynamic root = play.RootObject;
+            if (setAsset != null) root.Set = Ref(play, Need(setAsset));
 
             uint playId = NewId(assetName, takenPlayIds);
             root.playName = new CString(name);
@@ -216,7 +221,7 @@ namespace PlayDump
         }
 
         // Same approach as DuplicationPlugin.DuplicateAssetExtension: round-trip through the EBX writer, new file and root guids.
-        EbxAsset CloneAsset(EbxAssetEntry template, string newName)
+        internal EbxAsset CloneAsset(EbxAssetEntry template, string newName)
         {
             if (am.GetEbxEntry(newName) != null) throw new InvalidOperationException(newName + " already exists");
             EbxAsset src = am.GetEbx(template);
@@ -236,7 +241,7 @@ namespace PlayDump
 
         // BundleRefTableResourceV2.DupeAsset copies the bundle lookup of an existing asset, and silently does nothing when that
         // asset isn't in the table â€” so the reference must be an asset present in every target bundle (spec "brtRef" per type).
-        EbxAssetEntry AddAsset(string name, EbxAsset asset, EbxAssetEntry template)
+        internal EbxAssetEntry AddAsset(string name, EbxAsset asset, EbxAssetEntry template)
         {
             EbxAssetEntry entry = am.AddEbx(name, asset, bundleIds);
             entry.ModifiedEntry.DependentAssets.AddRange(asset.Dependencies);
@@ -288,16 +293,16 @@ namespace PlayDump
             if (holes.Count > 0) throw new InvalidOperationException("bundle closure incomplete:\n  " + string.Join("\n  ", holes));
         }
 
-        PointerRef Ref(EbxAsset owner, EbxAssetEntry target)
+        internal PointerRef Ref(EbxAsset owner, EbxAssetEntry target)
         {
             EbxAsset t = target.IsAdded ? (EbxAsset)target.ModifiedEntry.DataObject : am.GetEbx(target);
             owner.AddDependency(target.Guid);
             return new PointerRef(new EbxImportReference { FileGuid = target.Guid, ClassGuid = t.RootInstanceGuid });
         }
 
-        EbxAssetEntry Need(string name) => am.GetEbxEntry(name) ?? throw new InvalidOperationException("asset not found: " + name);
+        internal EbxAssetEntry Need(string name) => am.GetEbxEntry(name) ?? throw new InvalidOperationException("asset not found: " + name);
 
-        string Leaf(PointerRef r) => r.Type == PointerRefType.External ? am.GetEbxEntry(r.External.FileGuid)?.Name ?? "" : "";
+        internal string Leaf(PointerRef r) => r.Type == PointerRefType.External ? am.GetEbxEntry(r.External.FileGuid)?.Name ?? "" : "";
 
         static object Convert(Type t, JToken v)
         {
@@ -308,7 +313,7 @@ namespace PlayDump
 
         static object ParseEnum(Type t, string name) => Enum.Parse(t, name);
 
-        static void SetEnum(object target, string prop, string name)
+        internal static void SetEnum(object target, string prop, string name)
         {
             PropertyInfo pi = target.GetType().GetProperty(prop);
             pi.SetValue(target, ParseEnum(pi.PropertyType, name));
@@ -321,7 +326,7 @@ namespace PlayDump
         }
 
         // FNV-1a over the lowercased asset name; probes past collisions with existing ids.
-        static uint NewId(string name, HashSet<uint> taken)
+        internal static uint NewId(string name, HashSet<uint> taken)
         {
             uint h = 2166136261;
             foreach (byte b in Encoding.UTF8.GetBytes(name.ToLowerInvariant())) { h ^= b; h *= 16777619; }

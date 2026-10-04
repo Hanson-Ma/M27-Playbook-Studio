@@ -8,6 +8,8 @@
   ],
   "brtRef": {
     "Play": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
-    "PositionAssignmentDefine": "football/Gameplay/playbooks/PlayLibrary/Assignments/RunRoute/WR_Run90for30"
+    "PositionAssignmentDefine": "football/Gameplay/playbooks/PlayLibrary/Assignments/RunRoute/WR_Run90for30",
+    "Set": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk",
+    "Formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun"
   }
 }

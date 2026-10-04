@@ -70,10 +70,14 @@ namespace PlayDump
                     // buildplays <out.fbproject> <out.fbmod> <mod.json> <plays spec...>
                     // One combined mod: every play mod edits GlobalPlaySheet, so separate mods would overwrite each other.
                     var spec = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(args[3]));
-                    var all = new Newtonsoft.Json.Linq.JArray();
+                    // Spec files may hold "plays" (playbooks/plays) and/or "formations"/"sets" (playbooks/sets); merge each list.
+                    foreach (string key in new[] { "plays", "formations", "sets" }) spec[key] = new Newtonsoft.Json.Linq.JArray();
                     foreach (string f in args.Skip(4))
-                        foreach (var play in Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(f))["plays"]) all.Add(play);
-                    spec["plays"] = all;
+                    {
+                        var part = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(f));
+                        foreach (string key in new[] { "plays", "formations", "sets" })
+                            foreach (var item in (Newtonsoft.Json.Linq.JArray)part[key] ?? new Newtonsoft.Json.Linq.JArray()) ((Newtonsoft.Json.Linq.JArray)spec[key]).Add(item);
+                    }
                     // Library plays used by playbook specs but missing from the global play sheet (written by tools/pbook-build.mjs).
                     string pullFile = Path.Combine(repoDir, "build", "pull-plays.json");
                     if (File.Exists(pullFile)) spec["pull"] = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText(pullFile));

@@ -31,7 +31,7 @@ foreach ($book in $bookFiles) {
 
 # 2. One combined mod: custom plays + pulled library plays. Writes research/index/custom-plays.tsv (custom play ids).
 if (-not $SkipPlays) {
-    $specs = @(Get-ChildItem playbooks\plays\*.json | ForEach-Object FullName)
+    $specs = @(Get-ChildItem playbooks\sets\*.json, playbooks\plays\*.json -ErrorAction SilentlyContinue | ForEach-Object FullName)
     & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\pbstudio.fbproject mods\pbstudio.fbmod playbooks\mod.json $specs
     if ($LASTEXITCODE -ne 0) { throw "buildplays failed" }
 }

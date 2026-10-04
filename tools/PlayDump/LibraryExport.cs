@@ -120,7 +120,7 @@ namespace PlayDump
             dynamic s = p;
             return new JObject
             {
-                ["pos"] = s.depthPosition.ToString(), ["depth"] = (int)s.depth, ["x"] = Math.Round((float)s.XPos, 3), ["y"] = Math.Round((float)s.YPos, 3),
+                ["slot"] = (int)s.posOrder, ["pos"] = s.depthPosition.ToString(), ["depth"] = (int)s.depth, ["flipAssign"] = (int)s.flipAssign, ["x"] = Math.Round((float)s.XPos, 3), ["y"] = Math.Round((float)s.YPos, 3),
                 ["facing"] = (int)s.facing, ["stance"] = s.anim.ToString(), ["group"] = s.groupType.ToString(), ["motionMan"] = (bool)s.primaryMotionMan
             };
         }

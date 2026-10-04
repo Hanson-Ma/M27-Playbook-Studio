@@ -29,10 +29,32 @@
           ]
         },
         {
+          "set": "Y Trips Tight Wk",
+          "plays": [
+            { "play": "PBS T Curls", "audible": 1 },
+            { "play": "PBS T Slants" },
+            { "play": "PBS T Inside Zone", "audible": 2 },
+            { "play": "PBS T HB Slip Screen" }
+          ]
+        },
+        {
           "set": "Bunch",
           "plays": [
             { "play": "Mesh" },
             { "play": "Reverse" }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Gun PBS",
+      "sets": [
+        {
+          "set": "Trips Open",
+          "plays": [
+            { "play": "PBS O Four Verticals", "audible": 4 },
+            { "play": "PBS O Mtn Mesh" },
+            { "play": "PBS O HB Draw", "audible": 2 }
           ]
         }
       ]

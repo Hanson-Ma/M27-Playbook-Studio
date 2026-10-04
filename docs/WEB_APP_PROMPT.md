@@ -87,12 +87,12 @@ At the play level:
 
 Save as plays specs exactly per FORMATS.md §3. Generate `asset` names and assignment `new` names automatically, unique, `[A-Za-z0-9_]`, and prefixed with the user's chosen tag (default `PBS_`). Reuse identical authored assignments instead of duplicating them.
 
-## 5. Formation and set editor (→ `playbooks/sets/*.json`, FORMATS.md §5 — game-side support is planned)
+## 5. Formation and set editor (→ `playbooks/sets/*.json`, FORMATS.md §5 — supported game-side)
 - Clone an existing set or formation as a starting point. **Drag players on the field**, with exact x/y readouts and a numeric edit box. Choose snap mode (0.5 yd grid, LOS/off-ball depth presets, OL-relative splits like "2 yd outside the TE") or free placement. Set stance and facing per player.
-- Edit the set's **pre-snap motion presets** (`movements`: where each motion man ends up for each preset), per player.
+- Edit the set's **pre-snap motion presets** (`movements`: each preset holds only its motion man's target spot; editable per FORMATS.md §5), and show the flipped alignment (from `flipAssign`) as a toggle.
 - Validation per FORMATS.md §5: 11 players, 7 on the line, OL spacing, QB/HB depth class.
 - Choose which plays to clone into the new set, and warn about plays whose assignments depend on the moved players.
-- Label this view "requires game-side support (coming)" until `tools/export.ps1` says it builds sets. Still write valid files.
+- Write the set's cloned plays into the same set spec (`plays: [{from, name, asset, ...overrides}]`), and let new custom plays use those clones as their base.
 
 ## 6. Export panel
 - **Validate all** against every FORMATS.md rule, across `playbooks/`, `playbooks/plays/` and `playbooks/sets/`.
