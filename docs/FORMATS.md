@@ -121,7 +121,7 @@ Rules the editor must enforce:
 
 ## Verified in-game behavior (lessons)
 - **Play art is generated from the assignment steps.** There's nothing separate to draw.
-- **Red route = `vip`** (the primary receiver's slot). Stock plays have exactly one red route. Plays whose `reads` were rewritten (all `combo` 0, `Concept_Invalid`) showed several red routes, and the exact rule is still being tested (`playbooks/plays/art-test.json`). Until it's settled, keep the base play's `reads` unless the user edits them, and set `vip` explicitly when the primary changes. Motion routes draw light blue.
+- **Red routes (verified with `playbooks/plays/art-test.json`):** a route is drawn red when its read `pct` is **greater than or equal to the `vip` slot's read `pct`**. Stock plays give the VIP the highest percentage, so exactly one route is red. To get a single red route, make the VIP's read the highest. Several reads at or above the VIP's percentage are all drawn red. Motion legs draw light blue.
 - **In-game list order:** the Formation tab sorts by usage (GOTO%), and play order inside a set didn't follow the file order in testing. Store the user's order anyway; it's their intent.
 - **New plays must be built from a base play in the same set.** Lock the handoff/fake/option slots in the editor unless the base is swapped.
 - **Bundles and dependencies** are handled game-side (missing ones crash the game on load). The editor doesn't need to care.
