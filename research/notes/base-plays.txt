@@ -1,0 +1,856 @@
+﻿
+=== HB Counter  [OffensePlayType_RunCounter DefensePlayType_DontCare]  playId=11991
+set: Doubles (setId 209, Class_Shotgun, SetType_ThreeWR)  formation: Shotgun
+blocking: BTPower  runHole=2  VIP=1
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right, SM1left, SM1right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_EvenRight_HBCounterRt_Precan_48_46  (id 3056, AssignRouteType_QB_Handoff)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=48 flippedHandoffAnim=46)
+       2. OptionHandoff(pitchPlayerNum=1 playerNum=1 optionHandoffType=TYPE_SHOTGUN_COUNTER)
+       3. None()
+
+ [1] 3DRB1 @(2.9,-6) f90 2pt
+     def: Halfback/SG_HB_EvenRt_CounterRt_Precan_48_46  (id 3057, AssignRouteType_RB_Counter)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=48 flippedHandoffAnim=46)
+       2. Delay(time=0.112 timeNGPM=0)
+       3. InitialAnim(anim=MOVETYPE_HB_LATERAL_STEP direction=156)
+       4. ReceiveHandoff(facingDirectionOverride=0 distance=0.75 direction=156 speed=75)
+       5. MoveDirection(facingDirectionOverride=0 distance=2 direction=60 speed=100)
+       6. RunEndZone()
+       7. None()
+
+ [2] SLWR1 @(-10,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.2) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/LG_Pull_H4_Deep_LeadThroughHole_HBBase  (id 4780, AssignRouteType_Block_Run)
+       1. InitialAnim(anim=MOVETYPE_SKIP_PULL direction=0)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE blockingGap=RUN_HOLE)
+       3. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+=== HB Counter  [OffensePlayType_RunCounter DefensePlayType_DontCare]  playId=12003
+set: Flanker Close (setId 370, Class_Shotgun, SetType_FourWR)  formation: Shotgun
+blocking: BTPower  runHole=2  VIP=1
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3left, M3right, M4left, M4right, M5left, M5right, SM1left, SM1right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_EvenRight_HBCounterRt_Precan_48_46  (id 3056, AssignRouteType_QB_Handoff)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=48 flippedHandoffAnim=46)
+       2. OptionHandoff(pitchPlayerNum=1 playerNum=1 optionHandoffType=TYPE_SHOTGUN_COUNTER)
+       3. None()
+
+ [1] 3DRB1 @(2.9,-6) f90 2pt
+     def: Halfback/SG_HB_EvenRt_CounterRt_Precan_48_46  (id 3057, AssignRouteType_RB_Counter)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=48 flippedHandoffAnim=46)
+       2. Delay(time=0.112 timeNGPM=0)
+       3. InitialAnim(anim=MOVETYPE_HB_LATERAL_STEP direction=156)
+       4. ReceiveHandoff(facingDirectionOverride=0 distance=0.75 direction=156 speed=75)
+       5. MoveDirection(facingDirectionOverride=0 distance=2 direction=60 speed=100)
+       6. RunEndZone()
+       7. None()
+
+ [2] SLWR1 @(-10,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [3] WR1 @(-16,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [4] WR2 @(9,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [5] SLWR2 @(7,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.5) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [7] LG1 @(-1.666,-1.25) f90 2pt
+     def: Blocking/LG_Pull_H4_Deep_LeadThroughHole_HBBase  (id 4780, AssignRouteType_Block_Run)
+       1. InitialAnim(anim=MOVETYPE_SKIP_PULL direction=0)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE blockingGap=RUN_HOLE)
+       3. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [9] RG1 @(1.666,-1.25) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.5) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+=== HB Counter  [OffensePlayType_RunCounter DefensePlayType_DontCare]  playId=12005
+set: Normal Y Off (setId 509, Class_Shotgun, SetType_ThreeWR)  formation: Shotgun
+blocking: BTCounter  runHole=2  VIP=1
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right, SM1left, SM1right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_EvenRight_HBCounterRt_Precan_48_46  (id 3056, AssignRouteType_QB_Handoff)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=48 flippedHandoffAnim=46)
+       2. OptionHandoff(pitchPlayerNum=1 playerNum=1 optionHandoffType=TYPE_SHOTGUN_COUNTER)
+       3. None()
+
+ [1] HB1 @(2.9,-6) f90 2pt
+     def: Halfback/SG_HB_EvenRt_CounterRt_Precan_48_46  (id 3057, AssignRouteType_RB_Counter)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=48 flippedHandoffAnim=46)
+       2. Delay(time=0.112 timeNGPM=0)
+       3. InitialAnim(anim=MOVETYPE_HB_LATERAL_STEP direction=156)
+       4. ReceiveHandoff(facingDirectionOverride=0 distance=0.75 direction=156 speed=75)
+       5. MoveDirection(facingDirectionOverride=0 distance=2 direction=60 speed=100)
+       6. RunEndZone()
+       7. None()
+
+ [2] SLWR1 @(-10,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [4] WR2 @(16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [5] LASTKEYOFFENSE1 @(4.8,-2.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/LG_Pull_H4_StrongCounter_Kickout  (id 6268, AssignRouteType_Block_Run)
+       1. InitialAnim(anim=MOVETYPE_COUNTER_PULL direction=0)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_COUNTER_KICKOUT blockingGap=D_GAP_RIGHT)
+       3. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+=== Counter Y  [OffensePlayType_RunCounter DefensePlayType_DontCare]  playId=19873
+set: Slot Right (setId 876, Class_Shotgun, SetType_ThreeWR)  formation: Shotgun
+blocking: BTCounter  runHole=3  VIP=1
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right, SM1left, SM1right
+
+ [0] QB1 @(0,-5) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_BehindRight_ZoneReadOption_Precan_22_28  (id 3253, AssignRouteType_QB_Shotgun_Read_Option)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=22 flippedHandoffAnim=28)
+       2. OptionHandoff(pitchPlayerNum=1 playerNum=1 optionHandoffType=TYPE_ZONE_READ_BEHIND)
+       3. RunEndZone()
+       4. None()
+
+ [1] HB1 @(2,-6.25) f90 2pt
+     def: Halfback/SG_OffsetRt_ZoneOptionLt_Precan_22_28  (id 1885, AssignRouteType_RB_Option_Receive)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=22 flippedHandoffAnim=28)
+       2. Delay(time=0.25 timeNGPM=0)
+       3. InitialAnim(anim=MOVETYPE_HB_LATERAL_STEP direction=120)
+       4. ReceiveHandoff(facingDirectionOverride=0 distance=5 direction=130 speed=75)
+       5. RunEndZone()
+       6. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [3] WR1 @(-17.5,-0.8) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [4] WR2 @(17.5,-0.8) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [5] LASTKEYOFFENSE1 @(2.5,-3.125) f90 2pt
+     def: Blocking/TE_Pull_H7_Deep_OffsetTE_Counter_Lead_Thru_Delay  (id 1955522240, AssignRouteType_Block_Run)
+       1. Delay(time=0.26 timeNGPM=0)
+       2. InitialAnim(anim=MOVETYPE_TRAP_PULL direction=180)
+       3. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE blockingGap=RUN_HOLE)
+       4. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/RG_Pull_H3_Deep_Shotgun_CntrKickout  (id 5359, AssignRouteType_Block_Run)
+       1. InitialAnim(anim=MOVETYPE_POWER_PULL direction=180)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_COUNTER_KICKOUT blockingGap=RUN_HOLE)
+       3. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+=== Curls  [OffensePlayType_PassShotgun DefensePlayType_DontCare]  playId=7663
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: CODE_DETERMINE  runHole=0  VIP=4
+pass read: combo=2 pos=3 Concept_Curl_Flat 0.98
+pass read: combo=1 pos=5 Concept_Read 0.05
+pass read: combo=1 pos=4 Concept_Read 0.99
+pass read: combo=2 pos=1 Concept_Curl_Flat 0.05
+pass read: combo=1 pos=2 Concept_Read 0.05
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Quarterback/Drop_SG_3Step  (id 101, AssignRouteType_QB_Pass)
+       1. QBScramble(direction=0 dropBackType=DROP_TYPEENUM_QBDROP_3_STEP_PISTOL distance=0)
+       2. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: RunRoute/HB_ALL_SwingLt_Flatter  (id 1038, AssignRouteType_RR_Swing_Lt)
+       1. InitialAnim(anim=MOVETYPE_WRSTART direction=200)
+       2. RunRoute(facingDirectionOverride=0 distance=3 direction=200 speed=65)
+       3. RunRoute(facingDirectionOverride=0 distance=2 direction=180 speed=65)
+       4. RunRoute(facingDirectionOverride=0 distance=6 direction=170 speed=65)
+       5. RunRoute(facingDirectionOverride=0 distance=3 direction=160 speed=65)
+       6. RunRoute(facingDirectionOverride=0 distance=3 direction=130 speed=65)
+       7. RunRoute(facingDirectionOverride=0 distance=3 direction=110 speed=65)
+       8. RunRoute(facingDirectionOverride=0 distance=3 direction=90 speed=65)
+       9. Delay(time=3 timeNGPM=0)
+       10. GetOpen()
+       11. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for10_CutL45_Run135for15  (id 158, AssignRouteType_RR_Post_Middle)
+       1. RunRoute(facingDirectionOverride=0 distance=8.5 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_45)
+       3. RunRoute(facingDirectionOverride=0 distance=30 direction=135 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_CurlRt_Option_New15  (id 5242, AssignRouteType_RR_Curl_Medium)
+       1. RunRoute(facingDirectionOverride=0 distance=10 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_RIGHT cutType=RECEIVER_CUT_ANGLE_CURL)
+       3. Delay(time=2 timeNGPM=0)
+       4. GetOpen()
+       5. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/WR_CurlLt_Option_New15  (id 5240, AssignRouteType_RR_Curl_Medium)
+       1. RunRoute(facingDirectionOverride=0 distance=10 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_CURL)
+       3. Delay(time=2 timeNGPM=0)
+       4. GetOpen()
+       5. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: RunRoute/TE_FlatsRt  (id 1247, AssignRouteType_RR_Flat_Rt)
+       1. InitialAnim(anim=MOVETYPE_WRSTART direction=18)
+       2. RunRoute(facingDirectionOverride=0 distance=1 direction=18 speed=80)
+       3. RunRoute(facingDirectionOverride=0 distance=1.5 direction=16 speed=80)
+       4. RunRoute(facingDirectionOverride=0 distance=20 direction=12 speed=80)
+       5. Delay(time=5 timeNGPM=0)
+       6. GetOpen()
+       7. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+=== HB Base  [OffensePlayType_RunPower DefensePlayType_DontCare]  playId=11296
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: BTPower  runHole=4  VIP=1
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_EvenLeft_InsideZoneRt_Precan_145_139_NEW27  (id 4743, AssignRouteType_QB_Handoff)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=145 flippedHandoffAnim=139)
+       2. OptionHandoff(pitchPlayerNum=2 playerNum=1 optionHandoffType=TYPE_ZONE_READ_BEHIND)
+       3. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: Halfback/SG_H4_EvenLt_HBBaseRt_Precan_145_139  (id 4978, AssignRouteType_RB_Sweep)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=145 flippedHandoffAnim=139)
+       2. ReceiveHandoff(facingDirectionOverride=0 distance=1.75 direction=0 speed=75)
+       3. ReceiveHandoff(facingDirectionOverride=0 distance=4 direction=60 speed=75)
+       4. RunEndZone()
+       5. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/LG_Pull_H4_Deep_LeadThroughHole_HBBase  (id 4780, AssignRouteType_Block_Run)
+       1. InitialAnim(anim=MOVETYPE_SKIP_PULL direction=0)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE blockingGap=RUN_HOLE)
+       3. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+=== HB Slip Screen  [OffensePlayType_PassScreen DefensePlayType_DontCare]  playId=7664
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: CODE_DETERMINE  runHole=0  VIP=1
+pass read: combo=0 pos=3 Concept_Invalid 0.01
+pass read: combo=0 pos=5 Concept_Invalid 0.01
+pass read: combo=0 pos=4 Concept_Invalid 0.01
+pass read: combo=0 pos=1 Concept_HB_Slip_Screen 0.99
+pass read: combo=0 pos=2 Concept_Invalid 0.01
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Quarterback/Drop_SG_Screen_Left  (id 4394, AssignRouteType_QB_Pass)
+       1. QBScramble(direction=0 dropBackType=DROP_TYPEENUM_QBDROP_SHOTGUN_5_STEP distance=0)
+       2. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: Screen/HB_ALL_Delay.5_HBSlipScreenLt_Gun_HB_EVEN_NEW27  (id 7173, AssignRouteType_RR_RB_Screen_Left)
+       1. Delay(time=0.25 timeNGPM=0)
+       2. MoveDirection(facingDirectionOverride=0 distance=0.75 direction=155 speed=45)
+       3. Delay(time=0.2 timeNGPM=0)
+       4. RunRoute(facingDirectionOverride=0 distance=4.25 direction=180 speed=30)
+       5. Delay(time=2.5 timeNGPM=0)
+       6. GetOpen()
+       7. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for04_Run97for25_RtSlotSeamLt  (id 1256, AssignRouteType_RR_Streak)
+       1. RunRoute(facingDirectionOverride=0 distance=8 direction=92 speed=100)
+       2. RunRoute(facingDirectionOverride=0 distance=30 direction=102 speed=100)
+       3. GetOpen()
+       4. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90For04_WRStreakLt_OutsideRelease15  (id 5248, AssignRouteType_RR_Fade)
+       1. RunRoute(facingDirectionOverride=0 distance=2 direction=110 speed=100)
+       2. RunRoute(facingDirectionOverride=0 distance=30 direction=90 speed=100)
+       3. RunRoute(facingDirectionOverride=0 distance=25 direction=90 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/WR_Run90For04_WRStreakRt_OutsideRelease15  (id 5252, AssignRouteType_RR_Streak)
+       1. RunRoute(facingDirectionOverride=0 distance=2 direction=70 speed=80)
+       2. RunRoute(facingDirectionOverride=0 distance=30 direction=90 speed=100)
+       3. RunRoute(facingDirectionOverride=0 distance=20 direction=90 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: RunRoute/WR_Run120for05_Run140for25_SlotCrossLt  (id 1231, AssignRouteType_RR_Cross)
+       1. RunRoute(facingDirectionOverride=0 distance=2 direction=85 speed=100)
+       2. RunRoute(facingDirectionOverride=0 distance=1 direction=90 speed=100)
+       3. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_22)
+       4. RunRoute(facingDirectionOverride=0 distance=5 direction=120 speed=100)
+       5. RunRoute(facingDirectionOverride=0 distance=30 direction=160 speed=100)
+       6. GetOpen()
+       7. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/LG_LeadScreen_Lt_HBSlipScreen  (id 857, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0.7 flags=PassBlockFlags_None)
+       2. MoveDirection(facingDirectionOverride=0 distance=10 direction=160 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_ProtectReceiver)
+       4. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/C_LeadScreen_Lt_HBSlipScreen_NEW27  (id 2421, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0.8 flags=PassBlockFlags_None)
+       2. MoveDirection(facingDirectionOverride=0 distance=10 direction=160 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_ProtectReceiver)
+       4. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/RG_LeadScreen_Lt_HBSlipScreen_NEW27  (id 2422, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0.9 flags=PassBlockFlags_None)
+       2. MoveDirection(facingDirectionOverride=0 distance=10 direction=160 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_ProtectReceiver)
+       4. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+=== Mtn Mesh  [OffensePlayType_PassShotgun DefensePlayType_DontCare]  playId=4177043331
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: CODE_DETERMINE  runHole=0  VIP=4
+pass read: combo=1 pos=3 Concept_Mesh 0.25
+pass read: combo=0 pos=5 Concept_Invalid 0.3
+pass read: combo=1 pos=4 Concept_Mesh 0.88
+pass read: combo=0 pos=1 Concept_Invalid 0.3
+pass read: combo=0 pos=2 Concept_Invalid 0.22
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Quarterback/Drop_SG_5Step_M27_ChangedTo_Pistol_5Step  (id 5554, AssignRouteType_QB_Pass)
+       1. QBScramble(direction=0 dropBackType=DROP_TYPEENUM_QBDROP_5_STEP_PISTOL distance=0)
+       2. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: RunRoute/HB_SGHBWK_Wheel_Lt  (id 2474, AssignRouteType_RR_Wheel_Lt)
+       1. RunRoute(facingDirectionOverride=0 distance=2 direction=163 speed=100)
+       2. RunRoute(facingDirectionOverride=0 distance=6 direction=150 speed=100)
+       3. ReceiverCut(direction=RECEIVER_CUT_DIR_RIGHT cutType=RECEIVER_CUT_ANGLE_45)
+       4. RunRoute(facingDirectionOverride=0 distance=25 direction=98 speed=100)
+       5. GetOpen()
+       6. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for08_CutR45_Run30for15  (id 2463, AssignRouteType_RR_Corner_Middle)
+       1. RunRoute(facingDirectionOverride=0 distance=6.8 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_RIGHT cutType=RECEIVER_CUT_ANGLE_67)
+       3. RunRoute(facingDirectionOverride=0 distance=30 direction=30 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_DragRt24_Align_TightSplit_Left_X-8  (id 1212068216, AssignRouteType_RR_Drag)
+       1. OverrideFormPos(stance=Receiver offsetX=-8 offsetY=-0.8)
+       2. RunRoute(facingDirectionOverride=0 distance=2 direction=65 speed=70)
+       3. RunRoute(facingDirectionOverride=0 distance=1 direction=30 speed=100)
+       4. RunRoute(facingDirectionOverride=0 distance=22 direction=0 speed=100)
+       5. GetOpen()
+       6. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/Automotion_WR_DragLt22_RightWR  (id 2455, AssignRouteType_RR_Drag)
+       1. AutoMotion(waypoints=[{position=(10.5,-3.3) transitID=0 speed=60 facingAngle=0 locoStyle=AUTOMOTIONLOCOSTYLE_NORMAL shouldFaceEndPoint=true}] startEvent=AUTOMOTIONSTARTEVENT_SNAP endDelay=0 automotionOrderTransitID=1 startDelay=0 stanceAtTarget=StanceType_None automotionOrderPlayer=0)
+       2. RunRoute(facingDirectionOverride=0 distance=5 direction=128 speed=50)
+       3. RunRoute(facingDirectionOverride=0 distance=20 direction=180 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: RunRoute/WR_Run90for08_CutL45_Run135for15  (id 8, AssignRouteType_RR_Post_Middle)
+       1. RunRoute(facingDirectionOverride=0 distance=6.8 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_67)
+       3. RunRoute(facingDirectionOverride=0 distance=30 direction=150 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PassBlock_Pinch  (id 2436, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+=== PA Read  [OffensePlayType_PassPlayAction DefensePlayType_DontCare]  playId=7669
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: CODE_DETERMINE  runHole=4  VIP=2
+pass read: combo=0 pos=3 Concept_Omaha 0.15
+pass read: combo=0 pos=5 Concept_Invalid 0.6
+pass read: combo=1 pos=4 Concept_Mills 0.5
+pass read: combo=0 pos=1 Concept_Invalid 0.05
+pass read: combo=1 pos=2 Concept_Mills 0.75
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_EvenLeft_PA_InsideZone_Precan_4_27  (id 7177, AssignRouteType_QB_Play_Action)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=4 flippedHandoffAnim=27)
+       2. OptionHandoff(pitchPlayerNum=2 playerNum=1 optionHandoffType=TYPE_ZONE_READ_NORMAL_PA_RIGHT)
+       3. QBScramble(direction=0 dropBackType=DROP_TYPEENUM_NONEVALUE distance=0)
+       4. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: Halfback/SG2RB_HBonLeft_PA_QBChoiceLt_Flat_Rt_1_MASTER_Precan_4_27  (id 6677, AssignRouteType_RR_Flat_Rt)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=4 flippedHandoffAnim=27)
+       2. InitialAnim(anim=MOVETYPE_HB_LATERAL_STEP direction=0)
+       3. ReceiveHandoff(facingDirectionOverride=0 distance=3 direction=10 speed=75)
+       4. RunRoute(facingDirectionOverride=0 distance=12 direction=10 speed=65)
+       5. Delay(time=0.5 timeNGPM=0)
+       6. GetOpen()
+       7. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for10_CutL90_Run180for15  (id 323, AssignRouteType_RR_In_Middle)
+       1. RunRoute(facingDirectionOverride=0 distance=9 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_90)
+       3. RunRoute(facingDirectionOverride=0 distance=25 direction=180 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for12_CutL90_Run180for15  (id 1495, AssignRouteType_RR_In_Deep)
+       1. RunRoute(facingDirectionOverride=0 distance=12 direction=90 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_90)
+       3. RunRoute(facingDirectionOverride=0 distance=25 direction=180 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/WR_Run110for02_Run90for15_CutL45_Run15for130  (id 2398, AssignRouteType_RR_Post_Deep)
+       1. RunRoute(facingDirectionOverride=0 distance=2 direction=118 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_RIGHT cutType=RECEIVER_CUT_ANGLE_22)
+       3. RunRoute(facingDirectionOverride=0 distance=10 direction=90 speed=100)
+       4. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_22)
+       5. RunRoute(facingDirectionOverride=0 distance=30 direction=125 speed=100)
+       6. GetOpen()
+       7. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: RunRoute/WR_Run120for05_Run140for25_ShallowCrossLt  (id 1478, AssignRouteType_RR_Cross)
+       1. RunRoute(facingDirectionOverride=0 distance=2 direction=120 speed=100)
+       2. ReceiverCut(direction=RECEIVER_CUT_DIR_LEFT cutType=RECEIVER_CUT_ANGLE_45)
+       3. RunRoute(facingDirectionOverride=0 distance=30 direction=165 speed=100)
+       4. GetOpen()
+       5. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PABlock  (id 884, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PABlock  (id 884, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/ALL_PABlock  (id 884, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PABlock  (id 884, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PABlock  (id 884, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+=== Reverse  [OffensePlayType_RunReverse DefensePlayType_DontCare]  playId=25443
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: BTOutsideZone  runHole=6  VIP=4
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Precan/QB_Shotgun_HB_EvenLeft_Reverse_Y_Trips_Precan_239_238  (id 6788, AssignRouteType_QB_Handoff)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_SNAP_RECEIVER handoffAnim=239 flippedHandoffAnim=238)
+       2. OptionHandoff(pitchPlayerNum=2 playerNum=1 optionHandoffType=TYPE_ZONE_READ_BEHIND)
+       3. MoveDirection(facingDirectionOverride=0 distance=3.5 direction=0 speed=50)
+       4. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       5. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: Halfback/SG_H8_Backstep_Hand_Reverse_Y_Trips  (id 6787, AssignRouteType_RB_Sweep)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O2 handoffAnim=239 flippedHandoffAnim=238)
+       2. InitialAnim(anim=MOVETYPE_HB_LATERAL_STEP direction=0)
+       3. ReceiveHandoff(facingDirectionOverride=0 distance=2 direction=0 speed=100)
+       4. MoveDirection(facingDirectionOverride=0 distance=3 direction=50 speed=100)
+       5. RunEndZone()
+       6. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: Trick/WR_Bunch_ReverseLt_Gun_YTRIPS  (id 6737, AssignRouteType_WR_Reverse)
+       1. CannedHandoff(playerNum=HandoffPlayerSlot_O1 handoffAnim=239 flippedHandoffAnim=238)
+       2. ReceiveHandoff(facingDirectionOverride=0 distance=4 direction=220 speed=100)
+       3. ReceiveHandoff(facingDirectionOverride=0 distance=10 direction=180 speed=100)
+       4. RunEndZone()
+       5. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/RunBlock_All  (id 687, AssignRouteType_Block_Run)
+       1. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       2. None()
+
+=== WR Screen  [OffensePlayType_PassScreen DefensePlayType_DontCare]  playId=17825
+set: Y Trips Wk (setId 212, Class_Shotgun, SetType_Trips)  formation: Shotgun
+blocking: CODE_DETERMINE  runHole=0  VIP=4
+pass read: combo=0 pos=3 Concept_Invalid 0
+pass read: combo=0 pos=5 Concept_Invalid 0
+pass read: combo=0 pos=4 Concept_FL_SE_Screen 0.99
+pass read: combo=0 pos=1 Concept_Invalid 0
+pass read: combo=0 pos=2 Concept_Invalid 0
+preSnapMovements: Normal, M1left, M1right, M2left, M2right, M3right, M4left, M5left, M5right
+
+ [0] QB1 @(0,-6) f90 QB_Before_Play
+     def: Quarterback/Drop_SG_1Step_Right  (id 4387, AssignRouteType_QB_Pass)
+       1. QBScramble(direction=0 dropBackType=DROP_TYPEENUM_QBDROP_SG_1_STEP_RT distance=0)
+       2. None()
+
+ [1] 3DRB1 @(-2.9,-6) f90 2pt
+     def: Blocking/HB_SB_PassBlockLt  (id 698, AssignRouteType_Block_Pass)
+       1. InitialAnim(anim=MOVETYPE_BACKSTEP direction=140)
+       2. MoveDirection(facingDirectionOverride=0 distance=2 direction=140 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_None)
+       4. None()
+
+ [2] SLWR1 @(10.5,-2.2) f90 2pt
+     def: Blocking/ALL_Lead20for05_WRScreen  (id 2891, AssignRouteType_Block_Pass)
+       1. InitialAnim(anim=MOVETYPE_WRSTART direction=20)
+       2. MoveDirection(facingDirectionOverride=0 distance=3 direction=20 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_ProtectReceiver)
+       4. None()
+
+ [3] WR1 @(-16.25,-0.8) f90 2pt
+     def: RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock  (id 1564, AssignRouteType_Block_Run)
+       1. RunRoute(facingDirectionOverride=0 distance=5 direction=90 speed=100)
+       2. LeadBlock(blockingTechnique=BLOCKINGTECHNIQUE_STALK_BLOCK blockingGap=RUN_HOLE)
+       3. RunBlock(stalkDistance=0 slamDuration=0 time=0 flags=RunBlockFlags_None receiverBlockType=RECEIVERBLOCKTYPE_NORMAL)
+       4. None()
+
+ [4] WR2 @(16.25,-2.2) f90 2pt
+     def: Screen/WR_Bubble_Lt  (id 985, AssignRouteType_RR_WR_Screen)
+       1. Delay(time=0.2 timeNGPM=0)
+       2. RunRoute(facingDirectionOverride=0 distance=2.5 direction=216 speed=80)
+       3. Delay(time=3 timeNGPM=0)
+       4. GetOpen()
+       5. None()
+
+ [5] LASTKEYOFFENSE1 @(5,-1.4) f90 3pt
+     def: Blocking/TE_WRScreen_Rt  (id 775, AssignRouteType_Block_Pass)
+       1. InitialAnim(anim=MOVETYPE_FB_LEADBLOCK direction=10)
+       2. MoveDirection(facingDirectionOverride=0 distance=6 direction=10 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_ProtectReceiver)
+       4. None()
+
+ [6] FIRSTOFFENSELINE1 @(-3.333,-1.2) f90 2pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [7] LG1 @(-1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [8] C1 @(0,-0.6) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [9] RG1 @(1.666,-0.9) f90 3pt
+     def: Blocking/ALL_PassBlock  (id 12, AssignRouteType_Block_Pass)
+       1. PassBlock(time=0 flags=PassBlockFlags_None)
+       2. None()
+
+ [10] LASTOFFENSELINE1 @(3.333,-1.2) f90 2pt
+     def: Blocking/RT_LeadScreen_Rt  (id 629, AssignRouteType_Block_Pass)
+       1. InitialAnim(anim=MOVETYPE_POWER_PULL direction=0)
+       2. MoveDirection(facingDirectionOverride=0 distance=6 direction=10 speed=100)
+       3. PassBlock(time=0 flags=PassBlockFlags_ProtectReceiver)
+       4. None()

@@ -1,17 +1,26 @@
 # 2026 Playbook
 
 Tooling to design Madden 27 plays and playbooks outside the game and ship them as Frosty mods.
-Offline use only — MMC rules forbid mods in online modes.
+Offline use only â€” MMC rules forbid mods in online modes.
 
 ## Layout
 - `tools/PlayDump/`: .NET Framework 4.8 console tool that loads Madden 27 headlessly through MMC Editor's FrostySdk.
-  - `PlayDump types [regex]` — EBX asset counts by type
-  - `PlayDump list <Type> [nameRegex]` — asset names
-  - `PlayDump dump <outDir> <nameRegex> [--type T] [--max N] [--follow N]` — EBX → JSON (`--follow` inlines referenced assets)
-  - `PlayDump oracle <out.fbproject>` — builds the Phase 0 test project
+  - `PlayDump types [regex]` â€” EBX asset counts by type
+  - `PlayDump list <Type> [nameRegex]` â€” asset names
+  - `PlayDump dump <outDir> <nameRegex> [--type T] [--max N] [--follow N]` â€” EBX â†’ JSON (`--follow` inlines referenced assets)
+  - `PlayDump oracle <out.fbproject>` â€” builds the Phase 0 test project
 - `tools/*.mjs`: Node helpers for the dumps (`summarize`, `booktree`, `protodump`, `protofind`)
 - `research/PHASE0_FINDINGS.md`: data model notes. Dumps and decompiled code are gitignored and can be regenerated.
-- `mods/`: generated `.fbproject` files
+- `mods/`: generated `.fbproject` / `.fbmod` files
+- `playbooks/`: playbook specs (→ custom playbook saves), `playbooks/plays/` play specs (→ one mod), `playbooks/mod.json` mod settings
+- `data/library/`: the game's play library as JSON (`PlayDump library data/library`) for the web editor
+- `docs/FORMATS.md`: the data contract between the web editor and these tools; `docs/WEB_APP_PROMPT.md`: the editor build prompt
+
+## Export (game PC)
+```
+powershell -ExecutionPolicy Bypass -File tools\export.ps1 -Install
+```
+Builds `mods/pbstudio.fbmod` from `playbooks/plays/*.json` (add it in MMC Mod Manager) and a `PBOOKOFF-<NAME>` save per playbook spec (installed to `Documents\Madden NFL 27\saves`).
 
 ## Requirements
 .NET 8 SDK (builds net48), Node 20+, MMC Editor v1.1.0.4, and Madden 27 with an existing MMC cache (open the game once in MMC Editor).

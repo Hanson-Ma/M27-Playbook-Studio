@@ -25,6 +25,7 @@ namespace PlayDump
         const string Profile = "Madden27";
 
         static string editorDir;
+        static string repoDir;
         static AssetManager am;
 
         static int Main(string[] args)
@@ -33,7 +34,14 @@ namespace PlayDump
             string gameDir = Environment.GetEnvironmentVariable("MADDEN27_DIR") ?? DefaultGameDir;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveFromEditor;
             // Boot() switches the working directory to the editor, so pin caller-relative paths first.
-            if (args.Length > 1 && (args[0] == "dump" || args[0] == "oracle" || args[0] == "index")) args[1] = Path.GetFullPath(args[1]);
+            repoDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".."));
+            if (args.Length > 1 && (args[0] == "dump" || args[0] == "oracle" || args[0] == "index" || args[0] == "library")) args[1] = Path.GetFullPath(args[1]);
+            if (args[0] == "buildplays")
+                for (int i = 1; i < args.Length; i++)
+                {
+                    try { args[i] = Path.GetFullPath(args[i]); }
+                    catch (Exception ex) { throw new ArgumentException($"bad path argument {i}: [{args[i]}]", ex); }
+                }
             if (args.Length == 0)
             {
                 Console.Error.WriteLine("usage:\n  PlayDump types [regex]\n  PlayDump list <Type> [nameRegex]\n  PlayDump dump <outDir> <nameRegex> [--type T] [--max N] [--follow N]");
@@ -45,7 +53,7 @@ namespace PlayDump
         // Kept separate so FrostySdk types are only touched after the resolver is installed.
         static int Run(string[] args, string gameDir)
         {
-            bool writes = args[0] == "oracle";
+            bool writes = args[0] == "oracle" || args[0] == "buildplays";
             Boot(gameDir, writes);
             switch (args[0])
             {
@@ -54,7 +62,19 @@ namespace PlayDump
                 case "dump": return CmdDump(args.Skip(1).ToArray());
                 case "bundles": return CmdBundles(args.Skip(1).ToArray());
                 case "index": return CmdIndex(args[1]);
+                case "library": return LibraryExport.Run(am, args[1]);
                 case "oracle": return Oracle.Run(am, args[1]);
+                case "buildplays":
+                    // buildplays <out.fbproject> <out.fbmod> <mod.json> <plays spec...>
+                    // One combined mod: every play mod edits GlobalPlaySheet, so separate mods would overwrite each other.
+                    var spec = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(args[3]));
+                    var all = new Newtonsoft.Json.Linq.JArray();
+                    foreach (string f in args.Skip(4))
+                        foreach (var play in Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(f))["plays"]) all.Add(play);
+                    spec["plays"] = all;
+                    new PlayBuilder(am, spec, Path.Combine(repoDir, "research", "index"))
+                        .Run(args[1], args[2], Path.Combine(repoDir, "research", "index", "custom-plays.tsv"));
+                    return 0;
                 default: Console.Error.WriteLine("unknown command " + args[0]); return 1;
             }
         }
@@ -152,7 +172,7 @@ namespace PlayDump
             return 0;
         }
 
-        // ID lookup tables (TSV) for formations, sets and plays — the IDs the game's DB tables and protobuf refer to.
+        // ID lookup tables (TSV) for formations, sets and plays Ã¢â‚¬â€ the IDs the game's DB tables and protobuf refer to.
         static int CmdIndex(string outDir)
         {
             Directory.CreateDirectory(outDir);

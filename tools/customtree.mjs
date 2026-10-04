@@ -1,18 +1,20 @@
 // Prints a custom playbook save (saves/PBOOKOFF-* / PBOOKDEF-*) as Formation > Set > plays, resolved via research/index.
 // usage: node tools/customtree.mjs <save> [--ai]
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import { readTdb } from "./tdb.mjs";
 
 const [file, flag] = process.argv.slice(2);
 const tsv = name => {
-  const [head, ...rows] = readFileSync(new URL(`../research/index/${name}.tsv`, import.meta.url), "utf8").trim().split(/\r?\n/);
+  const file = new URL(`../research/index/${name}.tsv`, import.meta.url);
+  if (!existsSync(file)) return [];
+  const [head, ...rows] = readFileSync(file, "utf8").trim().split(/\r?\n/);
   const cols = head.split("\t");
   return rows.map(r => Object.fromEntries(r.split("\t").map((v, i) => [cols[i], v])));
 };
 const forms = new Map(tsv("formations").map(f => [+f.formId, f]));
 const sets = new Map(tsv("sets").map(s => [+s.setId, s]));
 const plays = new Map();
-for (const p of tsv("plays")) (plays.get(+p.playId) ?? plays.set(+p.playId, []).get(+p.playId)).push(p);
+for (const p of [...tsv("plays"), ...tsv("custom-plays")]) (plays.get(+p.playId) ?? plays.set(+p.playId, []).get(+p.playId)).push(p);
 
 const t = Object.fromEntries(readTdb(readFileSync(file)).tables.map(x => [x.name, x.rows]));
 const ai = new Map();

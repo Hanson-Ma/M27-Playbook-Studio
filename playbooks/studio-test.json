@@ -1,7 +1,7 @@
 {
   "name": "STUDIO",
   "side": "offense",
-  "notes": "First generated custom playbook: Shotgun has a single set with 9 plays; goal line and special teams are copied from the template.",
+  "notes": "v2: Y Trips Wk with the six PBS plays (needs mods/pbs-ytrips-v1.fbmod) + library plays not in the template; Gun Bunch added as a set the template never had.",
   "formations": [
     {
       "formation": "Shotgun",
@@ -9,15 +9,25 @@
         {
           "set": "Y Trips Wk",
           "plays": [
-            { "play": "Inside Zone", "audible": 2 },
+            { "play": "PBS GT Counter", "audible": 2, "cpu": { "FirstDown": 40, "2ndAndShort": 50, "3rdAndShort": 30 } },
+            { "play": "PBS PA Yankee", "audible": 4, "cpu": { "Playaction": 40, "2ndAndShort": 30 } },
+            { "play": "PBS Snag", "cpu": { "3rdAndMedium": 40, "FirstDown": 20 } },
+            { "play": "PBS Bubble Go", "audible": 3, "cpu": { "2ndAndLong": 20 } },
+            { "play": "PBS Reverse QB Lead", "cpu": { "SuddenChange": 10 } },
+            { "play": "PBS Mtn Drive", "cpu": { "3rdAndMedium": 30, "3rdAndLong": 20 } },
+            { "play": "Inside Zone" },
             { "play": "Mtn Mesh" },
-            { "play": "Y Shallow Cross" },
-            { "play": "Four Verticals", "audible": 4 },
-            { "play": "Curls" },
-            { "play": "Slants", "audible": 1 },
-            { "play": "Dagger Y Whip" },
-            { "play": "HB Draw" },
-            { "play": "HB Slip Screen", "audible": 3 }
+            { "play": "Spacing Snag" },
+            { "play": "Mtn PA Smash Scissors" },
+            { "play": "Four Verticals" },
+            { "play": "Slants", "audible": 1 }
+          ]
+        },
+        {
+          "set": "Bunch",
+          "plays": [
+            { "play": "Mesh" },
+            { "play": "Reverse" }
           ]
         }
       ]

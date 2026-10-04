@@ -1,0 +1,13 @@
+{
+  "title": "PB Studio plays",
+  "version": "0.1.0",
+  "description": "Custom plays built from playbooks/plays/*.json by tools/PlayDump buildplays.",
+  "bundles": [
+    "win32/football/gameplay/playbooks/playlibrary/globalplaysheets/globalplaybooksheet_playbooks_brt",
+    "win32/football/gameplay/playbooks/gamesheets/madden_seahawks_offense_playbooks_brt"
+  ],
+  "brtRef": {
+    "Play": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
+    "PositionAssignmentDefine": "football/Gameplay/playbooks/PlayLibrary/Assignments/RunRoute/WR_Run90for30"
+  }
+}

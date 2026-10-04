@@ -1,0 +1,123 @@
+{
+  "title": "PB Studio - Gun Y Trips Wk v1",
+  "version": "0.1.0",
+  "description": "Six authored plays in Shotgun Y Trips Wk: GT counter, PA Yankee, Snag, screen, reverse with QB lead, motion Drive.",
+  "bundles": [
+    "win32/football/gameplay/playbooks/playlibrary/globalplaysheets/globalplaybooksheet_playbooks_brt",
+    "win32/football/gameplay/playbooks/gamesheets/madden_seahawks_offense_playbooks_brt"
+  ],
+  "brtRef": {
+    "Play": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
+    "PositionAssignmentDefine": "football/Gameplay/playbooks/PlayLibrary/Assignments/RunRoute/WR_Run90for30"
+  },
+  "plays": [
+    {
+      "name": "PBS GT Counter",
+      "asset": "PBS_GT_Counter",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/HB_Base",
+      "playType": "OffensePlayType_RunCounter",
+      "blocking": "BTCounter",
+      "players": {
+        "6": { "new": "PBS_LT_Pull_Lead_Hole", "routeType": "AssignRouteType_Block_Run", "steps": [
+          { "type": "InitialAnim", "anim": "MOVETYPE_COUNTER_PULL", "direction": 0 },
+          { "type": "LeadBlock", "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE", "blockingGap": "RUN_HOLE" },
+          { "type": "RunBlock" } ] },
+        "7": { "new": "PBS_LG_Pull_Kickout", "routeType": "AssignRouteType_Block_Run", "steps": [
+          { "type": "InitialAnim", "anim": "MOVETYPE_COUNTER_PULL", "direction": 0 },
+          { "type": "LeadBlock", "blockingTechnique": "BLOCKINGTECHNIQUE_KICKOUT", "blockingGap": "RUN_HOLE" },
+          { "type": "RunBlock" } ] }
+      }
+    },
+    {
+      "name": "PBS PA Yankee",
+      "asset": "PBS_PA_Yankee",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/PA_Read",
+      "players": {
+        "2": { "new": "PBS_Slot_Out12", "routeType": "AssignRouteType_RR_Out_Middle", "steps": [
+          { "type": "RunRoute", "distance": 11, "direction": 90, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_RIGHT", "cutType": "RECEIVER_CUT_ANGLE_90" },
+          { "type": "RunRoute", "distance": 15, "direction": 0, "speed": 100 },
+          { "type": "GetOpen" } ] },
+        "3": { "new": "PBS_X_Deep_Post", "routeType": "AssignRouteType_RR_Post_Deep", "steps": [
+          { "type": "RunRoute", "distance": 12, "direction": 90, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_RIGHT", "cutType": "RECEIVER_CUT_ANGLE_45" },
+          { "type": "RunRoute", "distance": 30, "direction": 55, "speed": 100 },
+          { "type": "GetOpen" } ] },
+        "4": { "new": "PBS_Z_Deep_Over", "routeType": "AssignRouteType_RR_In_Deep", "steps": [
+          { "type": "RunRoute", "distance": 14, "direction": 90, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_LEFT", "cutType": "RECEIVER_CUT_ANGLE_67" },
+          { "type": "RunRoute", "distance": 30, "direction": 160, "speed": 100 },
+          { "type": "GetOpen" } ] }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0.8 }, { "pos": 4, "pct": 0.75 }, { "pos": 2, "pct": 0.45 }, { "pos": 5, "pct": 0.3 }, { "pos": 1, "pct": 0.2 }
+      ]
+    },
+    {
+      "name": "PBS Snag",
+      "asset": "PBS_Snag",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
+      "players": {
+        "2": { "new": "PBS_Slot_Corner7", "routeType": "AssignRouteType_RR_Corner_Middle", "steps": [
+          { "type": "RunRoute", "distance": 7, "direction": 90, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_RIGHT", "cutType": "RECEIVER_CUT_ANGLE_45" },
+          { "type": "RunRoute", "distance": 22, "direction": 45, "speed": 100 },
+          { "type": "GetOpen" } ] },
+        "3": "RunRoute/WR_Run90for03_CutR45_Run45for20_Slant90_2",
+        "4": "RunRoute/WR_Run90for30",
+        "5": { "new": "PBS_Y_Snag5", "routeType": "AssignRouteType_RR_Slant_Hook", "steps": [
+          { "type": "RunRoute", "distance": 1, "direction": 90, "speed": 100 },
+          { "type": "RunRoute", "distance": 5, "direction": 105, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_LEFT", "cutType": "RECEIVER_CUT_ANGLE_180_PARTIAL" },
+          { "type": "GetOpen" } ] }
+      },
+      "reads": [
+        { "pos": 5, "pct": 0.8 }, { "pos": 2, "pct": 0.7 }, { "pos": 3, "pct": 0.5 }, { "pos": 1, "pct": 0.4 }, { "pos": 4, "pct": 0.2 }
+      ]
+    },
+    {
+      "name": "PBS Bubble Go",
+      "asset": "PBS_Bubble_Go",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/WR_Screen",
+      "players": {
+        "3": "RunRoute/WR_Run90for30"
+      }
+    },
+    {
+      "name": "PBS Reverse QB Lead",
+      "asset": "PBS_Reverse_QB_Lead",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Reverse",
+      "blocking": "ReverseBlocking",
+      "players": {
+        "0": { "new": "PBS_QB_Reverse_LeadLt", "keep": 2, "routeType": "AssignRouteType_QB_Handoff", "steps": [
+          { "type": "MoveDirection", "distance": 3, "direction": 190, "speed": 80 },
+          { "type": "LeadBlock", "blockingTechnique": "BLOCKINGTECHNIQUE_OUTSIDE", "blockingGap": "OUTSIDE_GAP_Left" },
+          { "type": "RunBlock" } ] }
+      }
+    },
+    {
+      "name": "PBS Mtn Drive",
+      "asset": "PBS_Mtn_Drive",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Mtn_Mesh",
+      "players": {
+        "2": { "new": "PBS_Slot_Shallow", "routeType": "AssignRouteType_RR_Cross", "steps": [
+          { "type": "RunRoute", "distance": 2, "direction": 120, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_LEFT", "cutType": "RECEIVER_CUT_ANGLE_45" },
+          { "type": "RunRoute", "distance": 28, "direction": 170, "speed": 100 },
+          { "type": "GetOpen" } ] },
+        "3": "RunRoute/WR_Run90for30",
+        "4": { "new": "PBS_Z_Mtn_Dig12", "keep": 1, "routeType": "AssignRouteType_RR_In_Middle", "steps": [
+          { "type": "RunRoute", "distance": 12, "direction": 90, "speed": 100 },
+          { "type": "ReceiverCut", "direction": "RECEIVER_CUT_DIR_LEFT", "cutType": "RECEIVER_CUT_ANGLE_90" },
+          { "type": "RunRoute", "distance": 22, "direction": 180, "speed": 100 },
+          { "type": "GetOpen" } ] },
+        "5": { "new": "PBS_Y_Seam", "routeType": "AssignRouteType_RR_Streak", "steps": [
+          { "type": "RunRoute", "distance": 28, "direction": 92, "speed": 100 },
+          { "type": "GetOpen" } ] }
+      },
+      "reads": [
+        { "pos": 4, "pct": 0.85 }, { "pos": 2, "pct": 0.6 }, { "pos": 5, "pct": 0.45 }, { "pos": 3, "pct": 0.3 }, { "pos": 1, "pct": 0.2 }
+      ]
+    }
+  ]
+}

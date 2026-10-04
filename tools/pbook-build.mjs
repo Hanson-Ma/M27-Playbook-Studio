@@ -1,61 +1,101 @@
-// Builds a Madden 27 custom playbook save (PBOOKOFF-*) from a playbook spec, using an existing save as the template.
-// Plays are currently taken from rows already in the template (so their play-type code and CPU weights are known good).
+// Builds a Madden 27 custom playbook save (PBOOKOFF-*) from a playbook spec, using an existing save as the template
+// (the template supplies the file layout, table capacities, and any "sets": "template" sections).
+// Plays can be any game play (research/index/plays.tsv) or one we built (research/index/custom-plays.tsv).
 // usage: node tools/pbook-build.mjs <spec.json> <template save> <out file>
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { readTdb, writeTable } from "./tdb.mjs";
 import { crcSlots } from "./tdbcrc.mjs";
+
+// In-game audible slot -> PGPL.Flag bit (observed in Madden 27: slot 3 is bit 16, slot 4 is bit 8).
+export const AUDIBLE_BITS = { 1: 2, 2: 4, 3: 16, 4: 8 };
 
 const [specFile, templateFile, outFile] = process.argv.slice(2);
 const spec = JSON.parse(readFileSync(specFile, "utf8"));
 const buf = Buffer.from(readFileSync(templateFile));
-const { tables } = readTdb(buf);
-const T = Object.fromEntries(tables.map(t => [t.name, t]));
+const T = Object.fromEntries(readTdb(buf).tables.map(t => [t.name, t]));
 
+const indexDir = new URL("../research/index/", import.meta.url);
 const tsv = name => {
-  const [head, ...rows] = readFileSync(new URL(`../research/index/${name}.tsv`, import.meta.url), "utf8").trim().split(/\r?\n/);
+  const file = new URL(`${name}.tsv`, indexDir);
+  if (!existsSync(file)) return [];
+  const [head, ...rows] = readFileSync(file, "utf8").trim().split(/\r?\n/);
   const cols = head.split("\t");
   return rows.map(r => Object.fromEntries(r.split("\t").map((v, i) => [cols[i], v])));
 };
-const norm = s => s.toLowerCase().replace(/\s+/g, " ").trim();
-const formIdByName = new Map(tsv("formations").map(f => [norm(f.formationName), +f.formId]));
-const setNames = new Map(tsv("sets").map(s => [+s.setId, s.setName]));
-const playNames = new Map(tsv("plays").map(p => [+p.playId, p.playName]));
+const enums = JSON.parse(readFileSync(new URL("enums.json", indexDir), "utf8").replace(/^﻿/, ""));
+const norm = s => s.toLowerCase().replace(/[\s_]+/g, " ").trim();
 
-const book = T.PGPL.rows[0].BOKL;
+const formations = tsv("formations");
+const sets = tsv("sets");
+const plays = [...tsv("plays"), ...tsv("custom-plays")];
+// Names repeat (minigames reuse "Shotgun"), so prefer the formation whose asset folder is named after it.
+const formByName = name => {
+  const named = formations.filter(x => norm(x.formationName) === norm(name));
+  const f = named.find(x => norm(x.asset.split("/").at(-1)) === norm(name)) ?? named[0];
+  if (!f) throw new Error(`unknown formation "${name}"`);
+  return f;
+};
+// Sets are matched by name within the formation's asset folder (set names repeat across formations).
+const setByName = (form, name) => {
+  const folder = form.asset.slice(0, form.asset.lastIndexOf("/") + 1);
+  const s = sets.find(x => x.asset.startsWith(folder) && norm(x.setName) === norm(name));
+  if (!s) throw new Error(`unknown set "${name}" in ${form.formationName}`);
+  return s;
+};
+const playInSet = (set, name) => {
+  const p = plays.find(x => x.set === set.asset && norm(x.playName) === norm(name));
+  if (!p) throw new Error(`unknown play "${name}" in set ${set.setName}`);
+  return p;
+};
+const plyt = p => {
+  const type = p.offensePlayType !== "OffensePlayType_DontCare" ? p.offensePlayType : p.defensePlayType;
+  const v = enums.OffensePlayType[type] ?? enums.DefensePlayType[type];
+  if (v === undefined) throw new Error(`no PLYT for ${type}`);
+  return v;
+};
+const situation = name => {
+  const key = `Offense_PlayCallSituation_${name}`;
+  if (!(key in enums.Offense_PlayCallSituation)) throw new Error(`unknown situation "${name}"`);
+  return enums.Offense_PlayCallSituation[key];
+};
+
+const book = T.PGPL.rows[0]?.BOKL ?? 32764;
 const out = { PGFM: [], STID: [], PGPL: [], PBAI: [] };
-const usedPlays = new Set();
 
 for (const fspec of spec.formations) {
-  const formId = formIdByName.get(norm(fspec.formation));
-  const fmRow = T.PGFM.rows.find(r => r.PBFM === formId);
-  if (!fmRow) throw new Error(`formation "${fspec.formation}" (${formId}) is not in the template`);
-  out.PGFM.push(fmRow);
-  const templateSets = T.STID.rows.filter(r => r.PBFM === formId);
+  const form = formByName(fspec.formation);
+  const formId = +form.formId;
+  out.PGFM.push(T.PGFM.rows.find(r => r.PBFM === formId) ?? { BOKL: book, PBFM: formId, SRFM: formId });
 
-  const sets = fspec.sets === "template"
-    ? templateSets.map(s => ({ row: s, plays: T.PGPL.rows.filter(p => p.SETL === s.SETL).sort((a, b) => a.ord_ - b.ord_) }))
-    : fspec.sets.map(sspec => {
-        const row = templateSets.find(s => norm(setNames.get(s.SETL) ?? "") === norm(sspec.set));
-        if (!row) throw new Error(`set "${sspec.set}" not found under ${fspec.formation} in the template`);
-        const pool = T.PGPL.rows.filter(p => p.SETL === row.SETL);
-        const plays = sspec.plays.map(pspec => {
-          const hit = pool.find(p => norm(playNames.get(p.PLYL) ?? "") === norm(pspec.play));
-          if (!hit) throw new Error(`play "${pspec.play}" not found in ${sspec.set} in the template`);
-          const audible = pspec.audible ?? 0;
-          if (audible < 0 || audible > 4) throw new Error(`${pspec.play}: audible slot must be 1-4`);
-          return { ...hit, Flag: audible ? 1 << audible : 0 }; // slot 1..4 -> bit 2/4/8/16
-        });
-        const slots = plays.map(p => p.Flag).filter(Boolean);
-        if (new Set(slots).size !== slots.length) throw new Error(`${sspec.set}: duplicate audible slot`);
-        return { row, plays };
-      });
+  if (fspec.sets === "template") {
+    for (const s of T.STID.rows.filter(r => r.PBFM === formId)) {
+      out.STID.push(s);
+      const rows = T.PGPL.rows.filter(p => p.SETL === s.SETL).sort((a, b) => a.ord_ - b.ord_);
+      rows.forEach((p, i) => out.PGPL.push({ ...p, BOKL: book, ord_: i }));
+      out.PBAI.push(...T.PBAI.rows.filter(r => rows.some(p => p.PLYL === r.PLYL)));
+    }
+    continue;
+  }
 
-  for (const { row, plays } of sets) {
-    out.STID.push(row);
-    plays.forEach((p, i) => { out.PGPL.push({ ...p, BOKL: book, ord_: i }); usedPlays.add(p.PLYL); });
+  for (const sspec of fspec.sets) {
+    const set = setByName(form, sspec.set);
+    const setId = +set.setId;
+    out.STID.push(T.STID.rows.find(r => r.SETL === setId) ?? { BOKL: book, SETL: setId, PBFM: formId, PBST: setId, SPF_: 0 });
+    const used = new Set();
+    sspec.plays.forEach((pspec, i) => {
+      const p = playInSet(set, pspec.play);
+      const audible = pspec.audible ?? 0;
+      if (audible && !AUDIBLE_BITS[audible]) throw new Error(`${pspec.play}: audible slot must be 1-4`);
+      if (audible && used.has(audible)) throw new Error(`${sspec.set}: audible slot ${audible} used twice`);
+      used.add(audible);
+      out.PGPL.push({ BOKL: book, SETL: setId, PLYL: +p.playId, PBST: setId, PLYT: plyt(p), ord_: i, Flag: audible ? AUDIBLE_BITS[audible] : 0 });
+      // CPU situation weights: explicit "cpu" wins, otherwise keep whatever the template had for this play.
+      const cpu = pspec.cpu ? Object.entries(pspec.cpu).map(([k, v]) => ({ BOKL: book, PLYL: +p.playId, AIGR: situation(k), prct: v }))
+        : T.PBAI.rows.filter(r => r.PLYL === +p.playId);
+      out.PBAI.push(...cpu);
+    });
   }
 }
-out.PBAI = T.PBAI.rows.filter(r => usedPlays.has(r.PLYL));
 
 for (const [name, rows] of Object.entries(out)) writeTable(buf, T[name], rows);
 

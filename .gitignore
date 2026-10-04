@@ -14,3 +14,6 @@ research/decompiled/
 # local backups of game saves
 backups/
 build/
+
+# game-side build outputs
+mods/pbstudio.*
