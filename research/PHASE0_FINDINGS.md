@@ -1,0 +1,55 @@
+# Phase 0 findings — Madden 27 play data
+
+Last updated 2026-10-03. Source: headless dumps via `tools/PlayDump` (reads the game through MMC Editor's FrostySdk).
+
+## Scale
+11,055 `Play` · 808 `Set` · 118 `Formation` · 5,399 `PositionAssignmentDefine` · 304 `PlaybookAsset` · 136 `HotRouteDefine` · 39 `OptionRouteDefine` · 70 `BlockingSchemeDefine` · 1 `GlobalPlaySheet`
+
+## Coordinates and units
+- Positions are **yards** relative to the ball: X = lateral (+ = right), Y = depth (- = offensive backfield). QB under center is at Y = -1.4; in shotgun, Y = -6.
+- `direction` / `facing` are **degrees**: 0 = toward +X (right), 90 = straight upfield, 180 = toward -X (left).
+- `distance` is in yards. `speed` is 0–100 (percent).
+
+## Play (`Play`)
+- `Set` → the alignment. `positionAssignmentDefines[i]` is the assignment for the player in slot `i` of the set's "Normal" `preSnapMovements` entry (QB, RB, …, OL).
+- Each `PositionAssignmentDefine` is a **shared, reusable** asset: `positionAssignId`, `routeType`, and an ordered chain `positionAssignment[]`, always terminated by `NoneAssignment`.
+- `passData[]`: read progression (`position`, `percentage`, `concept` such as `Concept_Mesh`, `combo`).
+- Run plays: `BlockingSchemeDefine` (BTPower, BTInsideZone, BTOutsideZone…), `runHole`.
+- **No stored play art.** Play-call diagrams appear to be generated from the assignments (to confirm in-game).
+
+## Assignment chain vocabulary (observed)
+| Concept | Encoding |
+|---|---|
+| Pass route | `RunRoute(distance, direction, speed)` segments + `ReceiverCut(dir, cutType: 45/67/90/CURL/POSTCORNER/BUBBLE_SCREEN…)` → `GetOpen` |
+| QB drop | `QBScramble(dropBackType=…5_STEP…, direction, distance)` |
+| Handoff | QB and RB share a `CannedHandoff(handoffAnim pair)`; QB: `HandOffTurn` → `HandOffGive(exit)`; RB: `InitialAnim` → `ReceiveHandoff(distance, direction)` → `RunEndZone` |
+| Play action | QB: `HandoffFake(exit=ROLLRIGHT…)` → `QBScramble`; RB: `ReceiveHandoff` → `PassBlock` |
+| Pulling guard | `InitialAnim(MOVETYPE_POWER_PULL)` → `LeadBlock(LEAD_THROUGH_HOLE, RUN_HOLE)` |
+| Kickout / lead | `LeadBlock(KICKOUT, D_GAP_RIGHT)` → `RunBlock` |
+| WR stalk | `RunRoute(5, 90)` → `LeadBlock(STALK_BLOCK, RUN_HOLE)` → `RunBlock` |
+| Jet / snap motion | `AutoMotion(waypoints=[{position, speed, facingAngle}], startEvent=SNAP)` |
+| RPO | play type `RPOAlert`; QB: `CannedHandoff` → `QBScramble`; the game handles the read |
+| Screen | `PassBlock(time)` → `RunRoute`… or `ReceiverCut(BUBBLE_SCREEN)` |
+
+## Playbook (`PlaybookAsset`)
+`Formations[] FormationSection{Formation, Sets[], overrideName, order}` → `SetSection{Set, plays[], audibles[] (4 per set), defaultSetPackage, excludedPackages}` → `PlaySheet{play, overrideName, order, PlaybookTier, OffenseSituations[]/DefenseSituations[] {situation, weight}}`.
+
+### ⚠ `protobufString` — a compiled copy of the whole playbook
+Base64 protobuf (432 KB for the Seahawks offense) holding sets, alignments, every play and **every assignment chain**, denormalized per play. It's probably the output of EA's PlayMaker→Playbook converter (`PlayMakerToPlaybookConverterParams` exists in the SDK). If the game reads this rather than the EBX tree, our bridge must regenerate it.
+- Play message: `#1` name, `#2` playId, `#24` pass data, `#28` assignment define {`#1` positionAssignId, `#2` routeType, `#3`[] assignments {`#1` opcode (GameAssignmentDefs), `#<n>` payload}}.
+- RunRoute = opcode 8, payload `#6 {#1 distance, #2 direction, #3 speed, #5 facing}` (f32).
+- Tools: `tools/protodump.mjs` (tree), `tools/protofind.mjs` (find a play / assignment with byte offsets).
+
+## Oracle test (pending, run by hand in-game)
+`mods/phase0-oracle.fbproject`, Seahawks offense, Shotgun → Y Trips Wk:
+- **Slants**: EBX-only edit. Left outside WR is pointed at `WR_Run90for30` (a go) instead of his slant.
+- **Curls**: protobuf-only edit. Left outside WR's curl stem is 10 → 30 yds. The EBX is unchanged.
+
+| Result | Meaning |
+|---|---|
+| Slants changed, Curls didn't | Game reads the EBX tree; protobuf is stale or unused |
+| Curls changed, Slants didn't | Game reads the protobuf; the bridge must regenerate it |
+| Both changed | Mixed (e.g. art from one, on-field AI from the other) — note which screen showed what |
+| Neither | Playbook data comes from elsewhere at runtime (cache/DB); investigate |
+
+Also note whether the **play-call art** matches the on-field behavior for each play.

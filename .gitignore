@@ -1,0 +1,12 @@
+﻿# build output
+bin/
+obj/
+node_modules/
+
+# local-only secrets / machine config
+*.local.bin
+*.local.json
+
+# large generated game dumps (regenerate with tools/PlayDump)
+research/dumps/
+research/decompiled/

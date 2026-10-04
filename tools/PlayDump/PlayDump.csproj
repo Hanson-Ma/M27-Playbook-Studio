@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- Path to the MMC Editor install; Frosty assemblies are resolved from here at runtime, never copied. -->
+    <EditorDir Condition="'$(EditorDir)' == ''">P:\Dropbox\Projects\Madden Modding\MMC_Modding_Tools_v1.1.0.4\MMC_Editor_v1.1.0.4</EditorDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="FrostySdk">
+      <HintPath>$(EditorDir)\FrostySdk.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FrostyCore">
+      <HintPath>$(EditorDir)\FrostyCore.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(EditorDir)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

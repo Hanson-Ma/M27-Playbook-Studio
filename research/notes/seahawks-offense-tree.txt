@@ -1,0 +1,697 @@
+﻿football/Gameplay/Playbooks/GameSheets/Madden_Seahawks_Offense  (Id 27, offense=true, protobuf 576616 chars)
+
+Singleback
+  Wing_Tight_Left   audibles: Stick, Wide_Zone, PA_Boot_Slide, Duo
+     1. Zone_Fake_Jet_Wk
+     2. PA_Jet_Sweep
+     3. Jet_Sweep_Wk
+     4. Stick   {3rdAndShort:10 Insidefive:10 GoFor2:10 FirstDown:23}
+     5. Wide_Zone
+     6. PA_Boot_Slide   {Playaction:10}
+     7. Duo "26 Duo"   {3rdAndShort:10 RedZone:53 WasteTime:10 2ndAndMedium:56 2ndAndShort:62 FirstDown:73}
+     8. PA_Sprint_HB_Flat   {2ndAndShort:38 RedZone_6_to_10:10 RedZone_3_to_5:10}
+     9. Inside_Zone   {3rdAndShort:10 RedZone:10 Insidefive:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 4thAndShort:10 FirstDown:10}
+    10. HB_Dive   {3rdAndShort:10 GoalLine:10 Insidefive:10 WasteTime:10 4thAndShort:10}
+    11. PA_Scissors   {2ndAndShort:10 RedZoneFringe:10 Playaction:10 SuddenChange:10}
+    12. HB_Power   {RedZone:10}
+  Wing_Close   audibles: Stick_X-Dig, HB_Dive, PA_Cross, DBL_Outs
+     1. Stick_X-Dig
+     2. Duo
+     3. RZ_PA_Crossers
+     4. Mtn_Out_N_Up
+     5. Mtn_Zone_Alert
+     6. Mtn_PA_Z_Slide
+     7. DBL_Outs
+     8. HB_Dive
+     9. PA_Cross
+    10. PA_Y-Drag_Wheel
+    11. Wide_Zone
+    12. PA_TE_Flood
+    13. Pitch_WR_Reverse
+    14. PA_Fk_Toss_Wheel
+    15. HB_Toss_Fk_Reverse
+  Deuce_Close   audibles: Stick, Zone_Split_Wk, PA_Boot_Slide, Bench
+     1. Mtn_Shuffle_Y-Wheel
+     2. Mtn_Shuffle_H-Choice
+     3. Mtn_Shuffle_H-Nod
+     4. PA_RZ_Crossers
+     5. Inside_Zone_Split
+     6. PA_Sprint_HB_Flat
+     7. Motion_Zone_Split
+     8. PA_Motion_Flood
+     9. Motion_Zone_Toss
+    10. Flood_Trail "Flood"
+    11. Zone_Split_Wk   {3rdAndShort:0 2ndAndLong:0 2ndAndShort:0 RedZoneFringe:10 RedZone_16_to_20:10 RedZone_11_to_15:10 RedZone_6_to_10:10 FirstDown:54}
+    12. PA_Boot_Slide   {3rdAndShort:0 2ndAndMedium:0 2ndAndShort:0 RedZoneFringe:0 FirstDown:0}
+    13. Stick   {GoalLine:10 2ndAndMedium:10 GoFor2:10}
+    14. HB_Zone_Wk   {3rdAndShort:66 RedZone:40 2ndAndShort:55 RedZoneFringe:11 RedZone_16_to_20:11 RedZone_11_to_15:0 RedZone_6_to_10:11 4thAndShort:11 FirstDown:59 RedZone_3_to_5:11 WasteTime:11}
+    15. PA_X_Post_Cross
+    16. Bench   {RedZone:10 3rdAndMedium:10 2ndAndMedium:42 2ndAndShort:43 ConserveTimeSafe:10 RedZoneFringe:35 RedZone_16_to_20:48 FirstDown:41}
+    17. HB_Wham   {3rdAndShort:66 GoalLine:10 RedZone:40 Insidefive:0 WasteTime:0 2ndAndShort:0 FirstDown:59}
+    18. Corner_Stops
+    19. Spacing_Switch   {RedZone:10 2ndAndMedium:10 2ndAndShort:10 FirstDown:46}
+    20. HB_Stretch   {3rdAndShort:10 RedZone:10 WasteTime:10 2ndAndShort:10 RedZone_16_to_20:10 RedZone_11_to_15:10 RedZone_6_to_10:10 FirstDown:54}
+    21. PA_Slide_Y_Screen
+  Wing_Stack   audibles: Flanker_Spot, HB_Zone_Wk, PA_Fork, PA_Double_In_Shot
+     1. Y_Stick
+     2. 26_Duo
+     3. PA_Dig
+     4. Zone_Fake_Jet
+     5. PA_Jet_Sweep_(1) "PA Jet Sweep"
+     6. Jet_Sweep   {2ndAndShort:10}
+     7. Flanker_Spot
+     8. HB_Zone_Wk   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndLong:10 WasteTime:10 4thAndShort:10 FirstDown:10}
+     9. PA_Fork   {2ndAndMedium:10 2ndAndShort:10 FirstDown:46 Playaction:0}
+    10. HB_Dive   {3rdAndShort:48 GoalLine:68 RedZone:57 Insidefive:99 2ndAndLong:55 WasteTime:0 2ndAndMedium:64 2ndAndShort:57 FirstDown:63}
+    11. PA_Double_In_Shot
+    12. HB_Stretch   {RedZone:10 WasteTime:10 2ndAndShort:10 FirstDown:54}
+  Wing_Flex_Close   audibles: Stick, HB_Zone_Wk, PA_Shot_Post, Drive_Y_Corner
+     1. HB_Duo
+     2. Four_Verticals
+     3. HB_Toss_Weak
+     4. PA_Shot_Post
+     5. HB_Zone_Wk
+     6. Drive_Y_Corner
+     7. Mtn_Jet_Sweep
+     8. Mtn_PA_Jet_Sweep
+     9. Zone_Fake_Jet
+    10. Stick   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndLong:10 2ndAndMedium:10 GoalLinePass:10 ConserveTimeSafe:10 4thAndShort:10 GoFor2:10 FirstDown:10}
+    11. HB_Stretch
+    12. Smash
+  Bunch_X_Nasty   audibles: Spacing, HB_Dive, PA_Cross, Verticals
+     1. PA_Drag_Wheel   {3rdAndShort:55 2ndAndLong:44 3rdAndMedium:44 2ndAndMedium:44 2ndAndShort:55 FirstDown:34 Playaction:55}
+     2. Wide_Zone_Wk
+     3. PA_Boot   {2ndAndLong:10 2ndAndShort:43 FirstDown:43}
+     4. PA_Deep_Cross_Go   {3rdAndShort:10 2ndAndLong:10 2ndAndMedium:42 2ndAndShort:43 ConserveTimeSafe:10 FirstDown:43}
+     5. HB_Slam   {2ndAndLong:44}
+     6. PA_X_Out_Cross   {2ndAndMedium:88 FirstDown:43 Playaction:10}
+     7. PA_Post_Curl_Shot   {3rdAndShort:10 2ndAndLong:10 3rdAndMedium:10 2ndAndMedium:42 2ndAndShort:43 FirstDown:43 Playaction:10}
+     8. HB_Zone_Wk "Inside Zone Wk"   {3rdAndShort:88 GoalLine:10 RedZone:55 Insidefive:10 2ndAndLong:44 WasteTime:10 2ndAndMedium:44 4thAndShort:10 FirstDown:66}
+     9. PA_Boot_Corner_Post   {2ndAndShort:55 FirstDown:34}
+    10. PA_Deep_Out   {2ndAndShort:10}
+    11. Inside_Zone_Split   {3rdAndShort:88 RedZone:88 2ndAndLong:44 FirstDown:66}
+    12. PA_Boot_Slide   {Playaction:10}
+    13. Counter_Y   {RedZone:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:1 2ndAndShort:10 FirstDown:66}
+    14. PA_Counter "PA Counter"   {3rdAndShort:10 RedZone:22 2ndAndMedium:42 2ndAndShort:43 FirstDown:43}
+    15. Crack_Toss   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndLong:10 2ndAndMedium:10 2ndAndShort:10 4thAndShort:10 GoFor2:10}
+    16. Spacing   {3rdAndShort:49 GoalLine:10 GoFor2:10}
+    17. HB_Dive   {GoalLine:10}
+    18. PA_Cross   {3rdAndShort:66 2ndAndMedium:88 2ndAndShort:66 FirstDown:66}
+    19. Verticals
+    20. HB_Slash   {3rdAndShort:10}
+    21. PA_Post_Dig   {2ndAndShort:43}
+  Tight_Y_Off_Flex   audibles: Stick_Spacing, Inside_Zone_Split, PA_Deep_Out, Under_Z_Curl
+     1. Zone_Fake_Jet
+     2. PA_Jet_Sweep
+     3. Jet_Sweep
+     4. Stick_Spacing   {GoalLine:10 3rdAndMedium:10 GoalLinePass:10 4thAndMedium:10 GoFor2:10}
+     5. Inside_Zone_Split
+     6. PA_Deep_Out   {2ndAndShort:10}
+     7. HB_Zone_Wk
+     8. Shallow_Cross   {2ndAndMedium:10 RedZoneFringe:10 FirstDown:40}
+     9. Wide_Zone   {RedZone:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 FirstDown:10}
+    10. Counter_Y   {RedZone:10 2ndAndMedium:10 FirstDown:10}
+    11. Under_Z_Curl
+    12. 0_1_Trap   {3rdAndShort:10 GoalLine:10 RedZone:10 Insidefive:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 4thAndShort:10 FirstDown:10}
+  Y_Trips_Close_WIng   audibles: Mesh, HB_Dive, PA_Switch_WR_In, Curls_X-Choice
+     1. Mtn_X-Go_DIg
+     2. Mtn_HB_Zone_Wk
+     3. Mtn_PA_Boot_Rt
+     4. Jet_PA_Sprint_RT
+     5. Jet_Wide_Zone
+     6. Jet_PA_Wide_Zone
+     7. Curls_X-Choice
+     8. HB_Dive
+     9. PA_Switch_WR_In
+    10. Mesh
+    11. HB_Stretch
+    12. Shallow_X-Dig
+    13. Slot_Drive
+    14. Smash
+    15. HB_Slip_Screen
+  Y_Off_Trio_Close   audibles: Spacing_X-Choice, HB_Outside_Zone, PA_Slide_Cross, Read_X-Choice
+     1. Mtn_Shuffle_Z-Post
+     2. Mtn_Shuffle_Y-Trail
+     3. Mtn_Shuffle_Smash
+     4. Y_Shallow_Cross
+     5. HB_Outside_Zone
+     6. PA_Slide_Cross
+     7. Read_X-Choice
+     8. 0_1_Trap
+     9. PA_Cross_Dig
+    10. Mesh
+    11. HB_Zone_Wk
+    12. Spacing_X-Choice
+    13. Stick
+    14. HB_Duo
+    15. PA_TE_Screen
+
+I_Form
+  Y_Off_Close   audibles: Double_Dig, Zone_Wk, PA_Deep_Read, PA_X_Deep_Out
+     1. DBL_Mtn_PA_Flood
+     2. DBL_Mtn_Counter_F
+     3. DBL_Mtn_PA_WR_Options
+     4. DBL_Mtn_PA_Sprint_HB_Flat
+     5. DBL_Mtn_Zone_Wk
+     6. DBL_Mtn_PA_Double_Cross
+     7. Mtn_PA_Counter   {RedZoneFringe:51 2ndAndLong:33 2ndAndMedium:44 FirstDown:44}
+     8. Mtn_Counter_Solid   {RedZone:44 RedZone_16_to_20:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 FirstDown:44}
+     9. Mtn_Flood   {RedZoneFringe:51 3rdAndMedium:2 2ndAndMedium:44 FirstDown:44 4thAndMedium:11}
+    10. PA_X_Deep_Out   {2ndAndShort:10 FirstDown:10}
+    11. Zone_Wk   {RedZone:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 FirstDown:10}
+    12. PA_Deep_Read   {2ndAndMedium:10 FirstDown:10 Playaction:10 SuddenChange:10}
+    13. HB_Iso   {RedZone:51 Insidefive:10 2ndAndLong:37 WasteTime:10 2ndAndMedium:46 FirstDown:46}
+    14. PA_Pylon_Sail   {2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:51 Playaction:10 SuddenChange:10}
+    15. HB_Zone_Toss   {RedZone:10 RedZoneFringe:50 RedZone_16_to_20:10 RedZone_11_to_15:50 RedZone_6_to_10:10 RedZone_3_to_5:10}
+    16. DBL_Outs
+    17. HB_Stretch   {3rdAndShort:10 RedZone:10 Insidefive:2 2ndAndLong:10 WasteTime:10 FirstDown:10}
+    18. Double_Dig   {2ndAndLong:10}
+  Wing   audibles: X_Slant, HB_Stretch, PA_Boot_Flow, HB_Lead
+     1. HB_Stretch
+     2. PA_Boot_Flow
+     3. HB_Zone_Toss "Zone Toss"   {2ndAndMedium:10 2ndAndShort:58 RedZone_11_to_15:0 RedZone_6_to_10:0}
+     4. X_Slant
+     5. HB_Lead   {3rdAndShort:0 GoalLine:10 Insidefive:10 WasteTime:0 2ndAndShort:0 RedZone_6_to_10:0 4thAndShort:38 FirstDown:11 RedZone_3_to_5:0}
+     6. PA_Scissors   {RedZone:10 Insidefive:10 2ndAndShort:10 RedZoneFringe:10 RedZone_16_to_20:10 Playaction:10 SuddenChange:10}
+     7. Mtn_Zone   {3rdAndShort:10 GoalLine:10 RedZone:10 Insidefive:10 WasteTime:10 2ndAndMedium:66 2ndAndShort:55 RedZone_6_to_10:10 4thAndShort:10 FirstDown:54 RedZone_3_to_5:10}
+     8. PA_U_Slide   {Playaction:0}
+     9. Mtn_Power   {3rdAndShort:10 2ndAndShort:58 RedZone_6_to_10:30 RedZone_3_to_5:39}
+  Pro   audibles: Quick_Slants, 94_Will, PA_Comeback_Slide, Post
+     1. HB_Iso "Iso"   {3rdAndShort:66 RedZone:40 WasteTime:10 2ndAndMedium:54 2ndAndShort:55 RedZone_16_to_20:11 RedZone_11_to_15:11 RedZone_6_to_10:11 4thAndShort:73 FirstDown:59 RedZone_3_to_5:11}
+     2. PA_Scissors   {3rdAndShort:0 2ndAndShort:17 4thAndShort:0}
+     3. HB_Stretch   {RedZone:10 WasteTime:10 2ndAndMedium:66}
+     4. Curls
+     5. 94_Will   {RedZone:10 WasteTime:10}
+     6. PA_Comeback_Slide
+     7. Quick_Slants
+     8. 26_Duo   {RedZone:10 WasteTime:10 2ndAndShort:10}
+     9. PA_Sprint_HB_Flat   {3rdAndShort:10 2ndAndShort:10 4thAndShort:10 Playaction:10}
+    10. PA__X__Curl
+    11. 95_Mike
+    12. PA_X_Dig
+    13. Post
+    14. HB_Lead_Dive   {GoalLine:36 RedZone:0 WasteTime:0 2ndAndShort:11 4thAndShort:0}
+    15. PA_TE_Screen
+  Slot_Close   audibles: Spacing, HB_Blast, PA_Spot, PA_Sprint_HB_Flat
+     1. PA_Switch_Dig
+     2. HB_Blast   {2ndAndMedium:22 RedZoneFringe:11 RedZone_16_to_20:51 RedZone_11_to_15:49 RedZone_6_to_10:50 FirstDown:10 RedZone_3_to_5:51}
+     3. Spacing   {3rdAndShort:10 GoalLine:10 2ndAndLong:11 GoalLinePass:10 4thAndShort:10 GoFor2:10 FirstDown:10}
+     4. PA_Spot   {3rdAndShort:10 2ndAndShort:11 FirstDown:10 Playaction:0 RedZone_3_to_5:50}
+     5. HB_Lead_Dive
+     6. PA_Shot_Post
+     7. 94_Will   {3rdAndShort:10 GoalLine:10 RedZone:49 Insidefive:10 WasteTime:10 4thAndShort:10}
+     8. PA_Sprint_HB_Flat   {3rdAndShort:10 Playaction:10}
+     9. HB_Stretch   {RedZone:49 WasteTime:10 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:55 RedZone_16_to_20:51 RedZone_11_to_15:49 FirstDown:10}
+    10. Zone_Fake_Jet
+    11. PA_Jet_Sweep
+    12. Jet_Sweep
+
+Weak_I "Weak"
+  Wing   audibles: X_Slant, 94_Will, PA_TE_Slide, TE_Drag
+     1. X_Slant
+     2. 94_Will
+     3. PA_TE_Slide
+     4. HB_Power_O "Mtn HB Power O"
+     5. PA_Power_O "Mtn PA Power O"
+     6. Counter_Weak "Mtn Counter Weak"
+     7. PA_Boot_Slide
+     8. HB_Gut
+     9. Middle_Hooks
+    10. Post_Shot
+    11. FB_Power
+    12. TE_Drag
+  Close_Flex   audibles: Spacing, HB_Dive, PA_Boot_Slide, Bench_Flat
+     1. Spacing   {3rdAndShort:0 GoalLine:53 RedZone:0 2ndAndMedium:1 GoalLinePass:0 4thAndShort:0 GoFor2:0}
+     2. HB_Dive   {2ndAndMedium:55 2ndAndShort:0}
+     3. PA_Boot_Slide "PA Boot Shot"
+     4. Mesh   {RedZone:0 2ndAndLong:41 3rdAndMedium:53 GoalLinePass:0 FirstDown:11}
+     5. 94_Will   {GoalLine:78 WasteTime:11 2ndAndShort:65 4thAndShort:61}
+     6. PA_Spot   {3rdAndShort:31 2ndAndShort:35 FirstDown:11}
+     7. Bench_Flat   {2ndAndMedium:11}
+     8. HB_Zone "Inside Zone"   {RedZone:52 2ndAndMedium:53 2ndAndShort:65}
+     9. Drive
+  3WR_Flex   audibles: Mesh_Z-Dig, HB_Gut, PA_X-Dig, Slot_Fade_X-Choice
+     1. Dagger_X-Corner
+     2. HB_Gut
+     3. PA_X-Dig
+     4. Mesh_Z-Dig
+     5. HB_Stretch
+     6. PA_Boot_Lt
+     7. PA_Power_O
+     8. Power_O
+     9. Slot_Fade_X-Choice
+
+Shotgun "Gun"
+  Split_Twins_Offset   audibles: Mtn_X_Spot, RPO_Zone_Bubble, PA_F_Slide, Mtn_PA_Switch_Sail
+     1. Mtn_X_Spot   {FirstDown:10 2ndAndMedium:10 2ndAndShort:10 RedZone_11_to_15:10 RedZone_16_to_20:10 GoFor2:10 3rdAndMedium:1 4thAndShort:10}
+     2. RPO_Zone_Bubble "Mtn RPO Zone Bubble"   {FirstDown:10 2ndAndMedium:10 2ndAndShort:10 RedZone_11_to_15:10 RedZone_6_to_10:10 GoFor2:10 3rdAndShort:10 GoalLine:10 4thAndShort:10}
+     3. Mtn_PA_Switch_Sail   {FirstDown:10 2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:10 RedZone_16_to_20:10 GoFor2:10 3rdAndShort:1 SignaturePlays:10}
+     4. Mtn_Fk_Screen_Wheel   {2ndAndShort:10 RedZoneFringe:10 SignaturePlays:10}
+     5. RPO_Read_Bubble "Mtn Read Bubble"   {FirstDown:10 2ndAndMedium:10 2ndAndShort:10 RedZone_11_to_15:10 RedZone_6_to_10:10 GoFor2:10 3rdAndShort:1 GoalLine:10}
+     6. Mtn_Slot_Cross   {FirstDown:10 2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:10 RedZone_16_to_20:10 3rdAndMedium:1}
+     7. HB_Cross_Buck   {WasteTime:10 2ndAndMedium:10 2ndAndShort:10 RedZone_11_to_15:10 RedZone_6_to_10:10 GoFor2:10 3rdAndShort:10 GoalLine:10}
+     8. PA_F_Slide   {FirstDown:1 2ndAndMedium:1 2ndAndShort:1 RedZone_11_to_15:10 RedZone_6_to_10:10 GoFor2:10 3rdAndShort:1 GoalLine:10}
+     9. Speed_Option   {2ndAndShort:10 RedZone_3_to_5:10 RedZone_6_to_10:10 GoFor2:10 3rdAndShort:1 GoalLine:10 4thAndShort:10}
+    10. Inside_Zone_Lt
+    11. PA_HB_Seam
+    12. Triple_Option_Lt
+  Wing_Tight_Nasty   audibles: Mesh_Spot, Inside_Zone, HB_Punch, Bench_Swap
+     1. Inside_Zone   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 4thAndShort:10 FirstDown:10 RedZone_3_to_5:10}
+     2. Mesh_Spot   {3rdAndShort:10 RedZone:10 2ndAndLong:10 3rdAndMedium:10 2ndAndMedium:10 GoalLinePass:10 ConserveTimeSafe:10 RedZone_16_to_20:10 RedZone_11_to_15:10 4thAndMedium:10 FirstDown:10}
+     3. HB_Punch   {3rdAndShort:10 GoalLine:10 WasteTime:10 GoFor2:10}
+     4. Bench   {2ndAndLong:10 3rdAndMedium:10 4thAndMedium:10 FirstDown:10}
+     5. Read_Option   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndShort:10 FirstDown:10}
+     6. Bench_Swap   {RedZone:10 3rdAndMedium:10 ConserveTimeSafe:10}
+  Deuce   audibles: Corner_Go's_Flat, Inside_Zone_Split, PA_Slide, Double_Go
+     1. Bounce_Inside_Zone_Split
+     2. Bounce_PA_TE_Cross
+     3. Bounce_Outside_Zone
+     4. Exit_PA_Wheel
+     5. Exit_Alert_Zone_Screen
+     6. Exit_RPO_Peek_Snag
+     7. Corner_Go's_Flat
+     8. Inside_Zone
+     9. PA_Slide
+    10. PA_Y_Leak
+    11. Lead_Read_Option
+    12. Inside_Zone_Split
+    13. Double_Go
+    14. Mesh_Spot
+    15. Counter_Y
+    16. Chip_PoCo_X_Dig
+    17. Bench_Swap
+    18. Shallow_Cross
+  Dbls_Flex_Y_Off_Close   audibles: Escape, Inside_Zone, PA_Snag, Mtn_Angle_Y_Wheel
+     1. Mtn_Dagger_Y_In   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     2. Mtn_Dig_Under   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     3. Mtn_HB_Out   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     4. Mtn_Angle_Y_Wheel   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     5. Mtn_HB_Angle   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     6. Mtn_Switch_Corner   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     7. Jet_Pass_Fk_Zone_1
+     8. Zone_Fake_Jet_1
+     9. PA_Zone_Fk_Jet_1
+    10. PA_Snag
+    11. Inside_Zone
+    12. Escape
+    13. Redzone_Scissors
+    14. RPO_Zone_Peek_Glance
+    15. Read_Option
+    16. Y_Stick
+    17. Flood_H_Post
+    18. Y-Sail
+  Doubles_Z_Close_Wk   audibles: Redzone_Fork, Inside_Zone, Mtn_PA_X_Spot, Deep_Post_Switch
+     1. Mtn_Fk_Screen_Wheel   {RedZone:44 2ndAndLong:44 2ndAndMedium:44 2ndAndShort:44 ConserveTimeSafe:51 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 FirstDown:44}
+     2. Mtn_Inside_Zone   {RedZone:44 2ndAndLong:44 2ndAndMedium:44 2ndAndShort:33 RedZone_6_to_10:33 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 GoFor2:10 FirstDown:44}
+     3. Mtn_PA_X_Spot   {RedZone:44 2ndAndLong:44 3rdAndMedium:2 3rdAndLong:10 2ndAndMedium:44 2ndAndShort:44 ConserveTimeSafe:51 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 4thAndMedium:10 FirstDown:44}
+     4. Mtn_Curl_Combo
+     5. Mtn_Switch_Wheel   {RedZone:44 2ndAndLong:44 3rdAndMedium:2 3rdAndLong:10 2ndAndMedium:44 2ndAndShort:44 ConserveTimeSafe:51 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 4thAndMedium:10 FirstDown:44}
+     6. Mtn_Z_Spot   {RedZone:44 2ndAndLong:44 3rdAndMedium:2 3rdAndLong:10 2ndAndMedium:44 2ndAndShort:44 ConserveTimeSafe:51 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 4thAndMedium:10 FirstDown:44}
+     7. RPO_Zone_Read_Bubble
+     8. Inside_Zone   {RedZone:44 2ndAndLong:44 2ndAndMedium:44 2ndAndShort:33 RedZone_6_to_10:33 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 GoFor2:10 FirstDown:44}
+     9. PA_Jailbreak_Screen
+    10. Deep_Post_Switch
+    11. Dagger_X_Comeback
+    12. HB_Slip_Screen
+    13. Double_Post
+    14. HB_Base   {RedZone:44 2ndAndLong:44 2ndAndMedium:44 2ndAndShort:33 RedZone_6_to_10:33 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51 GoFor2:10 FirstDown:44}
+    15. Redzone_Fork   {RedZone:44 RedZoneFringe:51 RedZone_16_to_20:44 RedZone_11_to_15:51}
+    16. Mid_Zone
+    17. Mesh_HB_Sneak
+    18. Slants
+  Normal_Flex_Snug   audibles: Z_Spot, Inside_Zone, PA_Whips_Curls, Switch_Seams
+     1. Z_Option   {2ndAndShort:25 4thAndShort:20 3rdAndMedium:25 4thAndLong:25 4thAndMedium:10 RedZone_6_to_10:10 RedZone_11_to_15:15}
+     2. 45_Quick_Base   {RedZone:11 2ndAndLong:11 3rdAndShort:11 2ndAndMedium:11 RedZoneFringe:0 WasteTime:11 FirstDown:11}
+     3. PA_All_In   {2ndAndShort:25 3rdAndMedium:25 2ndAndLong:10 RedZone_11_to_15:15}
+     4. X_Option   {2ndAndShort:25 4thAndShort:20 3rdAndMedium:2 4thAndLong:25 4thAndMedium:10 RedZone_6_to_10:10 RedZone_11_to_15:15}
+     5. Inside_Zone   {2ndAndLong:10 2ndAndMedium:10 3rdAndShort:10 WasteTime:10 4thAndShort:10 RedZoneFringe:10}
+     6. PA_Whips_Curls   {2ndAndMedium:1 2ndAndShort:1 FirstDown:1}
+     7. All_Curl   {RedZone_16_to_20:5}
+     8. RPO_Alert_WR_Screens   {2ndAndLong:10 2ndAndMedium:10 3rdAndShort:10 WasteTime:10 4thAndShort:10}
+     9. PA_Fk_Screen_Cross   {2ndAndMedium:1 2ndAndShort:1 FirstDown:1}
+    10. Whips_Curls   {2ndAndShort:1 4thAndShort:20 3rdAndMedium:1 4thAndLong:25 4thAndMedium:10 RedZone_6_to_10:10 RedZone_11_to_15:15}
+    11. RPO_GT_Read_Screen
+    12. Switch_Seams   {3rdAndLong:25 3rdAndMedium:1 3RDExtraLong:20 4thAndLong:20 4thAndMedium:20 4THExtraLong:20 ConserveTime:25 ConserveTimeSafe:25}
+    13. Z_Replace   {2ndAndShort:25 4thAndShort:20 3rdAndMedium:25 4thAndLong:25 4thAndMedium:10 RedZone_6_to_10:10 RedZone_11_to_15:15}
+    14. HB_Draw
+    15. Z_Spot   {2ndAndShort:25 4thAndShort:20 3rdAndMedium:25 4thAndLong:25 4thAndMedium:10 RedZone_6_to_10:10 RedZone_11_to_15:15}
+  Box_Y_Off   audibles: Drive, Inside_Zone, Flood, Counter_Y
+     1. Inside_Zone   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 4thAndShort:10 GoFor2:10 FirstDown:10}
+     2. Y_Trail   {3rdAndShort:10 RedZone:10 2ndAndLong:10 3rdAndLong:10 GoalLinePass:10 ConserveTimeSafe:10 4thAndMedium:10}
+     3. Counter_Y
+     4. Drive   {3rdAndMedium:10}
+     5. Flood   {3rdAndLong:10}
+     6. HB_Slip_Screen   {3rdAndMedium:10 ConserveTimeSafe:10}
+  Bunch_Spread_Nasty   audibles: Z_Swirl_In, Inside_Zone, PA_Post, Shock_HB_Wheel
+     1. Shock_HB_Wheel   {3rdAndMedium:10 3rdAndLong:10 ConserveTime:10 RedZoneFringe:10 4thAndMedium:10}
+     2. Z_Swirl_In
+     3. Z_Swirl_Choice   {3rdAndMedium:10 3rdAndLong:10 ConserveTime:10 4thAndMedium:10}
+     4. Cheat_Flood
+     5. Cheat_HB_Slip_Screen
+     6. Cheat_Slot_Cross
+     7. Mtn_Slot_Hitch
+     8. Mtn_Slot_Under
+     9. Mtn_Snag_Under
+    10. Seam_Divide   {3rdAndMedium:10 3rdAndLong:10 ConserveTime:10 RedZoneFringe:10 4thAndMedium:10 4thAndLong:10}
+    11. Inside_Zone
+    12. PA_Post
+    13. Outside_Zone
+    14. Corner_Divide   {3rdAndLong:10 ConserveTime:10 4thAndMedium:10 4thAndLong:10}
+    15. Speed_Dig
+  Bunch_X_Nasty   audibles: Quick_Empty_Flats_Stick, Inside_Zone, Mtn_China_Cross, Mtn_Mesh_HB_Sneak
+     1. Mtn_China_Cross   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     2. Mtn_Smash_Sluggo   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     3. Mtn_Speed_Dig_Under   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     4. Mtn_Mesh_HB_Sneak   {3rdAndShort:44 RedZone:49 GoalLine:66 2ndAndShort:55 RedZoneFringe:44 RedZone_6_to_10:50 3rdAndMedium:66 4thAndShort:10 FirstDown:66 GoalLinePass:66 RedZone_3_to_5:50 2ndAndLong:55}
+     5. Mtn_HB_Shovel   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     6. Mtn_Slot_Middle   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     7. Quick_Empty_Flats_Stick "Empty Flat Stick"   {3rdAndShort:44 RedZone:49 GoalLine:66 2ndAndShort:55 RedZoneFringe:44 RedZone_6_to_10:50 3rdAndMedium:66 4thAndShort:10 FirstDown:66 GoalLinePass:66 RedZone_3_to_5:50}
+     8. Empty_Spot_Wheel   {3rdAndShort:44 RedZone:52 GoalLine:66 2ndAndShort:55 RedZoneFringe:44 RedZone_6_to_10:50 3rdAndMedium:66 4thAndShort:10 FirstDown:66 GoalLinePass:66 RedZone_3_to_5:50}
+     9. Empty_Stick_Spacing_Switch   {3rdAndShort:44 RedZone:52 GoalLine:66 2ndAndShort:55 RedZoneFringe:44 RedZone_6_to_10:50 3rdAndMedium:66 4thAndShort:10 FirstDown:66 GoalLinePass:66 RedZone_3_to_5:50}
+    10. Choice_Shallow_Dig   {RedZone:52 2ndAndLong:11 3rdAndMedium:10 3rdAndLong:0 2ndAndMedium:11 ConserveTimeSafe:11 RedZoneFringe:11 RedZone_16_to_20:50 RedZone_11_to_15:52 RedZone_6_to_10:50 4thAndMedium:11 FirstDown:10 4THExtraLong:11}
+    11. Inside_Zone   {3rdAndShort:10 GoalLine:10 RedZone:49 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 4thAndShort:10 GoFor2:10 FirstDown:10}
+    12. RPO_Zone_Alert
+    13. Double__Outs   {3rdAndMedium:10 3rdAndLong:10 ConserveTime:10 RedZoneFringe:10 4thAndMedium:10}
+    14. Smash_Return   {3rdAndShort:10 GoalLine:10 RedZone:52 3rdAndMedium:10 2ndAndMedium:10 GoalLinePass:10 RedZone_16_to_20:50 RedZone_11_to_15:52 RedZone_6_to_10:50 4thAndShort:10 GoFor2:10 FirstDown:10}
+    15. Counter_Y
+    16. Drive_Y_Corner   {ConserveTime:10 ConserveTimeSafe:10}
+    17. Mesh_Spot   {RedZone:52 2ndAndLong:10 3rdAndMedium:10 3rdAndLong:10 2ndAndMedium:11 2ndAndShort:11 ConserveTimeSafe:10 RedZoneFringe:11 RedZone_16_to_20:50 RedZone_11_to_15:52 4thAndShort:11 FirstDown:10}
+    18. Dig_Return   {3rdAndMedium:10 2ndAndMedium:10 RedZoneFringe:10 ConserveTime:11}
+  Bunch_Open_Offset   audibles: Y_Trail, Inside_Zone, RPO_Peek_WR_Screen, Flood
+     1. Reload_Flood_X-Choice
+     2. Reload_Inside_Zone
+     3. Reload_Spacing_Switch
+     4. RPO_Read_Bubble   {RedZone_16_to_20:10}
+     5. Inside_Zone   {RedZone:10 2ndAndLong:10 2ndAndMedium:10 2ndAndShort:10 FirstDown:71}
+     6. Flood   {2ndAndLong:10 3rdAndLong:10 ConserveTimeSafe:10 4thAndMedium:10 FirstDown:10 3RDExtraLong:10}
+     7. Y_Trail   {3rdAndMedium:10 GoalLinePass:10 ConserveTimeSafe:10 4thAndMedium:10 GoFor2:10 FirstDown:29}
+     8. RPO_Peek_WR_Screen
+     9. Fake_Screen_Verticals "Fake Screen Wheel"   {2ndAndShort:10 SuddenChange:10}
+  Trips_TE   audibles: TE_Swirl, 45_Quick_Base, PA_Slot_Corner, Verts_Y_Delay
+     1. Mtn_Bench
+     2. Mtn_Z_Spot
+     3. Mtn_Return_Levels
+     4. Orbit_RPO_Zone_Alert
+     5. Orbit_PA_HB_Wheel
+     6. Orbit_Cross_Screen   {2ndAndShort:10 3rdAndMedium:1 2ndAndMedium:1 FirstDown:1 2ndAndLong:15}
+     7. Verts_Y_Delay   {3rdAndLong:25 3rdAndMedium:25 3RDExtraLong:20 4thAndLong:20 4thAndMedium:20 4THExtraLong:20 ConserveTime:25 ConserveTimeSafe:25}
+     8. Inside_Zone   {2ndAndMedium:1 2ndAndShort:10 FirstDown:11 RedZoneFringe:10}
+     9. PA_Slot_Corner   {RedZone_16_to_20:10 RedZone_6_to_10:10 2ndAndLong:10 2ndAndMedium:10 3rdAndMedium:1 FirstDown:10}
+    10. RPO_Zone_Alert_Bubble   {2ndAndMedium:10 2ndAndShort:10 FirstDown:10}
+    11. Drive_Post   {3rdAndMedium:10 4thAndMedium:10 3rdAndShort:10}
+    12. Read_Option_Dummy   {GoalLine:10 GoFor2:10 3rdAndShort:10 4thAndShort:10 RedZone_3_to_5:10 RedZoneFringe:10}
+    13. TE_Middle_Screen   {RedZone_16_to_20:10 RedZone_6_to_10:10 2ndAndLong:10 2ndAndMedium:1 3rdAndMedium:5 FirstDown:1}
+    14. QB_Zone   {GoalLine:10 GoFor2:10 3rdAndShort:10 4thAndShort:10 RedZone_3_to_5:10}
+    15. TE_Swirl   {4thAndMedium:25 3rdAndMedium:25 2ndAndLong:25 ConserveTime:10}
+    16. All_Curl   {3rdAndMedium:10 4thAndMedium:10}
+    17. 45_Quick_Base   {2ndAndMedium:10 2ndAndShort:10 FirstDown:10 WasteTime:10}
+    18. PA_Shot_Wheel   {2ndAndShort:10 RedZoneFringe:10 2ndAndMedium:1 2ndAndLong:10 FirstDown:1}
+    19. Z_Cross   {3rdAndLong:10 4thAndLong:10 ConserveTime:10 ConserveTimeSafe:10}
+    20. HB_Slip_Screen   {3RDExtraLong:11}
+    21. Verticals   {3RDExtraLong:11 4THExtraLong:11 3rdAndLong:0 4thAndLong:0 ConserveTime:0}
+    22. China_Y_Post
+    23. HB_Mid_Draw
+    24. PA_Boot_Shot
+    25. Double_In_Sail
+    26. HB_Counter
+    27. PA_Counter_Go
+    28. Curl_Flat
+    29. Flood
+    30. WR_Short_Post
+    31. QB_Strong_Power
+    32. Dagger_Texas
+    33. Speed_Option
+  Y_Off_Trio_Close   audibles: Mtn_Mesh_Rail, Mtn_Inside_Zone, Mtn_PA_Cross_Switch, Flood
+     1. Mtn_PA_X_Over "Boomerang PA X Over"
+     2. Mtn_RPO_Alert_Swing "Boomerang RPO Alert Swing"
+     3. Mtn_Mesh_Z_Rail "Boomerang Mesh Z Rail"
+     4. HB_Mtn_Angle_Flood
+     5. HB_Mtn_Mesh_Flat "Empty Mtn Mesh Flat"
+     6. Quick_HB_Mtn_Spacing "Empty Mtn Salem"
+     7. Mtn_Mesh_Rail
+     8. Mtn_Inside_Zone
+     9. Mtn_PA_Cross_Switch
+    10. Pin_Pull_Toss
+    11. Fk_Toss_Lead_Swing_Cross "PA Toss Lead Swing Crosser"
+    12. Counter_Y
+    13. PA_Power_Shallow_Cross
+    14. Power_O
+    15. Smash_Return   {3rdAndMedium:10 3rdAndLong:10 ConserveTime:10 RedZoneFringe:10 4thAndMedium:10}
+    16. Outside_Zone
+    17. Flood   {3rdAndLong:0 2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:10 FirstDown:10 SuddenChange:10 ConserveTime:11}
+    18. 0_1_Trap
+  Y_Trips_Wk   audibles: Shock_H_Option, Inside_Zone, PA_WR_In, Four_Verticals
+     1. Mtn_Mesh_Spot_Sneak
+     2. Mtn_Same_Side_Zone
+     3. Mtn_Smash_Choice
+     4. Y_Shallow_Cross "Mtn Y Shallow Cross"
+     5. Mtn_Seam_Swirl
+     6. Mtn_Mesh
+     7. China_Smash
+     8. HB_Base
+     9. PA_Under
+    10. Comebacks
+    11. Read_Option
+    12. PA_WR_In
+    13. Shock_H_Option
+    14. Inside_Zone
+    15. Curls
+    16. Dagger_Y_Whip
+    17. Y_Corner_H_Option
+    18. DBL_Ins
+    19. RPO_Zone_Peek
+    20. Four_Verticals
+    21. Slot_2_Buc
+    22. HB_Draw
+    23. HB_Slip_Screen
+    24. Quick_Fork_Zig
+    25. Quick_Short_Post
+    26. Quick_Unders
+    27. Slants
+    28. WR_Mid_Screen
+    29. Corner_Strike
+    30. HB_Mid_Zone
+  Tight_Flex_Offset   audibles: Dragon_Spacing, Inside_Zone, PA_Switch_Verts, Slot_Outs_H-Angle
+     1. Mtn_Fork_Y-Corner
+     2. Mtn_Choice
+     3. Mtn_Spot_Dig
+     4. Mesh_Spot
+     5. Inside_Zone
+     6. PA_Switch_Verts
+     7. Mtn_Dagger_H-Choice
+     8. Mtn_Fk_H-Angle
+     9. Mtn_H_Texas
+    10. Spot_Shake
+    11. 0_1_Trap
+    12. Dragon_Spacing
+    13. Slot_Outs_H-Angle
+    14. HB_Draw
+    15. HB_Slip_Screen
+  Tight_Flex_Wk   audibles: Mesh_Spot_Rail, Inside_Zone, PA_Dagger, Inside_Hi_Lo
+     1. Mid_Zone
+     2. PA_Same_Side_Flood
+     3. Same_Side_Zone
+     4. Mtn_Bunch_Whip_Smash
+     5. Mtn_Bunch_Cross_Dig
+     6. Mtn_Bunch_Cross_Screen
+     7. Cheat_Bunch_Drive_Corner "Mtn Bunch Drive"
+     8. Cheat_Bunch_HB_Draw "Mtn Bunch HB Draw"
+     9. Cheat_Bunch_Switch_Flood
+    10. Mtn_Mesh_Spot
+    11. Mtn_Stick_Z_Post
+    12. Mtn_Y_Cross
+    13. Inside_Hi_Lo
+    14. Inside_Zone
+    15. PA_Dagger
+    16. Mesh_Spot_Rail
+    17. Bench
+    18. Stick
+    19. HB_Slip_Screen
+    20. Go_Y-Choice
+    21. Quick_Looks
+  Tight_Y_Off   audibles: TE_Corner, Inside_Zone, PA_Go_Slot_Cross, Redzone_Scissors
+     1. Mtn_Spinner_HB_Inside
+     2. Mtn_PA_Spinner
+     3. Mtn_WR_Outside_Zone
+     4. Mesh_Whips
+     5. Duo
+     6. PA_Slot_Cross
+     7. Mtn_Y-Corner   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     8. Mtn_Slot_Choice   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     9. Mtn_Mesh_Spot   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+    10. Cheat_Slash_Wheel_Cross "Mtn Slash Wheel Cross"   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+    11. Cheat_Outside_Zone "Mtn Outside Zone"   {3rdAndShort:10 GoalLine:10 RedZone:49 Insidefive:10 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:10 RedZone_16_to_20:51 RedZone_11_to_15:49 RedZone_6_to_10:50 FirstDown:66 RedZone_3_to_5:51}
+    12. Cheat_Spot_Y_Quick "Mtn Spot Y Quick"   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+    13. Redzone_Scissors   {3rdAndMedium:10 RedZone_16_to_20:50}
+    14. Inside_Zone   {3rdAndShort:10 GoalLine:10 RedZone:10 2ndAndLong:11 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:11 RedZone_16_to_20:11 RedZone_11_to_15:10 RedZone_6_to_10:26 FirstDown:11 RedZone_3_to_5:10}
+    15. PA_Go_Slot_Cross   {3rdAndLong:0 2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:10 FirstDown:10 Playaction:10 SuddenChange:10}
+    16. HB_Slip_Screen   {2ndAndLong:11 3rdAndMedium:25 3rdAndLong:15}
+    17. 0_1_Trap   {3rdAndShort:10 GoalLine:10 RedZone:49 2ndAndLong:10 WasteTime:10 2ndAndMedium:10 2ndAndShort:10 GoFor2:10 FirstDown:10}
+    18. Flood_Drive   {RedZone:52 2ndAndLong:11 3rdAndMedium:10 3rdAndLong:0 ConserveTime:11 4thAndMedium:11 4thAndLong:11 FirstDown:10}
+    19. Fake_Jet_HB_Seam
+    20. Zone_Fake_Jet
+    21. Jet_Touch_Pass
+    22. TE_Corner   {RedZone:11 2ndAndLong:11 3rdAndMedium:10 3rdAndLong:11 ConserveTime:11 2ndAndMedium:11 RedZone_16_to_20:11 RedZone_11_to_15:11 4thAndMedium:11 FirstDown:10}
+    23. Read_Option
+    24. RPO_Zone_Peek
+  Tight_Base_Flex   audibles: Dragon_Spacing, HB_Quick_Base, Mtn_H_Angle, Mtn_H-Choice
+     1. Mtn_H_Angle   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     2. Mtn_Fk_H-Angle   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     3. Mtn_H-Choice   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     4. Dragon_Spacing   {RedZone:52 2ndAndLong:10 3rdAndMedium:10 2ndAndMedium:10 GoalLinePass:11 ConserveTimeSafe:11 FirstDown:10}
+     5. HB_Quick_Base
+     6. F_Choice_Spot   {3rdAndMedium:11 ConserveTimeSafe:0 RedZoneFringe:10 RedZone_6_to_10:50}
+     7. Inside_Zone   {3rdAndShort:10 GoalLine:10 RedZone:49 2ndAndLong:10 WasteTime:10 2ndAndMedium:66 2ndAndShort:10 4thAndShort:10 GoFor2:10 FirstDown:10}
+     8. HB_Off_Tackle
+     9. HB_Slip_Screen   {3rdAndLong:10 ConserveTimeSafe:10}
+  Tight_Slot_Flip   audibles: Mtn_Z_Choice, Inside_Zone, PA_Read, Sail
+     1. Mtn_Z_Choice
+     2. Mtn_HB_Angle
+     3. Mtn_Smash_Slot_Choice
+     4. PA_Read
+     5. Inside_Zone
+     6. Sail
+     7. HB_Sweep
+     8. HB_Slip_Screen
+     9. HB_Draw
+  Spread_Dbl_Flex   audibles: Mtn_DBL_Slants_Wheel, Inside_Zone, PA_Comebacks, Mtn_Flood_H-Wheel
+     1. Mtn_DBL_Dig_Swing   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     2. Mtn_FK_Swing_Mid_Screen   {RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3RDExtraLong:11 FirstDown:66 ConserveTimeSafe:44}
+     3. Mtn_DBL_Slants_Wheel   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     4. Mtn_Fades_H-Choice   {3rdAndShort:44 3RDExtraLong:10 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     5. Mtn_Flood_H-Wheel   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44 2ndAndLong:55}
+     6. Mtn_Curls_H-Sluggo   {3rdAndShort:44 RedZone:52 2ndAndMedium:66 2ndAndShort:55 RedZoneFringe:44 RedZone_16_to_20:50 3rdAndLong:66 3rdAndMedium:66 4thAndShort:10 FirstDown:66 4thAndMedium:66 ConserveTimeSafe:44}
+     7. PA_Dig
+     8. Inside_Zone
+     9. Flanker_Dig   {3rdAndLong:0 2ndAndMedium:10 2ndAndShort:10 RedZoneFringe:10 FirstDown:10 SuddenChange:10}
+    10. HB_Slip_Screen
+    11. Read_Option
+    12. Quick_Slants
+    13. Slot_Outs
+    14. Z_Spot
+    15. Y_Shallow_Cross
+    16. RPO_Alert_Z_Screen
+    17. Inside_Cross
+    18. HB_Mid_Draw
+    19. PA_Comebacks
+    20. HB_Sweep
+    21. Corner_Strike
+  Empty_Base_Flex   audibles: Stick, QB_Draw, Jailbreak_Slot_Screen, Verticals
+     1. Stick   {3rdAndShort:0 GoalLine:71 RedZone:10 2ndAndLong:45 2ndAndMedium:10 2ndAndShort:10 RedZone_16_to_20:10 GoFor2:10 FirstDown:11 RedZone_3_to_5:10}
+     2. Hoss_Y_Juke
+     3. Middle_Hi_Lo   {3rdAndMedium:0 3rdAndLong:10 4thAndLong:0 FirstDown:11 3RDExtraLong:10 4THExtraLong:10}
+     4. Redzone_Up   {ConserveTime:11 3rdAndLong:11 ConserveTimeSafe:11 RedZoneFringe:11 RedZone_16_to_20:11 RedZone_11_to_15:11 RedZone_6_to_10:10 4thAndMedium:5 3RDExtraLong:66 SuddenChange:11}
+     5. Y_Corner   {RedZone:10 RedZoneFringe:10 RedZone_16_to_20:10 RedZone_11_to_15:10 RedZone_6_to_10:10}
+     6. Levels_Switch   {RedZone:10 3rdAndMedium:10 2ndAndMedium:10}
+     7. Verticals   {ConserveTimeSafe:10 3RDExtraLong:10 4THExtraLong:10}
+     8. QB_Draw   {RedZone_3_to_5:27}
+     9. Jailbreak_Slot_Screen   {2ndAndLong:10 3rdAndLong:0 3RDExtraLong:10}
+  Empty_Trey_Stack   audibles: Y_Stick, QB_Draw, Bench_Corner, Post_Wheel
+     1. Shock_Slot_Option   {3rdAndMedium:1 2ndAndMedium:1 4thAndMedium:10 RedZone_16_to_20:10 RedZoneFringe:10}
+     2. QB_Draw   {GoalLine:11 RedZone_3_to_5:5}
+     3. Bench_Corner   {2ndAndLong:11 RedZone_11_to_15:11 2ndAndMedium:1 RedZone:11 4thAndMedium:11 3rdAndMedium:11 RedZone_16_to_20:11}
+     4. Curl_Flat_Salem   {3rdAndMedium:11 2ndAndMedium:1 4thAndMedium:10 RedZone_16_to_20:10 RedZoneFringe:10}
+     5. Curl_Switch   {2ndAndLong:11 RedZone_11_to_15:11 2ndAndMedium:1 RedZone:11 4thAndMedium:11 3rdAndMedium:1 RedZone_16_to_20:11}
+     6. Fade_Out   {3RDExtraLong:11 4THExtraLong:11}
+     7. Jailbreak_Screen   {2ndAndLong:11 2ndAndMedium:1}
+     8. Levels   {3rdAndMedium:1 2ndAndMedium:1 4thAndMedium:10 RedZone_16_to_20:10 RedZoneFringe:10}
+     9. Post_Wheel   {3rdAndLong:11 4thAndLong:11 3RDExtraLong:10 4THExtraLong:10 ConserveTime:10 ConserveTimeSafe:10}
+    10. Y_Stick   {3rdAndMedium:1 2ndAndMedium:1 4thAndMedium:10 RedZone_16_to_20:10 RedZoneFringe:10}
+    11. Stick_N_Nod   {3rdAndMedium:1 2ndAndMedium:1 4thAndMedium:10 RedZone_16_to_20:10 RedZoneFringe:10}
+    12. Z_Under   {3rdAndMedium:1 2ndAndMedium:1 4thAndMedium:10 RedZone_16_to_20:10 RedZoneFringe:10}
+    13. Double_Stick   {3rdAndMedium:1 GoalLine:25}
+    14. Slot_Middle_Screen
+    15. Smash_Seam   {3rdAndLong:11 4thAndLong:11 3RDExtraLong:10 4THExtraLong:10 ConserveTime:10 ConserveTimeSafe:10}
+  Bunch_Quads "Empty Bunch Quads"   audibles: Bunch_Trail, QB_Draw, Mtn_Verticals, Inside_Post
+     1. Mtn_WR_Swing   {FirstDown:1 RedZone_16_to_20:20 2ndAndMedium:1 2ndAndShort:25}
+     2. Mtn_Spot   {GoFor2:25 RedZone_11_to_15:20 3rdAndMedium:25 4thAndShort:25 4thAndMedium:10 GoalLinePass:10 RedZone_6_to_10:15}
+     3. Mtn_Verticals   {FirstDown:1 RedZoneFringe:20 3rdAndMedium:25 3rdAndLong:25 4thAndLong:10 2ndAndLong:10}
+     4. Bunch_Trail   {RedZone_16_to_20:10 3rdAndMedium:10 RedZone_6_to_10:10 4thAndMedium:10}
+     5. QB_Draw   {RedZone_3_to_5:5 GoalLine:25}
+     6. Inside_Post   {3rdAndLong:10 4thAndMedium:10}
+     7. Drag_Under
+     8. Spacing
+     9. Spot
+
+Goal_Line_Offense "Goal Line"
+  Normal   audibles: Power_O, PA_Power_O, HB_Dive, HB_Sting
+     1. HB_Dive   {GoalLine:10 Insidefive:10 SignaturePlays:0}
+     2. PA_Spot
+     3. QB_Sneak   {4thAndShort:0}
+     4. Power_O   {GoalLine:10}
+     5. PA_Power_O   {GoalLine:10}
+     6. FB_Dive   {GoalLine:10 Insidefive:10 4thAndShort:10}
+     7. HB_Split_O
+     8. PA_Sprint_HB_Flat
+     9. HB_Counter_Wk
+    10. HB_Sting
+    11. PA_Waggle
+    12. Strong_Toss   {GoalLine:10 SignaturePlays:0 4thAndShort:10}
+  Sneak   audibles: -
+     1. Tush_Push
+
+Hail_Mary
+  Trio "Hail Mary"   audibles: -
+     1. Hail_Mary   {Hailmary:10}
+     2. Shot_Save_Clock   {LastPlay:10}
+  Spread "Hail Mary"   audibles: -
+     3. Goal_Post   {Hailmary:10}
+
+Special "Special Teams"
+  Field_Goal   audibles: Field_Goal, Fake_FG_K_Flip_Pass, Fake_FG_Sprintout_Pass, Fake_FG_Holder_Blast
+     1. Fake_FG_Y_Shovel   {FakeFieldGoal:10}
+     2. Field_Goal   {FieldGoal:10 GoFor1:10}
+     3. Fake_FG_K_Flip_Pass   {FakeFieldGoal:10}
+     4. Fake_FG_Sprintout_Pass "Fake FG Sprint Out Pass"   {FakeFieldGoal:10}
+     5. Field_Goal_2 "Field Goal"   {FieldGoal:10}
+     6. Fake_FG_Holder_Blast   {FakeFieldGoal:10}
+  Punt   audibles: Punt, Fake_Punt_Off_Tackle, Fake_Punt_W_Release, Fake_Punt_FB_Pass
+     1. Fake_Punt_W_Release   {FakePunt:10}
+     2. Punt   {Punt:10}
+     3. Fake_Punt_Off_Tackle   {FakePunt:10}
+     4. Fake_Punt_Sweep   {FakePunt:10}
+     5. Punt_2 "Punt"   {Punt:10}
+     6. Fake_Punt_FB_Pass   {FakePunt:10}
+  Punt_Tight   audibles: Punt
+     1. Punt   {PuntMaxProtect:10}
+  Stop_Clock "Clock Management"   audibles: Spike_Ball, Fake_Spike, Fake_Spike_2, Fake_Spike_3
+     1. Spike_Ball   {StopClock:10 StopClockUser:10 StopClockFakeUser:0}
+     2. Fake_Spike   {StopClockFakeUser:10}
+     3. Fake_Spike_2   {StopClockFakeUser:10}
+     4. Fake_Spike_3   {StopClockFakeUser:10}
+  QB_Kneel   audibles: -
+     1. QB__Kneel   {Kneel:10}
+
+Kickoff
+  LandingZone_NFL_Kickoff "Normal"   audibles: -
+     1. LandingZone_Kickoff_Left   {Kickoff:40}
+     2. LandingZone_Kickoff_Middle_New   {Kickoff:40}
+     3. LandingZone_Kickoff_Right   {Kickoff:40}
+  LandingZone_Heavy_Kickoff "Heavy"   audibles: -
+     1. LandingZone_Heavy_Kickoff_Left   {Kickoff:40}
+     2. LandingZone_Heavy_Kickoff_Middle_New   {Kickoff:40}
+     3. LandingZone_Heavy_Kickoff_Right   {Kickoff:40}
+  NFL_Kickoff "Old Kickoff"   audibles: -
+     1. Kickoff_Deep_Left   {Kickoff:10}
+     2. Kickoff__Deep_Middle   {Kickoff:10 Squib:10}
+     3. Kickoff__Deep_Right   {Kickoff:10}
+  NFL_Onside_Kick_3 "Onside"   audibles: -
+     1. Strong_Onside   {KickoffOnside:10}
+  NFL_Onside_Kick_2 "no name"   audibles: -
+     2. Speed_Onside   {KickoffOnside:10}
+  NFL_Onside_Kick "no name"   audibles: -
+     3. Onside_Kick   {KickoffOnside:10}
+
+Safety_Kickoff "Safety"
+  LandingZone_Safety_Kick "Normal"   audibles: -
+     1. LandingZone_Safety_Kick_Left   {KickoffSafety:10}
+     2. LandingZone_Safety_Kick_Middle   {KickoffSafety:10}
+     3. LandingZone_Safety_Kick_Right   {KickoffSafety:10}
+  LandingZone_Heavy_Safety_Kick "Heavy"   audibles: -
+     1. LandingZone_Heavy_Safety_Kick_Left   {KickoffSafety:10}
+     2. LandingZone_Heavy_Safety_Kick_Middle   {KickoffSafety:10}
+     3. LandingZone_Heavy_Safety_Kick_Right   {KickoffSafety:10}
+  LandingZone_Safety_Punt "Punt"   audibles: -
+     1. LandingZone_Safety_Punt_Left   {KickoffSafety:10}
+     2. LandingZone_Safety_Punt_Middle   {KickoffSafety:10}
+     3. LandingZone_Safety_Punt_Right   {KickoffSafety:10}
