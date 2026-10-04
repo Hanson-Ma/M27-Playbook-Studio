@@ -1,0 +1,30 @@
+{
+  "name": "STUDIO",
+  "side": "offense",
+  "notes": "First generated custom playbook: Shotgun has a single set with 9 plays; goal line and special teams are copied from the template.",
+  "formations": [
+    {
+      "formation": "Shotgun",
+      "sets": [
+        {
+          "set": "Y Trips Wk",
+          "plays": [
+            { "play": "Inside Zone", "audible": 2 },
+            { "play": "Mtn Mesh" },
+            { "play": "Y Shallow Cross" },
+            { "play": "Four Verticals", "audible": 4 },
+            { "play": "Curls" },
+            { "play": "Slants", "audible": 1 },
+            { "play": "Dagger Y Whip" },
+            { "play": "HB Draw" },
+            { "play": "HB Slip Screen", "audible": 3 }
+          ]
+        }
+      ]
+    },
+    { "formation": "Goal Line Offense", "sets": "template" },
+    { "formation": "Special", "sets": "template" },
+    { "formation": "Kickoff", "sets": "template" },
+    { "formation": "Safety Kickoff", "sets": "template" }
+  ]
+}

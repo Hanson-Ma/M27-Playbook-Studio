@@ -66,7 +66,10 @@ Base64 protobuf (432 KB for the Seahawks offense) holding sets, alignments, ever
 - **IDs are the game's own**: PLYL = `Play.playId`, SETL = `Set.setId`, PBFM = `Formation.formId`. All 648 entries resolve via `research/index/*.tsv`.
 - Field bits are little-endian bit-packed. **CRCs: CRC-32/MPEG-2** (poly 04C11DB7, MSB-first, init FFFFFFFF, no xorout). DB header `[db, db+20)`, table index, each table header `[t, t+32)`, and each table body `[t+36, end of max-size records)`. All 16 verify (`tools/tdbcrc.mjs`).
 - ⇒ We can generate custom playbook saves directly, with no Frosty mod needed, as long as the plays exist in the game. Not yet proven: whether the game accepts a file we write.
-- TODO: map AIGR → situation names and PLYT → play type; figure out PBAU/STSP/SLEP and the BOKL value (32764).
+- Table header `@20` is a u16 deleted count, and `@22` the first deleted row (65535 = none). A deleted row has the top bit of its last byte set and its first u32 = next deleted row. TEST's live counts: 569 plays, 51 sets, 473 AI rows.
+- PGPL `Flag` = audible slot: 2/4/8/16 = slots 1–4, at most one play per slot per set.
+- Writer: `tools/pbook-build.mjs <spec> <template> <out>` writes compacted tables and recomputes all CRCs and the timestamp. First output: `PBOOKOFF-STUDIO` from `playbooks/studio-test.json` (2026-10-03) — in-game result pending.
+- TODO: map AIGR → situation names and PLYT → play type (needed to add plays the template doesn't contain); figure out PBAU/STSP/SLEP and BOKL (32764).
 
 ## Oracle test (as designed)
 `mods/phase0-oracle.fbproject`, Seahawks offense, Shotgun → Y Trips Wk:

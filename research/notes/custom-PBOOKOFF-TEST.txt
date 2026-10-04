@@ -1,729 +1,645 @@
 ﻿
 Singleback (formId 11)
   Wing Pair (setId 323)
-     0. TE Attack  [PLYT 102 Flag 16]  ai 25:20
-     1. RPO Alert Dive Smoke  [PLYT 207 Flag 4]  ai 25:40
-     2. PA TE Seam  [PLYT 4 Flag 8]  ai 25:40 37:10 42:10
-     3. Mtn HB Plunge  [PLYT 151 Flag 0]  ai 3:10 13:10
-     4. Dragon Spacing  [PLYT 102 Flag 0]  ai 3:10 34:10
-     5. Mtn Counter Str  [PLYT 13 Flag 0]  ai 
-     6. Y Stick  [PLYT 101 Flag 2]  ai 1:10 3:10 4:10 5:10 20:10 34:10 35:10 27:10 26:10 28:10 39:10
-     7. HB Inside Zone  [PLYT 195 Flag 0]  ai 5:10 13:10 35:70
-     8. PA X Burst Cross  [PLYT 4 Flag 0]  ai 37:0
-     9. TE Drive  [PLYT 159 Flag 0]  ai 7:10 8:10 25:10 40:10 40:10
-    10. Spacing  [PLYT 101 Flag 0]  ai 20:10 35:40
-    11. PA Sprint HB Flat  [PLYT 4 Flag 0]  ai 1:0
-    12. PA Boot Lt  [PLYT 4 Flag 0]  ai 
-    13. HB Duo  [PLYT 198 Flag 0]  ai 
-    14. RZ PA Crossers  [PLYT 4 Flag 0]  ai 
+     0. TE Attack  [PLYT 102 Flag 16]
+     1. RPO Alert Dive Smoke  [PLYT 207 Flag 4]
+     2. PA TE Seam  [PLYT 4 Flag 8]
+     3. Mtn HB Plunge  [PLYT 151 Flag 0]
+     4. Dragon Spacing  [PLYT 102 Flag 0]
+     5. Mtn Counter Str  [PLYT 13 Flag 0]
+     6. Y Stick  [PLYT 101 Flag 2]
+     7. HB Inside Zone  [PLYT 195 Flag 0]
+     8. PA X Burst Cross  [PLYT 4 Flag 0]
+     9. TE Drive  [PLYT 159 Flag 0]
+    10. Spacing  [PLYT 101 Flag 0]
+    11. PA Sprint HB Flat  [PLYT 4 Flag 0]
+    12. PA Boot Lt  [PLYT 4 Flag 0]
+    13. HB Duo  [PLYT 198 Flag 0]
+    14. RZ PA Crossers  [PLYT 4 Flag 0]
   Deuce Close (setId 1121)
-     0. Mtn Shuffle H-Choice  [PLYT 102 Flag 0]  ai 
-     1. Mtn Shuffle H-Shake  [PLYT 102 Flag 0]  ai 
-     2. Mtn Shuffle Y-Wheel  [PLYT 102 Flag 0]  ai 
-     3. Motion Power  [PLYT 197 Flag 0]  ai 
-     4. PA Boot Scissors  [PLYT 4 Flag 0]  ai 
-     5. Mtn Zone Split  [PLYT 195 Flag 0]  ai 
-     6. Mtn Duo  [PLYT 198 Flag 0]  ai 
-     7. Mtn PA Boot Screen  [PLYT 5 Flag 0]  ai 
-     8. Motion Zone Toss  [PLYT 15 Flag 0]  ai 
-     9. PA Slide Y Screen  [PLYT 4 Flag 0]  ai 
-    10. 0 1 Trap  [PLYT 201 Flag 0]  ai 
-    11. PA Boot Slide  [PLYT 4 Flag 0]  ai 1:10 17:10 20:10 25:10 35:10
-    12. PA Stretch Shot  [PLYT 4 Flag 0]  ai 25:10 17:10 20:10
-    13. HB Stretch  [PLYT 196 Flag 4]  ai 1:10 4:10 13:10 20:10 35:10 28:10 26:10 27:10 39:10
-    14. PA Drag Wheel  [PLYT 4 Flag 8]  ai 37:11
-    15. Spacing Switch  [PLYT 102 Flag 2]  ai 4:10 17:10 20:10 27:10 28:10 26:10 39:10
-    16. Bench  [PLYT 102 Flag 0]  ai 
-    17. Flood Trail  [PLYT 102 Flag 16]  ai 
+     0. Mtn Shuffle H-Choice  [PLYT 102 Flag 0]
+     1. Mtn Shuffle H-Shake  [PLYT 102 Flag 0]
+     2. Mtn Shuffle Y-Wheel  [PLYT 102 Flag 0]
+     3. Motion Power  [PLYT 197 Flag 0]
+     4. PA Boot Scissors  [PLYT 4 Flag 0]
+     5. Mtn Zone Split  [PLYT 195 Flag 0]
+     6. Mtn Duo  [PLYT 198 Flag 0]
+     7. Mtn PA Boot Screen  [PLYT 5 Flag 0]
+     8. Motion Zone Toss  [PLYT 15 Flag 0]
+     9. PA Slide Y Screen  [PLYT 4 Flag 0]
+    10. 0 1 Trap  [PLYT 201 Flag 0]
+    11. PA Boot Slide  [PLYT 4 Flag 0]
+    12. PA Stretch Shot  [PLYT 4 Flag 0]
+    13. HB Stretch  [PLYT 196 Flag 4]
+    14. PA Drag Wheel  [PLYT 4 Flag 8]
+    15. Spacing Switch  [PLYT 102 Flag 2]
+    16. Bench  [PLYT 102 Flag 0]
+    17. Flood Trail  [PLYT 102 Flag 16]
   Wing Close (setId 1393)
-     0. Wide Zone  [PLYT 196 Flag 0]  ai 3:10 4:10 5:10 34:10 26:10 27:10 28:10 39:10
-     1. DBL Outs  [PLYT 102 Flag 2]  ai 
-     2. Duo  [PLYT 198 Flag 0]  ai 17:60 20:60 35:60
-     3. Mtn Out N Up  [PLYT 102 Flag 0]  ai 
-     4. Mtn Zone Alert  [PLYT 207 Flag 0]  ai 
-     5. Mtn PA Z Slide  [PLYT 4 Flag 0]  ai 
-     6. PA TE Flood  [PLYT 4 Flag 16]  ai 
-     7. HB Dive  [PLYT 151 Flag 4]  ai 1:10 3:10 4:10 5:10 13:10 17:10 20:10 25:10 31:10 35:70 26:10 27:10 28:10 39:10
-     8. PA Cross  [PLYT 4 Flag 8]  ai 1:10 4:10 17:10 20:10 25:10 35:10 26:10 27:10 28:10 39:10
-     9. HB Zone Wk  [PLYT 195 Flag 0]  ai 4:10 13:10 25:10 26:10 27:10 28:10 39:10
-    10. PA Y-Drag Wheel  [PLYT 4 Flag 0]  ai 17:40 25:10
-    11. HB Zone Toss  [PLYT 15 Flag 0]  ai 
-    12. Stick X-Dig  [PLYT 102 Flag 0]  ai 
-    13. HB Mid Zone  [PLYT 196 Flag 0]  ai 
-    14. RZ PA Crossers  [PLYT 4 Flag 0]  ai 
+     0. Wide Zone  [PLYT 196 Flag 0]
+     1. DBL Outs  [PLYT 102 Flag 2]
+     2. Duo  [PLYT 198 Flag 0]
+     3. Mtn Out N Up  [PLYT 102 Flag 0]
+     4. Mtn Zone Alert  [PLYT 207 Flag 0]
+     5. Mtn PA Z Slide  [PLYT 4 Flag 0]
+     6. PA TE Flood  [PLYT 4 Flag 16]
+     7. HB Dive  [PLYT 151 Flag 4]
+     8. PA Cross  [PLYT 4 Flag 8]
+     9. HB Zone Wk  [PLYT 195 Flag 0]
+    10. PA Y-Drag Wheel  [PLYT 4 Flag 0]
+    11. HB Zone Toss  [PLYT 15 Flag 0]
+    12. Stick X-Dig  [PLYT 102 Flag 0]
+    13. HB Mid Zone  [PLYT 196 Flag 0]
+    14. RZ PA Crossers  [PLYT 4 Flag 0]
   Wing Slot (setId 68)
-     0. Mtn Wide Zone Wk  [PLYT 195 Flag 0]  ai 
-     1. Mtn PA Z Slide  [PLYT 4 Flag 0]  ai 
-     2. Mtn Duo Wrap  [PLYT 198 Flag 0]  ai 
-     3. PA Sail X Post  [PLYT 4 Flag 0]  ai 25:10 20:10 1:10 17:5
-     4. HB Zone Wk  [PLYT 195 Flag 0]  ai 
-     5. PA Boot TE Leak  [PLYT 4 Flag 0]  ai 25:10 20:10 42:10
-     6. Inside Zone Split  [PLYT 195 Flag 4]  ai 4:10 13:10 20:10 35:10 17:10 31:10 28:10 39:10 26:10 27:10
-     7. HB Duo  [PLYT 198 Flag 0]  ai 
-     8. PA Boot Slide  [PLYT 4 Flag 8]  ai 1:10
-     9. Zone Fake Jet  [PLYT 161 Flag 0]  ai 
-    10. PA Jet Sweep  [PLYT 4 Flag 0]  ai 
-    11. Jet Sweep  [PLYT 152 Flag 0]  ai 35:11 3:10 17:11
-    12. Four Verticals  [PLYT 102 Flag 16]  ai 
-    13. Bubble Screen  [PLYT 101 Flag 2]  ai 
-    14. Dagger  [PLYT 159 Flag 0]  ai 
+     0. Mtn Wide Zone Wk  [PLYT 195 Flag 0]
+     1. Mtn PA Z Slide  [PLYT 4 Flag 0]
+     2. Mtn Duo Wrap  [PLYT 198 Flag 0]
+     3. PA Sail X Post  [PLYT 4 Flag 0]
+     4. HB Zone Wk  [PLYT 195 Flag 0]
+     5. PA Boot TE Leak  [PLYT 4 Flag 0]
+     6. Inside Zone Split  [PLYT 195 Flag 4]
+     7. HB Duo  [PLYT 198 Flag 0]
+     8. PA Boot Slide  [PLYT 4 Flag 8]
+     9. Zone Fake Jet  [PLYT 161 Flag 0]
+    10. PA Jet Sweep  [PLYT 4 Flag 0]
+    11. Jet Sweep  [PLYT 152 Flag 0]
+    12. Four Verticals  [PLYT 102 Flag 16]
+    13. Bubble Screen  [PLYT 101 Flag 2]
+    14. Dagger  [PLYT 159 Flag 0]
   Bunch TE (setId 1176)
-     0. Inside Zone Split  [PLYT 195 Flag 4]  ai 1:10 34:10 3:10 31:10 5:10
-     1. PA Boot Slide  [PLYT 4 Flag 8]  ai 
-     2. HB Misdirection Lead  [PLYT 196 Flag 0]  ai 
-     3. Stick  [PLYT 101 Flag 2]  ai 
-     4. Stretch Alert Bubble  [PLYT 207 Flag 0]  ai 20:10
-     5. Cross Drag  [PLYT 159 Flag 0]  ai 
-     6. Spacing  [PLYT 101 Flag 0]  ai 34:10
-     7. Inside Zone  [PLYT 195 Flag 0]  ai 5:10
-     8. Verticals  [PLYT 102 Flag 16]  ai 
-     9. Jet Sweep  [PLYT 209 Flag 0]  ai 
-    10. PA Jet Sweep  [PLYT 4 Flag 0]  ai 20:10
-    11. Zone Fake Jet  [PLYT 195 Flag 0]  ai 
+     0. Inside Zone Split  [PLYT 195 Flag 4]
+     1. PA Boot Slide  [PLYT 4 Flag 8]
+     2. HB Misdirection Lead  [PLYT 196 Flag 0]
+     3. Stick  [PLYT 101 Flag 2]
+     4. Stretch Alert Bubble  [PLYT 207 Flag 0]
+     5. Cross Drag  [PLYT 159 Flag 0]
+     6. Spacing  [PLYT 101 Flag 0]
+     7. Inside Zone  [PLYT 195 Flag 0]
+     8. Verticals  [PLYT 102 Flag 16]
+     9. Jet Sweep  [PLYT 209 Flag 0]
+    10. PA Jet Sweep  [PLYT 4 Flag 0]
+    11. Zone Fake Jet  [PLYT 195 Flag 0]
   Y Trips Close Wing (setId 3210192513)
-     0. Mtn X-Go Dig  [PLYT 102 Flag 0]  ai 
-     1. Mtn HB Zone Wk  [PLYT 195 Flag 0]  ai 
-     2. Mtn PA Boot Rt  [PLYT 4 Flag 0]  ai 
-     3. Jet PA Sprint RT  [PLYT 4 Flag 0]  ai 
-     4. Jet Wide Zone  [PLYT 196 Flag 0]  ai 
-     5. Jet PA Wide Zone  [PLYT 4 Flag 0]  ai 
-     6. Curls X-Choice  [PLYT 102 Flag 16]  ai 
-     7. HB Dive  [PLYT 151 Flag 4]  ai 
-     8. PA Switch WR In  [PLYT 4 Flag 8]  ai 
-     9. Mesh  [PLYT 159 Flag 2]  ai 
-    10. HB Stretch  [PLYT 196 Flag 0]  ai 
-    11. Shallow X-Dig  [PLYT 159 Flag 0]  ai 
-    12. Slot Drive  [PLYT 159 Flag 0]  ai 
-    13. Smash  [PLYT 102 Flag 0]  ai 
-    14. HB Slip Screen  [PLYT 5 Flag 0]  ai 
+     0. Mtn X-Go Dig  [PLYT 102 Flag 0]
+     1. Mtn HB Zone Wk  [PLYT 195 Flag 0]
+     2. Mtn PA Boot Rt  [PLYT 4 Flag 0]
+     3. Jet PA Sprint RT  [PLYT 4 Flag 0]
+     4. Jet Wide Zone  [PLYT 196 Flag 0]
+     5. Jet PA Wide Zone  [PLYT 4 Flag 0]
+     6. Curls X-Choice  [PLYT 102 Flag 16]
+     7. HB Dive  [PLYT 151 Flag 4]
+     8. PA Switch WR In  [PLYT 4 Flag 8]
+     9. Mesh  [PLYT 159 Flag 2]
+    10. HB Stretch  [PLYT 196 Flag 0]
+    11. Shallow X-Dig  [PLYT 159 Flag 0]
+    12. Slot Drive  [PLYT 159 Flag 0]
+    13. Smash  [PLYT 102 Flag 0]
+    14. HB Slip Screen  [PLYT 5 Flag 0]
   Y Off Trio Close (setId 671030173)
-     0. Mtn Shuffle Z-Post  [PLYT 102 Flag 0]  ai 
-     1. Mtn Shuffle Y-Trail  [PLYT 102 Flag 0]  ai 
-     2. Mtn Shuffle Smash  [PLYT 102 Flag 0]  ai 
-     3. Y Shallow Cross  [PLYT 102 Flag 0]  ai 
-     4. HB Outside Zone  [PLYT 196 Flag 4]  ai 
-     5. PA Slide Cross  [PLYT 4 Flag 8]  ai 
-     6. Read X-Choice  [PLYT 102 Flag 16]  ai 
-     7. 0 1 Trap  [PLYT 201 Flag 0]  ai 
-     8. PA Cross Dig  [PLYT 4 Flag 0]  ai 
-     9. Mesh  [PLYT 102 Flag 0]  ai 
-    10. HB Zone Wk  [PLYT 195 Flag 0]  ai 
-    11. Spacing X-Choice  [PLYT 102 Flag 2]  ai 
-    12. Stick  [PLYT 101 Flag 0]  ai 
-    13. HB Duo  [PLYT 195 Flag 0]  ai 
-    14. PA TE Screen  [PLYT 5 Flag 0]  ai 
+     0. Mtn Shuffle Z-Post  [PLYT 102 Flag 0]
+     1. Mtn Shuffle Y-Trail  [PLYT 102 Flag 0]
+     2. Mtn Shuffle Smash  [PLYT 102 Flag 0]
+     3. Y Shallow Cross  [PLYT 102 Flag 0]
+     4. HB Outside Zone  [PLYT 196 Flag 4]
+     5. PA Slide Cross  [PLYT 4 Flag 8]
+     6. Read X-Choice  [PLYT 102 Flag 16]
+     7. 0 1 Trap  [PLYT 201 Flag 0]
+     8. PA Cross Dig  [PLYT 4 Flag 0]
+     9. Mesh  [PLYT 102 Flag 0]
+    10. HB Zone Wk  [PLYT 195 Flag 0]
+    11. Spacing X-Choice  [PLYT 102 Flag 2]
+    12. Stick  [PLYT 101 Flag 0]
+    13. HB Duo  [PLYT 195 Flag 0]
+    14. PA TE Screen  [PLYT 5 Flag 0]
 
 Split T (formId 206)
   Tight (setId 1963)
-     0. FB Dive  [PLYT 153 Flag 2]  ai 3:10
-     1. TE Corner  [PLYT 102 Flag 16]  ai 
-     2. FB Dive Weak  [PLYT 153 Flag 0]  ai 3:10
-     3. HB Lead  [PLYT 151 Flag 0]  ai 3:10 5:10
-     4. PA Boot  [PLYT 4 Flag 8]  ai 1:10 31:10
-     5. HB Inside  [PLYT 151 Flag 4]  ai 13:10
+     0. FB Dive  [PLYT 153 Flag 2]
+     1. TE Corner  [PLYT 102 Flag 16]
+     2. FB Dive Weak  [PLYT 153 Flag 0]
+     3. HB Lead  [PLYT 151 Flag 0]
+     4. PA Boot  [PLYT 4 Flag 8]
+     5. HB Inside  [PLYT 151 Flag 4]
 
 I Form (formId 3)
   Y Off Close (setId 1278)
-     0. DBL Mtn PA Flood  [PLYT 4 Flag 0]  ai 
-     1. DBL Mtn Counter F  [PLYT 195 Flag 0]  ai 
-     2. DBL Mtn PA WR Options  [PLYT 4 Flag 0]  ai 
-     3. DBL Mtn PA Sprint HB Flat  [PLYT 4 Flag 0]  ai 
-     4. DBL Mtn Zone Wk  [PLYT 195 Flag 0]  ai 
-     5. DBL Mtn PA Double Cross  [PLYT 4 Flag 0]  ai 
-     6. Mtn PA Counter  [PLYT 4 Flag 0]  ai 25:50 6:30 17:40 35:40
-     7. Mtn Counter Solid  [PLYT 13 Flag 0]  ai 4:40 6:10 13:10 17:10 35:44 26:40 27:40 28:40 39:40
-     8. Mtn Flood  [PLYT 102 Flag 0]  ai 25:50 7:2 17:40 35:40 32:10
-     9. PA X Deep Out  [PLYT 4 Flag 16]  ai 20:10 35:10
-    10. Zone Wk  [PLYT 195 Flag 4]  ai 4:10 6:10 13:10 17:10 20:10 35:10 26:10 27:10 28:10 39:10
-    11. PA Deep Read  [PLYT 4 Flag 8]  ai 17:10 35:10 37:10
-    12. HB Iso  [PLYT 198 Flag 0]  ai 4:50 5:10 6:40 13:10 17:50 35:46 27:50 26:50 28:50 39:50
-    13. PA Pylon Sail  [PLYT 4 Flag 0]  ai 17:10 20:10 25:50 37:10 42:10
-    14. HB Zone Toss  [PLYT 15 Flag 0]  ai 4:10 25:50 26:10 27:10 28:10 39:10
-    15. DBL Outs  [PLYT 102 Flag 0]  ai 
-    16. HB Stretch  [PLYT 196 Flag 0]  ai 1:10 4:10 5:10 6:10 13:10 35:10 26:10 27:10 28:10 39:10
-    17. Double Dig  [PLYT 159 Flag 2]  ai 6:10
-  Pro (setId 3)
-     0. HB Iso  [PLYT 198 Flag 0]  ai 26:40 28:40 1:70 4:40 13:10 17:50 20:60 31:70 35:60 27:40 39:40
-     1. PA Scissors  [PLYT 4 Flag 0]  ai 1:0 20:20 31:0
-     1. HB Stretch  [PLYT 196 Flag 0]  ai 39:10 4:10 13:10 17:70 27:10 26:10 28:10
-     1. Curls  [PLYT 102 Flag 0]  ai 
-     1. PA Sprint HB Flat  [PLYT 4 Flag 0]  ai 1:10 20:10 31:10 37:10
-     1. 95 Mike  [PLYT 195 Flag 0]  ai 
-     1. PA TE Screen  [PLYT 6 Flag 0]  ai 
-     4. 94 Will  [PLYT 195 Flag 4]  ai 4:10 13:10 39:10 27:10 28:10 26:10
-     4. Quick Slants  [PLYT 101 Flag 2]  ai 
-     4. HB Lead Dive  [PLYT 198 Flag 0]  ai 39:0 3:40 4:0 13:0 20:10 31:0 27:0 26:0 28:0
-     5. PA Comeback Slide  [PLYT 4 Flag 8]  ai 
-     7. HB Duo  [PLYT 198 Flag 0]  ai 4:10 13:10 20:10 27:10 26:10 28:10 39:10
-     7. Post  [PLYT 102 Flag 16]  ai 
-     9. PA  X  Curl  [PLYT 4 Flag 0]  ai 
-    11. PA X Dig  [PLYT 4 Flag 0]  ai 
+     0. DBL Mtn PA Flood  [PLYT 4 Flag 0]
+     1. DBL Mtn Counter F  [PLYT 195 Flag 0]
+     2. DBL Mtn PA WR Options  [PLYT 4 Flag 0]
+     3. DBL Mtn PA Sprint HB Flat  [PLYT 4 Flag 0]
+     4. DBL Mtn Zone Wk  [PLYT 195 Flag 0]
+     5. DBL Mtn PA Double Cross  [PLYT 4 Flag 0]
+     6. Mtn PA Counter  [PLYT 4 Flag 0]
+     7. Mtn Counter Solid  [PLYT 13 Flag 0]
+     8. Mtn Flood  [PLYT 102 Flag 0]
+     9. PA X Deep Out  [PLYT 4 Flag 16]
+    10. Zone Wk  [PLYT 195 Flag 4]
+    11. PA Deep Read  [PLYT 4 Flag 8]
+    12. HB Iso  [PLYT 198 Flag 0]
+    13. PA Pylon Sail  [PLYT 4 Flag 0]
+    14. HB Zone Toss  [PLYT 15 Flag 0]
+    15. DBL Outs  [PLYT 102 Flag 0]
+    16. HB Stretch  [PLYT 196 Flag 0]
+    17. Double Dig  [PLYT 159 Flag 2]
   Slot Close (setId 1170)
-     0. PA Switch Dig  [PLYT 4 Flag 0]  ai 
-     1. HB Blast  [PLYT 195 Flag 4]  ai 17:22 25:11 35:10
-     2. Spacing  [PLYT 102 Flag 2]  ai 1:10 3:10 6:11 22:10 31:10 34:10 35:10
-     2. HB Lead Dive  [PLYT 198 Flag 0]  ai 
-     3. PA Spot  [PLYT 4 Flag 8]  ai 1:10 20:10 35:10 37:0
-     3. PA Shot Post  [PLYT 4 Flag 0]  ai 
-     4. 94 Will  [PLYT 195 Flag 0]  ai 26:50 28:50 1:10 3:10 4:50 5:10 13:10 31:10 27:50 39:50
-     5. PA Sprint HB Flat  [PLYT 4 Flag 16]  ai 1:10 37:10
-     6. HB Stretch  [PLYT 196 Flag 0]  ai 4:50 13:10 17:70 20:60 25:60 35:10 26:50 27:50 28:50 39:50
-     7. Zone Fake Jet  [PLYT 161 Flag 0]  ai 
-     8. Jet Sweep  [PLYT 209 Flag 0]  ai 
-    10. PA Jet Sweep  [PLYT 4 Flag 0]  ai 
+     1. HB Blast  [PLYT 195 Flag 4]
+     2. HB Lead Dive  [PLYT 198 Flag 0]
+     3. PA Shot Post  [PLYT 4 Flag 0]
+     4. 94 Will  [PLYT 195 Flag 0]
+     5. PA Sprint HB Flat  [PLYT 4 Flag 16]
+     6. HB Stretch  [PLYT 196 Flag 0]
+     7. Zone Fake Jet  [PLYT 161 Flag 0]
+     8. Jet Sweep  [PLYT 209 Flag 0]
 
 Weak I (formId 13)
   Wing (setId 95)
-     0. X Slant  [PLYT 101 Flag 2]  ai 
-     1. 94 Will  [PLYT 195 Flag 4]  ai 
-     2. PA TE Slide  [PLYT 4 Flag 8]  ai 
-     3. HB Power O  [PLYT 197 Flag 0]  ai 
-     4. PA Power O  [PLYT 4 Flag 0]  ai 
-     5. Counter Weak  [PLYT 13 Flag 0]  ai 
-     6. PA Boot Slide  [PLYT 4 Flag 0]  ai 
-     7. HB Gut  [PLYT 198 Flag 0]  ai 
-     8. Middle Hooks  [PLYT 102 Flag 0]  ai 
-     9. Post Shot  [PLYT 159 Flag 0]  ai 
-    10. FB Power  [PLYT 153 Flag 0]  ai 
-    11. TE Drag  [PLYT 102 Flag 16]  ai 
+     0. X Slant  [PLYT 101 Flag 2]
+     1. 94 Will  [PLYT 195 Flag 4]
+     2. PA TE Slide  [PLYT 4 Flag 8]
+     3. HB Power O  [PLYT 197 Flag 0]
+     4. PA Power O  [PLYT 4 Flag 0]
+     5. Counter Weak  [PLYT 13 Flag 0]
+     6. PA Boot Slide  [PLYT 4 Flag 0]
+     7. HB Gut  [PLYT 198 Flag 0]
+     8. Middle Hooks  [PLYT 102 Flag 0]
+     9. Post Shot  [PLYT 159 Flag 0]
+    10. FB Power  [PLYT 153 Flag 0]
+    11. TE Drag  [PLYT 102 Flag 16]
   3WR Flex (setId 107261376)
-     0. Dagger X-Corner  [PLYT 102 Flag 16]  ai 
-     1. HB Gut  [PLYT 195 Flag 4]  ai 
-     2. PA X-Dig  [PLYT 4 Flag 8]  ai 
-     3. Mesh Z-Dig  [PLYT 102 Flag 0]  ai 
-     4. HB Stretch  [PLYT 196 Flag 0]  ai 
-     5. PA Boot Lt  [PLYT 4 Flag 0]  ai 
-     6. PA Power O  [PLYT 4 Flag 0]  ai 
-     7. Power O  [PLYT 197 Flag 0]  ai 
-     8. Slot Fade X-Choice  [PLYT 102 Flag 2]  ai 
+     0. Dagger X-Corner  [PLYT 102 Flag 16]
+     1. HB Gut  [PLYT 195 Flag 4]
+     2. PA X-Dig  [PLYT 4 Flag 8]
+     3. Mesh Z-Dig  [PLYT 102 Flag 0]
+     4. HB Stretch  [PLYT 196 Flag 0]
+     5. PA Boot Lt  [PLYT 4 Flag 0]
+     6. PA Power O  [PLYT 4 Flag 0]
+     7. Power O  [PLYT 197 Flag 0]
+     8. Slot Fade X-Choice  [PLYT 102 Flag 2]
 
 Shotgun (formId 1)
   U Off Trips Flex (setId 1495779055)
-     0. Slot Shot Y-Swirl  [PLYT 103 Flag 16]  ai 
-     1. HB Dive  [PLYT 198 Flag 4]  ai 
-     2. PA Scissors Crossers  [PLYT 4 Flag 8]  ai 
-     3. Mtn Slot Fade Y-Cross  [PLYT 103 Flag 0]  ai 
-     4. Mtn Stick Y-Nod  [PLYT 103 Flag 0]  ai 
-     5. Mtn Verticals Y-Cross  [PLYT 103 Flag 0]  ai 
-     6. Flood Y-Dig  [PLYT 103 Flag 0]  ai 
-     7. Inside Zone  [PLYT 195 Flag 0]  ai 
-     8. Smash Y-Shake  [PLYT 103 Flag 2]  ai 
-     9. Dagger H-Choice  [PLYT 103 Flag 0]  ai 
-    10. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-    11. Levels Y Sail  [PLYT 103 Flag 0]  ai 
-    12. China Double In  [PLYT 103 Flag 0]  ai 
-    13. Read Option  [PLYT 169 Flag 0]  ai 
-    14. Post Wheel Texas  [PLYT 103 Flag 0]  ai 
+     0. Slot Shot Y-Swirl  [PLYT 103 Flag 16]
+     1. HB Dive  [PLYT 198 Flag 4]
+     2. PA Scissors Crossers  [PLYT 4 Flag 8]
+     3. Mtn Slot Fade Y-Cross  [PLYT 103 Flag 0]
+     4. Mtn Stick Y-Nod  [PLYT 103 Flag 0]
+     5. Mtn Verticals Y-Cross  [PLYT 103 Flag 0]
+     6. Flood Y-Dig  [PLYT 103 Flag 0]
+     7. Inside Zone  [PLYT 195 Flag 0]
+     8. Smash Y-Shake  [PLYT 103 Flag 2]
+     9. Dagger H-Choice  [PLYT 103 Flag 0]
+    10. HB Slip Screen  [PLYT 5 Flag 0]
+    11. Levels Y Sail  [PLYT 103 Flag 0]
+    12. China Double In  [PLYT 103 Flag 0]
+    13. Read Option  [PLYT 169 Flag 0]
+    14. Post Wheel Texas  [PLYT 103 Flag 0]
   U Off Trips Wk (setId 1425)
-     0. Mtn Fade Smash  [PLYT 103 Flag 0]  ai 35:11 7:10 25:11 17:11 23:11
-     1. Mtn Stick  [PLYT 103 Flag 0]  ai 6:10 7:10 25:10 32:10 34:10
-     2. Mtn Verticals  [PLYT 103 Flag 0]  ai 35:10 7:10 25:10 17:10 23:11 8:10 33:10 41:10 40:10
-     3. PA Boot  [PLYT 4 Flag 0]  ai 
-     4. Outside Zone  [PLYT 196 Flag 0]  ai 
-     5. PA Boot Corner-Post  [PLYT 4 Flag 0]  ai 
-     6. Levels Out  [PLYT 103 Flag 0]  ai 6:10 7:10 32:5 17:10 34:10 24:10
-     7. Inside Zone  [PLYT 195 Flag 4]  ai 20:10 17:10 3:10 13:10 5:10 34:10 35:10
-     8. RPO Peek Corner  [PLYT 205 Flag 0]  ai 
-     9. Dagger Sit  [PLYT 103 Flag 16]  ai 7:10 8:5 40:10
-    10. Read Option  [PLYT 169 Flag 0]  ai 
-    11. PA Crossers  [PLYT 4 Flag 8]  ai 6:10 20:10 17:10 42:11 25:5
-    12. Smash  [PLYT 103 Flag 0]  ai 
-    13. HB Power  [PLYT 197 Flag 0]  ai 13:10 20:10
-    14. Spot Quads  [PLYT 103 Flag 2]  ai 6:10 7:10 32:10 17:10
-  Ace Slot Offset (setId 1071)
-     0. PA Scissors  [PLYT 4 Flag 8]  ai 42:30 8:60 33:60 40:60 41:60
-     1. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-     1. PA Post Shot  [PLYT 4 Flag 0]  ai 
-     1. Read Option  [PLYT 169 Flag 0]  ai 
-     2. Levels Y Sail  [PLYT 103 Flag 0]  ai 
-     2. Inside Zone  [PLYT 195 Flag 4]  ai 
-     2. PA Y Corner  [PLYT 4 Flag 0]  ai 
-     2. RPO Alert Bubble  [PLYT 207 Flag 0]  ai 
-     5. PA Verts  [PLYT 4 Flag 16]  ai 
-     5. Smash  [PLYT 103 Flag 0]  ai 
-     5. Flood  [PLYT 103 Flag 0]  ai 
-     6. 0 1 Trap  [PLYT 201 Flag 0]  ai 
-     6. HB Punch  [PLYT 197 Flag 0]  ai 
-     8. Stick  [PLYT 103 Flag 2]  ai 
-     9. Same Side Zone  [PLYT 195 Flag 0]  ai 
-    10. Outside Zone  [PLYT 196 Flag 0]  ai 
-    10. RPO X Smoke  [PLYT 207 Flag 0]  ai 
-    12. 64 X Slice U Cross  [PLYT 103 Flag 0]  ai 
-    15. Posts  [PLYT 103 Flag 0]  ai 
-    17. Post Wheel Shallow  [PLYT 103 Flag 0]  ai 
-    19. China Double In  [PLYT 103 Flag 0]  ai 
+     0. Mtn Fade Smash  [PLYT 103 Flag 0]
+     1. Mtn Stick  [PLYT 103 Flag 0]
+     2. Mtn Verticals  [PLYT 103 Flag 0]
+     3. PA Boot  [PLYT 4 Flag 0]
+     4. Outside Zone  [PLYT 196 Flag 0]
+     5. PA Boot Corner-Post  [PLYT 4 Flag 0]
+     6. Levels Out  [PLYT 103 Flag 0]
+     7. Inside Zone  [PLYT 195 Flag 4]
+     8. RPO Peek Corner  [PLYT 205 Flag 0]
+     9. Dagger Sit  [PLYT 103 Flag 16]
+    10. Read Option  [PLYT 169 Flag 0]
+    11. PA Crossers  [PLYT 4 Flag 8]
+    12. Smash  [PLYT 103 Flag 0]
+    13. HB Power  [PLYT 197 Flag 0]
+    14. Spot Quads  [PLYT 103 Flag 2]
   Wing Slot Wk (setId 380)
-     0. Mtn Buck Sweep  [PLYT 200 Flag 0]  ai 35:11 4:11 17:11 25:11 26:10 27:10 28:10 39:10
-     1. Mtn PA Cross  [PLYT 4 Flag 0]  ai 
-     2. Mtn HB Base  [PLYT 197 Flag 0]  ai 35:11 1:10 4:11 17:11 25:11 26:10 27:10 28:10 39:10
-     3. Inside Zone  [PLYT 195 Flag 4]  ai 5:10 13:10 35:10 1:10 31:10 3:10
-     4. RPO Sweep Alert Bubble  [PLYT 207 Flag 0]  ai 6:10 20:10 35:10 34:10
-     5. QB Wrap  [PLYT 11 Flag 0]  ai 34:10 1:10
-     6. Power Read  [PLYT 172 Flag 0]  ai 39:10 27:10 26:10 35:10 4:11 28:10
-     7. PA Inverted Veer  [PLYT 4 Flag 16]  ai 
-     8. Midline Read Option  [PLYT 167 Flag 0]  ai 27:10 26:10 39:10 6:10 34:10 4:10 17:10 1:10 28:10
-     9. RPO Peek Buck Slant  [PLYT 205 Flag 0]  ai 35:10 6:11 1:10 17:11
-    10. PA Bubble Y Over  [PLYT 4 Flag 8]  ai 27:10 28:10 20:10 6:10 25:10 17:10 35:10 4:11 26:10 39:10
-    11. Buck Sweep Read Opt  [PLYT 169 Flag 0]  ai 39:10 4:10 13:10 17:10 20:10 35:10 26:10 27:10 28:10
-    12. TE Lead Read Opt  [PLYT 169 Flag 0]  ai 
-    13. Double Post  [PLYT 103 Flag 0]  ai 6:10 17:10 7:10 35:10
-    14. Speed Option  [PLYT 17 Flag 0]  ai 
-    15. HB Counter U  [PLYT 13 Flag 0]  ai 17:10
-    16. Mesh HB Corner  [PLYT 103 Flag 0]  ai 27:10 25:11 6:11 4:11 26:10 28:10 39:10
-    17. Read Option  [PLYT 169 Flag 0]  ai 39:10 26:10 28:10 34:10 4:10 31:10 1:10 27:10
-    18. Four Verticals  [PLYT 103 Flag 0]  ai 
-    19. RPO Read Bubble  [PLYT 204 Flag 2]  ai 4:10 1:10 27:10 26:10 28:10 39:10
-    20. Smash  [PLYT 103 Flag 0]  ai 20:10 17:10 6:10
+     0. Mtn Buck Sweep  [PLYT 200 Flag 0]
+     1. Mtn PA Cross  [PLYT 4 Flag 0]
+     2. Mtn HB Base  [PLYT 197 Flag 0]
+     3. Inside Zone  [PLYT 195 Flag 4]
+     4. RPO Sweep Alert Bubble  [PLYT 207 Flag 0]
+     5. QB Wrap  [PLYT 11 Flag 0]
+     6. Power Read  [PLYT 172 Flag 0]
+     7. PA Inverted Veer  [PLYT 4 Flag 16]
+     8. Midline Read Option  [PLYT 167 Flag 0]
+     9. RPO Peek Buck Slant  [PLYT 205 Flag 0]
+    10. PA Bubble Y Over  [PLYT 4 Flag 8]
+    11. Buck Sweep Read Opt  [PLYT 169 Flag 0]
+    12. TE Lead Read Opt  [PLYT 169 Flag 0]
+    13. Double Post  [PLYT 103 Flag 0]
+    14. Speed Option  [PLYT 17 Flag 0]
+    15. HB Counter U  [PLYT 13 Flag 0]
+    16. Mesh HB Corner  [PLYT 103 Flag 0]
+    17. Read Option  [PLYT 169 Flag 0]
+    18. Four Verticals  [PLYT 103 Flag 0]
+    19. RPO Read Bubble  [PLYT 204 Flag 2]
+    20. Smash  [PLYT 103 Flag 0]
   Normal Y Off Close (setId 1290)
-     0. Mtn HB Swing  [PLYT 5 Flag 0]  ai 
-     1. Mtn Snag Curls  [PLYT 103 Flag 0]  ai 
-     1. Mtn TE Middle Screen  [PLYT 5 Flag 0]  ai 
-     2. Reload Mesh Spot  [PLYT 103 Flag 0]  ai 
-     3. Reload HB Sweep  [PLYT 195 Flag 0]  ai 
-     3. Reload PA Cross  [PLYT 4 Flag 0]  ai 
-     4. Cheat Flat X Post  [PLYT 103 Flag 0]  ai 
-     5. Cheat Slash Wheel In  [PLYT 103 Flag 0]  ai 
-     6. Cheat TE Angle  [PLYT 103 Flag 0]  ai 
-     7. Fk Jet Y Wheel  [PLYT 4 Flag 0]  ai 
-     8. Zone Fake Jet  [PLYT 161 Flag 0]  ai 
-     9. Jet Touch Pass  [PLYT 208 Flag 0]  ai 27:40 4:40 1:40 17:40 20:30 25:11 34:10 35:44 28:40 26:40 39:40
-    10. Double Slant  [PLYT 103 Flag 0]  ai 6:2 7:10 17:50 35:8
-    11. RPO Alert Out  [PLYT 207 Flag 8]  ai 
-    12. Y-Sail  [PLYT 103 Flag 16]  ai 4:10 6:10 7:10 17:10 24:10 35:10 32:10 26:10 27:10 28:10 39:10
-    13. Mesh Spot  [PLYT 103 Flag 2]  ai 4:10 6:10 7:10 17:10 22:30 24:10 35:10 26:10 27:10 28:10 39:10
-    13. Inside Zone  [PLYT 195 Flag 4]  ai 28:60 27:60 1:10 3:10 4:60 6:50 13:10 17:60 20:30 31:10 34:10 35:60 26:60 39:60
-    14. Escape  [PLYT 103 Flag 0]  ai 4:10 7:10 8:10 10:10 24:10 26:10 27:10 28:10 39:10
-    15. Read Option  [PLYT 169 Flag 0]  ai 27:40 4:40 3:40 25:50 34:10 31:10 26:40 28:40 39:40
-    18. RPO Glance Post  [PLYT 206 Flag 0]  ai 
-    20. Power Read  [PLYT 172 Flag 0]  ai 
+     0. Mtn HB Swing  [PLYT 5 Flag 0]
+     1. Mtn TE Middle Screen  [PLYT 5 Flag 0]
+     2. Reload Mesh Spot  [PLYT 103 Flag 0]
+     3. Reload PA Cross  [PLYT 4 Flag 0]
+     4. Cheat Flat X Post  [PLYT 103 Flag 0]
+     5. Cheat Slash Wheel In  [PLYT 103 Flag 0]
+     6. Cheat TE Angle  [PLYT 103 Flag 0]
+     7. Fk Jet Y Wheel  [PLYT 4 Flag 0]
+     8. Zone Fake Jet  [PLYT 161 Flag 0]
+     9. Jet Touch Pass  [PLYT 208 Flag 0]
+    10. Double Slant  [PLYT 103 Flag 0]
+    11. RPO Alert Out  [PLYT 207 Flag 8]
+    12. Y-Sail  [PLYT 103 Flag 16]
+    13. Inside Zone  [PLYT 195 Flag 4]
+    14. Escape  [PLYT 103 Flag 0]
   Doubles Flex Wk Swap (setId 608)
-     0. Mtn HB Sweep  [PLYT 196 Flag 0]  ai 
-     1. Mtn PA Y Middle Read  [PLYT 4 Flag 8]  ai 
-     2. FL Screen  [PLYT 5 Flag 2]  ai 
-     3. Mtn Mesh Y Corner  [PLYT 103 Flag 0]  ai 
-     4. Mtn HB Cross Screen  [PLYT 5 Flag 0]  ai 
-     5. Mtn Slot Post  [PLYT 103 Flag 0]  ai 
-     6. Mtn Drive  [PLYT 103 Flag 0]  ai 
-     7. Mtn HB Counter  [PLYT 13 Flag 0]  ai 
-     8. Mtn Drag  [PLYT 103 Flag 0]  ai 
-     9. Mtn Spot  [PLYT 103 Flag 0]  ai 
-    10. RPO Alert Power  [PLYT 207 Flag 4]  ai 35:5 20:5 1:5 31:5 34:5 3:5
-    11. Slot Cross  [PLYT 103 Flag 16]  ai 7:5 32:5 25:5
+     0. Mtn HB Sweep  [PLYT 196 Flag 0]
+     1. Mtn PA Y Middle Read  [PLYT 4 Flag 8]
+     2. FL Screen  [PLYT 5 Flag 2]
+     3. Mtn Mesh Y Corner  [PLYT 103 Flag 0]
+     4. Mtn HB Cross Screen  [PLYT 5 Flag 0]
+     5. Mtn Slot Post  [PLYT 103 Flag 0]
+     6. Mtn Drive  [PLYT 103 Flag 0]
+     7. Mtn HB Counter  [PLYT 13 Flag 0]
+     8. Mtn Drag  [PLYT 103 Flag 0]
+     9. Mtn Spot  [PLYT 103 Flag 0]
+    10. RPO Alert Power  [PLYT 207 Flag 4]
+    11. Slot Cross  [PLYT 103 Flag 16]
   Box HB Strong (setId 2184385095)
-     0. Mesh Rail  [PLYT 103 Flag 2]  ai 17:10 20:10 6:10 7:10 32:10 25:11 35:10
-     1. Sit Z Drag  [PLYT 103 Flag 0]  ai 20:10 25:10 17:10 6:10 35:10 7:10 42:11
-     2. Whip Y Cross  [PLYT 103 Flag 16]  ai 8:10 33:10 40:10 41:10
-     3. Inside Zone  [PLYT 195 Flag 4]  ai 1:10 17:11 20:10 4:11 35:11 13:10 26:10 27:10 28:10 39:10
-     4. PA Scissors  [PLYT 4 Flag 8]  ai 7:10 6:10 17:10 35:10 25:10 42:11
-     5. HB Draw  [PLYT 14 Flag 0]  ai 
+     0. Mesh Rail  [PLYT 103 Flag 2]
+     1. Sit Z Drag  [PLYT 103 Flag 0]
+     2. Whip Y Cross  [PLYT 103 Flag 16]
+     3. Inside Zone  [PLYT 195 Flag 4]
+     4. PA Scissors  [PLYT 4 Flag 8]
+     5. HB Draw  [PLYT 14 Flag 0]
   Box Offset Wk (setId 1078)
-     0. Mtn Y Cross  [PLYT 103 Flag 0]  ai 8:10 7:30 24:10 40:10
-     1. Mtn Verts HB Angle  [PLYT 103 Flag 0]  ai 7:10 8:10 24:10 6:10 20:10 35:10 40:10 40:10
-     2. Mtn Curls HB Angle  [PLYT 103 Flag 0]  ai 7:10 32:10 17:10 6:10 20:10 35:10
-     3. Inside Zone  [PLYT 195 Flag 4]  ai 17:10 20:10 35:10 13:10 25:10
-     4. PA Verticals  [PLYT 4 Flag 8]  ai 
-     5. Read Option  [PLYT 169 Flag 0]  ai 28:10 39:10 34:10 4:10 17:10 1:10 35:10 6:10 20:10 26:10 27:10
-     6. Slot Trail  [PLYT 103 Flag 2]  ai 7:30 32:30 6:10 17:10
-     7. Outside Zone  [PLYT 196 Flag 0]  ai 17:10 35:10
-     8. Verticals  [PLYT 103 Flag 16]  ai 
-     9. Y Cross Post  [PLYT 103 Flag 0]  ai 40:10 8:10 33:10 10:10 24:10 35:10 40:10 41:10
-    10. Wide Trap  [PLYT 201 Flag 0]  ai 17:10 35:10
-    11. HB Angle  [PLYT 103 Flag 0]  ai 35:10
-    12. Curl Flat  [PLYT 103 Flag 0]  ai 
-    13. HB Slip Screen  [PLYT 5 Flag 0]  ai 6:10 8:10
-    14. Middle Hi Lo  [PLYT 103 Flag 0]  ai 10:10
+     0. Mtn Y Cross  [PLYT 103 Flag 0]
+     1. Mtn Verts HB Angle  [PLYT 103 Flag 0]
+     2. Mtn Curls HB Angle  [PLYT 103 Flag 0]
+     3. Inside Zone  [PLYT 195 Flag 4]
+     4. PA Verticals  [PLYT 4 Flag 8]
+     5. Read Option  [PLYT 169 Flag 0]
+     6. Slot Trail  [PLYT 103 Flag 2]
+     7. Outside Zone  [PLYT 196 Flag 0]
+     8. Verticals  [PLYT 103 Flag 16]
+     9. Y Cross Post  [PLYT 103 Flag 0]
+    10. Wide Trap  [PLYT 201 Flag 0]
+    11. HB Angle  [PLYT 103 Flag 0]
+    12. Curl Flat  [PLYT 103 Flag 0]
+    13. HB Slip Screen  [PLYT 5 Flag 0]
+    14. Middle Hi Lo  [PLYT 103 Flag 0]
   Y Trips Wk (setId 212)
-     0. Y Shallow Cross  [PLYT 103 Flag 0]  ai 
-     1. Mtn Seam Swirl  [PLYT 103 Flag 0]  ai 
-     2. Mtn Mesh  [PLYT 103 Flag 0]  ai 
-     3. China Smash  [PLYT 103 Flag 0]  ai 
-     4. HB Base  [PLYT 197 Flag 0]  ai 
-     5. PA Under  [PLYT 4 Flag 0]  ai 
-     6. Comebacks  [PLYT 103 Flag 0]  ai 
-     7. Read Option  [PLYT 169 Flag 0]  ai 
-     8. PA WR In  [PLYT 4 Flag 8]  ai 
-     9. Shock H Option  [PLYT 103 Flag 2]  ai 
-    10. Inside Zone  [PLYT 195 Flag 4]  ai 
-    11. Curls  [PLYT 103 Flag 0]  ai 
-    12. Dagger  Y Whip  [PLYT 103 Flag 0]  ai 
-    13. Y Corner H Option  [PLYT 103 Flag 0]  ai 
-    14. DBL Ins  [PLYT 103 Flag 0]  ai 
-    15. RPO Peek Slant  [PLYT 205 Flag 0]  ai 
-    16. Four Verticals  [PLYT 103 Flag 16]  ai 
-    17. Slot 2 Buc  [PLYT 103 Flag 0]  ai 
-    18. HB Draw  [PLYT 14 Flag 0]  ai 
-    19. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-    20. Quick Fork Zig  [PLYT 103 Flag 0]  ai 
-    21. Quick Short Post  [PLYT 103 Flag 0]  ai 
-    22. Quick Unders  [PLYT 103 Flag 0]  ai 
-    23. Slants  [PLYT 103 Flag 0]  ai 
-    24. WR Mid Screen  [PLYT 5 Flag 0]  ai 
-    25. Corner Strike  [PLYT 103 Flag 0]  ai 
-    26. HB Mid Zone  [PLYT 195 Flag 0]  ai 
+     0. Y Shallow Cross  [PLYT 103 Flag 0]
+     1. Mtn Seam Swirl  [PLYT 103 Flag 0]
+     2. Mtn Mesh  [PLYT 103 Flag 0]
+     3. China Smash  [PLYT 103 Flag 0]
+     4. HB Base  [PLYT 197 Flag 0]
+     5. PA Under  [PLYT 4 Flag 0]
+     6. Comebacks  [PLYT 103 Flag 0]
+     7. Read Option  [PLYT 169 Flag 0]
+     8. PA WR In  [PLYT 4 Flag 8]
+     9. Shock H Option  [PLYT 103 Flag 2]
+    10. Inside Zone  [PLYT 195 Flag 4]
+    11. Curls  [PLYT 103 Flag 0]
+    12. Dagger  Y Whip  [PLYT 103 Flag 0]
+    13. Y Corner H Option  [PLYT 103 Flag 0]
+    14. DBL Ins  [PLYT 103 Flag 0]
+    15. RPO Peek Slant  [PLYT 205 Flag 0]
+    16. Four Verticals  [PLYT 103 Flag 16]
+    17. Slot 2 Buc  [PLYT 103 Flag 0]
+    18. HB Draw  [PLYT 14 Flag 0]
+    19. HB Slip Screen  [PLYT 5 Flag 0]
+    20. Quick Fork Zig  [PLYT 103 Flag 0]
+    21. Quick Short Post  [PLYT 103 Flag 0]
+    22. Quick Unders  [PLYT 103 Flag 0]
+    23. Slants  [PLYT 103 Flag 0]
+    24. WR Mid Screen  [PLYT 5 Flag 0]
+    25. Corner Strike  [PLYT 103 Flag 0]
+    26. HB Mid Zone  [PLYT 195 Flag 0]
   Wing Trio (setId 1342339620)
-     0. Mtn Drive  [PLYT 103 Flag 0]  ai 20:10 25:10 17:10 6:10 35:10 7:10 42:11
-     1. Mtn HB Screen  [PLYT 5 Flag 0]  ai 
-     2. Mtn Whip Deep Flood  [PLYT 103 Flag 0]  ai 20:10 8:10 6:10 33:10 7:10 42:11 41:10
-     3. Orbit Mesh HB Rail  [PLYT 103 Flag 0]  ai 
-     4. Orbit RPO Peek Y Flat  [PLYT 205 Flag 0]  ai 
-     5. RZ Orbit Crossers  [PLYT 103 Flag 0]  ai 20:10 25:10 42:11
-     6. PA X Corner  [PLYT 4 Flag 0]  ai 42:11
-     7. Inside Zone  [PLYT 151 Flag 4]  ai 
-     8. PA Slot Corner-Post  [PLYT 4 Flag 0]  ai 
-     9. RPO Zone Peek  [PLYT 205 Flag 0]  ai 
-    10. Y Flood  [PLYT 103 Flag 16]  ai 
-    11. RPO Peek Y Pop  [PLYT 205 Flag 0]  ai 35:11 6:11
-    12. Stick  [PLYT 103 Flag 2]  ai 
-    13. GT Read Option  [PLYT 169 Flag 0]  ai 
-    14. Mesh Spot  [PLYT 103 Flag 8]  ai 
-    15. PA All Curl  [PLYT 4 Flag 0]  ai 
-    16. HB Mid Zone  [PLYT 195 Flag 0]  ai 
-    17. Dash Curl Flat  [PLYT 7 Flag 0]  ai 
+     0. Mtn Drive  [PLYT 103 Flag 0]
+     1. Mtn HB Screen  [PLYT 5 Flag 0]
+     2. Mtn Whip Deep Flood  [PLYT 103 Flag 0]
+     3. Orbit Mesh HB Rail  [PLYT 103 Flag 0]
+     4. Orbit RPO Peek Y Flat  [PLYT 205 Flag 0]
+     5. RZ Orbit Crossers  [PLYT 103 Flag 0]
+     6. PA X Corner  [PLYT 4 Flag 0]
+     7. Inside Zone  [PLYT 151 Flag 4]
+     8. PA Slot Corner-Post  [PLYT 4 Flag 0]
+     9. RPO Zone Peek  [PLYT 205 Flag 0]
+    10. Y Flood  [PLYT 103 Flag 16]
+    11. RPO Peek Y Pop  [PLYT 205 Flag 0]
+    12. Stick  [PLYT 103 Flag 2]
+    13. GT Read Option  [PLYT 169 Flag 0]
+    14. Mesh Spot  [PLYT 103 Flag 8]
+    15. PA All Curl  [PLYT 4 Flag 0]
+    16. HB Mid Zone  [PLYT 195 Flag 0]
+    17. Dash Curl Flat  [PLYT 7 Flag 0]
   Trio HB Wk (setId 362)
-     0. Inside Zone  [PLYT 195 Flag 4]  ai 6:11 17:11 20:10 5:10 13:10 35:11 1:10 3:10 31:10
-     1. PA Y Cross  [PLYT 4 Flag 8]  ai 17:10 20:10 35:10
-     2. RPO Alert Buck  [PLYT 207 Flag 0]  ai 6:10 17:10 35:10
-     3. RPO Buck Peek  [PLYT 205 Flag 0]  ai 
-     4. Buck Sweep Read Opt  [PLYT 169 Flag 0]  ai 
-     5. PA Cross Sit  [PLYT 4 Flag 0]  ai 20:10 35:11 6:11 17:11
-     6. Wide Zone  [PLYT 152 Flag 0]  ai 
-     7. Dagger Sit  [PLYT 103 Flag 0]  ai 8:10 10:10 24:10
-     8. Wide Zone Read  [PLYT 169 Flag 0]  ai 
-     9. RPO Alert Bubble  [PLYT 207 Flag 0]  ai 26:10 3:10 4:10 35:10 17:10 20:10 6:10 27:10 28:10 39:10
-    10. Speed Option  [PLYT 17 Flag 0]  ai 
-    11. Flood HB Flat  [PLYT 103 Flag 0]  ai 8:10 10:10 24:10
-    12. Verticals  [PLYT 103 Flag 16]  ai 10:10 24:10 33:10 8:10 40:10 41:10 40:10
-    13. RPO Read Buck Bubble  [PLYT 204 Flag 0]  ai 
-    14. HB Slip Screen  [PLYT 5 Flag 2]  ai 
+     0. Inside Zone  [PLYT 195 Flag 4]
+     1. PA Y Cross  [PLYT 4 Flag 8]
+     2. RPO Alert Buck  [PLYT 207 Flag 0]
+     3. RPO Buck Peek  [PLYT 205 Flag 0]
+     4. Buck Sweep Read Opt  [PLYT 169 Flag 0]
+     5. PA Cross Sit  [PLYT 4 Flag 0]
+     6. Wide Zone  [PLYT 152 Flag 0]
+     7. Dagger Sit  [PLYT 103 Flag 0]
+     8. Wide Zone Read  [PLYT 169 Flag 0]
+     9. RPO Alert Bubble  [PLYT 207 Flag 0]
+    10. Speed Option  [PLYT 17 Flag 0]
+    11. Flood HB Flat  [PLYT 103 Flag 0]
+    12. Verticals  [PLYT 103 Flag 16]
+    13. RPO Read Buck Bubble  [PLYT 204 Flag 0]
+    14. HB Slip Screen  [PLYT 5 Flag 2]
   Trips HB Wk (setId 382)
-     0. Flood Switch Fade  [PLYT 103 Flag 0]  ai 35:11 6:11 25:10 17:11
-     1. RPO Alert Bubble  [PLYT 207 Flag 0]  ai 35:11 1:10 17:11
-     2. Curl Slot Dig  [PLYT 103 Flag 0]  ai 6:11 7:10 17:11
-     3. Mesh Spot  [PLYT 103 Flag 0]  ai 6:10 7:10 8:10 17:11 24:10 32:10 35:11 40:10
-     4. HB Base  [PLYT 197 Flag 0]  ai 
-     5. Mesh Wheel  [PLYT 103 Flag 0]  ai 35:11 6:10 25:10 17:11
-     6. Curl Flat Corner  [PLYT 103 Flag 0]  ai 6:10 7:10 17:11
-     7. HB Off Tackle  [PLYT 196 Flag 0]  ai 28:10 39:10 35:11 4:11 25:10 26:10 27:10
-     8. Dbl Comeback  [PLYT 103 Flag 0]  ai 40:10 6:10 17:10 7:10 8:10 32:10 10:10 24:10 25:10 35:5
-     9. Drive  [PLYT 103 Flag 0]  ai 6:10 7:10 17:10
-    10. Inside Zone  [PLYT 195 Flag 4]  ai 39:10 26:10 4:11 6:10 1:10 17:1 13:10 35:11 27:10 28:10
-    11. WR Mid Screen  [PLYT 5 Flag 0]  ai 35:11 25:10 20:10
-    12. Stick  [PLYT 103 Flag 2]  ai 1:10 3:10 4:10 6:10 17:10 22:10 24:10 31:10 34:10 35:11 26:10 27:10 28:10 39:10
-    13. Read Option  [PLYT 169 Flag 0]  ai 
-    14. PA QB Choice  [PLYT 4 Flag 8]  ai 
-    15. All Curl  [PLYT 103 Flag 0]  ai 
-    16. Double Screen  [PLYT 5 Flag 0]  ai 
-    17. Deep Flood  [PLYT 103 Flag 0]  ai 6:10 17:10 7:10 8:10 32:10 10:10 24:10 25:10 35:5 40:10
-    18. Deep Stick  [PLYT 103 Flag 0]  ai 6:10 7:10 17:10
-    19. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-    20. Four Verticals  [PLYT 103 Flag 16]  ai 41:10 8:10 33:10 10:10 24:10 40:10
+     0. Flood Switch Fade  [PLYT 103 Flag 0]
+     1. RPO Alert Bubble  [PLYT 207 Flag 0]
+     2. Curl Slot Dig  [PLYT 103 Flag 0]
+     3. Mesh Spot  [PLYT 103 Flag 0]
+     4. HB Base  [PLYT 197 Flag 0]
+     5. Mesh Wheel  [PLYT 103 Flag 0]
+     6. Curl Flat Corner  [PLYT 103 Flag 0]
+     7. HB Off Tackle  [PLYT 196 Flag 0]
+     8. Dbl Comeback  [PLYT 103 Flag 0]
+     9. Drive  [PLYT 103 Flag 0]
+    10. Inside Zone  [PLYT 195 Flag 4]
+    11. WR Mid Screen  [PLYT 5 Flag 0]
+    12. Stick  [PLYT 103 Flag 2]
+    13. Read Option  [PLYT 169 Flag 0]
+    14. PA QB Choice  [PLYT 4 Flag 8]
+    15. All Curl  [PLYT 103 Flag 0]
+    16. Double Screen  [PLYT 5 Flag 0]
+    17. Deep Flood  [PLYT 103 Flag 0]
+    18. Deep Stick  [PLYT 103 Flag 0]
+    19. HB Slip Screen  [PLYT 5 Flag 0]
+    20. Four Verticals  [PLYT 103 Flag 16]
   Trio Y-Flex (setId 818)
-     0. Mtn Mills  [PLYT 103 Flag 0]  ai 
-     1. Mtn Stick  [PLYT 103 Flag 0]  ai 
-     2. Mtn Shock Slot Dig  [PLYT 103 Flag 0]  ai 
-     3. Mesh Whips  [PLYT 103 Flag 0]  ai 17:10 7:10 25:10
-     4. Inside Zone  [PLYT 195 Flag 4]  ai 35:10 1:10
-     5. Mesh Dagger  [PLYT 103 Flag 0]  ai 17:10 32:10 7:10 22:10 34:10 25:10
-     6. Mills  [PLYT 103 Flag 0]  ai 
-     7. RPO Alert Bubble  [PLYT 207 Flag 0]  ai 35:10 1:10
-     8. PA Dagger  [PLYT 4 Flag 8]  ai 6:10 25:10 17:10 35:10
-     9. Flood  [PLYT 103 Flag 0]  ai 
-    10. HB Quick Base  [PLYT 197 Flag 0]  ai 26:10 27:10 4:10 17:10 20:10 35:10 28:10 39:10
-    11. PA Crossers  [PLYT 4 Flag 0]  ai 25:10 6:10 8:10 24:10 40:10
-    12. Shock H Option  [PLYT 103 Flag 0]  ai 7:10 8:10 10:10 25:10 32:10 40:10
-    13. Dagger  [PLYT 103 Flag 0]  ai 40:10 8:10 25:10 10:10 35:10 33:10 42:11 41:10 40:10
-    14. Verticals  [PLYT 103 Flag 16]  ai 10:10
-    15. Curl Flat  [PLYT 103 Flag 2]  ai 5:0 24:10 35:0 7:0 32:0 6:0 25:0
-    16. HB Slip Screen  [PLYT 5 Flag 0]  ai 8:10 25:10 40:10 40:10
-    17. Slot Out  [PLYT 103 Flag 0]  ai 7:10 8:10 10:10 24:10 32:10
+     0. Mtn Mills  [PLYT 103 Flag 0]
+     1. Mtn Stick  [PLYT 103 Flag 0]
+     2. Mtn Shock Slot Dig  [PLYT 103 Flag 0]
+     3. Mesh Whips  [PLYT 103 Flag 0]
+     4. Inside Zone  [PLYT 195 Flag 4]
+     5. Mesh Dagger  [PLYT 103 Flag 0]
+     6. Mills  [PLYT 103 Flag 0]
+     7. RPO Alert Bubble  [PLYT 207 Flag 0]
+     8. PA Dagger  [PLYT 4 Flag 8]
+     9. Flood  [PLYT 103 Flag 0]
+    10. HB Quick Base  [PLYT 197 Flag 0]
+    11. PA Crossers  [PLYT 4 Flag 0]
+    12. Shock H Option  [PLYT 103 Flag 0]
+    13. Dagger  [PLYT 103 Flag 0]
+    14. Verticals  [PLYT 103 Flag 16]
+    15. Curl Flat  [PLYT 103 Flag 2]
+    16. HB Slip Screen  [PLYT 5 Flag 0]
+    17. Slot Out  [PLYT 103 Flag 0]
   Bunch TE (setId 584)
-     0. Boomerang Mesh Traffic  [PLYT 103 Flag 0]  ai 1:10 24:10 4:10 6:10 7:10 17:10 20:10 31:10 32:10 35:10 26:10 27:10 28:10 39:10
-     1. Boomerang HB Off Tackle  [PLYT 196 Flag 0]  ai 
-     2. Boomerang PA Y Wheel  [PLYT 4 Flag 0]  ai 
-     3. QB Wrap  [PLYT 11 Flag 0]  ai 
-     3. RPO Alert Bubble  [PLYT 207 Flag 0]  ai 
-     4. Read Option  [PLYT 169 Flag 0]  ai 
-     4. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-     5. Inside Zone  [PLYT 195 Flag 4]  ai 
-     6. Inside Cross  [PLYT 103 Flag 8]  ai 40:10 8:10 24:10
-     7. Bunch Levels  [PLYT 103 Flag 16]  ai 
-     7. Mesh  [PLYT 103 Flag 2]  ai 
-     8. Spacing  [PLYT 103 Flag 0]  ai 
-     9. HB Draw  [PLYT 14 Flag 0]  ai 
-     9. TE Corner  [PLYT 103 Flag 0]  ai 
-    10. Slot Option  [PLYT 103 Flag 0]  ai 
+     0. Boomerang Mesh Traffic  [PLYT 103 Flag 0]
+     1. Boomerang HB Off Tackle  [PLYT 196 Flag 0]
+     2. Boomerang PA Y Wheel  [PLYT 4 Flag 0]
+     3. RPO Alert Bubble  [PLYT 207 Flag 0]
+     4. HB Slip Screen  [PLYT 5 Flag 0]
+     5. Inside Zone  [PLYT 195 Flag 4]
+     6. Inside Cross  [PLYT 103 Flag 8]
+     7. Mesh  [PLYT 103 Flag 2]
+     8. Spacing  [PLYT 103 Flag 0]
+     9. TE Corner  [PLYT 103 Flag 0]
   Bunch Str Offset (setId 1313)
-     0. Mtn Deep Post  [PLYT 103 Flag 0]  ai 
-     1. Mtn Inside Zone  [PLYT 195 Flag 0]  ai 
-     2. Mtn Stick  [PLYT 103 Flag 0]  ai 
-     3. Fk Toss Lead Swing Dig  [PLYT 4 Flag 0]  ai 
-     4. Pin Pull Toss  [PLYT 15 Flag 0]  ai 1:10 34:10 17:10 5:10
-     5. Fk Toss Slide  [PLYT 4 Flag 0]  ai 17:10 34:10
-     6. Duo  [PLYT 198 Flag 0]  ai 1:10 34:10 31:10 17:10
-     7. Lead Swing Spot  [PLYT 103 Flag 8]  ai 
-     8. RPO Alert Screen  [PLYT 207 Flag 0]  ai 
-     9. Y Trail  [PLYT 103 Flag 0]  ai 7:10 17:10 24:10 32:10
-    10. Inside Zone  [PLYT 195 Flag 4]  ai 26:10 4:10 6:10 17:10 20:10 35:10 27:10 28:10 39:10
-    11. HB Slip Screen  [PLYT 5 Flag 0]  ai 35:1
-    12. Dagger  [PLYT 103 Flag 16]  ai 7:10 10:10
-    13. Read Option  [PLYT 169 Flag 0]  ai 
-    14. Slant Spacing  [PLYT 103 Flag 2]  ai 26:10 1:5 3:10 4:10 35:10 22:10 31:10 34:10 27:10 28:10 39:10
+     0. Mtn Deep Post  [PLYT 103 Flag 0]
+     1. Mtn Inside Zone  [PLYT 195 Flag 0]
+     2. Mtn Stick  [PLYT 103 Flag 0]
+     3. Fk Toss Lead Swing Dig  [PLYT 4 Flag 0]
+     4. Pin Pull Toss  [PLYT 15 Flag 0]
+     5. Fk Toss Slide  [PLYT 4 Flag 0]
+     6. Duo  [PLYT 198 Flag 0]
+     7. Lead Swing Spot  [PLYT 103 Flag 8]
+     8. RPO Alert Screen  [PLYT 207 Flag 0]
+     9. Y Trail  [PLYT 103 Flag 0]
+    10. Inside Zone  [PLYT 195 Flag 4]
+    11. HB Slip Screen  [PLYT 5 Flag 0]
+    12. Dagger  [PLYT 103 Flag 16]
+    13. Read Option  [PLYT 169 Flag 0]
+    14. Slant Spacing  [PLYT 103 Flag 2]
   Bunch Wide Nasty (setId 1433)
-     0. Cheat Clearout Drag  [PLYT 103 Flag 0]  ai 
-     1. Cheat Flood Switch  [PLYT 103 Flag 0]  ai 
-     2. Cheat HB Slip Screen  [PLYT 5 Flag 0]  ai 
-     3. Cheat Post Slot Cross  [PLYT 103 Flag 0]  ai 
-     4. Cheat Inside Zone  [PLYT 195 Flag 0]  ai 
-     5. Cheat Spot  [PLYT 103 Flag 0]  ai 
-     6. Mesh Drive  [PLYT 103 Flag 0]  ai 1:10 4:40 20:60 25:10 10:10 32:10 35:60 24:10
-     7. Inside Zone  [PLYT 195 Flag 4]  ai 26:10 1:10 3:10 4:10 6:10 13:10 17:10 20:10 31:10 34:10 35:10 27:10 28:10 39:10
-     8. Z Spot  [PLYT 103 Flag 2]  ai 26:10 1:10 4:10 6:10 7:10 24:10 35:10 27:10 28:10 39:10
-     9. Branch Return  [PLYT 103 Flag 8]  ai 26:10 4:10 7:10 17:10 25:10 27:10 28:10 39:10
-    10. Speed Dig Out  [PLYT 103 Flag 16]  ai 7:10 8:10 35:10 40:10
-    11. HB Slip Screen  [PLYT 5 Flag 0]  ai 7:10 24:10
-    12. Jet Pull Shallow  [PLYT 103 Flag 0]  ai 7:10 35:10
-    13. Flood Switch  [PLYT 103 Flag 0]  ai 
-    14. Jet Shallow Swirl  [PLYT 103 Flag 0]  ai 
+     0. Cheat Clearout Drag  [PLYT 103 Flag 0]
+     1. Cheat Flood Switch  [PLYT 103 Flag 0]
+     2. Cheat HB Slip Screen  [PLYT 5 Flag 0]
+     3. Cheat Post Slot Cross  [PLYT 103 Flag 0]
+     4. Cheat Inside Zone  [PLYT 195 Flag 0]
+     5. Cheat Spot  [PLYT 103 Flag 0]
+     6. Mesh Drive  [PLYT 103 Flag 0]
+     7. Inside Zone  [PLYT 195 Flag 4]
+     8. Z Spot  [PLYT 103 Flag 2]
+     9. Branch Return  [PLYT 103 Flag 8]
+    10. Speed Dig Out  [PLYT 103 Flag 16]
+    11. HB Slip Screen  [PLYT 5 Flag 0]
+    12. Jet Pull Shallow  [PLYT 103 Flag 0]
+    13. Flood Switch  [PLYT 103 Flag 0]
+    14. Jet Shallow Swirl  [PLYT 103 Flag 0]
   Tight Doubles (setId 747)
-     0. Mtn Cross HB Sneak  [PLYT 103 Flag 0]  ai 26:60 1:70 4:60 6:60 7:60 17:60 20:60 25:60 35:80 27:60 28:60 39:60
-     1. Mtn Fk Cross  [PLYT 103 Flag 0]  ai 26:60 1:70 4:60 6:60 7:60 17:60 20:60 32:30 35:80 27:60 28:60 39:60
-     2. Mtn Bunch Option  [PLYT 103 Flag 0]  ai 26:60 1:70 4:60 6:60 7:60 17:60 20:10 32:40 35:80 27:60 28:60 39:60
-     3. HB Quick Base  [PLYT 197 Flag 4]  ai 28:10 39:10 26:10 27:10 4:11 6:60 17:50 20:10 35:50
-     4. DBL Stick  [PLYT 103 Flag 2]  ai 26:10 27:10 28:10 39:10 1:10 4:10 6:10 17:0 20:10 24:10 31:10 34:10 35:20
-     5. PA WR Cross  [PLYT 4 Flag 8]  ai 
-     6. Mesh Spot  [PLYT 103 Flag 0]  ai 26:10 27:10 28:10 4:10 6:10 7:10 17:10 32:10 35:20 39:10
-     7. Z Spot  [PLYT 103 Flag 0]  ai 27:10 26:10 28:10 39:10 1:10 4:10 7:10 17:10 32:10 35:20
-     8. Tight Flood  [PLYT 103 Flag 16]  ai 26:40 27:40 27:40 28:40 26:40 40:10 4:40 6:10 7:1 8:1 10:10 17:10 32:10 39:40 28:40 39:40
-     9. Curl  [PLYT 103 Flag 0]  ai 26:10 27:10 28:10 4:10 17:10 39:10
-    10. Inside Zone  [PLYT 195 Flag 0]  ai 26:10 1:70 3:50 4:10 6:10 13:10 17:60 20:60 31:10 34:10 35:80 27:10 28:10 39:10
-    11. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-    12. Cross Wheels  [PLYT 103 Flag 0]  ai 
-    13. HB Draw  [PLYT 14 Flag 0]  ai 
-    14. PA Deep Curls  [PLYT 4 Flag 0]  ai 
-    15. Shot Fade Cross  [PLYT 103 Flag 0]  ai 
-    16. HB Angle  [PLYT 103 Flag 0]  ai 
-    17. Bench  [PLYT 103 Flag 0]  ai 
+     0. Mtn Cross HB Sneak  [PLYT 103 Flag 0]
+     1. Mtn Fk Cross  [PLYT 103 Flag 0]
+     2. Mtn Bunch Option  [PLYT 103 Flag 0]
+     3. HB Quick Base  [PLYT 197 Flag 4]
+     4. DBL Stick  [PLYT 103 Flag 2]
+     5. PA WR Cross  [PLYT 4 Flag 8]
+     6. Mesh Spot  [PLYT 103 Flag 0]
+     7. Z Spot  [PLYT 103 Flag 0]
+     8. Tight Flood  [PLYT 103 Flag 16]
+     9. Curl  [PLYT 103 Flag 0]
+    10. Inside Zone  [PLYT 195 Flag 0]
+    11. HB Slip Screen  [PLYT 5 Flag 0]
+    12. Cross Wheels  [PLYT 103 Flag 0]
+    13. HB Draw  [PLYT 14 Flag 0]
+    14. PA Deep Curls  [PLYT 4 Flag 0]
+    15. Shot Fade Cross  [PLYT 103 Flag 0]
+    16. HB Angle  [PLYT 103 Flag 0]
+    17. Bench  [PLYT 103 Flag 0]
   Tight Flex Wk (setId 1312049207)
-     0. Mid Zone  [PLYT 195 Flag 0]  ai 
-     1. PA Same Side Flood  [PLYT 4 Flag 0]  ai 
-     2. Same Side Zone  [PLYT 195 Flag 0]  ai 
-     3. Mtn Bunch Whip Smash  [PLYT 103 Flag 0]  ai 
-     4. Mtn Bunch Cross Dig  [PLYT 103 Flag 0]  ai 
-     5. Mtn Bunch Cross Screen  [PLYT 5 Flag 0]  ai 
-     6. Mtn Bunch Drive  [PLYT 103 Flag 0]  ai 
-     7. Mtn Bunch HB Draw  [PLYT 14 Flag 0]  ai 
-     8. Mtn Bunch Switch Flood  [PLYT 103 Flag 0]  ai 
-     9. Mtn Mesh Spot  [PLYT 103 Flag 0]  ai 
-    10. Mtn Stick Z Post  [PLYT 103 Flag 0]  ai 
-    11. Mtn Y Cross  [PLYT 103 Flag 0]  ai 
-    12. Inside Hi Lo  [PLYT 103 Flag 16]  ai 
-    13. Inside Zone  [PLYT 195 Flag 4]  ai 
-    14. PA Dagger  [PLYT 4 Flag 8]  ai 
-    15. Mesh Spot Rail  [PLYT 103 Flag 2]  ai 
-    16. Bench  [PLYT 103 Flag 0]  ai 
-    17. Stick  [PLYT 103 Flag 0]  ai 
-    18. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-    19. Go Y-Choice  [PLYT 103 Flag 0]  ai 
-    20. Quick Looks  [PLYT 103 Flag 0]  ai 
+     0. Mid Zone  [PLYT 195 Flag 0]
+     1. PA Same Side Flood  [PLYT 4 Flag 0]
+     2. Same Side Zone  [PLYT 195 Flag 0]
+     3. Mtn Bunch Whip Smash  [PLYT 103 Flag 0]
+     4. Mtn Bunch Cross Dig  [PLYT 103 Flag 0]
+     5. Mtn Bunch Cross Screen  [PLYT 5 Flag 0]
+     6. Mtn Bunch Drive  [PLYT 103 Flag 0]
+     7. Mtn Bunch HB Draw  [PLYT 14 Flag 0]
+     8. Mtn Bunch Switch Flood  [PLYT 103 Flag 0]
+     9. Mtn Mesh Spot  [PLYT 103 Flag 0]
+    10. Mtn Stick Z Post  [PLYT 103 Flag 0]
+    11. Mtn Y Cross  [PLYT 103 Flag 0]
+    12. Inside Hi Lo  [PLYT 103 Flag 16]
+    13. Inside Zone  [PLYT 195 Flag 4]
+    14. PA Dagger  [PLYT 4 Flag 8]
+    15. Mesh Spot Rail  [PLYT 103 Flag 2]
+    16. Bench  [PLYT 103 Flag 0]
+    17. Stick  [PLYT 103 Flag 0]
+    18. HB Slip Screen  [PLYT 5 Flag 0]
+    19. Go Y-Choice  [PLYT 103 Flag 0]
+    20. Quick Looks  [PLYT 103 Flag 0]
   Tight Flex Offset (setId 2516966931)
-     0. Mtn Fork Y-Corner  [PLYT 103 Flag 0]  ai 
-     1. Mtn Choice  [PLYT 103 Flag 0]  ai 
-     2. Mtn Spot Dig  [PLYT 103 Flag 0]  ai 
-     3. Mesh Spot  [PLYT 103 Flag 0]  ai 
-     4. Inside Zone  [PLYT 195 Flag 4]  ai 
-     5. PA Switch Verts  [PLYT 4 Flag 8]  ai 
-     6. Mtn Dagger H-Choice  [PLYT 103 Flag 0]  ai 
-     7. Mtn Fk H-Angle  [PLYT 103 Flag 0]  ai 
-     8. Mtn H-Texas  [PLYT 103 Flag 0]  ai 
-     9. Spot Shake  [PLYT 103 Flag 0]  ai 
-    10. 0 1 Trap  [PLYT 201 Flag 0]  ai 
-    11. Dragon Spacing  [PLYT 103 Flag 2]  ai 
-    12. Slot Outs H-Angle  [PLYT 103 Flag 16]  ai 
-    13. HB Draw  [PLYT 14 Flag 0]  ai 
-    14. HB Slip Screen  [PLYT 5 Flag 0]  ai 
+     0. Mtn Fork Y-Corner  [PLYT 103 Flag 0]
+     1. Mtn Choice  [PLYT 103 Flag 0]
+     2. Mtn Spot Dig  [PLYT 103 Flag 0]
+     3. Mesh Spot  [PLYT 103 Flag 0]
+     4. Inside Zone  [PLYT 195 Flag 4]
+     5. PA Switch Verts  [PLYT 4 Flag 8]
+     6. Mtn Dagger H-Choice  [PLYT 103 Flag 0]
+     7. Mtn Fk H-Angle  [PLYT 103 Flag 0]
+     8. Mtn H-Texas  [PLYT 103 Flag 0]
+     9. Spot Shake  [PLYT 103 Flag 0]
+    10. 0 1 Trap  [PLYT 201 Flag 0]
+    11. Dragon Spacing  [PLYT 103 Flag 2]
+    12. Slot Outs H-Angle  [PLYT 103 Flag 16]
+    13. HB Draw  [PLYT 14 Flag 0]
+    14. HB Slip Screen  [PLYT 5 Flag 0]
   Spread Y-Flex (setId 583)
-     0. Mtn FL Screen  [PLYT 5 Flag 0]  ai 17:10 20:10 6:10
-     1. Mtn Fk Screen Wheel  [PLYT 103 Flag 0]  ai 
-     2. Mtn HB Cross Screen  [PLYT 5 Flag 0]  ai 7:10 35:11
-     2. Mtn Shallow HB Angle  [PLYT 103 Flag 0]  ai 32:10 17:10 7:10
-     3. Mtn Drive  [PLYT 103 Flag 0]  ai 6:10 17:10 7:10
-     4. Mtn Replace  [PLYT 103 Flag 0]  ai 8:10 17:10 20:10 6:10 7:10 32:10 35:11 40:10
-     4. Empty Mtn Dagger  [PLYT 103 Flag 0]  ai 
-     5. Empty Mtn Drive  [PLYT 103 Flag 0]  ai 
-     6. Empty Mtn FL Screen  [PLYT 5 Flag 0]  ai 
-     7. Inside Zone  [PLYT 195 Flag 4]  ai 27:10 26:10 28:10 35:11 1:10 4:11 17:11 25:10 39:10
-     8. Y Cross  [PLYT 103 Flag 0]  ai 4:5 6:5 7:5 8:5 17:0 32:5 10:5 26:10 27:10 28:10 39:10
-     9. Mesh  [PLYT 103 Flag 0]  ai 6:10 17:10 35:10 22:10 34:10 1:5 31:10
-     9. Curl Flats  [PLYT 103 Flag 0]  ai 5:0 24:10 35:0 7:0 32:0 6:0 25:0
-    10. RPO Alert Screen  [PLYT 207 Flag 0]  ai 
-    10. Read Option  [PLYT 169 Flag 0]  ai 26:10 27:10 28:10 39:10 1:10 4:10 6:10 17:10 20:10 35:10
-    11. PA Curls  [PLYT 4 Flag 8]  ai 5:0 24:10 35:0 7:0 32:0 6:0 25:0
-    11. QB Zone  [PLYT 11 Flag 0]  ai 3:10 1:10
-    11. Z Spot  [PLYT 103 Flag 2]  ai 28:10 39:10 26:10 27:10 4:10
-    12. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-    14. HB Quick Base  [PLYT 197 Flag 0]  ai 27:10 26:10 28:10 39:10 17:11 4:11 35:10
-    19. Spot N Go  [PLYT 103 Flag 16]  ai 6:10 7:10 32:10 8:10 25:10 40:10
+     0. Mtn FL Screen  [PLYT 5 Flag 0]
+     1. Mtn Fk Screen Wheel  [PLYT 103 Flag 0]
+     2. Mtn Shallow HB Angle  [PLYT 103 Flag 0]
+     3. Mtn Drive  [PLYT 103 Flag 0]
+     4. Empty Mtn Dagger  [PLYT 103 Flag 0]
+     5. Empty Mtn Drive  [PLYT 103 Flag 0]
+     6. Empty Mtn FL Screen  [PLYT 5 Flag 0]
+     7. Inside Zone  [PLYT 195 Flag 4]
+     8. Y Cross  [PLYT 103 Flag 0]
+     9. Curl Flats  [PLYT 103 Flag 0]
+    10. Read Option  [PLYT 169 Flag 0]
+    11. Z Spot  [PLYT 103 Flag 2]
+    12. HB Slip Screen  [PLYT 5 Flag 0]
   5WR Trio (setId 376)
-     0. Shock Slot Option  [PLYT 103 Flag 0]  ai 17:10 25:10 1:10 32:10
-     1. QB Draw  [PLYT 14 Flag 4]  ai 
-     2. Hitch Corners  [PLYT 103 Flag 0]  ai 25:10
-     3. Mtn Mesh Y-Post  [PLYT 103 Flag 0]  ai 
-     4. Mtn Mesh Fork  [PLYT 103 Flag 0]  ai 
-     5. Mtn Y Shallow Cross  [PLYT 103 Flag 0]  ai 
-     6. Mesh Spot  [PLYT 103 Flag 2]  ai 
-     7. Inverted Mesh  [PLYT 103 Flag 0]  ai 25:10 17:10 20:10 6:10 7:10 32:10 35:10
-     8. Whips  [PLYT 103 Flag 8]  ai 25:10 17:10 20:10 6:10 7:10 24:10
-     9. Jet Sweep  [PLYT 208 Flag 0]  ai 39:10 26:10 27:10 28:10 4:10 6:10 17:10 20:10 35:10
-    10. Whips Curls  [PLYT 103 Flag 0]  ai 
-    11. Four Verticals  [PLYT 103 Flag 0]  ai 10:10 24:10
-    12. Shallow Cross  [PLYT 103 Flag 0]  ai 
-    13. Strong Flood  [PLYT 103 Flag 0]  ai 10:10 24:10
-    14. WR Screens  [PLYT 5 Flag 0]  ai 6:10
-    15. Double Pivot  [PLYT 103 Flag 0]  ai 7:10 17:10
-    16. Stick  [PLYT 103 Flag 0]  ai 22:10 34:10 1:10
-    17. Flood Switch  [PLYT 103 Flag 0]  ai 24:10 10:10
-    18. Four Verticals  [PLYT 103 Flag 16]  ai 40:10 40:10 41:10 8:10 33:10 10:10 24:10
-    19. Curl Flats  [PLYT 103 Flag 0]  ai 
-    20. Shock Y Option  [PLYT 103 Flag 0]  ai 
+     0. Shock Slot Option  [PLYT 103 Flag 0]
+     1. QB Draw  [PLYT 14 Flag 4]
+     2. Hitch Corners  [PLYT 103 Flag 0]
+     3. Mtn Mesh Y-Post  [PLYT 103 Flag 0]
+     4. Mtn Mesh Fork  [PLYT 103 Flag 0]
+     5. Mtn Y Shallow Cross  [PLYT 103 Flag 0]
+     6. Mesh Spot  [PLYT 103 Flag 2]
+     7. Inverted Mesh  [PLYT 103 Flag 0]
+     8. Whips  [PLYT 103 Flag 8]
+     9. Jet Sweep  [PLYT 208 Flag 0]
+    10. Whips Curls  [PLYT 103 Flag 0]
+    11. Four Verticals  [PLYT 103 Flag 0]
+    12. Shallow Cross  [PLYT 103 Flag 0]
+    13. Strong Flood  [PLYT 103 Flag 0]
+    14. WR Screens  [PLYT 5 Flag 0]
+    15. Double Pivot  [PLYT 103 Flag 0]
+    16. Stick  [PLYT 103 Flag 0]
+    17. Flood Switch  [PLYT 103 Flag 0]
+    18. Four Verticals  [PLYT 103 Flag 16]
+    19. Curl Flats  [PLYT 103 Flag 0]
+    20. Shock Y Option  [PLYT 103 Flag 0]
   Empty Base Flex (setId 1077)
-     0. Y Corner  [PLYT 103 Flag 0]  ai 
-     1. RPO Alert Draw Stick  [PLYT 207 Flag 0]  ai 
-     1. Redzone Up  [PLYT 103 Flag 0]  ai 10:10 8:10 24:10 25:10 32:5 42:11 40:10
-     2. Middle Hi Lo  [PLYT 103 Flag 0]  ai 
-     3. QB Draw  [PLYT 14 Flag 0]  ai 
-     3. WR Screen  [PLYT 5 Flag 0]  ai 
-     4. Stick N Nod  [PLYT 103 Flag 0]  ai 
-     5. Stick  [PLYT 103 Flag 2]  ai 28:50 26:50 39:50 27:50 1:0 3:70 4:50 6:10 17:10 20:10 34:10 35:10
-     5. Shock WR Option  [PLYT 103 Flag 0]  ai 6:10 7:10 17:10 20:10 24:10 25:10 35:10
-     6. Trail Shake  [PLYT 103 Flag 8]  ai 4:50 6:10 7:10 17:10 24:10 25:10 35:10 26:50 27:50 28:50 39:50
-     7. Jailbreak Slot Screen  [PLYT 5 Flag 4]  ai 6:10 8:0 40:0
-     7. Choice Stick Nod  [PLYT 103 Flag 0]  ai 4:50 35:10 26:50 27:50 28:50 39:50
-     8. Hoss Y Juke  [PLYT 103 Flag 0]  ai 
-     9. Levels Switch  [PLYT 103 Flag 0]  ai 4:50 7:10 17:10 26:50 27:50 28:50 39:50
-    10. Verticals Under  [PLYT 103 Flag 16]  ai 6:10 8:0 25:10 33:10 40:0 41:10
+     0. Y Corner  [PLYT 103 Flag 0]
+     1. Redzone Up  [PLYT 103 Flag 0]
+     2. Middle Hi Lo  [PLYT 103 Flag 0]
+     3. WR Screen  [PLYT 5 Flag 0]
+     4. Stick N Nod  [PLYT 103 Flag 0]
+     5. Shock WR Option  [PLYT 103 Flag 0]
+     6. Trail Shake  [PLYT 103 Flag 8]
+     7. Choice Stick Nod  [PLYT 103 Flag 0]
+     8. Hoss Y Juke  [PLYT 103 Flag 0]
+     9. Levels Switch  [PLYT 103 Flag 0]
+    10. Verticals Under  [PLYT 103 Flag 16]
 
 Pistol (formId 103)
   Deuce Close (setId 1337)
-     0. Bench  [PLYT 103 Flag 16]  ai 
-     1. Inside Zone Split  [PLYT 195 Flag 0]  ai 
-     2. PA Z Over  [PLYT 4 Flag 8]  ai 
-     3. PA Boot Y Leak  [PLYT 4 Flag 0]  ai 
-     4. Y Lead Read Option  [PLYT 169 Flag 0]  ai 
-     5. Mesh Spot  [PLYT 103 Flag 2]  ai 
-     5. HB Stretch  [PLYT 196 Flag 0]  ai 
-     6. RPO Read Cheat Wheel Flat  [PLYT 204 Flag 0]  ai 
-     7. HB Dive  [PLYT 151 Flag 4]  ai 
+     0. Bench  [PLYT 103 Flag 16]
+     1. Inside Zone Split  [PLYT 195 Flag 0]
+     2. PA Z Over  [PLYT 4 Flag 8]
+     3. PA Boot Y Leak  [PLYT 4 Flag 0]
+     4. Y Lead Read Option  [PLYT 169 Flag 0]
+     5. HB Stretch  [PLYT 196 Flag 0]
+     6. RPO Read Cheat Wheel Flat  [PLYT 204 Flag 0]
+     7. HB Dive  [PLYT 151 Flag 4]
   Tight Y Off Flex (setId 1338)
-     0. Deep Post Switch  [PLYT 103 Flag 16]  ai 42:40 35:20 20:30
-     1. Bench Switch  [PLYT 103 Flag 8]  ai 7:10 10:10 24:10 32:10
-     2. Wheel Switch  [PLYT 103 Flag 0]  ai 7:10 10:10 24:10 32:10
-     3. HB Zone  [PLYT 195 Flag 4]  ai 26:60 1:10 4:60 6:50 20:10 35:60 27:60 28:60 39:60
-     4. WR Stick N Out  [PLYT 103 Flag 2]  ai 
-     5. Counter Y  [PLYT 13 Flag 0]  ai 1:10 4:60 6:50 20:10 35:60 26:60 27:60 28:60 39:60
+     0. Deep Post Switch  [PLYT 103 Flag 16]
+     1. Bench Switch  [PLYT 103 Flag 8]
+     2. Wheel Switch  [PLYT 103 Flag 0]
+     3. HB Zone  [PLYT 195 Flag 4]
+     4. WR Stick N Out  [PLYT 103 Flag 2]
+     5. Counter Y  [PLYT 13 Flag 0]
   Wing Close (setId 1336)
-     0. PA Boot Levels  [PLYT 4 Flag 2]  ai 37:40
-     1. HB Slam  [PLYT 151 Flag 4]  ai 26:60 1:10 4:60 6:50 20:10 35:60 27:60 28:60 39:60
-     2. TE Attack  [PLYT 103 Flag 8]  ai 
-     3. PA Boot Lt  [PLYT 4 Flag 0]  ai 37:40
-     4. HB Zone  [PLYT 195 Flag 0]  ai 1:10 4:60 6:50 20:10 35:60 26:60 27:60 28:60 39:60
-     5. PA Stretch Shot  [PLYT 4 Flag 16]  ai 37:40
-  Doubles (setId 427)
-     0. Jet Touch Pass Fk HB  [PLYT 208 Flag 0]  ai 
-     1. Jet Inside Zone  [PLYT 195 Flag 0]  ai 
-     1. PA Deep In  [PLYT 4 Flag 8]  ai 
-     1. PA Boot  [PLYT 4 Flag 0]  ai 
-     1. Slants  [PLYT 103 Flag 2]  ai 
-     2. Jet Touch Pass  [PLYT 208 Flag 0]  ai 
-     2. Curl Flats  [PLYT 103 Flag 0]  ai 
-     2. Four Verticals  [PLYT 103 Flag 16]  ai 
-     2. HB Draw  [PLYT 14 Flag 0]  ai 
-     4. HB Zone  [PLYT 195 Flag 4]  ai 
-     6. RPO Alert Bubble  [PLYT 207 Flag 0]  ai 
-     7. HB Slip Screen  [PLYT 5 Flag 0]  ai 
-     8. Y Shallow Cross  [PLYT 103 Flag 0]  ai 
-    10. Read Option  [PLYT 169 Flag 0]  ai 
-    11. PA Comebacks  [PLYT 4 Flag 0]  ai 
+     0. PA Boot Levels  [PLYT 4 Flag 2]
+     1. HB Slam  [PLYT 151 Flag 4]
+     2. TE Attack  [PLYT 103 Flag 8]
+     3. PA Boot Lt  [PLYT 4 Flag 0]
+     4. HB Zone  [PLYT 195 Flag 0]
+     5. PA Stretch Shot  [PLYT 4 Flag 16]
 
 Goal Line Offense (formId 10)
   Normal (setId 9)
-     0. HB Dive  [PLYT 198 Flag 8]  ai 3:10 5:10 23:0
-     1. PA Spot  [PLYT 4 Flag 0]  ai 
-     2. QB Sneak  [PLYT 19 Flag 0]  ai 31:0
-     3. Power O  [PLYT 197 Flag 2]  ai 3:10
-     4. PA Power O  [PLYT 4 Flag 4]  ai 3:10
-     5. FB Dive Weak  [PLYT 153 Flag 0]  ai 3:10 5:10 31:10
-     6. HB Split O  [PLYT 197 Flag 0]  ai 
-     7. PA Sprint HB Flat  [PLYT 4 Flag 0]  ai 
-     8. HB Power G  [PLYT 197 Flag 0]  ai 3:10
-     9. HB Sting  [PLYT 195 Flag 16]  ai 
-    10. PA Waggle  [PLYT 4 Flag 0]  ai 
-    11. Strong Toss  [PLYT 15 Flag 0]  ai 3:10 23:0 31:10
+     0. HB Dive  [PLYT 198 Flag 8]
+     1. PA Spot  [PLYT 4 Flag 0]
+     2. QB Sneak  [PLYT 19 Flag 0]
+     3. Power O  [PLYT 197 Flag 2]
+     4. PA Power O  [PLYT 4 Flag 4]
+     5. FB Dive Weak  [PLYT 153 Flag 0]
+     6. HB Split O  [PLYT 197 Flag 0]
+     7. PA Sprint HB Flat  [PLYT 4 Flag 0]
+     8. HB Power G  [PLYT 197 Flag 0]
+     9. HB Sting  [PLYT 195 Flag 16]
+    10. PA Waggle  [PLYT 4 Flag 0]
+    11. Strong Toss  [PLYT 15 Flag 0]
 
 Hail Mary (formId 132)
   Trio (setId 1164)
-     0. Hail Mary  [PLYT 104 Flag 0]  ai 42:10 21:10
-     1. Shot Save Clock  [PLYT 104 Flag 0]  ai 43:10
-     2. Goal Post  [PLYT 104 Flag 0]  ai 42:10 21:10
-  Spread (setId 1165)
+     0. Hail Mary  [PLYT 104 Flag 0]
+     1. Shot Save Clock  [PLYT 104 Flag 0]
+     2. Goal Post  [PLYT 104 Flag 0]
 
 Special (formId 12)
   Field Goal (setId 38)
-     0. Fake FG Y Shovel  [PLYT 154 Flag 0]  ai 12:10
-     1. Field Goal  [PLYT 21 Flag 2]  ai 0:10 38:10
-     2. Fake FG K Flip Pass  [PLYT 105 Flag 4]  ai 12:10
-     3. Fake FG Sprintout Pass  [PLYT 105 Flag 8]  ai 12:10
-     4. Field Goal 2  [PLYT 21 Flag 0]  ai 0:10
-     5. Fake FG Holder Blast  [PLYT 154 Flag 16]  ai 12:10
+     0. Fake FG Y Shovel  [PLYT 154 Flag 0]
+     1. Field Goal  [PLYT 21 Flag 2]
+     2. Fake FG K Flip Pass  [PLYT 105 Flag 4]
+     3. Fake FG Sprintout Pass  [PLYT 105 Flag 8]
+     4. Field Goal 2  [PLYT 21 Flag 0]
+     5. Fake FG Holder Blast  [PLYT 154 Flag 16]
   Punt (setId 12)
-     0. Fake Punt FB Pass  [PLYT 106 Flag 0]  ai 11:10
-     1. Punt  [PLYT 22 Flag 2]  ai 9:10
-     2. Fake Punt Sweep  [PLYT 155 Flag 4]  ai 11:10
-     3. Fake Punt Off Tackle  [PLYT 155 Flag 8]  ai 11:10
-     4. Punt 2  [PLYT 22 Flag 0]  ai 9:10
-     5. Fake Punt FB Flat  [PLYT 106 Flag 16]  ai 11:10
+     0. Fake Punt FB Pass  [PLYT 106 Flag 0]
+     1. Punt  [PLYT 22 Flag 2]
+     2. Fake Punt Sweep  [PLYT 155 Flag 4]
+     3. Fake Punt Off Tackle  [PLYT 155 Flag 8]
+     4. Punt 2  [PLYT 22 Flag 0]
+     5. Fake Punt FB Flat  [PLYT 106 Flag 16]
   Punt Tight (setId 1099)
-     0. Punt  [PLYT 22 Flag 2]  ai 19:10
+     0. Punt  [PLYT 22 Flag 2]
   Stop Clock (setId 66)
-     0. Spike Ball  [PLYT 38 Flag 2]  ai 2:10 29:10 30:0
-     1. Fake Spike  [PLYT 107 Flag 4]  ai 30:10
-     2. Fake Spike 2  [PLYT 107 Flag 8]  ai 30:10
-     3. Fake Spike 3  [PLYT 107 Flag 16]  ai 30:10
+     0. Spike Ball  [PLYT 38 Flag 2]
+     1. Fake Spike  [PLYT 107 Flag 4]
+     2. Fake Spike 2  [PLYT 107 Flag 8]
+     3. Fake Spike 3  [PLYT 107 Flag 16]
   QB Kneel (setId 69)
-     0. QB Kneel  [PLYT 37 Flag 0]  ai 14:10
+     0. QB Kneel  [PLYT 37 Flag 0]
 
 Kickoff (formId 6)
   Landing Zone NFL Kickoff (setId 1048388726)
-     0. Kickoff Left  [PLYT 23 Flag 0]  ai 15:40
-     1. Kickoff Middle  [PLYT 23 Flag 0]  ai 15:40
-     2. Kickoff Right  [PLYT 23 Flag 0]  ai 15:40
+     0. Kickoff Left  [PLYT 23 Flag 0]
+     1. Kickoff Middle  [PLYT 23 Flag 0]
+     2. Kickoff Right  [PLYT 23 Flag 0]
   Heavy Landing Zone NFL Kickoff (setId 4145413889)
-     0. Heavy Kickoff Left  [PLYT 23 Flag 0]  ai 15:40
-     1. Heavy Kickoff Middle  [PLYT 23 Flag 0]  ai 15:40
-     2. Heavy Kickoff Right  [PLYT 23 Flag 0]  ai 15:40
+     0. Heavy Kickoff Left  [PLYT 23 Flag 0]
+     1. Heavy Kickoff Middle  [PLYT 23 Flag 0]
+     2. Heavy Kickoff Right  [PLYT 23 Flag 0]
   NFL Kickoff (setId 1162)
-     0. Kickoff Deep Left  [PLYT 23 Flag 0]  ai 15:10
-     1. Kickoff  Deep Middle  [PLYT 23 Flag 0]  ai 15:10 36:10
-     2. Kickoff  Deep Right  [PLYT 23 Flag 0]  ai 15:10
+     0. Kickoff Deep Left  [PLYT 23 Flag 0]
+     1. Kickoff  Deep Middle  [PLYT 23 Flag 0]
+     2. Kickoff  Deep Right  [PLYT 23 Flag 0]
   NFL Onside Kick 3 (setId 1166)
-     0. Strong Onside  [PLYT 25 Flag 0]  ai 16:10
-     1. Speed Onside  [PLYT 25 Flag 0]  ai 16:10
-     2. Onside Kick  [PLYT 25 Flag 0]  ai 16:10
-  NFL Onside Kick 2 (setId 1365)
+     0. Strong Onside  [PLYT 25 Flag 0]
+     1. Speed Onside  [PLYT 25 Flag 0]
+     2. Onside Kick  [PLYT 25 Flag 0]
   NFL Onside Kick (setId 1366)
 
 Safety Kickoff (formId 8)
   Landing Zone Safety Kick (setId 3484436163)
-     0. Kick Left  [PLYT 23 Flag 0]  ai 18:10
-     1. Kick Middle  [PLYT 23 Flag 0]  ai 18:10
-     2. Kick Right  [PLYT 23 Flag 0]  ai 18:10
+     0. Kick Left  [PLYT 23 Flag 0]
+     1. Kick Middle  [PLYT 23 Flag 0]
+     2. Kick Right  [PLYT 23 Flag 0]
   Landing Zone Heavy Safety Kick (setId 2637590900)
-     0. Kick Left  [PLYT 23 Flag 0]  ai 18:10
-     1. Kick Middle  [PLYT 23 Flag 0]  ai 18:10
-     2. Kick Right  [PLYT 23 Flag 0]  ai 18:10
+     0. Kick Left  [PLYT 23 Flag 0]
+     1. Kick Middle  [PLYT 23 Flag 0]
+     2. Kick Right  [PLYT 23 Flag 0]
   Landing Zone Safety Punt (setId 1335640809)
-     0. Punt Left  [PLYT 23 Flag 0]  ai 18:10
-     1. Punt Middle  [PLYT 23 Flag 0]  ai 18:10
-     2. Punt Right  [PLYT 23 Flag 0]  ai 18:10
+     0. Punt Left  [PLYT 23 Flag 0]
+     1. Punt Middle  [PLYT 23 Flag 0]
+     2. Punt Right  [PLYT 23 Flag 0]
 
 audibles (PBAU): [{"BOKL":32764,"PBPL":0,"FTYP":1,"PBAU":1,"Flag":0},{"BOKL":32764,"PBPL":0,"FTYP":1,"PBAU":2,"Flag":0},{"BOKL":32764,"PBPL":0,"FTYP":1,"PBAU":3,"Flag":0},{"BOKL":32764,"PBPL":0,"FTYP":1,"PBAU":4,"Flag":0},{"BOKL":32764,"PBPL":0,"FTYP":1,"PBAU":5,"Flag":0}]
-plays 648, unresolved 0
+plays 569, unresolved 0

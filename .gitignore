@@ -10,3 +10,7 @@ node_modules/
 # large generated game dumps (regenerate with tools/PlayDump)
 research/dumps/
 research/decompiled/
+
+# local backups of game saves
+backups/
+build/

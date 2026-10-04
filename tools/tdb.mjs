@@ -1,6 +1,7 @@
 // Reader for EA "DB" (TDB) tables inside a Madden 27 FBCHUNKS save (e.g. saves/PBOOKOFF-*).
 // usage: node tools/tdb.mjs <save> [table] [maxRows]
 import { readFileSync } from "node:fs";
+import { crc } from "./tdbcrc.mjs";
 
 export function readTdb(buf) {
   const db = buf.indexOf(Buffer.from("DB\0\x08", "latin1"));
@@ -25,15 +26,51 @@ export function readTdb(buf) {
     for (let f = 0; f < t.fieldCount; f++, q += 16)
       t.fields.push({ type: buf.readUInt32LE(q), bitOffset: buf.readUInt32LE(q + 4), name: buf.toString("latin1", q + 8, q + 12), bits: buf.readUInt32LE(q + 12) });
     t.dataStart = q;
+    // @20 u16 deleted count, @22 u16 first deleted row (65535 = none). Deleted rows have the top bit of their
+    // last byte set and their first 32 bits reused as the next-deleted index.
+    t.deletedCount = buf.readUInt16LE(t.start + 20);
+    t.firstDeleted = buf.readUInt16LE(t.start + 22);
     t.rows = [];
+    t.allRows = [];
     for (let r = 0; r < t.records; r++) {
       const rec = buf.subarray(q + r * t.recordBytes, q + (r + 1) * t.recordBytes);
       const row = {};
       for (const f of t.fields) row[f.name] = f.type === 0 ? readString(rec, f) : readBitsLE(rec, f.bitOffset, f.bits);
-      t.rows.push(row);
+      const deleted = (rec[t.recordBytes - 1] & 0x80) !== 0;
+      t.allRows.push({ ...row, $deleted: deleted });
+      if (!deleted) t.rows.push(row);
     }
   }
   return { dbOffset: db, tables };
+}
+
+// Rewrites one table in place with `rows` (compacted, no deleted rows) and refreshes its two CRCs.
+export function writeTable(buf, t, rows) {
+  if (rows.length > t.maxRecords) throw new Error(`${t.name}: ${rows.length} rows exceeds capacity ${t.maxRecords}`);
+  buf.fill(0, t.dataStart, t.dataStart + t.maxRecords * t.recordBytes);
+  rows.forEach((row, r) => {
+    const rec = buf.subarray(t.dataStart + r * t.recordBytes, t.dataStart + (r + 1) * t.recordBytes);
+    for (const f of t.fields) {
+      if (f.type === 0) throw new Error(`${t.name}.${f.name}: string fields not supported yet`);
+      if (!(f.name in row)) throw new Error(`${t.name}: row ${r} missing ${f.name}`);
+      writeBitsLE(rec, f.bitOffset, f.bits, row[f.name]);
+    }
+  });
+  buf.writeUInt16LE(rows.length, t.start + 18);
+  buf.writeUInt16LE(0, t.start + 20);
+  buf.writeUInt16LE(0xffff, t.start + 22);
+  buf.writeUInt32LE(crc(buf.subarray(t.start, t.start + 32)), t.start + 32);
+  const end = t.dataStart + t.maxRecords * t.recordBytes;
+  buf.writeUInt32LE(crc(buf.subarray(t.start + 36, end)), end);
+}
+
+function writeBitsLE(rec, off, bits, value) {
+  const v = BigInt(value);
+  if (v < 0n || v >= 1n << BigInt(bits)) throw new Error(`value ${value} does not fit in ${bits} bits`);
+  for (let i = 0; i < bits; i++) {
+    const bit = off + i, mask = 1 << (bit & 7);
+    if ((v >> BigInt(i)) & 1n) rec[bit >> 3] |= mask; else rec[bit >> 3] &= ~mask;
+  }
 }
 
 // Little-endian bit order: bit 0 is the LSB of byte 0.
@@ -56,7 +93,7 @@ if (process.argv[1]?.endsWith("tdb.mjs")) {
   const { tables } = readTdb(readFileSync(file));
   for (const t of tables) {
     if (only && only !== "*" && t.name !== only) continue;
-    console.log(`\n== ${t.name}: ${t.records}/${t.maxRecords} rows, ${t.recordBytes}B (${t.recordBits} bits)  fields: ${t.fields.map(f => `${f.name}:${f.type}/${f.bitOffset}+${f.bits}`).join(" ")}`);
+    console.log(`\n== ${t.name}: ${t.rows.length} live (${t.records} used, ${t.deletedCount} deleted)/${t.maxRecords} rows, ${t.recordBytes}B (${t.recordBits} bits)  fields: ${t.fields.map(f => `${f.name}:${f.type}/${f.bitOffset}+${f.bits}`).join(" ")}`);
     for (const r of t.rows.slice(0, +maxRows)) console.log("  " + JSON.stringify(r));
   }
 }
