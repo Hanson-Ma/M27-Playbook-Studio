@@ -8,7 +8,7 @@
     <Nullable>disable</Nullable>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <!-- Path to the MMC Editor install; Frosty assemblies are resolved from here at runtime, never copied. -->
-    <EditorDir Condition="'$(EditorDir)' == ''">P:\Dropbox\Projects\Madden Modding\MMC_Modding_Tools_v1.1.0.4\MMC_Editor_v1.1.0.4</EditorDir>
+    <EditorDir Condition="'$(EditorDir)' == ''">P:\Dropbox\Projects\Madden Modding\MMC_Modding_Tools_v1.1.0.6\MMC_Editor_v1.1.0.6</EditorDir>
   </PropertyGroup>
 
   <ItemGroup>
