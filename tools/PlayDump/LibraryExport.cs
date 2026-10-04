@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using FrostySdk;
 using FrostySdk.Ebx;
 using FrostySdk.IO;
 using FrostySdk.Managers;
@@ -51,6 +52,8 @@ namespace PlayDump
             }
             Write(outDir, "sets.json", sets);
 
+            // Custom playbook saves only show plays that are in the global play sheet bundle; others must be pulled in by the mod.
+            int globalBundle = am.GetBundleId("win32/football/gameplay/playbooks/playlibrary/globalplaysheets/globalplaybooksheet_playbooks_brt");
             var plays = new JArray();
             int n = 0;
             foreach (var e in am.EnumerateEbx("Play").OrderBy(e => e.Name))
@@ -61,7 +64,7 @@ namespace PlayDump
                     ["playId"] = (uint)r.playId, ["name"] = r.playName.ToString(), ["asset"] = e.Name, ["set"] = Ext(r.Set),
                     ["offensePlayType"] = r.offensePlayType.ToString(), ["defensePlayType"] = r.defensePlayType.ToString(),
                     ["blocking"] = Ext(r.BlockingSchemeDefine), ["runHole"] = (int)r.runHole, ["vip"] = (int)r.VIPPosition,
-                    ["allowHotRoutes"] = (bool)r.allowHotRoutes, ["canFlip"] = (bool)r.canFlip,
+                    ["allowHotRoutes"] = (bool)r.allowHotRoutes, ["canFlip"] = (bool)r.canFlip, ["global"] = e.IsInBundle(globalBundle),
                     ["assignments"] = new JArray(((List<PointerRef>)r.positionAssignmentDefines).Select(p => (JToken)Ext(p))),
                     ["reads"] = new JArray(((List<PointerRef>)r.passData).Select(p => { dynamic d = p.Internal; return new JObject { ["pos"] = (int)d.position, ["pct"] = Math.Round((float)d.percentage, 3), ["concept"] = d.concept.ToString(), ["combo"] = (int)d.combo }; }))
                 });
@@ -80,8 +83,36 @@ namespace PlayDump
                 };
             }
             Write(outDir, "assignments.json", assignments);
+            Write(outDir, "enums.json", Enums());
             Console.Error.WriteLine($"library: {formations.Count} formations, {sets.Count} sets, {plays.Count} plays, {assignments.Count} assignments -> {outDir}");
             return 0;
+        }
+
+        // Every enum used by play, set and assignment fields (incl. nested types like AutoMotion waypoints): {EnumType: [names], fields: {Class.field: EnumType}}.
+        static JObject Enums()
+        {
+            Type sample = TypeLibrary.GetType("PositionAssignment");
+            Type[] all = sample.Assembly.GetTypes();
+            var roots = all.Where(t => t.IsSubclassOf(sample)).Concat(new[] { "Play", "Set", "SetPosition", "PlayPassData", "PositionAssignmentDefine" }.Select(TypeLibrary.GetType)).ToList();
+            var enums = new JObject();
+            var fields = new JObject();
+            var seen = new HashSet<Type>();
+            void Visit(Type t)
+            {
+                if (t == null || !seen.Add(t)) return;
+                foreach (PropertyInfo p in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+                {
+                    Type pt = p.PropertyType.IsGenericType ? p.PropertyType.GetGenericArguments()[0] : p.PropertyType;
+                    if (pt.IsEnum)
+                    {
+                        fields[$"{t.Name.Replace("Assignment", "")}.{p.Name}"] = pt.Name;
+                        if (enums[pt.Name] == null) enums[pt.Name] = new JArray(Enum.GetNames(pt));
+                    }
+                    else if (pt.Namespace == sample.Namespace && pt.IsClass) Visit(pt);
+                }
+            }
+            roots.ForEach(Visit);
+            return new JObject { ["fields"] = fields, ["enums"] = enums };
         }
 
         static JObject Position(object p)

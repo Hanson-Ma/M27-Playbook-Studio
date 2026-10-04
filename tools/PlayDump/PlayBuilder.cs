@@ -52,6 +52,15 @@ namespace PlayDump
             var built = new List<(EbxAssetEntry entry, uint playId, string set)>();
             foreach (JObject p in spec["plays"])
                 built.Add(BuildPlay(p));
+            // Existing library plays that custom playbooks use but that aren't in the global play sheet (the game drops them).
+            foreach (string asset in (spec["pull"] ?? new JArray()).Select(x => (string)x).Distinct())
+            {
+                EbxAssetEntry e = Need(asset);
+                dynamic r = am.GetEbx(e).RootObject;
+                PullIntoBundles(e);
+                built.Add((e, (uint)r.playId, Leaf((PointerRef)r.Set)));
+                Console.Error.WriteLine($"pull {asset} (playId {r.playId})");
+            }
             RegisterGlobal(built);
             VerifyClosure(built.Select(b => b.entry));
 
@@ -83,6 +92,7 @@ namespace PlayDump
             root.playId = playId;
             if (p["playType"] != null) SetEnum(root, "offensePlayType", (string)p["playType"]);
             if (p["runHole"] != null) root.runHole = (int)p["runHole"];
+            if (p["vip"] != null) root.VIPPosition = (int)p["vip"]; // primary receiver slot: drawn as the red route
             if (p["blocking"] != null) root.BlockingSchemeDefine = Ref(play, Need("football/Gameplay/playbooks/PlayLibrary/Blocking/" + (string)p["blocking"]));
 
             List<PointerRef> pads = root.positionAssignmentDefines;
@@ -190,6 +200,9 @@ namespace PlayDump
                         if (((PointerRef)((dynamic)sc.Internal).Set).External.FileGuid == setGuid) setContainer = sc.Internal;
                 if (setContainer == null) throw new InvalidOperationException("set of " + entry.Name + " not in GlobalPlaySheet");
 
+                bool listed = ((List<PointerRef>)setContainer.Plays).Any(x => x.Type == PointerRefType.Internal
+                    && ((PointerRef)((dynamic)x.Internal).Play).External.FileGuid == entry.Guid);
+                if (listed) { if (!ids.Contains(playId)) ids.Add(playId); continue; }
                 dynamic pc = TypeLibrary.CreateObject("PlayContainer");
                 pc.Play = Ref(gps, entry);
                 pc.SetInstanceGuid(new AssetClassGuid(Utils.GenerateDeterministicGuid(gps.Objects, ((object)pc).GetType(), gps.FileGuid), -1));

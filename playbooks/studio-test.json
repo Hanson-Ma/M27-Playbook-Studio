@@ -20,7 +20,12 @@
             { "play": "Spacing Snag" },
             { "play": "Mtn PA Smash Scissors" },
             { "play": "Four Verticals" },
-            { "play": "Slants", "audible": 1 }
+            { "play": "Slants", "audible": 1 },
+            { "play": "PBS Art A" },
+            { "play": "PBS Art B" },
+            { "play": "PBS Art C" },
+            { "play": "PBS Art D" },
+            { "play": "PBS Art E" }
           ]
         },
         {

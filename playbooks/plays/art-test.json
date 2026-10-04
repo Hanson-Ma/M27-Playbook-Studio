@@ -1,0 +1,14 @@
+{
+  "notes": "Experiment: which data makes a route red in play art. All are Gun Y Trips Wk Curls with identical routes; only reads/VIP differ.",
+  "plays": [
+    { "name": "PBS Art A", "asset": "PBS_Art_A", "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls" },
+    { "name": "PBS Art B", "asset": "PBS_Art_B", "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
+      "reads": [ { "pos": 5, "pct": 0.8 }, { "pos": 2, "pct": 0.7 }, { "pos": 3, "pct": 0.5 }, { "pos": 1, "pct": 0.4 }, { "pos": 4, "pct": 0.2 } ] },
+    { "name": "PBS Art C", "asset": "PBS_Art_C", "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
+      "reads": [ { "pos": 5, "pct": 0.8, "combo": 1 }, { "pos": 2, "pct": 0.7, "combo": 1 }, { "pos": 3, "pct": 0.5, "combo": 1 }, { "pos": 1, "pct": 0.4, "combo": 1 }, { "pos": 4, "pct": 0.2, "combo": 1 } ] },
+    { "name": "PBS Art D", "asset": "PBS_Art_D", "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls",
+      "reads": [ { "pos": 4, "pct": 0.99 }, { "pos": 5, "pct": 0.05 }, { "pos": 3, "pct": 0.05 }, { "pos": 1, "pct": 0.05 }, { "pos": 2, "pct": 0.05 } ] },
+    { "name": "PBS Art E", "asset": "PBS_Art_E", "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Curls", "vip": 2,
+      "reads": [ { "pos": 5, "pct": 0.8 }, { "pos": 2, "pct": 0.7 }, { "pos": 3, "pct": 0.5 }, { "pos": 1, "pct": 0.4 }, { "pos": 4, "pct": 0.2 } ] }
+  ]
+}

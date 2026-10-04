@@ -9,7 +9,9 @@ import { crcSlots } from "./tdbcrc.mjs";
 // In-game audible slot -> PGPL.Flag bit (observed in Madden 27: slot 3 is bit 16, slot 4 is bit 8).
 export const AUDIBLE_BITS = { 1: 2, 2: 4, 3: 16, 4: 8 };
 
-const [specFile, templateFile, outFile] = process.argv.slice(2);
+// --collect: only record library plays that need pulling into the global play sheet (custom plays may not exist yet).
+const collect = process.argv.includes("--collect");
+const [specFile, templateFile, outFile] = process.argv.slice(2).filter(a => a !== "--collect");
 const spec = JSON.parse(readFileSync(specFile, "utf8"));
 const buf = Buffer.from(readFileSync(templateFile));
 const T = Object.fromEntries(readTdb(buf).tables.map(t => [t.name, t]));
@@ -44,6 +46,7 @@ const setByName = (form, name) => {
 };
 const playInSet = (set, name) => {
   const p = plays.find(x => x.set === set.asset && norm(x.playName) === norm(name));
+  if (!p && collect) return null;
   if (!p) throw new Error(`unknown play "${name}" in set ${set.setName}`);
   return p;
 };
@@ -84,6 +87,7 @@ for (const fspec of spec.formations) {
     const used = new Set();
     sspec.plays.forEach((pspec, i) => {
       const p = playInSet(set, pspec.play);
+      if (!p) return;
       const audible = pspec.audible ?? 0;
       if (audible && !AUDIBLE_BITS[audible]) throw new Error(`${pspec.play}: audible slot must be 1-4`);
       if (audible && used.has(audible)) throw new Error(`${sspec.set}: audible slot ${audible} used twice`);
@@ -98,6 +102,17 @@ for (const fspec of spec.formations) {
 }
 
 for (const [name, rows] of Object.entries(out)) writeTable(buf, T[name], rows);
+
+// The game drops library plays that aren't in the global play sheet, so the mod build must pull them in.
+// Collected across all playbooks into build/pull-plays.json (tools/export.ps1 clears it first).
+const pullFile = new URL("../build/pull-plays.json", import.meta.url);
+const pull = new Set(existsSync(pullFile) ? JSON.parse(readFileSync(pullFile, "utf8")) : []);
+for (const row of out.PGPL) {
+  const p = plays.find(x => +x.playId === row.PLYL && x.global !== undefined);
+  if (p && p.global === "0") { pull.add(p.asset); console.log(`note: "${p.playName}" (${p.asset.split("/").slice(-2).join("/")}) isn't in the global play sheet; the mod will pull it in`); }
+}
+writeFileSync(pullFile, JSON.stringify([...pull], null, 2));
+if (collect) process.exit(0);
 
 // Save timestamp in the FBCHUNKS header: u16 year, month, day, hour, minute, second at 0x16.
 const now = new Date();

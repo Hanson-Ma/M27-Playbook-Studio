@@ -1,6 +1,7 @@
 # Game-side export: turns the repo's JSON (written by the web editor or by hand) into things Madden 27 loads.
-#   playbooks/mod.json + playbooks/plays/*.json -> mods/pbstudio.fbmod (+ .fbproject to inspect in MMC Editor)
 #   playbooks/*.json (custom playbook specs)      -> build/PBOOKOFF-<NAME> (copied into the saves folder with -Install)
+#   playbooks/mod.json + playbooks/plays/*.json -> mods/pbstudio.fbmod (+ .fbproject to inspect in MMC Editor)
+#     the mod also pulls in library plays the playbooks use that aren't in the game's global play sheet
 # Run on the machine with Madden 27 + MMC Editor. Close the game first when using -Install.
 param(
     [switch]$Install,
@@ -12,22 +13,40 @@ $root = Resolve-Path "$PSScriptRoot\.."
 $saves = Join-Path ([Environment]::GetFolderPath("MyDocuments")) "Madden NFL 27\saves"
 Set-Location $root
 
-if (-not $SkipPlays) {
-    $specs = @(Get-ChildItem playbooks\plays\*.json | ForEach-Object FullName)
-    if ($specs) {
-        & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\pbstudio.fbproject mods\pbstudio.fbmod playbooks\mod.json $specs
-        if ($LASTEXITCODE -ne 0) { throw "buildplays failed" }
-    }
-}
+New-Item -ItemType Directory -Force build, backups | Out-Null
+Remove-Item build\pull-plays.json -ErrorAction SilentlyContinue
 
-New-Item -ItemType Directory -Force build | Out-Null
-foreach ($book in Get-ChildItem playbooks\*.json | Where-Object Name -ne "mod.json") {
+$bookFiles = @(Get-ChildItem playbooks\*.json | Where-Object Name -ne "mod.json")
+function OutName($book) {
     $spec = Get-Content $book.FullName -Raw | ConvertFrom-Json
     $prefix = if ($spec.side -eq "defense") { "PBOOKDEF" } else { "PBOOKOFF" }
-    $out = "build\$prefix-$($spec.name.ToUpper())"
+    "build\$prefix-$($spec.name.ToUpper())"
+}
+
+# 1. Collect pass: which library plays do the playbooks use that the game's global play sheet lacks?
+foreach ($book in $bookFiles) {
+    node tools\pbook-build.mjs --collect $book.FullName $Template (OutName $book)
+    if ($LASTEXITCODE -ne 0) { throw "pbook-build (collect) failed for $($book.Name)" }
+}
+
+# 2. One combined mod: custom plays + pulled library plays. Writes research/index/custom-plays.tsv (custom play ids).
+if (-not $SkipPlays) {
+    $specs = @(Get-ChildItem playbooks\plays\*.json | ForEach-Object FullName)
+    & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\pbstudio.fbproject mods\pbstudio.fbmod playbooks\mod.json $specs
+    if ($LASTEXITCODE -ne 0) { throw "buildplays failed" }
+}
+
+# 3. Playbook saves.
+$books = @()
+foreach ($book in $bookFiles) {
+    $out = OutName $book
     node tools\pbook-build.mjs $book.FullName $Template $out
     if ($LASTEXITCODE -ne 0) { throw "pbook-build failed for $($book.Name)" }
-    if ($Install) {
+    $books += $out
+}
+
+if ($Install) {
+    foreach ($out in $books) {
         $dest = Join-Path $saves (Split-Path $out -Leaf)
         if (Test-Path $dest) { Copy-Item $dest "backups\$(Split-Path $out -Leaf).$(Get-Date -Format yyyyMMdd-HHmmss)" -Force }
         Copy-Item $out $dest -Force

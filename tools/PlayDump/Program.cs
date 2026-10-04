@@ -74,6 +74,9 @@ namespace PlayDump
                     foreach (string f in args.Skip(4))
                         foreach (var play in Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(f))["plays"]) all.Add(play);
                     spec["plays"] = all;
+                    // Library plays used by playbook specs but missing from the global play sheet (written by tools/pbook-build.mjs).
+                    string pullFile = Path.Combine(repoDir, "build", "pull-plays.json");
+                    if (File.Exists(pullFile)) spec["pull"] = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText(pullFile));
                     new PlayBuilder(am, spec, Path.Combine(repoDir, "research", "index"))
                         .Run(args[1], args[2], Path.Combine(repoDir, "research", "index", "custom-plays.tsv"));
                     return 0;
@@ -218,11 +221,12 @@ namespace PlayDump
             int n = 0;
             using (var w = new StreamWriter(Path.Combine(outDir, "plays.tsv")))
             {
-                w.WriteLine("playId\tplayName\toffensePlayType\tdefensePlayType\tset\tasset");
+                int globalBundle = am.GetBundleId("win32/football/gameplay/playbooks/playlibrary/globalplaysheets/globalplaybooksheet_playbooks_brt");
+                w.WriteLine("playId\tplayName\toffensePlayType\tdefensePlayType\tset\tasset\tglobal");
                 foreach (var e in am.EnumerateEbx("Play").OrderBy(e => e.Name))
                 {
                     dynamic r = am.GetEbx(e).RootObject;
-                    w.WriteLine($"{r.playId}\t{r.playName}\t{r.offensePlayType}\t{r.defensePlayType}\t{Leaf(r.Set)}\t{e.Name}");
+                    w.WriteLine($"{r.playId}\t{r.playName}\t{r.offensePlayType}\t{r.defensePlayType}\t{Leaf(r.Set)}\t{e.Name}\t{(e.IsInBundle(globalBundle) ? 1 : 0)}");
                     if (++n % 2000 == 0) Console.Error.WriteLine($"  {n} plays");
                 }
             }
