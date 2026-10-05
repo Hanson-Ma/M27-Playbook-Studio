@@ -28,17 +28,17 @@
 .subhead {
   margin: var(--s3) 0 4px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .audFact {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   color: var(--text-3);
 }
 .callout {
@@ -65,9 +65,9 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
   overflow: hidden;
@@ -75,7 +75,7 @@
   white-space: nowrap;
 }
 .title {
-  font-size: var(--fs-2xl);
+  font-size: var(--fd-2xl);
   line-height: 1;
   overflow-wrap: anywhere;
 }
@@ -96,8 +96,8 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
+  font-weight: 500;
+  font-size: var(--fd-md);
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -106,6 +106,7 @@
 }
 .asset {
   font-family: var(--font-mono);
+  letter-spacing: 0;
   font-size: 10.5px;
   color: var(--text-3);
   word-break: break-all;
@@ -145,8 +146,8 @@
   flex: 1;
 }
 .h3 {
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
 }
 .json {
   margin: 0;
@@ -156,6 +157,7 @@
   border: 1px solid var(--line);
   color: var(--text-2);
   font-family: var(--font-mono);
+  letter-spacing: 0;
   font-size: 11.5px;
   line-height: 1.5;
   white-space: pre-wrap;
@@ -197,12 +199,13 @@
   padding: var(--s2) 0 4px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .groupCount {
+  font-family: var(--font-num);
   min-width: 16px;
   padding: 0 5px;
   border-radius: var(--r-pill);
@@ -211,6 +214,7 @@
   font-size: var(--fs-xs);
   text-align: center;
   letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
 }
 .cpuRow {
   grid-column: 1 / -1;
@@ -233,7 +237,7 @@
 }
 .cpuSet .cpuLabel {
   color: var(--text);
-  font-weight: 600;
+  font-weight: 500;
 }
 .cpuSlider {
   opacity: 0.35;
@@ -248,6 +252,7 @@
   overflow-wrap: anywhere;
   color: var(--danger);
   font-family: var(--font-mono);
+  letter-spacing: 0;
   font-size: 11px;
 }
 .cpuClear {
@@ -268,10 +273,10 @@
 }
 .dl dt {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  font-size: var(--fd-xs);
   color: var(--text-3);
   padding-top: 2px;
 }

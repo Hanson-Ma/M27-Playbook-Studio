@@ -1,14 +1,38 @@
-/* Playbook Studio design tokens — Madden 27 play-call look: near-black glass, condensed uppercase type,
+/* Playbook Studio design tokens — Madden 27 play-call look: near-black glass, bold grotesk uppercase labels,
    light-gray active pills, flat dark fields with yellow/red/light-blue route art. Dark theme only. */
-:root {
-  /* type */
-  /* Condensed system fallbacks keep the Madden look when the web fonts can't load (offline): Avenir Next Condensed
-     ships with macOS, Roboto Condensed with many Linux/Android setups, Arial Narrow with Office. */
-  --font-display: "Barlow Condensed", "Avenir Next Condensed", "Roboto Condensed", "Arial Narrow", "Helvetica Neue",
-    Helvetica, Arial, sans-serif;
-  --font-body: "Barlow", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
+/* Fonts — NB International Pro (primary) is a licensed DESKTOP font: the app never ships, embeds, converts or
+   downloads it. It is referenced BY NAME only and renders on computers where it is installed (Font Book / Windows
+   Fonts); everywhere else the stack falls back to Helvetica Neue → Helvetica → Arial. Never commit or upload the
+   .otf files (or a webfont / data-URL copy of them).
+   The faces below don't contain any font data either: `local()` only points at the copy installed on this computer,
+   so each weight resolves to the right file (the Book cut is weight 400 inside its file, the same as Regular; mapped
+   here to 350 so `font-weight: 400` always means Regular). When the font isn't installed every local() misses and
+   the next family in the stack takes over. DM Mono (free, OFL; loaded from Google Fonts in index.html) sets numbers,
+   counts, ids, asset paths and code. */
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 300; src: local("NB International Pro Light"), local("NBInternationalProLig"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 300; src: local("NB International Pro Light Italic"), local("NBInternationalProLigIta"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 350; src: local("NB International Pro Book"), local("NBInternationalProBoo"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 350; src: local("NB International Pro Book Italic"), local("NBInternationalProBooItal"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 400; src: local("NB International Pro Regular"), local("NBInternationalProReg"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 400; src: local("NB International Pro Italic"), local("NBInternationalProIta"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 500; src: local("NB International Pro Medium"), local("NBInternationalProMed"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 500; src: local("NB International Pro Medium Italic"), local("NBInternationalProMedIta"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 700; src: local("NB International Pro Bold"), local("NBInternationalProBol"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 700; src: local("NB International Pro Bold Italic"), local("NBInternationalProBolIta"); }
+
+:root {
+  /* type — one family for display and body (both variables stay so components don't care); weights 300 / 350 (Book)
+     / 400 / 500 / 700 exist, use 500 + 700 for chrome. */
+  --font-sans: "NB International Pro Local", "NB International Pro", "NB International", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
+  /* numbers, counts, ids, asset paths, coordinates, code */
+  --font-num: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: var(--font-num);
+
+  /* Body scale (running text, inputs, menus). */
   --fs-xs: 11px;
   --fs-sm: 12.5px;
   --fs-md: 14px;
@@ -16,6 +40,17 @@
   --fs-xl: 22px; /* tab labels, play names on cards */
   --fs-2xl: 28px;
   --fs-3xl: 40px;
+
+  /* Display scale (uppercase labels, tabs, names, titles). NB International caps are ~35 % wider than the old
+     condensed face, so display type runs a step smaller than the body scale: track small caps a little (0.04–0.08em),
+     big caps not at all. */
+  --fd-xs: 10px; /* eyebrows, tiny tags */
+  --fd-sm: 11px; /* field labels, meta lines */
+  --fd-md: 12.5px; /* section heads, buttons (sm) */
+  --fd-lg: 14px; /* panel titles, tree names */
+  --fd-xl: 17px; /* tab labels, play names on cards */
+  --fd-2xl: 22px; /* view headers */
+  --fd-3xl: 31px; /* page titles */
 
   /* surfaces */
   --bg-0: #07080a; /* app background */

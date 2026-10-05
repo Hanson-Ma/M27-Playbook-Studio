@@ -226,7 +226,7 @@ export function LibraryGrid() {
         >
           {flip ? "Flipped" : "Flip plays"}
         </Button>
-        <div className={s.count} aria-live="polite">
+        <div className={s.count} aria-live="polite" title={count !== total && total > 0 ? `${fmt(count)} of ${fmt(total)} plays` : undefined}>
           <span className={s.countNum}>{fmt(count)}</span>
           <span className={s.countLabel}>{count === 1 ? "Play" : "Plays"}</span>
           {count !== total && total > 0 && <span className={s.countOf}>of {fmt(total)}</span>}

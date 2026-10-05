@@ -64,23 +64,23 @@
 }
 .brandEyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .brandMark {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-2xl);
-  letter-spacing: 0.01em;
+  font-weight: 700;
+  font-size: var(--fd-2xl);
+  letter-spacing: 0;
   text-transform: uppercase;
   white-space: nowrap;
 }
 .brandStudio {
   color: var(--text-3);
-  font-weight: 600;
+  font-weight: 500;
 }
 .brandShort {
   display: none;
@@ -138,9 +138,9 @@
   background: color-mix(in srgb, var(--danger) 22%, transparent);
   color: var(--text);
   font-family: var(--font-display);
-  font-size: var(--fs-xs);
+  font-size: var(--fd-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
@@ -150,11 +150,12 @@
 }
 .docName {
   min-width: 0;
-  max-width: 180px;
+  max-width: 220px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-mono);
+  letter-spacing: 0;
   font-size: 12px;
   color: var(--text-2);
 }
@@ -166,9 +167,9 @@
   height: 26px;
   padding: 1px 10px 0 2px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -185,30 +186,34 @@
   box-shadow: 0 0 8px color-mix(in srgb, var(--amber) 70%, transparent);
 }
 
-/* Narrow windows: doc name shortens, compact "PB STUDIO" wordmark. */
+/* Narrow windows: the doc name shortens, then the wordmark ("PB STUDIO"). */
 @media (max-width: 1600px) {
   .docName {
-    max-width: 140px;
+    max-width: 180px;
   }
   .brandMark {
-    font-size: var(--fs-xl);
+    font-size: var(--fd-xl);
   }
 }
 @media (max-width: 1440px) {
   .docName {
-    max-width: 120px;
+    max-width: 150px;
   }
 }
 @media (max-width: 1280px) {
+  /* DM Mono 12 px ≈ 7.2 px a character: "studio-test.json" (16) fits */
+  .docName {
+    max-width: 120px;
+  }
+}
+/* The full wordmark still fits next to the centered tabs at 1280 px; below that it shortens to "PB STUDIO". */
+@media (max-width: 1200px) {
   .brandLong,
   .brandEyebrow {
     display: none;
   }
   .brandShort {
     display: inline;
-  }
-  .docName {
-    max-width: 80px;
   }
 }
 
@@ -266,17 +271,17 @@
 }
 .eyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.32em;
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-3);
   padding-left: 0.32em;
 }
 .wordmark {
   margin: 6px 0 var(--s8);
-  font-size: 88px;
-  font-weight: 800;
+  font-size: 66px;
+  font-weight: 700;
   letter-spacing: -0.005em;
   line-height: 0.9;
   white-space: nowrap;
@@ -285,7 +290,7 @@
 }
 .wordmark span {
   color: var(--text-3);
-  font-weight: 600;
+  font-weight: 500;
 }
 @keyframes wordIn {
   from {
@@ -311,8 +316,8 @@
   gap: var(--s2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xl);
-  letter-spacing: 0.02em;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--warning);
 }
@@ -323,6 +328,7 @@
   background: var(--bg-2);
   border: 1px solid var(--line);
   font-family: var(--font-mono);
+  letter-spacing: 0;
   font-size: var(--fs-sm);
   color: var(--text-2);
   white-space: pre-wrap;
@@ -364,8 +370,8 @@
   color: var(--pill-fg);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 @keyframes tipIn {

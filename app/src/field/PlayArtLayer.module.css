@@ -73,7 +73,7 @@
   fill: var(--text);
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   paint-order: stroke;
   stroke: var(--field-bg);
   stroke-width: 3px;
@@ -108,7 +108,7 @@
   fill: currentColor;
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   text-anchor: middle;
   dominant-baseline: central;
   paint-order: stroke;
@@ -202,7 +202,7 @@
   fill: var(--text-2);
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em; /* keep in step with labelTextWidth() */
   text-anchor: middle;
 }
 

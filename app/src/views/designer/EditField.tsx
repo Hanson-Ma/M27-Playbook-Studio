@@ -5,7 +5,7 @@
 // Players aren't dragged here: their spot comes from the formation / set. "Move this player for this play only"
 // shows a start handle that writes an OverrideFormPos for this play; motion points are clamped to the region real
 // plays use (model/motionLimits.ts), which is shaded while the MOTION tab is open.
-import { memo, useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
 import { Field, MotionBounds, PlayArtLayer, artMetrics, useFieldTransform, type FieldPointerEvent } from "../../field";
 import { computeArt } from "../../model/art";
 import { clearStartOverride, isSlotChanged, isSlotLocked, setStartOverride, startLock, startOverride, unbuildableSteps } from "../../model/designer";
@@ -279,6 +279,12 @@ export function EditField() {
   const legSelected = ui.vertex?.kind === "leg" && editable && !!geom && ui.vertex.k >= geom.firstEditableLeg;
   const wpCount = sel !== undefined ? waypointsOf(slotsSteps[sel]).wps.length : 0;
 
+  // The point tools show their names while the whole toolbar fits on one row; otherwise Add / Delete / Clear turn into
+  // icon buttons (their tooltips keep the names). Measured: the player's name and the cut's name change the width.
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const toolsSig = [sel, editable, motionTab, motionAllowed, ui.moveStart, ui.drawing, sel !== undefined ? playerName(set, sel) : "", vertexCut ? cutName(String(vertexCut.cutType)) : ""].join("|");
+  const compactTools = useCompactRow(toolbarRef, toolsSig);
+
   const hint =
     sel === undefined
       ? "Click a player on the field — or pick one above — to edit their route, blocking or motion. Right-click a player for more."
@@ -358,18 +364,18 @@ export function EditField() {
         )}
       </Field>
 
-      <div className={s.toolbar}>
+      <div className={cx(s.toolbar, compactTools && s.toolbarCompact)} ref={toolbarRef}>
         {sel !== undefined && <span className={s.hudSlot}>{playerName(set, sel)}</span>}
         {sel !== undefined && editable && !motionTab && ui.moveStart !== sel && (
           <>
             <Button size="sm" variant="ghost" icon="route" active={ui.drawing} onClick={() => setUi({ drawing: !ui.drawing, vertex: undefined })} title="When on, clicking the field adds a route point">
               {ui.drawing ? "Drawing on" : "Draw route"}
             </Button>
-            <Button size="sm" variant="ghost" icon="plus" onClick={addPoint} title="Add a point 5 yd past the end of the route">
-              Add point
+            <Button size="sm" variant="ghost" icon="plus" onClick={addPoint} title="Add point: a point 5 yd past the end of the route" aria-label="Add point">
+              {compactTools ? undefined : "Add point"}
             </Button>
-            <Button size="sm" variant="ghost" icon="trash" disabled={!legSelected} onClick={deletePoint} title="Delete the selected route point (Delete key)">
-              Delete point
+            <Button size="sm" variant="ghost" icon="trash" disabled={!legSelected} onClick={deletePoint} title="Delete point: the selected route point (Delete key)" aria-label="Delete point">
+              {compactTools ? undefined : "Delete point"}
             </Button>
             <Button
               size="sm"
@@ -377,9 +383,10 @@ export function EditField() {
               icon="close"
               disabled={!geom || geom.route.legs.length <= geom.firstEditableLeg}
               onClick={clearRoute}
-              title="Remove the whole route and start drawing a new one from his spot (his spot, motion and release stay)"
+              title="Clear route: remove the whole route and start drawing a new one from his spot (his spot, motion and release stay)"
+              aria-label="Clear route"
             >
-              Clear route
+              {compactTools ? undefined : "Clear route"}
             </Button>
             <Button
               size="sm"
@@ -405,11 +412,19 @@ export function EditField() {
         )}
         {sel !== undefined && editable && motionTab && motionAllowed && (
           <>
-            <Button size="sm" variant="ghost" icon="plus" disabled={wpCount >= MOTION_LIMITS.maxWaypoints} onClick={addPoint} title={`Up to ${MOTION_LIMITS.maxWaypoints} motion points`}>
-              Add motion point
+            <Button
+              size="sm"
+              variant="ghost"
+              icon="plus"
+              disabled={wpCount >= MOTION_LIMITS.maxWaypoints}
+              onClick={addPoint}
+              title={`Add motion point (up to ${MOTION_LIMITS.maxWaypoints})`}
+              aria-label="Add motion point"
+            >
+              {compactTools ? undefined : "Add motion point"}
             </Button>
-            <Button size="sm" variant="ghost" icon="trash" disabled={ui.vertex?.kind !== "wp"} onClick={deletePoint}>
-              Delete motion point
+            <Button size="sm" variant="ghost" icon="trash" disabled={ui.vertex?.kind !== "wp"} onClick={deletePoint} title="Delete the selected motion point (Delete key)" aria-label="Delete motion point">
+              {compactTools ? undefined : "Delete motion point"}
             </Button>
           </>
         )}
@@ -631,4 +646,30 @@ function Handles({ geom, steps, flip, lock, vertex, motionTab, dragInfo, onStart
       )}
     </g>
   );
+}
+
+/**
+ * True when a toolbar's items don't fit on one row at full size (re-measured on resize and whenever `sig`, what the
+ * row holds, changes — a new signature always measures the full-size row first). Full size never wraps (nowrap), so
+ * scrollWidth is the width it needs; that width is kept to switch back once the row is wide enough again.
+ */
+function useCompactRow(ref: RefObject<HTMLElement | null>, sig: string): boolean {
+  const [state, setState] = useState({ sig, compact: false });
+  const compact = state.sig === sig && state.compact;
+  const fullWidth = useRef(0);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      if (!compact) {
+        fullWidth.current = el.scrollWidth;
+        if (el.scrollWidth > el.clientWidth + 1) setState({ sig, compact: true });
+      } else if (fullWidth.current <= el.clientWidth) setState({ sig, compact: false });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref, sig, compact]);
+  return compact;
 }

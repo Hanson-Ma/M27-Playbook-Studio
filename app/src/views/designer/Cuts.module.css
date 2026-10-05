@@ -25,9 +25,9 @@
 }
 .title {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   line-height: 1.1;
 }
@@ -54,8 +54,8 @@
 .groupLabel {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text);
 }
@@ -123,9 +123,9 @@
 }
 .rowLabel {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -134,4 +134,12 @@
   flex-wrap: wrap;
   gap: 6px;
   justify-content: flex-end;
+}
+
+/* speed choices: DM Mono digits */
+.num {
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
 }

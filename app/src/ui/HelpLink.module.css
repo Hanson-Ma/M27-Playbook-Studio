@@ -24,10 +24,9 @@
   padding: 0 9px 0 6px;
 }
 .label {
-  padding-top: 1px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13.5px;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }

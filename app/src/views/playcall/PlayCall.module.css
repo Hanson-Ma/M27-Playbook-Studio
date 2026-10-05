@@ -1,4 +1,4 @@
-/* Play-call preview: Madden 27 play-call screen — top tab row, big condensed heading, three large cards per page,
+/* Play-call preview: Madden 27 play-call screen — top tab row, big bold uppercase heading, three large cards per page,
    page dots and a caveat line. Mouse-driven: no controller chrome. */
 .page {
   height: 100%;
@@ -22,9 +22,9 @@
   gap: var(--s3);
   color: var(--text-2);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -69,9 +69,9 @@
 }
 .bookEyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.18em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-3);
   line-height: 1;
@@ -88,16 +88,18 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
+/* headline number: NB Bold, proportional figures (NB's tabular ones are spaced like a mono face) */
 .countNum {
-  font-size: var(--fs-2xl);
+  font-family: var(--font-display);
+  font-size: var(--fd-2xl);
   font-weight: 700;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 .countLabel {
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--fd-lg);
+  font-weight: 500;
+  letter-spacing: 0.025em;
   color: var(--text-2);
 }
 
@@ -120,9 +122,9 @@
   gap: 6px;
   margin-bottom: 6px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
   line-height: 1;
@@ -173,10 +175,10 @@
   color: var(--text-4);
 }
 .title {
-  font-size: clamp(34px, 3.3vw, 52px);
-  font-weight: 800;
+  font-size: clamp(26.5px, 2.54vw, 40px);
+  font-weight: 700;
   line-height: 0.92;
-  letter-spacing: 0.005em;
+  letter-spacing: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -192,35 +194,48 @@
   text-transform: uppercase;
 }
 .headStat {
-  font-size: var(--fs-lg);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--fd-lg);
+  font-weight: 500;
+  letter-spacing: 0.025em;
   color: var(--text-3);
   white-space: nowrap;
 }
-.headStat b {
+.headStat b,
+.headStat span {
+  font-family: var(--font-num);
+  letter-spacing: 0;
   color: var(--text);
-  font-weight: 700;
-}
-.pageNum {
-  font-size: var(--fs-lg);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--text);
-  white-space: nowrap;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-.pageNum span {
+.headStat span {
   color: var(--text-3);
-  font-weight: 600;
+}
+/* "PAGE 1 / 6": the word like the stat labels (NB), the numbers in DM Mono */
+.pageNum {
+  font-size: var(--fd-lg);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.pageNum b,
+.pageNum span {
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.pageNum b {
+  color: var(--text);
 }
 .sourceNote {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.07em;
   color: var(--text-3);
   text-decoration: none;
   white-space: nowrap;
@@ -238,9 +253,9 @@
   --dots: 30px;
   --dots-gap: 16px;
   --top-gap: clamp(4px, 1.5cqh, 16px);
-  /* card text scales with the stage, so wide screens get the game's big condensed names */
-  --card-name-fs: clamp(26px, 2.2cqw, 42px);
-  --card-sub-fs: clamp(16px, 1.15cqw, 22px);
+  /* card text scales with the stage, so wide screens get the game's big bold names */
+  --card-name-fs: clamp(20px, 1.7cqw, 32px);
+  --card-sub-fs: clamp(13px, 0.92cqw, 17px);
   /* name + subtitle lines + the art → meta gap */
   --meta: calc(var(--card-name-fs) * 1.05 + var(--card-sub-fs) * 1.05 + 14px);
   --gap: clamp(16px, 1.8vw, 32px);
@@ -383,9 +398,9 @@
 
 /* ───────────── tiles (formation / set / group / missing play) ───────────── */
 .tile {
-  --name-fs: 30px;
-  --sub-fs: var(--fs-lg);
-  --chip-fs: var(--fs-md);
+  --name-fs: 23px;
+  --sub-fs: var(--fd-lg);
+  --chip-fs: var(--fd-md);
   --chip-inset: 10px;
   position: relative;
   display: flex;
@@ -459,8 +474,8 @@
 .overlayTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text);
   line-height: 1;
@@ -478,12 +493,12 @@
 .tileStat {
   position: absolute;
   bottom: var(--chip-inset);
-  padding: 0.32em 0.6em 0.26em;
+  padding: 0.3em 0.6em;
   border-radius: var(--r-xs);
   font-family: var(--font-display);
   font-size: var(--chip-fs);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   line-height: 1;
   white-space: nowrap;
 }
@@ -508,7 +523,10 @@
   text-overflow: ellipsis;
   background: var(--scrim);
   color: var(--text-2);
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
   backdrop-filter: blur(6px);
 }
 .tileBadges {
@@ -549,15 +567,15 @@
   line-height: 1.05;
 }
 .tileName {
-  font-size: var(--name-fs, var(--fs-2xl));
+  font-size: var(--name-fs, var(--fd-2xl));
   font-weight: 700;
   letter-spacing: 0.01em;
   color: var(--text);
 }
 .tileSub {
-  font-size: var(--sub-fs, var(--fs-lg));
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: var(--sub-fs, var(--fd-lg));
+  font-weight: 500;
+  letter-spacing: 0.03em;
   color: var(--text-2);
 }
 
@@ -604,8 +622,8 @@
   flex-direction: column;
   gap: 9px;
   min-width: 0;
-  --name-fs: var(--fs-xl);
-  --sub-fs: var(--fs-md);
+  --name-fs: var(--fd-xl);
+  --sub-fs: var(--fd-md);
 }
 .emptySlotArt {
   display: grid;
@@ -616,8 +634,8 @@
   background: color-mix(in srgb, var(--bg-1) 55%, transparent);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xl);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-4);
 }
@@ -700,10 +718,11 @@
   background: var(--text);
 }
 .dotsText {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.08em;
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
   color: var(--text-2);
 }
 
@@ -747,28 +766,49 @@
 }
 
 /* ───────────── small pieces ───────────── */
-/* play-call picker value: condensed uppercase like every other name on this screen */
+/* play-call picker value: bold uppercase like every other name on this screen */
 .bookValue {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.03em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.015em;
   text-transform: uppercase;
   line-height: 1;
 }
 
+/* audibles: the "jump to a set" picker shows FORMATION › SET in the screen's uppercase names */
+.setSelect {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
 /* stat chip: [glyph] RUN | 3 CPU */
 .statChip {
+  font-family: var(--font-num);
+  letter-spacing: 0;
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
   vertical-align: top;
+  font-variant-numeric: tabular-nums;
 }
+/* the audible's category is a word, not a number: NB like the type tag on the left */
 .statAud {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
   color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+/* a play name in a tile's stat chip (concept / play-type groups) */
+.statName {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 .statSep {
   color: var(--text-4);
@@ -786,7 +826,7 @@
   font-family: var(--font-display);
   font-size: calc(var(--chip-fs, 14px) - 1px);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;

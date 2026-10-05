@@ -53,16 +53,15 @@
 }
 .eyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .title {
-  font-size: var(--fs-2xl);
+  font-size: var(--fd-2xl);
   line-height: 1;
-  padding-top: 2px;
 }
 
 .body {
@@ -91,9 +90,9 @@
 }
 .fieldLabel {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13.5px;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-2);
   margin-bottom: -6px;

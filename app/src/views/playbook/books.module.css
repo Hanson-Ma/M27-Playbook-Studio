@@ -1,14 +1,21 @@
-/* The "Playbooks" menu button in the builder header: the open book's name in big condensed type. */
+/* The "Playbooks" menu button in the builder header: the open book's name in big bold display type. */
 .menuBtn {
   --h: 38px;
   max-width: 300px;
   padding: 0 14px 0 12px;
-  font-size: 22px;
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   background: var(--bg-2);
   border-color: var(--line-2);
 }
 .menuBtn:hover:not(:disabled) {
   border-color: var(--line-3);
+}
+
+/* file names in the Playbooks menu (DM Mono, like every file name) */
+.file {
+  font-family: var(--font-num);
+  font-size: 0.92em;
+  letter-spacing: 0;
 }

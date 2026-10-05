@@ -45,8 +45,8 @@
   min-width: 0;
 }
 .title {
-  font-size: var(--fs-3xl);
-  font-weight: 800;
+  font-size: var(--fd-3xl);
+  font-weight: 700;
   line-height: 0.95;
   white-space: nowrap;
   overflow: hidden;
@@ -81,9 +81,9 @@
 }
 .subtitle {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--text-2);
   white-space: nowrap;
@@ -95,13 +95,17 @@
   font-size: 16px;
   line-height: 1;
 }
+/* "6724 / 8641 in results": right after the set name, behind a hairline (not pushed against the actions) */
 .position {
-  margin-left: auto;
   flex: none;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  margin-left: 2px;
+  padding-left: 10px;
+  border-left: 1px solid var(--line-2);
+  font-family: var(--font-num);
+  font-weight: 400;
+  font-size: var(--fd-sm);
+  line-height: 14px;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
@@ -124,6 +128,12 @@
 @media (max-width: 1200px) {
   .body {
     grid-template-columns: minmax(0, 1fr) 380px;
+  }
+}
+/* big windows: room for whole asset names in the Players / Routes lists */
+@media (min-width: 1700px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr) 500px;
   }
 }
 .fieldWrap {
@@ -167,8 +177,8 @@
   gap: 6px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -193,16 +203,16 @@
   background: var(--art-motion);
   color: var(--text-inv);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .previewText {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
@@ -278,8 +288,8 @@
   justify-content: space-between;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.12em;
+  font-size: var(--fd-md);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
   border-bottom: 1px solid var(--line);
@@ -287,8 +297,8 @@
 }
 .bigName {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-2xl);
+  font-weight: 700;
+  font-size: var(--fd-2xl);
   text-transform: uppercase;
   line-height: 1;
 }
@@ -297,10 +307,10 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-lg);
+  font-weight: 500;
+  font-size: var(--fd-lg);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.015em;
   color: var(--text-2);
 }
 .typeDot {
@@ -319,14 +329,14 @@
   background: none;
   color: var(--text);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   text-align: left;
 }
 .blockHead .linkBtn {
-  font-size: var(--fs-sm);
+  font-size: var(--fd-sm);
   color: var(--text-2);
 }
 .linkBtn:hover {
@@ -355,8 +365,8 @@
   gap: 6px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 .availOk .availTitle {
@@ -383,9 +393,9 @@
 }
 .k {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
   padding-top: 2px;
@@ -473,10 +483,11 @@
   height: 24px;
   border-radius: 50%;
   background: var(--bg-4);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-md);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-md);
   color: var(--text-2);
+  font-variant-numeric: tabular-nums;
 }
 .slotVip {
   background: var(--art-primary);
@@ -497,17 +508,17 @@
 }
 .playerLabel {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
+  font-weight: 700;
+  font-size: var(--fd-lg);
   text-transform: uppercase;
   line-height: 1;
 }
 .playerPos {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
+  font-weight: 500;
+  font-size: var(--fd-sm);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: var(--text-3);
   white-space: nowrap;
   overflow: hidden;
@@ -525,17 +536,18 @@
 .playerStance {
   flex: none;
   font-family: var(--font-display);
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-size: var(--fd-xs);
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-4);
 }
 .playerBottom {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
   min-width: 0;
+  min-height: 18px;
 }
 .assign {
   min-width: 0;
@@ -549,9 +561,9 @@
 .routeType {
   flex: none;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--art-route);
 }
@@ -560,6 +572,7 @@
   align-items: center;
   gap: 4px;
   flex: none;
+  margin-left: auto;
 }
 .lock {
   display: inline-grid;
@@ -623,9 +636,9 @@
 .raw summary {
   cursor: pointer;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -682,9 +695,10 @@
   border-radius: 50%;
   background: var(--pill-bg);
   color: var(--pill-fg);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  font-variant-numeric: tabular-nums;
 }
 .readWho {
   grid-row: span 2;
@@ -694,8 +708,8 @@
 }
 .readLabel {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
+  font-weight: 700;
+  font-size: var(--fd-lg);
   text-transform: uppercase;
   line-height: 1;
 }
@@ -727,24 +741,28 @@
   right: 6px;
   top: 50%;
   transform: translateY(-50%);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-xs);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-xs);
   color: var(--text);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  font-variant-numeric: tabular-nums;
 }
 .readMeta {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-2);
 }
 .readCombo {
+  font-family: var(--font-num);
+  font-size: var(--fd-xs);
+  letter-spacing: 0;
   color: var(--text-4);
 }
 .vipLine {
@@ -753,8 +771,8 @@
   gap: 8px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.06em;
+  font-size: var(--fd-md);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -794,42 +812,57 @@
 .routesX {
   margin-left: auto;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-3);
   white-space: nowrap;
 }
+.routesXNum {
+  font-family: var(--font-num);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
 .routesCount {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.08em;
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--text-4);
+  font-variant-numeric: tabular-nums;
 }
 .routeList {
   flex: 1;
   min-height: 0;
 }
+/* Fills its header slot with the panel colour: as the sticky header it covers the rows scrolling under it (the
+   grid's see-through gradient header suits the card grid, not this list). */
 .routeGroup {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  justify-content: space-between;
+  align-content: end;
   width: 100%;
-  padding: 0 4px 5px;
+  height: 100%;
+  padding: 0 4px 6px;
+  background: var(--bg-1);
   border-bottom: 1px solid var(--line);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 .routeGroupCount {
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-weight: 500;
   font-size: var(--fs-sm);
   color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .routeRow {
   display: flex;
@@ -866,9 +899,9 @@
 .routeName {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
+  font-size: var(--fd-lg);
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -906,9 +939,9 @@
 }
 .mineMeta {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-3);
   white-space: nowrap;
@@ -937,8 +970,8 @@
   margin-bottom: var(--s2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }

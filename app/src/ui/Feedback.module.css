@@ -43,21 +43,23 @@
   gap: var(--s3);
   font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   line-height: 1;
 }
 .progressLabel {
   color: var(--text-2);
-  font-weight: 600;
-  font-size: var(--fs-md);
+  font-weight: 500;
+  font-size: var(--fd-md);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .progressDetail {
+  font-family: var(--font-num);
+  letter-spacing: 0;
   color: var(--text-3);
-  font-weight: 600;
-  font-size: var(--fs-md);
+  font-weight: 500;
+  font-size: var(--fd-md);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -126,14 +128,14 @@
 .emptyTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xl);
-  letter-spacing: 0.02em;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   color: var(--text);
   line-height: 1.05;
 }
 .compact .emptyTitle {
-  font-size: var(--fs-lg);
+  font-size: var(--fd-lg);
 }
 .emptyBody {
   max-width: 440px;

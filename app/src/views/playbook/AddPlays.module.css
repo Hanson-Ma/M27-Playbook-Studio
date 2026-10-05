@@ -34,14 +34,14 @@
 }
 .eyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .title {
-  font-size: var(--fs-2xl);
+  font-size: var(--fd-2xl);
   line-height: 1;
 }
 .filters {
@@ -66,16 +66,17 @@
 }
 .chips > span:not(.count) {
   height: 24px;
-  font-size: var(--fs-xs);
+  font-size: var(--fd-xs);
 }
 .count {
   margin-left: auto;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-sm);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .catChips {
   flex: none;
@@ -91,10 +92,10 @@
 }
 .setValue {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 12.5px;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 .gridWrap {
   flex: 1;
@@ -116,9 +117,9 @@
   border-radius: var(--r-xs);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 10.5px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 .inBook {
   background: var(--bg-0);
@@ -153,8 +154,8 @@
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1.2;
 }

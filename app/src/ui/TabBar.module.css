@@ -29,9 +29,9 @@
   background: transparent;
   color: var(--text);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xl);
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   white-space: nowrap;
   line-height: 1;
@@ -51,9 +51,6 @@
   opacity: 0.3;
   cursor: default;
 }
-.label {
-  padding-top: 2px;
-}
 
 .active {
   background: var(--pill-bg);
@@ -64,6 +61,8 @@
 }
 
 .badge {
+  font-family: var(--font-num);
+  letter-spacing: 0;
   display: inline-grid;
   place-items: center;
   min-width: 18px;
@@ -72,8 +71,9 @@
   border-radius: var(--r-pill);
   background: var(--bg-4);
   color: var(--text-2);
-  font-size: var(--fs-xs);
-  font-weight: 700;
+  font-size: var(--fd-xs);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 .active .badge {
   background: color-mix(in srgb, var(--pill-fg) 14%, transparent);
@@ -88,7 +88,7 @@
   .lg .tab {
     height: 34px;
     padding: 0 11px;
-    font-size: 19px;
+    font-size: 15px;
   }
 }
 @media (max-width: 1280px) {
@@ -98,7 +98,7 @@
   .lg .tab {
     height: 32px;
     padding: 0 9px;
-    font-size: 17px;
+    font-size: 14px;
   }
 }
 
@@ -109,8 +109,5 @@
 .sm .tab {
   height: 28px;
   padding: 0 11px;
-  font-size: var(--fs-lg);
-}
-.sm .label {
-  padding-top: 1px;
+  font-size: var(--fd-lg);
 }

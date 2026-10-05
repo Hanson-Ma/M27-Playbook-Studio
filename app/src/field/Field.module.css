@@ -95,8 +95,8 @@
 .num {
   fill: var(--field-num);
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-anchor: middle;
   dominant-baseline: central;
 }
@@ -117,9 +117,10 @@
   border-radius: var(--r-pill);
   background: var(--glass);
   border: 1px solid var(--line-2);
-  font-family: var(--font-display);
-  font-size: var(--fs-md);
-  font-weight: 600;
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  font-size: var(--fd-md);
+  font-weight: 500;
   line-height: 1.2;
   color: var(--text);
   pointer-events: none;
@@ -146,8 +147,8 @@
 
 .chipKey {
   color: var(--text-3);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.04em;
 }
 
 .chipVal {

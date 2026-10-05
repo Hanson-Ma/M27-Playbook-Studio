@@ -1,4 +1,5 @@
 // Result dialog after EXPORT (save all → re-validate): what was written, what the game PC will build, the command.
+import { Fragment } from "react";
 import { EXPORT_COMMAND, MOD_FILE, type ExportSummary } from "../../model/exportSummary";
 import type { IssueCounts } from "../../model/validate";
 import type { ValidationIssue } from "../../model/types";
@@ -95,7 +96,16 @@ function ResultBody(p: ExportResultProps) {
           <div className={s.tile}>
             <div className={s.tileValue}>{sm.saves.length}</div>
             <div className={s.tileLabel}>{sm.saves.length === 1 ? "Save" : "Saves"}</div>
-            <div className={s.tileList}>{sm.saves.map((x) => x.saveName).join(", ") || "—"}</div>
+            <div className={s.tileList}>
+              {sm.saves.length
+                ? sm.saves.map((x, i) => (
+                    <Fragment key={x.saveName}>
+                      {i > 0 && ", "}
+                      <span className={s.saveId}>{x.saveName}</span>
+                    </Fragment>
+                  ))
+                : "—"}
+            </div>
           </div>
           <div className={s.tile}>
             <div className={s.tileValue}>{sm.customPlays.length + sm.clonedPlays.length}</div>

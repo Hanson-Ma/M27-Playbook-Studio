@@ -9,18 +9,20 @@
   gap: var(--s2);
 }
 .h3 {
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
 }
 .help {
   margin-left: auto;
   height: 24px;
 }
 .count {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-md);
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  font-weight: 500;
+  font-size: var(--fd-md);
   color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .styleRow {
   display: flex;
@@ -30,9 +32,9 @@
 }
 .styleLabel {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -52,6 +54,7 @@
   margin-top: var(--s1);
 }
 .slot {
+  position: relative;
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -110,16 +113,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: 10.5px; /* title case: "Play Action" doesn't fit the tile in NB caps */
+  letter-spacing: 0;
   color: var(--text-3);
 }
+/* floats over the label's end (shown on hover) so the category name gets the tile's full width */
 .slotClear {
-  flex: none;
+  position: absolute !important;
+  top: 4px;
+  right: 4px;
   width: 20px !important;
   height: 20px !important;
+  background: var(--bg-2) !important;
   opacity: 0;
 }
 .slot:hover .slotClear {
@@ -142,7 +148,7 @@
   white-space: nowrap;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
+  font-size: var(--fd-sm);
   text-transform: uppercase;
   line-height: 1.1;
 }
@@ -154,8 +160,8 @@
   background: color-mix(in srgb, var(--bg-0) 50%, transparent);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-4);
   margin-bottom: 15px;

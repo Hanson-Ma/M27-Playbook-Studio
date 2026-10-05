@@ -114,12 +114,17 @@ export function PlayerPanel(p: PlayerPanelProps) {
         </div>
         {ref && (
           <div className={s.refLine}>
-            Original spot {fmtXY(ref)}
+            <span>
+              Original spot <span className={s.coord}>{fmtXY(ref)}</span>
+            </span>
             {(Math.abs(dx) > 0.0005 || Math.abs(dy) > 0.0005) && (
               <span className={s.delta}>
-                moved {dx >= 0 ? "+" : ""}
-                {fmt(dx)}, {dy >= 0 ? "+" : ""}
-                {fmt(dy)}
+                moved{" "}
+                <span className={s.coord}>
+                  {dx >= 0 ? "+" : ""}
+                  {fmt(dx)}, {dy >= 0 ? "+" : ""}
+                  {fmt(dy)}
+                </span>
               </span>
             )}
           </div>
@@ -278,7 +283,9 @@ export function PresetPlayerPanel(p: PresetPlayerPanelProps) {
               <NumberField label="Y" value={p.spot.y} step={0.1} precision={3} suffix="yd" min={p.region.minY} max={p.region.maxY} onChange={(y) => p.onPatch({ y }, `y:${p.slot}`)} aria-label="Motion end Y" />
             </div>
             <div className={s.refLine}>
-              Game's spot {fmtXY(p.baseTarget)}
+              <span>
+                Game's spot <span className={s.coord}>{fmtXY(p.baseTarget)}</span>
+              </span>
               {p.distance !== undefined && (
                 <span className={cx(p.distance > p.longMotion && s.delta)}>
                   · {Math.round(p.distance * 10) / 10} yd motion{p.distance > p.longMotion ? " (longer than almost every game motion)" : ""}

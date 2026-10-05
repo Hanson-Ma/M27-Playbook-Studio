@@ -125,7 +125,7 @@ export function RoutesPanel({ play, set, art, slot, flip, preset, preview, onPre
             <span className={s.playerPos}>{positionName(alignment.pos)}</span>
           </span>
           <span className={s.routesX}>
-            x {fmtYd(player.snap.x)} · {sideText}
+            x <span className={s.routesXNum}>{fmtYd(player.snap.x)}</span> · {sideText}
           </span>
           <IconButton icon="chevronRight" title="Next player" size="sm" onClick={() => onStepSlot(1)} />
         </div>

@@ -244,7 +244,7 @@ function LoadedBuilder({ path, spec, catalog }: { path: string; spec: PlaybookSp
             <BuilderHeader />
             <ValidationStrip />
             <div className={s.body}>
-              <SplitPane initial={300} min={240} max={560} storageKey="pbstudio.split.playbook.tree" className={s.split}>
+              <SplitPane initial={treeWidth()} min={240} max={560} storageKey="pbstudio.split.playbook.tree2" className={s.split}>
                 <LeftPane />
                 <SplitPane initial={372} min={320} max={620} sized="end" storageKey="pbstudio.split.playbook.inspector2" className={s.split}>
                   <div className={s.paneFrame}>
@@ -264,6 +264,16 @@ function LoadedBuilder({ path, spec, catalog }: { path: string; spec: PlaybookSp
       </MenuOpener.Provider>
     </BuilderContext.Provider>
   );
+}
+
+/**
+ * Default tree width (until the user drags the divider): room for long names in NB International next to their
+ * tags, counts and audible glyphs — "Y TRIPS TIGHT WK" + CUSTOM, "PBS REVERSE QB LEAD" + C · 1 — while a 1280 px
+ * window keeps three card columns in the middle pane. (The key's "2": widths saved for the old 300 px default reset.)
+ */
+function treeWidth(): number {
+  const w = typeof window === "undefined" ? 1440 : window.innerWidth;
+  return w >= 1800 ? 352 : w >= 1400 ? 332 : 312;
 }
 
 // ───────────────────────────── selection guard + URL sync ─────────────────────────────

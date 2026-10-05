@@ -38,7 +38,7 @@ export function ReadsEditor() {
   if (max === 0) {
     return (
       <>
-        <div className={s.eyebrow}>Reads</div>
+        <div className={s.subhead}>Reads</div>
         <p className={s.note}>The base play has no read progression (a run play), so there's nothing to order.</p>
       </>
     );
@@ -47,7 +47,7 @@ export function ReadsEditor() {
   return (
     <>
       <div className={s.fileHead}>
-        <div className={s.eyebrow}>Reads {explicit ? <span className={s.edited}>edited</span> : <span className={s.dim}>· from base</span>}</div>
+        <div className={s.subhead}>Reads {explicit ? <span className={s.edited}>edited</span> : <span className={s.dim}>· from base</span>}</div>
         <Button size="sm" variant="ghost" icon="undo" disabled={!explicit} onClick={() => d.edit((st) => setPlayField(st, "reads", undefined), "Reset reads")}>
           Use base reads
         </Button>
@@ -92,7 +92,7 @@ export function ReadsEditor() {
             </div>
             <div className={s.readLine}>
               <Slider value={Math.round((r.pct ?? 0) * 100)} min={0} max={100} step={1} suffix="%" onChange={(v) => patch(i, { pct: v / 100 }, "Read %", 800)} className={s.grow} aria-label="Read percentage" />
-              <NumberField size="sm" label="CMB" value={typeof r.combo === "number" ? r.combo : 0} min={0} max={9} step={1} onChange={(v) => patch(i, { combo: v }, "Read combo")} width={78} />
+              <NumberField size="sm" label="CMB" value={typeof r.combo === "number" ? r.combo : 0} min={0} max={9} step={1} onChange={(v) => patch(i, { combo: v }, "Read combo")} width={86} title="Combo (0–9)" />
             </div>
             <SearchSelect
               size="sm"
@@ -116,7 +116,10 @@ export function ReadsEditor() {
           if (pos !== undefined) write([...reads, { pos, pct: 0.5 }], "Add read");
         }}
       >
-        Add read ({reads.length}/{max})
+        Add read{" "}
+        <span className={s.count}>
+          {reads.length}/{max}
+        </span>
       </Button>
       {explicit && (
         <p className={s.note}>

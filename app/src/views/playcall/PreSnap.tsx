@@ -232,7 +232,15 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
               )}
               <dt>Source</dt>
               <dd>
-                {play.source === "custom" ? `Custom · ${play.file ? leaf(play.file) : ""}` : `Library · #${play.playId ?? "?"}`}
+                {play.source === "custom" ? (
+                  <>
+                    Custom · <span className={s.code}>{play.file ? leaf(play.file) : ""}</span>
+                  </>
+                ) : (
+                  <>
+                    Library · <span className={s.code}>#{play.playId ?? "?"}</span>
+                  </>
+                )}
                 {item.template && " · template save"}
               </dd>
               {!play.canFlip && (

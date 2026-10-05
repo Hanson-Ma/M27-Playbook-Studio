@@ -13,6 +13,12 @@
 // Needs Chrome 131 or newer.
 // Chrome: $CHROME, else the usual install paths on macOS / Windows / Linux. It runs headless with a throwaway profile
 // on a free port and is closed when the script ends.
+// Fonts: NB International Pro (text) + DM Mono (code, numbers; Google Fonts). NB International Pro is a licensed desktop
+// font with the "Print & preview" embedding flag: the printed PDF may embed subsets of it, but its files must never be
+// copied, converted or written anywhere. So guide.html only NAMES the family; while printing, the .otf files from
+// $NB_FONT_DIR (default: ~/Desktop/Joby Identity/Fonts/NB International Pro) are handed to the headless browser in
+// memory (FontFace objects registered with Page.addScriptToEvaluateOnNewDocument) and Chrome embeds the subsets it
+// uses in the PDF. Without that folder the guide prints in Helvetica (a warning says so).
 import { spawn } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
@@ -188,26 +194,28 @@ function blocks(list, ctx) {
 
 // ───────────────────────────── the document ─────────────────────────────
 
-const FONTS =
-  "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap";
+// DM Mono (OFL) from Google Fonts. NB International Pro is never linked or embedded here: see "Fonts" at the top.
+const FONTS = "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap";
+const SANS = `"NB International Pro", "NB International", "Helvetica Neue", Helvetica, Arial, sans-serif`;
+const MONO = `"DM Mono", ui-monospace, Menlo, Consolas, monospace`;
 
 const CSS = /* css */ `
 @page { size: ${PAPER.name}; margin: ${MARGIN.top}in ${MARGIN.side}in ${MARGIN.bottom}in;
-  @bottom-left { content: "Playbook Studio · User guide"; vertical-align: top; padding-top: 0.2in; font: 700 8pt "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8a909b; }
-  @bottom-right { content: counter(page) " / " counter(pages); vertical-align: top; padding-top: 0.2in; font: 700 9pt "Barlow Condensed", "Arial Narrow", sans-serif; letter-spacing: .08em; color: #5b616c; }
+  @bottom-left { content: "Playbook Studio · User guide"; vertical-align: top; padding-top: 0.2in; font: 500 6.8pt ${SANS}; letter-spacing: .1em; text-transform: uppercase; color: #8a909b; }
+  @bottom-right { content: counter(page) " / " counter(pages); vertical-align: top; padding-top: 0.2in; font: 400 7.5pt ${MONO}; color: #5b616c; }
 }
 @page cover { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
 :root {
   --ink: #16181d; --ink-2: #353a44; --ink-3: #6b7280; --rule: #dfe2e7; --paper: #ffffff; --tint: #f4f5f7;
   --night: #0c0e12; --night-2: #161a21; --night-3: #232833;
   --yellow: #e8c547; --red: #e5484d; --blue: #3e7bfa; --green: #1f9d55; --amber: #c27c0e; --info: #2f6fe0;
-  --display: "Barlow Condensed", "Avenir Next Condensed", "Arial Narrow", sans-serif;
-  --body: "Barlow", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --display: ${SANS};
+  --body: ${SANS};
+  --mono: ${MONO};
 }
 * { box-sizing: border-box; }
 html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 10.4pt/1.52 var(--body); }
+body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 9.8pt/1.55 var(--body); }
 @media screen {
   body { background: #e9ebef; }
   .page-sheet { width: ${PAPER.w}in; margin: 24px auto; background: var(--paper); box-shadow: 0 4px 24px rgba(0,0,0,.15); padding: ${MARGIN.top}in ${MARGIN.side}in ${MARGIN.bottom}in; }
@@ -224,31 +232,31 @@ body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 10.4p
   break-after: page; }
 .cover-lines { position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,.035) 47px 48px); }
 .cover-inner { position: relative; padding: 1.15in 0.85in 0; }
-.cover .eyebrow { font: 700 13pt var(--display); letter-spacing: .42em; color: #9aa3b2; text-transform: uppercase; }
-.cover .title { margin: .12in 0 0; font: 800 76pt/0.88 var(--display); letter-spacing: -.01em; text-transform: uppercase; color: #fff; }
+.cover .eyebrow { font: 500 9.5pt var(--display); letter-spacing: .3em; color: #9aa3b2; text-transform: uppercase; }
+.cover .title { margin: .12in 0 0; font: 700 56pt/0.92 var(--display); letter-spacing: -.02em; text-transform: uppercase; color: #fff; }
 .cover .title span { color: #8b93a1; }
-.cover .subtitle { margin-top: .22in; font: 600 22pt var(--display); text-transform: uppercase; letter-spacing: .04em; color: #e9ecf1; }
+.cover .subtitle { margin-top: .22in; font: 500 16pt var(--display); text-transform: uppercase; letter-spacing: .02em; color: #e9ecf1; }
 .cover .subtitle b { color: var(--yellow); font-weight: 700; }
-.cover .lede { margin-top: .16in; max-width: 5.6in; font: 400 12pt/1.5 var(--body); color: #b9c0cc; }
+.cover .lede { margin-top: .16in; max-width: 5.6in; font: 400 11pt/1.5 var(--body); color: #b9c0cc; }
 .cover .hero { position: absolute; left: .85in; right: .85in; bottom: 1.25in; border-radius: 10px; overflow: hidden;
   box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); }
 .cover .hero img { display: block; width: 100%; }
 .cover .foot { position: absolute; left: .85in; right: .85in; bottom: .55in; display: flex; justify-content: space-between;
-  font: 600 9.5pt var(--display); letter-spacing: .14em; text-transform: uppercase; color: #7d8696; }
+  font: 500 7.5pt var(--display); letter-spacing: .1em; text-transform: uppercase; color: #7d8696; }
 .cover .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: linear-gradient(90deg, var(--blue), var(--blue) 33%, var(--yellow) 33%, var(--yellow) 66%, var(--red) 66%); }
 
 /* ── contents ── */
 .toc { break-after: page; }
-.toc h1 { margin: 0 0 .03in; font: 800 32pt/1 var(--display); text-transform: uppercase; color: var(--ink); }
+.toc h1 { margin: 0 0 .03in; font: 700 24pt/1 var(--display); text-transform: uppercase; color: var(--ink); }
 .toc .toc-sub { margin: 0 0 .14in; color: var(--ink-3); }
 .toc ol { list-style: none; margin: 0; padding: 0; }
 .toc li { padding: 5px 0 6px; border-bottom: 1px solid var(--rule); break-inside: avoid; }
 .toc .row { display: flex; align-items: baseline; gap: 10px; }
-.toc .num { width: 30px; flex: none; font: 700 14pt var(--display); color: #b5bcc8; }
-.toc .title { font: 700 13.5pt var(--display); text-transform: uppercase; color: var(--ink); text-decoration: none; }
+.toc .num { width: 30px; flex: none; font: 400 10.5pt var(--mono); color: #b5bcc8; }
+.toc .title { font: 700 10.5pt var(--display); text-transform: uppercase; color: var(--ink); text-decoration: none; }
 .toc .blurb { color: var(--ink-3); font-size: 9.2pt; }
 .toc .dots { flex: 1; border-bottom: 1.5px dotted #c3c8d1; transform: translateY(-4px); min-width: 20px; }
-.toc .pg { font: 700 13pt var(--display); color: var(--ink); min-width: 22px; text-align: right; }
+.toc .pg { font: 500 10pt var(--mono); color: var(--ink); min-width: 22px; text-align: right; }
 .toc .topics { margin: 1px 0 0 40px; font-size: 8.2pt; line-height: 1.4; color: #7a8190; }
 .toc .topics a { color: inherit; text-decoration: none; }
 .toc .topics .sep { padding: 0 5px; color: #b9bfc9; }
@@ -257,31 +265,31 @@ body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 10.4p
 .chapter { break-before: page; }
 .opener { position: relative; margin: 0 0 .26in; padding: .26in .3in .24in; border-radius: 10px; color: #fff; overflow: hidden;
   background: radial-gradient(70% 120% at 0% 0%, rgba(62,123,250,.30), transparent 60%), radial-gradient(60% 120% at 100% 0%, rgba(229,72,77,.24), transparent 60%), var(--night); }
-.opener .kicker { font: 700 10pt var(--display); letter-spacing: .3em; text-transform: uppercase; color: #9aa3b2; }
-.opener h1 { margin: .04in 0 .05in; font: 800 34pt/0.95 var(--display); text-transform: uppercase; color: #fff; }
-.opener .blurb { font: 500 11.5pt var(--body); color: #c7cdd7; }
-.opener .topics { margin-top: .12in; padding-top: .1in; border-top: 1px solid rgba(255,255,255,.12); font: 600 9.5pt var(--display);
-  letter-spacing: .06em; text-transform: uppercase; color: #8f98a8; }
+.opener .kicker { font: 500 7.5pt var(--display); letter-spacing: .2em; text-transform: uppercase; color: #9aa3b2; }
+.opener h1 { margin: .04in 0 .05in; font: 700 26pt/0.98 var(--display); letter-spacing: -.01em; text-transform: uppercase; color: #fff; }
+.opener .blurb { font: 400 10.5pt var(--body); color: #c7cdd7; }
+.opener .topics { margin-top: .12in; padding-top: .1in; border-top: 1px solid rgba(255,255,255,.12); font: 500 7.5pt var(--display);
+  letter-spacing: .05em; text-transform: uppercase; color: #8f98a8; }
 .opener .topics a { color: #dfe3ea; text-decoration: none; }
 .opener .topics span.sep { color: #4b5361; padding: 0 .07in; }
 .opener::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: linear-gradient(90deg, var(--blue) 0 33%, var(--yellow) 33% 66%, var(--red) 66%); }
 
 h2, h3, h4 { color: var(--ink); font-family: var(--display); text-transform: uppercase; break-after: avoid; page-break-after: avoid; }
-h2 { margin: .24in 0 .07in; padding-top: .07in; font-size: 19pt; font-weight: 800; line-height: 1.05; border-top: 2px solid var(--ink); }
-h3 { margin: .16in 0 .04in; font-size: 13.5pt; font-weight: 700; }
-h4 { margin: .12in 0 .03in; font-size: 12pt; font-weight: 700; color: var(--ink-2); }
+h2 { margin: .24in 0 .07in; padding-top: .07in; font-size: 14.5pt; font-weight: 700; line-height: 1.08; border-top: 2px solid var(--ink); }
+h3 { margin: .16in 0 .04in; font-size: 10.8pt; font-weight: 700; }
+h4 { margin: .12in 0 .03in; font-size: 9.8pt; font-weight: 700; color: var(--ink-2); }
 h2 + *, h3 + *, h4 + * { break-before: avoid; }
 p { margin: 0 0 .085in; orphans: 3; widows: 3; }
-strong { color: var(--ink); font-weight: 600; }
+strong { color: var(--ink); font-weight: 500; }
 em { font-style: italic; }
 a.xref { color: #1f55c9; text-decoration: none; border-bottom: 1px solid rgba(31,85,201,.35); }
 a.ext { color: #1f55c9; text-decoration: none; }
-.applink { font-weight: 600; color: var(--ink); }
-code { font: 500 0.84em var(--mono); font-variant-ligatures: none; background: #eef0f3; border: 1px solid #e0e3e8; border-radius: 4px; padding: 0 4px; color: #1d2027; white-space: nowrap; }
+.applink { font-weight: 500; color: var(--ink); }
+code { font: 400 0.86em var(--mono); font-variant-ligatures: none; background: #eef0f3; border: 1px solid #e0e3e8; border-radius: 4px; padding: 0 4px; color: #1d2027; white-space: nowrap; }
 ul, ol { margin: 0 0 .09in; padding-left: .24in; }
 li { margin: .03in 0; }
 li > p { margin-bottom: .04in; }
-ol > li::marker { font: 700 1em var(--display); color: var(--ink); }
+ol > li::marker { font: 400 0.92em var(--mono); color: var(--ink); }
 ul > li::marker { color: #9aa1ad; }
 li > ul, li > ol { margin: .03in 0 .04in; }
 
@@ -296,7 +304,7 @@ table { width: 100%; margin: .06in 0 .14in; border-collapse: separate; border-sp
 table.keep { break-inside: avoid; page-break-inside: avoid; }
 thead { display: table-header-group; }
 tr { break-inside: avoid; page-break-inside: avoid; }
-th { background: var(--night-2); color: #e9ecf1; text-align: left; padding: 6px 9px; font: 700 9.6pt var(--display); letter-spacing: .07em; text-transform: uppercase; }
+th { background: var(--night-2); color: #e9ecf1; text-align: left; padding: 6px 9px; font: 500 7.6pt var(--display); letter-spacing: .06em; text-transform: uppercase; }
 td { padding: 5.5px 9px; border-top: 1px solid var(--rule); vertical-align: top; }
 tbody tr:nth-child(even) td { background: var(--tint); }
 td code { white-space: normal; }
@@ -305,7 +313,7 @@ td code { white-space: normal; }
 .callout.tip { border-color: #bfe3cc; border-left-color: var(--green); background: #f1faf4; }
 .callout.warning { border-color: #f1d9a8; border-left-color: var(--amber); background: #fdf7ea; }
 .callout.note { border-color: #c9d9f6; border-left-color: var(--info); background: #f2f6fd; }
-.callout-head { display: flex; align-items: center; gap: 6px; margin-bottom: .04in; font: 700 11pt var(--display); letter-spacing: .07em; text-transform: uppercase; }
+.callout-head { display: flex; align-items: center; gap: 6px; margin-bottom: .04in; font: 700 8.5pt var(--display); letter-spacing: .05em; text-transform: uppercase; }
 .callout-head svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .callout.tip .callout-head { color: #157a41; }
 .callout.warning .callout-head { color: #9a5f06; }
@@ -313,8 +321,8 @@ td code { white-space: normal; }
 .callout p:last-child, .callout ul:last-child, .callout ol:last-child { margin-bottom: .04in; }
 
 .code { margin: .06in 0 .14in; border-radius: 7px; overflow: hidden; background: var(--night); break-inside: avoid; }
-.code-bar { padding: 3px 10px; background: var(--night-3); font: 700 8.5pt var(--display); letter-spacing: .14em; text-transform: uppercase; color: #8f98a8; }
-.code pre { margin: 0; padding: 8px 12px 9px; font: 400 8.7pt/1.5 var(--mono); font-variant-ligatures: none; color: #e9ecf1; white-space: pre-wrap; word-break: break-word; }
+.code-bar { padding: 3px 10px; background: var(--night-3); font: 400 7.5pt var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #8f98a8; }
+.code pre { margin: 0; padding: 8px 12px 9px; font: 400 8.2pt/1.5 var(--mono); font-variant-ligatures: none; color: #e9ecf1; white-space: pre-wrap; word-break: break-word; }
 blockquote { margin: 0 0 .1in; padding-left: .14in; border-left: 3px solid var(--rule); color: var(--ink-3); }
 hr { border: 0; border-top: 1px solid var(--rule); margin: .16in 0; }
 `;
@@ -392,6 +400,38 @@ function findChrome() {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+const NB_FONT_DIR = process.env.NB_FONT_DIR ?? path.join(os.homedir(), "Desktop/Joby Identity/Fonts/NB International Pro");
+/** NB International Pro files → FontFace descriptors (Book is weight 400 inside the file, like Regular: map it to 350). */
+const NB_FACES = [
+  ["Lig", 300, "normal"], ["LigIta", 300, "italic"],
+  ["Boo", 350, "normal"], ["BooIta", 350, "italic"],
+  ["Reg", 400, "normal"], ["Ita", 400, "italic"],
+  ["Med", 500, "normal"], ["MedIta", 500, "italic"],
+  ["Bol", 700, "normal"], ["BolIta", 700, "italic"],
+];
+
+/**
+ * A page script that registers the locally installed NB International Pro files as FontFaces (print page only: the
+ * bytes go from this process straight into the headless browser's memory; nothing is written to disk). Returns
+ * undefined when the folder has no NBInternationalProReg.otf.
+ */
+function nbFontsScript() {
+  const faces = [];
+  for (const [suffix, weight, style] of NB_FACES) {
+    const file = path.join(NB_FONT_DIR, `NBInternationalPro${suffix}.otf`);
+    if (existsSync(file)) faces.push({ weight: String(weight), style, b64: readFileSync(file).toString("base64") });
+  }
+  if (!faces.some((f) => f.weight === "400" && f.style === "normal")) return undefined;
+  return `(() => {
+    if (!document.fonts) return;
+    for (const f of ${JSON.stringify(faces)}) {
+      const bin = atob(f.b64), buf = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+      document.fonts.add(new FontFace("NB International Pro", buf, { weight: f.weight, style: f.style }));
+    }
+  })();`;
+}
+
 async function startChrome() {
   const profile = mkdtempSync(path.join(os.tmpdir(), "pbstudio-guide-"));
   const proc = spawn(findChrome(), ["--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], {
@@ -435,6 +475,9 @@ async function startChrome() {
   };
   await send("Page.enable");
   await send("Runtime.enable");
+  const fonts = nbFontsScript();
+  if (fonts) await send("Page.addScriptToEvaluateOnNewDocument", { source: fonts });
+  else console.warn(`  ! NB International Pro not found in ${NB_FONT_DIR} (set NB_FONT_DIR): the PDF falls back to Helvetica`);
   return { send, close, on: (fn) => listeners.add(fn) };
 }
 

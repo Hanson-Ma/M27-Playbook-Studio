@@ -166,7 +166,15 @@ function BookOverview() {
                     <span className={s.formName}>{String(rf.entry.formation)}</span>
                     {rf.template && <span className={s.tplTag}>Template</span>}
                     {data.custom.formation(rf.formation?.asset) && <span className={s.customTag}>Custom</span>}
-                    <span className={s.formMeta}>{counts ? `${counts.sets} ${counts.sets === 1 ? "set" : "sets"} · ${counts.plays} ${counts.plays === 1 ? "play" : "plays"}` : rf.problem ?? "…"}</span>
+                    <span className={s.formMeta}>
+                      {counts ? (
+                        <>
+                          <b>{counts.sets}</b> {counts.sets === 1 ? "set" : "sets"} · <b>{counts.plays}</b> {counts.plays === 1 ? "play" : "plays"}
+                        </>
+                      ) : (
+                        (rf.problem ?? "…")
+                      )}
+                    </span>
                   </button>
                 );
               })}

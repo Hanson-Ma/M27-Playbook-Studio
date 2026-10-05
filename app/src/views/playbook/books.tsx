@@ -204,7 +204,14 @@ export function playbooksMenu(docs: DocEntry<PlaybookSpec>[], current?: DocEntry
       label: name,
       icon: "tree",
       checked: d.path === current?.path,
-      hint: d.error ? "can't be read" : `${file}${d.dirty ? " · unsaved" : ""}`,
+      hint: d.error ? (
+        "can't be read"
+      ) : (
+        <>
+          <span className={s.file}>{file}</span>
+          {d.dirty && " · unsaved"}
+        </>
+      ),
       onSelect: () => d.path !== current?.path && openBook(d.path),
     });
   }

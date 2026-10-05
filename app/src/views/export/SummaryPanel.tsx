@@ -204,9 +204,11 @@ function SavesCard({ summary }: { summary: ExportSummary }) {
                 }}
               >
                 <Icon name="warning" size={14} className={s.redIcon} />
-                <span className={s.listName}>{u.play || "(no name)"}</span>
-                <span className={s.listSub}>
-                  {u.formation} › {u.set} · {shortSave(u.saveName)}
+                <span className={s.listText}>
+                  <span className={s.listName}>{u.play || "(no name)"}</span>
+                  <span className={s.listSub}>
+                    {u.formation} › {u.set} · {shortSave(u.saveName)}
+                  </span>
                 </span>
               </button>
             ))}
@@ -295,7 +297,7 @@ function ModCard({ summary }: { summary: ExportSummary }) {
         <div className={s.modCounts}>
           <ModCount value={summary.customPlays.length} label="Custom plays" />
           <ModCount value={summary.customSets.length} label="Custom sets" />
-          <ModCount value={summary.customFormations.length} label="Formations" />
+          <ModCount value={summary.customFormations.length} label="New formations" />
           <ModCount value={summary.clonedPlays.length} label="Cloned plays" />
         </div>
         <div className={s.cardNote}>
@@ -305,9 +307,11 @@ function ModCard({ summary }: { summary: ExportSummary }) {
         </div>
         {shown.map((r) => (
           <button key={r.key} type="button" className={s.listRow} onClick={r.go} title={r.title}>
-            {r.tag ?? <span className={s.listTag} />}
-            <span className={s.listName}>{r.name}</span>
-            <span className={s.listSub}>{r.sub}</span>
+            <span className={s.listTagCol}>{r.tag}</span>
+            <span className={s.listText}>
+              <span className={s.listName}>{r.name}</span>
+              <span className={s.listSub}>{r.sub}</span>
+            </span>
             <span className={s.listEnd}>
               {r.warn && <Icon name="warning" size={14} className={s.redIcon} />}
               {r.end}
@@ -346,9 +350,11 @@ function PulledCard({ summary }: { summary: ExportSummary }) {
         </div>
         {shown.map((pp) => (
           <button key={pp.key} type="button" className={s.listRow} onClick={() => navigate(href("library", "play", pp.key))} title={pp.key}>
-            {pp.playType ? <PlayTypeTag playType={pp.playType} size="sm" className={s.listTag} /> : <span className={s.listTag} />}
-            <span className={s.listName}>{pp.name}</span>
-            <span className={s.listSub}>{pp.subtitle}</span>
+            <span className={s.listTagCol}>{pp.playType && <PlayTypeTag playType={pp.playType} size="sm" className={s.listTag} />}</span>
+            <span className={s.listText}>
+              <span className={s.listName}>{pp.name}</span>
+              <span className={s.listSub}>{pp.subtitle}</span>
+            </span>
             <span className={s.listEnd}>
               <span className={s.usedBy}>{pp.usedBy.map(shortSave).join(", ")}</span>
             </span>

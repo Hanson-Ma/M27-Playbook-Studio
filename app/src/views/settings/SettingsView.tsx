@@ -374,7 +374,7 @@ function DataSection() {
       <div className={s.twoCol}>
         <Panel eyebrow="Files & data" title="Workspace" scroll={false}>
           <div className={s.rows}>
-            <FormRow inline label={`Files · ${files}`} hint="Playbooks, custom plays, custom sets and app data.">
+            <FormRow inline label={<>Files · <span className={s.count}>{files}</span></>} hint="Playbooks, custom plays, custom sets and app data.">
               <Button size="sm" variant="ghost" icon="refresh" loading={refreshing} onClick={() => void reloadFiles()}>
                 Reload from disk
               </Button>
@@ -386,12 +386,12 @@ function DataSection() {
         </Panel>
         <Panel eyebrow="Files & data" title="Your lists" scroll={false}>
           <div className={s.rows}>
-            <FormRow inline label={`Favorites · ${favorites}`} hint="Starred plays (kept in this browser).">
+            <FormRow inline label={<>Favorites · <span className={s.count}>{favorites}</span></>} hint="Starred plays (kept in this browser).">
               <Button size="sm" variant="ghost" icon="trash" disabled={!favorites} onClick={() => void clear("favorites", favorites)}>
                 Clear
               </Button>
             </FormRow>
-            <FormRow inline label={`Recents · ${recents}`} hint="Recently opened plays (last 60).">
+            <FormRow inline label={<>Recents · <span className={s.count}>{recents}</span></>} hint="Recently opened plays (last 60).">
               <Button size="sm" variant="ghost" icon="trash" disabled={!recents} onClick={() => void clear("recents", recents)}>
                 Clear
               </Button>
@@ -428,7 +428,9 @@ function DataSection() {
           <div className={s.server}>
             <div className={s.inline}>
               <Tag tone={d.hasLibrary ? "ok" : "danger"}>{d.hasLibrary ? "Library found" : "Library missing"}</Tag>
-              <span className={s.dim}>data/library in</span>
+              <span className={s.dim}>
+                <code className={s.mono}>data/library</code> in
+              </span>
               <code className={s.code}>{d.root}</code>
             </div>
             <table className={s.table}>
@@ -444,7 +446,7 @@ function DataSection() {
                   <tr key={f.name}>
                     <td className={s.mono}>{f.name}</td>
                     <td className={s.num}>{fmtMB(f.size)}</td>
-                    <td className={s.dim}>{fmtDate(f.mtime)}</td>
+                    <td className={s.date}>{fmtDate(f.mtime)}</td>
                   </tr>
                 ))}
               </tbody>

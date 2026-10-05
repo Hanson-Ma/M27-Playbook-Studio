@@ -54,6 +54,23 @@ describe("placeLabels", () => {
     expect(labels[1].spot).not.toBe("below");
   });
 
+  it("moves an earlier label aside when a later one has nowhere else to go (tackle next to the tight end)", () => {
+    // TE (slot 5) is placed first and takes "below". RT (slot 10), 16 px to its left, is boxed in — a player above
+    // him, the guard on his left, the TE on his right: "below" is his only spot clear of a mark, so the TE label
+    // steps aside (right, which is free) instead of both labels sitting below. Greedy alone stacks them.
+    const marks = [mark(5, 0, 0), mark(10, -16, 0), mark(9, -32, 0), mark(1, -16, -16)];
+    const labels = placeLabels([req(5, 0, 0), req(10, -16, 0)], [], marks, opts);
+    const te = labels.find((l) => l.slot === 5)!;
+    const rt = labels.find((l) => l.slot === 10)!;
+    expect(rt.spot).toBe("below");
+    expect(te.spot).toBe("right");
+  });
+
+  it("leaves uncrowded labels where the greedy pass put them", () => {
+    const labels = placeLabels([req(1, 0, 0), req(2, 60, 0), req(3, 120, 0, "above")], [], [mark(1, 0, 0), mark(2, 60, 0), mark(3, 120, 0)], opts);
+    expect(labels.map((l) => l.spot)).toEqual(["below", "below", "above"]);
+  });
+
   it("stays inside the view when it can", () => {
     const [l] = placeLabels([req(0, 50, 95)], [], [mark(0, 50, 95)], { ...opts, view: { x0: 0, y0: 0, x1: 100, y1: 100 } });
     expect(l.spot).toBe("above");

@@ -130,7 +130,7 @@ export function InfoTab({ slot }: { slot: number }) {
         </div>
         <dl className={s.kv}>
           <dt>Position</dt>
-          <dd>
+          <dd className={s.num}>
             {a.x.toFixed(2)}, {a.y.toFixed(2)}
           </dd>
           <dt>Stance</dt>

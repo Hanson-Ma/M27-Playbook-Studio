@@ -40,7 +40,7 @@ back to the base play's route.
 
 Every segment between two points is one **leg** of the route. The **ROUTE POINTS** list on the right shows each leg's
 length (**YD**), direction (**DIR**: 90° is straight upfield, 0° toward the right sideline, 180° toward the left) and
-**SPEED** (0–100; a stem at 80 and the break at 100 sells the cut). Type in these boxes for exact numbers.
+speed (**SPD**, 0–100; a stem at 80 and the break at 100 sells the cut). Type in these boxes for exact numbers.
 
 ![ROUTE POINTS: each leg's yards, direction and speed, its cut, and what he does at the end.](/guide/designer-route-points.png)
 

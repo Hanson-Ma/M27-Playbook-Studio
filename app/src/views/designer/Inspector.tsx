@@ -179,7 +179,7 @@ function StartSpot({ slot }: { slot: number }) {
   const lockInfo = useMemo(() => startLock(state, slot), [state, slot]);
   const home = alignmentOf(set, slot);
   const moved = startOverride(state.slots[slot].steps);
-  const xy = (p: { x: number; y: number }) => `${p.x.toFixed(1)}, ${p.y.toFixed(1)}`;
+  const xy = (p: { x: number; y: number }) => <span className={s.num}>{`${p.x.toFixed(1)}, ${p.y.toFixed(1)}`}</span>;
   const formations = <a href={href("formations")}>Formations</a>;
   if (!lockInfo.movable) {
     if (lockInfo.reason === "mechanics") return null; // the handoff panel explains it

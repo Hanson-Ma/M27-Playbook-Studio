@@ -348,6 +348,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
                 value={file}
                 options={[...docs.filter((d) => !d.error).map((d) => ({ value: d.path, label: d.path })), { value: NEW_FILE, label: "New plays file…" }]}
                 onChange={setFile}
+                className={file === NEW_FILE ? undefined : s.monoSelect}
               />
             </FormRow>
             {file === NEW_FILE && (

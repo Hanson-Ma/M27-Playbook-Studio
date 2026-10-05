@@ -44,7 +44,8 @@ function useCellSize(): [(el: HTMLDivElement | null) => void, number, number] {
   const inner = Math.max(MIN_CELL_W, w - PAD * 2 - 10);
   const cols = Math.max(1, Math.floor((inner + GAP) / (MIN_CELL_W + GAP)));
   const cellW = Math.floor((inner - GAP * (cols - 1)) / cols);
-  return [ref, cellW, Math.round(cellW / 2.15) + 54];
+  // art (2.15:1) + the small card's name and formation lines (NB 14 / 10 px ≈ 36 px with the gap) + breathing room
+  return [ref, cellW, Math.round(cellW / 2.15) + 44];
 }
 
 export function AddPlaysDrawer() {
@@ -209,7 +210,8 @@ export function AddPlaysDrawer() {
   const setLabel = setAsset ? setOptions.find((x) => x.value === setAsset)?.label : undefined;
   const setIsCustom = scope === "set" && data.custom.set(setAsset);
   const searchPlaceholder =
-    scope === "set" ? `Search ${setLabel ?? "this set"}` : scope === "book" ? "Search every set of this playbook's formations" : "Type a play name, e.g. Mesh, Four Verticals…";
+    // the set itself is named in the picker right beside the field (in uppercase), so the placeholder doesn't repeat it
+    scope === "set" ? (setLabel ? "Search this set's plays" : "Search this set") : scope === "book" ? "Search every set of this playbook's formations" : "Type a play name, e.g. Mesh, Four Verticals…";
 
   return (
     <aside className={s.drawer} role="dialog" aria-label="Add plays">

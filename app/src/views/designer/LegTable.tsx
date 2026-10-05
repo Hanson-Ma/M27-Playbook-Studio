@@ -75,7 +75,7 @@ export function LegTable({ slot, lock }: { slot: number; lock: number }) {
             <div className={s.legNums}>
               <NumberField size="sm" label="YD" value={leg.distance} min={0} max={80} step={0.5} precision={2} disabled={locked} onChange={(v) => patch(k, { distance: v }, "Leg distance")} />
               <NumberField size="sm" label="DIR" value={leg.direction} min={0} max={359.99} step={5} precision={2} suffix="°" disabled={locked} onChange={(v) => patch(k, { direction: v }, "Leg direction")} />
-              <NumberField size="sm" label="SPEED" value={leg.speed} min={0} max={100} step={5} disabled={locked || leg.speed === undefined} onChange={(v) => patch(k, { speed: v }, "Leg speed")} />
+              <NumberField size="sm" label="SPD" title="Speed (% of full speed)" value={leg.speed} min={0} max={100} step={5} disabled={locked || leg.speed === undefined} onChange={(v) => patch(k, { speed: v }, "Leg speed")} />
             </div>
           </div>
         );

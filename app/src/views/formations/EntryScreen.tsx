@@ -16,7 +16,7 @@ import s from "./Entry.module.css";
 
 const ALL = "__all__";
 const CARD_W = 300;
-const CARD_H = Math.round(CARD_W / SET_CARD_ASPECT) + 52;
+const CARD_H = Math.round(CARD_W / SET_CARD_ASPECT) + 58; // art + the medium-size name / subtitle lines
 
 interface Item {
   key: string;
@@ -122,7 +122,12 @@ function Entry({ lib }: { lib: LibraryIndex }) {
     const taken = new Set(docs.map((d) => d.path));
     const name = await promptDialog({
       title: "New sets file",
-      label: "File name (saved as playbooks/sets/<name>.json)",
+      body: (
+        <>
+          Custom sets are saved in <code className={s.pathCode}>playbooks/sets/&lt;name&gt;.json</code>.
+        </>
+      ),
+      label: "File name",
       initial: "custom-sets",
       mono: true,
       confirmLabel: "Create",
@@ -379,7 +384,7 @@ function FileRow(p: {
     <div className={cx(s.fileRow, p.active && s.fileRowOn)} title={p.error ?? p.label}>
       <button type="button" className={s.fileBtn} onClick={p.onClick} aria-pressed={p.active}>
         {p.error ? <Icon name="warning" size={14} className={s.fileError} /> : <Icon name={p.onDelete ? "file" : "grid"} size={14} />}
-        <span className={s.fileLabel}>{p.label}</span>
+        <span className={cx(s.fileLabel, p.onDelete && s.fileLabelMono)}>{p.label}</span>
         {p.dirty && <span className={s.dirtyDot} aria-label="Unsaved changes" title="Unsaved changes" />}
         {!!p.errors && <span className={s.errCount}>{p.errors}</span>}
         {!p.errors && !!p.warnings && <span className={s.warnCount}>{p.warnings}</span>}

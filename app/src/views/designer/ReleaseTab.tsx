@@ -53,9 +53,9 @@ export function ReleaseSection({ slot, lock }: { slot: number; lock: number }) {
                 <NumberField size="sm" value={relLen} min={0.5} max={2.5} step={0.25} suffix="yd" onChange={(v) => applyRelease(kind, undefined, v)} />
               </div>
             )}
-            <div className={s.paramRow}>
+            <div className={s.paramStack}>
               <span className={s.fieldLabel}>Start anim</span>
-              <Segmented size="sm" options={ANIMS} value={anim} onChange={(v) => applyRelease(kind, v || null)} aria-label="Release animation" />
+              <Segmented block size="sm" options={ANIMS} value={anim} onChange={(v) => applyRelease(kind, v || null)} aria-label="Release animation" />
             </div>
           </div>
           <p className={s.note}>

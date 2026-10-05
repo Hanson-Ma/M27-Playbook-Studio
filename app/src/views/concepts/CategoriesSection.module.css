@@ -49,16 +49,19 @@
   align-items: baseline;
   gap: var(--s2);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-2xl);
-  letter-spacing: 0.03em;
+  font-weight: 700;
+  font-size: var(--fd-2xl);
+  letter-spacing: 0;
   text-transform: uppercase;
   line-height: 1;
 }
 .colTitle span {
-  font-size: var(--fs-md);
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-size: var(--fd-md);
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .rows {
   display: flex;
@@ -147,11 +150,10 @@
 .name {
   flex: 1;
   min-width: 0;
-  padding-top: 1px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.02em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -168,8 +170,8 @@
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.02em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.01em;
   text-transform: uppercase;
   outline: none;
 }
@@ -187,9 +189,9 @@
   border-radius: var(--r-pill);
   background: var(--bg-4);
   color: var(--text-2);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-sm);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-sm);
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
@@ -227,9 +229,9 @@
   border-radius: var(--r-md);
   color: var(--text-2);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   text-align: center;
 }

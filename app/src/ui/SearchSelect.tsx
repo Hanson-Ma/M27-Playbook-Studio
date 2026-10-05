@@ -37,7 +37,7 @@ export interface SearchSelectProps {
   menuWidth?: number;
   /**
    * "field" (default): a form input with body type. "chrome": the trigger sits in headers/toolbars/trees and shows its
-   * value (and placeholder) in the condensed uppercase display type like the rest of the chrome.
+   * value (and placeholder) in the uppercase display type like the rest of the chrome.
    */
   variant?: "field" | "chrome";
   title?: string;

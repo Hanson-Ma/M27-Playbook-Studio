@@ -99,7 +99,7 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
         <section className={s.section}>
           <div className={s.sectionHead}>
             <span className={s.sectionTitle}>
-              Motion points <span className={s.muted}>· {length.toFixed(1)} yd</span>
+              Motion points <span className={s.muted}>·</span> <span className={cx(s.muted, s.num)}>{length.toFixed(1)} yd</span>
             </span>
             <Button size="sm" variant="ghost" icon="trash" disabled={locked} onClick={() => (commit(setMotion(steps, null), "Remove motion"), setUi({ vertex: undefined }))}>
               Remove motion
@@ -146,7 +146,7 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
                   <div className={s.legNums}>
                     <NumberField size="sm" label="X" value={w.position.x} step={0.5} precision={2} min={-L.maxAbsX} max={L.maxAbsX} disabled={locked} onChange={(v) => patchWp(j, { position: { x: v, y: w.position.y } }, "Motion point x")} />
                     <NumberField size="sm" label="Y" value={w.position.y} step={0.5} precision={2} min={L.minY} max={L.maxY} disabled={locked} onChange={(v) => patchWp(j, { position: { x: w.position.x, y: v } }, "Motion point y")} />
-                    <NumberField size="sm" label="SPEED" value={w.speed} step={5} min={5} max={100} disabled={locked} onChange={(v) => patchWp(j, { speed: v }, "Motion speed")} />
+                    <NumberField size="sm" label="SPD" title="Speed (% of full speed)" value={w.speed} step={5} min={5} max={100} disabled={locked} onChange={(v) => patchWp(j, { speed: v }, "Motion speed")} />
                   </div>
                 </div>
               );

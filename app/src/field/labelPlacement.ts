@@ -6,6 +6,8 @@
 // another player's mark costs most, then overlapping an already placed label, leaving the view, and crossing a drawn
 // segment — its own path most (so a pass-pro stem, a QB drop or backward motion pushes the label to the other side),
 // someone else's route less (the opaque pill only hides a sliver of it); ties keep the default order.
+// A second pass re-places every label against all the others, so a crowded line doesn't stack two labels just
+// because the first one was placed before it knew about the second.
 
 export type LabelSpot = "below" | "above" | "right" | "left" | "below-right" | "below-left" | "above-right" | "above-left";
 
@@ -123,30 +125,60 @@ export function spotOffset(spot: LabelSpot, w: number, h: number, radius: number
   }
 }
 
-/** Places labels in request order (greedy). */
+type Placed = PlacedLabel & { box: Box };
+
+/** One spot for a label: its box and what it costs next to the marks, the drawn segments and the other labels. */
+function trySpot(l: LabelRequest, spot: LabelSpot, rank: number, others: Placed[], segments: Segment[], marks: MarkCircle[], o: PlaceOptions): Placed & { cost: number } {
+  const { dx, dy } = spotOffset(spot, l.w, l.h, o.radius, o.gap);
+  const cx = l.x + dx;
+  const cy = l.y + dy;
+  const box = { x0: cx - l.w / 2, y0: cy - l.h / 2, x1: cx + l.w / 2, y1: cy + l.h / 2 };
+  let cost = ORDER_COST[rank];
+  for (const s of segments) if (segmentHitsBox(s, box)) cost += s.slot === l.slot ? COST_OWN_SEGMENT : COST_SEGMENT;
+  for (const m of marks) if (m.slot !== l.slot && circleHitsBox(m, box)) cost += COST_MARK;
+  for (const p of others) if (boxesOverlap(p.box, box)) cost += COST_LABEL;
+  const v = o.view;
+  if (v && (box.x0 < v.x0 || box.y0 < v.y0 || box.x1 > v.x1 || box.y1 > v.y1)) cost += COST_OUTSIDE;
+  return { slot: l.slot, spot, dx, dy, w: l.w, h: l.h, box, cost };
+}
+
+/** The cheapest spot for a label next to `others` (ties keep the default order). */
+function bestSpot(l: LabelRequest, others: Placed[], segments: Segment[], marks: MarkCircle[], o: PlaceOptions): Placed & { cost: number } {
+  const order = l.prefer === "below" ? ORDER_BELOW : ORDER_ABOVE;
+  let best: (Placed & { cost: number }) | undefined;
+  order.forEach((spot, i) => {
+    const t = trySpot(l, spot, i, others, segments, marks, o);
+    if (!best || t.cost < best.cost) best = t;
+  });
+  return best!;
+}
+
+/**
+ * Places labels in request order (greedy), then re-places each label against all the others until nothing gets
+ * cheaper: a label placed early can't see the ones after it, so on a tight line (RT next to the TE) the later label
+ * could end up on top of an earlier one that had a free spot beside its own mark. A label only moves when that is
+ * strictly cheaper (the total only goes down), so uncrowded art keeps the greedy result.
+ */
 export function placeLabels(labels: LabelRequest[], segments: Segment[], marks: MarkCircle[], o: PlaceOptions): PlacedLabel[] {
-  const placed: (PlacedLabel & { box: Box })[] = [];
+  const placed: Placed[] = [];
   for (const l of labels) {
-    const order = l.prefer === "below" ? ORDER_BELOW : ORDER_ABOVE;
-    let best: (PlacedLabel & { box: Box }) | undefined;
-    let bestCost = Infinity;
-    order.forEach((spot, i) => {
-      const { dx, dy } = spotOffset(spot, l.w, l.h, o.radius, o.gap);
-      const cx = l.x + dx;
-      const cy = l.y + dy;
-      const box = { x0: cx - l.w / 2, y0: cy - l.h / 2, x1: cx + l.w / 2, y1: cy + l.h / 2 };
-      let cost = ORDER_COST[i];
-      for (const s of segments) if (segmentHitsBox(s, box)) cost += s.slot === l.slot ? COST_OWN_SEGMENT : COST_SEGMENT;
-      for (const m of marks) if (m.slot !== l.slot && circleHitsBox(m, box)) cost += COST_MARK;
-      for (const p of placed) if (boxesOverlap(p.box, box)) cost += COST_LABEL;
-      const v = o.view;
-      if (v && (box.x0 < v.x0 || box.y0 < v.y0 || box.x1 > v.x1 || box.y1 > v.y1)) cost += COST_OUTSIDE;
-      if (cost < bestCost) {
-        bestCost = cost;
-        best = { slot: l.slot, spot, dx, dy, w: l.w, h: l.h, box };
+    const { cost: _cost, ...best } = bestSpot(l, placed, segments, marks, o);
+    placed.push(best);
+  }
+  for (let pass = 0; pass < 4; pass++) {
+    let moved = false;
+    for (let i = 0; i < labels.length; i++) {
+      const l = labels[i];
+      const others = placed.filter((_, j) => j !== i);
+      const order = l.prefer === "below" ? ORDER_BELOW : ORDER_ABOVE;
+      const current = trySpot(l, placed[i].spot, order.indexOf(placed[i].spot), others, segments, marks, o).cost;
+      const { cost, ...best } = bestSpot(l, others, segments, marks, o);
+      if (cost < current) {
+        placed[i] = best;
+        moved = true;
       }
-    });
-    placed.push(best!);
+    }
+    if (!moved) break;
   }
   return placed.map(({ box: _box, ...p }) => p);
 }

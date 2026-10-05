@@ -150,7 +150,7 @@ function CreateConcepts() {
   return (
     <div className={s.create}>
       <div className={s.createCard}>
-        <div className={s.eyebrow}>app-data/concepts.json</div>
+        <div className={s.createPath}>app-data/concepts.json</div>
         <h2 className={s.createTitle}>Build your concept tree</h2>
         <p className={s.createBody}>
           Categories for pass concepts, run schemes and everything else. Tag any play — stock or custom — accept suggestions from the game's own play types and read

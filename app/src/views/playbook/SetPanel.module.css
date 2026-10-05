@@ -23,9 +23,9 @@
   background: var(--pill-bg);
   color: var(--pill-fg);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-md);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.03em;
   line-height: 1.1;
 }
 .titles {
@@ -33,7 +33,7 @@
   min-width: 0;
 }
 .title {
-  font-size: var(--fs-2xl);
+  font-size: var(--fd-2xl);
   line-height: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -42,10 +42,10 @@
 .sub {
   margin-top: 3px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
+  font-weight: 500;
+  font-size: var(--fd-sm);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--text-3);
 }
 .asset {
@@ -77,8 +77,8 @@
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   line-height: 1.35;
 }
@@ -183,7 +183,7 @@
 .brokenName {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
+  font-size: var(--fd-lg);
   text-transform: uppercase;
   color: var(--text);
 }
@@ -214,9 +214,9 @@
   padding: 0 var(--s3) var(--s2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
+  font-size: var(--fd-md);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--text-2);
   white-space: nowrap;
 }
@@ -275,7 +275,7 @@
   flex: none;
   pointer-events: none;
 }
-/* Play names in the condensed uppercase display type, like the cards and the play-call screen. */
+/* Play names in the uppercase display type, like the cards and the play-call screen. */
 .toggleName {
   flex: 1;
   min-width: 0;
@@ -283,10 +283,10 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 500;
+  font-size: 12.5px;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   color: var(--text-3);
 }
 .toggleIn .toggleName {

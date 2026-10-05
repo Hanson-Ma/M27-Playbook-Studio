@@ -31,6 +31,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--s2);
+  /* the player strip tightens up in a narrow center column (PlayerStrip.module.css) */
+  container: editor-center / inline-size;
 }
 .centered {
   height: 100%;
@@ -56,9 +58,9 @@
 }
 .eyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
   white-space: nowrap;
@@ -67,8 +69,8 @@
 }
 .title {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-2xl);
+  font-weight: 700;
+  font-size: var(--fd-2xl);
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;

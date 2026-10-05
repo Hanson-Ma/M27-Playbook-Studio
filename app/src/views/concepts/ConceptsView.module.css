@@ -17,15 +17,15 @@
 }
 .eyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.16em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .title {
-  font-size: var(--fs-3xl);
-  font-weight: 800;
+  font-size: var(--fd-3xl);
+  font-weight: 700;
   line-height: 0.95;
 }
 .tabs {
@@ -43,12 +43,13 @@
 }
 .counts {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .body {
@@ -66,8 +67,8 @@
   flex: 1;
   color: var(--text-3);
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -92,10 +93,16 @@
   border: 1px solid var(--line);
   box-shadow: var(--shadow-2);
 }
+.createPath {
+  font-family: var(--font-num);
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--text-3);
+}
 .createTitle {
-  margin-top: var(--s1);
-  font-size: 46px;
-  font-weight: 800;
+  margin-top: var(--s2);
+  font-size: var(--fd-3xl);
+  font-weight: 700;
   line-height: 0.95;
 }
 .createBody {
@@ -122,15 +129,18 @@
   gap: var(--s2);
   margin-bottom: var(--s3);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-xl);
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 .seedHead span {
-  font-size: var(--fs-md);
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-size: var(--fd-md);
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .seedChips {
   display: flex;
@@ -141,14 +151,14 @@
   display: inline-flex;
   align-items: center;
   height: 24px;
-  padding: 1px 10px 0;
+  padding: 0 10px;
   border-radius: var(--r-pill);
   background: var(--c);
   color: var(--text-inv);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 13.5px;
-  letter-spacing: 0.035em;
+  font-size: 12px;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
 }

@@ -137,7 +137,7 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
             <span className={s.rowLabel}>{next ? "Next leg speed" : "Leg speed"}</span>
             <Segmented
               size="sm"
-              options={[...new Set([...SPEEDS, speed])].sort((a, b) => b - a).map((v) => ({ value: String(v), label: String(v) }))}
+              options={[...new Set([...SPEEDS, speed])].sort((a, b) => b - a).map((v) => ({ value: String(v), label: <span className={s.num}>{v}</span> }))}
               value={String(speed)}
               onChange={(v) => apply((r) => setLeg(r, speedLeg, { speed: Number(v) }), "Leg speed")}
               aria-label="Leg speed"

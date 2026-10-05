@@ -47,14 +47,13 @@
 .placeholder {
   color: var(--text-3);
 }
-/* variant="chrome": condensed uppercase display type, like the tabs/headers/trees around it. */
+/* variant="chrome": uppercase display type (NB International), like the tabs/headers/trees around it. */
 .chrome .value {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.08em;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  padding-top: 1px;
 }
 .chevron {
   color: var(--text-3);
@@ -82,9 +81,10 @@
   flex: none;
   padding-right: 4px;
   color: var(--text-4);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12.5px;
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  font-weight: 500;
+  font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
 .list {

@@ -14,6 +14,8 @@
 .lead {
   margin: 0;
   color: var(--text);
+  font-size: var(--fs-md);
+  line-height: 1.45;
 }
 .path {
   font-family: var(--font-mono);
@@ -36,7 +38,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   color: var(--text);
 }
 .choices dd {

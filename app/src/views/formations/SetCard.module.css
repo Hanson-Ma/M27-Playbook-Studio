@@ -7,6 +7,7 @@
   width: 100%;
   min-width: 0;
   outline: none;
+  container-type: inline-size;
   transition:
     transform var(--t-fast) var(--ease),
     opacity var(--t-med) var(--ease);
@@ -66,12 +67,12 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 0.32em 0.6em 0.26em;
+  padding: 0.3em 0.6em;
   border-radius: var(--r-xs);
   font-family: var(--font-display);
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
@@ -90,7 +91,10 @@
   text-overflow: ellipsis;
   background: var(--scrim);
   color: var(--text-2);
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
   backdrop-filter: blur(6px);
 }
 
@@ -136,15 +140,26 @@
 }
 
 .name {
-  font-size: var(--fs-lg);
+  font-size: var(--fd-lg);
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
   color: var(--text);
 }
 
 .subtitle {
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--fd-xs);
+  font-weight: 500;
+  letter-spacing: 0.03em;
   color: var(--text-2);
+}
+
+/* Wide cards (the Formations grid, ≥ 300 px) use the medium play-card sizes; picker cards stay small. */
+@container (min-width: 300px) {
+  .name {
+    font-size: var(--fd-xl);
+    letter-spacing: 0.01em;
+  }
+  .subtitle {
+    font-size: var(--fd-md);
+  }
 }

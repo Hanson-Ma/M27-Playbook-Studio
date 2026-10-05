@@ -15,17 +15,24 @@
   cursor: crosshair;
 }
 
-/* Toolbar + hint over the field */
+/* Toolbar + hint over the field. One row: when the labels don't fit, EditField drops the point tools' labels
+   (compact); only then may it wrap (very narrow fields). */
 .toolbar {
   position: absolute;
   left: var(--s3);
   top: var(--s3);
   right: var(--s3);
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 4px;
   pointer-events: none;
+}
+.toolbarCompact {
+  flex-wrap: wrap;
+}
+.toolbar > * {
+  flex: none;
 }
 .toolbar > * {
   pointer-events: auto;
@@ -37,8 +44,8 @@
 .hudSlot {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.04em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   padding: 3px 10px;
   margin-right: 4px;
@@ -182,8 +189,8 @@
 .cutText {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  letter-spacing: 0.04em;
   fill: var(--art-route);
   paint-order: stroke;
   stroke: var(--field-bg);
@@ -231,9 +238,10 @@
   stroke-width: 1;
 }
 .dragInfo text {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.05em;
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0;
   fill: var(--text);
+  font-variant-numeric: tabular-nums;
 }

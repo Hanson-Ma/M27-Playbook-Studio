@@ -46,9 +46,7 @@
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--glyph-bg) 55%, transparent);
 }
 .letter {
-  font-size: calc(var(--g) * 0.7);
-  /* Barlow's caps sit a hair high in a flex box */
-  padding-top: calc(var(--g) * 0.05);
+  font-size: calc(var(--g) * 0.64);
 }
 .psSymbol {
   fill: none;
@@ -66,8 +64,7 @@
   background: var(--bumper-bg);
   color: var(--bumper-fg);
   font-size: calc(var(--g) * 0.62);
-  letter-spacing: 0.02em;
-  padding-top: calc(var(--g) * 0.04);
+  letter-spacing: 0;
 }
 .trigger {
   border-radius: calc(var(--g) * 0.5) calc(var(--g) * 0.5) calc(var(--g) * 0.18) calc(var(--g) * 0.18);
@@ -80,10 +77,8 @@
   background: var(--glyph-bg);
   border: max(1px, calc(var(--g) * 0.065)) solid var(--bumper-bg);
   color: var(--text);
-  font-size: calc(var(--g) * 0.56);
-  letter-spacing: -0.04em;
-  /* Barlow's caps sit a hair high in a flex box */
-  padding-top: calc(var(--g) * 0.05);
+  font-size: calc(var(--g) * 0.5);
+  letter-spacing: -0.02em;
 }
 
 /* VIEW / MENU (Xbox) and Create / Options (PS) */
@@ -142,9 +137,9 @@
   border-bottom-width: 2px;
   color: var(--text);
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   font-size: calc(var(--g) * 0.62);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   white-space: nowrap;
 }

@@ -143,7 +143,10 @@ export function HelpView() {
         <div className={s.readerInner}>
           <article className={s.article}>
             <div className={s.crumb}>
-              <Icon name="book" size={14} /> Guide · {String(index + 1).padStart(2, "0")} / {String(sections.length).padStart(2, "0")}
+              <Icon name="book" size={14} /> Guide ·{" "}
+              <span className={s.crumbNum}>
+                {String(index + 1).padStart(2, "0")} / {String(sections.length).padStart(2, "0")}
+              </span>
             </div>
             <Markdown doc={section.doc} />
             <footer className={s.pager}>

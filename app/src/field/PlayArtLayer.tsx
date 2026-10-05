@@ -63,8 +63,8 @@ export interface ArtMetrics {
   scale: number;
 }
 
-const COMPACT: ArtMetrics = { stroke: 2.4, radius: 4.6, ring: 1.6, arrowLen: 8.5, arrowHalf: 4.4, tHalf: 4.8, dot: 2.6, label: 9, scale: 1 };
-const DETAIL: ArtMetrics = { stroke: 3, radius: 6.5, ring: 1.9, arrowLen: 11, arrowHalf: 5.6, tHalf: 6.5, dot: 3.3, label: 10.5, scale: 1 };
+const COMPACT: ArtMetrics = { stroke: 2.4, radius: 4.6, ring: 1.6, arrowLen: 8.5, arrowHalf: 4.4, tHalf: 4.8, dot: 2.6, label: 8.5, scale: 1 };
+const DETAIL: ArtMetrics = { stroke: 3, radius: 6.5, ring: 1.9, arrowLen: 11, arrowHalf: 5.6, tHalf: 6.5, dot: 3.3, label: 9.5, scale: 1 };
 
 /** px/yd at which the detail metrics are 1×, and their largest factor. */
 const DETAIL_BASE_PPY = 14;
@@ -526,7 +526,7 @@ const widthCache = new Map<string, number>();
 let measureCtx: CanvasRenderingContext2D | null | undefined;
 let fontsHooked = false;
 
-/** Rendered width (px) of a label in the display face, bold, 0.04em tracking (canvas when available, else an estimate). */
+/** Rendered width (px) of a label in the display face, bold, 0.02em tracking (canvas when available, else an estimate). */
 export function labelTextWidth(text: string, fontPx: number): number {
   const key = `${fontPx}|${text}`;
   const hit = widthCache.get(key);
@@ -545,7 +545,7 @@ export function labelTextWidth(text: string, fontPx: number): number {
       w = measureCtx.measureText(text).width;
     }
   }
-  w = (w ?? text.length * fontPx * 0.52) + text.length * fontPx * 0.04;
+  w = (w ?? text.length * fontPx * 0.62) + text.length * fontPx * 0.02;
   widthCache.set(key, w);
   return w;
 }

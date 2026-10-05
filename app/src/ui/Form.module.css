@@ -2,9 +2,9 @@
 .label {
   display: block;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13.5px;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-2);
   line-height: 1.1;
@@ -33,8 +33,8 @@
 }
 .rowInline .label {
   color: var(--text);
-  font-size: var(--fs-lg);
-  letter-spacing: 0.03em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.015em;
 }
 .rowControl {
   display: flex;
@@ -152,9 +152,9 @@
   flex: none;
   color: var(--text-3);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
@@ -338,9 +338,9 @@
   background: transparent;
   color: var(--text-2);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   white-space: nowrap;
   line-height: 1;
@@ -362,12 +362,11 @@
   font-weight: 700;
 }
 .segLabel {
-  padding-top: 1px;
 }
 .seg_sm .segment {
   height: 22px;
   padding: 0 9px;
-  font-size: 12.5px;
+  font-size: 11px;
 }
 
 /* Slider */
@@ -425,9 +424,10 @@
   border-radius: var(--r-sm);
   background: var(--pill-bg);
   color: var(--pill-fg);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13px;
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  font-weight: 500;
+  font-size: 11.5px;
   line-height: 1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;

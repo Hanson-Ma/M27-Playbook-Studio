@@ -28,16 +28,17 @@
   padding-bottom: 5px;
 }
 .sectionTitle {
-  font-size: var(--fs-md);
+  font-size: var(--fd-md);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: var(--text-3);
 }
 .count {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-sm);
   color: var(--text-4);
+  font-variant-numeric: tabular-nums;
 }
 .clear {
   border: 0;
@@ -45,8 +46,8 @@
   padding: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -55,9 +56,9 @@
 }
 .subhead {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-4);
 }
@@ -108,9 +109,9 @@
   text-align: left;
   color: var(--text-2);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   transition:
     background var(--t-fast) var(--ease),
@@ -148,8 +149,9 @@
   color: var(--text-3);
 }
 .itemCount {
+  font-family: var(--font-num);
   flex: none;
-  font-size: var(--fs-sm);
+  font-size: var(--fd-sm);
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }
@@ -190,9 +192,9 @@
   background: transparent;
   color: var(--text-3);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 .more:hover {

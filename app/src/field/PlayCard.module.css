@@ -1,8 +1,8 @@
 /* Madden play-call card. Width follows the container; `data-size` scales type and chips. */
 .card {
-  --name-fs: var(--fs-xl);
-  --sub-fs: var(--fs-md);
-  --chip-fs: var(--fs-sm);
+  --name-fs: var(--fd-xl);
+  --sub-fs: var(--fd-md);
+  --chip-fs: var(--fd-sm);
   --chip-inset: 8px;
   --meta-gap: 9px;
   position: relative;
@@ -18,17 +18,17 @@
 }
 
 .card[data-size="sm"] {
-  --name-fs: var(--fs-lg);
-  --sub-fs: var(--fs-xs);
-  --chip-fs: 10.5px;
+  --name-fs: var(--fd-lg);
+  --sub-fs: var(--fd-xs);
+  --chip-fs: 10px;
   --chip-inset: 6px;
   --meta-gap: 7px;
 }
 
 .card[data-size="lg"] {
-  --name-fs: var(--fs-2xl);
-  --sub-fs: var(--fs-lg);
-  --chip-fs: var(--fs-md);
+  --name-fs: var(--fd-2xl);
+  --sub-fs: var(--fd-lg);
+  --chip-fs: var(--fd-md);
   --chip-inset: 10px;
   --meta-gap: 11px;
 }
@@ -88,7 +88,7 @@
 .badge {
   font-family: var(--font-display);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   line-height: 1;
   white-space: nowrap;
   border-radius: var(--r-xs);
@@ -98,25 +98,29 @@
   position: absolute;
   left: var(--chip-inset);
   bottom: var(--chip-inset);
-  padding: 0.32em 0.6em 0.26em;
+  padding: 0.3em 0.6em;
   background: var(--tag);
   color: var(--text);
   font-size: var(--chip-fs);
   font-weight: 700;
 }
 
+/* stat chip: numbers / ids in DM Mono */
 .stat {
+  font-family: var(--font-num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
   position: absolute;
   right: var(--chip-inset);
   bottom: var(--chip-inset);
   max-width: 62%;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0.32em 0.6em 0.26em;
+  padding: 0.3em 0.6em;
   background: var(--scrim);
   color: var(--text-2);
   font-size: var(--chip-fs);
-  font-weight: 600;
+  font-weight: 500;
   backdrop-filter: blur(6px);
 }
 
@@ -129,7 +133,7 @@
 }
 
 .badge {
-  padding: 0.3em 0.55em 0.24em;
+  padding: 0.28em 0.55em;
   font-size: calc(var(--chip-fs) - 1px);
   font-weight: 700;
 }
@@ -186,7 +190,7 @@
 
 .subtitle {
   font-size: var(--sub-fs);
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   color: var(--text-2);
 }

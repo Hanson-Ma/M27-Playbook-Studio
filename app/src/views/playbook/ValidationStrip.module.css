@@ -29,23 +29,28 @@
 }
 .meterLabel {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .meterValue {
   justify-self: end;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13.5px;
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  font-weight: 500;
+  font-size: 12px;
   color: var(--text);
+  font-variant-numeric: tabular-nums;
 }
 .meterMax {
+  font-family: var(--font-num);
+  letter-spacing: 0;
   color: var(--text-3);
-  font-weight: 600;
-  font-size: var(--fs-xs);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  font-variant-numeric: tabular-nums;
 }
 .bar {
   grid-column: 1 / -1;
@@ -92,10 +97,10 @@
   background: var(--bg-2);
   color: var(--text-2);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13.5px;
+  font-weight: 500;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   white-space: nowrap;
   cursor: pointer;
   transition:
@@ -147,8 +152,8 @@
   margin: var(--s2) 0 4px var(--s2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }

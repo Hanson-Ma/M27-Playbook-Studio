@@ -36,7 +36,7 @@ export interface FieldMarkingsOptions {
 const HASH_LEN = 2 / 3; // 2 ft
 const SIDE_TICK_IN = 0.11; // 4 in inside the sideline
 const NUMBER_CENTER = 8; // numbers span 7–9 yd from the sideline
-const NUMBER_SIZE = 2.9; // font size (yd) for ~2 yd tall digits in a condensed face
+const NUMBER_SIZE = 2.9; // font size (yd) for ~2 yd tall digits in the display face
 // Minimum depth-scale slope for each marking under compression (1 = true scale).
 const MIN_SLOPE_TICKS = 0.6;
 const MIN_SLOPE_NUMBERS = 0.6;

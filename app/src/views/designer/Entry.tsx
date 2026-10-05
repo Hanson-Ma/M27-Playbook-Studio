@@ -134,7 +134,7 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
                 <button type="button" className={s.fileMain} onClick={() => pickFile(d.path)}>
                   <span className={s.fileName}>{typeof d.data?.title === "string" ? d.data.title : leaf(d.path).replace(/\.json$/, "")}</span>
                   <span className={s.fileMeta}>
-                    {d.error ? "can't load" : `${n} play${n === 1 ? "" : "s"}`} · {leaf(d.path)}
+                    {d.error ? "can't load" : `${n} play${n === 1 ? "" : "s"}`} · <span className={s.fileMetaPath}>{leaf(d.path)}</span>
                   </span>
                 </button>
                 <div className={s.fileBadges}>

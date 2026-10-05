@@ -311,7 +311,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
         <IconButton icon="chevronLeft" title="Back to all sets" onClick={back} />
         <div className={s.titles}>
           <div className={s.eyebrow}>
-            {fileName(file)}
+            <span className={s.eyebrowFile}>{fileName(file)}</span>
             <span className={s.sep}>·</span>
             set {index + 1} of {fileData.sets.length}
           </div>

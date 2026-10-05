@@ -443,7 +443,7 @@ function BookRow() {
       <Icon name="tree" size={15} className={s.bookIcon} />
       <span className={s.name}>{String(data.spec.name || "Untitled")}</span>
       <span className={s.meta} title={`${formations} formations · ${c.sets} sets · ${c.plays} plays`}>
-        {c.plays} plays
+        {c.plays} <span className={s.metaWord}>plays</span>
       </span>
     </span>
   );
@@ -464,6 +464,13 @@ function FormationRow({ node }: { node: BookNode }) {
       <span className={s.nameCol}>
         <span className={s.name}>{String(rf.entry.formation)}</span>
         {problem && <span className={s.problem}>{problem}</span>}
+        {/* Under the name, not beside it: long names ("GOAL LINE OFFENSE") keep the row's width. */}
+        {rf.template && (
+          <span className={s.tplLine} title="Copied as-is from the template save (convert it to edit its sets)">
+            <Icon name="lock" size={10} />
+            From template
+          </span>
+        )}
       </span>
       {custom && (
         <span className={s.customTag} title="Custom formation (built by Playbook Studio)">
@@ -471,7 +478,6 @@ function FormationRow({ node }: { node: BookNode }) {
         </span>
       )}
       <span className={s.meta}>
-        {rf.template && <span className={s.tplTag}>Template</span>}
         <span title={sets !== undefined ? `${sets} sets · ${plays} plays` : undefined}>{sets !== undefined ? `${sets}S · ${plays}P` : "…"}</span>
       </span>
       {rf.template && tf && tf.sets.length > 0 && (

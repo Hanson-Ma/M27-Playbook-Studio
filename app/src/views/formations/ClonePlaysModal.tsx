@@ -221,7 +221,11 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
                 <Checkbox checked={!!e} onChange={() => toggle(pl)} title={e ? "Remove from this set" : "Copy into this set"} />
                 <div className={s.rowText}>
                   <span className={s.rowName}>{pl.name}</span>
-                  <span className={s.rowSub}>{e ? `as “${e.name}”` : ""}{e && other ? " · " : ""}{other ? `from ${playSetLabel(lib, pl)}` : !e ? leaf(pl.asset) : ""}</span>
+                  <span className={s.rowSub}>
+                    {e ? `as “${e.name}”` : ""}
+                    {e && other ? " · " : ""}
+                    {other ? `from ${playSetLabel(lib, pl)}` : !e ? <span className={s.rowAsset}>{leaf(pl.asset)}</span> : ""}
+                  </span>
                 </div>
                 {w.length > 0 && (
                   <span className={s.warn} title={w.map((x) => `${x.label}: ${x.reason}`).join("\n")}>

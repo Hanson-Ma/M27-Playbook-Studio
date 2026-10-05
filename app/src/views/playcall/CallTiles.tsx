@@ -269,7 +269,7 @@ export const GroupTile = memo(function GroupTile({ group, ...p }: CommonTileProp
       name={group.label}
       sub={`${group.eyebrow ? `${group.eyebrow} · ` : ""}${n} play${n === 1 ? "" : "s"}`}
       tag={lead ? { label: playTypeInfo(lead.playType).label, color: playTypeInfo(lead.playType).color } : undefined}
-      stat={lead ? lead.name : undefined}
+      stat={lead ? <span className={s.statName}>{lead.name}</span> : undefined}
       accent={group.color}
       selected={p.selected}
       onClick={p.onClick}

@@ -103,12 +103,33 @@ inside tokens.css.
 Reference: the in-game play-call screen — near-black blurred-stadium background, a top tab row
 `[LB] COACH SUGGESTIONS  FORMATION  CONCEPT  PLAY TYPE … [RB]` with the active tab as a light-gray rounded pill
 with near-black text; play cards with a flat dark field, yellow routes, one red primary route, light-blue motion,
-white player marks; under each card a colored controller glyph + the PLAY NAME in big condensed uppercase white +
-the FORMATION/SET in condensed uppercase gray; a blue `PASS` tag bottom-left of the art and a dark stat chip
+white player marks; under each card a colored controller glyph + the PLAY NAME in bold uppercase white +
+the FORMATION/SET in uppercase gray; a blue `PASS` tag bottom-left of the art and a dark stat chip
 bottom-right (`0 CALLS | 0.0 AVG YDS`); a translucent bottom legend bar listing glyph + action pairs
 (`□ ✕ △ [DOUBLE TAP] ADD/REMOVE FAVORITE   R2 FLIP PLAY   L3 SUPER SIM`).
-- Fonts: `--font-display` (Barlow Condensed, uppercase, 600–700) for labels, tabs, names, numbers;
-  `--font-body` (Barlow → Helvetica/Arial) for running text; `--font-mono` for asset paths/ids.
+- Fonts (2026-10-04): **NB International Pro** is the one text family (`--font-sans`; `--font-display` and
+  `--font-body` both point at it — keep using whichever fits the role) and **DM Mono** sets numbers and code
+  (`--font-num`; `--font-mono` is the same face). Fallbacks: Helvetica Neue → Helvetica → Arial; ui-monospace → Menlo.
+  - **License rule (hard):** NB International Pro is a commercial Neubau font under a print/desktop license. The app
+    only NAMES it — it renders on computers where it is installed. Never put the .otf files, a webfont conversion or
+    a data-URL copy in the repo, `public/`, `dist/`, a CSS file or anything uploaded. tokens.css maps each weight with
+    `@font-face { src: local(...) }` rules (family "NB International Pro Local") that point at the installed copy only
+    (they hold no font data; Book is weight 400 inside its file like Regular, so it maps to 350). The PDF guide may
+    embed subsets (the font's embedding flag is "Print & preview"): `scripts/build-guide.mjs` hands the local files to
+    the headless print page in memory. For screenshots, `scripts/qa.mjs --local-fonts` (or the `{ "localFonts": true }`
+    step) loads them into the headless test browser only. DM Mono (OFL) comes from Google Fonts (`index.html`).
+  - Weights: NB has 300 / 350 (Book) / 400 / 500 / 700 — use 500 (Medium) for small labels, tabs, buttons and 700
+    (Bold) for names, titles, active tabs; never 600/800 (they'd snap to 700). DM Mono: 400/500.
+  - Display scale `--fd-xs…--fd-3xl` (10 / 11 / 12.5 / 14 / 17 / 22 / 31 px) for uppercase labels, tabs, names and
+    titles; the body scale `--fs-*` (11 … 40 px) stays for running text, inputs and menus. NB caps are ~35 % wider than
+    the old Barlow Condensed, so display type runs a step smaller. Tracking: small caps (≤ 12.5 px) +0.03–0.08em
+    (eyebrows up to ~0.12em), 14–17 px ≤ 0.02em, bigger titles 0 or slightly negative. No `padding-top` nudges for
+    caps in flex boxes (NB centres on its own).
+  - DM Mono (`var(--font-num)` + `font-variant-numeric: tabular-nums`, letter-spacing 0) for small numbers and code:
+    counts and meters (`77/750`, tree counts, tab badges, filter counts), the stat chip on play cards (`ID 4706`),
+    ids, asset paths and file names, coordinate readouts, NumberField inputs, page counters, percentages. Headline
+    numbers (stat tiles, `8,641 PLAYS`, the play-call count) stay in NB Bold with tabular figures; painted yard numbers
+    and player labels on the field stay in NB.
 - Selection = white outline + soft white glow (`--focus`). Hover = slight lift/brighten. Transitions 120–200 ms.
 - Dense desktop layout, dark only. Panels `--bg-1`, cards `--bg-2`, inputs `--bg-3`, hairlines `--line`.
 - Play-type tags: PASS blue, RUN red, PLAY ACTION purple, SCREEN teal, OPTION/RPO orange, SPECIAL slate, NEEDS MOD amber.

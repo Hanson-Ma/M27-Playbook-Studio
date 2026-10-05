@@ -28,9 +28,9 @@
 .kicker,
 .bookMeta {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -57,7 +57,7 @@
 .playName {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
+  font-size: var(--fd-lg);
   text-transform: uppercase;
   line-height: 1.05;
   overflow: hidden;
@@ -66,9 +66,9 @@
 }
 .playSub {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   color: var(--text-2);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -131,24 +131,26 @@
   position: sticky;
   left: 0;
   z-index: 3 !important;
-  min-width: 200px;
+  min-width: 276px; /* "PASS CONCEPTS BY FORMATION" on one line */
   padding: var(--s3);
   text-align: left;
   vertical-align: bottom;
 }
 .cornerTitle {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-xl);
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  letter-spacing: -0.005em;
   text-transform: uppercase;
   line-height: 1;
+  white-space: nowrap;
 }
 .cornerHint {
   margin-top: 4px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -159,15 +161,15 @@
   text-align: right;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .colHead {
-  width: 60px;
-  min-width: 60px;
-  max-width: 60px;
+  width: 64px;
+  min-width: 64px;
+  max-width: 64px;
   padding: 0 3px var(--s2);
   vertical-align: bottom;
   text-align: center;
@@ -186,12 +188,12 @@
   overflow: hidden;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.03em;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  line-height: 1.05;
+  line-height: 1.1;
   color: var(--text-2);
-  word-break: break-word;
+  overflow-wrap: anywhere; /* only a word longer than the column breaks (seed names all fit: "VERTICALS" is 55 px) */
 }
 .colHeadCur .colName {
   color: var(--text);
@@ -213,9 +215,9 @@
   white-space: nowrap;
 }
 .fRow .rowHead {
-  font-weight: 800;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.03em;
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.015em;
   text-transform: uppercase;
   background: var(--bg-2);
 }
@@ -223,9 +225,9 @@
   background: color-mix(in srgb, var(--bg-2) 60%, transparent);
 }
 .sRow .rowHead {
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -240,23 +242,26 @@
 }
 .totals .rowHead {
   background: var(--bg-2);
-  font-weight: 800;
-  font-size: var(--fs-md);
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .num {
   padding: 0 var(--s2);
   text-align: right;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-md);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-md);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 .tagged {
   display: block;
-  font-size: 10.5px;
-  font-weight: 600;
+  margin-top: 1px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-4);
@@ -277,10 +282,11 @@
   box-shadow: inset 0 0 0 1px var(--line-3);
 }
 .cellNum {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-lg);
   color: var(--text);
+  font-variant-numeric: tabular-nums;
 }
 .hole {
   background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--danger) 7%, transparent) 0 4px, transparent 4px 8px) !important;
@@ -323,17 +329,17 @@
 }
 .detailEyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .detailTitle {
   margin-top: calc(-1 * var(--s2));
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-2xl);
+  font-weight: 700;
+  font-size: var(--fd-2xl);
   text-transform: uppercase;
   line-height: 1;
 }
@@ -344,11 +350,12 @@
 }
 .detailCount {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
+  font-weight: 500;
+  font-size: var(--fd-sm);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-3);
+  font-variant-numeric: tabular-nums;
 }
 .detailList {
   display: flex;
@@ -400,8 +407,8 @@
   margin-bottom: 4px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.04em;
+  font-size: var(--fd-md);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 .hoverList {
@@ -447,8 +454,8 @@
   padding: var(--s1) var(--s2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-4);
 }
@@ -464,9 +471,9 @@
   background: transparent;
   color: var(--text-2);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -483,8 +490,9 @@
   color: var(--pill-fg);
 }
 .sitCount {
+  font-family: var(--font-num);
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
+  font-weight: 500;
 }
 .sitMain {
   display: flex;
@@ -501,21 +509,23 @@
   padding-bottom: var(--s2);
 }
 .sitTitle {
-  font-size: var(--fs-3xl);
-  font-weight: 800;
+  font-size: var(--fd-3xl);
+  font-weight: 700;
   line-height: 0.95;
 }
 .sitStats {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.05em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .sitStats b {
+  font-family: var(--font-num);
   color: var(--text);
-  font-size: var(--fs-xl);
+  font-size: var(--fd-xl);
+  font-variant-numeric: tabular-nums;
 }
 .mix {
   display: flex;
@@ -528,14 +538,14 @@
   display: inline-flex;
   align-items: center;
   height: 22px;
-  padding: 1px 8px 0;
+  padding: 0 8px;
   border-radius: var(--r-pill);
   border: 1px dashed var(--line-3);
   color: var(--text-3);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 12.5px;
-  letter-spacing: 0.035em;
+  font-size: 11px;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 .sitList {
@@ -554,8 +564,8 @@
   padding: var(--s2) 0 2px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-md);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -596,9 +606,9 @@
   width: 64px;
 }
 .weightNum {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-xl);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-xl);
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
@@ -644,14 +654,16 @@
 }
 .statValue {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-3xl);
+  font-weight: 700;
+  font-size: var(--fd-3xl);
   line-height: 0.9;
+  font-variant-numeric: tabular-nums;
 }
 .statValue span {
   margin-left: 6px;
-  font-size: var(--fs-md);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: var(--fd-md);
+  font-weight: 500;
   color: var(--text-3);
 }
 .statWarn .statValue {
@@ -660,9 +672,9 @@
 .statLabel {
   margin-top: 4px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -684,9 +696,9 @@
 }
 .cov thead th {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -697,17 +709,17 @@
   width: 1%;
   white-space: nowrap;
   text-align: right !important;
-  font-family: var(--font-display);
-  font-weight: 700;
+  font-family: var(--font-num);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 .covGroup th {
   padding-top: var(--s3);
   background: var(--bg-2);
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 .covRow {
@@ -742,12 +754,14 @@
   background: color-mix(in srgb, var(--c) 55%, transparent);
 }
 .bar2Num {
+  font-family: var(--font-num);
   position: relative;
   display: block;
   padding: 0 8px;
   line-height: 22px;
   text-align: right;
   font-size: var(--fs-md);
+  font-variant-numeric: tabular-nums;
 }
 .forms,
 .auds {
@@ -757,9 +771,9 @@
 }
 .form {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-2);
   white-space: nowrap;
@@ -770,8 +784,8 @@
 .holeText {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--danger) 70%, var(--text));
 }
@@ -780,9 +794,9 @@
   align-items: center;
   gap: 5px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--text-2);
   white-space: nowrap;
@@ -791,9 +805,9 @@
 /* "N template sections not counted / reading the template save…" */
 .templateNote {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -811,8 +825,8 @@
   color: var(--text-2);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xs);
-  letter-spacing: 0.06em;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
   transition:

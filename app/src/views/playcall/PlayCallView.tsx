@@ -553,7 +553,7 @@ function Heading({
         </div>
         <div className={s.headRight}>
           {level.items.length > 1 && (
-            <Select size="sm" value={String(page)} options={setOptions} onChange={(v) => onSetPage(Number(v))} aria-label="Jump to a set" />
+            <Select size="sm" className={s.setSelect} value={String(page)} options={setOptions} onChange={(v) => onSetPage(Number(v))} aria-label="Jump to a set" />
           )}
           {audSet?.duplicateAudibles.map((sl) => (
             <Tag key={sl} tone="danger" size="sm" icon="warning">
@@ -566,11 +566,13 @@ function Heading({
             </Tag>
           )}
           <span className={s.headStat}>
-            <b>{n}</b> / 4 audibles
+            <b>{n}</b>
+            <span> / 4</span> audibles
           </span>
           {level.items.length > 0 && (
             <span className={s.pageNum}>
-              Set {page + 1} <span>/ {pages}</span>
+              Set <b>{page + 1}</b>
+              <span> / {pages}</span>
             </span>
           )}
         </div>
@@ -630,7 +632,8 @@ function Heading({
           </span>
         )}
         <span className={s.pageNum}>
-          Page {page + 1} <span>/ {pages}</span>
+          Page <b>{page + 1}</b>
+          <span> / {pages}</span>
         </span>
       </div>
     </div>

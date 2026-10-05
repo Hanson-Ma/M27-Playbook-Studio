@@ -35,9 +35,9 @@
 }
 .scopeNote {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -48,9 +48,9 @@
 }
 .kicker {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -59,7 +59,8 @@
 .listHead,
 .row {
   display: grid;
-  grid-template-columns: 4px 26px 132px minmax(170px, 1.05fr) minmax(190px, 1.25fr) minmax(170px, 1fr);
+  /* suggestions ≥ 230 px: its header holds "SUGGESTIONS" + the ACCEPT ALL (n) button */
+  grid-template-columns: 4px 26px 132px minmax(170px, 1.05fr) minmax(150px, 1.25fr) minmax(230px, 1fr);
   align-items: center;
   column-gap: var(--s3);
 }
@@ -68,9 +69,9 @@
   padding: var(--s2) var(--s3) var(--s2) 0;
   min-height: 42px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -139,8 +140,8 @@
   padding: 6px var(--s3) 0 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.08em;
+  font-size: var(--fd-md);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -156,8 +157,10 @@
   white-space: nowrap;
 }
 .headCount {
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-weight: 500;
   color: var(--text-4);
+  font-variant-numeric: tabular-nums;
 }
 
 /* play row */
@@ -208,8 +211,8 @@
 .name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-lg);
-  letter-spacing: 0.01em;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.005em;
   text-transform: uppercase;
   line-height: 1.05;
   overflow: hidden;
@@ -218,9 +221,9 @@
 }
 .sub {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-2);
   overflow: hidden;
@@ -290,14 +293,15 @@
 }
 .multiCount {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 48px;
+  font-weight: 700;
+  font-size: var(--fd-3xl);
   line-height: 0.9;
+  font-variant-numeric: tabular-nums;
 }
 .multiTitle {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xl);
+  font-size: var(--fd-xl);
   text-transform: uppercase;
   line-height: 1;
 }
@@ -322,8 +326,8 @@
   min-height: 26px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.1em;
+  font-size: var(--fd-md);
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -379,8 +383,8 @@
   width: 40px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-4);
   padding-top: 1px;
@@ -392,9 +396,9 @@
   background: none;
   color: var(--text-3);
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -410,8 +414,8 @@
 .tagGroupHead {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-4);
 }

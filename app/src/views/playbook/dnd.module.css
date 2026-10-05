@@ -20,7 +20,7 @@
   pointer-events: none;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-md);
+  font-size: var(--fd-md);
   text-transform: uppercase;
   letter-spacing: 0.02em;
   white-space: nowrap;
@@ -31,6 +31,8 @@
   box-shadow: 0 0 0 1px var(--danger), var(--shadow-2);
 }
 .count {
+  font-family: var(--font-num);
+  letter-spacing: 0;
   display: grid;
   place-items: center;
   min-width: 22px;
@@ -40,6 +42,7 @@
   background: var(--bg-0);
   color: var(--text);
   font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
 }
 .label {
   overflow: hidden;
@@ -54,7 +57,7 @@
   text-transform: none;
   letter-spacing: 0;
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .line {

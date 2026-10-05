@@ -15,15 +15,15 @@
 }
 .eyebrow {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.16em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 .title {
-  font-size: var(--fs-3xl);
-  font-weight: 800;
+  font-size: var(--fd-3xl);
+  font-weight: 700;
   line-height: 0.95;
 }
 .stack {
@@ -42,9 +42,9 @@
   flex: none;
   width: 110px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: 11.5px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -74,9 +74,9 @@
   padding: 6px var(--s3);
   text-align: left;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12.5px;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
   border-bottom: 1px solid var(--line);
@@ -123,8 +123,8 @@
   border-radius: var(--r-md);
   color: var(--text-3);
   font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   user-select: none;
 }
@@ -176,14 +176,14 @@
 .cardNum {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xl);
+  font-size: var(--fd-xl);
   line-height: 1;
 }
 .cardSub {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
   color: var(--text-3);
 }
 

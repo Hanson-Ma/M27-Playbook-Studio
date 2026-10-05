@@ -245,24 +245,27 @@ export function PlayersPanel({ play, art, set, selectedSlot, onSelect, onHover, 
                     {name}
                   </span>
                   {slot?.routeType && <span className={s.routeType}>{routeTypeLabel(slot.routeType)}</span>}
+                  {/* flags share the second line, so the name / position line keeps the full width */}
+                  {(slot?.mechanics || slot?.changed || isVip) && (
+                    <span className={s.playerFlags}>
+                      {slot?.mechanics && (
+                        <span className={s.lock} title="Handoff / fake / option mechanics: paired with the ballcarrier, locked in the designer">
+                          <Icon name="lock" size={13} />
+                        </span>
+                      )}
+                      {slot?.changed && (
+                        <Tag tone="custom" size="sm">
+                          Changed
+                        </Tag>
+                      )}
+                      {isVip && (
+                        <Tag tone="run" size="sm" title="Primary receiver (red route)">
+                          Primary
+                        </Tag>
+                      )}
+                    </span>
+                  )}
                 </span>
-              </span>
-              <span className={s.playerFlags}>
-                {slot?.mechanics && (
-                  <span className={s.lock} title="Handoff / fake / option mechanics: paired with the ballcarrier, locked in the designer">
-                    <Icon name="lock" size={13} />
-                  </span>
-                )}
-                {slot?.changed && (
-                  <Tag tone="custom" size="sm">
-                    Changed
-                  </Tag>
-                )}
-                {isVip && (
-                  <Tag tone="run" size="sm" title="Primary receiver (red route)">
-                    Primary
-                  </Tag>
-                )}
               </span>
             </button>
             <button type="button" className={s.expand} onClick={() => onToggle(i)} aria-expanded={open} title={open ? "Hide steps" : "Show steps"}>

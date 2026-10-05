@@ -55,11 +55,20 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+
+/* the sets file name in the eyebrow, as in the top bar's file chip */
+.eyebrowFile {
+  font-family: var(--font-num);
+  font-weight: 400;
+  font-size: 11.5px;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .sep {
   color: var(--text-4);
@@ -67,8 +76,8 @@
 }
 
 .title {
-  font-size: var(--fs-2xl);
-  font-weight: 800;
+  font-size: var(--fd-2xl);
+  font-weight: 700;
   line-height: 0.95;
   white-space: nowrap;
   overflow: hidden;
@@ -80,9 +89,9 @@
   align-items: baseline;
   gap: 4px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-md);
-  letter-spacing: 0.04em;
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-2);
   white-space: nowrap;
@@ -119,9 +128,9 @@
   gap: 6px;
   margin-right: 4px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -161,9 +170,9 @@
   background: transparent;
   color: inherit;
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
+  font-size: var(--fd-sm);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: var(--r-pill);
@@ -175,7 +184,7 @@
 }
 
 .pillSub {
-  font-weight: 600;
+  font-weight: 500;
   opacity: 0.6;
   letter-spacing: 0.03em;
 }
@@ -263,7 +272,7 @@
 
 .fieldHint b {
   color: var(--text-2);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* field overlays (yard units; strokes in screen px) */
@@ -332,9 +341,9 @@
 .stripLabel {
   margin-right: 4px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -347,9 +356,9 @@
   border-radius: var(--r-pill);
   border: 1px solid var(--line-2);
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
+  font-size: var(--fd-sm);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-2);
   cursor: default;
@@ -413,16 +422,18 @@
   gap: var(--s2);
   min-height: 22px;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-3);
 }
 
 .counts {
+  font-family: var(--font-num);
   display: inline-flex;
   gap: 4px;
+  font-variant-numeric: tabular-nums;
 }
 
 /* player */
@@ -434,10 +445,10 @@
 
 .playerLabel {
   font-family: var(--font-display);
-  font-size: var(--fs-3xl);
-  font-weight: 800;
+  font-size: var(--fd-3xl);
+  font-weight: 700;
   line-height: 0.9;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
 }
 
 .playerMeta {
@@ -445,9 +456,9 @@
   flex-direction: column;
   gap: 2px;
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-2);
 }
@@ -480,20 +491,31 @@
 }
 
 .xy {
+  font-family: var(--font-num);
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s2);
+  font-variant-numeric: tabular-nums;
 }
 
 .refLine {
   display: flex;
-  gap: var(--s2);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px var(--s2);
   font-size: var(--fs-sm);
   color: var(--text-3);
 }
 
 .delta {
   color: var(--amber);
+}
+
+/* coordinates inside a sentence ("Original spot 10.5, -2.2") */
+.coord {
+  font-family: var(--font-num);
+  font-size: 11.5px;
+  letter-spacing: 0;
   font-variant-numeric: tabular-nums;
 }
 
@@ -513,9 +535,9 @@
   background: var(--bg-2);
   color: var(--text);
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
+  font-size: var(--fd-sm);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   cursor: pointer;
   transition:
@@ -548,7 +570,8 @@
 }
 
 .chipVal {
-  font-weight: 600;
+  font-family: var(--font-num);
+  font-weight: 500;
   font-size: var(--fs-xs);
   opacity: 0.6;
   font-variant-numeric: tabular-nums;
@@ -620,9 +643,9 @@
   background: none;
   color: var(--text-3);
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -644,9 +667,9 @@
   flex-direction: column;
   gap: 4px;
   font-family: var(--font-display);
-  font-size: var(--fs-md);
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-size: var(--fd-md);
+  font-weight: 500;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -680,9 +703,9 @@
 
 .monoBlock span {
   font-family: var(--font-display);
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: var(--fd-xs);
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-3);
   margin-right: 4px;
@@ -695,9 +718,9 @@
   background: none;
   color: var(--text-2);
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -741,9 +764,9 @@
   flex-wrap: wrap;
   gap: 6px;
   font-family: var(--font-display);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-3);
 }
@@ -762,8 +785,8 @@
 .playerRow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 9px;
+  gap: 6px;
+  padding: 6px 8px 6px 9px;
   border-radius: var(--r-md);
   border: 1px solid var(--line);
   background: var(--bg-2);
@@ -789,14 +812,20 @@
 .playerRowLabel {
   min-width: 34px;
   font-family: var(--font-display);
-  font-size: var(--fs-md);
+  font-size: var(--fd-md);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
 }
 
 .playerRowXY {
+  font-family: var(--font-num);
   flex: 1;
-  font-size: var(--fs-xs);
+  min-width: 0;
+  font-size: 11px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }

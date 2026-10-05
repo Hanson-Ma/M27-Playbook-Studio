@@ -239,7 +239,9 @@ function FilePlays() {
   return (
     <>
       <div className={s.fileHead}>
-        <div className={s.eyebrow}>{leaf(file)}</div>
+        <div className={cx(s.eyebrow, s.fileEyebrow)} title={file}>
+          {leaf(file)}
+        </div>
         <div className={s.fileTools}>
           <IconButton icon="duplicate" size="sm" title="Duplicate this play" onClick={duplicate} />
           <IconButton icon="trash" size="sm" title="Delete this play" onClick={remove} />
