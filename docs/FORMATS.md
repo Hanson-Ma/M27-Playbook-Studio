@@ -39,7 +39,7 @@ Each player runs their steps in order. Every chain ends with `None`, which is ad
 | `MoveDirection` | distance, direction, speed | non-route movement (screens, leads, QB paths) |
 | `ReceiveHandoff` | distance, direction, speed | ballcarrier path through the mesh |
 | `ReceiverCut` | direction (`RECEIVER_CUT_DIR_LEFT/RIGHT`), cutType (`ReceiverCutAngle`) | the cut animation between legs; doesn't move the player |
-| `RunRouteFakeOut` | fakeout (`RunRouteFakeOutType`) | double-move fake |
+| `RunRouteFakeOut` | fakeout (`RunRouteFakeOutType`) | double-move fake. **Not authorable**: no library assignment uses it, so PlayBuilder has no opcode to copy |
 | `GetOpen` | — | find space at the route's end (sit or settle) |
 | `Delay` | time | wait (seconds) |
 | `PassBlock` | time, flags | pass protect (`PassBlockFlags_ProtectReceiver` = screen blocking; `time` = block then release) |
@@ -110,8 +110,8 @@ Rules the editor must enforce:
 - Step `type` and enum values must exist in `enums.json`.
 - Editing an existing game play in place is not supported yet. Clone it as a new play instead.
 - **Route legs:** each `RunRoute` leg starts where the previous one ended. Use `speed` per leg (e.g. 80 on a stem, 100 after the break). Put a `ReceiverCut` between legs for the cut animation.
-- **Releases** are the first leg(s), e.g. a 1–2 yd leg angled inside (95–110° for a left-side player) or outside, optionally preceded by `InitialAnim` `MOVETYPE_WRSTART`/`_WRSTART_QUICK`.
-- **Double moves** use cut types such as `RECEIVER_CUT_ANGLE_STUTTER`, `_STUTTER_STREAK`, `_SLANT_AND_GO`, `_HITCH_GO_INSIDE/OUTSIDE`, `_OUT_AND_UP`, `_STICKNOD` or `_ZIG`, or a `RunRouteFakeOut` step.
+- **Releases** are the first leg(s), e.g. a 1–2 yd leg angled inside (toward the ball: 95–110° for a player right of the ball, 70–85° for one on the left; PBS Snag's TE at x = 5 releases 1 yd @ 90° then 5 yd @ 105°) or outside, optionally preceded by `InitialAnim` `MOVETYPE_WRSTART`/`_WRSTART_QUICK`.
+- **Double moves** use cut types such as `RECEIVER_CUT_ANGLE_STUTTER`, `_STUTTER_STREAK`, `_SLANT_AND_GO`, `_HITCH_GO_INSIDE/OUTSIDE`, `_OUT_AND_UP`, `_STICKNOD` or `_ZIG` (not a `RunRouteFakeOut` step — see the step table).
 - **Motion:** `AutoMotion` with startEvent `AUTOMOTIONSTARTEVENT_SNAP` gives jet/orbit-style snap motion. Waypoints are absolute positions, each with its own `speed` and `locoStyle` (`AUTOMOTIONLOCOSTYLE_NORMAL` = run, `AUTOMOTIONLOCOSTYLE_STRAFE` = shuffle). An orbit is several waypoints arcing behind the QB. The route continues from the last waypoint.
 
 ## Availability: which plays a custom playbook can use

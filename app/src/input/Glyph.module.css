@@ -1,0 +1,158 @@
+/* Controller + keyboard glyphs. Everything scales from --g (the glyph height). */
+.glyph {
+  --g: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--g) * 0.18);
+  flex: none;
+  height: var(--g);
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+}
+.sm {
+  --g: 16px;
+}
+.md {
+  --g: 20px;
+}
+.lg {
+  --g: 28px;
+}
+
+.shape {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  height: var(--g);
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+}
+.shape svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* A B X Y / ✕ ○ □ △ */
+.face {
+  width: var(--g);
+  border-radius: 50%;
+  background: var(--c);
+  color: var(--glyph-bg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glyph-bg) 55%, transparent);
+}
+.letter {
+  font-size: calc(var(--g) * 0.64);
+}
+.psSymbol {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* LB RB LT RT / L1 R1 L2 R2 */
+.bumper {
+  min-width: calc(var(--g) * 1.6);
+  padding: 0 calc(var(--g) * 0.22);
+  border-radius: calc(var(--g) * 0.26);
+  background: var(--bumper-bg);
+  color: var(--bumper-fg);
+  font-size: calc(var(--g) * 0.62);
+  letter-spacing: 0;
+}
+.trigger {
+  border-radius: calc(var(--g) * 0.5) calc(var(--g) * 0.5) calc(var(--g) * 0.18) calc(var(--g) * 0.18);
+}
+
+/* LS RS / L3 R3: a thin ring so the two letters can be nearly as big as the face-button letters. */
+.stick {
+  width: var(--g);
+  border-radius: 50%;
+  background: var(--glyph-bg);
+  border: max(1px, calc(var(--g) * 0.065)) solid var(--bumper-bg);
+  color: var(--text);
+  font-size: calc(var(--g) * 0.5);
+  letter-spacing: -0.02em;
+}
+
+/* VIEW / MENU (Xbox) and Create / Options (PS) */
+.sysXbox,
+.sysPs {
+  width: var(--g);
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sysXbox {
+  border-radius: 50%;
+  background: var(--glyph-bg);
+  border: calc(var(--g) * 0.07) solid var(--line-3);
+  stroke: var(--text);
+  padding: calc(var(--g) * 0.08);
+}
+.sysPs {
+  width: calc(var(--g) * 1.3);
+  border-radius: var(--r-pill);
+  background: var(--bumper-bg);
+  stroke: var(--bumper-fg);
+  padding: calc(var(--g) * 0.12) calc(var(--g) * 0.2);
+}
+
+/* D-pad */
+.dpad {
+  width: var(--g);
+}
+/* Same-color strokes round the plus's corners. */
+.dpadBase {
+  fill: var(--line-3);
+  stroke: var(--line-3);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+.dpadOn {
+  fill: var(--bumper-bg);
+  stroke: var(--bumper-bg);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+.dpadArrow {
+  fill: var(--glyph-bg);
+}
+
+/* Keyboard keycap */
+.keycap {
+  min-width: var(--g);
+  padding: 0 calc(var(--g) * 0.32);
+  padding-top: calc(var(--g) * 0.04);
+  border-radius: var(--r-sm);
+  background: var(--bg-3);
+  border: 1px solid var(--line-3);
+  border-bottom-width: 2px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: calc(var(--g) * 0.62);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.multi {
+  gap: calc(var(--g) * 0.14);
+}
+
+/* Chords: "VIEW + LB" */
+.plus {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(var(--g) * 0.7);
+  line-height: 1;
+  color: var(--text-3);
+}

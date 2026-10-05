@@ -1,0 +1,60 @@
+# Playbook Studio: optional settings for an Apache web server (most shared hosting, cPanel, Plesk, DirectAdmin).
+# See docs/HOSTING.md, section 4.
+#
+# How to use it: upload this file into the same folder as index.html (e.g. /public_html/playbook/), then rename it
+# on the server to ".htaccess" (with the dot, nothing after it). Files whose names start with a dot are hidden by
+# default: in FileZilla use Server > Force showing hidden files; in Cyberduck use View > Show Hidden Files.
+#
+# Every block only runs when the server has that module, so a missing module is ignored. If the site shows
+# "500 Internal Server Error" after you upload this file, your host doesn't allow one of these settings here:
+# delete the file (the app works without it) or remove blocks one at a time until the error goes away.
+#
+# No rewrite rules are needed for the app's pages: it uses addresses like .../playbook/#/designer, and everything
+# after the # stays in the browser.
+
+# 1. Always use https. The folder picker only works on secure (https) pages.
+#    The X-Forwarded-Proto line avoids a redirect loop when the host sits behind a proxy such as Cloudflare.
+#    If the browser says "too many redirects", delete this block.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# 2. Correct file types. The app is JavaScript modules: browsers refuse to run a .js file sent as text/plain
+#    (a blank page). Modern servers already send these; this makes sure.
+<IfModule mod_mime.c>
+  AddType text/javascript .js .mjs
+  AddType text/css .css
+  AddType image/svg+xml .svg
+  AddType application/json .json .map
+  AddType application/pdf .pdf
+  AddType font/woff2 .woff2
+  AddCharset utf-8 .html .js .css .svg .json
+</IfModule>
+
+# 3. Caching. Files in assets/ have a fingerprint in their name (index-OqQWYtze.js) and never change, so browsers may
+#    keep them for a year. Everything else (index.html) is checked again on every visit, so an update you upload
+#    shows up on the next reload.
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache"
+  <FilesMatch "-[A-Za-z0-9_-]{8}\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# 4. Compression: the app downloads about a third of its size.
+<IfModule mod_deflate.c>
+  <IfModule mod_filter.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+  </IfModule>
+</IfModule>
+
+# 5. Optional password (see docs/HOSTING.md, section 8). Make the password file first, keep it OUTSIDE public_html,
+#    then remove the "# " in front of the four lines below and put in the real path to it.
+# AuthType Basic
+# AuthName "Playbook Studio"
+# AuthUserFile /home/YOUR-ACCOUNT/.htpasswds/playbook/passwd
+# Require valid-user

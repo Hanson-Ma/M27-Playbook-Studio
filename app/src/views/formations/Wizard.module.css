@@ -1,0 +1,155 @@
+/* Doubled class: beats the Modal body's `flex: 1` (a 0% basis would ignore the height). */
+.body.body {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  height: min(72vh, 660px);
+  padding-bottom: var(--s3);
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  flex: 1;
+  min-height: 0;
+}
+
+/* step 1: formation list | set cards */
+.pick {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: var(--s4);
+  flex: 1;
+  min-height: 0;
+}
+
+.pickCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  min-width: 0;
+  min-height: 0;
+}
+
+.colHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.colMeta {
+  margin-left: auto;
+  letter-spacing: 0.06em;
+  color: var(--text-2);
+}
+
+.list,
+.grid {
+  flex: 1;
+  min-height: 0;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+}
+
+.formRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s3);
+  width: 100%;
+  padding: 0 var(--s3);
+}
+
+.formName {
+  font-family: var(--font-display);
+  font-size: var(--fd-md);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.formMeta {
+  font-family: var(--font-num);
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.grow {
+  flex: 1;
+}
+
+.hint {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* step 2 */
+.details {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: var(--s5);
+  flex: 1;
+  min-height: 0;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  align-self: start;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.fileRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s2);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex: none;
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+.footNote {
+  font-family: var(--font-display);
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}

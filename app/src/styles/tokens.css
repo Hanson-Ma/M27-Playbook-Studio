@@ -1,0 +1,160 @@
+/* Playbook Studio design tokens — Madden 27 play-call look: near-black glass, bold grotesk uppercase labels,
+   light-gray active pills, flat dark fields with yellow/red/light-blue route art. Dark theme only. */
+
+/* Fonts — NB International Pro (primary) is a licensed DESKTOP font: the app never ships, embeds, converts or
+   downloads it. It is referenced BY NAME only and renders on computers where it is installed (Font Book / Windows
+   Fonts); everywhere else the stack falls back to Helvetica Neue → Helvetica → Arial. Never commit or upload the
+   .otf files (or a webfont / data-URL copy of them).
+   The faces below don't contain any font data either: `local()` only points at the copy installed on this computer,
+   so each weight resolves to the right file (the Book cut is weight 400 inside its file, the same as Regular; mapped
+   here to 350 so `font-weight: 400` always means Regular). When the font isn't installed every local() misses and
+   the next family in the stack takes over. DM Mono (free, OFL; loaded from Google Fonts in index.html) sets numbers,
+   counts, ids, asset paths and code. */
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 300; src: local("NB International Pro Light"), local("NBInternationalProLig"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 300; src: local("NB International Pro Light Italic"), local("NBInternationalProLigIta"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 350; src: local("NB International Pro Book"), local("NBInternationalProBoo"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 350; src: local("NB International Pro Book Italic"), local("NBInternationalProBooItal"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 400; src: local("NB International Pro Regular"), local("NBInternationalProReg"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 400; src: local("NB International Pro Italic"), local("NBInternationalProIta"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 500; src: local("NB International Pro Medium"), local("NBInternationalProMed"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 500; src: local("NB International Pro Medium Italic"), local("NBInternationalProMedIta"); }
+@font-face { font-family: "NB International Pro Local"; font-style: normal; font-weight: 700; src: local("NB International Pro Bold"), local("NBInternationalProBol"); }
+@font-face { font-family: "NB International Pro Local"; font-style: italic; font-weight: 700; src: local("NB International Pro Bold Italic"), local("NBInternationalProBolIta"); }
+
+:root {
+  /* type — one family for display and body (both variables stay so components don't care); weights 300 / 350 (Book)
+     / 400 / 500 / 700 exist, use 500 + 700 for chrome. */
+  --font-sans: "NB International Pro Local", "NB International Pro", "NB International", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
+  /* numbers, counts, ids, asset paths, coordinates, code */
+  --font-num: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono: var(--font-num);
+
+  /* Body scale (running text, inputs, menus). */
+  --fs-xs: 11px;
+  --fs-sm: 12.5px;
+  --fs-md: 14px;
+  --fs-lg: 17px;
+  --fs-xl: 22px; /* tab labels, play names on cards */
+  --fs-2xl: 28px;
+  --fs-3xl: 40px;
+
+  /* Display scale (uppercase labels, tabs, names, titles). NB International caps are ~35 % wider than the old
+     condensed face, so display type runs a step smaller than the body scale: track small caps a little (0.04–0.08em),
+     big caps not at all. */
+  --fd-xs: 10px; /* eyebrows, tiny tags */
+  --fd-sm: 11px; /* field labels, meta lines */
+  --fd-md: 12.5px; /* section heads, buttons (sm) */
+  --fd-lg: 14px; /* panel titles, tree names */
+  --fd-xl: 17px; /* tab labels, play names on cards */
+  --fd-2xl: 22px; /* view headers */
+  --fd-3xl: 31px; /* page titles */
+
+  /* surfaces */
+  --bg-0: #07080a; /* app background */
+  --bg-1: #0e1013; /* panels */
+  --bg-2: #15181c; /* raised / cards */
+  --bg-3: #1d2126; /* inputs, hover */
+  --bg-4: #262b31; /* pressed, selected rows */
+  --glass: rgba(14, 16, 19, 0.78); /* overlays, floating toolbars */
+  --scrim: rgba(0, 0, 0, 0.62);
+
+  --line: #262a30;
+  --line-2: #343941;
+  --line-3: #4a5059;
+
+  /* text */
+  --text: #f3f4f6;
+  --text-2: #b4b9c1; /* secondary: "GUN U OFF TRIPS WK" */
+  --text-3: #7b818a;
+  --text-4: #555b63;
+  --text-inv: #0b0c0e;
+
+  /* Madden tab pills */
+  --pill-bg: #e4e5e7;
+  --pill-fg: #0b0c0e;
+  /* LB/RB-style rounded-rect glyphs (audible glyphs only) */
+  --bumper-bg: #f1f2f4;
+  --bumper-fg: #101114;
+
+  /* status + play-type tags */
+  --blue: #1f56e0; /* PASS tag */
+  --blue-2: #3d74ff;
+  --red: #d0263e; /* RUN tag */
+  --purple: #7e4fe0; /* PLAY ACTION */
+  --teal: #0f9f8f; /* SCREEN */
+  --orange: #e0821d; /* OPTION / RPO */
+  --slate: #56606c; /* SPECIAL / OTHER */
+  --amber: #f0b429; /* NEEDS MOD */
+  --green: #2fb36b; /* OK / saved */
+  --danger: #ef4458;
+  --warning: #f0b429;
+  --info: #5aa9ff;
+
+  /* play art */
+  --field-bg: #1a1c1f;
+  --field-bg-2: #1e2024; /* alternating 5-yd bands */
+  --field-line: #34383e;
+  --field-line-major: #42464d;
+  --field-num: #3c4047;
+  --field-hash: #4d525a;
+  --field-los: #a6acb4;
+  --field-first-down: #d98a3a; /* muted orange: reads as a field marking, not a yellow route */
+  --field-sideline: #5a6069;
+
+  --art-route: #d8d063;
+  --art-primary: #d22e44;
+  --art-run: #d22e44;
+  --art-block: #8d949d;
+  --art-motion: #9fd6f2;
+  --art-qb: #ffffff;
+  --art-option: #e8e8e8;
+  --art-rush: #e2475b;
+  --art-zone-deep: #3c82f6;
+  --art-zone-hook: #e6c229;
+  --art-zone-flat: #5fd8ef;
+  --art-zone-curlflat: #a585f7;
+  --art-zone-spy: #f472b6;
+  --art-player: #f5f6f7;
+  --art-def: #ff6b7a;
+
+  /* controller glyph colors (audible glyphs only: settings.audibleStyle xbox / ps) */
+  --xb-a: #62c046;
+  --xb-b: #e4473c;
+  --xb-x: #3a8ee6;
+  --xb-y: #f1c232;
+  --ps-cross: #7fa8e8;
+  --ps-circle: #e8646d;
+  --ps-square: #d98ad8;
+  --ps-triangle: #42c9a9;
+  --glyph-bg: #17191c;
+
+  /* shape */
+  --r-xs: 3px;
+  --r-sm: 5px;
+  --r-md: 7px;
+  --r-lg: 11px;
+  --r-xl: 16px;
+  --r-pill: 999px;
+
+  --shadow-1: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 18px 50px rgba(0, 0, 0, 0.6);
+  --focus: 0 0 0 2px #ffffff, 0 0 18px rgba(255, 255, 255, 0.28); /* Madden white selection glow */
+
+  /* spacing scale */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 20px;
+  --s6: 24px;
+  --s8: 32px;
+
+  --topbar-h: 64px;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 120ms;
+  --t-med: 200ms;
+}

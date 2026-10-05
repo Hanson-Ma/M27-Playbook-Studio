@@ -1,0 +1,46 @@
+/* Allowed motion region: a faint light-blue band (the motion color) with a dashed edge. Never hit-testable. */
+.bounds {
+  pointer-events: none;
+}
+
+.band {
+  fill: var(--art-motion);
+  fill-opacity: 0.075;
+  stroke: none;
+}
+
+.edge {
+  fill: none;
+  stroke: var(--art-motion);
+  stroke-opacity: 0.5;
+  stroke-width: 1.25;
+  stroke-dasharray: 5 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.reachSoft,
+.reachHard {
+  fill: none;
+  stroke: var(--art-motion);
+  vector-effect: non-scaling-stroke;
+}
+
+.reachSoft {
+  stroke-opacity: 0.55;
+  stroke-width: 1.25;
+  stroke-dasharray: 3 4;
+}
+
+.reachHard {
+  stroke-opacity: 0.35;
+  stroke-width: 1;
+}
+
+.label {
+  fill: var(--art-motion);
+  fill-opacity: 0.75;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

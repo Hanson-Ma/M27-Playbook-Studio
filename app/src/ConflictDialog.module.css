@@ -1,0 +1,46 @@
+.title {
+  text-transform: none;
+}
+.spacer {
+  flex: 1;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+.lead {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+}
+.path {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-2);
+  word-break: break-all;
+}
+.detail {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+}
+.choices {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--s2) var(--s4);
+  margin: 0;
+}
+.choices dt {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text);
+}
+.choices dd {
+  margin: 0;
+}

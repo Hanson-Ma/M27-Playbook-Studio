@@ -1,0 +1,247 @@
+.wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: var(--bg-1);
+}
+.field {
+  position: absolute;
+  inset: 0;
+}
+.wrap .drawing svg {
+  cursor: crosshair;
+}
+
+/* Toolbar + hint over the field. One row: when the labels don't fit, EditField drops the point tools' labels
+   (compact); only then may it wrap (very narrow fields). */
+.toolbar {
+  position: absolute;
+  left: var(--s3);
+  top: var(--s3);
+  right: var(--s3);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.toolbarCompact {
+  flex-wrap: wrap;
+}
+.toolbar > * {
+  flex: none;
+}
+.toolbar > * {
+  pointer-events: auto;
+}
+.toolbar :global(button) {
+  background: var(--glass);
+  backdrop-filter: blur(6px);
+}
+.hudSlot {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  margin-right: 4px;
+  border-radius: var(--r-pill);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  white-space: nowrap;
+}
+.cutBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.hint {
+  position: absolute;
+  left: var(--s3);
+  bottom: var(--s3);
+  max-width: calc(100% - 200px);
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.35;
+  pointer-events: none;
+}
+.hintCenter {
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--text);
+}
+
+/* Start handle ("move this player for this play only") */
+.startRing {
+  cursor: grab;
+}
+.startRing circle {
+  fill: color-mix(in srgb, var(--text) 6%, transparent);
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.startRing path {
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.startActive .startRing circle {
+  stroke: var(--art-motion);
+  animation: startPulse 1.4s ease-in-out infinite;
+}
+.startActive .startRing path {
+  stroke: var(--art-motion);
+}
+@keyframes startPulse {
+  50% {
+    stroke-opacity: 0.45;
+  }
+}
+.home {
+  pointer-events: none;
+}
+.home circle {
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 2;
+}
+
+/* Marks next to players */
+.marks {
+  pointer-events: none;
+}
+.changedDot {
+  fill: var(--blue-2);
+  stroke: var(--field-bg);
+  stroke-width: 1.5;
+}
+.badMark circle {
+  fill: var(--danger);
+  stroke: var(--field-bg);
+  stroke-width: 1.5;
+}
+.badMark path {
+  fill: none;
+  stroke: var(--text-inv);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+.lock rect {
+  fill: var(--amber);
+}
+.lock path {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 1.6;
+}
+
+/* Handles */
+.handles {
+  pointer-events: none;
+}
+.vertex,
+.wp,
+.mid {
+  pointer-events: all;
+  cursor: grab;
+}
+.vertex circle,
+.vertex rect {
+  fill: var(--bg-0);
+  stroke: var(--text);
+  stroke-width: 2;
+  transition:
+    fill var(--t-fast) var(--ease),
+    stroke var(--t-fast) var(--ease);
+}
+.vertex:hover circle {
+  fill: var(--text);
+}
+.vertex.hasCut circle {
+  stroke: var(--art-route);
+}
+.vertex.selected circle,
+.vertex.selected rect {
+  fill: var(--text);
+  stroke: var(--text);
+  filter: drop-shadow(0 0 4px var(--text));
+}
+.vertex.locked {
+  cursor: not-allowed;
+}
+.vertex.locked rect {
+  fill: var(--bg-3);
+  stroke: var(--amber);
+  stroke-width: 1.5;
+}
+.cutText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  fill: var(--art-route);
+  paint-order: stroke;
+  stroke: var(--field-bg);
+  stroke-width: 3px;
+  pointer-events: none;
+}
+.wp path {
+  fill: var(--bg-0);
+  stroke: var(--art-motion);
+  stroke-width: 2;
+}
+.wp:hover path,
+.wp.selected path {
+  fill: var(--art-motion);
+}
+.wp.selected path {
+  filter: drop-shadow(0 0 4px var(--art-motion));
+}
+.wp.locked {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.mid circle {
+  fill: var(--glass);
+  stroke: var(--text-3);
+  stroke-width: 1.2;
+  opacity: 0.55;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.mid path {
+  stroke: var(--text-2);
+  stroke-width: 1.4;
+  opacity: 0.7;
+}
+.mid:hover circle {
+  opacity: 1;
+  stroke: var(--text);
+}
+.dragInfo {
+  pointer-events: none;
+}
+.dragInfo rect {
+  fill: var(--glass);
+  stroke: var(--line-3);
+  stroke-width: 1;
+}
+.dragInfo text {
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0;
+  fill: var(--text);
+  font-variant-numeric: tabular-nums;
+}

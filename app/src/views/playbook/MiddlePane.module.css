@@ -1,0 +1,542 @@
+.pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scroll-padding: var(--s3) 0 var(--s4);
+}
+.inner {
+  max-width: 980px;
+  padding: var(--s5) var(--s5) var(--s8);
+}
+.titleRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+/* three-step guide (book overview) */
+.guide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--s2);
+  margin: var(--s5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.guideStep {
+  display: flex;
+  gap: var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.guideStep p {
+  margin: 3px 0 0;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.guideNum {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+}
+.guideTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+}
+
+.tplTag,
+.customTag {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: var(--r-xs);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+.tplTag {
+  border: 1px solid var(--line-2);
+  color: var(--text-3);
+}
+.customTag {
+  background: color-mix(in srgb, var(--blue-2) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--blue-2) 55%, transparent);
+  color: var(--text);
+}
+.tileTag {
+  align-self: flex-start;
+}
+
+/* Advanced disclosure */
+.advanced {
+  margin-top: var(--s6);
+  border-top: 1px solid var(--line);
+  padding-top: var(--s2);
+}
+.advHead {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 2px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.advHead:hover {
+  color: var(--text);
+  background: var(--bg-3);
+}
+.advBody {
+  padding: var(--s2) 0 0 var(--s4);
+}
+.dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px var(--s4);
+  align-items: center;
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+.dl dt {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.dl dd {
+  margin: 0;
+  color: var(--text-2);
+  min-width: 0;
+}
+.code {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-size: 11.5px;
+  color: var(--text-2);
+  word-break: break-all;
+}
+.subhead {
+  margin: var(--s3) 0 4px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.json {
+  margin: 0;
+  padding: var(--s2);
+  border-radius: var(--r-sm);
+  background: var(--bg-2);
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-size: 11.5px;
+  color: var(--text-2);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.bigTitle {
+  margin-top: 4px;
+  font-size: var(--fd-3xl);
+  font-weight: 700;
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+}
+.asset {
+  display: inline-block;
+  margin-top: var(--s2);
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-size: 11px;
+  color: var(--text-3);
+  word-break: break-all;
+}
+.lead {
+  max-width: 720px;
+  margin: var(--s3) 0 0;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+.lead code,
+.note code {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-size: 12px;
+  color: var(--text);
+}
+.problem {
+  margin-top: var(--s2);
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+.warnBox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
+  max-width: 760px;
+  margin-top: var(--s3);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--warning) 45%, transparent);
+  background: color-mix(in srgb, var(--warning) 8%, transparent);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.dangerBox {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+  max-width: 760px;
+  margin-top: var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--danger) 60%, transparent);
+  background: color-mix(in srgb, var(--danger) 11%, transparent);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.dangerBox > svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--danger);
+}
+.dangerBox p {
+  margin: var(--s1) 0 0;
+}
+.dangerBox b,
+.dangerBox code {
+  color: var(--text);
+}
+.dangerBox code {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  font-size: 12px;
+}
+.dangerTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  color: var(--text);
+}
+.dangerDetail {
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+}
+.warnBox svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--warning);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: var(--s4);
+}
+.note {
+  max-width: 760px;
+  margin: var(--s3) 0 0;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.dim {
+  color: var(--text-3);
+}
+
+/* overview tiles */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: var(--s2);
+  margin-top: var(--s5);
+}
+.tile {
+  padding: var(--s3);
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+/* headline number: NB Bold with its own (proportional) figures — NB's tabular figures are spaced like a mono face */
+.tileValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-2xl);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.tileLabel {
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.tile.danger .tileValue {
+  color: var(--danger);
+}
+.tile.amber .tileValue {
+  color: var(--amber);
+}
+
+.section {
+  margin-top: var(--s6);
+}
+.h3 {
+  margin-bottom: var(--s2);
+  font-size: var(--fd-lg);
+  color: var(--text-2);
+  letter-spacing: 0.02em;
+}
+.ok {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--green);
+  font-size: var(--fs-sm);
+}
+
+/* formation list (overview) */
+.formList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.formRow {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: 6px var(--s2);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+.formRow:hover {
+  background: var(--bg-3);
+}
+.formShort {
+  flex: none;
+  min-width: 48px;
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+  background: var(--bg-3);
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.formName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  text-transform: uppercase;
+}
+/* "3 SETS · 23 PLAYS": words in NB like the other meta lines, the counts in DM Mono */
+.formMeta {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.formMeta b {
+  font-family: var(--font-num);
+  font-weight: 500;
+  color: var(--text-2);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.bad .formName,
+.bad .setTileName {
+  color: var(--danger);
+}
+
+/* set tiles */
+.setGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s3);
+  margin-top: var(--s5);
+}
+.setTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  min-width: 0;
+  padding: var(--s3);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  transition:
+    transform var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease);
+}
+.setTile:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-3);
+}
+.setTileSelected {
+  box-shadow: var(--focus);
+}
+.readOnly {
+  background: color-mix(in srgb, var(--bg-2) 60%, transparent);
+  border-style: dashed;
+}
+.setTileHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+}
+.setTileName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.setTileCount {
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.setTileAud {
+  display: flex;
+  gap: 4px;
+}
+.audChip {
+  opacity: 0.25;
+}
+.audChipOn {
+  opacity: 1;
+}
+.setTilePlays {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-2);
+  line-height: 1.3;
+}
+.setTilePlays > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.setTilePlay {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.setTilePlayName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.setTileFoot {
+  display: flex;
+  gap: var(--s3);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.modText {
+  color: var(--amber);
+}
+.badText {
+  color: var(--danger);
+}
+
+/* template play cards */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+  gap: var(--s5) var(--s4);
+  margin-top: var(--s5);
+}
+.cardCell {
+  min-width: 0;
+}
+.cardPlaceholder {
+  aspect-ratio: 2.15 / 1;
+  margin-bottom: 44px;
+  border-radius: 8px;
+  background: var(--bg-2);
+}

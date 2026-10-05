@@ -1,0 +1,306 @@
+.page {
+  height: 100%;
+  overflow: auto;
+}
+.inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--s4) var(--s6) var(--s8);
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s6);
+  margin-bottom: var(--s5);
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.title {
+  font-size: var(--fd-3xl);
+  font-weight: 700;
+  line-height: 0.95;
+}
+.sectionTabs {
+  flex: 1;
+  padding-bottom: 2px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+.twoCol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s4);
+}
+@media (max-width: 1100px) {
+  .twoCol {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+}
+.rows > * {
+  padding: var(--s2) 0;
+}
+.rows > :first-child {
+  padding-top: 0;
+}
+.rows > :last-child {
+  padding-bottom: 0;
+}
+.rows > * + * {
+  border-top: 1px solid var(--line);
+}
+.note {
+  margin: var(--s3) 0 0;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.note b {
+  color: var(--text-2);
+  font-weight: 700;
+}
+.dim {
+  color: var(--text-3);
+}
+.mono,
+.code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.code {
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  background: var(--bg-3);
+  color: var(--text-2);
+  word-break: break-all;
+}
+.inline {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--text-2);
+}
+
+/* audible style */
+.styleRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s4) var(--s6);
+}
+.stylePreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s4);
+}
+.previewSlot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+
+.audibleLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
+  gap: var(--s6);
+  align-items: center;
+}
+@media (max-width: 1100px) {
+  .audibleLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.audibleNotes > .note:first-child {
+  margin-top: 0;
+}
+.diamondGlyphs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* audible diamond */
+.diamond {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(3, auto);
+  gap: var(--s2);
+  align-items: center;
+  justify-items: center;
+  padding: var(--s2) 0;
+}
+.diamondCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: 170px;
+  padding: var(--s3) var(--s2);
+  border-radius: var(--r-lg);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+.diamondCell[data-pos="top"] {
+  grid-area: 1 / 2;
+}
+.diamondCell[data-pos="left"] {
+  grid-area: 2 / 1;
+}
+.diamondCell[data-pos="right"] {
+  grid-area: 2 / 3;
+}
+.diamondCell[data-pos="bottom"] {
+  grid-area: 3 / 2;
+}
+.diamondCell > :nth-child(3) {
+  width: 100%;
+}
+.diamondCat {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.diamondCenter {
+  grid-area: 2 / 2;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+
+/* tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-md);
+}
+.table th {
+  padding: 8px var(--s4);
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border-bottom: 1px solid var(--line);
+}
+.table td {
+  padding: 7px var(--s4);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.table tr:last-child td {
+  border-bottom: 0;
+}
+.table tbody tr:hover td {
+  background: color-mix(in srgb, var(--text) 3%, transparent);
+}
+/* "FILES · 5": the count in DM Mono next to the caps label */
+.count {
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.date {
+  font-family: var(--font-num);
+  font-size: 12px;
+  color: var(--text-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.num {
+  font-family: var(--font-num);
+  font-size: 12.5px; /* DM Mono runs larger than NB at the same size */
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table th.num {
+  text-align: right;
+}
+
+.prefixInput {
+  width: 200px;
+}
+
+.server {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+.server .table td,
+.server .table th {
+  padding-left: 0;
+}
+.serverError {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--text-2);
+}
+
+/* storage */
+.storage {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+}
+.storageIcon {
+  flex: none;
+  padding-top: 2px;
+}
+.storageText {
+  flex: 1;
+  min-width: 0;
+}
+.storageText .note {
+  margin-top: var(--s2);
+}
+.storageActions {
+  display: flex;
+  flex: none;
+  gap: var(--s2);
+}
+
+/* advanced disclosure */
+.advanced {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s2);
+}
+.advancedBody {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  padding-left: var(--s4);
+}

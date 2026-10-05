@@ -1,0 +1,244 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+}
+.section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+/* section heads (PLAY, PLAY CALL): a step above the 12 px form labels under them */
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+/* a heading inside a section (READS in Advanced): the old eyebrow size, a step under PLAY / PLAY CALL */
+.subhead {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+/* the plays file's name heads its play list: a file name, so DM Mono as written */
+.fileEyebrow {
+  min-width: 0;
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dim {
+  color: var(--text-3);
+  font-weight: 500;
+}
+.edited {
+  white-space: nowrap;
+  margin-left: 4px;
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  background: var(--blue-2);
+  color: var(--text);
+  font-size: var(--fd-xs);
+  letter-spacing: 0.04em;
+}
+.labelRow {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+}
+.hintRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  align-items: center;
+}
+.note {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.inline > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* reads */
+/* "5/5" meter inside the Add read button */
+.count {
+  font-family: var(--font-num);
+  font-weight: 400;
+  letter-spacing: 0;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
+}
+.reads {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.read {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+.dragging {
+  opacity: 0.5;
+}
+.readLine {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.grip {
+  cursor: grab;
+  color: var(--text-4);
+  font-size: 12px;
+  letter-spacing: -2px;
+  user-select: none;
+}
+.order {
+  flex: none;
+  min-width: 20px;
+  height: 20px;
+  border-radius: var(--r-pill);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: 10.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* file plays */
+.fileHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+}
+.fileTools {
+  display: flex;
+  gap: 2px;
+}
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+.fileRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-2);
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.fileRow:hover {
+  background: var(--bg-3);
+  color: var(--text);
+}
+.fileRow:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+.fileRowOn {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.fileRowOn:hover {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.fileName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.problemDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--danger);
+  flex: none;
+}
+
+/* Rename everywhere: what still points at the play's old name / key. */
+.refs {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s2);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--warning) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warning) 45%, transparent);
+}
+.refsText {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text-2);
+}
+.refsText strong {
+  color: var(--text);
+}
+
+.redDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--art-primary);
+  margin-right: 4px;
+}
+.advanced {
+  border-top: 1px solid var(--line);
+}

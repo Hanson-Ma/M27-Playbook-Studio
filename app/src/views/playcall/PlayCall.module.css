@@ -1,0 +1,833 @@
+/* Play-call preview: Madden 27 play-call screen — top tab row, big bold uppercase heading, three large cards per page,
+   page dots and a caveat line. Mouse-driven: no controller chrome. */
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  padding: var(--s3) var(--s8) var(--s4);
+}
+
+.centered {
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+.loading {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  color: var(--text-2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ───────────── top row ───────────── */
+.top {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) auto minmax(300px, 1fr);
+  align-items: center;
+  gap: var(--s4);
+  min-height: 52px;
+}
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
+.topRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s4);
+  min-width: 0;
+}
+.tabs {
+  justify-self: center;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.book {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+}
+.bookText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.bookEyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  line-height: 1;
+}
+.bookSelect {
+  max-width: 100%;
+}
+
+.count {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* headline number: NB Bold, proportional figures (NB's tabular ones are spaced like a mono face) */
+.countNum {
+  font-family: var(--font-display);
+  font-size: var(--fd-2xl);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.countLabel {
+  font-size: var(--fd-lg);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  color: var(--text-2);
+}
+
+/* ───────────── heading ───────────── */
+.heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s5);
+  margin-top: var(--s5);
+  min-height: 70px;
+}
+.headLeft {
+  min-width: 0;
+}
+.crumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  line-height: 1;
+}
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: 8px;
+  padding: 3px 8px 3px 4px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-pill);
+  background: var(--bg-2);
+  color: var(--text-2);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  transition:
+    color var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease);
+}
+.backLink:hover {
+  color: var(--text);
+  background: var(--bg-3);
+}
+.crumbLink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  transition: color var(--t-fast) var(--ease);
+}
+.crumbLink:hover {
+  color: var(--text);
+}
+.crumbCurrent {
+  color: var(--text-2);
+}
+.sep {
+  color: var(--text-4);
+}
+.title {
+  font-size: clamp(26.5px, 2.54vw, 40px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+}
+.headRight {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  flex: none;
+  padding-bottom: 4px;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+.headStat {
+  font-size: var(--fd-lg);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.headStat b,
+.headStat span {
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  color: var(--text);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.headStat span {
+  color: var(--text-3);
+}
+/* "PAGE 1 / 6": the word like the stat labels (NB), the numbers in DM Mono */
+.pageNum {
+  font-size: var(--fd-lg);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+.pageNum b,
+.pageNum span {
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+.pageNum b {
+  color: var(--text);
+}
+.sourceNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  color: var(--text-3);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--ease);
+}
+.sourceNote:hover {
+  color: var(--text);
+}
+
+/* ───────────── stage ───────────── */
+/* The stage is a size container: the three cards are as wide as it allows and never taller than it. The sizing
+   variables live here so the side arrows can line up with the card art. */
+.stage {
+  --arrow: 56px;
+  --dots: 30px;
+  --dots-gap: 16px;
+  --top-gap: clamp(4px, 1.5cqh, 16px);
+  /* card text scales with the stage, so wide screens get the game's big bold names */
+  --card-name-fs: clamp(20px, 1.7cqw, 32px);
+  --card-sub-fs: clamp(13px, 0.92cqw, 17px);
+  /* name + subtitle lines + the art → meta gap */
+  --meta: calc(var(--card-name-fs) * 1.05 + var(--card-sub-fs) * 1.05 + 14px);
+  --gap: clamp(16px, 1.8vw, 32px);
+  --cw: min(
+    calc((100cqw - 2 * var(--arrow) - 2 * var(--gap)) / 3),
+    calc((100cqh - var(--top-gap) - var(--meta) - var(--dots) - var(--dots-gap)) * 2.15),
+    640px
+  );
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: var(--s3);
+  container-type: size;
+}
+/* the animated page + the dots as one group, right under the heading like the game (no empty band above the cards) */
+.stageCol {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: var(--top-gap);
+  gap: var(--dots-gap);
+}
+.stageInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+.stageInner[data-anim="next"] {
+  animation: slideNext 170ms var(--ease);
+}
+.stageInner[data-anim="prev"] {
+  animation: slidePrev 170ms var(--ease);
+}
+.stageInner[data-anim="in"] {
+  animation: zoomIn 170ms var(--ease);
+}
+.stageInner[data-anim="out"] {
+  animation: zoomOut 170ms var(--ease);
+}
+.stageInner[data-anim="tab"] {
+  animation: fadeUp 170ms var(--ease);
+}
+@keyframes slideNext {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+@keyframes slidePrev {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@keyframes zoomOut {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stageInner {
+    animation: none !important;
+  }
+}
+
+/* level with the middle of the card art */
+.arrow {
+  position: absolute;
+  top: calc(var(--top-gap) + var(--cw) / 4.3);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 96px;
+  margin-top: -48px;
+  border: 0;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--text) 4%, transparent);
+  color: var(--text-2);
+  opacity: 0.75;
+  transition:
+    opacity var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+.arrow:hover {
+  opacity: 1;
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+}
+/* the audible diamond fills the stage height: center the arrows on it */
+.stage[data-kind="audibles"] .arrow {
+  top: calc(var(--top-gap) + (100cqh - var(--top-gap) - var(--dots) - var(--dots-gap)) / 2);
+}
+.arrowLeft {
+  left: 0;
+}
+.arrowLeft:active {
+  transform: translateX(-2px);
+}
+.arrowRight {
+  right: 0;
+}
+.arrowRight:active {
+  transform: translateX(2px);
+}
+
+/* three cards (sizes from .stage) */
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, var(--cw));
+  gap: var(--gap);
+  align-items: start;
+}
+/* the three big cards (tiles and PlayCards) share the stage-scaled name / subtitle sizes */
+.row .tile,
+.row .callCard[data-size] {
+  --name-fs: var(--card-name-fs);
+  --sub-fs: var(--card-sub-fs);
+}
+
+/* ───────────── tiles (formation / set / group / missing play) ───────────── */
+.tile {
+  --name-fs: 23px;
+  --sub-fs: var(--fd-lg);
+  --chip-fs: var(--fd-md);
+  --chip-inset: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+  outline: none;
+  cursor: pointer;
+  transition:
+    transform var(--t-fast) var(--ease),
+    opacity var(--t-med) var(--ease);
+}
+.tile:hover {
+  transform: translateY(-2px);
+}
+.tile:active,
+.playSlot:active {
+  transform: scale(0.975);
+}
+.tileArt {
+  position: relative;
+  aspect-ratio: 2.15 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--field-bg);
+  box-shadow: var(--shadow-1);
+  transition:
+    box-shadow var(--t-fast) var(--ease),
+    filter var(--t-fast) var(--ease);
+}
+.tile:hover .tileArt {
+  filter: brightness(1.14);
+}
+.tile[data-selected] .tileArt {
+  box-shadow: var(--focus), var(--shadow-1);
+}
+.tile:focus-visible .tileArt {
+  box-shadow: 0 0 0 2px var(--blue-2), var(--shadow-1);
+}
+.tile[data-selected]:focus-visible .tileArt {
+  box-shadow: var(--focus), 0 0 0 4px var(--blue-2);
+}
+.tile[data-locked] .tileName {
+  color: var(--text-2);
+}
+.tileField {
+  position: absolute;
+  inset: 0;
+}
+.tileAccent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent);
+}
+.tileOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--s4);
+  text-align: center;
+  color: var(--text-2);
+  background: color-mix(in srgb, var(--bg-0) 58%, transparent);
+}
+.overlayTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1;
+}
+.overlayBody {
+  max-width: 80%;
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+  line-height: 1.35;
+}
+.overlayWarn {
+  color: var(--warning);
+}
+.tileTag,
+.tileStat {
+  position: absolute;
+  bottom: var(--chip-inset);
+  padding: 0.3em 0.6em;
+  border-radius: var(--r-xs);
+  font-family: var(--font-display);
+  font-size: var(--chip-fs);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.tileTag {
+  left: var(--chip-inset);
+  max-width: 48%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--tag);
+  color: var(--text);
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+.tileAccent + .tileTag,
+.tileAccent ~ .tileTag {
+  left: calc(var(--chip-inset) + 4px);
+}
+.tileStat {
+  right: var(--chip-inset);
+  max-width: 48%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--scrim);
+  color: var(--text-2);
+  font-family: var(--font-num);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: blur(6px);
+}
+.tileBadges {
+  position: absolute;
+  top: var(--chip-inset);
+  right: var(--chip-inset);
+  display: flex;
+  gap: 4px;
+}
+.tileMeta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 0 2px;
+}
+.tileGlyph {
+  flex: none;
+  display: inline-flex;
+}
+.dimGlyph {
+  opacity: 0.4;
+}
+.tileText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+.tileName,
+.tileSub {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.05;
+}
+.tileName {
+  font-size: var(--name-fs, var(--fd-2xl));
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+.tileSub {
+  font-size: var(--sub-fs, var(--fd-lg));
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-2);
+}
+
+/* ───────────── play cards ───────────── */
+.playSlot {
+  min-width: 0;
+  transition: transform var(--t-fast) var(--ease);
+}
+.star {
+  display: inline-grid;
+  place-items: center;
+  width: calc(var(--chip-fs, 14px) + 10px);
+  height: calc(var(--chip-fs, 14px) + 10px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--r-xs);
+  background: var(--scrim);
+  color: var(--text-2);
+  opacity: 0;
+  backdrop-filter: blur(6px);
+  transition:
+    opacity var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+.star:hover {
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg-0) 80%, transparent);
+  transform: scale(1.08);
+}
+.callCard:hover .star,
+.callCard:focus-within .star,
+.starOn {
+  opacity: 1;
+}
+.starOn,
+.starOn:hover {
+  color: var(--amber);
+}
+
+.emptySlot {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  --name-fs: var(--fd-xl);
+  --sub-fs: var(--fd-md);
+}
+.emptySlotArt {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 2.15 / 1;
+  border-radius: 8px;
+  border: 1.5px dashed var(--line-2);
+  background: color-mix(in srgb, var(--bg-1) 55%, transparent);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-4);
+}
+.emptyName {
+  color: var(--text-3);
+}
+
+/* ───────────── audible diamond ───────────── */
+.diamond {
+  --gap: clamp(14px, 1.6vw, 28px);
+  --vgap: 12px;
+  --meta: 60px;
+  --cw: min(
+    calc((100cqw - 2 * var(--arrow) - 2 * var(--gap)) / 3),
+    calc(((100cqh - var(--top-gap) - var(--dots) - var(--dots-gap) - 3 * var(--vgap)) / 2 - var(--meta)) * 2.15),
+    470px
+  );
+  --ch: calc(var(--cw) / 2.15 + var(--meta));
+  display: grid;
+  grid-template-columns: repeat(3, var(--cw));
+  grid-template-rows: repeat(4, calc(var(--ch) / 2));
+  column-gap: var(--gap);
+  row-gap: var(--vgap);
+}
+.diamondCell {
+  min-width: 0;
+  align-self: center;
+}
+.diamondCell[data-pos="top"] {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.diamondCell[data-pos="left"] {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+}
+.diamondCell[data-pos="right"] {
+  grid-column: 3;
+  grid-row: 2 / span 2;
+}
+.diamondCell[data-pos="bottom"] {
+  grid-column: 2;
+  grid-row: 3 / span 2;
+}
+
+/* ───────────── dots + footer ───────────── */
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: 30px;
+  flex: none;
+}
+.dot {
+  position: relative;
+  width: 14px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transition: width var(--t-med) var(--ease);
+}
+.dot::before {
+  content: "";
+  position: absolute;
+  inset: 6px 3px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--text) 26%, transparent);
+  transition: background var(--t-fast) var(--ease);
+}
+.dot:hover::before {
+  background: color-mix(in srgb, var(--text) 55%, transparent);
+}
+.dotOn {
+  width: 32px;
+}
+.dotOn::before,
+.dotOn:hover::before {
+  background: var(--text);
+}
+.dotsText {
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-md);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s4);
+  min-height: 26px;
+  flex: none;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}
+.caveat {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.footChips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+@media (max-width: 1180px) {
+  .page {
+    padding-left: var(--s5);
+    padding-right: var(--s5);
+  }
+  .top {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .stage {
+    --arrow: 44px;
+  }
+}
+
+/* ───────────── small pieces ───────────── */
+/* play-call picker value: bold uppercase like every other name on this screen */
+.bookValue {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* audibles: the "jump to a set" picker shows FORMATION › SET in the screen's uppercase names */
+.setSelect {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* stat chip: [glyph] RUN | 3 CPU */
+.statChip {
+  font-family: var(--font-num);
+  letter-spacing: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  vertical-align: top;
+  font-variant-numeric: tabular-nums;
+}
+/* the audible's category is a word, not a number: NB like the type tag on the left */
+.statAud {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+/* a play name in a tile's stat chip (concept / play-type groups) */
+.statName {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.statSep {
+  color: var(--text-4);
+}
+
+/* FROM TEMPLATE badge (top-right of template-section cards, next to the favorite star) */
+.tplBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.3em 0.55em 0.24em;
+  border-radius: var(--r-xs);
+  background: var(--slate);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: calc(var(--chip-fs, 14px) - 1px);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}

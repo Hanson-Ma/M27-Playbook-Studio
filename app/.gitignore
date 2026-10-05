@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.local
+
+# guide build outputs (regenerate with npm run guide; the served PDF lives in public/guide/)
+docs/guide/guide.html
+docs/guide/Playbook-Studio-Guide.pdf

@@ -1,0 +1,343 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+/* header */
+.head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--line);
+}
+.formShort {
+  flex: none;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+}
+.titles {
+  flex: 1;
+  min-width: 0;
+}
+.title {
+  font-size: var(--fd-2xl);
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sub {
+  margin-top: 3px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+}
+.asset {
+  font-family: var(--font-mono);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: var(--text-3);
+}
+.problem {
+  margin-top: 3px;
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+.headActions {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex: none;
+}
+.customTag {
+  display: inline-block;
+  margin-left: var(--s2);
+  padding: 1px 6px;
+  vertical-align: middle;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--blue-2) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--blue-2) 55%, transparent);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+
+/* body: cards | aside */
+.body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+}
+.cardsScroll {
+  min-height: 0;
+  overflow: auto;
+  padding: var(--s3) var(--s4) var(--s6);
+  scroll-padding: var(--s3) 0 var(--s4);
+}
+.cardsScroll > .sectionTitle {
+  padding-left: 0;
+  padding-right: 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+  gap: var(--s5) var(--s4);
+  align-content: start;
+  min-height: 240px;
+  outline: none;
+}
+.grid:focus-visible {
+  box-shadow: none;
+}
+.cell {
+  position: relative;
+  min-width: 0;
+  border-radius: var(--r-md);
+  touch-action: none;
+}
+/* Keyboard focus in the grid: a dashed ring around the cursor card. */
+.grid:focus-visible .cellCursor::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: var(--r-lg);
+  border: 1px dashed var(--text-2);
+  pointer-events: none;
+}
+/* "⋯" options button over the card's top-right corner (hover / selected). */
+.cardMore {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 22px;
+  padding: 0 0 4px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--bg-0) 80%, transparent);
+  color: var(--text-2);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity var(--t-fast) var(--ease);
+}
+.cell:hover .cardMore,
+.cellSelected .cardMore {
+  opacity: 1;
+}
+.cardMore:hover {
+  color: var(--text);
+  border-color: var(--line-3);
+}
+.cardPlaceholder {
+  aspect-ratio: 2.15 / 1;
+  margin-bottom: 44px;
+  border-radius: 8px;
+  background: var(--bg-2);
+}
+.broken {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  aspect-ratio: 2.15 / 1;
+  margin-bottom: 44px;
+  padding: var(--s3);
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--danger) 55%, transparent);
+  background: color-mix(in srgb, var(--danger) 9%, var(--bg-2));
+  color: var(--danger);
+  cursor: pointer;
+  outline: none;
+}
+.brokenSelected {
+  box-shadow: var(--focus);
+}
+.brokenName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  text-transform: uppercase;
+  color: var(--text);
+}
+.brokenWhy {
+  font-size: var(--fs-xs);
+  line-height: 1.35;
+}
+.emptyWrap {
+  display: grid;
+  place-items: center;
+  min-height: 70%;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r-lg);
+}
+
+/* aside */
+.aside {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-left: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-1) 70%, transparent);
+}
+.sectionTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  padding: 0 var(--s3) var(--s2);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-md);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.sectionHint {
+  min-width: 0;
+  margin-left: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-xs);
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-3);
+}
+
+/* toggle list */
+.toggleWrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding-top: var(--s3);
+}
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 var(--s3) var(--s2);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.chips > * {
+  height: 22px;
+  font-size: var(--fs-xs);
+}
+.toggleList {
+  flex: 1;
+  min-height: 0;
+  border-top: 1px solid var(--line);
+}
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  height: 100%;
+  padding: 0 var(--s3) 0 var(--s2);
+  cursor: pointer;
+}
+.toggleCheck {
+  flex: none;
+  pointer-events: none;
+}
+/* Play names in the uppercase display type, like the cards and the play-call screen. */
+.toggleName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text-3);
+}
+.toggleIn .toggleName {
+  color: var(--text);
+  font-weight: 700;
+}
+.toggleDisabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.family {
+  flex: none;
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+}
+.catChips {
+  max-height: 76px;
+  overflow-y: auto;
+}
+.cardDots {
+  padding: 3px 4px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--bg-0) 70%, transparent);
+}
+.warn {
+  flex: none;
+  color: var(--warning);
+}
+.toggleEmpty {
+  padding: var(--s3);
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}
+
+/* Narrow middle pane: stack the play list under the cards. */
+@container (max-width: 640px) {
+  .body {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  .cardsScroll {
+    flex: none;
+    overflow: visible;
+    padding-bottom: var(--s4);
+  }
+  .aside {
+    flex: none;
+    height: 720px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+}

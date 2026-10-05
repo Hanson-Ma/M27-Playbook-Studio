@@ -1,0 +1,270 @@
+/* Doubled class: beats the Modal body's `flex: 1` (a 0% basis would ignore the height). */
+.body.body {
+  flex: 0 0 auto;
+  height: min(74vh, 700px);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: var(--s3);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: var(--s4);
+  flex: 1;
+  min-height: 0;
+}
+
+.left,
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  min-height: 0;
+  min-width: 0;
+}
+
+.tools {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+}
+
+.tools > :last-child {
+  flex: 1;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  width: 100%;
+  padding: 0 var(--s3);
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rowName {
+  font-family: var(--font-display);
+  font-size: var(--fd-lg);
+  font-weight: 700;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "as “PBS T Curls”" / "from Shotgun · Y Trips Wk" in the text face; a bare asset name in DM Mono */
+.rowSub {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowAsset {
+  font-family: var(--font-num);
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+.rowOn .rowSub {
+  color: var(--text-2);
+}
+
+.warn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--fd-sm);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--warning);
+}
+
+.warnText {
+  color: var(--warning);
+  font-weight: 700;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  flex: 1;
+  min-height: 0;
+}
+
+.previewHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s3);
+}
+
+.previewName {
+  font-family: var(--font-display);
+  font-size: var(--fd-2xl);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.previewSub {
+  margin-top: 5px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.previewField {
+  position: relative;
+  flex: 1;
+  min-height: 220px;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--line), var(--shadow-1);
+}
+
+.previewField > * {
+  position: absolute;
+  inset: 0;
+}
+
+.deps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 110px;
+  overflow: auto;
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.deps li {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.deps svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--warning);
+}
+
+.safe {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+}
+
+.safe svg {
+  color: var(--green);
+}
+
+.entryForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s2) var(--s3);
+  padding: var(--s3);
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  flex: none;
+}
+
+.entryForm > section,
+.entryActions,
+.addRow {
+  grid-column: 1 / -1;
+}
+
+.entryActions,
+.addRow,
+.leftTools {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.addRow {
+  justify-content: space-between;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+}
+
+.leftTools {
+  flex: none;
+  font-size: var(--fs-sm);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  word-break: break-all;
+}
+
+.fieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.err {
+  grid-column: 1 / -1;
+  color: var(--danger);
+  font-size: var(--fs-sm);
+}
+
+.rightFoot {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+
+.hint {
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}
+
+.grow {
+  flex: 1;
+}

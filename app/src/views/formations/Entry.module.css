@@ -1,0 +1,305 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: var(--s4) var(--s6) var(--s4);
+}
+
+.center {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s4);
+  flex: none;
+  margin-bottom: var(--s4);
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.title {
+  font-size: var(--fd-3xl);
+  font-weight: 700;
+  line-height: 0.95;
+}
+
+.header > :nth-child(2) {
+  margin-bottom: 4px;
+}
+
+.intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: none;
+  max-width: 920px;
+  margin: 0 0 var(--s4);
+  color: var(--text-2);
+  font-size: var(--fs-md);
+  line-height: 1.45;
+}
+
+.intro svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--info);
+}
+
+.steps {
+  margin: 0;
+  padding-left: 1.3em;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.more {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 22px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--scrim);
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  backdrop-filter: blur(6px);
+  transition:
+    opacity var(--t-fast) var(--ease),
+    background var(--t-fast) var(--ease);
+}
+
+.cardWrap:hover .more,
+.more:focus-visible,
+[aria-selected="true"] .more {
+  opacity: 1;
+}
+
+.more:hover {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+
+.more:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.grow {
+  flex: 1;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: var(--s4);
+  flex: 1;
+  min-height: 0;
+}
+
+/* sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--s3) var(--s2) var(--s4);
+  border-radius: var(--r-lg);
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+}
+
+.sideHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--s2) var(--s2);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.sideEmpty {
+  padding: var(--s2);
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+
+
+.fileRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: var(--r-md);
+  transition: background var(--t-fast) var(--ease);
+}
+
+.fileRow:hover {
+  background: var(--bg-3);
+}
+
+.fileRowOn,
+.fileRowOn:hover {
+  background: var(--pill-bg);
+}
+
+.fileBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--text-2);
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--fd-md);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--r-md);
+}
+
+.fileBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.fileRowOn .fileBtn {
+  color: var(--pill-fg);
+}
+
+.fileLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pathCode {
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  background: var(--bg-3);
+  color: var(--text);
+  font-family: var(--font-num);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* a sets file: its file name, as in the top bar's file chip */
+.fileLabelMono {
+  font-family: var(--font-num);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.fileRowOn .fileLabelMono {
+  font-weight: 500;
+}
+
+.fileCount {
+  font-family: var(--font-num);
+  font-size: 12px;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+.fileRowOn .fileCount {
+  color: var(--pill-fg);
+  opacity: 0.6;
+}
+
+.errCount,
+.warnCount {
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-num);
+  font-size: var(--fd-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--text-inv);
+}
+
+.errCount {
+  background: var(--danger);
+  color: var(--text);
+}
+
+.warnCount {
+  background: var(--warning);
+}
+
+.dirtyDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  flex: none;
+}
+
+.fileError {
+  color: var(--danger);
+}
+
+.fileDelete {
+  opacity: 0;
+  margin-right: 4px;
+  transition: opacity var(--t-fast) var(--ease);
+}
+
+.fileRow:hover .fileDelete,
+.fileDelete:focus-visible {
+  opacity: 1;
+}
+
+.fileRowOn .fileDelete {
+  color: var(--pill-fg);
+}
+
+/* main grid */
+.main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.main > * {
+  flex: 1;
+}
+
+.grid {
+  min-height: 0;
+}
+
+.cardWrap {
+  height: 100%;
+}

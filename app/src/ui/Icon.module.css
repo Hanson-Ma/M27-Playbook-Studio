@@ -1,0 +1,14 @@
+.icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Keep the stroke at 1.75 screen px whatever the icon size. */
+.icon * {
+  vector-effect: non-scaling-stroke;
+}

@@ -1,0 +1,283 @@
+/* Doubled class: beats the modal body's `flex: 1` (whose 0 basis would ignore the height). */
+.body.body {
+  flex: none;
+  height: min(68vh, 680px);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* step crumbs in the title */
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+.crumb {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--text-3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.crumb:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+.crumb:not(:disabled):hover {
+  color: var(--text);
+}
+.crumbOn {
+  background: var(--pill-bg);
+  border-color: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.crumbOn:not(:disabled):hover {
+  color: var(--pill-fg);
+}
+.crumbNo {
+  font-family: var(--font-num);
+  font-size: var(--fd-sm);
+  opacity: 0.7;
+}
+.crumbVal {
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0.01em;
+  color: var(--text-2);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.crumbOn .crumbVal {
+  color: var(--text-4);
+}
+
+/* list steps */
+.listStep {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.list {
+  flex: 1;
+  min-height: 0;
+}
+.rowWrap {
+  width: 100%;
+  height: 100%;
+  padding: 2px 0;
+}
+.row {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: 0 var(--s3);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  color: var(--text-2);
+  transition: background var(--t-fast) var(--ease);
+}
+.row:hover {
+  background: var(--bg-3);
+  color: var(--text);
+}
+.rowOn {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.rowOn:hover {
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+}
+.rowPicked .rowName::after {
+  content: "•";
+  margin-left: 8px;
+  color: var(--blue-2);
+}
+.rowName {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-lg);
+  letter-spacing: 0.015em;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* "3 sets · Far", "18 plays": counts + the asset folder name, DM Mono */
+.rowMeta {
+  font-family: var(--font-num);
+  font-size: 11.5px;
+  letter-spacing: 0;
+  color: var(--text-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.rowOn .rowMeta {
+  color: var(--text-4);
+}
+.split {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: var(--s4);
+}
+.preview {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-1);
+  overflow: hidden;
+}
+.previewField {
+  flex: 1;
+  min-height: 0;
+}
+.previewName {
+  padding: 0 var(--s3) var(--s3);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  text-transform: uppercase;
+}
+
+/* base step */
+.baseStep {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 4px var(--s4);
+}
+.sectionHead {
+  margin: var(--s3) 0 var(--s2);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.group:first-child .sectionHead {
+  margin-top: 0;
+}
+.groupHead {
+  margin: var(--s2) 0 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.groupCount {
+  margin-left: 6px;
+  font-family: var(--font-num);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  letter-spacing: 0;
+  color: var(--text-4);
+  font-variant-numeric: tabular-nums;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s4) var(--s3);
+}
+.cardWrap {
+  position: relative;
+  min-width: 0;
+}
+/* concept category filter (base step) */
+.catChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px var(--s2);
+}
+.catDots {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  gap: 3px;
+  pointer-events: auto;
+}
+.catDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px var(--bg-1);
+}
+.cardPh {
+  aspect-ratio: 2.15;
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  margin-bottom: 46px;
+}
+.baseHint {
+  margin-top: var(--s4);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+}
+
+/* name step */
+.nameStep {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s6);
+  align-items: start;
+}
+.nameForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+.nameCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.note {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-2);
+}
+/* the plays-file picker shows a path: DM Mono (doubled class beats the kit's select style) */
+.monoSelect.monoSelect {
+  font-family: var(--font-num);
+  font-size: 12.5px;
+  letter-spacing: 0;
+}
