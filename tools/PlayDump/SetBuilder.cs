@@ -100,6 +100,14 @@ namespace PlayDump
                 sp.flippedFacing = (180 - (int)partner.facing + 360) % 360;
                 PlayBuilder.SetEnum(sp, "flippedAnim", ((object)partner.anim).ToString());
             }
+            // Explicit flipped spots ("fx", "fy", "fstance") win over the partner mirror (ported sets carry their own).
+            foreach (JObject p in s["positions"] ?? new JArray())
+            {
+                dynamic sp = spots[(int)p["slot"]].Internal;
+                if (p["fx"] != null) sp.flippedXPos = (float)p["fx"];
+                if (p["fy"] != null) sp.flippedYPos = (float)p["fy"];
+                if (p["fstance"] != null) PlayBuilder.SetEnum(sp, "flippedAnim", (string)p["fstance"]);
+            }
             ValidateAlignment(list, (string)s["name"]);
             foreach (dynamic sp in list.Where(x => (int)x.posOrder >= 1 && (int)x.posOrder <= 5))
                 Console.Error.WriteLine($"  slot {sp.posOrder} {((object)sp.depthPosition).ToString().Replace("POSITION_", ""),-15} ({sp.XPos}, {sp.YPos})  flipped ({sp.flippedXPos}, {sp.flippedYPos}) via slot {sp.flipAssign}");
@@ -194,10 +202,11 @@ namespace PlayDump
                     bool man = (bool?)t["motionMan"] ?? false;
                     sp.primaryMotionMan = man;
                     if (man) PlayBuilder.SetEnum(sp, "groupType", "Set_Group_Type_MotionMan" + n);
+                    // flipped spot: explicit "fx"/"fy" (ported presets), else the mirror of the opposite-direction preset
                     JObject mirror = counterpart?.Cast<JObject>().FirstOrDefault(c => (int)c["slot"] == slot) ?? t;
-                    sp.flippedXPos = -(float)mirror["x"];
-                    sp.flippedYPos = (float)mirror["y"];
-                    PlayBuilder.SetEnum(sp, "flippedAnim", (string)mirror["stance"] ?? ((object)sp.anim).ToString());
+                    sp.flippedXPos = t["fx"] != null ? (float)t["fx"] : -(float)mirror["x"];
+                    sp.flippedYPos = t["fy"] != null ? (float)t["fy"] : (float)mirror["y"];
+                    PlayBuilder.SetEnum(sp, "flippedAnim", (string)t["fstance"] ?? (string)mirror["stance"] ?? ((object)sp.anim).ToString());
                     ((List<PointerRef>)mv.PlayerPosition).Add(new PointerRef(sp));
                 }
                 movements.Add(new PointerRef(mv));

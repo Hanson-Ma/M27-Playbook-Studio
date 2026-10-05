@@ -12,31 +12,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 0,
      "y": -4.75,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 0,
+     "fy": -4.75,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -0.8,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -45,7 +65,11 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -53,8 +77,11 @@
       "slot": 1,
       "x": -11,
       "y": -2.2,
+      "fx": -11,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -62,7 +89,11 @@
       "slot": 2,
       "x": -2.9,
       "y": -4.75,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -4.75,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M4left": [
@@ -70,7 +101,11 @@
       "slot": 5,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -78,15 +113,43 @@
       "slot": 4,
       "x": -11,
       "y": -2.2,
+      "fx": 9,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": 5,
       "y": -1.2,
+      "fx": -5,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_3pt"
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
+     }
+    ],
+    "M2right": [
+     {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": 11,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 5,
+      "x": 5,
+      "y": -2.2,
+      "fx": -5,
+      "fy": -1.2,
+      "motionMan": false,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M5right": [
@@ -94,7 +157,11 @@
       "slot": 2,
       "x": 2.9,
       "y": -4.75,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -4.75,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M2left": [
@@ -102,7 +169,11 @@
       "slot": 3,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -110,8 +181,11 @@
       "slot": 1,
       "x": 11,
       "y": -2.2,
+      "fx": 11,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -119,7 +193,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      }
     ]
    },
@@ -1064,32 +1142,50 @@
      "x": -20,
      "y": -2.2,
      "flipAssign": 1,
-     "stance": "StanceType_2pt"
+     "fx": 20,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 20,
      "y": -2.2,
      "flipAssign": 2,
-     "stance": "StanceType_2pt"
+     "fx": -20,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -11,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 11,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -1098,7 +1194,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -1106,8 +1206,23 @@
       "slot": 2,
       "x": 2.9,
       "y": -6,
+      "fx": -5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M3right": [
+     {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": 11,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -1115,8 +1230,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -1124,23 +1242,43 @@
       "slot": 2,
       "x": 5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
      {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": -9,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 4,
       "x": 11,
       "y": -0.8,
+      "fx": 9,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": 8,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -1148,23 +1286,43 @@
       "slot": 4,
       "x": -11,
       "y": -2.2,
-      "motionMan": true
+      "fx": 9,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
      {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": -11,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 4,
       "x": 9,
       "y": -0.8,
+      "fx": 9,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -8,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -2264,31 +2422,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 0,
      "y": -4.75,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 0,
+     "fy": -4.75,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -2297,8 +2475,11 @@
       "slot": 1,
       "x": -11,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -2306,7 +2487,11 @@
       "slot": 2,
       "x": -2.9,
       "y": -4.75,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -4.75,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M5left": [
@@ -2314,15 +2499,21 @@
       "slot": 4,
       "x": 9,
       "y": -0.8,
+      "fx": 9,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -2330,7 +2521,11 @@
       "slot": 4,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -2338,7 +2533,11 @@
       "slot": 3,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -2346,8 +2545,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 11,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -2355,15 +2557,33 @@
       "slot": 4,
       "x": -11,
       "y": -2.2,
-      "motionMan": true
+      "fx": 9,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
      {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": -9,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 18,
       "y": -1.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M2right": [
@@ -2371,7 +2591,23 @@
       "slot": 2,
       "x": 2.9,
       "y": -4.75,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -4.75,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
+     }
+    ],
+    "M3right": [
+     {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": 11,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -3501,40 +3737,75 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 0,
      "y": -4.75,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 0,
+     "fy": -4.75,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 3,
      "x": -5,
      "y": -1.2,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 4,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 5,
      "x": 6.5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -6.5,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
+    "M1right": [
+     {
+      "slot": 1,
+      "x": 0,
+      "y": -7.375,
+      "fx": 16,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
     "M5right": [
      {
       "slot": 4,
       "x": 5,
       "y": -0.9,
-      "motionMan": true
+      "fx": 16,
+      "fy": -0.9,
+      "motionMan": true,
+      "stance": "StanceType_3pt"
      }
     ],
     "M3left": [
@@ -3542,7 +3813,10 @@
       "slot": 3,
       "x": -16,
       "y": -0.9,
-      "motionMan": true
+      "fx": -5,
+      "fy": -0.9,
+      "motionMan": true,
+      "fstance": "StanceType_3pt"
      }
     ],
     "M1left": [
@@ -3550,8 +3824,11 @@
       "slot": 1,
       "x": -16,
       "y": -2.2,
+      "fx": 0,
+      "fy": -7.375,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -4261,40 +4538,74 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -5,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 3,
+     "fx": 5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 5,
+     "fx": -8,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 8,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
     "M5left": [
      {
+      "slot": 3,
+      "x": -5,
+      "y": -2.2,
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": -10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -4302,8 +4613,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -4311,7 +4625,11 @@
       "slot": 3,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -4319,15 +4637,21 @@
       "slot": 3,
       "x": -8,
       "y": -0.8,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": 18,
       "y": -2.2,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -4335,38 +4659,75 @@
       "slot": 1,
       "x": -10,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
      {
+      "slot": 2,
+      "x": -8,
+      "y": -0.8,
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 8,
       "y": -0.8,
+      "fx": 8,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 4,
       "x": -10,
       "y": -2.2,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
      {
+      "slot": 2,
+      "x": -8,
+      "y": -0.8,
+      "fx": -8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 10,
       "y": -2.2,
-      "motionMan": false
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 4,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -4374,7 +4735,11 @@
       "slot": 3,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -5239,31 +5604,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 10,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 5,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 5
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -5272,7 +5657,11 @@
       "slot": 3,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -5280,7 +5669,11 @@
       "slot": 5,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -5288,8 +5681,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -5297,7 +5693,11 @@
       "slot": 2,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -5305,7 +5705,11 @@
       "slot": 2,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M2left": [
@@ -5313,8 +5717,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -6875,31 +7282,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": -5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": 5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -7,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": 7,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -6908,8 +7335,11 @@
       "slot": 1,
       "x": -18,
       "y": -2.2,
+      "fx": -8,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -6917,16 +7347,45 @@
       "slot": 1,
       "x": 8,
       "y": -2.2,
+      "fx": 18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M4left": [
+     {
+      "slot": 4,
+      "x": 5,
+      "y": -1.2,
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
      {
+      "slot": 5,
+      "x": -5,
+      "y": -2.2,
+      "fx": 7,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 3,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -6934,15 +7393,21 @@
       "slot": 5,
       "x": -7,
       "y": -0.8,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": 8,
       "y": -2.2,
+      "fx": 18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -6950,7 +7415,11 @@
       "slot": 5,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -6958,7 +7427,11 @@
       "slot": 2,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -6966,7 +7439,11 @@
       "slot": 5,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -6974,7 +7451,11 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -5,
+      "fy": -1.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M3right": [
@@ -6982,7 +7463,11 @@
       "slot": 3,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -8404,31 +8889,47 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -5,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 5,
+     "fx": -8,
+     "fy": -0.8
     },
     {
      "slot": 5,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 8,
+     "fy": -0.8
     },
     {
      "slot": 4,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 5,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -8437,7 +8938,11 @@
       "slot": 3,
       "x": 10,
       "y": -2.2,
-      "motionMan": true
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -8445,6 +8950,8 @@
       "slot": 5,
       "x": 18,
       "y": -0.8,
+      "fx": 18,
+      "fy": -0.8,
       "motionMan": true
      }
     ],
@@ -8453,8 +8960,11 @@
       "slot": 1,
       "x": 10,
       "y": -2.2,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -8462,7 +8972,11 @@
       "slot": 4,
       "x": -10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -8470,6 +8984,8 @@
       "slot": 2,
       "x": -18,
       "y": -0.8,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true
      }
     ],
@@ -8478,8 +8994,11 @@
       "slot": 1,
       "x": -10,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -10114,48 +10633,84 @@
      "slot": 1,
      "x": 0,
      "y": -7.375,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.375,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -10,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 3,
+     "fx": 10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 4,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 4
+     "flipAssign": 2,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
     "M4left": [
      {
+      "slot": 3,
+      "x": -10,
+      "y": -2.2,
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 4,
       "x": -5,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": 5,
       "y": -1.2,
+      "fx": -5,
+      "fy": -2.35,
       "motionMan": false,
-      "stance": "StanceType_3pt"
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M1left": [
@@ -10163,8 +10718,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -10172,7 +10730,11 @@
       "slot": 3,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -10180,7 +10742,11 @@
       "slot": 5,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M5right": [
@@ -10188,7 +10754,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M1right": [
@@ -10196,8 +10766,11 @@
       "slot": 1,
       "x": 10,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -10205,15 +10778,31 @@
       "slot": 3,
       "x": -8,
       "y": -0.8,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": 10,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 5,
+      "x": 5,
+      "y": -2.2,
+      "fx": -5,
+      "fy": -1.2,
+      "motionMan": false,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M2left": [
@@ -10221,7 +10810,11 @@
       "slot": 2,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -10229,7 +10822,11 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -10237,7 +10834,11 @@
       "slot": 3,
       "x": 10,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -10956,31 +11557,47 @@
      "slot": 1,
      "x": 0,
      "y": -7.75,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.75,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -5,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -8,
+     "fy": -0.8
     },
     {
      "slot": 4,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -0.8
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -10989,6 +11606,8 @@
       "slot": 3,
       "x": -18,
       "y": -0.8,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true
      }
     ],
@@ -10997,7 +11616,11 @@
       "slot": 2,
       "x": 10,
       "y": -2.2,
-      "motionMan": true
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -11005,7 +11628,11 @@
       "slot": 5,
       "x": -10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -11013,8 +11640,11 @@
       "slot": 1,
       "x": 10,
       "y": -2.2,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -11022,8 +11652,11 @@
       "slot": 1,
       "x": -10,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -11031,6 +11664,8 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
+      "fx": 18,
+      "fy": -0.8,
       "motionMan": true
      }
     ]
@@ -11696,32 +12331,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.75,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.75,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 2.9,
      "y": -4.75,
      "flipAssign": 2,
-     "stance": "StanceType_2pt"
+     "fx": -2.9,
+     "fy": -4.75,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 10,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -11730,7 +12384,11 @@
       "slot": 4,
       "x": -11,
       "y": -2.2,
-      "motionMan": true
+      "fx": 9,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -11738,16 +12396,33 @@
       "slot": 2,
       "x": 18,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -4.75,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
      {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": -9,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -11755,8 +12430,23 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M2right": [
+     {
+      "slot": 3,
+      "x": -9,
+      "y": -0.8,
+      "fx": 11,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -11764,15 +12454,21 @@
       "slot": 4,
       "x": 9,
       "y": -0.8,
+      "fx": 9,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -11780,7 +12476,11 @@
       "slot": 2,
       "x": -2.9,
       "y": -4.75,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -11788,8 +12488,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -12402,33 +13105,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.75,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.75,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -3,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -3,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": -7,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 7,
      "y": -2.2,
-     "flipAssign": 2,
-     "stance": "StanceType_2pt"
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.2,
      "flipAssign": 5,
-     "stance": "StanceType_3pt"
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -12437,13 +13158,21 @@
       "slot": 4,
       "x": 10,
       "y": -2.2,
-      "motionMan": false
+      "fx": -10,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -12451,8 +13180,11 @@
       "slot": 1,
       "x": -11,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -12460,7 +13192,11 @@
       "slot": 3,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 11,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -12468,7 +13204,11 @@
       "slot": 4,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 11,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -12476,7 +13216,11 @@
       "slot": 4,
       "x": -11,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -12484,15 +13228,21 @@
       "slot": 4,
       "x": 10,
       "y": -0.8,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -12500,7 +13250,11 @@
       "slot": 2,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -12508,8 +13262,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 11,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -13302,31 +14059,51 @@
      "slot": 1,
      "x": 0,
      "y": -7.75,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 0,
+     "fy": -7.75,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 6.677,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": -6.677,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 3,
      "x": -18,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 3,
+     "fx": 18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": -10,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": 10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.5,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -1.5,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -13335,13 +14112,21 @@
       "slot": 2,
       "x": 5,
       "y": -2.2,
-      "motionMan": false
+      "fx": -5,
+      "fy": -1.5,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      },
      {
       "slot": 5,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -13349,15 +14134,33 @@
       "slot": 2,
       "x": 5,
       "y": -1.5,
+      "fx": -5,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_3pt"
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -1.6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M4left": [
+     {
+      "slot": 3,
+      "x": -18,
+      "y": -0.8,
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -13365,8 +14168,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -13374,7 +14180,11 @@
       "slot": 3,
       "x": -8,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -13382,8 +14192,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -13391,7 +14204,11 @@
       "slot": 2,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -13399,7 +14216,11 @@
       "slot": 2,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -13407,8 +14228,11 @@
       "slot": 4,
       "x": -2.9,
       "y": -4.75,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -13416,7 +14240,11 @@
       "slot": 4,
       "x": 10,
       "y": -2.2,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -4.75,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -14161,31 +14989,51 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -11,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -5,
+     "fy": -1,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_3pt"
     },
     {
      "slot": 2,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 5,
+     "fx": 7,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": -7,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 5,
      "y": -1,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 11,
+     "fy": -2.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -14194,7 +15042,11 @@
       "slot": 3,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -14202,7 +15054,11 @@
       "slot": 3,
       "x": 10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -5,
+      "fy": -1,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      }
     ],
     "M4right": [
@@ -14210,8 +15066,11 @@
       "slot": 1,
       "x": 9,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -14219,7 +15078,11 @@
       "slot": 5,
       "x": 9,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -14227,7 +15090,21 @@
       "slot": 5,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 4,
+      "x": 5,
+      "y": -1,
+      "fx": 9,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -14235,7 +15112,11 @@
       "slot": 2,
       "x": -18,
       "y": -0.8,
-      "motionMan": true
+      "fx": -9,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -14243,15 +15124,21 @@
       "slot": 3,
       "x": -9,
       "y": -0.8,
+      "fx": -5,
+      "fy": -1,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_3pt"
      },
      {
       "slot": 2,
       "x": 10,
       "y": -2.2,
+      "fx": 18,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -14259,7 +15146,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -9,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -14267,7 +15158,23 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M2left": [
+     {
+      "slot": 4,
+      "x": 5,
+      "y": -1,
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_3pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -14625,18 +15532,8 @@
     {
      "name": "RPO Flat",
      "asset": "FUS_RPO_Flat",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/Reload_RPO_Zone_Alert_Bubble",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Ace/Mtn_RPO_Alert_Y_Flat",
      "players": {
-      "1": {
-       "new": "FUSION/R_bdb725e9bb",
-       "template": "Halfback/OFP_HBatZ_Automotion_ReloadLt_SG_H7_Backstep_Hand_Precan_27_4",
-       "keep": -1,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": []
-      },
       "2": "Blocking/RunBlock_All",
       "3": "Blocking/RunBlock_All",
       "4": "Blocking/RunBlock_All",
@@ -15662,18 +16559,8 @@
     {
      "name": "RZ JF RPO Bullet",
      "asset": "FUS_RZ_JF_RPO_Bullet",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/Reload_RPO_Zone_Alert_Bubble",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Ace/Mtn_RPO_Alert_Y_Flat",
      "players": {
-      "1": {
-       "new": "FUSION/R_bdb725e9bb",
-       "template": "Halfback/OFP_HBatZ_Automotion_ReloadLt_SG_H7_Backstep_Hand_Precan_27_4",
-       "keep": -1,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": []
-      },
       "2": "Blocking/RunBlock_All",
       "3": {
        "new": "FUSION/R_df60530e73",
@@ -15787,7 +16674,7 @@
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.7,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -15999,31 +16886,51 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -11,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 3,
+     "fx": 11,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 2,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -16032,8 +16939,23 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 7,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M2right": [
+     {
+      "slot": 2,
+      "x": -9,
+      "y": -0.8,
+      "fx": 7,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -16041,7 +16963,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -16049,15 +16975,21 @@
       "slot": 4,
       "x": 9,
       "y": -0.8,
+      "fx": 9,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -16065,15 +16997,33 @@
       "slot": 3,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
      {
+      "slot": 2,
+      "x": -9,
+      "y": -0.8,
+      "fx": -9,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -16081,7 +17031,11 @@
       "slot": 4,
       "x": -7,
       "y": -2.2,
-      "motionMan": true
+      "fx": 9,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -16089,8 +17043,11 @@
       "slot": 1,
       "x": -7,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -16098,7 +17055,11 @@
       "slot": 3,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -16106,8 +17067,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -16314,7 +17278,7 @@
     {
      "name": "Jet Touch Pass",
      "asset": "FUS_Jet_Touch_Pass",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Empty_Ace/Jet_Touch_Pass"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles/Jet_Touch_Pass"
     },
     {
      "name": "SC DZ",
@@ -18603,33 +19567,51 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -11,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 11,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -18,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -2.2,
-     "flipAssign": 4,
-     "stance": "StanceType_2pt"
+     "flipAssign": 3,
+     "fx": 18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.2,
      "flipAssign": 5,
-     "stance": "StanceType_3pt"
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -18638,8 +19620,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -18647,15 +19632,21 @@
       "slot": 2,
       "x": -11,
       "y": -0.8,
+      "fx": -7.5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 3,
       "x": -18,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -18663,15 +19654,21 @@
       "slot": 4,
       "x": 10,
       "y": -0.8,
+      "fx": 18,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -18679,15 +19676,33 @@
       "slot": 3,
       "x": -9,
       "y": -0.8,
-      "motionMan": true
+      "fx": 7,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
      {
+      "slot": 3,
+      "x": -18,
+      "y": -0.8,
+      "fx": -11,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 18,
       "y": -0.8,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -18695,7 +19710,11 @@
       "slot": 4,
       "x": -7,
       "y": -2.2,
-      "motionMan": true
+      "fx": 9,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -18703,8 +19722,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -18712,7 +19734,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -18720,8 +19746,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -18729,13 +19758,21 @@
       "slot": 2,
       "x": 7.5,
       "y": -2.2,
-      "motionMan": true
+      "fx": 11,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 4,
       "x": 10,
       "y": -2.2,
-      "motionMan": false
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -21733,33 +22770,51 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": -20,
      "y": -2.2,
      "flipAssign": 5,
-     "stance": "StanceType_2pt"
+     "fx": 20,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -14,
      "y": -0.8,
-     "flipAssign": 2,
-     "stance": "StanceType_2pt"
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": 14,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -21768,8 +22823,23 @@
       "slot": 1,
       "x": 9,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M2left": [
+     {
+      "slot": 2,
+      "x": -14,
+      "y": -0.8,
+      "fx": -9,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -21777,7 +22847,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -9,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -21785,7 +22859,11 @@
       "slot": 5,
       "x": -11,
       "y": -2.2,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -21793,8 +22871,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -20,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -21802,7 +22883,23 @@
       "slot": 3,
       "x": 9,
       "y": -2.2,
-      "motionMan": true
+      "fx": 14,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M4left": [
+     {
+      "slot": 4,
+      "x": 5,
+      "y": -1.2,
+      "fx": -20,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -21810,13 +22907,21 @@
       "slot": 5,
       "x": -12,
       "y": -2.2,
-      "motionMan": false
+      "fx": 20,
+      "fy": -2.2,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": -10,
       "y": -0.8,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -21824,8 +22929,11 @@
       "slot": 1,
       "x": 20,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3left": [
@@ -21833,8 +22941,11 @@
       "slot": 3,
       "x": -2.9,
       "y": -6,
+      "fx": 10,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -21842,18 +22953,8 @@
     {
      "name": "RPO Flat",
      "asset": "FUS_RPO_Flat",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/Reload_RPO_Zone_Alert_Bubble",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Ace/Mtn_RPO_Alert_Y_Flat",
      "players": {
-      "1": {
-       "new": "FUSION/R_bdb725e9bb",
-       "template": "Halfback/OFP_HBatZ_Automotion_ReloadLt_SG_H7_Backstep_Hand_Precan_27_4",
-       "keep": -1,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": []
-      },
       "2": "Blocking/RunBlock_All",
       "3": {
        "new": "FUSION/R_0ba0a99949",
@@ -23262,33 +24363,51 @@
      "slot": 1,
      "x": -2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 2,
-     "stance": "StanceType_2pt"
+     "flipAssign": 5,
+     "fx": -9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -16,
      "y": -2.2,
-     "flipAssign": 3,
-     "stance": "StanceType_2pt"
+     "flipAssign": 4,
+     "fx": -16,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 16,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 16,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 9,
      "y": -0.8,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -23297,7 +24416,11 @@
       "slot": 3,
       "x": -8,
       "y": -2.2,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -23305,7 +24428,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -23313,15 +24440,21 @@
       "slot": 2,
       "x": -10,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 3,
       "x": -16,
       "y": -0.8,
+      "fx": -16,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -23329,8 +24462,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -23338,15 +24474,21 @@
       "slot": 4,
       "x": 16,
       "y": -0.8,
+      "fx": 16,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": 9,
       "y": -2.2,
+      "fx": 9,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -23354,7 +24496,11 @@
       "slot": 4,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -24878,31 +26024,51 @@
      "slot": 1,
      "x": -2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -10,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -18,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -18,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 18,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -1.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -1.2,
+     "stance": "StanceType_3pt",
+     "fstance": "StanceType_3pt"
     }
    ],
    "presets": {
@@ -24911,15 +26077,21 @@
       "slot": 2,
       "x": -10,
       "y": -0.8,
+      "fx": -8,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 3,
       "x": -18,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -24927,16 +26099,33 @@
       "slot": 1,
       "x": 8,
       "y": -2.2,
+      "fx": 7,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
      {
+      "slot": 3,
+      "x": -18,
+      "y": -0.8,
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 10,
       "y": -0.8,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -24944,7 +26133,21 @@
       "slot": 2,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 10,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 4,
+      "x": 18,
+      "y": -2.2,
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -24952,8 +26155,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -24961,7 +26167,11 @@
       "slot": 4,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -24969,15 +26179,21 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
+      "fx": 18,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -10,
+      "fy": -1.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -24985,7 +26201,11 @@
       "slot": 3,
       "x": -8,
       "y": -0.8,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -24993,8 +26213,11 @@
       "slot": 1,
       "x": -7,
       "y": -2.2,
+      "fx": -8,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -25002,7 +26225,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -27702,33 +28929,50 @@
      "x": 10,
      "y": -2.2,
      "flipAssign": 1,
-     "stance": "StanceType_2pt"
+     "fx": -10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 6,
      "y": -2.2,
      "flipAssign": 5,
-     "stance": "StanceType_2pt"
+     "fx": -6,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -10,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 4,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 4,
-     "stance": "StanceType_2pt"
+     "flipAssign": 2,
+     "fx": 10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -18,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 3,
+     "fx": 18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -27737,7 +28981,11 @@
       "slot": 2,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -8,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -27745,8 +28993,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
+      "fx": -2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -27754,7 +29005,11 @@
       "slot": 3,
       "x": -8,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -27762,7 +29017,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 7,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -27770,8 +29029,23 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M3left": [
+     {
+      "slot": 3,
+      "x": -18,
+      "y": -0.8,
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -27779,7 +29053,11 @@
       "slot": 5,
       "x": -7,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -27787,7 +29065,23 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M4left": [
+     {
+      "slot": 4,
+      "x": 8,
+      "y": -0.8,
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -27795,8 +29089,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -29304,31 +30601,51 @@
      "slot": 1,
      "x": -2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": -7,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 7,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -29337,7 +30654,11 @@
       "slot": 4,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -29345,7 +30666,11 @@
       "slot": 5,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -29353,15 +30678,43 @@
       "slot": 4,
       "x": 8,
       "y": -0.8,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": -10,
       "y": -2.2,
+      "fx": 8,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M3right": [
+     {
+      "slot": 4,
+      "x": 9,
+      "y": -2.2,
+      "fx": -8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 3,
+      "x": -8,
+      "y": -0.8,
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -29369,7 +30722,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
-      "motionMan": true
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -29377,7 +30734,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -29385,8 +30746,11 @@
       "slot": 1,
       "x": -10,
       "y": -2.2,
+      "fx": -2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -29394,7 +30758,11 @@
       "slot": 4,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -31442,31 +32810,50 @@
      "x": -5,
      "y": -2.2,
      "flipAssign": 1,
-     "stance": "StanceType_2pt"
+     "fx": 5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 9,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -9,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": -7,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 7,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -31475,7 +32862,11 @@
       "slot": 1,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -3,
+      "fy": -3.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -31483,8 +32874,11 @@
       "slot": 1,
       "x": 3,
       "y": -3.8,
+      "fx": 2,
+      "fy": -6.25,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -31492,7 +32886,11 @@
       "slot": 4,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -31500,7 +32898,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -31508,7 +32910,11 @@
       "slot": 5,
       "x": -10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -31516,15 +32922,21 @@
       "slot": 4,
       "x": 8,
       "y": -0.8,
+      "fx": -9,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": -10,
       "y": -2.2,
+      "fx": 8,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -31532,7 +32944,33 @@
       "slot": 4,
       "x": -10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M3right": [
+     {
+      "slot": 4,
+      "x": 9,
+      "y": -2.2,
+      "fx": -8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 3,
+      "x": -8,
+      "y": -0.8,
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -31540,8 +32978,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -31549,7 +32990,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -34198,31 +35643,49 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -10,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 5,
+     "fx": -10,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -18,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -18,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 18,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 10,
      "y": -0.8,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 10,
+     "fy": -2.2
     }
    ],
    "presets": {
@@ -34231,8 +35694,11 @@
       "slot": 1,
       "x": 5,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -34240,7 +35706,21 @@
       "slot": 2,
       "x": 12,
       "y": -2.2,
-      "motionMan": true
+      "fx": -10,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 3,
+      "x": -18,
+      "y": -0.8,
+      "fx": -18,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -34248,15 +35728,21 @@
       "slot": 4,
       "x": 18,
       "y": -0.8,
+      "fx": 18,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": -5,
       "y": -2.2,
+      "fx": -5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -34264,7 +35750,21 @@
       "slot": 4,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 5,
+      "x": 10,
+      "y": -0.8,
+      "fx": 10,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -34272,15 +35772,21 @@
       "slot": 2,
       "x": -10,
       "y": -0.8,
+      "fx": -16,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 3,
       "x": -18,
       "y": -2.2,
+      "fx": -18,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -34288,8 +35794,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -12,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -34297,8 +35806,11 @@
       "slot": 1,
       "x": 12,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -34306,15 +35818,33 @@
       "slot": 3,
       "x": -8,
       "y": -0.8,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
      {
+      "slot": 4,
+      "x": 18,
+      "y": -2.2,
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 5,
       "x": 16,
       "y": -0.8,
-      "motionMan": true
+      "fx": 10,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -34322,7 +35852,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -34489,16 +36023,54 @@
     {
      "name": "PA Y Dig",
      "asset": "FUS_PA_Y_Dig",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex/Fake_Jet_HB_Wheel",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex/PA_Curls",
      "players": {
       "1": {
-       "new": "FUSION/R_3df63ba324",
+       "new": "FUSION/R_c89df1d451",
        "routeType": "AssignRouteType_RR_Drag",
+       "keep": 3,
+       "template": "Halfback/SG_HB_EvenRt_Hand_PA_HBFlatLt_26_32",
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
          "type": "RunRoute",
          "distance": 13,
          "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "GetOpen"
+        }
+       ]
+      },
+      "2": {
+       "new": "FUSION/R_4b02692712",
+       "routeType": "AssignRouteType_RR_Post_Deep",
+       "steps": [
+        {
+         "type": "RunRoute",
+         "distance": 6.25,
+         "direction": 70.31,
+         "speed": 100
+        },
+        {
+         "type": "RunRoute",
+         "distance": 6.88,
+         "direction": 87.19,
+         "speed": 100
+        },
+        {
+         "type": "ReceiverCut",
+         "direction": "RECEIVER_CUT_DIR_RIGHT",
+         "cutType": "RECEIVER_CUT_ANGLE_22"
+        },
+        {
+         "type": "RunRoute",
+         "distance": 30,
+         "direction": 59.06,
          "speed": 100
         },
         {
@@ -35928,16 +37500,61 @@
     {
      "name": "PA Cross Y Wheel",
      "asset": "FUS_PA_Cross_Y_Wheel",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex/Fake_Jet_HB_Wheel",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex/PA_Curls",
      "players": {
       "1": {
-       "new": "FUSION/R_3df63ba324",
+       "new": "FUSION/R_c89df1d451",
        "routeType": "AssignRouteType_RR_Drag",
+       "keep": 3,
+       "template": "Halfback/SG_HB_EvenRt_Hand_PA_HBFlatLt_26_32",
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
          "type": "RunRoute",
          "distance": 13,
          "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "GetOpen"
+        }
+       ]
+      },
+      "2": {
+       "new": "FUSION/R_5b63761da8",
+       "routeType": "AssignRouteType_RR_In_Deep",
+       "steps": [
+        {
+         "type": "RunRoute",
+         "distance": 0.13,
+         "direction": 90,
+         "speed": 100
+        },
+        {
+         "type": "RunRoute",
+         "distance": 1,
+         "direction": 78.75,
+         "speed": 100
+        },
+        {
+         "type": "RunRoute",
+         "distance": 6.25,
+         "direction": 59.06,
+         "speed": 100
+        },
+        {
+         "type": "RunRoute",
+         "distance": 7.5,
+         "direction": 36.56,
+         "speed": 100
+        },
+        {
+         "type": "RunRoute",
+         "distance": 25,
+         "direction": 16.879999999999995,
          "speed": 100
         },
         {
@@ -36094,31 +37711,51 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": -8,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": 8,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -11,
      "y": -2.2,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 18,
      "y": -0.8,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 11,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -18,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 18,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -36127,7 +37764,11 @@
       "slot": 2,
       "x": -9.5,
       "y": -0.8,
-      "motionMan": true
+      "fx": 18,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -36135,8 +37776,11 @@
       "slot": 1,
       "x": 10,
       "y": -2.2,
+      "fx": 5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -36144,7 +37788,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -36152,15 +37800,45 @@
       "slot": 5,
       "x": 10,
       "y": -2.2,
-      "motionMan": true
+      "fx": 2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M2left": [
+     {
+      "slot": 2,
+      "x": -18,
+      "y": -0.8,
+      "fx": 9.5,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
      {
+      "slot": 5,
+      "x": -8,
+      "y": -2.2,
+      "fx": 8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
       "slot": 4,
       "x": 8,
       "y": -0.8,
-      "motionMan": true
+      "fx": -8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -36168,8 +37846,11 @@
       "slot": 5,
       "x": -2.9,
       "y": -6,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -36177,8 +37858,11 @@
       "slot": 1,
       "x": -5,
       "y": -2.2,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M3right": [
@@ -36186,7 +37870,11 @@
       "slot": 3,
       "x": 8,
       "y": -2.2,
-      "motionMan": true
+      "fx": -8,
+      "fy": -0.8,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -36194,8 +37882,11 @@
       "slot": 1,
       "x": 5,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -37940,31 +39631,49 @@
      "slot": 1,
      "x": -2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 10,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 18,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -18,
+     "fy": -2.2
     }
    ],
    "presets": {
@@ -37973,7 +39682,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -37981,8 +39694,11 @@
       "slot": 4,
       "x": 2.9,
       "y": -6,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -37990,7 +39706,11 @@
       "slot": 5,
       "x": 6,
       "y": -2.2,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -37998,8 +39718,9 @@
       "slot": 5,
       "x": 2.9,
       "y": -6,
-      "motionMan": true,
-      "stance": "StanceType_2pt"
+      "fx": -6,
+      "fy": -2.2,
+      "motionMan": true
      }
     ],
     "M1left": [
@@ -38007,8 +39728,11 @@
       "slot": 1,
       "x": -18,
       "y": -2.2,
+      "fx": -2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -38016,7 +39740,11 @@
       "slot": 4,
       "x": -10,
       "y": -2.2,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -40826,33 +42554,51 @@
      "slot": 1,
      "x": 18,
      "y": -2.2,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -18,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -10,
      "y": -0.8,
-     "flipAssign": 2,
-     "stance": "StanceType_2pt"
+     "flipAssign": 5,
+     "fx": -12.5,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -18,
      "y": -2.2,
-     "flipAssign": 3,
-     "stance": "StanceType_2pt"
+     "flipAssign": 4,
+     "fx": -8,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 8,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 18,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 12.5,
      "y": -0.8,
-     "flipAssign": 5
+     "flipAssign": 2,
+     "fx": 10,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -40861,7 +42607,11 @@
       "slot": 3,
       "x": -8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -40869,7 +42619,11 @@
       "slot": 1,
       "x": 10.25,
       "y": -2.2,
-      "motionMan": true
+      "fx": -2.9,
+      "fy": -6,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -40877,7 +42631,11 @@
       "slot": 4,
       "x": -8,
       "y": -2.2,
-      "motionMan": true
+      "fx": 8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -40885,15 +42643,21 @@
       "slot": 2,
       "x": -10,
       "y": -2.2,
+      "fx": -12.5,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 3,
       "x": -18,
       "y": -0.8,
+      "fx": -8,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -40901,7 +42665,11 @@
       "slot": 1,
       "x": -8,
       "y": -2.2,
-      "motionMan": true
+      "fx": -5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -40909,15 +42677,21 @@
       "slot": 4,
       "x": 8,
       "y": -0.8,
+      "fx": 18,
+      "fy": -0.8,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 5,
       "x": 12.5,
       "y": -2.2,
+      "fx": 10,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -40925,7 +42699,11 @@
       "slot": 1,
       "x": 5,
       "y": -2.2,
-      "motionMan": true
+      "fx": 8,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -40933,8 +42711,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
+      "fx": -10.25,
+      "fy": -2.2,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -43132,31 +44913,51 @@
      "slot": 1,
      "x": -2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": 2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": -11,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 2,
+     "fx": 11,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -9,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 4,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 4
+     "flipAssign": 3,
+     "fx": 9,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -43165,8 +44966,11 @@
       "slot": 1,
       "x": -7,
       "y": -2.2,
+      "fx": -2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2right": [
@@ -43174,7 +44978,11 @@
       "slot": 2,
       "x": 9.5,
       "y": -2.2,
-      "motionMan": true
+      "fx": 18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -43182,7 +44990,11 @@
       "slot": 2,
       "x": -18,
       "y": -2.2,
-      "motionMan": true
+      "fx": -9.5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1right": [
@@ -43190,7 +45002,11 @@
       "slot": 1,
       "x": 2.9,
       "y": -6,
-      "motionMan": true
+      "fx": 7,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -43198,7 +45014,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -43206,7 +45026,11 @@
       "slot": 5,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -45240,31 +47064,51 @@
      "slot": 1,
      "x": 2.9,
      "y": -6,
-     "flipAssign": 1
+     "flipAssign": 1,
+     "fx": -2.9,
+     "fy": -6,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 4,
      "x": 10,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -10,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -8,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": -8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 8,
      "y": -0.8,
-     "flipAssign": 2
+     "flipAssign": 3,
+     "fx": 8,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 5,
      "y": -2.2,
-     "flipAssign": 5
+     "flipAssign": 5,
+     "fx": -5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {
@@ -45273,8 +47117,11 @@
       "slot": 1,
       "x": 18,
       "y": -2.2,
+      "fx": 2.9,
+      "fy": -6,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4right": [
@@ -45282,7 +47129,11 @@
       "slot": 4,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -45290,7 +47141,11 @@
       "slot": 4,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -45298,15 +47153,21 @@
       "slot": 4,
       "x": 8,
       "y": -0.8,
+      "fx": -10,
+      "fy": -2.2,
       "motionMan": false,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      },
      {
       "slot": 2,
       "x": -5,
       "y": -2.2,
+      "fx": 8,
+      "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt"
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -45314,7 +47175,33 @@
       "slot": 5,
       "x": -5,
       "y": -2.2,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     }
+    ],
+    "M3right": [
+     {
+      "slot": 4,
+      "x": 10,
+      "y": -2.2,
+      "fx": -8,
+      "fy": -0.8,
+      "motionMan": false,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
+     },
+     {
+      "slot": 3,
+      "x": -8,
+      "y": -0.8,
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M5right": [
@@ -45322,7 +47209,11 @@
       "slot": 5,
       "x": 18,
       "y": -2.2,
-      "motionMan": true
+      "fx": 5,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -45330,7 +47221,11 @@
       "slot": 1,
       "x": -2.9,
       "y": -6,
-      "motionMan": true
+      "fx": -18,
+      "fy": -2.2,
+      "motionMan": true,
+      "stance": "StanceType_2pt",
+      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -47214,33 +49109,51 @@
      "slot": 4,
      "x": 20,
      "y": -2.2,
-     "flipAssign": 4
+     "flipAssign": 4,
+     "fx": -20,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 5,
      "x": 7.5,
      "y": -2.2,
      "flipAssign": 5,
-     "stance": "StanceType_2pt"
+     "fx": -7.5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 3,
      "x": -10,
      "y": -0.8,
-     "flipAssign": 3
+     "flipAssign": 2,
+     "fx": -12.5,
+     "fy": -2.2,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 2,
      "x": 12.5,
      "y": -2.2,
-     "flipAssign": 2
+     "flipAssign": 3,
+     "fx": 10,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     },
     {
      "slot": 1,
      "x": 10,
      "y": -0.8,
      "flipAssign": 1,
-     "stance": "StanceType_2pt"
+     "fx": -10,
+     "fy": -0.8,
+     "stance": "StanceType_2pt",
+     "fstance": "StanceType_2pt"
     }
    ],
    "presets": {},

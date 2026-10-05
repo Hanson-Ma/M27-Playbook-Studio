@@ -218,6 +218,7 @@ const qbInfo24 = p => {
   return { anim: h ? `${h.val1}/${h.val2}` : null, rollout: !!(h && drop && drop.val2 !== 0) };
 };
 const tokensOf = name => name.split(" ");
+const runPlayKind = kind => kind === "run" || kind === "option" || kind === "touch";
 
 // ---------- base play search ----------
 // Tiers of sets whose plays can be cloned into our custom set: the base set, sets with the same player type in every
@@ -246,7 +247,10 @@ function carriersFit(q, custom) {
   }
   return true;
 }
+let preferClean = null; // set per play: candidates without motions the M24 play doesn't have
 function search(tiers, accept, rankers = []) {
+  // a clean base from any tier beats one that brings along a motion the M24 play doesn't have
+  if (preferClean) { const clean = preferClean; preferClean = null; const q = search(tiers, q => accept(q) && clean(q), rankers); preferClean = clean; if (q) return q; }
   for (const tier of tiers) {
     const cand = [];
     for (const s of tier) for (const q of playsBySet.get(s.asset) ?? []) if (accept(q)) cand.push(q);
@@ -306,6 +310,12 @@ function findBase(p, kind, info, custom, hbShift, slotOf) {
     if (q) return { q, how: `same handoff ${anim}, no name match` };
     q = search(tiers, q => runLike(q) && fit(q), [q => ptVal(q) === p.plyt]);
     if (q) return { q, how: "play type only" };
+    // next: a same-named play whose carrier is a nearby teammate of the same type on the same side (never the back)
+    if (carrier24) {
+      const c = custom[slotOf[carrier24]];
+      const near = q => { const j = [1, 2, 3, 4, 5].find(j => takesBall(q, j)); return j && typeOf27(custom[j].pos) === typeOf27(c.pos) && Math.sign(custom[j].x) === Math.sign(c.x) && dist(custom[j], c) <= 3; };
+      for (const r of named) { q = search(tiers, q => runLike(q) && near(q) && r(q)); if (q) return { q, how: "name; ball carrier is the teammate next to the M24 one" }; }
+    }
     // last resort: a same-named play with a different ball carrier
     for (const r of named) { q = search(tiers, q => runLike(q) && carriersFit(q, custom) && r(q)); if (q) return { q, how: "name; DIFFERENT BALL CARRIER than M24" }; }
     return null;
@@ -388,6 +398,17 @@ function situational(kind, name, form, depth, entry) {
   return Object.fromEntries(Object.entries(w).sort((x, y) => y[1] - x[1]).slice(0, 6));
 }
 
+// M24 stance codes (SETG anm/fanm): 1 two-point, 2 three-point, 3 two-point (flex/wing look)
+const stance24 = a => ({ 1: "StanceType_2pt", 2: "StanceType_3pt", 3: "StanceType_2pt" })[a] ?? null;
+// Flip partner: M24 flipped spots are partner swaps (X<->Z): the player whose mirrored spot is my flipped spot.
+function flipPartner(norm24, i) {
+  const me = norm24.find(z => z.poso === i);
+  const hit = k => { const o = norm24.find(z => z.poso === k); return o && Math.abs(-o.x - me.fx) < 0.05 && Math.abs(o.y - me.fy) < 0.05; };
+  if (hit(i)) return i;
+  return [1, 2, 3, 4, 5].find(hit) ?? i;
+}
+const same = (a, b) => Math.abs(a - b) < 0.05;
+
 // ---------- M24 motion presets -> M27 ----------
 function portPresets(setl, norm24, slotOf, custom) {
   const out = {};
@@ -397,12 +418,14 @@ function portPresets(setl, norm24, slotOf, custom) {
     const k = +m[1]; if (k < 1 || k > 5) continue;
     const dir = m[2].startsWith("l") ? "left" : "right";
     const at = modAlign(setl, name);
-    const movers = at.filter(q => q.poso >= 1 && q.poso <= 5 && q.x !== null).filter(q => { const o = norm24.find(z => z.poso === q.poso); return o && dist(o, q) > 0.05; });
+    // a preset entry matters when the player moves in the normal OR the flipped play (some FUSION presets only move on a flip)
+    const movers = at.filter(q => q.poso >= 1 && q.poso <= 5 && q.x !== null).filter(q => { const o = norm24.find(z => z.poso === q.poso); return o && !(same(o.x, q.x) && same(o.y, q.y) && same(o.fx, q.fx) && same(o.fy, q.fy)); });
     if (!movers.length) continue;
     const entries = movers.map(q => {
-      const j = slotOf[q.poso], from = custom[j];
-      const e = { slot: j, x: q.x, y: q.y, motionMan: q.poso === k };
-      if (spotClass(q) !== spotClass(from)) e.stance = typeOf27(from.pos) === "E" && spotClass(q) === "LINE" && Math.abs(q.x) < 7.5 ? "StanceType_3pt" : "StanceType_2pt";
+      const j = slotOf[q.poso];
+      const e = { slot: j, x: q.x, y: q.y, fx: q.fx, fy: q.fy, motionMan: q.poso === k };
+      if (stance24(q.anm)) e.stance = stance24(q.anm);
+      if (stance24(q.fanm)) e.fstance = stance24(q.fanm);
       return e;
     });
     if (!entries.some(e => e.motionMan)) entries[0].motionMan = true;
@@ -439,8 +462,10 @@ for (const f of F) {
     const positions = [];
     for (let i = 1; i <= 5; i++) {
       const j = slotOf[i], src = m24[i], b = n[j];
-      const pos = { slot: j, x: src.x, y: src.y, flipAssign: j };
-      if (dist(src, b) > 0.05 && spotClass(src) !== spotClass(b)) pos.stance = typeAt(j) === "E" && spotClass(src) === "LINE" && Math.abs(src.x) < 7.5 ? "StanceType_3pt" : "StanceType_2pt";
+      // M24's own stance and flipped spot (partner swaps like X<->Z, not always a mirror of himself)
+      const pos = { slot: j, x: src.x, y: src.y, flipAssign: slotOf[flipPartner(m24, i)], fx: src.fx, fy: src.fy };
+      if (stance24(src.anm)) pos.stance = stance24(src.anm);
+      if (stance24(src.fanm)) pos.fstance = stance24(src.fanm);
       custom[j] = { ...b, x: src.x, y: src.y };
       positions.push(pos);
     }
@@ -465,7 +490,11 @@ for (const f of F) {
       // a shifted back only steers the search when he takes the handoff (PM); Tush Push backs just push
       const hbShift = chainOf(1).some(x => x.code === 58) ? shiftOf(chainOf(1)) : null;
 
+      const m24MotionSlots = new Set([1, 2, 3, 4, 5].filter(i => hasMotion(chainOf(i))).map(i => slotOf[i]));
+      // players with M27 mechanics are kept as-is, so their built-in motion would survive: avoid bases that add one
+      preferClean = q => [1, 2, 3, 4, 5].every(j => m24MotionSlots.has(j) || !(hasMotion27(q.assignments[j]) && (hasHandoff(q.assignments[j]) || runPlayKind(kind))));
       const found = findBase(p, kind, best, custom, hbShift, slotOf);
+      preferClean = null;
       if (!found) { warn(`no M27 base play found, dropped`); continue; }
       const { q: base, how } = found;
       const { anim } = qbInfo24(p);
@@ -556,6 +585,11 @@ for (const f of F) {
       const finalA = j => players[j] ?? base.assignments[j];
       const motionSlots = [1, 2, 3, 4, 5].filter(j => { const a = finalA(j); return typeof a === "object" ? a.steps.some(x => x.type === "AutoMotion") || (a.keep === -1 && hasMotion27(AROOT + a.template)) : hasMotion27(typeof a === "string" && !a.startsWith("football") ? AROOT + a : a); });
       const issues = [];
+      // an M27 motion that survived on a player whose M24 chain has none (or a different one)
+      const stock27 = [1, 2, 3, 4, 5].filter(j => { const a = finalA(j); const asset = typeof a === "object" ? (a.keep === -1 ? AROOT + a.template : null) : (typeof a === "string" && !a.startsWith("football") ? AROOT + a : a); return asset && hasMotion27(asset); });
+      const m24Motion = new Set([1, 2, 3, 4, 5].filter(i => hasMotion(chainOf(i))).map(i => slotOf[i]));
+      const foreign = stock27.filter(j => !m24Motion.has(j));
+      if (foreign.length) issues.push(`M27 motion kept on slot ${foreign.join(",")}`);
       const shifted = Object.values(players).some(a => typeof a === "object" && (a.prepend?.length || a.steps?.some(x => x.type === "OverrideFormPos")));
       if (toks.some(t => /^(J[WFRB]?|YM|EM|YEM|BM|RM|HBM)$/.test(t)) && !motionSlots.length && !shifted) issues.push("no motion");
       if (toks.includes("PM") && !Object.values(players).some(a => typeof a === "object" && (a.prepend?.length || a.steps?.some(x => x.type === "OverrideFormPos")))) issues.push("no pre-motion shift");
