@@ -5,3 +5,7 @@ dist/
 # guide build outputs (regenerate with npm run guide; the served PDF lives in public/guide/)
 docs/guide/guide.html
 docs/guide/Playbook-Studio-Guide.pdf
+
+# copy of the live site downloaded from the server (website_2ccd46b0), for reference
+_live-snapshot/
+.env.local
