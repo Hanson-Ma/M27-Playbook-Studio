@@ -1,4 +1,4 @@
-__FUSION OFFENSE - MADDEN 27 PORT (v2.0.0, test build)__
+__FUSION OFFENSE - MADDEN 27 PORT (v2.1.0, test build)__
 
 Ported from the Madden 24 FUSION mod (hansonma.org/projects/fusion).
 Offline only.
@@ -26,6 +26,21 @@ __HOW TO INSTALL__
 4. Pick FUSION as your custom offense before an OFFLINE game.
 
 
+__v2.1 (test build 2)__
+
+- Custom sets now show up (set ids were misregistered in v2.0, so the game showed stock sets).
+- Motions use the M24 targets: jet motions cross to the QB and continue across at the snap (JW/JF/JR/JB),
+  burst/exit/return/Y motions as designed.
+- Your M24 motion presets for every set (M1-M5 left/right, SM1), so FM/FME/FMH/FMO plays motion where you set them.
+- PA, boots, RPOs and runs take their QB/HB mechanics from an M27 play with the same handoff animation as M24:
+  every boot rolls the same way as in M24, and RPOs mesh on the exact QB/HB spots (one or two pass options).
+- PM plays start with the back pre-shifted to the other side; Tush Push stacks both backs behind the QB.
+- Cloned M27 plays no longer shift your players before the snap (the jet sweep realignment).
+- "P" plays get a pulling guard.
+- Situational play calling for every play (red zone for RZ, short yardage, 3rd & long, 2-minute, goal line, Hail Mary).
+- Home menu order: Singleback, I-Form, Pistol, Shotgun, Goal Line, Hail Mary, Special Teams.
+
+
 __WHAT CARRIED OVER__
 
 - All 29 offensive sets with their M24 alignments (Empty Flex, Close Y-Off, Stack, Trey Row, ...), under the same formations.
@@ -33,12 +48,14 @@ __WHAT CARRIED OVER__
   at-snap motions (JW / JF / YM / FM / BM ...), the red route and the read progression.
 - Runs and options: the closest Madden 27 play (HB Stretch, Inside Zone Split, Power O, Read Option, Jet Sweep, ...),
   cloned into your set. M24 motion fakes on runs were kept where the M27 play had none.
-- Audibles (125) and CPU play-call weights.
+- Audibles (125) and situational play calling.
 - Special teams, kickoffs and safety kicks are the stock Madden 27 ones.
 
 
 __KNOWN LIMITS__
 
-- QB drops, play-action fakes and RPO reads come from a Madden 27 play of the same kind, so a boot may roll the other way.
+- 24 of 156 PA/RPO/run plays use an M24 handoff that M27 doesn't have; they use the closest M27 play with the
+  same name and an exact backfield fit (listed in port-report.md, "Terminology audit").
+- One Jet Touch Pass (Empty set) has no M27 version with the same ball carrier.
 - "IGNORE" (Bingo Cross) and the M24 custom kickoffs/punts were left out.
 - Some sets had two plays on the same audible slot in M24; the second one lost its audible.

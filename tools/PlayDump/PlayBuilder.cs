@@ -157,11 +157,24 @@ namespace PlayDump
             if (s["routeType"] != null) SetEnum(root, "routeType", (string)s["routeType"]);
 
             List<PointerRef> chain = root.positionAssignment;
+            // "drop": step types removed from the template first (e.g. ["OverrideFormPos"] so a cloned play keeps our alignment)
+            var dropTypes = new HashSet<string>(((JArray)s["drop"] ?? new JArray()).Select(t => (string)t + "Assignment"));
+            foreach (PointerRef p in chain.Where(p => p.Type == PointerRefType.Internal && dropTypes.Contains(p.Internal.GetType().Name)).ToList())
+            {
+                pad.RemoveObject(p.Internal);
+                chain.Remove(p);
+            }
+            // "keep": first N template steps (-1 = every step before the terminating None)
             int keep = (int?)s["keep"] ?? 0;
+            if (keep < 0) keep = chain.Count - (chain.Count > 0 && chain.Last().Internal.GetType().Name == "NoneAssignment" ? 1 : 0);
             foreach (PointerRef dropped in chain.Skip(keep).ToList()) pad.RemoveObject(dropped.Internal);
             chain.RemoveRange(keep, chain.Count - keep);
-            foreach (JObject step in s["steps"].Concat(new[] { new JObject { ["type"] = "None" } }))
+            foreach (JObject step in ((JArray)s["steps"] ?? new JArray()).Concat(new[] { new JObject { ["type"] = "None" } }))
                 chain.Add(new PointerRef(NewStep(pad, step)));
+            // "prepend": steps placed before everything else (e.g. an OverrideFormPos pre-snap realignment)
+            int at = 0;
+            foreach (JObject step in (JArray)s["prepend"] ?? new JArray())
+                chain.Insert(at++, new PointerRef(NewStep(pad, step)));
 
             EbxAssetEntry entry = AddAsset(name, pad, template);
             Console.Error.WriteLine($"  assignment {name} (id {root.positionAssignId}, {chain.Count} steps)");

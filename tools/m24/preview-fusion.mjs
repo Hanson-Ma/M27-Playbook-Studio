@@ -14,8 +14,9 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
 function stepsFor(entry, slot, src) {
   const a = entry.players?.[slot];
   if (a && typeof a === "object") {
-    const kept = a.keep ? (A[AROOT + (a.template ?? "")]?.steps ?? A[src.assignments[slot]]?.steps ?? []).slice(0, a.keep) : [];
-    return { steps: [...kept, ...a.steps], fresh: true };
+    const tpl = (A[AROOT + (a.template ?? "")]?.steps ?? A[src.assignments[slot]]?.steps ?? []).filter(x => x.type !== "None" && !(a.drop ?? []).includes(x.type));
+    const kept = a.keep ? tpl.slice(0, a.keep < 0 ? tpl.length : a.keep) : [];
+    return { steps: [...(a.prepend ?? []), ...kept, ...a.steps], fresh: a.keep !== -1 };
   }
   if (typeof a === "string") return { steps: A[AROOT + a]?.steps ?? [], fresh: false };
   return { steps: A[src.assignments[slot]]?.steps ?? [], fresh: false };
@@ -34,7 +35,8 @@ function diagram(s, entry) {
     let x = p.x, y = p.y, pts = [[x, y]], motion = [];
     let cls = "rt";
     for (const st of steps) {
-      if (st.type === "AutoMotion") { for (const w of st.waypoints) { const q = w.position ?? w; motion.push([x, y, q.x, q.y]); x = q.x; y = q.y; } pts = [[x, y]]; }
+      if (st.type === "OverrideFormPos") { motion.push([x, y, st.offsetX, st.offsetY]); x = st.offsetX; y = st.offsetY; pts = [[x, y]]; }
+      else if (st.type === "AutoMotion") { for (const w of st.waypoints) { const q = w.position ?? w; motion.push([x, y, q.x, q.y]); x = q.x; y = q.y; } pts = [[x, y]]; }
       else if (["RunRoute", "MoveDirection", "ReceiveHandoff"].includes(st.type)) { x += st.distance * Math.cos(st.direction * Math.PI / 180); y += st.distance * Math.sin(st.direction * Math.PI / 180); pts.push([x, y]); }
       else if (st.type === "PassBlock" || st.type === "RunBlock" || st.type === "LeadBlock") cls = pts.length > 1 ? cls : "blk";
       else if (st.type === "OptionRoute") cls = "opt";

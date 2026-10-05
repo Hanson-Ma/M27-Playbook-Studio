@@ -121,6 +121,8 @@ namespace PlayDump
                 }
             }
 
+            if (s["presets"] is JObject presets) ReplacePresets(set, root, list, presets, (string)s["name"]);
+
             EbxAssetEntry entry = pb.AddAsset(asset, set, baseEntry);
             WithGlobalSheet((gps, gr) =>
             {
@@ -153,6 +155,54 @@ namespace PlayDump
                 plays.Add(pb.BuildPlay(clone));
             }
             return plays;
+        }
+
+        // "presets": { "M1left": [{ slot, x, y, motionMan, stance? }], "SM1right": [...] } replaces every non-Normal motion preset.
+        // Like stock sets: preset Mn moves the slot-n player (plus any adjusting players); a flipped play uses the mirror of the
+        // opposite-direction preset; each mover starts as a copy of his Normal spot.
+        void ReplacePresets(EbxAsset set, dynamic root, List<dynamic> normal, JObject presets, string setName)
+        {
+            List<PointerRef> movements = root.preSnapMovements;
+            foreach (PointerRef m in movements.Where(m => ((dynamic)m.Internal).__Id.ToString() != "Normal").ToList())
+            {
+                foreach (PointerRef p in (List<PointerRef>)((dynamic)m.Internal).PlayerPosition) set.RemoveObject(p.Internal);
+                set.RemoveObject(m.Internal);
+                movements.Remove(m);
+            }
+            var copyProps = ((object)normal[0]).GetType().GetProperties().Where(p => p.CanWrite && p.Name != "__InstanceGuid").ToList();
+            foreach (JProperty preset in presets.Properties())
+            {
+                var mt = System.Text.RegularExpressions.Regex.Match(preset.Name, @"^(S?)M(\d)(left|right)$");
+                if (!mt.Success) throw new InvalidOperationException($"{setName}: bad preset name {preset.Name}");
+                int n = int.Parse(mt.Groups[2].Value);
+                string dir = mt.Groups[3].Value, other = dir == "left" ? "right" : "left";
+                dynamic mv = NewObject(set, "PreSnapMovement");
+                mv.__Id = new CString(preset.Name);
+                mv.name = new CString(preset.Name);
+                mv.isDefault = false;
+                PlayBuilder.SetEnum(mv, "type", $"PreSnapMovementType_MIM_{(mt.Groups[1].Value == "S" ? "Second" : "")}{(dir == "left" ? "Left" : "Right")}Man_{n}");
+                var counterpart = (JArray)presets[$"{mt.Groups[1].Value}M{n}{other}"];
+                foreach (JObject t in preset.Value)
+                {
+                    int slot = (int)t["slot"];
+                    dynamic src = normal[slot];
+                    dynamic sp = NewObject(set, "SetPosition");
+                    foreach (var p in copyProps) p.SetValue((object)sp, p.GetValue((object)src));
+                    sp.XPos = (float)t["x"];
+                    sp.YPos = (float)t["y"];
+                    if (t["stance"] != null) PlayBuilder.SetEnum(sp, "anim", (string)t["stance"]);
+                    bool man = (bool?)t["motionMan"] ?? false;
+                    sp.primaryMotionMan = man;
+                    if (man) PlayBuilder.SetEnum(sp, "groupType", "Set_Group_Type_MotionMan" + n);
+                    JObject mirror = counterpart?.Cast<JObject>().FirstOrDefault(c => (int)c["slot"] == slot) ?? t;
+                    sp.flippedXPos = -(float)mirror["x"];
+                    sp.flippedYPos = (float)mirror["y"];
+                    PlayBuilder.SetEnum(sp, "flippedAnim", (string)mirror["stance"] ?? ((object)sp.anim).ToString());
+                    ((List<PointerRef>)mv.PlayerPosition).Add(new PointerRef(sp));
+                }
+                movements.Add(new PointerRef(mv));
+            }
+            Console.Error.WriteLine($"  presets: {string.Join(" ", presets.Properties().Select(p => p.Name))}");
         }
 
         // 11 players, 7 on the line of scrimmage, OL spacing intact (FORMATS.md §5).
