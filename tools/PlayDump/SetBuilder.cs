@@ -55,7 +55,7 @@ namespace PlayDump
                 dynamic fc = NewObject(gps, "FormationContainer");
                 fc.Formation = pb.Ref(gps, entry);
                 ((List<PointerRef>)gr.FormationContainers).Add(new PointerRef(fc));
-                ((List<uint>)gr.formationIds).Add((uint)(int)root.formId);
+                PlayBuilder.InsertSorted((List<uint>)gr.formationIds, (uint)(int)root.formId); // stock list is sorted
             });
             formationManifest.Add($"{root.formId}\t{f["name"]}\t{root.formationType}\t{asset}");
             Console.Error.WriteLine($"formation {f["name"]} -> {asset} (formId {root.formId})");
@@ -129,8 +129,16 @@ namespace PlayDump
                     ?? throw new InvalidOperationException("formation not in GlobalPlaySheet: " + formEntry.Name);
                 dynamic sc = NewObject(gps, "SetContainer");
                 sc.Set = pb.Ref(gps, entry);
+                // setIds runs parallel to the SetContainers flattened in FormationContainer order (verified on the
+                // stock sheet: 502/502), so the id goes where the container lands, not at the end.
+                int before = 0;
+                foreach (PointerRef p in (List<PointerRef>)gr.FormationContainers)
+                {
+                    if (ReferenceEquals(p.Internal, (object)fc)) break;
+                    before += ((List<PointerRef>)((dynamic)p.Internal).Sets).Count;
+                }
                 ((List<PointerRef>)fc.Sets).Add(new PointerRef(sc));
-                ((List<uint>)gr.setIds).Add(setId);
+                ((List<uint>)gr.setIds).Insert(before + ((List<PointerRef>)fc.Sets).Count - 1, setId);
             });
             dynamic form = pb.am.GetEbx(formEntry).RootObject;
             setManifest.Add($"{setId}\t{s["name"]}\t{root.Classification}\t{root.setType}\t{formEntry.Name}\t{asset}");

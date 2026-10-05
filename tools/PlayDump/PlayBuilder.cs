@@ -73,7 +73,7 @@ namespace PlayDump
             {
                 Directory.CreateDirectory(dumpDir);
                 var dumper = new EbxJson(am, 0);
-                foreach (EbxAssetEntry e in am.EnumerateEbx().Where(x => x.IsAdded))
+                foreach (EbxAssetEntry e in am.EnumerateEbx().Where(x => x.IsAdded || x.Type == "GlobalPlaySheet"))
                     File.WriteAllText(Path.Combine(dumpDir, e.Name.Replace("/", "__") + ".json"), dumper.DumpAsset(e).ToString(Newtonsoft.Json.Formatting.Indented));
             }
 
@@ -253,17 +253,24 @@ namespace PlayDump
 
                 bool listed = ((List<PointerRef>)setContainer.Plays).Any(x => x.Type == PointerRefType.Internal
                     && ((PointerRef)((dynamic)x.Internal).Play).External.FileGuid == entry.Guid);
-                if (listed) { if (!ids.Contains(playId)) ids.Add(playId); continue; }
+                if (listed) { InsertSorted(ids, playId); continue; }
                 dynamic pc = TypeLibrary.CreateObject("PlayContainer");
                 pc.Play = Ref(gps, entry);
                 pc.SetInstanceGuid(new AssetClassGuid(Utils.GenerateDeterministicGuid(gps.Objects, ((object)pc).GetType(), gps.FileGuid), -1));
                 gps.AddObject(pc);
                 ((List<PointerRef>)setContainer.Plays).Add(new PointerRef(pc));
-                if (!ids.Contains(playId)) ids.Add(playId);
+                InsertSorted(ids, playId);
             }
             am.ModifyEbx(gpsEntry.Name, gps);
             gpsEntry.ModifiedEntry.DependentAssets.AddRange(plays.Select(x => x.entry.Guid));
             Console.Error.WriteLine($"registered {plays.Count} plays in {gpsEntry.Name}");
+        }
+
+        // GlobalPlaySheet.playIds and formationIds are sorted ascending in the stock sheet; keep them that way.
+        internal static void InsertSorted(List<uint> list, uint id)
+        {
+            int i = list.BinarySearch(id);
+            if (i < 0) list.Insert(~i, id);
         }
 
         // Same approach as DuplicationPlugin.DuplicateAssetExtension: round-trip through the EBX writer, new file and root guids.
