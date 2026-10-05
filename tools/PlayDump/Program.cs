@@ -40,6 +40,7 @@ namespace PlayDump
             if (args[0] == "buildplays")
                 for (int i = 1; i < args.Length; i++)
                 {
+                    if (args[i].StartsWith("--")) continue;
                     try { args[i] = Path.GetFullPath(args[i]); }
                     catch (Exception ex) { throw new ArgumentException($"bad path argument {i}: [{args[i]}]", ex); }
                 }
@@ -67,8 +68,11 @@ namespace PlayDump
                 case "closure": return CmdClosure(args[1], args.Skip(2).ToArray());
                 case "oracle": return Oracle.Run(am, args[1]);
                 case "buildplays":
-                    // buildplays <out.fbproject> <out.fbmod> <mod.json> <plays spec...>
+                    // buildplays <out.fbproject> <out.fbmod> <mod.json> <plays spec...> [--out-index <dir>]
                     // One combined mod: every play mod edits GlobalPlaySheet, so separate mods would overwrite each other.
+                    // --out-index: where the custom-*.tsv manifests go and pull-plays.json is read (default research/index + build/).
+                    string outIndex = Opt(args, "--out-index", null);
+                    args = StripOpt(args, "--out-index");
                     var spec = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(args[3]));
                     // Spec files may hold "plays" (playbooks/plays) and/or "formations"/"sets" (playbooks/sets); merge each list.
                     foreach (string key in new[] { "plays", "formations", "sets" }) spec[key] = new Newtonsoft.Json.Linq.JArray();
@@ -79,10 +83,10 @@ namespace PlayDump
                             foreach (var item in (Newtonsoft.Json.Linq.JArray)part[key] ?? new Newtonsoft.Json.Linq.JArray()) ((Newtonsoft.Json.Linq.JArray)spec[key]).Add(item);
                     }
                     // Library plays used by playbook specs but missing from the global play sheet (written by tools/pbook-build.mjs).
-                    string pullFile = Path.Combine(repoDir, "build", "pull-plays.json");
+                    string pullFile = outIndex != null ? Path.Combine(outIndex, "pull-plays.json") : Path.Combine(repoDir, "build", "pull-plays.json");
                     if (File.Exists(pullFile)) spec["pull"] = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText(pullFile));
                     new PlayBuilder(am, spec, Path.Combine(repoDir, "research", "index"))
-                        .Run(args[1], args[2], Path.Combine(repoDir, "research", "index", "custom-plays.tsv"));
+                        .Run(args[1], args[2], Path.Combine(outIndex ?? Path.Combine(repoDir, "research", "index"), "custom-plays.tsv"));
                     return 0;
                 default: Console.Error.WriteLine("unknown command " + args[0]); return 1;
             }
@@ -272,6 +276,12 @@ namespace PlayDump
                     Console.WriteLine("    " + am.GetBundleEntry(id).Name);
             }
             return 0;
+        }
+
+        static string[] StripOpt(string[] a, string name)
+        {
+            int i = Array.IndexOf(a, name);
+            return i < 0 ? a : a.Take(i).Concat(a.Skip(i + 2)).ToArray();
         }
 
         static string Opt(string[] a, string name, string def)

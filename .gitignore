@@ -17,3 +17,4 @@ build/
 
 # game-side build outputs
 mods/pbstudio.*
+mods/fusion.*

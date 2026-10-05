@@ -1,8 +1,11 @@
 // Builds a Madden 27 custom playbook save (PBOOKOFF-*) from a playbook spec, using an existing save as the template
 // (the template supplies the file layout, table capacities, and any "sets": "template" sections).
 // Plays can be any game play (research/index/plays.tsv) or one we built (research/index/custom-plays.tsv).
-// usage: node tools/pbook-build.mjs <spec.json> <template save> <out file>
+// usage: node tools/pbook-build.mjs [--collect] [--index <dir>] <spec.json> <template save> <out file>
+//   --index: folder holding this build's custom-*.tsv manifests and pull-plays.json (default research/index + build/)
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { resolve, sep } from "node:path";
+import { pathToFileURL } from "node:url";
 import { readTdb, writeTable } from "./tdb.mjs";
 import { crcSlots } from "./tdbcrc.mjs";
 
@@ -10,15 +13,18 @@ import { crcSlots } from "./tdbcrc.mjs";
 export const AUDIBLE_BITS = { 1: 2, 2: 4, 3: 16, 4: 8 };
 
 // --collect: only record library plays that need pulling into the global play sheet (custom plays may not exist yet).
-const collect = process.argv.includes("--collect");
-const [specFile, templateFile, outFile] = process.argv.slice(2).filter(a => a !== "--collect");
+const argv = process.argv.slice(2);
+const collect = argv.includes("--collect");
+const indexAt = argv.indexOf("--index");
+const customDir = indexAt >= 0 ? pathToFileURL(resolve(argv[indexAt + 1]) + sep) : null;
+const [specFile, templateFile, outFile] = argv.filter((a, i) => a !== "--collect" && (indexAt < 0 || (i !== indexAt && i !== indexAt + 1)));
 const spec = JSON.parse(readFileSync(specFile, "utf8"));
 const buf = Buffer.from(readFileSync(templateFile));
 const T = Object.fromEntries(readTdb(buf).tables.map(t => [t.name, t]));
 
 const indexDir = new URL("../research/index/", import.meta.url);
-const tsv = name => {
-  const file = new URL(`${name}.tsv`, indexDir);
+const tsv = (name, dir = indexDir) => {
+  const file = new URL(`${name}.tsv`, dir);
   if (!existsSync(file)) return [];
   const [head, ...rows] = readFileSync(file, "utf8").trim().split(/\r?\n/);
   const cols = head.split("\t");
@@ -27,9 +33,11 @@ const tsv = name => {
 const enums = JSON.parse(readFileSync(new URL("enums.json", indexDir), "utf8").replace(/^﻿/, ""));
 const norm = s => s.toLowerCase().replace(/[\s_]+/g, " ").trim();
 
-const formations = [...tsv("formations"), ...tsv("custom-formations")];
-const sets = [...tsv("sets"), ...tsv("custom-sets")];
-const plays = [...tsv("plays"), ...tsv("custom-plays")];
+const customIndex = customDir ?? indexDir;
+const formations = [...tsv("formations"), ...tsv("custom-formations", customIndex)];
+// Custom sets first: a custom set may reuse a stock set's name in the same formation (FUSION's "Bunch TE").
+const sets = [...tsv("custom-sets", customIndex), ...tsv("sets")];
+const plays = [...tsv("plays"), ...tsv("custom-plays", customIndex)];
 // Names repeat (minigames reuse "Shotgun"), so prefer the formation whose asset folder is named after it.
 // Also "Special" exists for both offense (12) and defense (20), so filter by the playbook's side, then prefer a
 // formation the template already contains, then a folder named after it.
@@ -116,7 +124,7 @@ for (const [name, rows] of Object.entries(out)) writeTable(buf, T[name], rows);
 
 // The game drops library plays that aren't in the global play sheet, so the mod build must pull them in.
 // Collected across all playbooks into build/pull-plays.json (tools/export.ps1 clears it first).
-const pullFile = new URL("../build/pull-plays.json", import.meta.url);
+const pullFile = customDir ? new URL("pull-plays.json", customDir) : new URL("../build/pull-plays.json", import.meta.url);
 const pull = new Set(existsSync(pullFile) ? JSON.parse(readFileSync(pullFile, "utf8")) : []);
 for (const row of out.PGPL) {
   const p = plays.find(x => +x.playId === row.PLYL && x.global !== undefined);

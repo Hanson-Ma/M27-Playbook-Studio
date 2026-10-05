@@ -22,7 +22,7 @@ namespace PlayDump
         public SetBuilder(PlayBuilder pb) { this.pb = pb; }
 
         // Returns the cloned plays (for GlobalPlaySheet play registration and closure checks).
-        public List<(EbxAssetEntry, uint, string)> Build(JObject spec, string indexDir)
+        public List<(EbxAssetEntry, uint, string)> Build(JObject spec, string indexDir, string outDir)
         {
             var plays = new List<(EbxAssetEntry, uint, string)>();
             var formIds = TakenIds(Path.Combine(indexDir, "formations.tsv"));
@@ -33,8 +33,8 @@ namespace PlayDump
             foreach (JObject s in spec["sets"] ?? new JArray())
                 plays.AddRange(BuildSet(s, setIds));
 
-            File.WriteAllLines(Path.Combine(indexDir, "custom-formations.tsv"), new[] { "formId\tformationName\tformationType\tasset" }.Concat(formationManifest));
-            File.WriteAllLines(Path.Combine(indexDir, "custom-sets.tsv"), new[] { "setId\tsetName\tclassification\tsetType\tformation\tasset" }.Concat(setManifest));
+            File.WriteAllLines(Path.Combine(outDir, "custom-formations.tsv"), new[] { "formId\tformationName\tformationType\tasset" }.Concat(formationManifest));
+            File.WriteAllLines(Path.Combine(outDir, "custom-sets.tsv"), new[] { "setId\tsetName\tclassification\tsetType\tformation\tasset" }.Concat(setManifest));
             return plays;
         }
 
@@ -151,8 +151,8 @@ namespace PlayDump
         static void ValidateAlignment(List<dynamic> spots, string name)
         {
             if (spots.Count != 11) throw new InvalidOperationException($"{name}: {spots.Count} players");
-            int onLine = spots.Count(sp => ((object)sp.depthPosition).ToString() != "POSITION_QB" && (float)sp.YPos > -1.5f);
-            if (onLine != 7) throw new InvalidOperationException($"{name}: {onLine} players on the line (need 7; on-line means y > -1.5)");
+            int onLine = spots.Count(sp => ((object)sp.depthPosition).ToString() != "POSITION_QB" && (float)sp.YPos > -1.75f);
+            if (onLine != 7) throw new InvalidOperationException($"{name}: {onLine} players on the line (need 7; on-line means y > -1.75)");
             float[] ol = { -3.333f, -1.666f, 0f, 1.666f, 3.333f };
             for (int i = 0; i < 5; i++)
                 if (Math.Abs((float)spots[6 + i].XPos - ol[i]) > 0.25f) Console.Error.WriteLine($"  WARN {name}: OL slot {6 + i} moved to x={spots[6 + i].XPos}");

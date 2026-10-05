@@ -1,0 +1,1437 @@
+{
+  "name": "FUSION",
+  "side": "offense",
+  "notes": "FUSION offense, ported from the Madden 24 mod (hansonma.org/projects/fusion).",
+  "formations": [
+    {
+      "formation": "I Form",
+      "sets": [
+        {
+          "set": "Close Y-Off",
+          "plays": [
+            {
+              "play": "YM RPO Stick"
+            },
+            {
+              "play": "PA Boot Leak",
+              "audible": 3
+            },
+            {
+              "play": "HB Stretch",
+              "cpu": {
+                "FirstDown": 20
+              }
+            },
+            {
+              "play": "PA Flat Shallow"
+            },
+            {
+              "play": "YM PA Curl Wheel"
+            },
+            {
+              "play": "HB Toss",
+              "audible": 1
+            },
+            {
+              "play": "PA P Deep Curls"
+            },
+            {
+              "play": "PA CW",
+              "audible": 4
+            },
+            {
+              "play": "HB Zone Split",
+              "audible": 2
+            }
+          ]
+        },
+        {
+          "set": "Empty Flex",
+          "plays": [
+            {
+              "play": "Sluggo Zigs"
+            },
+            {
+              "play": "Verticals In",
+              "audible": 3
+            },
+            {
+              "play": "Slants Return",
+              "audible": 1
+            },
+            {
+              "play": "Drive Shot",
+              "audible": 4
+            },
+            {
+              "play": "BM Verticals Return"
+            },
+            {
+              "play": "Y Shallow Cross",
+              "audible": 2
+            }
+          ]
+        },
+        {
+          "set": "Close",
+          "plays": [
+            {
+              "play": "PA Cross"
+            },
+            {
+              "play": "PA Boot",
+              "audible": 3
+            },
+            {
+              "play": "PA Deep Over",
+              "audible": 4
+            },
+            {
+              "play": "HB Iso",
+              "audible": 2
+            },
+            {
+              "play": "JW PA Curl",
+              "audible": 1
+            },
+            {
+              "play": "PA Double Post"
+            },
+            {
+              "play": "EM PA Dagger"
+            },
+            {
+              "play": "HB Power"
+            },
+            {
+              "play": "RZ FM PA Mesh"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Goal Line Offense",
+      "sets": [
+        {
+          "set": "SB: Goal Line",
+          "plays": [
+            {
+              "play": "HB Dive",
+              "audible": 4,
+              "cpu": {
+                "GoalLine": 70,
+                "Insidefive": 100
+              }
+            },
+            {
+              "play": "YM RPO Stick"
+            },
+            {
+              "play": "Tush Push"
+            },
+            {
+              "play": "HB Power",
+              "audible": 1,
+              "cpu": {
+                "GoalLine": 50
+              }
+            },
+            {
+              "play": "PA Corner",
+              "audible": 2,
+              "cpu": {
+                "GoalLine": 40
+              }
+            },
+            {
+              "play": "FB Dive",
+              "cpu": {
+                "GoalLine": 70
+              }
+            },
+            {
+              "play": "HB Split"
+            },
+            {
+              "play": "PA Sprint Flat"
+            },
+            {
+              "play": "HB Counter Wk"
+            },
+            {
+              "play": "YM HB Zone Wk",
+              "audible": 3
+            },
+            {
+              "play": "PA Mesh"
+            },
+            {
+              "play": "HB Stretch",
+              "cpu": {
+                "GoalLine": 70
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Singleback",
+      "sets": [
+        {
+          "set": "Tight Doubles",
+          "plays": [
+            {
+              "play": "HB Stretch",
+              "audible": 1
+            },
+            {
+              "play": "JW PA Curl"
+            },
+            {
+              "play": "HB Trap",
+              "audible": 2
+            },
+            {
+              "play": "J PA WR Screen"
+            },
+            {
+              "play": "JW PA Boot",
+              "audible": 3
+            },
+            {
+              "play": "PA Dig Zig",
+              "audible": 4
+            },
+            {
+              "play": "Jet Dive"
+            },
+            {
+              "play": "Jet Sweep"
+            },
+            {
+              "play": "Jet Counter Wk"
+            }
+          ]
+        },
+        {
+          "set": "Bunch Close",
+          "plays": [
+            {
+              "play": "PA Boot Wk",
+              "cpu": {
+                "FirstDown": 10
+              }
+            },
+            {
+              "play": "PA Dagger Zig"
+            },
+            {
+              "play": "HB Zone Split",
+              "audible": 2
+            },
+            {
+              "play": "PA Boot Zig",
+              "audible": 3
+            },
+            {
+              "play": "JF PA Sprint Flat"
+            },
+            {
+              "play": "PA P Deep Curls"
+            },
+            {
+              "play": "PA P Double Post",
+              "audible": 4
+            },
+            {
+              "play": "Jet Sweep Wk"
+            },
+            {
+              "play": "JW PA Shallow Cross"
+            },
+            {
+              "play": "HB Zone Wk"
+            },
+            {
+              "play": "JW PA CW"
+            },
+            {
+              "play": "JW RPO PW",
+              "audible": 1
+            }
+          ]
+        },
+        {
+          "set": "Bunch TE",
+          "plays": [
+            {
+              "play": "HB Zone Split Wk"
+            },
+            {
+              "play": "JW PA Y Cross",
+              "cpu": {
+                "Playaction": 10
+              }
+            },
+            {
+              "play": "PA P Y Curl"
+            },
+            {
+              "play": "Jet Sweep",
+              "audible": 1
+            },
+            {
+              "play": "PA Dagger Zig",
+              "audible": 4
+            },
+            {
+              "play": "PA Curl Y Wheel"
+            },
+            {
+              "play": "RPO Bubble",
+              "audible": 2
+            },
+            {
+              "play": "FM PA CW",
+              "cpu": {
+                "4THExtraLong": 10,
+                "3RDExtraLong": 10,
+                "GoalLinePass": 10,
+                "WasteTime": 10,
+                "RedZone_16_to_20": 10,
+                "SuddenChange": 10,
+                "Insidefive": 10,
+                "4thAndShort": 10,
+                "RedZone": 10,
+                "GoalLine": 10,
+                "ConserveTime": 10,
+                "Hailmary": 10,
+                "GoFor2": 10,
+                "3rdAndLong": 10,
+                "2ndAndMedium": 10,
+                "RedZone_3_to_5": 10,
+                "RedZone_6_to_10": 10,
+                "RedZone_11_to_15": 10,
+                "RedZoneFringe": 10,
+                "LastPlay": 10,
+                "4thAndMedium": 10,
+                "4thAndLong": 10,
+                "3rdAndShort": 10,
+                "2ndAndShort": 10,
+                "FirstDown": 10,
+                "2ndAndLong": 10,
+                "3rdAndMedium": 10
+              }
+            },
+            {
+              "play": "HB Zone Wk"
+            },
+            {
+              "play": "PA Boot",
+              "audible": 3,
+              "cpu": {
+                "GoFor2": 10,
+                "3rdAndMedium": 10,
+                "3rdAndLong": 10,
+                "2ndAndShort": 10,
+                "2ndAndMedium": 10,
+                "GoalLinePass": 10,
+                "GoalLine": 10,
+                "RedZone": 10,
+                "Insidefive": 10,
+                "4thAndShort": 10,
+                "4thAndMedium": 10,
+                "4thAndLong": 10,
+                "3rdAndShort": 10,
+                "2ndAndLong": 10,
+                "FirstDown": 10,
+                "RedZone_3_to_5": 10,
+                "LastPlay": 10,
+                "RedZone_6_to_10": 10,
+                "RedZone_11_to_15": 10,
+                "RedZoneFringe": 10,
+                "RedZone_16_to_20": 10,
+                "Hailmary": 10,
+                "SuddenChange": 10,
+                "4THExtraLong": 10,
+                "3RDExtraLong": 10,
+                "WasteTime": 10,
+                "ConserveTime": 10
+              }
+            },
+            {
+              "play": "RZ JF Boot",
+              "cpu": {
+                "3rdAndMedium": 10,
+                "FirstDown": 30,
+                "Playaction": 10
+              }
+            },
+            {
+              "play": "Jet Dive Wk",
+              "cpu": {
+                "Hailmary": 10,
+                "3RDExtraLong": 10,
+                "WasteTime": 10,
+                "ConserveTime": 10,
+                "GoalLinePass": 10,
+                "GoalLine": 10,
+                "RedZone": 10,
+                "GoFor2": 10,
+                "3rdAndLong": 10,
+                "2ndAndLong": 10,
+                "FirstDown": 10,
+                "3rdAndShort": 10,
+                "3rdAndMedium": 10,
+                "Insidefive": 10,
+                "4thAndShort": 10,
+                "4thAndMedium": 20,
+                "4thAndLong": 10,
+                "2ndAndShort": 10,
+                "2ndAndMedium": 10,
+                "LastPlay": 10,
+                "RedZone_3_to_5": 10,
+                "RedZone_6_to_10": 10,
+                "RedZone_11_to_15": 10,
+                "RedZoneFringe": 10,
+                "RedZone_16_to_20": 10,
+                "SuddenChange": 10,
+                "4THExtraLong": 10
+              }
+            }
+          ]
+        },
+        {
+          "set": "Deuce Close",
+          "plays": [
+            {
+              "play": "PA Deep Curls"
+            },
+            {
+              "play": "YM PA Cross Mesh"
+            },
+            {
+              "play": "PA PW Dig"
+            },
+            {
+              "play": "JW PA P Shallow"
+            },
+            {
+              "play": "PA Boot",
+              "audible": 3
+            },
+            {
+              "play": "YM Wham"
+            },
+            {
+              "play": "Jet Sweep"
+            },
+            {
+              "play": "PA Backside Poco"
+            },
+            {
+              "play": "JW PA P CW"
+            },
+            {
+              "play": "HB Zone Split"
+            },
+            {
+              "play": "HB Zone Wk"
+            },
+            {
+              "play": "HB Stretch",
+              "audible": 1
+            },
+            {
+              "play": "PA Cross",
+              "audible": 4
+            },
+            {
+              "play": "HB Trap",
+              "audible": 2
+            },
+            {
+              "play": "PA Fk Cross"
+            }
+          ]
+        },
+        {
+          "set": "Stack Y-Off",
+          "plays": [
+            {
+              "play": "HB Wham"
+            },
+            {
+              "play": "HB Stretch",
+              "audible": 1
+            },
+            {
+              "play": "HB Zone Wk"
+            },
+            {
+              "play": "JF PA PW Ziggo"
+            },
+            {
+              "play": "Jet Sweep"
+            },
+            {
+              "play": "PA Dagger",
+              "audible": 4
+            },
+            {
+              "play": "HB Zone Split",
+              "audible": 2
+            },
+            {
+              "play": "JW PA Boot Wk",
+              "audible": 3
+            },
+            {
+              "play": "RPO Bubble"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Pistol",
+      "sets": [
+        {
+          "set": "Deuce Close",
+          "plays": [
+            {
+              "play": "RPO Stick",
+              "audible": 1,
+              "cpu": {
+                "FirstDown": 10
+              }
+            },
+            {
+              "play": "PA Boot Wheel",
+              "audible": 3
+            },
+            {
+              "play": "HB Zone Split",
+              "audible": 2
+            },
+            {
+              "play": "PA P Double Post"
+            },
+            {
+              "play": "Shallow Cross",
+              "audible": 4
+            },
+            {
+              "play": "HB Counter"
+            }
+          ]
+        },
+        {
+          "set": "Strong Close",
+          "plays": [
+            {
+              "play": "HB Slip Screen"
+            },
+            {
+              "play": "RPO Flat",
+              "audible": 2
+            },
+            {
+              "play": "Verticals",
+              "audible": 4
+            },
+            {
+              "play": "Power Option"
+            },
+            {
+              "play": "HB Zone Split"
+            },
+            {
+              "play": "PA Boot",
+              "audible": 3
+            },
+            {
+              "play": "HB Counter Wk"
+            },
+            {
+              "play": "Lead Read Option"
+            },
+            {
+              "play": "HB Stretch",
+              "audible": 1
+            }
+          ]
+        },
+        {
+          "set": "Trey Row",
+          "plays": [
+            {
+              "play": "RPO Bubble",
+              "audible": 2
+            },
+            {
+              "play": "JF Drive Sail"
+            },
+            {
+              "play": "JR PA Boot",
+              "audible": 3
+            },
+            {
+              "play": "JW PA Drive",
+              "audible": 4
+            },
+            {
+              "play": "HB Stretch"
+            },
+            {
+              "play": "JF RPO Stick",
+              "audible": 1
+            }
+          ]
+        },
+        {
+          "set": "Wing Slot",
+          "plays": [
+            {
+              "play": "FMO PA Comebacks",
+              "audible": 3
+            },
+            {
+              "play": "HB Zone Wk"
+            },
+            {
+              "play": "FMO RPO Flat",
+              "audible": 2
+            },
+            {
+              "play": "Verticals Return",
+              "audible": 4
+            },
+            {
+              "play": "JF RPO Slant"
+            },
+            {
+              "play": "Slant Stick",
+              "audible": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Shotgun",
+      "sets": [
+        {
+          "set": "Bunch TE",
+          "plays": [
+            {
+              "play": "FME Stick",
+              "audible": 1
+            },
+            {
+              "play": "SD Corner",
+              "audible": 3,
+              "cpu": {
+                "2ndAndLong": 50
+              }
+            },
+            {
+              "play": "RPO Flat",
+              "audible": 2
+            },
+            {
+              "play": "Speed Option"
+            },
+            {
+              "play": "PM Read Option"
+            },
+            {
+              "play": "FM Dagger Return",
+              "cpu": {
+                "LastPlay": 20,
+                "SuddenChange": 20,
+                "4THExtraLong": 40
+              }
+            },
+            {
+              "play": "Cross Dagger"
+            },
+            {
+              "play": "M Corner Shot"
+            },
+            {
+              "play": "FM Stick Salem"
+            },
+            {
+              "play": "SC Dig",
+              "cpu": {
+                "FirstDown": 10
+              }
+            },
+            {
+              "play": "RZ JF RPO Bullet",
+              "cpu": {
+                "GoalLinePass": 50
+              }
+            },
+            {
+              "play": "Mesh",
+              "audible": 4
+            }
+          ]
+        },
+        {
+          "set": "Stack",
+          "plays": [
+            {
+              "play": "JF SC Dig"
+            },
+            {
+              "play": "Jet Touch Pass",
+              "audible": 2
+            },
+            {
+              "play": "SC DZ"
+            },
+            {
+              "play": "JB RPO Bubble",
+              "cpu": {
+                "4thAndShort": 50
+              }
+            },
+            {
+              "play": "Stick Dig"
+            },
+            {
+              "play": "PW Return"
+            },
+            {
+              "play": "FM Dagger Zig"
+            },
+            {
+              "play": "Dagger Option"
+            },
+            {
+              "play": "Shallow Mills"
+            },
+            {
+              "play": "PA Jet Verticals"
+            },
+            {
+              "play": "PA Y Cross",
+              "audible": 3
+            },
+            {
+              "play": "Mesh Wheels",
+              "audible": 4
+            },
+            {
+              "play": "Shallow Cross PW"
+            },
+            {
+              "play": "JF RPO Stick",
+              "audible": 1
+            },
+            {
+              "play": "Drive PW"
+            }
+          ]
+        },
+        {
+          "set": "Doubles Tight",
+          "plays": [
+            {
+              "play": "JF RPO Stick"
+            },
+            {
+              "play": "PA Y Cross",
+              "audible": 3
+            },
+            {
+              "play": "Slant Snag",
+              "audible": 1
+            },
+            {
+              "play": "Options Ziggo"
+            },
+            {
+              "play": "RPO Bubble Out",
+              "cpu": {
+                "WasteTime": 50
+              }
+            },
+            {
+              "play": "Dagger Return",
+              "audible": 4,
+              "cpu": {
+                "3RDExtraLong": 10
+              }
+            },
+            {
+              "play": "Drive Sail"
+            },
+            {
+              "play": "RZ Follow Return",
+              "cpu": {
+                "RedZoneFringe": 50
+              }
+            },
+            {
+              "play": "FME Drive Shot"
+            },
+            {
+              "play": "PA Y Zig Option"
+            },
+            {
+              "play": "Shallow Cross"
+            },
+            {
+              "play": "PM Read Option",
+              "audible": 2
+            },
+            {
+              "play": "CC Salem"
+            },
+            {
+              "play": "Bench Angle"
+            },
+            {
+              "play": "RPO Post"
+            },
+            {
+              "play": "Dagger Shallow"
+            },
+            {
+              "play": "JW PA Verticals"
+            },
+            {
+              "play": "PW Cross"
+            }
+          ]
+        },
+        {
+          "set": "Trio TE",
+          "plays": [
+            {
+              "play": "RPO Flat",
+              "audible": 2
+            },
+            {
+              "play": "FMO Stick",
+              "audible": 1
+            },
+            {
+              "play": "FM Hoss Slant"
+            },
+            {
+              "play": "PA Y Cross Wheel",
+              "audible": 3
+            },
+            {
+              "play": "Verticals",
+              "audible": 4,
+              "cpu": {
+                "4THExtraLong": 10,
+                "4thAndLong": 10
+              }
+            },
+            {
+              "play": "Dagger"
+            },
+            {
+              "play": "BM Mesh Dig"
+            },
+            {
+              "play": "Salem Options"
+            },
+            {
+              "play": "BM Power"
+            }
+          ]
+        },
+        {
+          "set": "Spread Flex Wk",
+          "plays": [
+            {
+              "play": "BM Angle Return"
+            },
+            {
+              "play": "Read Option",
+              "audible": 2
+            },
+            {
+              "play": "Dagger Comeback"
+            },
+            {
+              "play": "BM Shallow Mills",
+              "audible": 4
+            },
+            {
+              "play": "BM Verticals Return"
+            },
+            {
+              "play": "Y Cross",
+              "audible": 3
+            },
+            {
+              "play": "BM HB Slip Screen"
+            },
+            {
+              "play": "BM CC Salem"
+            },
+            {
+              "play": "BM RPO Corndog",
+              "audible": 1
+            }
+          ]
+        },
+        {
+          "set": "Doubles Wk",
+          "plays": [
+            {
+              "play": "FM Dagger Drive",
+              "audible": 1
+            },
+            {
+              "play": "JF Dragon"
+            },
+            {
+              "play": "Read Option"
+            },
+            {
+              "play": "M Comebacks"
+            },
+            {
+              "play": "PM Switch Zone"
+            },
+            {
+              "play": "Scissors"
+            },
+            {
+              "play": "Hank"
+            },
+            {
+              "play": "PA Y Cross",
+              "audible": 3
+            },
+            {
+              "play": "Angle Follow"
+            },
+            {
+              "play": "Smash Seam"
+            },
+            {
+              "play": "RPO Flat",
+              "audible": 2
+            },
+            {
+              "play": "Stick Y Zig"
+            },
+            {
+              "play": "Shallow Cross",
+              "audible": 4
+            },
+            {
+              "play": "PA Cross"
+            },
+            {
+              "play": "BM M Cross Mesh"
+            },
+            {
+              "play": "BM Mesh PW"
+            },
+            {
+              "play": "HB Trap"
+            },
+            {
+              "play": "HB Slip Screen"
+            }
+          ]
+        },
+        {
+          "set": "Empty Bunch Y-Out",
+          "plays": [
+            {
+              "play": "JF Stick",
+              "audible": 1
+            },
+            {
+              "play": "Slot Follow"
+            },
+            {
+              "play": "PW Shallow Cross"
+            },
+            {
+              "play": "SD Return",
+              "audible": 3
+            },
+            {
+              "play": "SC Shallow",
+              "audible": 4
+            },
+            {
+              "play": "Dagger Options"
+            },
+            {
+              "play": "JF Y Iso"
+            },
+            {
+              "play": "Jet Touch Pass",
+              "audible": 2
+            },
+            {
+              "play": "RZ CZ Out"
+            }
+          ]
+        },
+        {
+          "set": "Bunch Wk",
+          "plays": [
+            {
+              "play": "Dragon",
+              "audible": 1
+            },
+            {
+              "play": "JW RPO Switch"
+            },
+            {
+              "play": "Y Dig Fade"
+            },
+            {
+              "play": "Lead Read Option",
+              "audible": 2
+            },
+            {
+              "play": "JW PW Salem Option"
+            },
+            {
+              "play": "JF RPO Stick"
+            },
+            {
+              "play": "Dagger Corner"
+            },
+            {
+              "play": "PW Salem Follow"
+            },
+            {
+              "play": "PW Shallow",
+              "audible": 4
+            },
+            {
+              "play": "JW Salem Return"
+            },
+            {
+              "play": "Y Mesh Dagger"
+            },
+            {
+              "play": "SC Drive Wheel",
+              "audible": 3
+            }
+          ]
+        },
+        {
+          "set": "Empty Bunch Tight",
+          "plays": [
+            {
+              "play": "Stick",
+              "audible": 1
+            },
+            {
+              "play": "M Slot Cross"
+            },
+            {
+              "play": "SD Bench",
+              "audible": 2
+            },
+            {
+              "play": "SD Dig"
+            },
+            {
+              "play": "Jet Touch Pass"
+            },
+            {
+              "play": "RZ Corner",
+              "cpu": {
+                "3rdAndShort": 50
+              }
+            },
+            {
+              "play": "M Deep Curls"
+            },
+            {
+              "play": "M Cross Shot",
+              "audible": 4
+            },
+            {
+              "play": "M Drive Wheel"
+            },
+            {
+              "play": "Mesh Wheel",
+              "audible": 3
+            },
+            {
+              "play": "M Dagger Out"
+            },
+            {
+              "play": "CC DZ",
+              "cpu": {
+                "3rdAndLong": 50
+              }
+            },
+            {
+              "play": "RZ SC Angle"
+            },
+            {
+              "play": "Drive Shot"
+            },
+            {
+              "play": "RZ EM Quick Out",
+              "cpu": {
+                "RedZone_16_to_20": 50
+              }
+            }
+          ]
+        },
+        {
+          "set": "Spread Y-Flex",
+          "plays": [
+            {
+              "play": "JF RPO Stick"
+            },
+            {
+              "play": "PA Y Dig"
+            },
+            {
+              "play": "Read Option",
+              "audible": 2
+            },
+            {
+              "play": "BM CC Salem"
+            },
+            {
+              "play": "Jet Touch Pass"
+            },
+            {
+              "play": "Inside PW"
+            },
+            {
+              "play": "Y Cross"
+            },
+            {
+              "play": "Y Shallow"
+            },
+            {
+              "play": "Post Return",
+              "audible": 1
+            },
+            {
+              "play": "Angle Verticals",
+              "audible": 4
+            },
+            {
+              "play": "BM Drive Wheel"
+            },
+            {
+              "play": "PA Cross Y Wheel",
+              "audible": 3
+            }
+          ]
+        },
+        {
+          "set": "Trips Y-Out Wk",
+          "plays": [
+            {
+              "play": "Salem Options",
+              "audible": 3
+            },
+            {
+              "play": "Read Option",
+              "audible": 2
+            },
+            {
+              "play": "FM Hoss Angle"
+            },
+            {
+              "play": "Dragon"
+            },
+            {
+              "play": "FM Nod Return"
+            },
+            {
+              "play": "JF RPO Slant"
+            },
+            {
+              "play": "HB Slip Screen"
+            },
+            {
+              "play": "Inside Wheel"
+            },
+            {
+              "play": "PM Read Option"
+            },
+            {
+              "play": "Drive Shot",
+              "audible": 4
+            },
+            {
+              "play": "Inside Dagger",
+              "cpu": {
+                "FirstDown": 10
+              }
+            },
+            {
+              "play": "RPO Slant Flat",
+              "audible": 1
+            }
+          ]
+        },
+        {
+          "set": "Trey Stack Wk",
+          "plays": [
+            {
+              "play": "Bullet Stick Nod"
+            },
+            {
+              "play": "Read Option",
+              "audible": 2
+            },
+            {
+              "play": "Switch Cross"
+            },
+            {
+              "play": "Inside Dagger"
+            },
+            {
+              "play": "PM Switch Zone"
+            },
+            {
+              "play": "SD Corner"
+            },
+            {
+              "play": "Angle Smash"
+            },
+            {
+              "play": "Salem SP",
+              "audible": 3
+            },
+            {
+              "play": "RPO Flat",
+              "audible": 1
+            },
+            {
+              "play": "FMH Drive CF",
+              "audible": 4
+            },
+            {
+              "play": "RZ Bullet Fades",
+              "cpu": {
+                "GoFor2": 50
+              }
+            },
+            {
+              "play": "FME Verticals"
+            },
+            {
+              "play": "FME Follow"
+            },
+            {
+              "play": "FME DZ"
+            },
+            {
+              "play": "FMH Flood Smash"
+            },
+            {
+              "play": "RZ EM Cross Sled",
+              "cpu": {
+                "RedZone_3_to_5": 50
+              }
+            },
+            {
+              "play": "FMH Dbl Post CF"
+            },
+            {
+              "play": "Slot Fade"
+            }
+          ]
+        },
+        {
+          "set": "Empty Trio Flex",
+          "plays": [
+            {
+              "play": "Slant Stick",
+              "audible": 1
+            },
+            {
+              "play": "Jordan Love"
+            },
+            {
+              "play": "Smoke Curls"
+            },
+            {
+              "play": "Shallow Cross",
+              "audible": 3
+            },
+            {
+              "play": "Salem Option",
+              "audible": 2
+            },
+            {
+              "play": "Sluggo"
+            },
+            {
+              "play": "Hoss Y Juke"
+            },
+            {
+              "play": "Verticals",
+              "audible": 4
+            },
+            {
+              "play": "JW Verticals"
+            },
+            {
+              "play": "BM Mesh Fade"
+            },
+            {
+              "play": "JF Bullet"
+            },
+            {
+              "play": "BM Verticals Return"
+            }
+          ]
+        },
+        {
+          "set": "Stack Y-Off Wk",
+          "plays": [
+            {
+              "play": "Smash Return"
+            },
+            {
+              "play": "Bench Option"
+            },
+            {
+              "play": "Shallow Cross"
+            },
+            {
+              "play": "RPO Bubble Stick",
+              "audible": 2
+            },
+            {
+              "play": "Cross Salem"
+            },
+            {
+              "play": "Read Option Lead",
+              "audible": 1
+            },
+            {
+              "play": "HB Slip Screen"
+            },
+            {
+              "play": "HBM Bench"
+            },
+            {
+              "play": "SC Salem",
+              "audible": 3
+            },
+            {
+              "play": "YEM SD"
+            },
+            {
+              "play": "Drive PW",
+              "audible": 4
+            },
+            {
+              "play": "Dagger Out"
+            }
+          ]
+        },
+        {
+          "set": "Bunch",
+          "plays": [
+            {
+              "play": "FMO Inside Zone",
+              "audible": 2
+            },
+            {
+              "play": "RZ RM RPO Corndog",
+              "cpu": {
+                "RedZone_11_to_15": 50
+              }
+            },
+            {
+              "play": "JW Verticals"
+            },
+            {
+              "play": "Mesh PW",
+              "audible": 4
+            },
+            {
+              "play": "RPO Bubble Flat"
+            },
+            {
+              "play": "Dagger Sled"
+            },
+            {
+              "play": "RZ FM Mesh Dig",
+              "cpu": {
+                "RedZone_6_to_10": 50
+              }
+            },
+            {
+              "play": "Shallow Follow"
+            },
+            {
+              "play": "JF Dagger Return"
+            },
+            {
+              "play": "Double Post Sled"
+            },
+            {
+              "play": "JF RPO Stick",
+              "audible": 1
+            },
+            {
+              "play": "Flood Verticals",
+              "audible": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Hail Mary",
+      "sets": [
+        {
+          "set": "Empty Bunch Quads",
+          "plays": [
+            {
+              "play": "Fuck It",
+              "cpu": {
+                "Hailmary": 10
+              }
+            },
+            {
+              "play": "BM Bubble Flat",
+              "cpu": {
+                "LastPlay": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "formation": "Special",
+      "sets": "template"
+    },
+    {
+      "formation": "Kickoff",
+      "sets": "template"
+    },
+    {
+      "formation": "Safety Kickoff",
+      "sets": "template"
+    }
+  ]
+}

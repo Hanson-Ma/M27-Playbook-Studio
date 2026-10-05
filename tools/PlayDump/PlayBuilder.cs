@@ -22,6 +22,7 @@ namespace PlayDump
     //  - registers new assets in the target bundles + their bundle ref tables, and in GlobalPlaySheet.
     internal partial class PlayBuilder
     {
+        internal readonly string indexDir;
         const string AssignRoot = "football/Gameplay/playbooks/PlayLibrary/Assignments/";
         internal readonly AssetManager am;
         internal readonly JObject spec;
@@ -35,6 +36,7 @@ namespace PlayDump
         {
             this.am = am;
             this.spec = spec;
+            this.indexDir = indexDir;
             bundleIds = spec["bundles"].Select(b => am.GetBundleId((string)b)).ToArray();
             foreach (var (name, id) in spec["bundles"].Select(b => (string)b).Zip(bundleIds, (n, i) => (n, i)))
             {
@@ -50,7 +52,8 @@ namespace PlayDump
         public void Run(string projectPath, string modPath, string manifestPath)
         {
             var built = new List<(EbxAssetEntry entry, uint playId, string set)>();
-            built.AddRange(new SetBuilder(this).Build(spec, Path.GetDirectoryName(manifestPath)));
+            Directory.CreateDirectory(Path.GetDirectoryName(manifestPath));
+            built.AddRange(new SetBuilder(this).Build(spec, indexDir, Path.GetDirectoryName(manifestPath)));
             foreach (JObject p in spec["plays"])
                 built.Add(BuildPlay(p));
             // Existing library plays that custom playbooks use but that aren't in the global play sheet (the game drops them).
@@ -64,6 +67,15 @@ namespace PlayDump
             }
             RegisterGlobal(built);
             VerifyClosure(built.Select(b => b.entry));
+            // PBS_DUMP_NEW=<dir>: write every asset this build added as JSON, to check what really landed in the EBX.
+            string dumpDir = Environment.GetEnvironmentVariable("PBS_DUMP_NEW");
+            if (!string.IsNullOrEmpty(dumpDir))
+            {
+                Directory.CreateDirectory(dumpDir);
+                var dumper = new EbxJson(am, 0);
+                foreach (EbxAssetEntry e in am.EnumerateEbx().Where(x => x.IsAdded))
+                    File.WriteAllText(Path.Combine(dumpDir, e.Name.Replace("/", "__") + ".json"), dumper.DumpAsset(e).ToString(Newtonsoft.Json.Formatting.Indented));
+            }
 
             var project = new FrostyProject();
             project.ModSettings.Title = (string)spec["title"] ?? "PB Studio plays";
@@ -160,7 +172,41 @@ namespace PlayDump
         {
             string cls = (string)step["type"] + "Assignment";
             dynamic obj = TypeLibrary.CreateObject(cls) ?? throw new InvalidOperationException("unknown assignment type " + cls);
-            foreach (JProperty prop in step.Properties().Where(x => x.Name != "type"))
+            // Steps whose fields hold objects or asset references get built by hand; scalar/enum fields use the generic path.
+            var special = new HashSet<string>();
+            if (cls == "OptionRouteAssignment")
+            {
+                // "options": [{ "route": "<OptionRoutes/ leaf>", "coverage": "OptionRouteCoverage_* or flag sum" }]
+                special.Add("options");
+                foreach (JObject o in step["options"])
+                {
+                    EbxAssetEntry def = Need("football/Gameplay/playbooks/PlayLibrary/OptionRoutes/" + (string)o["route"]);
+                    dynamic data = TypeLibrary.CreateObject("OptionRouteData");
+                    data.OptionRouteAsset = Ref(pad, def);
+                    data.optionRouteId = (Guid)((dynamic)am.GetEbx(def).RootObject).optionRouteGuid;
+                    PlayBuilder.SetEnum(data, "optionRouteCoverage", (string)o["coverage"] ?? "OptionRouteCoverage_Default");
+                    obj.optionRouteInfo.Add(data);
+                }
+            }
+            if (cls == "AutoMotionAssignment")
+            {
+                // "waypoints": [{ "x", "y", "speed", "facingAngle"?, "locoStyle"?, "shouldFaceEndPoint"? }] (absolute field spots)
+                special.Add("waypoints");
+                foreach (JObject w in step["waypoints"])
+                {
+                    dynamic wp = TypeLibrary.CreateObject("AutomotionWaypoint");
+                    dynamic pos = wp.position;
+                    pos.x = (float)w["x"];
+                    pos.y = (float)w["y"];
+                    wp.position = pos;
+                    wp.speed = (float?)w["speed"] ?? 100f;
+                    wp.facingAngle = (float?)w["facingAngle"] ?? 0f;
+                    wp.shouldFaceEndPoint = (bool?)w["shouldFaceEndPoint"] ?? true;
+                    PlayBuilder.SetEnum(wp, "locoStyle", (string)w["locoStyle"] ?? "AUTOMOTIONLOCOSTYLE_NORMAL");
+                    obj.waypoints.Add(wp);
+                }
+            }
+            foreach (JProperty prop in step.Properties().Where(x => x.Name != "type" && !special.Contains(x.Name)))
             {
                 PropertyInfo pi = ((object)obj).GetType().GetProperty(prop.Name) ?? throw new InvalidOperationException($"{cls} has no field {prop.Name}");
                 pi.SetValue(obj, Convert(pi.PropertyType, prop.Value));
