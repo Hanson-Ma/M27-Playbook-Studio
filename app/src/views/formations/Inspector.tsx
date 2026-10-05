@@ -34,6 +34,7 @@ import { useSettings } from "../../state/settings";
 import { Button, FormRow, Icon, NumberField, SearchSelect, Select, Tag, TextInput, Toggle, cx, promptDialog } from "../../ui";
 import { Advanced } from "./Common";
 import { findCustomFormation, formationPathOf, refersToFormation, type CloneWarning } from "./setModel";
+import { titleCase } from "../designer/titleCase";
 import s from "./Editor.module.css";
 
 const SPLITS: SplitPreset[] = ["tight", "wing", "outsideTe", "slot", "numbers", "hash", "wide"];
@@ -92,7 +93,7 @@ export function PlayerPanel(p: PlayerPanelProps) {
           <span>{positionName(a.pos)}</span>
           <span>
             Slot {slot}
-            {a.motionMan ? " · motion man" : ""}
+            {a.motionMan ? " · Motion Man" : ""}
           </span>
         </div>
         <span className={s.grow} />
@@ -107,7 +108,7 @@ export function PlayerPanel(p: PlayerPanelProps) {
         )}
       </div>
 
-      <Section title="Where he lines up">
+      <Section title="Where He Lines Up">
         <div className={s.xy}>
           <NumberField label="X" value={a.x} step={0.1} precision={3} suffix="yd" min={-26.67} max={26.67} onChange={(x) => p.onPatch({ x }, `x:${slot}`)} aria-label="X (yards from the ball, + = right)" title="Yards left (−) or right (+) of the ball" />
           <NumberField label="Y" value={a.y} step={0.1} precision={3} suffix="yd" min={-20} max={0} onChange={(y) => p.onPatch({ y }, `y:${slot}`)} aria-label="Y (yards behind the line)" title="Depth: 0 = line of scrimmage, −0.8 on the line, −2.2 off the line" />
@@ -138,7 +139,7 @@ export function PlayerPanel(p: PlayerPanelProps) {
             const on = y !== undefined && Math.abs(y - a.y) < 0.0005;
             return (
               <button key={d} type="button" className={cx(s.chip, on && s.chipOn)} disabled={y === undefined} onClick={() => y !== undefined && p.onPatch({ y }, `depth:${slot}`, 0)} title={y !== undefined ? `y ${fmt(y)}` : undefined}>
-                {DEPTH_PRESET_LABEL[d]}
+                {titleCase(DEPTH_PRESET_LABEL[d])}
                 {y !== undefined && <span className={s.chipVal}>{fmt(y)}</span>}
               </button>
             );
@@ -154,7 +155,7 @@ export function PlayerPanel(p: PlayerPanelProps) {
               const on = patch?.x !== undefined && Math.abs(patch.x - a.x) < 0.01 && (patch.y === undefined || Math.abs(patch.y - a.y) < 0.01);
               return (
                 <button key={sp} type="button" className={cx(s.chip, on && s.chipOn)} title={SPLIT_PRESET_HINT[sp]} onClick={() => patch && p.onPatch(patch, `split:${slot}`, 0)}>
-                  {SPLIT_PRESET_LABEL[sp]}
+                  {titleCase(SPLIT_PRESET_LABEL[sp])}
                   {patch?.x !== undefined && <span className={s.chipVal}>{fmt(Math.abs(patch.x))}</span>}
                 </button>
               );
@@ -169,25 +170,25 @@ export function PlayerPanel(p: PlayerPanelProps) {
               if (patch) p.onPatch(patch, `mirror:${slot}`, 0);
             }}
           >
-            Move to the other side
+            Move to the Other Side
           </Button>
         </Section>
       )}
 
       <div className={s.playerActions}>
         <Button size="sm" variant="ghost" icon="refresh" disabled={!p.changed} onClick={p.onReset} title="Back to the starting set's spot, stance, facing and flip partner">
-          Reset player
+          Reset Player
         </Button>
       </div>
 
       {p.clones.length > 0 && (
-        <Section title={`Copied plays that depend on ${playerLabel(a)}`}>
+        <Section title={`Copied Plays That Depend on ${playerLabel(a)}`}>
           <ul className={s.depList}>
             {p.clones.map((c) => (
               <li key={c.name}>
                 <Icon name="warning" size={13} className={s.warnIcon} />
                 <span>
-                  <b>{c.name}</b> — {playerLabel(a)} {c.warnings[0].reason}
+                  <b className="caps">{c.name}</b> — {playerLabel(a)} {c.warnings[0].reason}
                   {c.warnings.length > 1 ? ` (+${c.warnings.length - 1} more)` : ""}
                 </span>
               </li>
@@ -196,17 +197,17 @@ export function PlayerPanel(p: PlayerPanelProps) {
         </Section>
       )}
 
-      <Advanced id="player" hint="stance, facing, flip partner, motion man">
+      <Advanced id="player" hint="Stance, facing, flip partner, motion man">
         <FormRow label="Stance">
           <SearchSelect value={a.stance} onChange={(v) => p.onPatch({ stance: v }, `stance:${slot}`, 0)} options={stanceOptions} size="sm" aria-label="Stance" renderValue={(o, v) => (o ? o.label : v ? stanceLabel(v) : "—")} />
         </FormRow>
         <FormRow label="Facing" hint="Degrees: 90 = upfield, 0 = toward the right sideline.">
           <NumberField value={a.facing} step={1} precision={0} min={0} max={359} suffix="°" size="sm" width={110} onChange={(facing) => p.onPatch({ facing }, `facing:${slot}`)} aria-label="Facing" />
         </FormRow>
-        <FormRow label="Flip partner" hint={`When the play is flipped, ${playerLabel(a)} takes ${partner === slot ? "his own spot, mirrored" : `${playerLabel(normal[partner])}'s spot, mirrored`}: ${fmtXY(flippedSpot)}.`}>
+        <FormRow label="Flip Partner" hint={`When the play is flipped, ${playerLabel(a)} takes ${partner === slot ? "his own spot, mirrored" : `${playerLabel(normal[partner])}'s spot, mirrored`}: ${fmtXY(flippedSpot)}.`}>
           <Select size="sm" value={String(partner)} onChange={(v) => p.onPatch({ flipAssign: Number(v) }, `flip:${slot}`, 0)} options={slotOptions(normal)} aria-label="Flip partner" />
         </FormRow>
-        <FormRow label="Motion man" hint="The game's primary motion man flag for this player in this set.">
+        <FormRow label="Motion Man" hint="The game's primary motion man flag for this player in this set.">
           <Toggle size="sm" checked={!!a.motionMan} onChange={(v) => p.onPatch({ motionMan: v }, `motionman:${slot}`, 0)} label={a.motionMan ? "Yes" : "No"} />
         </FormRow>
       </Advanced>
@@ -277,7 +278,7 @@ export function PresetPlayerPanel(p: PresetPlayerPanelProps) {
               On <b>{name}</b>, {playerLabel(a)} motions from his spot ({fmtXY(a)}) to here before the snap.
             </span>
           </div>
-          <Section title="Where the motion ends">
+          <Section title="Where the Motion Ends">
             <div className={s.xy}>
               <NumberField label="X" value={p.spot.x} step={0.1} precision={3} suffix="yd" min={p.region.minX} max={p.region.maxX} onChange={(x) => p.onPatch({ x }, `x:${p.slot}`)} aria-label="Motion end X" />
               <NumberField label="Y" value={p.spot.y} step={0.1} precision={3} suffix="yd" min={p.region.minY} max={p.region.maxY} onChange={(y) => p.onPatch({ y }, `y:${p.slot}`)} aria-label="Motion end Y" />
@@ -299,7 +300,7 @@ export function PresetPlayerPanel(p: PresetPlayerPanelProps) {
           </Section>
           <div className={s.playerActions}>
             <Button size="sm" variant="ghost" icon="refresh" disabled={!p.changed} onClick={p.onReset} title="Back to the game's spot for this preset">
-              Reset to the game's spot
+              Reset to the Game's Spot
             </Button>
           </div>
         </>
@@ -332,7 +333,7 @@ export function FlippedPlayerPanel({ slot, normal, flipped, onDone, onPartner }:
           mirrored. The game computes flipped spots from flip partners; you can't drag them.
         </span>
       </div>
-      <FormRow label="Flip partner" hint="Usually the matching player on the other side (WR1 ↔ WR2), or himself.">
+      <FormRow label="Flip Partner" hint="Usually the matching player on the other side (WR1 ↔ WR2), or himself.">
         <Select size="sm" value={String(partner)} onChange={(v) => onPartner(Number(v))} options={slotOptions(normal)} aria-label="Flip partner" />
       </FormRow>
     </div>
@@ -342,7 +343,7 @@ export function FlippedPlayerPanel({ slot, normal, flipped, onDone, onPartner }:
 function PanelBack({ onClick }: { onClick(): void }) {
   return (
     <button type="button" className={s.panelBack} onClick={onClick} title="Back to the set (Esc on the field)">
-      <Icon name="chevronLeft" size={13} /> Set details
+      <Icon name="chevronLeft" size={13} /> Set Details
     </button>
   );
 }
@@ -383,12 +384,13 @@ export function SetPanel(p: SetPanelProps) {
   const formationPath = formationPathOf(spec, fileData.formations);
   const [showAll, setShowAll] = useState(false);
 
+  // Formation names are Madden names (caps in the trigger); the kind goes in the option's hint.
   const formOptions = [
-    { value: base.formation, label: `${baseForm?.name ?? leaf(base.formation)} (game formation)` },
-    ...(libForm && spec.formation !== base.formation ? [{ value: spec.formation, label: `${libForm.name} (game formation)` }] : []),
-    ...customForms.map(({ f }) => ({ value: customFormationAsset(f.asset), label: `${f.name || f.asset} (my formation)` })),
-    ...(!libForm && !custom ? [{ value: spec.formation, label: `${spec.formation} (missing)` }] : []),
-    { value: NEW_FORMATION, label: "New formation…" },
+    { value: base.formation, label: baseForm?.name ?? leaf(base.formation), hint: "Game formation" },
+    ...(libForm && spec.formation !== base.formation ? [{ value: spec.formation, label: libForm.name, hint: "Game formation" }] : []),
+    ...customForms.map(({ f }) => ({ value: customFormationAsset(f.asset), label: f.name || f.asset, hint: "My formation" })),
+    ...(!libForm && !custom ? [{ value: spec.formation, label: spec.formation, hint: "Missing" }] : []),
+    { value: NEW_FORMATION, label: "New Formation…", chrome: true },
   ];
   const formValue = custom ? customFormationAsset(custom.cf.asset) : spec.formation;
   const legacyRef = !!custom && spec.formation !== formValue;
@@ -401,8 +403,9 @@ export function SetPanel(p: SetPanelProps) {
 
   const newFormation = async () => {
     const name = await promptDialog({
-      title: "New formation",
-      label: `Formation name (it starts as a copy of ${baseForm?.name ?? "the starting set's formation"})`,
+      title: "New Formation",
+      body: <>It starts as a copy of {baseForm ? <span className="caps">{baseForm.name}</span> : "the starting set's formation"}.</>,
+      label: "Formation Name",
       initial: `${baseForm?.name ?? "Formation"} ${prefix.replace(/_+$/, "") || "Custom"}`,
       confirmLabel: "Create",
       validate: (v) => (!v.trim() ? "Enter a name" : lib.data.formations.some((f) => norm(f.name) === norm(v)) ? "A game formation already has this name" : undefined),
@@ -435,11 +438,12 @@ export function SetPanel(p: SetPanelProps) {
             value={formValue}
             options={formOptions}
             onChange={(v) => (v === NEW_FORMATION ? void newFormation() : v !== formValue && p.update((d) => void (d.formation = v), "formation"))}
+            caps
             aria-label="Formation"
           />
         </FormRow>
         {custom && (
-          <FormRow label="Formation name">
+          <FormRow label="Formation Name">
             <TextInput value={custom.cf.name ?? ""} size="sm" onChange={(v) => p.update((_, f) => void (f.formations![custom.index].name = v), "formation-name", 1500)} aria-label="Formation name" />
           </FormRow>
         )}
@@ -454,17 +458,17 @@ export function SetPanel(p: SetPanelProps) {
         )}
         <div className={s.baseLine}>
           <span>Started from</span>
-          <b>
-            {formationShort(baseForm?.name ?? "")} {base.name.toUpperCase()}
+          <b className="caps">
+            {formationShort(baseForm?.name ?? "")} {base.name}
           </b>
         </div>
       </Section>
 
       <Section
-        title="Plays in this set"
+        title="Plays in This Set"
         aside={
           <Button size="sm" variant={p.clones.length ? "secondary" : "primary"} icon="list" onClick={p.onPlays}>
-            {p.clones.length ? "Add or remove…" : "Add plays…"}
+            {p.clones.length ? "Add or Remove…" : "Add Plays…"}
           </Button>
         }
       >
@@ -483,17 +487,17 @@ export function SetPanel(p: SetPanelProps) {
         )}
         {warnClones > 0 && (
           <div className={s.warnText}>
-            {warnClones} play{warnClones === 1 ? " depends" : "s depend"} on players you moved — open “Plays in this set” at the top right for details.
+            {warnClones} play{warnClones === 1 ? " depends" : "s depend"} on players you moved — open “Plays in This Set” at the top right for details.
           </div>
         )}
       </Section>
 
       <Section
-        title={preset ? `${presetLabel(p.mode)} · players` : p.flipped ? "Flipped · players" : `Players · ${p.changed.size} changed`}
+        title={preset ? `${presetLabel(p.mode)} · Players` : p.flipped ? "Flipped · Players" : `Players · ${p.changed.size} Changed`}
         aside={
           !p.flipped && (
             <Button size="sm" variant="ghost" icon="refresh" disabled={!p.changed.size} onClick={p.onResetAll} title={preset ? "Every player in this preset back to the game's spot" : "Every player back to the starting set"}>
-              {preset ? "Reset motion" : "Reset all"}
+              {preset ? "Reset Motion" : "Reset All"}
             </Button>
           )
         }
@@ -521,12 +525,12 @@ export function SetPanel(p: SetPanelProps) {
         aside={
           errors.length + warnings.length === 0 ? (
             <Tag tone="ok" size="sm" icon="check">
-              All good
+              All Good
             </Tag>
           ) : (
             <span className={s.counts}>
-              {errors.length > 0 && <Tag tone="danger" size="sm">{errors.length} error{errors.length === 1 ? "" : "s"}</Tag>}
-              {warnings.length > 0 && <Tag tone="warning" size="sm">{warnings.length} warning{warnings.length === 1 ? "" : "s"}</Tag>}
+              {errors.length > 0 && <Tag tone="danger" size="sm">{errors.length} Error{errors.length === 1 ? "" : "s"}</Tag>}
+              {warnings.length > 0 && <Tag tone="warning" size="sm">{warnings.length} Warning{warnings.length === 1 ? "" : "s"}</Tag>}
             </span>
           )
         }
@@ -545,17 +549,17 @@ export function SetPanel(p: SetPanelProps) {
         )}
         {(errors.length + warnings.length > 6 || infos.length > 0) && (
           <button type="button" className={s.linkBtn} onClick={() => setShowAll((v) => !v)}>
-            {showAll ? "Show less" : `Show all (${p.issues.length})`}
+            {showAll ? "Show Less" : `Show All (${p.issues.length})`}
           </button>
         )}
       </Section>
 
-      <Advanced id="set" hint="asset names">
-        <FormRow label="Set asset" hint="The set's folder name in the game files. Renaming it changes the asset of every play copied into it.">
+      <Advanced id="set" hint="Asset names">
+        <FormRow label="Set Asset" hint="The set's folder name in the game files. Renaming it changes the asset of every play copied into it.">
           <TextInput value={spec.asset ?? ""} onChange={(v) => p.update((d) => void (d.asset = v), "asset", 1500)} size="sm" mono aria-label="Set asset" />
         </FormRow>
         {custom && (
-          <FormRow label="Formation asset">
+          <FormRow label="Formation Asset">
             <TextInput
               value={custom.cf.asset ?? ""}
               size="sm"
@@ -575,7 +579,7 @@ export function SetPanel(p: SetPanelProps) {
         )}
         <div className={s.monoBlock}>
           <div>
-            <span>Starting set</span> {leaf(base.asset)}
+            <span>Starting Set</span> {leaf(base.asset)}
           </div>
           <div>
             <span>File</span> {p.file}

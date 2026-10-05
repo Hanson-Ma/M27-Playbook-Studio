@@ -81,8 +81,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 

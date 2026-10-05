@@ -70,7 +70,7 @@ function PlayInspector({ node }: { node: BookNode }) {
 
   return (
     <section className={s.section}>
-      <div className={s.eyebrow}>{multi.length > 1 ? `${multi.length} plays selected · showing` : "Selected play"}</div>
+      <div className={s.eyebrow}>{multi.length > 1 ? `${multi.length} Plays Selected · Showing` : "Selected Play"}</div>
       {play ? (
         <PlayCard play={play} size="md" leading={slot && [1, 2, 3, 4].includes(slot) ? <AudibleGlyph slot={slot} size="md" /> : undefined} />
       ) : (
@@ -91,10 +91,10 @@ function PlayInspector({ node }: { node: BookNode }) {
         )}
         {play && !play.global && play.source !== "custom" && (
           <Tag size="sm" tone="needsMod">
-            Needs mod
+            Needs Mod
           </Tag>
         )}
-        <span className={s.audFact}>{slot && [1, 2, 3, 4].includes(slot) ? `${AUDIBLE_CATEGORY[slot]} audible` : "No audible"}</span>
+        <span className={s.audFact}>{slot && [1, 2, 3, 4].includes(slot) ? `${AUDIBLE_CATEGORY[slot]} Audible` : "No Audible"}</span>
       </div>
       {play?.problems.length ? <div className={s.problem}>{play.problems.join("; ")}</div> : null}
 
@@ -103,40 +103,40 @@ function PlayInspector({ node }: { node: BookNode }) {
       <div className={s.buttons}>
         {play && (
           <Button size="sm" icon="external" onClick={() => openInLibrary(play.key)}>
-            Open in library
+            Open in Library
           </Button>
         )}
         {play?.source === "custom" && !play.clone && play.file !== undefined && play.index !== undefined && (
           <Button size="sm" icon="route" onClick={() => navigate(`#/designer/${encodeURIComponent(play.file!)}/${play.index}`)}>
-            Edit in designer
+            Edit in Designer
           </Button>
         )}
         {play?.clone && data.custom.editHref(play.set) && (
           <Button size="sm" icon="field" onClick={() => navigate(data.custom.editHref(play.set)!)} title="This play is cloned into a custom set">
-            Edit its custom set
+            Edit Its Custom Set
           </Button>
         )}
         <Button size="sm" variant="danger" icon="trash" onClick={() => void removeSelection(data)}>
-          {multi.length > 1 ? `Remove ${multi.length} plays` : "Remove from playbook"}
+          {multi.length > 1 ? `Remove ${multi.length} Plays` : "Remove From Playbook"}
         </Button>
       </div>
 
       <Advanced open={advanced} onToggle={setAdvanced}>
         {play && (
           <dl className={s.dl}>
-            <dt>Play asset</dt>
+            <dt>Play Asset</dt>
             <dd>
               <code className={s.asset}>{play.key}</code>
             </dd>
             <dt>Set</dt>
-            <dd>
+            <dd className="caps">
               {String(node.rf?.entry.formation)} › {String(node.rs?.entry.set)}
             </dd>
           </dl>
         )}
         {Object.keys(extra).length > 0 && (
           <>
-            <div className={s.subhead}>Other keys in the file (kept as-is)</div>
+            <div className={s.subhead}>Other Keys in the File (Kept As-Is)</div>
             <pre className={s.json}>{formatJson(extra, { width: 44 })}</pre>
           </>
         )}
@@ -176,7 +176,7 @@ function CpuEditor({ node, multi }: { node: BookNode; multi: BookNode[] }) {
   return (
     <section className={cx(s.sub, s.cpu)}>
       <div className={s.sectionHead}>
-        <h3 className={s.h3}>When the CPU calls it</h3>
+        <h3 className={s.h3}>When the CPU Calls It</h3>
         <span className={s.hint}>{setCount ? `${setCount} situation${setCount === 1 ? "" : "s"}` : "none set"}</span>
       </div>
       <p className={s.hint}>
@@ -198,7 +198,7 @@ function CpuEditor({ node, multi }: { node: BookNode; multi: BookNode[] }) {
           Paste{refs.length > 1 ? ` to ${refs.length}` : ""}
         </Button>
         <Button size="sm" variant="ghost" icon="close" disabled={!setCount && refs.length < 2} onClick={() => clearWeights(data, refs)}>
-          Clear{refs.length > 1 ? ` ${refs.length}` : " all"}
+          Clear{refs.length > 1 ? ` ${refs.length}` : " All"}
         </Button>
       </div>
       {/* One grid for every group (rows are subgrids), so the label column fits the longest label and sliders line up. */}
@@ -215,7 +215,7 @@ function CpuEditor({ node, multi }: { node: BookNode; multi: BookNode[] }) {
           </div>
         ))}
       </div>
-      <Toggle size="sm" checked={showAll} onChange={(v) => useBuilderUi.getState().set({ cpuShowAll: v })} label="Show all situations" />
+      <Toggle size="sm" checked={showAll} onChange={(v) => useBuilderUi.getState().set({ cpuShowAll: v })} label="Show All Situations" />
     </section>
   );
 }
@@ -264,20 +264,20 @@ function SetInspector({ node }: { node: BookNode }) {
             {firstPlay && (
               <div className={s.calloutAction}>
                 <Button size="sm" onClick={() => useBuilderUi.getState().select(firstPlay)}>
-                  Select the first play
+                  Select the First Play
                 </Button>
               </div>
             )}
           </div>
         </div>
       ) : (
-        <EmptyState compact icon="playcall" title="No plays in this set yet" body="Add plays in step 2 first." />
+        <EmptyState compact icon="playcall" title="No Plays in This Set Yet" body="Add plays in step 2 first." />
       )}
       <EntryButtons data={data} />
       <Advanced open={advanced} onToggle={setAdvanced}>
         {rs.set && (
           <dl className={s.dl}>
-            <dt>Set asset</dt>
+            <dt>Set Asset</dt>
             <dd>
               <code className={s.asset}>{rs.set.asset}</code>
             </dd>
@@ -285,7 +285,7 @@ function SetInspector({ node }: { node: BookNode }) {
         )}
         {Object.keys(extra).length > 0 && (
           <>
-            <div className={s.subhead}>Other keys in the file (kept as-is)</div>
+            <div className={s.subhead}>Other Keys in the File (Kept As-Is)</div>
             <pre className={s.json}>{formatJson(extra, { width: 44 })}</pre>
           </>
         )}
@@ -301,8 +301,8 @@ function FormationInspector({ node }: { node: BookNode }) {
   const [advanced, setAdvanced] = useState(false);
   return (
     <section className={s.section}>
-      <div className={s.eyebrow}>{rf.template ? "Template section" : "Formation"}</div>
-      <h2 className={s.title}>{String(rf.entry.formation)}</h2>
+      <div className={s.eyebrow}>{rf.template ? "Template Section" : "Formation"}</div>
+      <h2 className={cx(s.title, "caps")}>{String(rf.entry.formation)}</h2>
       <p className={s.hint}>
         {rf.template
           ? "Its audibles and CPU weights come from the game's template playbook. Convert it to editable sets to change them."
@@ -311,7 +311,7 @@ function FormationInspector({ node }: { node: BookNode }) {
       {(rf.malformed ?? rf.problem) && <div className={s.problem}>{rf.malformed ?? rf.problem}</div>}
       {rf.template && node.tf && node.tf.sets.length > 0 && (
         <Button size="sm" variant="primary" icon="unlock" onClick={() => void convertTemplate(data, rf.index)}>
-          Convert to editable sets
+          Convert to Editable Sets
         </Button>
       )}
       <EntryButtons data={data} />
@@ -328,7 +328,7 @@ function FormationInspector({ node }: { node: BookNode }) {
         )}
         {Object.keys(extra).length > 0 && (
           <>
-            <div className={s.subhead}>Other keys in the file (kept as-is)</div>
+            <div className={s.subhead}>Other Keys in the File (Kept As-Is)</div>
             <pre className={s.json}>{formatJson(extra, { width: 44 })}</pre>
           </>
         )}
@@ -362,10 +362,10 @@ function TemplatePlayInspector({ node }: { node: BookNode }) {
   return (
     <section className={s.section}>
       <div className={s.eyebrow}>
-        <Icon name="lock" size={12} /> Template play (read-only)
+        <Icon name="lock" size={12} /> Template Play (Read-Only)
       </div>
       {play && <PlayCard play={play} size="md" leading={tp.audible ? <AudibleGlyph slot={tp.audible} size="md" /> : undefined} />}
-      <div className={s.facts}>
+      <div className={cx(s.facts, "caps")}>
         <span>{node.tf?.formation.name}</span>
         <span className={s.sep}>›</span>
         <span>{node.ts?.set.name}</span>
@@ -383,14 +383,14 @@ function TemplatePlayInspector({ node }: { node: BookNode }) {
       </dl>
       <div className={s.buttons}>
         <Button size="sm" icon="unlock" disabled={!node.tf} onClick={() => void convertTemplate(data, node.ref!.f)}>
-          Convert section
+          Convert Section
         </Button>
         <Button size="sm" icon="copy" onClick={() => copySelection(data)}>
           Copy
         </Button>
         {play && (
           <Button size="sm" icon="external" onClick={() => openInLibrary(play.key)}>
-            Open in library
+            Open in Library
           </Button>
         )}
       </div>
@@ -404,9 +404,9 @@ function TemplateSetInspector({ node }: { node: BookNode }) {
   return (
     <section className={s.section}>
       <div className={s.eyebrow}>
-        <Icon name="lock" size={12} /> Template set (read-only)
+        <Icon name="lock" size={12} /> Template Set (Read-Only)
       </div>
-      <h2 className={s.title}>{ts.set.name}</h2>
+      <h2 className={cx(s.title, "caps")}>{ts.set.name}</h2>
       <dl className={s.dl}>
         <dt>Plays</dt>
         <dd>{ts.plays.length}</dd>
@@ -415,10 +415,10 @@ function TemplateSetInspector({ node }: { node: BookNode }) {
       </dl>
       <div className={s.buttons}>
         <Button size="sm" icon="unlock" disabled={!node.tf} onClick={() => void convertTemplate(data, node.ref!.f)}>
-          Convert section
+          Convert Section
         </Button>
         <Button size="sm" icon="copy" onClick={() => copySelection(data)}>
-          Copy set
+          Copy Set
         </Button>
       </div>
     </section>
@@ -432,12 +432,12 @@ function BookInspector() {
     <EmptyState
       compact
       icon="playcall"
-      title="Pick a set first"
+      title="Pick a Set First"
       body="Audibles (four per set, one per controller button) and CPU weights (per play) show up here once you select a set or a play."
       action={
         firstSet ? (
           <Button size="sm" onClick={() => useBuilderUi.getState().select(firstSet)}>
-            Open the first set
+            Open the First Set
           </Button>
         ) : undefined
       }

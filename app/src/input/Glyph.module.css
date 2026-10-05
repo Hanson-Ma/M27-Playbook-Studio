@@ -139,8 +139,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: calc(var(--g) * 0.62);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 

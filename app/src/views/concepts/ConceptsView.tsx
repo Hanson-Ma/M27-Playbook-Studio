@@ -53,7 +53,7 @@ export function ConceptsView() {
     if (play) {
       const formation = catalog.lib.setByAsset.get(play.set)?.formation;
       uiSet({ scope: "set", formation, setAsset: play.set, focus: play.key, checked: [], filter: [], untagged: false, suggested: false, cameFrom: "deeplink" });
-    } else toast.warning("That play isn't in the library or any plays file", { detail: deepPlay });
+    } else toast.warning("That Play Isn't in the Library or Any Plays File", { detail: deepPlay });
     navigate("#/concepts", { replace: true });
   }, [deepPlay, catalog]);
 
@@ -62,7 +62,7 @@ export function ConceptsView() {
   let body;
   if (!ready) {
     body = wsError ? (
-      <EmptyState icon="warning" title="Workspace unavailable" body={wsError} action={<Button onClick={() => void useWorkspace.getState().init()}>Retry</Button>} />
+      <EmptyState icon="warning" title="Workspace Unavailable" body={wsError} action={<Button onClick={() => void useWorkspace.getState().init()}>Retry</Button>} />
     ) : (
       <div className={s.center}>
         <Spinner size={22} /> Loading workspace…
@@ -79,7 +79,7 @@ export function ConceptsView() {
         body={libStatus === "loading" ? "Loading data/library…" : "Tagging and gameplan views need the play library (data/library/*.json)."}
         action={
           <Button variant="primary" loading={libStatus === "loading"} onClick={() => void useLibrary.getState().load()}>
-            Load library
+            Load Library
           </Button>
         }
       />
@@ -94,7 +94,7 @@ export function ConceptsView() {
       <header className={s.header}>
         <BackLink />
         <div className={s.titles}>
-          <div className={s.eyebrow}>Concepts &amp; tags · editor only</div>
+          <div className={s.eyebrow}>Concepts &amp; Tags · Editor Only</div>
           <h1 className={s.title}>Gameplan</h1>
         </div>
         <TabBar items={SECTIONS} active={section} onChange={go} size="sm" className={s.tabs} aria-label="Gameplan sections" />
@@ -139,11 +139,11 @@ function CreateConcepts() {
     try {
       useWorkspace.getState().create<ConceptsDoc>(CONCEPTS_PATH, "concepts", doc);
       useWorkspace.getState().setActive(CONCEPTS_PATH);
-      toast.success(seeded ? `Created ${doc.categories.length} categories` : "Created an empty concepts file", {
+      toast.success(seeded ? `Created ${doc.categories.length} Categories` : "Created an Empty Concepts File", {
         detail: `${CONCEPTS_PATH} — not written yet: save with ⌘/Ctrl+S.`,
       });
     } catch (e) {
-      toast.error("Couldn't create the concepts file", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Couldn't Create the Concepts File", { detail: e instanceof Error ? e.message : String(e) });
     }
   };
   const seed = seedConcepts();
@@ -151,7 +151,7 @@ function CreateConcepts() {
     <div className={s.create}>
       <div className={s.createCard}>
         <div className={s.createPath}>app-data/concepts.json</div>
-        <h2 className={s.createTitle}>Build your concept tree</h2>
+        <h2 className={s.createTitle}>Build Your Concept Tree</h2>
         <p className={s.createBody}>
           Categories for pass concepts, run schemes and everything else. Tag any play — stock or custom — accept suggestions from the game's own play types and read
           concepts, then see what your playbook has for every situation. Editor-only: the game never reads this file.
@@ -176,10 +176,10 @@ function CreateConcepts() {
         </div>
         <div className={s.createActions}>
           <Button variant="primary" size="lg" icon="plus" onClick={() => create(true)}>
-            Create concepts file
+            Create Concepts File
           </Button>
           <Button variant="secondary" size="lg" onClick={() => create(false)}>
-            Start empty
+            Start Empty
           </Button>
         </div>
         <div className={s.createHint}>{seed.categories.length} default categories · rename, recolor, nest or delete them any time.</div>
@@ -211,7 +211,7 @@ function BrokenConcepts({ error }: { error: string }) {
             setBusy(false);
           }}
         >
-          Reload from disk
+          Reload From Disk
         </Button>
       }
     />

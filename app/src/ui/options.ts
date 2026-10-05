@@ -12,6 +12,8 @@ export interface SearchOption {
   /** Extra search terms. */
   keywords?: string;
   disabled?: boolean;
+  /** Chrome, not a Madden name: keeps its case in a `caps` SearchSelect (e.g. "New Formation…"). */
+  chrome?: boolean;
 }
 
 export type OptionInput = string | SearchOption;

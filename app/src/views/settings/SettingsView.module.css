@@ -18,8 +18,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .title {
@@ -107,6 +106,7 @@
   flex-wrap: wrap;
   gap: var(--s2) var(--s4);
 }
+/* audible slot categories (QUICK PASS / RUN / DEEP PASS / PLAY ACTION): Madden play-type names, caps */
 .previewSlot {
   display: inline-flex;
   align-items: center;
@@ -177,6 +177,7 @@
 .diamondCell > :nth-child(3) {
   width: 100%;
 }
+/* audible slot category: caps like .previewSlot */
 .diamondCat {
   font-family: var(--font-display);
   font-weight: 700;
@@ -190,8 +191,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-4);
 }
 
@@ -207,8 +207,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
   border-bottom: 1px solid var(--line);
 }

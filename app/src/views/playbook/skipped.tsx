@@ -1,5 +1,6 @@
 // What "Convert to explicit" / "New from stock template" leave out: template plays a spec can't list by name (filed
 // under a foreign set, or a name pbook-build would resolve to another play) and formations kept as "template".
+import { maddenName } from "../../model/names";
 import type { TemplateSkip } from "../../model/tdb";
 import s from "./skipped.module.css";
 
@@ -8,7 +9,7 @@ export function SkippedList({ skipped, kept = [] }: { skipped: TemplateSkip[]; k
     <div className={s.wrap}>
       {kept.length > 0 && (
         <>
-          <div className={s.head}>Kept as template sections</div>
+          <div className={s.head}>Kept as Template Sections</div>
           <ul className={s.list}>
             {kept.map((k) => (
               <li key={k.formation}>
@@ -22,7 +23,7 @@ export function SkippedList({ skipped, kept = [] }: { skipped: TemplateSkip[]; k
       {skipped.length > 0 && (
         <>
           <div className={s.head}>
-            Left out: {skipped.length} play{skipped.length === 1 ? "" : "s"}
+            Left Out: {skipped.length} Play{skipped.length === 1 ? "" : "s"}
           </div>
           <ul className={s.list}>
             {skipped.map((k, i) => (
@@ -42,6 +43,6 @@ export function SkippedList({ skipped, kept = [] }: { skipped: TemplateSkip[]; k
 
 /** "Set / Play" lines for a toast. */
 export function skippedLine(skipped: TemplateSkip[], max = 6): string {
-  const shown = skipped.slice(0, max).map((k) => `${k.set} / ${k.play}`);
+  const shown = skipped.slice(0, max).map((k) => `${maddenName(k.set)} / ${maddenName(k.play)}`);
   return shown.join(", ") + (skipped.length > max ? ` and ${skipped.length - max} more` : "");
 }

@@ -483,7 +483,7 @@ interface LevelBase {
   crumbs: Crumb[];
   /** Big heading for the level. */
   title: string;
-  /** "FORMATIONS", "SETS", "PLAYS", "CONCEPTS"… (uppercase in the UI). */
+  /** "Formations", "Sets", "Plays", "Concepts"… (the header count's word). */
   noun: string;
   /** Plays under this level (header count). */
   playCount: number;
@@ -526,14 +526,14 @@ export function resolveLevel(ctx: CallContext, tab: PlayCallTab, at: readonly st
           at: [],
           crumbs: [root],
           title: "Formations",
-          noun: "formations",
+          noun: "Formations",
           playCount: ctx.book.plays.length,
         };
       }
       const fCrumb: Crumb = { label: f.name, at: [f.id] };
       const s = at.length > 1 ? f.sets.find((x) => x.id === `${f.id}.${at[1]}`) : undefined;
       if (!s) {
-        return { kind: "sets", formation: f, items: f.sets, at: [f.id], crumbs: [root, fCrumb], title: f.name, noun: "sets", playCount: f.playCount };
+        return { kind: "sets", formation: f, items: f.sets, at: [f.id], crumbs: [root, fCrumb], title: f.name, noun: "Sets", playCount: f.playCount };
       }
       return {
         kind: "plays",
@@ -542,7 +542,7 @@ export function resolveLevel(ctx: CallContext, tab: PlayCallTab, at: readonly st
         at: [f.id, String(s.s)],
         crumbs: [root, fCrumb, { label: s.name, at: [f.id, String(s.s)] }],
         title: s.name,
-        noun: "plays",
+        noun: "Plays",
         playCount: s.plays.length,
       };
     }
@@ -557,7 +557,7 @@ export function resolveLevel(ctx: CallContext, tab: PlayCallTab, at: readonly st
           at: [],
           crumbs: [root],
           title: TAB_TITLE[tab],
-          noun: tab === "concept" ? "concepts" : "play types",
+          noun: tab === "concept" ? "Concepts" : "Play Types",
           playCount: uniqueCount(groups),
         };
       }
@@ -568,19 +568,19 @@ export function resolveLevel(ctx: CallContext, tab: PlayCallTab, at: readonly st
         at: [g.id],
         crumbs: [root, { label: g.label, at: [g.id] }],
         title: g.label,
-        noun: "plays",
+        noun: "Plays",
         playCount: g.items.length,
       };
     }
     case "audibles": {
       const sets = ctx.book.sets;
       const count = sets.reduce((n, s) => n + Object.keys(s.audibles).length, 0);
-      return { kind: "audibles", items: sets, at: [], crumbs: [root], title: "Audibles", noun: "sets", playCount: count };
+      return { kind: "audibles", items: sets, at: [], crumbs: [root], title: "Audibles", noun: "Sets", playCount: count };
     }
     case "favorites":
     case "recent": {
       const items = tab === "favorites" ? ctx.favorites : ctx.recents;
-      return { kind: "plays", items, at: [], crumbs: [root], title: TAB_TITLE[tab], noun: "plays", playCount: items.length };
+      return { kind: "plays", items, at: [], crumbs: [root], title: TAB_TITLE[tab], noun: "Plays", playCount: items.length };
     }
   }
 }

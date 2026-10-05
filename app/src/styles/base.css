@@ -29,10 +29,9 @@ body {
   overflow: hidden;
 }
 
-/* Madden-style display type: bold grotesk uppercase, tight. */
+/* Display type: bold grotesk, tight. Title case for UI chrome (write the strings that way); Madden names add .caps. */
 .display {
   font-family: var(--font-display);
-  text-transform: uppercase;
   letter-spacing: 0.01em;
   font-weight: 500;
   line-height: 1;
@@ -48,11 +47,16 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0;
   margin: 0;
   line-height: 1.05;
+}
+
+/* Casing rule: only what shows in Madden — formation and set names, play names, play types — is ALL CAPS. Everything
+   else is written in the source as Title Case (titles, tabs, buttons, labels) or sentence case (body, captions, hints). */
+.caps {
+  text-transform: uppercase;
 }
 
 button,

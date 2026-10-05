@@ -1,4 +1,5 @@
-/* Export — Madden play-call look: condensed uppercase labels, near-black cards, light-gray pills. One scrolling
+/* Export — Madden play-call look: bold display labels (caps only for Madden names: plays, formations, sets), near-black
+   cards, light-gray pills. One scrolling
    column: status header, problems (when any), three summary cards, the command, next steps. */
 
 .page {
@@ -30,8 +31,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .status {
@@ -70,7 +70,6 @@
   font-size: var(--fd-3xl);
   line-height: 0.95;
   letter-spacing: 0;
-  text-transform: uppercase;
   color: var(--tone);
   white-space: nowrap;
 }
@@ -79,8 +78,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
   min-height: 17px;
 }
@@ -154,8 +152,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   white-space: nowrap;
   overflow: hidden;
@@ -212,16 +209,14 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .subhead {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
   margin: var(--s1) 0;
 }
@@ -238,8 +233,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 12px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   transition:
     background var(--t-fast) var(--ease),
     color var(--t-fast) var(--ease);
@@ -257,8 +251,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .moreBtn:hover {
   color: var(--text);
@@ -366,8 +359,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .fileName {
   flex: 1;
@@ -404,8 +396,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: color-mix(in srgb, var(--lv) 80%, var(--text));
 }
 .levelRule {
@@ -518,8 +509,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .detailRule {
   flex: none;
@@ -564,8 +554,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--green);
 }
 .unsaved {
@@ -588,8 +577,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--amber);
 }
 .unsavedHint {
@@ -667,8 +655,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   white-space: nowrap;
   overflow: hidden;
@@ -734,8 +721,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .saveTemplate {
@@ -788,8 +774,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 10.5px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .meterNum {
@@ -899,16 +884,14 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .unused {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-4);
 }
 .redIcon {
@@ -981,7 +964,6 @@
   font-weight: 700;
   font-size: var(--fd-lg);
   letter-spacing: 0.015em;
-  text-transform: uppercase;
   line-height: 1.2;
 }
 .stepBody {
@@ -999,7 +981,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-2xl);
-  text-transform: uppercase;
 }
 .okText {
   color: var(--green);
@@ -1159,9 +1140,8 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
   line-height: 1.2;
-  text-transform: uppercase;
   color: var(--text-3);
 }
 .detailsBtn {
@@ -1176,8 +1156,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .detailsBtn:hover {
   color: var(--text);
@@ -1216,7 +1195,6 @@
   font-weight: 700;
   font-size: var(--fd-lg);
   letter-spacing: 0.015em;
-  text-transform: uppercase;
 }
 .issuesBarSub {
   font-weight: 500;

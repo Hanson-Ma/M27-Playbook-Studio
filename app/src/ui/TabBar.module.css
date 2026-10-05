@@ -32,7 +32,6 @@
   font-weight: 500;
   font-size: var(--fd-xl);
   letter-spacing: 0.01em;
-  text-transform: uppercase;
   white-space: nowrap;
   line-height: 1;
   opacity: 0.92;
@@ -58,6 +57,11 @@
   font-weight: 700;
   opacity: 1;
   box-shadow: 0 0 22px color-mix(in srgb, var(--text) 16%, transparent);
+}
+
+/* TabItem.caps: a Madden name as the tab label */
+.caps {
+  text-transform: uppercase;
 }
 
 .badge {

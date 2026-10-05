@@ -1,5 +1,5 @@
-// What the game PC will build, as three cards — PLAYBOOK SAVES · THE MOD (custom plays, custom formations / sets and
-// cloned plays from playbooks/sets/) · LIBRARY PLAYS PULLED IN — plus the command card and "what happens next".
+// What the game PC will build, as three cards — Playbook Saves · The Mod (custom plays, custom formations / sets and
+// cloned plays from playbooks/sets/) · Library Plays Pulled In — plus the command card and "what happens next".
 // Lists show a few rows with "Show all"; save capacity meters sit behind each save's "Details".
 import { useState, type ReactNode } from "react";
 import { BOOK_LIMITS } from "../../model/resolveBook";
@@ -46,7 +46,7 @@ function ShowAll({ total, open, onToggle, noun }: { total: number; open: boolean
   if (total <= PREVIEW) return null;
   return (
     <button type="button" className={s.moreBtn} onClick={onToggle}>
-      {open ? "Show fewer" : `Show all ${total} ${noun}`}
+      {open ? "Show Fewer" : `Show All ${total} ${noun.charAt(0).toUpperCase()}${noun.slice(1)}`}
     </button>
   );
 }
@@ -80,7 +80,7 @@ function SaveMeters({ save }: { save: SaveSummary }) {
       <Meter value={r?.plays ?? save.plays} max={lim.plays} label={`Plays${t}`} />
       <Meter value={r?.sets ?? save.sets} max={lim.sets} label={`Sets${t}`} />
       <Meter value={r?.formations ?? save.formations + save.templateSections.length} max={lim.formations} label="Formations" />
-      <Meter value={r?.cpuRows ?? save.cpuRows} max={lim.cpuRows} label={`CPU rows${t}`} />
+      <Meter value={r?.cpuRows ?? save.cpuRows} max={lim.cpuRows} label={`CPU Rows${t}`} />
     </div>
   );
 }
@@ -94,11 +94,11 @@ function SaveRow({ save }: { save: SaveSummary }) {
         <div className={s.saveTop}>
           <span className={s.saveName}>{shortSave(save.saveName)}</span>
           <Tag size="sm" variant="outline" tone="neutral">
-            {save.side}
+            {save.side === "defense" ? "Defense" : "Offense"}
           </Tag>
           {save.willFail && (
             <Tag size="sm" tone="danger" icon="warning" title={save.failures.join("\n")}>
-              Won't build
+              Won't Build
             </Tag>
           )}
         </div>
@@ -117,33 +117,33 @@ function SaveRow({ save }: { save: SaveSummary }) {
             )}
             {save.templateSections.length > 0 && (
               <div className={s.saveTemplate}>
-                <span className={s.dimLabel}>+ From template</span> {save.templateSections.join(", ")}
+                <span className={s.dimLabel}>+ From Template</span> <span className="caps">{save.templateSections.join(", ")}</span>
               </div>
             )}
             <div className={s.saveTags}>
               {save.custom > 0 && (
                 <Tag size="sm" tone="custom" variant="soft">
-                  {save.custom} custom
+                  {save.custom} Custom
                 </Tag>
               )}
               {save.customSets > 0 && (
                 <Tag size="sm" tone="custom" variant="soft">
-                  {plural(save.customSets, "custom set")}
+                  {plural(save.customSets, "Custom Set")}
                 </Tag>
               )}
               {save.pulled > 0 && (
                 <Tag size="sm" tone="needsMod" variant="soft">
-                  {save.pulled} needs mod
+                  {save.pulled} Needs Mod
                 </Tag>
               )}
               {save.unresolved > 0 && (
                 <Tag size="sm" tone="danger" variant="soft">
-                  {save.unresolved} unresolved
+                  {save.unresolved} Unresolved
                 </Tag>
               )}
               {save.custom + save.pulled + save.customSets + save.customFormations === 0 && save.unresolved === 0 && (
                 <Tag size="sm" tone="ok" variant="soft">
-                  No mod needed
+                  No Mod Needed
                 </Tag>
               )}
             </div>
@@ -152,7 +152,7 @@ function SaveRow({ save }: { save: SaveSummary }) {
       </button>
       {!save.error && (
         <button type="button" className={s.detailsBtn} onClick={() => setDetails((d) => !d)} aria-expanded={details}>
-          {details ? "Hide details" : "Details"} <Icon name={details ? "chevronUp" : "chevronDown"} size={13} />
+          {details ? "Hide Details" : "Details"} <Icon name={details ? "chevronUp" : "chevronDown"} size={13} />
         </button>
       )}
       {details && !save.error && (
@@ -183,7 +183,7 @@ function SavesCard({ summary }: { summary: ExportSummary }) {
   const unresolved = open ? summary.unresolved : summary.unresolved.slice(0, 3);
   return (
     <section className={s.card}>
-      <CardHead eyebrow="One save per playbook" title="Playbook saves" count={saves.length} />
+      <CardHead eyebrow="One Save per Playbook" title="Playbook Saves" count={saves.length} />
       <div className={s.cardBody}>
         {saves.length === 0 && <div className={s.muted}>No playbooks yet — create one in the Playbook tab. Every playbooks/*.json becomes one save.</div>}
         {shown.map((sv) => (
@@ -192,7 +192,7 @@ function SavesCard({ summary }: { summary: ExportSummary }) {
         <ShowAll total={saves.length} open={open} onToggle={() => setOpen((o) => !o)} noun="saves" />
         {unresolved.length > 0 && (
           <div className={s.unresolved}>
-            <div className={s.subhead}>Plays that don't resolve — the build stops on these</div>
+            <div className={s.subhead}>Plays That Don't Resolve — the Build Stops on These</div>
             {unresolved.map((u) => (
               <button
                 key={u.file + u.where}
@@ -237,7 +237,7 @@ function ModCard({ summary }: { summary: ExportSummary }) {
     ...summary.customSets.map(
       (cs): ModRow => ({
         key: `set:${cs.file}:${cs.index}`,
-        tag: <Tag size="sm" tone="custom" variant="soft">Custom set</Tag>,
+        tag: <Tag size="sm" tone="custom" variant="soft">Custom Set</Tag>,
         name: cs.name || "(no name)",
         sub: `${cs.subtitle || cs.formationName}${cs.newFormation ? " · new formation" : ""} · from ${cs.baseName}`,
         end: usedBy(cs.usedBy),
@@ -250,7 +250,7 @@ function ModCard({ summary }: { summary: ExportSummary }) {
       .map(
         (cf): ModRow => ({
           key: `form:${cf.file}:${cf.index}`,
-          tag: <Tag size="sm" tone="custom" variant="soft">New formation</Tag>,
+          tag: <Tag size="sm" tone="custom" variant="soft">New Formation</Tag>,
           name: cf.name || "(no name)",
           sub: `from ${cf.baseName || basename(cf.base)} · ${plural(cf.sets, "set")}`,
           end: usedBy(cf.usedBy),
@@ -292,13 +292,13 @@ function ModCard({ summary }: { summary: ExportSummary }) {
   ].filter(Boolean);
   return (
     <section className={s.card}>
-      <CardHead eyebrow={`One mod · ${basename(MOD_FILE)}`} title="The mod" count={rows.length} />
+      <CardHead eyebrow={`One Mod · ${basename(MOD_FILE)}`} title="The Mod" count={rows.length} />
       <div className={s.cardBody}>
         <div className={s.modCounts}>
-          <ModCount value={summary.customPlays.length} label="Custom plays" />
-          <ModCount value={summary.customSets.length} label="Custom sets" />
-          <ModCount value={summary.customFormations.length} label="New formations" />
-          <ModCount value={summary.clonedPlays.length} label="Cloned plays" />
+          <ModCount value={summary.customPlays.length} label="Custom Plays" />
+          <ModCount value={summary.customSets.length} label="Custom Sets" />
+          <ModCount value={summary.customFormations.length} label="New Formations" />
+          <ModCount value={summary.clonedPlays.length} label="Cloned Plays" />
         </div>
         <div className={s.cardNote}>
           {rows.length
@@ -341,7 +341,7 @@ function PulledCard({ summary }: { summary: ExportSummary }) {
   const shown = open ? list : list.slice(0, PREVIEW);
   return (
     <section className={s.card}>
-      <CardHead eyebrow="Stock plays the game hides" title="Library plays pulled in" count={list.length} />
+      <CardHead eyebrow="Stock Plays the Game Hides" title="Library Plays Pulled In" count={list.length} />
       <div className={s.cardBody}>
         <div className={s.cardNote}>
           {list.length
@@ -371,7 +371,7 @@ function PulledCard({ summary }: { summary: ExportSummary }) {
 export function CommandCard({ onCopy, onDownload, bundleFiles, dirtyCount }: { onCopy(): void; onDownload(): void; bundleFiles: number; dirtyCount: number }) {
   return (
     <section className={s.card}>
-      <CardHead eyebrow="On the game PC · in the 2026 Playbook folder · Madden closed" title="Run the export" />
+      <CardHead eyebrow="On the Game PC · In the 2026 Playbook Folder · Madden Closed" title="Run the Export" />
       <div className={s.cardBody}>
         <div className={s.command}>
           <code className={s.commandText}>{EXPORT_COMMAND}</code>
@@ -399,7 +399,7 @@ export function CommandCard({ onCopy, onDownload, bundleFiles, dirtyCount }: { o
 
 const STEPS: { title: string; body: ReactNode }[] = [
   {
-    title: "Apply the mod",
+    title: "Apply the Mod",
     body: (
       <>
         The command writes <b>{basename(MOD_FILE)}</b> to <code>mods\</code> (custom plays, custom sets and formations, cloned plays, pulled-in stock plays).
@@ -408,21 +408,21 @@ const STEPS: { title: string; body: ReactNode }[] = [
     ),
   },
   {
-    title: "Pick your playbook",
+    title: "Pick Your Playbook",
     body: (
       <>
         Each <code>playbooks/*.json</code> becomes a save <b>PBOOKOFF-&lt;NAME&gt;</b> in <code>{SAVES_FOLDER}</code>. Choose it in-game as a custom playbook.
       </>
     ),
   },
-  { title: "Nothing by hand", body: <>Nothing goes into Frosty Editor by hand — the export script does all of it.</> },
-  { title: "Offline modes only", body: <>Modded playbooks follow the MMC rules: offline modes only.</> },
+  { title: "Nothing by Hand", body: <>Nothing goes into Frosty Editor by hand — the export script does all of it.</> },
+  { title: "Offline Modes Only", body: <>Modded playbooks follow the MMC rules: offline modes only.</> },
 ];
 
 export function NextCard() {
   return (
     <section className={s.card}>
-      <CardHead eyebrow="After the command" title="What happens next" />
+      <CardHead eyebrow="After the Command" title="What Happens Next" />
       <ol className={s.steps}>
         {STEPS.map((st, i) => (
           <li key={st.title}>

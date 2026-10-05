@@ -65,20 +65,20 @@ function ConflictDialog({ path, conflict }: { path: string; conflict?: DocConfli
     try {
       const shown = await useWorkspace.getState().resolveConflict(path, choice);
       useConflictUi.setState({ requested: undefined });
-      if (choice === "overwrite") toast.success("Overwrote the file on disk with your version", { detail: path });
+      if (choice === "overwrite") toast.success("Overwrote the File on Disk With Your Version", { detail: path });
       else if (choice === "copy")
-        toast.success(`Saved your version as ${shown}`, {
+        toast.success(`Saved Your Version as ${shown}`, {
           detail:
             `${path} now shows what's on disk.` +
             (kind === "playbook" ? " Both files build the same save name until you rename the copy's playbook." : "") +
             (kind === "plays" ? " The copy repeats the same custom plays until you remove them from one file." : ""),
           duration: 8000,
         });
-      else if (shown === undefined) toast.info("Closed the deleted file", { detail: `${path} no longer exists on disk` });
+      else if (shown === undefined) toast.info("Closed the Deleted File", { detail: `${path} no longer exists on disk` });
       else if (shown !== path) toast.info(`Showing ${shown}`, { detail: `${path} wasn't saved: ${shown} already exists` });
-      else toast.success("Reloaded from disk", { detail: `${path} — ${comboLabel("mod+z")} brings your edits back as unsaved changes` });
+      else toast.success("Reloaded From Disk", { detail: `${path} — ${comboLabel("mod+z")} brings your edits back as unsaved changes` });
     } catch (e) {
-      toast.error("Couldn't settle the conflict", { detail: errMsg(e) });
+      toast.error("Couldn't Settle the Conflict", { detail: errMsg(e) });
     } finally {
       setBusy(undefined);
     }
@@ -86,13 +86,13 @@ function ConflictDialog({ path, conflict }: { path: string; conflict?: DocConfli
 
   const what =
     reason === "deleted"
-      ? "was deleted on disk"
+      ? "Was Deleted on Disk"
       : reason === "exists"
         ? caseClash
-          ? `can't be created: ${conflict!.file!.path} already exists (file names can't differ only in letter case)`
-          : "already exists on disk"
-        : "changed on disk after it was loaded";
-  const reloadLabel = reason === "deleted" ? "Discard my version" : caseClash ? "Open the file on disk" : "Reload from disk";
+          ? `Can't Be Created: ${conflict!.file!.path} Already Exists`
+          : "Already Exists on Disk"
+        : "Changed on Disk After It Was Loaded";
+  const reloadLabel = reason === "deleted" ? "Discard My Version" : caseClash ? "Open the File on Disk" : "Reload From Disk";
 
   return (
     <Modal
@@ -101,7 +101,7 @@ function ConflictDialog({ path, conflict }: { path: string; conflict?: DocConfli
       onConfirm={() => void choose("reload")}
       confirmLabel={reloadLabel}
       cancelLabel="Later"
-      eyebrow={conflict ? "Not saved" : "Changed on disk"}
+      eyebrow={conflict ? "Not Saved" : "Changed on Disk"}
       title={<span className={s.title}>{path.slice(path.lastIndexOf("/") + 1)} {what}</span>}
       width="lg"
       scopeId="conflict"
@@ -113,7 +113,7 @@ function ConflictDialog({ path, conflict }: { path: string; conflict?: DocConfli
           </Button>
           <span className={s.spacer} />
           <Button variant="secondary" icon="copy" onClick={() => void choose("copy")} loading={busy === "copy"} disabled={!!busy && busy !== "copy"}>
-            Save a copy
+            Save a Copy
           </Button>
           <Button
             variant="danger"
@@ -157,7 +157,7 @@ function ConflictBody(p: { path: string; conflict?: DocConflict; caseClash: bool
         </dd>
         <dt>Overwrite</dt>
         <dd>{p.caseClash ? "Not possible: a file whose name differs only in letter case exists." : deleted ? "Write your version back to disk." : "Write your version over the file on disk; the other changes are lost."}</dd>
-        <dt>Save a copy</dt>
+        <dt>Save a Copy</dt>
         <dd>Save your version next to it as a new file (…-copy.json){deleted ? "." : " and reload the original from disk."}</dd>
       </dl>
     </div>

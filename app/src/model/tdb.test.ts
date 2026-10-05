@@ -104,7 +104,7 @@ describe("templateContents", () => {
         for (const p of s.plays) expect(p.play.set === s.set.asset, `${s.set.name}/${p.play.name}`).toBe(!p.foreign);
       }
     const foreign = tc.formations.flatMap((f) => templateSkippedPlays(f));
-    expect(foreign).toEqual(["Trio / Goal Post", "NFL Onside Kick 3 / Speed Onside", "NFL Onside Kick 3 / Onside Kick"]);
+    expect(foreign).toEqual(["TRIO / GOAL POST", "NFL ONSIDE KICK 3 / SPEED ONSIDE", "NFL ONSIDE KICK 3 / ONSIDE KICK"]);
   });
 
   it("maps PBAI rows to CPU weights by situation key", () => {
@@ -222,7 +222,7 @@ describe("what tools/pbook-build.mjs copies", () => {
     expect(templateSkippedPlays(special, cat)).toEqual([]);
     expect(templateFormationProblem(special, lib)).toBeUndefined();
     expect(templateFormationProblem(special, lib, "offense", { template: tc })).toBeUndefined();
-    expect(templateFormationProblem(special, lib, "defense")).toBe("Special is an offense formation, so a defense playbook can't list it");
+    expect(templateFormationProblem(special, lib, "defense")).toBe("SPECIAL is an offense formation, so a defense playbook can't list it");
     expect(templateFormationToEntry(special, cat, "defense").problem).toMatch(/defense playbook can't list it/);
     // The legacy overload still returns a plain FormationEntry.
     expect(templateFormationToEntry(special).formation).toBe("Special");

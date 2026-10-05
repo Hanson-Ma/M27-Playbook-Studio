@@ -5,7 +5,7 @@ import { createStore } from "zustand/vanilla";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { Catalog } from "./catalog";
 import type { LibraryIndex } from "./library";
-import { norm } from "./names";
+import { maddenName, norm } from "./names";
 import { deepClone, getFormation, getSet, insertFormations, insertPlays, insertSets, setsOf, type EntryRef } from "./playbook";
 import { bookSide } from "./resolveBook";
 import type { FormationDef, FormationEntry, PlayEntry, PlaybookSpec, SetEntry, Side } from "./types";
@@ -123,7 +123,7 @@ const emptyResult = (): PasteResult => ({ added: [], merged: [], skipped: [], dr
 function formationNameProblem(lib: LibraryIndex, formation: FormationDef, side: Side): string | undefined {
   return lib.formationByName(formation.name, side)?.asset === formation.asset
     ? undefined
-    : `Formation "${formation.name}" shares its name with another ${side} formation; the game-side builder can't select this one`;
+    : `Formation "${maddenName(formation.name)}" shares its name with another ${side} formation; the game-side builder can't select this one`;
 }
 
 /**
@@ -146,7 +146,7 @@ function pastePlaysInto(
   const formation = lib.formationByName(String(fe.formation ?? ""), bookSide(spec));
   const set = formation ? lib.setByName(formation, String(se.set ?? "")) : undefined;
   if (!set) {
-    out.skipped.push(...entries.map((e) => ({ label: String(e.play), reason: `${se.set} doesn't resolve in ${fe.formation}` })));
+    out.skipped.push(...entries.map((e) => ({ label: maddenName(String(e.play)), reason: `${maddenName(String(se.set))} doesn't resolve in ${maddenName(String(fe.formation))}` })));
     return;
   }
   const present = new Set(
@@ -157,18 +157,18 @@ function pastePlaysInto(
   for (const e of entries) {
     const play = catalog.playInSetByName(set.asset, String(e.play ?? ""));
     if (!play) {
-      out.skipped.push({ label: String(e.play), reason: `not a play in ${set.name}` });
+      out.skipped.push({ label: maddenName(String(e.play)), reason: `not a play in ${maddenName(set.name)}` });
       continue;
     }
     if (present.has(play.key)) {
-      out.skipped.push({ label: String(e.play), reason: `already in ${set.name}` });
+      out.skipped.push({ label: maddenName(String(e.play)), reason: `already in ${maddenName(set.name)}` });
       continue;
     }
     present.add(play.key);
     const c = deepClone(e);
     if (c.audible !== undefined) {
       if (usedSlots.has(c.audible)) {
-        out.droppedAudibles.push(`${c.play} (audible ${c.audible})`);
+        out.droppedAudibles.push(`${maddenName(String(c.play))} (audible ${c.audible})`);
         delete c.audible;
       } else usedSlots.add(c.audible);
     }
@@ -195,12 +195,12 @@ function pasteSetsInto(
   const lib = catalog.lib;
   const fe = getFormation(spec, f)!;
   if (!Array.isArray(fe.sets)) {
-    out.error = `${fe.formation} is a template section — convert it to explicit sets before pasting into it`;
+    out.error = `${maddenName(String(fe.formation))} is a template section — convert it to explicit sets before pasting into it`;
     return;
   }
   const formation = lib.formationByName(String(fe.formation ?? ""), bookSide(spec));
   if (!formation) {
-    out.error = `Formation "${fe.formation}" doesn't resolve`;
+    out.error = `Formation "${maddenName(String(fe.formation))}" doesn't resolve`;
     return;
   }
   const addressProblem = formationNameProblem(lib, formation, bookSide(spec));
@@ -212,14 +212,14 @@ function pasteSetsInto(
   for (const e of entries) {
     const set = lib.setByName(formation, String(e.set ?? ""));
     if (!set) {
-      out.skipped.push({ label: String(e.set), reason: `not a set of ${formation.name}` });
+      out.skipped.push({ label: maddenName(String(e.set)), reason: `not a set of ${maddenName(formation.name)}` });
       continue;
     }
     const existing = setsOf(fe).findIndex((x) => lib.setByName(formation, String(x.set ?? ""))?.asset === set.asset);
     if (existing >= 0) {
       const before = out.added.length;
       pastePlaysInto(spec, catalog, f, existing, (e.plays ?? []) as PlayEntry[], undefined, out);
-      out.merged.push(`${set.name} (+${out.added.length - before} plays)`);
+      out.merged.push(`${maddenName(set.name)} (+${out.added.length - before} plays)`);
       continue;
     }
     const [s] = insertSets(spec, f, [e], insertAt);
@@ -248,30 +248,30 @@ export function pasteInto(spec: PlaybookSpec, catalog: Catalog, item: Pick<ClipI
     for (const e of item.entries as FormationEntry[]) {
       const formation = lib.formationByName(String(e.formation ?? ""), side);
       if (!formation) {
-        out.skipped.push({ label: String(e.formation), reason: "unknown formation" });
+        out.skipped.push({ label: maddenName(String(e.formation)), reason: "unknown formation" });
         continue;
       }
       const fSide = lib.formationSide(formation);
       if (fSide !== "special" && fSide !== side) {
-        out.skipped.push({ label: formation.name, reason: `${fSide} formation in a ${side} playbook` });
+        out.skipped.push({ label: maddenName(formation.name), reason: `${fSide} formation in a ${side} playbook` });
         continue;
       }
       // Explicit sets need a formation the game-side builder finds by name; a "template" section is copied by id.
       const addressProblem = e.sets === "template" ? undefined : formationNameProblem(lib, formation, side);
       if (addressProblem) {
-        out.skipped.push({ label: formation.name, reason: addressProblem });
+        out.skipped.push({ label: maddenName(formation.name), reason: addressProblem });
         continue;
       }
       const existing = spec.formations.findIndex((x) => lib.formationByName(String(x.formation ?? ""), side)?.asset === formation.asset);
       if (existing >= 0) {
         const cur = spec.formations[existing];
         if (e.sets === "template" || cur.sets === "template") {
-          out.skipped.push({ label: formation.name, reason: "already in this playbook" });
+          out.skipped.push({ label: maddenName(formation.name), reason: "already in this playbook" });
           continue;
         }
         const before = out.added.length;
         pasteSetsInto(spec, catalog, existing, (e.sets ?? []) as SetEntry[], undefined, out);
-        out.merged.push(`${formation.name} (+${out.added.length - before})`);
+        out.merged.push(`${maddenName(formation.name)} (+${out.added.length - before})`);
         continue;
       }
       const [f] = insertFormations(spec, [e], at);
@@ -307,7 +307,7 @@ export function pasteInto(spec: PlaybookSpec, catalog: Catalog, item: Pick<ClipI
 
 /** One-line summary of a paste for a toast; undefined when nothing happened. */
 export function pasteSummary(r: PasteResult): { message: string; detail?: string; level: "success" | "warning" | "error" } {
-  if (r.error) return { message: "Can't paste here", detail: r.error, level: "error" };
+  if (r.error) return { message: "Can't Paste Here", detail: r.error, level: "error" };
   const parts: string[] = [];
   if (r.added.length) {
     const n = r.added.length;
@@ -318,7 +318,7 @@ export function pasteSummary(r: PasteResult): { message: string; detail?: string
   const details: string[] = [];
   if (r.skipped.length) details.push(`Skipped: ${r.skipped.map((s) => `${s.label} — ${s.reason}`).join("; ")}`);
   if (r.droppedAudibles.length) details.push(`Audible slot already used: ${r.droppedAudibles.join(", ")}`);
-  if (!parts.length) return { message: "Nothing pasted", detail: details.join("\n") || undefined, level: "warning" };
+  if (!parts.length) return { message: "Nothing Pasted", detail: details.join("\n") || undefined, level: "warning" };
   return {
     message: parts.join(", "),
     detail: details.join("\n") || undefined,

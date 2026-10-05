@@ -1,4 +1,4 @@
-// Result dialog after EXPORT (save all → re-validate): what was written, what the game PC will build, the command.
+// Result dialog after Export (save all → re-validate): what was written, what the game PC will build, the command.
 import { Fragment } from "react";
 import { EXPORT_COMMAND, MOD_FILE, type ExportSummary } from "../../model/exportSummary";
 import type { IssueCounts } from "../../model/validate";
@@ -31,14 +31,14 @@ export function ExportResult(p: ExportResultProps) {
   const failing = p.summary?.failing ?? [];
   const ok = !p.outcome.error && p.counts.error === 0 && failing.length === 0 && p.libraryReady;
   const title = p.outcome.error
-    ? "Save failed"
+    ? "Save Failed"
     : !p.libraryReady
-      ? "Saved — not validated"
+      ? "Saved — Not Validated"
       : p.counts.error
-        ? `Saved · ${plural(p.counts.error, "error")} to fix`
+        ? `Saved · ${plural(p.counts.error, "Error")} to Fix`
         : failing.length
-          ? "Saved · the build would fail"
-          : "Ready for the game PC";
+          ? "Saved · The Build Would Fail"
+          : "Ready for the Game PC";
   return (
     <Modal
       open
@@ -56,7 +56,7 @@ export function ExportResult(p: ExportResultProps) {
             Download .zip
           </Button>
           <Button variant="secondary" icon="copy" onClick={p.onCopy}>
-            Copy command
+            Copy Command
           </Button>
           <span className={s.footSpacer} />
           <Button variant="primary" onClick={p.onClose}>
@@ -109,7 +109,7 @@ function ResultBody(p: ExportResultProps) {
           </div>
           <div className={s.tile}>
             <div className={s.tileValue}>{sm.customPlays.length + sm.clonedPlays.length}</div>
-            <div className={s.tileLabel}>Custom plays</div>
+            <div className={s.tileLabel}>Custom Plays</div>
             <div className={s.tileList}>
               in {basename(MOD_FILE)}
               {sm.customSets.length ? ` · ${plural(sm.customSets.length, "custom set")}` : ""}
@@ -118,8 +118,8 @@ function ResultBody(p: ExportResultProps) {
           </div>
           <div className={cx(s.tile, sm.pulled.length > 0 && s.tile_amber)}>
             <div className={s.tileValue}>{sm.pulled.length}</div>
-            <div className={s.tileLabel}>Pulled in</div>
-            <div className={s.tileList}>{sm.pulled.map((x) => x.name).join(", ") || "none needed"}</div>
+            <div className={s.tileLabel}>Pulled In</div>
+            <div className={s.tileList}>{sm.pulled.length ? <span className="caps">{sm.pulled.map((x) => x.name).join(", ")}</span> : "None needed"}</div>
           </div>
         </div>
       )}
@@ -143,7 +143,7 @@ function ResultBody(p: ExportResultProps) {
       )}
       {p.errors.length > 0 && (
         <div className={s.resultIssues}>
-          <div className={s.subhead}>Fix these first</div>
+          <div className={s.subhead}>Fix These First</div>
           {p.errors.slice(0, 4).map((i, k) => (
             <div key={k} className={s.resultIssue}>
               <LevelIcon level="error" size={14} />
@@ -152,7 +152,7 @@ function ResultBody(p: ExportResultProps) {
             </div>
           ))}
           <Button size="sm" variant="ghost" iconRight="chevronRight" onClick={p.onShowErrors}>
-            Show {plural(p.errors.length, "error")}
+            Show {plural(p.errors.length, "Error")}
           </Button>
         </div>
       )}
@@ -164,7 +164,7 @@ function ResultBody(p: ExportResultProps) {
       {!p.libraryReady && <div className={s.cardNote}>The play library isn't loaded, so nothing was validated. Load it to check the files before exporting.</div>}
 
       <div>
-        <div className={s.subhead}>Run on the game PC (repo root, Madden closed)</div>
+        <div className={s.subhead}>Run on the Game PC (Repo Root, Madden Closed)</div>
         <div className={s.command}>
           <code className={s.commandText}>{EXPORT_COMMAND}</code>
         </div>

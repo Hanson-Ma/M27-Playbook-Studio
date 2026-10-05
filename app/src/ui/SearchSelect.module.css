@@ -47,13 +47,22 @@
 .placeholder {
   color: var(--text-3);
 }
-/* variant="chrome": uppercase display type (NB International), like the tabs/headers/trees around it. */
+/* variant="chrome": display type (NB International), like the tabs/headers/trees around it. Text as written (Title
+   Case chrome); the `caps` prop uppercases it for Madden names (formations, sets, plays). */
 .chrome .value {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 1.08em;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
+}
+.caps .value:not(.placeholder) {
   text-transform: uppercase;
+}
+.capsOpt {
+  text-transform: uppercase;
+}
+.chrome.caps .value:not(.placeholder) {
+  letter-spacing: 0.02em;
 }
 .chevron {
   color: var(--text-3);

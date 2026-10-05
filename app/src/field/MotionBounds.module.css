@@ -41,6 +41,5 @@
   fill-opacity: 0.75;
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }

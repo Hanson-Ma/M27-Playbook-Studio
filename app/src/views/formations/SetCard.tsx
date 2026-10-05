@@ -1,5 +1,5 @@
 // Alignment-only card for a set (library or custom): flat dark field with the eleven player marks, then the
-// SET NAME and the FORMATION / base line underneath — the play-call card look without routes.
+// set name (caps) and the formation / base line underneath — the play-call card look without routes.
 import { memo, type MouseEvent, type ReactNode } from "react";
 import { Field, PlayArtLayer } from "../../field";
 import { HALF_WIDTH } from "../../model/geometry";
@@ -18,9 +18,10 @@ const VIEWPORT: ArtBounds = { minX: -HALF_WIDTH, maxX: HALF_WIDTH, minY: -10, ma
 export interface SetCardProps {
   art: PlayArt;
   name: string;
-  subtitle?: string;
+  /** Wrap Madden names (formation / set) in `.caps`; counts and file names stay as written. */
+  subtitle?: ReactNode;
   selected?: boolean;
-  /** Top-right chips (issue counts, CUSTOM…). */
+  /** Top-right chips (issue counts, Custom…). */
   badges?: ReactNode;
   /** Bottom-left chip on the art. */
   tag?: ReactNode;

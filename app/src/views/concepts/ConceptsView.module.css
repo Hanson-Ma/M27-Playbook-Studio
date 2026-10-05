@@ -19,8 +19,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .title {
@@ -45,8 +44,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -68,8 +66,7 @@
   color: var(--text-3);
   font-family: var(--font-display);
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
 .code {
@@ -131,8 +128,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-xl);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .seedHead span {
   font-family: var(--font-num);
@@ -158,8 +154,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 12px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   white-space: nowrap;
 }
 .createActions {

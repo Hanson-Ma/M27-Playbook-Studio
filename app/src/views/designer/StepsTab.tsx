@@ -74,7 +74,7 @@ export function StepsTab({ slot, lock, bare }: { slot: number; lock: number; bar
     <section className={bare ? undefined : s.section}>
       {!bare && (
         <div className={s.sectionHead}>
-          <span className={s.sectionTitle}>Raw steps</span>
+          <span className={s.sectionTitle}>Raw Steps</span>
           <span className={s.muted}>{steps.length} + None</span>
         </div>
       )}
@@ -88,7 +88,7 @@ export function StepsTab({ slot, lock, bare }: { slot: number; lock: number; bar
               {unbuildable && (
                 <div className={s.stepError} role="alert">
                   <Tag tone="danger" size="sm" icon="warning" title={unbuildableReason(st.type)}>
-                    Can't build
+                    Can't Build
                   </Tag>
                   <span>{unbuildableReason(st.type)}</span>
                 </div>
@@ -127,7 +127,7 @@ export function StepsTab({ slot, lock, bare }: { slot: number; lock: number; bar
       <div className={s.addStep}>
         <SearchSelect size="sm" value={adding} options={typeOptions} onChange={setAdding} width={180} />
         <Button size="sm" icon="plus" onClick={() => commit([...steps, templateFor(cat, adding)], "Add step")}>
-          Add step
+          Add Step
         </Button>
       </div>
     </section>

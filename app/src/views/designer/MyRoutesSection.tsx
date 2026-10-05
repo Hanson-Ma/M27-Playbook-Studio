@@ -49,8 +49,8 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
   };
 
   const rename = async (r: SavedRoute) => {
-    const name = await promptDialog({ title: "Rename route", label: "Route name", initial: r.name, confirmLabel: "Rename", validate: (v) => (!v.trim() ? "Give the route a name" : undefined) });
-    if (name && name.trim() !== r.name && (await renameMyRoute(r.id, name.trim()))) toast.success("Route renamed", { duration: 2000 });
+    const name = await promptDialog({ title: "Rename Route", label: "Route Name", initial: r.name, confirmLabel: "Rename", validate: (v) => (!v.trim() ? "Give the route a name" : undefined) });
+    if (name && name.trim() !== r.name && (await renameMyRoute(r.id, name.trim()))) toast.success("Route Renamed", { duration: 2000 });
   };
 
   const remove = async (r: SavedRoute) => {
@@ -65,10 +65,10 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
 
   const menu = (r: SavedRoute, i: number): MenuItem[] => [
     { kind: "heading", label: r.name },
-    { label: "Use for this player", icon: "route", onSelect: () => apply(r) },
+    { label: "Use for This Player", icon: "route", onSelect: () => apply(r) },
     { label: "Rename…", onSelect: () => void rename(r) },
-    { label: "Move earlier", icon: "chevronLeft", disabled: i === 0, onSelect: () => void moveMyRoute(r.id, -1) },
-    { label: "Move later", icon: "chevronRight", disabled: i === routes.length - 1, onSelect: () => void moveMyRoute(r.id, 1) },
+    { label: "Move Earlier", icon: "chevronLeft", disabled: i === 0, onSelect: () => void moveMyRoute(r.id, -1) },
+    { label: "Move Later", icon: "chevronRight", disabled: i === routes.length - 1, onSelect: () => void moveMyRoute(r.id, 1) },
     { kind: "separator" },
     { label: "Delete…", icon: "trash", danger: true, onSelect: () => void remove(r) },
   ];
@@ -77,13 +77,13 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
     <section className={s.section}>
       <div className={s.sectionHead}>
         <span className={s.sectionTitle}>My Routes</span>
-        <HelpLink section="routes" heading="my-routes" label="How it works" title="Help: My Routes" className={s.helpLink} />
+        <HelpLink section="routes" heading="my-routes" label="How It Works" title="Help: My Routes" className={s.helpLink} />
       </div>
       {error ? (
         <div className={s.emptyBox}>My Routes couldn't be read ({error}). Fix or remove app-data/routes.json.</div>
       ) : routes.length === 0 ? (
         <div className={s.emptyBox}>
-          No saved routes yet. Draw or pick a route, then click <strong>Save route to My Routes</strong> above — you can reuse it on any play and any player (it flips
+          No saved routes yet. Draw or pick a route, then click <strong>Save Route to My Routes</strong> above — you can reuse it on any play and any player (it flips
           automatically for the other side of the field).
         </div>
       ) : (
@@ -100,7 +100,7 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
               >
                 <MiniRoute set={set} slot={slot} steps={t.steps} size={58} primary={slot === d.vip} />
                 <span className={s.tileLabel}>{t.r.name}</span>
-                {t.off ? <span className={s.offTag}>off field</span> : t.mirrored && <span className={s.mirrorTag}>flipped</span>}
+                {t.off ? <span className={s.offTag}>Off Field</span> : t.mirrored && <span className={s.mirrorTag}>Flipped</span>}
               </button>
               <span className={s.myMenu}>
                 <IconButton

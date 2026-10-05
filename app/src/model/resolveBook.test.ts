@@ -75,7 +75,7 @@ describe("resolvePlaybook", () => {
     // Plus one note for the custom formation and one for the custom set in a stock formation.
     expect(issues.filter((i) => i.rule === "custom-formation").map((i) => i.where)).toEqual(["/formations/1"]);
     expect(issues.filter((i) => i.rule === "custom-set").map((i) => i.where)).toEqual(["/formations/0/sets/1"]);
-    expect(mod.some((i) => /"PBS T Curls" is cloned into the custom set Y Trips Tight Wk/.test(i.message))).toBe(true);
+    expect(mod.some((i) => /"PBS T CURLS" is cloned into the custom set Y TRIPS TIGHT WK/.test(i.message))).toBe(true);
   });
 
   it("reports bad names, duplicate audibles, unknown plays and CPU keys", () => {
@@ -197,7 +197,7 @@ describe("game-side rules (tools/pbook-build.mjs)", () => {
 
   it("refuses formations of the other side (pbook-build only sees the book's side)", () => {
     const nickel = lib.formationByName("Nickel", "defense")!;
-    expect(formationAddressProblem(lib, nickel, "offense")).toBe("Nickel is a defense formation — it can't go in an offense playbook");
+    expect(formationAddressProblem(lib, nickel, "offense")).toBe("NICKEL is a defense formation — it can't go in an offense playbook");
     expect(formationAddressProblem(lib, nickel)).toBeUndefined(); // default: its own side
     const nickelPlay = lib.data.plays.find((p) => lib.formationOfSet(p.set)?.asset === nickel.asset)!;
     expect(addPlayProblem(newPlaybookSpec("X"), cat, nickelPlay.asset)).toMatch(/defense formation/);
@@ -207,17 +207,17 @@ describe("game-side rules (tools/pbook-build.mjs)", () => {
     expect(rf.wrongSide?.formId).toBe(17);
     const issue = playbookIssues(spec, cat).find((i) => i.rule === "formation-side")!;
     expect(issue).toMatchObject({ level: "error", where: "/formations/0" });
-    expect(issue.message).toMatch(/"Nickel" is a defense formation/);
+    expect(issue.message).toMatch(/"NICKEL" is a defense formation/);
   });
 
   it("makes a template section the template has no sets for an error (pbook-build throws)", () => {
     const spec: PlaybookSpec = { name: "X", side: "offense", formations: [{ formation: "Strong I", sets: "template" }, ...newPlaybookSpec("X").formations] };
     const rb = resolvePlaybook(spec, cat, { template: tc });
     expect(rb.formations[0]).toMatchObject({ templateMissing: true, templateRows: { sets: 0, plays: 0, cpuRows: 0, formId: 4 } });
-    expect(rb.formations[0].problem).toBe('"Strong I" (formId 4) has no sets in the template, so "template" would drop it');
+    expect(rb.formations[0].problem).toBe('"STRONG I" (formId 4) has no sets in the template, so "template" would drop it');
     const issue = playbookIssues(spec, cat, undefined, { template: tc }).find((i) => i.rule === "template-empty")!;
     expect(issue).toMatchObject({ level: "error", where: "/formations/0" });
-    expect(issue.message).toContain('"Strong I" (formId 4) has no sets in the template');
+    expect(issue.message).toContain('"STRONG I" (formId 4) has no sets in the template');
     // Defense "Special" (formId 20) isn't in the offense template save either.
     const def: PlaybookSpec = { name: "D", side: "defense", formations: [{ formation: "Special", sets: "template" }] };
     expect(playbookIssues(def, cat, undefined, { template: tc }).find((i) => i.rule === "template-empty")?.level).toBe("error");
@@ -236,9 +236,9 @@ describe("game-side rules (tools/pbook-build.mjs)", () => {
 
   it("refuses adding into a formation the book holds as a template section", () => {
     const spec = newPlaybookSpec("X");
-    expect(addPlayProblem(spec, cat, GL_COUNTER)).toBe('Convert Goal Line Offense to explicit first (it\'s a "template" section in this playbook)');
-    expect(() => addPlayToSpec(spec, cat, GL_COUNTER)).toThrow(/Convert Goal Line Offense to explicit first/);
-    expect(addPlayProblem(spec, cat, PUNT_FAKE)).toMatch(/Convert Special to explicit first/);
+    expect(addPlayProblem(spec, cat, GL_COUNTER)).toBe('Convert GOAL LINE OFFENSE to explicit first (it\'s a "template" section in this playbook)');
+    expect(() => addPlayToSpec(spec, cat, GL_COUNTER)).toThrow(/Convert GOAL LINE OFFENSE to explicit first/);
+    expect(addPlayProblem(spec, cat, PUNT_FAKE)).toMatch(/Convert SPECIAL to explicit first/);
     expect(spec.formations).toHaveLength(4);
     const explicitGl = { ...spec, formations: [{ formation: "Goal Line Offense", sets: [] }] } as PlaybookSpec;
     expect(addPlayToSpec(explicitGl, cat, GL_COUNTER).added).toBe(true);
@@ -296,7 +296,7 @@ describe("game-side rules (tools/pbook-build.mjs)", () => {
       ["error", "/formations/1/sets/0/plays/0"],
       ["error", "/formations/2/sets/0/plays/0"],
     ]);
-    expect(dup[1].message).toMatch(/also used by "TE Attack" \(the "Singleback" template section\)/);
+    expect(dup[1].message).toMatch(/also used by "TE ATTACK" \(the "SINGLEBACK" template section\)/);
     // addPlayToSpec drops an audible slot the in-game set already uses.
     const book2: PlaybookSpec = { name: "X", side: "offense", formations: [{ formation: "Shotgun", sets: [{ set: "Y Trips Wk", plays: [{ play: "Slants", audible: 1 }] }] }] };
     const r = addPlayToSpec(book2, cat, SET + "Curls", { audible: 1 });

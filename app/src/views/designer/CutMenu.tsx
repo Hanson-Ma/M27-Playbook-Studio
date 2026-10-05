@@ -62,7 +62,7 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
     <Floating anchor={at} placement="bottom-start" onDismiss={onClose} zIndex={1200} className={s.picker} role="dialog">
       <div className={s.head}>
         <div>
-          <div className={s.title}>Cut at point {k + 1}</div>
+          <div className={s.title}>Cut at Point {k + 1}</div>
           <div className={s.sub}>
             {cut ? `${cutName(String(cut.cutType))}${dir === CUT_LEFT ? " · turns left" : dir === CUT_RIGHT ? " · turns right" : ""}` : "No cut — the route just bends here"}
             {isEnd ? " · end of the route" : ""}
@@ -73,12 +73,12 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
 
       <div className={s.quick}>
         <button type="button" className={cx(s.cut, !cut && s.cutOn)} onClick={() => (apply((r) => setCutAt(r, k, null), "Remove cut"), onClose())}>
-          <span className={s.cutName}>No cut</span>
+          <span className={s.cutName}>No Cut</span>
         </button>
         {auto && (
           <button type="button" className={s.cut} title="The cut that fits this turn" onClick={() => (setCut(String(auto.cutType), String(auto.direction)), onClose())}>
             <CutIcon cutType={String(auto.cutType)} dir={String(auto.direction)} size={24} />
-            <span className={s.cutName}>Fit the turn: {cutName(String(auto.cutType))}</span>
+            <span className={s.cutName}>Fit the Turn: {cutName(String(auto.cutType))}</span>
           </button>
         )}
       </div>
@@ -134,7 +134,7 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
         )}
         {speed !== undefined && (
           <div className={s.row}>
-            <span className={s.rowLabel}>{next ? "Next leg speed" : "Leg speed"}</span>
+            <span className={s.rowLabel}>{next ? "Next Leg Speed" : "Leg Speed"}</span>
             <Segmented
               size="sm"
               options={[...new Set([...SPEEDS, speed])].sort((a, b) => b - a).map((v) => ({ value: String(v), label: <span className={s.num}>{v}</span> }))}
@@ -147,7 +147,7 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
         <div className={s.actions}>
           {fake && (
             <Button size="sm" variant="danger" onClick={() => (apply((r) => removeFakeAt(r, k), "Remove fake-out"), onClose())} title="RunRouteFakeOut has no library instance, so it can't be built">
-              Remove fake-out
+              Remove Fake-Out
             </Button>
           )}
           <Button
@@ -160,7 +160,7 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
               onClose();
             }}
           >
-            Delete point
+            Delete Point
           </Button>
         </div>
       </div>

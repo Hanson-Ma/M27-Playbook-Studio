@@ -84,7 +84,8 @@ const THUMB_H = Math.round(THUMB_W / 2.15);
 const END_PAD = 24; // a little air under the last row
 
 type Row =
-  | { kind: "head"; key: string; label: string; color?: string; count: number }
+  /** `caps`: the label is a formation › set (Madden name); category heads show the user's names as typed. */
+  | { kind: "head"; key: string; label: string; color?: string; count: number; caps?: boolean }
   | { kind: "play"; key: string; play: ResolvedPlay; group: string };
 
 const SCOPES: { value: ScopeKind; label: string; title: string }[] = [
@@ -238,15 +239,15 @@ export function TagSection({ doc, catalog }: { doc: ConceptsDoc; catalog: Catalo
       .map(([n, c]) => `${n} ${c}`)
       .join(" · ");
     const ok = await confirmDialog({
-      title: `Accept ${items.length} suggestion${items.length > 1 ? "s" : ""}?`,
+      title: `Accept ${items.length} Suggestion${items.length > 1 ? "s" : ""}?`,
       body: `Adds ${items.length} tag${items.length > 1 ? "s" : ""} to ${plays} visible play${plays > 1 ? "s" : ""}: ${summary}${top.length > 6 ? " …" : ""}. One undo step (⌘/Ctrl+Z).`,
-      confirmLabel: "Accept all",
+      confirmLabel: "Accept All",
     });
     if (!ok) return;
     editConcepts("accept-all", (d) => {
       acceptSuggestions(d, items);
     });
-    toast.success(`Tagged ${plays} play${plays > 1 ? "s" : ""}`, { detail: `${items.length} suggestions accepted` });
+    toast.success(`Tagged ${plays} Play${plays > 1 ? "s" : ""}`, { detail: `${items.length} suggestions accepted` });
   };
   const hasFilters = filter.length > 0 || untagged || suggested;
   const back = () => {
@@ -261,8 +262,8 @@ export function TagSection({ doc, catalog }: { doc: ConceptsDoc; catalog: Catalo
   // Universal keys only: Esc clears the selection / filters (or goes back after a deep link), ⌘/Ctrl+A selects every
   // listed play. Arrow keys and Space work inside the play list when it has focus (RowList).
   useActions("concepts.tag", [
-    { id: "back", label: checked.length ? "Clear selection" : hasFilters ? "Clear filters" : "Back", keys: ["Escape"], enabled: checked.length > 0 || hasFilters || !!cameFrom, run: back },
-    { id: "select-all", label: "Select all", keys: ["mod+a"], run: () => uiSet({ checked: visible.map((p) => p.key) }) },
+    { id: "back", label: checked.length ? "Clear Selection" : hasFilters ? "Clear Filters" : "Back", keys: ["Escape"], enabled: checked.length > 0 || hasFilters || !!cameFrom, run: back },
+    { id: "select-all", label: "Select All", keys: ["mod+a"], run: () => uiSet({ checked: visible.map((p) => p.key) }) },
   ]);
 
   // Row clicks: plain = focus, ⌘/Ctrl = toggle check, Shift = check the range from the last click.
@@ -301,7 +302,7 @@ export function TagSection({ doc, catalog }: { doc: ConceptsDoc; catalog: Catalo
                   Untagged
                 </Chip>
                 <Chip active={suggested} onClick={() => uiSet({ suggested: !suggested })} icon="sparkle" title="Only plays with pending suggestions">
-                  Has suggestions
+                  Has Suggestions
                 </Chip>
               </>
             }
@@ -341,7 +342,7 @@ export function TagSection({ doc, catalog }: { doc: ConceptsDoc; catalog: Catalo
           <span className={s.colSugs}>
             Suggestions
             <Button size="sm" variant="secondary" icon="check" disabled={!visibleSugCount} onClick={() => void acceptAllVisible()} className={s.acceptAll}>
-              Accept all {visibleSugCount ? `(${visibleSugCount})` : ""}
+              Accept All {visibleSugCount ? `(${visibleSugCount})` : ""}
             </Button>
           </span>
         </div>
@@ -367,7 +368,7 @@ export function TagSection({ doc, catalog }: { doc: ConceptsDoc; catalog: Catalo
               action={
                 hasFilters && scopePlaysList.length ? (
                   <Button size="sm" onClick={() => uiSet({ filter: [], untagged: false, suggested: false })}>
-                    Clear filters
+                    Clear Filters
                   </Button>
                 ) : undefined
               }
@@ -377,7 +378,7 @@ export function TagSection({ doc, catalog }: { doc: ConceptsDoc; catalog: Catalo
             r.kind === "head" ? (
               <div className={s.head} style={{ "--c": r.color ?? "var(--line-3)" } as CSSProperties}>
                 <span className={s.headBar} />
-                <span className={s.headLabel}>{r.label}</span>
+                <span className={cx(s.headLabel, r.caps && "caps")}>{r.label}</span>
                 <span className={s.headCount}>{r.count}</span>
               </div>
             ) : (
@@ -425,7 +426,7 @@ function buildRows(
       else groups.set(g, [p]);
     }
     for (const [label, list] of groups) {
-      rows.push({ kind: "head", key: `h:${label}`, label, count: list.length });
+      rows.push({ kind: "head", key: `h:${label}`, label, count: list.length, caps: true });
       for (const p of list) rows.push({ kind: "play", key: `${label}|${p.key}`, play: p, group: label });
     }
     return rows;
@@ -476,7 +477,7 @@ function ScopeBar({ catalog, books, bookPath, searchRef }: { catalog: Catalog; b
       .sort((a, b) => order[a.side] - order[b.side] || a.f.name.localeCompare(b.f.name))
       .map(({ f, side: sd }) => ({
         value: f.asset,
-        label: f.name,
+        label: f.name.toUpperCase(), // the menu is a portal: Madden names are uppercased here (display only)
         group: sd === "offense" ? "Offense" : sd === "defense" ? "Defense" : "Special",
         hint: `${sd === "offense" ? "OFF" : sd === "defense" ? "DEF" : "ST"} · ${lib.setsByFormation.get(f.asset)?.length ?? 0} sets`,
       }));
@@ -486,7 +487,7 @@ function ScopeBar({ catalog, books, bookPath, searchRef }: { catalog: Catalog; b
       formation
         ? (lib.setsByFormation.get(formation) ?? []).map((st) => ({
             value: st.asset,
-            label: st.name,
+            label: st.name.toUpperCase(),
             hint: `${catalog.playsInSet(st.asset).length} plays`,
           }))
         : [],
@@ -771,7 +772,7 @@ function Inspector({
   if (!focused && !multi)
     return (
       <aside className={s.inspector}>
-        <EmptyState compact icon="tag" title="No play selected" body="Pick a play on the left to tag it." />
+        <EmptyState compact icon="tag" title="No Play Selected" body="Pick a play on the left to tag it." />
       </aside>
     );
 
@@ -783,7 +784,7 @@ function Inspector({
           <div className={s.multi}>
             <div className={s.multiCount}>{targets.length}</div>
             <div>
-              <div className={s.multiTitle}>Plays selected</div>
+              <div className={s.multiTitle}>Plays Selected</div>
               <div className={s.multiHint}>Chips below tag or untag all of them.</div>
             </div>
             <Button size="sm" variant="ghost" icon="close" onClick={() => uiSet({ checked: [] })}>
@@ -878,7 +879,7 @@ function Inspector({
             ))}
             {dismissed > 0 && (
               <button type="button" className={s.restore} onClick={() => editConcepts("restore", (d) => restoreDismissed(d, focused.key))}>
-                {dismissed} dismissed · restore
+                {dismissed} Dismissed · Restore
               </button>
             )}
           </section>

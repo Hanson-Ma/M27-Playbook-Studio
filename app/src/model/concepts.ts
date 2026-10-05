@@ -2,6 +2,7 @@
 // Seeds and colors, slug ids, the category tree (nesting without cycles), category/tag/note ops on a doc (immer
 // draft or plain object), the tag-suggestion engine (with reasons) and gameplan queries over a ResolvedBook.
 // Pure TS: no React/DOM. Read-only helpers shared with other views live in conceptsDoc.ts.
+import { maddenName } from "./names";
 import { playTypeInfo } from "./playtypes";
 import type { ResolvedBook } from "./resolveBook";
 import type {
@@ -897,7 +898,7 @@ export function suggestTags(
   // Play type.
   const t = shortType(play.playType ?? "");
   const typeNames = PLAY_TYPE_RULES[t] ?? (/^RPO/.test(t) ? ["RPO"] : /^Option/.test(t) ? ["Option"] : undefined);
-  if (typeNames) add(typeNames, { source: "playType", text: `Play type ${playTypeInfo(play.playType).long}` });
+  if (typeNames) add(typeNames, { source: "playType", text: `Play type ${maddenName(playTypeInfo(play.playType).long)}` });
 
   // Assignment route types.
   const counts = new Map<string, number>();
@@ -918,7 +919,7 @@ export function suggestTags(
   const nm = normName(play.name ?? "");
   if (nm)
     for (const r of m.nameRules)
-      if (r.res.some((re) => re.test(nm))) add([r.label], { source: "name", text: `Name “${play.name.trim()}” matches ${r.label}` });
+      if (r.res.some((re) => re.test(nm))) add([r.label], { source: "name", text: `Name “${maddenName(play.name.trim())}” matches ${r.label}` });
 
   // Drop what's already tagged (or covered by a tagged descendant) and dismissed ones.
   const tagged = new Set<string>();

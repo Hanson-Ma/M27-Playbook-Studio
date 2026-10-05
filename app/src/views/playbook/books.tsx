@@ -46,7 +46,7 @@ const nameBody = (
 
 export async function newPlaybook(stock = false): Promise<void> {
   const name = await promptDialog({
-    title: stock ? "New playbook from the stock template" : "New playbook",
+    title: stock ? "New Playbook From the Stock Template" : "New Playbook",
     label: "Name",
     // A unique default, so Enter creates the playbook right away.
     initial: uniqueName("MYBOOK", takenBookNames(), ""),
@@ -73,13 +73,13 @@ export async function newPlaybook(stock = false): Promise<void> {
     const lib = useLibrary.getState().lib;
     const catalog = getCatalog();
     if (!lib || !catalog) {
-      toast.error("The play library isn't loaded");
+      toast.error("The Play Library Isn't Loaded");
       return;
     }
     await loadTemplate(lib);
     const st = getTemplate();
     if (!st.contents) {
-      toast.error("Couldn't read the template playbook", { detail: st.error });
+      toast.error("Couldn't Read the Template Playbook", { detail: st.error });
       return;
     }
     // Plays a playbook can't list by name are left out: say which before creating, so nothing is silently dropped.
@@ -99,7 +99,7 @@ export async function newPlaybook(stock = false): Promise<void> {
       });
       if (!ok) return;
       if (takenPaths().has(path.toLowerCase())) {
-        toast.error("Couldn't create the playbook", { detail: `${path} already exists` });
+        toast.error("Couldn't Create the Playbook", { detail: `${path} already exists` });
         return;
       }
     }
@@ -108,7 +108,7 @@ export async function newPlaybook(stock = false): Promise<void> {
   try {
     useWorkspace.getState().create(path, "playbook", spec);
   } catch (e) {
-    toast.error("Couldn't create the playbook", { detail: errMsg(e) });
+    toast.error("Couldn't Create the Playbook", { detail: errMsg(e) });
     return;
   }
   toast.success(`Created ${saveNameFor(spec)}`, {
@@ -123,7 +123,7 @@ export async function duplicatePlaybook(doc: DocEntry<PlaybookSpec>): Promise<vo
   const base = sanitizeBookName(String(doc.data.name ?? "")) || "PLAYBOOK";
   const name = await promptDialog({
     title: `Duplicate ${base}`,
-    label: "Name of the copy",
+    label: "Name of the Copy",
     initial: uniqueName(`${base}COPY`, takenBookNames(), ""),
     body: nameBody,
     confirmLabel: "Duplicate",
@@ -137,7 +137,7 @@ export async function duplicatePlaybook(doc: DocEntry<PlaybookSpec>): Promise<vo
   try {
     useWorkspace.getState().create(path, "playbook", copy);
   } catch (e) {
-    toast.error("Couldn't duplicate", { detail: errMsg(e) });
+    toast.error("Couldn't Duplicate", { detail: errMsg(e) });
     return;
   }
   toast.success(`Duplicated as ${saveNameFor(copy)}`, { detail: `Not saved yet — press Save (${comboLabel("mod+s")}) to write ${path}` });
@@ -148,8 +148,8 @@ export async function renamePlaybook(doc: DocEntry<PlaybookSpec>): Promise<void>
   if (!doc.data) return;
   const from = doc.path;
   const name = await promptDialog({
-    title: "Rename playbook",
-    label: "New name",
+    title: "Rename Playbook",
+    label: "New Name",
     initial: String(doc.data.name ?? ""),
     body: <>Renames the file and the in-game name. {nameBody}</>,
     confirmLabel: "Rename",
@@ -168,7 +168,7 @@ export async function renamePlaybook(doc: DocEntry<PlaybookSpec>): Promise<void>
     toast.success(`Renamed to ${saveNameFor({ name: n, side: doc.data.side })}`, { detail: to });
     if (to !== from) navigate(bookHref(to), { replace: true });
   } catch (e) {
-    toast.error("Rename failed", { detail: errMsg(e) });
+    toast.error("Rename Failed", { detail: errMsg(e) });
   }
 }
 
@@ -188,14 +188,14 @@ export async function deletePlaybook(doc: DocEntry<PlaybookSpec>, opts: { open?:
     // The open playbook is gone: #/playbook opens the default one.
     if (opts.open) navigate("#/playbook", { replace: true });
   } catch (e) {
-    toast.error("Delete failed", { detail: errMsg(e) });
+    toast.error("Delete Failed", { detail: errMsg(e) });
   }
 }
 
 /** The "Playbooks" menu: open another playbook, create, duplicate / rename / delete the open one. */
 export function playbooksMenu(docs: DocEntry<PlaybookSpec>[], current?: DocEntry<PlaybookSpec>): MenuItem[] {
   const ok = !!current && !current.error && !!current.data;
-  const items: MenuItem[] = [{ kind: "heading", label: "Open a playbook" }];
+  const items: MenuItem[] = [{ kind: "heading", label: "Open a Playbook" }];
   for (const d of docs) {
     const file = d.path.replace(/^playbooks\//, "");
     const name = d.data && typeof d.data === "object" && d.data.name ? String(d.data.name) : file;
@@ -217,15 +217,15 @@ export function playbooksMenu(docs: DocEntry<PlaybookSpec>[], current?: DocEntry
   }
   items.push(
     { kind: "separator" },
-    { label: "New playbook…", icon: "plus", onSelect: () => void newPlaybook(false) },
-    { label: "New from stock template…", icon: "download", hint: "every stock formation and play", onSelect: () => void newPlaybook(true) },
+    { label: "New Playbook…", icon: "plus", onSelect: () => void newPlaybook(false) },
+    { label: "New From Stock Template…", icon: "download", hint: "every stock formation and play", onSelect: () => void newPlaybook(true) },
   );
   if (current)
     items.push(
       { kind: "separator" },
-      { label: "Duplicate this playbook…", icon: "duplicate", disabled: !ok, onSelect: () => void duplicatePlaybook(current) },
-      { label: "Rename this playbook…", icon: "file", disabled: !ok, onSelect: () => void renamePlaybook(current) },
-      { label: "Delete this playbook…", icon: "trash", danger: true, onSelect: () => void deletePlaybook(current, { open: true }) },
+      { label: "Duplicate This Playbook…", icon: "duplicate", disabled: !ok, onSelect: () => void duplicatePlaybook(current) },
+      { label: "Rename This Playbook…", icon: "file", disabled: !ok, onSelect: () => void renamePlaybook(current) },
+      { label: "Delete This Playbook…", icon: "trash", danger: true, onSelect: () => void deletePlaybook(current, { open: true }) },
     );
   return items;
 }

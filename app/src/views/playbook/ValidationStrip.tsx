@@ -1,6 +1,6 @@
 // Compact validation strip under the builder header: how full the save is (plays, sets, formations, CPU rows — template
 // sections included once the template save is loaded, counted the way the game-side builder copies them) and one
-// status button ("Ready to export" / "2 problems to fix"). Clicking a status opens the list; clicking an issue selects
+// status button ("Ready to Export" / "2 Problems to Fix"). Clicking a status opens the list; clicking an issue selects
 // its entry.
 import { useMemo, useState } from "react";
 import { BOOK_LIMITS } from "../../model/resolveBook";
@@ -74,10 +74,10 @@ export function ValidationStrip() {
   const nErr = groups.errors.length;
   const nWarn = groups.warnings.length;
   const status: { icon: IconName; label: string; tone: string; title: string } = nErr
-    ? { icon: "warning", label: `${nErr} problem${nErr === 1 ? "" : "s"} to fix`, tone: s.bad, title: "The export stops on these. Click to see them." }
+    ? { icon: "warning", label: `${nErr} Problem${nErr === 1 ? "" : "s"} to Fix`, tone: s.bad, title: "The export stops on these. Click to see them." }
     : nWarn
-      ? { icon: "warning", label: `Ready · ${nWarn} warning${nWarn === 1 ? "" : "s"}`, tone: s.warn, title: "The playbook builds; these are worth a look." }
-      : { icon: "check", label: "Ready to export", tone: s.good, title: "No problems found." };
+      ? { icon: "warning", label: `Ready · ${nWarn} Warning${nWarn === 1 ? "" : "s"}`, tone: s.warn, title: "The playbook builds; these are worth a look." }
+      : { icon: "check", label: "Ready to Export", tone: s.good, title: "No problems found." };
 
   return (
     <div className={s.strip} role="region" aria-label="Playbook check">
@@ -85,7 +85,7 @@ export function ValidationStrip() {
         {meter("Plays", c.plays, tpl.plays, limits.plays)}
         {meter("Sets", c.sets, tpl.sets, limits.sets)}
         {meter("Formations", c.formations + c.templateFormations, 0, limits.formations, { template: false })}
-        {meter("CPU rows", c.cpuRows, tpl.cpuRows + tpl.inherited, limits.cpuRows, { inherited: tpl.inherited })}
+        {meter("CPU Rows", c.cpuRows, tpl.cpuRows + tpl.inherited, limits.cpuRows, { inherited: tpl.inherited })}
       </div>
       <div className={s.status}>
         {groups.mod.length > 0 && (
@@ -96,7 +96,7 @@ export function ValidationStrip() {
             onClick={(e) => toggle("mod", e.currentTarget)}
           >
             <Icon name="info" size={14} />
-            {groups.mod.length} need{groups.mod.length === 1 ? "s" : ""} the mod
+            {groups.mod.length} Need{groups.mod.length === 1 ? "s" : ""} the Mod
           </button>
         )}
         <button
@@ -115,7 +115,7 @@ export function ValidationStrip() {
         <Floating anchor={open.anchor} placement="bottom-end" onDismiss={() => setOpen(null)} dismissIgnore={`.${s.pill}`} className={s.popover} zIndex={900}>
           {open.bucket === "mod" ? (
             <>
-              <div className={s.popTitle}>Plays that need the mod</div>
+              <div className={s.popTitle}>Plays That Need the Mod</div>
               <p className={s.popLead}>
                 These show up in game once the Playbook Studio mod is enabled — the Export tab builds it together with the playbook.
               </p>
@@ -127,7 +127,7 @@ export function ValidationStrip() {
             <div className={s.popBody}>
               {nErr > 0 && (
                 <>
-                  <div className={s.popTitle}>Fix before exporting</div>
+                  <div className={s.popTitle}>Fix Before Exporting</div>
                   <IssueList issues={groups.errors} onPick={() => setOpen(null)} />
                 </>
               )}

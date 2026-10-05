@@ -22,8 +22,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   color: var(--text-3);
 }
 .navTitle {
@@ -85,7 +83,6 @@
   font-weight: 700;
   font-size: var(--fd-lg);
   letter-spacing: 0.01em;
-  text-transform: uppercase;
   line-height: 1.05;
 }
 .sectionBlurb {
@@ -138,8 +135,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--text-3);
 }
 
@@ -189,14 +184,11 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
 }
 .pagerTitle {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  text-transform: uppercase;
   letter-spacing: 0.01em;
 }
 
@@ -215,8 +207,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--text-3);
 }
 .tocLink {

@@ -7,7 +7,7 @@ import { useSyncExternalStore, type PointerEvent as ReactPointerEvent } from "re
 import { createPortal } from "react-dom";
 import type { EntryRef } from "../../model/playbook";
 import type { PlayKey } from "../../model/types";
-import { Icon } from "../../ui";
+import { Icon, cx } from "../../ui";
 import s from "./dnd.module.css";
 
 export type DragKind = "formations" | "sets" | "plays" | "library";
@@ -230,7 +230,7 @@ export function DragLayer() {
       )}
       <div className={s.ghost} data-refused={refused || undefined} style={{ left: st.x + 14, top: st.y + 12 }}>
         <span className={s.count}>{st.payload.count}</span>
-        <span className={s.label}>{st.payload.label}</span>
+        <span className={cx(s.label, st.payload.count === 1 && "caps")}>{st.payload.label}</span>
         {refused && (
           <span className={s.reason}>
             <Icon name="close" size={12} /> {t.check.reason ?? "Can't drop here"}

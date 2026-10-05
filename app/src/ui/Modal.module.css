@@ -55,8 +55,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .title {
@@ -92,8 +91,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-2);
   margin-bottom: -6px;
 }

@@ -76,8 +76,8 @@ describe("export bundle zip", () => {
     expect(readme).not.toContain("MISSING");
     expect(readme).not.toMatch(/not built yet|planned/);
     expect(readme).toContain("mods/pbstudio.fbmod: 1 custom formation, 1 custom set, 3 cloned plays from 1 sets file; 1 custom play from 1 plays file, 0 library plays pulled in");
-    expect(readme).toContain("formation Gun PBS (new, from Shotgun)");
-    expect(readme).toContain("set Gun PBS / Trips Open - 3 cloned plays");
+    expect(readme).toContain("formation GUN PBS (new, from SHOTGUN)");
+    expect(readme).toContain("set GUN PBS / TRIPS OPEN - 3 cloned plays");
     expect(readme).toContain("playbooks\\sets\\*.json (custom formations, sets and the plays cloned into them)");
   });
 

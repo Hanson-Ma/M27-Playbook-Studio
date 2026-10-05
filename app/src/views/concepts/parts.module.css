@@ -32,8 +32,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 12.5px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
@@ -163,8 +162,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .pickerNow {
@@ -224,8 +222,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   cursor: pointer;
 }
 .applyHex:disabled {

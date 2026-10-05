@@ -6,7 +6,7 @@
 // Markdown parser (src/views/help/markdownAst.ts, so the PDF says exactly what the Help view shows), and writes:
 //   docs/guide/guide.html                    one self-contained, print-ready page (images inlined from public/guide/)
 //   docs/guide/Playbook-Studio-Guide.pdf      printed by headless Chrome (Page.printToPDF), page numbers in the footer
-//   public/guide/Playbook-Studio-Guide.pdf    the same PDF, shipped with the site (Help → "Open the PDF guide")
+//   public/guide/Playbook-Studio-Guide.pdf    the same PDF, shipped with the site (Help → "Open the PDF Guide")
 // Every section starts on a new page. Page numbers (footer and table of contents) come from the printed PDF itself:
 // the guide is printed, each section's page is read back from the PDF's named destinations, and the contents page is
 // filled in and printed again until the numbers settle (usually two prints). The footer uses CSS page-margin boxes.
@@ -139,7 +139,7 @@ function inline(nodes, ctx) {
     .join("");
 }
 
-const CALLOUT_LABEL = { tip: "Tip", warning: "Heads up", note: "Note" };
+const CALLOUT_LABEL = { tip: "Tip", warning: "Heads Up", note: "Note" };
 const CALLOUT_ICON = {
   tip: '<path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9-1.9 5.1-1.9-5.1L5 10.5l5.1-1.9z"/>',
   warning: '<path d="M12 4l9 15.5H3z"/><path d="M12 10v4.2M12 16.8v.2"/>',
@@ -201,7 +201,7 @@ const MONO = `"DM Mono", ui-monospace, Menlo, Consolas, monospace`;
 
 const CSS = /* css */ `
 @page { size: ${PAPER.name}; margin: ${MARGIN.top}in ${MARGIN.side}in ${MARGIN.bottom}in;
-  @bottom-left { content: "Playbook Studio · User guide"; vertical-align: top; padding-top: 0.2in; font: 500 6.8pt ${SANS}; letter-spacing: .1em; text-transform: uppercase; color: #8a909b; }
+  @bottom-left { content: "Playbook Studio · User Guide"; vertical-align: top; padding-top: 0.2in; font: 500 6.8pt ${SANS}; color: #8a909b; }
   @bottom-right { content: counter(page) " / " counter(pages); vertical-align: top; padding-top: 0.2in; font: 400 7.5pt ${MONO}; color: #5b616c; }
 }
 @page cover { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } }
@@ -232,28 +232,28 @@ body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 9.8pt
   break-after: page; }
 .cover-lines { position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent 0 47px, rgba(255,255,255,.035) 47px 48px); }
 .cover-inner { position: relative; padding: 1.15in 0.85in 0; }
-.cover .eyebrow { font: 500 9.5pt var(--display); letter-spacing: .3em; color: #9aa3b2; text-transform: uppercase; }
-.cover .title { margin: .12in 0 0; font: 700 56pt/0.92 var(--display); letter-spacing: -.02em; text-transform: uppercase; color: #fff; }
+.cover .eyebrow { font: 500 9.5pt var(--display); letter-spacing: .01em; color: #9aa3b2; }
+.cover .title { margin: .12in 0 0; font: 700 56pt/0.92 var(--display); letter-spacing: -.02em; color: #fff; }
 .cover .title span { color: #8b93a1; }
-.cover .subtitle { margin-top: .22in; font: 500 16pt var(--display); text-transform: uppercase; letter-spacing: .02em; color: #e9ecf1; }
+.cover .subtitle { margin-top: .22in; font: 500 16pt var(--display); color: #e9ecf1; }
 .cover .subtitle b { color: var(--yellow); font-weight: 700; }
 .cover .lede { margin-top: .16in; max-width: 5.6in; font: 400 11pt/1.5 var(--body); color: #b9c0cc; }
 .cover .hero { position: absolute; left: .85in; right: .85in; bottom: 1.25in; border-radius: 10px; overflow: hidden;
   box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); }
 .cover .hero img { display: block; width: 100%; }
 .cover .foot { position: absolute; left: .85in; right: .85in; bottom: .55in; display: flex; justify-content: space-between;
-  font: 500 7.5pt var(--display); letter-spacing: .1em; text-transform: uppercase; color: #7d8696; }
+  font: 500 7.5pt var(--display); color: #7d8696; }
 .cover .stripe { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: linear-gradient(90deg, var(--blue), var(--blue) 33%, var(--yellow) 33%, var(--yellow) 66%, var(--red) 66%); }
 
 /* ── contents ── */
 .toc { break-after: page; }
-.toc h1 { margin: 0 0 .03in; font: 700 24pt/1 var(--display); text-transform: uppercase; color: var(--ink); }
+.toc h1 { margin: 0 0 .03in; font: 700 24pt/1 var(--display); color: var(--ink); }
 .toc .toc-sub { margin: 0 0 .14in; color: var(--ink-3); }
 .toc ol { list-style: none; margin: 0; padding: 0; }
 .toc li { padding: 5px 0 6px; border-bottom: 1px solid var(--rule); break-inside: avoid; }
 .toc .row { display: flex; align-items: baseline; gap: 10px; }
 .toc .num { width: 30px; flex: none; font: 400 10.5pt var(--mono); color: #b5bcc8; }
-.toc .title { font: 700 10.5pt var(--display); text-transform: uppercase; color: var(--ink); text-decoration: none; }
+.toc .title { font: 700 10.5pt var(--display); color: var(--ink); text-decoration: none; }
 .toc .blurb { color: var(--ink-3); font-size: 9.2pt; }
 .toc .dots { flex: 1; border-bottom: 1.5px dotted #c3c8d1; transform: translateY(-4px); min-width: 20px; }
 .toc .pg { font: 500 10pt var(--mono); color: var(--ink); min-width: 22px; text-align: right; }
@@ -265,16 +265,16 @@ body { margin: 0; background: var(--paper); color: var(--ink-2); font: 400 9.8pt
 .chapter { break-before: page; }
 .opener { position: relative; margin: 0 0 .26in; padding: .26in .3in .24in; border-radius: 10px; color: #fff; overflow: hidden;
   background: radial-gradient(70% 120% at 0% 0%, rgba(62,123,250,.30), transparent 60%), radial-gradient(60% 120% at 100% 0%, rgba(229,72,77,.24), transparent 60%), var(--night); }
-.opener .kicker { font: 500 7.5pt var(--display); letter-spacing: .2em; text-transform: uppercase; color: #9aa3b2; }
-.opener h1 { margin: .04in 0 .05in; font: 700 26pt/0.98 var(--display); letter-spacing: -.01em; text-transform: uppercase; color: #fff; }
+.opener .kicker { font: 500 7.5pt var(--display); color: #9aa3b2; }
+.opener h1 { margin: .04in 0 .05in; font: 700 26pt/0.98 var(--display); letter-spacing: -.01em; color: #fff; }
 .opener .blurb { font: 400 10.5pt var(--body); color: #c7cdd7; }
 .opener .topics { margin-top: .12in; padding-top: .1in; border-top: 1px solid rgba(255,255,255,.12); font: 500 7.5pt var(--display);
-  letter-spacing: .05em; text-transform: uppercase; color: #8f98a8; }
+  color: #8f98a8; }
 .opener .topics a { color: #dfe3ea; text-decoration: none; }
 .opener .topics span.sep { color: #4b5361; padding: 0 .07in; }
 .opener::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: linear-gradient(90deg, var(--blue) 0 33%, var(--yellow) 33% 66%, var(--red) 66%); }
 
-h2, h3, h4 { color: var(--ink); font-family: var(--display); text-transform: uppercase; break-after: avoid; page-break-after: avoid; }
+h2, h3, h4 { color: var(--ink); font-family: var(--display); break-after: avoid; page-break-after: avoid; }
 h2 { margin: .24in 0 .07in; padding-top: .07in; font-size: 14.5pt; font-weight: 700; line-height: 1.08; border-top: 2px solid var(--ink); }
 h3 { margin: .16in 0 .04in; font-size: 10.8pt; font-weight: 700; }
 h4 { margin: .12in 0 .03in; font-size: 9.8pt; font-weight: 700; color: var(--ink-2); }
@@ -304,7 +304,7 @@ table { width: 100%; margin: .06in 0 .14in; border-collapse: separate; border-sp
 table.keep { break-inside: avoid; page-break-inside: avoid; }
 thead { display: table-header-group; }
 tr { break-inside: avoid; page-break-inside: avoid; }
-th { background: var(--night-2); color: #e9ecf1; text-align: left; padding: 6px 9px; font: 500 7.6pt var(--display); letter-spacing: .06em; text-transform: uppercase; }
+th { background: var(--night-2); color: #e9ecf1; text-align: left; padding: 6px 9px; font: 500 7.6pt var(--display); }
 td { padding: 5.5px 9px; border-top: 1px solid var(--rule); vertical-align: top; }
 tbody tr:nth-child(even) td { background: var(--tint); }
 td code { white-space: normal; }
@@ -313,7 +313,7 @@ td code { white-space: normal; }
 .callout.tip { border-color: #bfe3cc; border-left-color: var(--green); background: #f1faf4; }
 .callout.warning { border-color: #f1d9a8; border-left-color: var(--amber); background: #fdf7ea; }
 .callout.note { border-color: #c9d9f6; border-left-color: var(--info); background: #f2f6fd; }
-.callout-head { display: flex; align-items: center; gap: 6px; margin-bottom: .04in; font: 700 8.5pt var(--display); letter-spacing: .05em; text-transform: uppercase; }
+.callout-head { display: flex; align-items: center; gap: 6px; margin-bottom: .04in; font: 700 8.5pt var(--display); }
 .callout-head svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .callout.tip .callout-head { color: #157a41; }
 .callout.warning .callout-head { color: #9a5f06; }
@@ -321,7 +321,7 @@ td code { white-space: normal; }
 .callout p:last-child, .callout ul:last-child, .callout ol:last-child { margin-bottom: .04in; }
 
 .code { margin: .06in 0 .14in; border-radius: 7px; overflow: hidden; background: var(--night); break-inside: avoid; }
-.code-bar { padding: 3px 10px; background: var(--night-3); font: 400 7.5pt var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #8f98a8; }
+.code-bar { padding: 3px 10px; background: var(--night-3); font: 400 7.5pt var(--mono); color: #8f98a8; }
 .code pre { margin: 0; padding: 8px 12px 9px; font: 400 8.2pt/1.5 var(--mono); font-variant-ligatures: none; color: #e9ecf1; white-space: pre-wrap; word-break: break-word; }
 blockquote { margin: 0 0 .1in; padding-left: .14in; border-left: 3px solid var(--rule); color: var(--ink-3); }
 hr { border: 0; border-top: 1px solid var(--rule); margin: .16in 0; }
@@ -348,7 +348,7 @@ function coverHtml() {
 <div class="cover-inner">
   <div class="eyebrow">Madden NFL 27</div>
   <div class="title">Playbook <span>Studio</span></div>
-  <div class="subtitle">User guide · <b>Madden NFL 27</b></div>
+  <div class="subtitle">User Guide · <b>Madden NFL 27</b></div>
   <p class="lede">Build custom playbooks, design your own plays, routes and formations, and send them to the game: a step-by-step guide to every screen.</p>
 </div>
 ${hero ? `<div class="hero"><img src="${hero.uri}" alt=""></div>` : ""}
@@ -368,7 +368,7 @@ function tocHtml(sections, pages) {
   return `<section class="toc page-sheet"><h1>Contents</h1><p class="toc-sub">Every section starts on a new page. In the app, the same text is under Help (the ? at the top right).</p><ol>${rows}</ol></section>`;
 }
 
-function documentHtml(body, title = "Playbook Studio — User guide · Madden NFL 27") {
+function documentHtml(body, title = "Playbook Studio — User Guide · Madden NFL 27") {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>${esc(title)}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">

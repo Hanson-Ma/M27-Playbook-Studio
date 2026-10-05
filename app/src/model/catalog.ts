@@ -13,7 +13,7 @@
 //  - clones: base = `from` (a library play of ANY set, or an earlier clone), set = the custom set, key = <custom set
 //    folder>/<asset>. Custom plays: base = a library play or a clone, in the base's set, key = <base set folder>/<asset>.
 import { overlayLibraryIndex, type LibraryIndex } from "./library";
-import { folder, leaf, norm } from "./names";
+import { folder, leaf, maddenName, norm } from "./names";
 import { cloneAsset, customDefs, normalOf, type CustomDefs, type CustomSetDef, type SetsInput } from "./sets";
 import { hasMechanics, stepsEqual, withNone } from "./steps";
 import {
@@ -326,7 +326,7 @@ function applyPlaySpec(
       // Build our own version for its problems (first definition) or to detect a conflicting redefinition.
       const mine = buildNewSteps(lib, pspec, baseSlot.steps, authored, where, isFirst ? problems : []);
       if (!isFirst && first && !stepsEqual(mine.steps, first.steps)) {
-        problems.push(`${where}: "${pspec.new}" is first defined by "${first.play}" (${first.file}); that definition is used`);
+        problems.push(`${where}: "${pspec.new}" is first defined by "${maddenName(first.play)}" (${first.file}); that definition is used`);
       }
       const resolved = first ?? mine;
       if (!LEAF_RE.test(pspec.new)) problems.push(`${where}: authored name "${pspec.new}" must be [A-Za-z0-9_]`);
@@ -562,7 +562,7 @@ function buildOverlay(stock: LibraryIndex, setsDocs: readonly SetsInput[]): Cata
     });
   }
   // Duplicate assets / names inside a custom set (every member is flagged).
-  const where = (rp: ResolvedPlay) => `"${rp.name}" (${rp.file} set #${(rp.clone?.setIndex ?? 0) + 1}, play #${(rp.clone?.index ?? 0) + 1})`;
+  const where = (rp: ResolvedPlay) => `"${maddenName(rp.name)}" (${rp.file} set #${(rp.clone?.setIndex ?? 0) + 1}, play #${(rp.clone?.index ?? 0) + 1})`;
   const dupGroups = (keyOf: (rp: ResolvedPlay) => string | undefined) => {
     const m = new Map<string, ResolvedPlay[]>();
     for (const rp of clones) {
@@ -575,7 +575,7 @@ function buildOverlay(stock: LibraryIndex, setsDocs: readonly SetsInput[]): Cata
     for (const rp of g) rp.problems.push(`asset ${leaf(rp.key)} is also used by ${g.filter((o) => o !== rp).map(where).join(", ")}`);
   }
   for (const g of dupGroups((rp) => (rp.name.trim() ? rp.set + "|" + norm(rp.name) : undefined))) {
-    for (const rp of g) rp.problems.push(`name "${rp.name}" is also used by another custom play in this set: ${g.filter((o) => o !== rp).map(where).join(", ")}`);
+    for (const rp of g) rp.problems.push(`name "${maddenName(rp.name)}" is also used by another custom play in this set: ${g.filter((o) => o !== rp).map(where).join(", ")}`);
   }
   if (lib !== stock) overlayClones.set(lib, cloneByKey);
   return { lib, defs, clones, cloneByKey, authored, origin };
@@ -642,7 +642,7 @@ export function buildCatalog(
     for (const rp of custom) if (rp.set) push(m, keyOf(rp), rp);
     return [...m.values()].filter((g) => g.length > 1);
   };
-  const where = (rp: ResolvedPlay) => `"${rp.name}" (${rp.file} #${(rp.index ?? 0) + 1})`;
+  const where = (rp: ResolvedPlay) => `"${maddenName(rp.name)}" (${rp.file} #${(rp.index ?? 0) + 1})`;
   for (const g of groups((rp) => rp.key.toLowerCase())) {
     for (const rp of g) {
       const others = g.filter((o) => o !== rp).map(where).join(", ");
@@ -652,7 +652,7 @@ export function buildCatalog(
   for (const g of groups((rp) => rp.set + "|" + norm(rp.name))) {
     for (const rp of g) {
       const others = g.filter((o) => o !== rp).map(where).join(", ");
-      rp.problems.push(`name "${rp.name}" is also used by another custom play in this set: ${others}`);
+      rp.problems.push(`name "${maddenName(rp.name)}" is also used by another custom play in this set: ${others}`);
     }
   }
   const clonesBySet = new Map<Asset, ResolvedPlay[]>();
@@ -663,11 +663,11 @@ export function buildCatalog(
     if (!rp.set) continue;
     if (stock.playByAsset.has(rp.key)) rp.problems.push(`asset ${leaf(rp.key)} already exists in the library`);
     const clone = cloneKeysLower.get(rp.key.toLowerCase());
-    if (clone) rp.problems.push(`asset ${leaf(rp.key)} is also used by the cloned play "${clone.name}" (${clone.file})`);
+    if (clone) rp.problems.push(`asset ${leaf(rp.key)} is also used by the cloned play "${maddenName(clone.name)}" (${clone.file})`);
     if ((stock.playsBySet.get(rp.set) ?? []).some((p) => norm(p.name) === norm(rp.name))) {
-      rp.problems.push(`name "${rp.name}" is also a library play in this set (the game-side builder picks the library play; rename the custom play)`);
+      rp.problems.push(`name "${maddenName(rp.name)}" is also a library play in this set (the game-side builder picks the library play; rename the custom play)`);
     } else if ((clonesBySet.get(rp.set) ?? []).some((c) => norm(c.name) === norm(rp.name))) {
-      rp.problems.push(`name "${rp.name}" is also a cloned play in this set (the game-side builder picks the clone; rename the custom play)`);
+      rp.problems.push(`name "${maddenName(rp.name)}" is also a cloned play in this set (the game-side builder picks the clone; rename the custom play)`);
     }
   }
 

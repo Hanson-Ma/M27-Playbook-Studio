@@ -16,7 +16,7 @@ export function openPlay(key: string): void {
 export function toggleFavorite(play: ResolvedPlay): void {
   const was = useSettings.getState().favorites.includes(play.key);
   useSettings.getState().toggleFavorite(play.key);
-  toast.info(was ? `Removed "${play.name}" from favorites` : `★ Added "${play.name}" to favorites`, { duration: 1800 });
+  toast.info(was ? `Removed "${play.name.toUpperCase()}" From Favorites` : `★ Added "${play.name.toUpperCase()}" to Favorites`, { duration: 1800 });
 }
 
 /** Library base for designer links: the play itself, or a custom play's base. */
@@ -66,16 +66,16 @@ export function designerEditHref(play: ResolvedPlay): string | undefined {
 export function designerAction(play: ResolvedPlay): { label: string; enabled: boolean; title?: string; run(): void } {
   if (play.source === "custom") {
     const clone = isSetClone(play);
-    return { label: clone ? "Edit in Formations" : "Edit in designer", enabled: !!designerEditHref(play), run: () => editInDesigner(play) };
+    return { label: clone ? "Edit in Formations" : "Edit in Designer", enabled: !!designerEditHref(play), run: () => editInDesigner(play) };
   }
-  if (play.side === "defense") return { label: "Clone in designer", enabled: false, title: "The designer builds offensive plays", run: () => {} };
-  return { label: "Clone in designer", enabled: !!designerNewHref(play), run: () => cloneInDesigner(play) };
+  if (play.side === "defense") return { label: "Clone in Designer", enabled: false, title: "The designer builds offensive plays", run: () => {} };
+  return { label: "Clone in Designer", enabled: !!designerNewHref(play), run: () => cloneInDesigner(play) };
 }
 
 export function cloneInDesigner(play: ResolvedPlay): void {
   const h = designerNewHref(play);
   if (h) navigate(h);
-  else toast.warning("This play has no library base to clone from");
+  else toast.warning("This Play Has No Library Base to Clone From");
 }
 
 export function editInDesigner(play: ResolvedPlay): void {
@@ -88,7 +88,7 @@ export async function copyText(text: string, what = "Copied"): Promise<void> {
     await navigator.clipboard.writeText(text);
     toast.success(what, { detail: text, duration: 2200 });
   } catch {
-    toast.error("Couldn't copy to the clipboard", { detail: text });
+    toast.error("Couldn't Copy to the Clipboard", { detail: text });
   }
 }
 
@@ -99,12 +99,12 @@ export function playMenuItems(play: ResolvedPlay, opts: { onOpen(): void }): Men
   const design = designerAction(play);
   return [
     { label: "Open", icon: "external", onSelect: opts.onOpen },
-    { label: "Add to playbook…", icon: "plus", onSelect: () => openAddToPlaybook(play.key) },
+    { label: "Add to Playbook…", icon: "plus", onSelect: () => openAddToPlaybook(play.key) },
     { label: design.label, icon: custom ? "route" : "duplicate", disabled: !design.enabled, onSelect: design.run },
-    ...(custom && play.base && !isSetClone(play) ? [{ label: "Clone base in designer", icon: "duplicate" as const, onSelect: () => cloneInDesigner(play) }] : []),
-    { label: fav ? "Remove favorite" : "Favorite", icon: fav ? "starFilled" : "star", onSelect: () => toggleFavorite(play) },
+    ...(custom && play.base && !isSetClone(play) ? [{ label: "Clone Base in Designer", icon: "duplicate" as const, onSelect: () => cloneInDesigner(play) }] : []),
+    { label: fav ? "Remove Favorite" : "Favorite", icon: fav ? "starFilled" : "star", onSelect: () => toggleFavorite(play) },
     { kind: "separator" },
-    { label: "Copy asset path", icon: "copy", onSelect: () => void copyText(play.asset, "Asset path copied") },
-    ...(custom && play.file ? [{ label: `Copy file path (${leaf(play.file)})`, icon: "file" as const, onSelect: () => void copyText(play.file!, "File path copied") }] : []),
+    { label: "Copy Asset Path", icon: "copy", onSelect: () => void copyText(play.asset, "Asset Path Copied") },
+    ...(custom && play.file ? [{ label: `Copy File Path (${leaf(play.file)})`, icon: "file" as const, onSelect: () => void copyText(play.file!, "File Path Copied") }] : []),
   ];
 }

@@ -37,9 +37,13 @@ export interface SearchSelectProps {
   menuWidth?: number;
   /**
    * "field" (default): a form input with body type. "chrome": the trigger sits in headers/toolbars/trees and shows its
-   * value (and placeholder) in the uppercase display type like the rest of the chrome.
+   * value (and placeholder) in the display type like the rest of the chrome. Text shows as written.
    */
   variant?: "field" | "chrome";
+  /** Madden names (formations, sets, plays, play types) in ALL CAPS: true = the selected value and the menu's options
+   *  (the placeholder stays as written), "options" = only the menu's options (for add-pickers whose trigger is chrome).
+   *  Works with either variant. */
+  caps?: boolean | "options";
   title?: string;
   className?: string;
   "aria-label"?: string;
@@ -63,6 +67,7 @@ export function SearchSelect({
   maxRows = 10,
   menuWidth = 280,
   variant = "field",
+  caps,
   title,
   className,
   ...aria
@@ -86,7 +91,7 @@ export function SearchSelect({
       <button
         ref={trigger}
         type="button"
-        className={cx(s.trigger, s[size], variant === "chrome" && s.chrome, invalid && s.invalid, open && s.open, className)}
+        className={cx(s.trigger, s[size], variant === "chrome" && s.chrome, caps === true && s.caps, invalid && s.invalid, open && s.open, className)}
         style={{ width }}
         disabled={disabled}
         title={title ?? (current ? optionLabel(current) : value)}
@@ -122,6 +127,7 @@ export function SearchSelect({
           rowHeight={rowHeight}
           maxRows={maxRows}
           menuWidth={menuWidth}
+          caps={!!caps}
         />
       )}
     </>
@@ -142,10 +148,12 @@ interface PopoverProps {
   rowHeight: number;
   maxRows: number;
   menuWidth: number;
+  /** Option labels in caps (Madden names), like the trigger. */
+  caps?: boolean;
 }
 
 /** Mounted fresh on every open so its modal action scope sits on top of everything registered before. */
-function SearchPopover({ anchor, opts, byValue, value, onChoose, onClose, allowCustom, renderOption, searchPlaceholder, emptyText, rowHeight, maxRows, menuWidth }: PopoverProps) {
+function SearchPopover({ anchor, opts, byValue, value, onChoose, onClose, allowCustom, renderOption, searchPlaceholder, emptyText, rowHeight, maxRows, menuWidth, caps }: PopoverProps) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(() => Math.max(0, value === undefined ? -1 : opts.findIndex((o) => o.value === value)));
   const search = useRef<HTMLInputElement>(null);
@@ -218,7 +226,7 @@ function SearchPopover({ anchor, opts, byValue, value, onChoose, onClose, allowC
                 return (
                   <div className={cx(s.option, o.disabled && s.disabled, o === custom && s.custom)} onPointerMove={() => i !== active && setActive(i)}>
                     <span className={s.check}>{selected && <Icon name="check" size={13} />}</span>
-                    <span className={s.optLabel}>{optionLabel(o)}</span>
+                    <span className={cx(s.optLabel, caps && o !== custom && !o.chrome && s.capsOpt)}>{optionLabel(o)}</span>
                     {(o.hint || o.group) && <span className={s.hint}>{o.hint ?? o.group}</span>}
                   </div>
                 );

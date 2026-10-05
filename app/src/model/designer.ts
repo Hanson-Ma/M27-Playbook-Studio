@@ -18,7 +18,7 @@
 //   opcode from a library instance): `unbuildableSteps` lists the others so the views can flag them.
 import { resolveCustomPlay, type AuthoredAssignment, type Catalog } from "./catalog";
 import type { LibraryIndex } from "./library";
-import { folder, leaf, norm, sanitizeAssetLeaf, uniqueName } from "./names";
+import { folder, leaf, maddenName, norm, sanitizeAssetLeaf, uniqueName } from "./names";
 import { HALF_WIDTH } from "./geometry";
 import { isEligible, isOffensiveLine, positionCode, slotLabel } from "./positions";
 import { playTypeInfo } from "./playtypes";
@@ -851,7 +851,7 @@ export function playNameProblem(catalog: Catalog, set: Asset, name: string, self
   if (!n) return "Name is required";
   if ((catalog.lib.playsBySet.get(set) ?? []).some((p) => norm(p.name) === n)) return "A library play in this set has this name";
   const other = catalog.custom.find((rp) => rp.set === set && norm(rp.name) === n && rp.key !== selfKey);
-  if (other) return `Already used by "${other.name}" (${other.file})`;
+  if (other) return `Already used by "${maddenName(other.name)}" (${other.file})`;
   return undefined;
 }
 
@@ -864,7 +864,7 @@ export function assetProblem(catalog: Catalog, set: Asset, asset: string, selfKe
   const libHit = (catalog.lib.playsBySet.get(set) ?? []).some((p) => p.asset.toLowerCase() === lower) || catalog.lib.playByAsset.has(key);
   if (libHit) return "A library play already uses this asset";
   const other = catalog.custom.find((rp) => rp.key.toLowerCase() === lower && rp.key !== selfKey);
-  if (other) return `Already used by "${other.name}"`;
+  if (other) return `Already used by "${maddenName(other.name)}"`;
   return undefined;
 }
 

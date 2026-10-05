@@ -11,8 +11,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 13px;
-  letter-spacing: 0.015em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   line-height: 1;
   white-space: nowrap;
   color: var(--text);

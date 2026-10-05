@@ -25,7 +25,7 @@ const PlaybookView = lazy(() => import("./views/playbook/PlaybookView").then((m)
 const PlayCallView = lazy(() => import("./views/playcall/PlayCallView").then((m) => ({ default: m.PlayCallView })));
 const SettingsView = lazy(() => import("./views/settings/SettingsView").then((m) => ({ default: m.SettingsView })));
 
-/** Views with a top tab, in workflow order. Play Call lives under PLAYBOOK, Concepts under LIBRARY. */
+/** Views with a top tab, in workflow order. Play Call lives under Playbook, Concepts under Library. */
 type TabView = "playbook" | "library" | "designer" | "formations" | "export";
 
 const MAIN_TABS: TabItem<TabView>[] = [
@@ -96,10 +96,10 @@ async function saveDoc(path: string): Promise<void> {
   try {
     await useWorkspace.getState().save(path);
     const err = useWorkspace.getState().docs[path]?.error;
-    if (err) toast.error("Save failed", { detail: `${path}: ${err}` });
+    if (err) toast.error("Save Failed", { detail: `${path}: ${err}` });
     else toast.success("Saved", { detail: path });
   } catch (e) {
-    toast.error("Save failed", { detail: `${path}: ${errMsg(e)}` });
+    toast.error("Save Failed", { detail: `${path}: ${errMsg(e)}` });
   }
 }
 
@@ -107,7 +107,7 @@ async function saveActive(): Promise<void> {
   const { activePath, docs } = useWorkspace.getState();
   if (!activePath) return;
   if (!docs[activePath]?.dirty) {
-    toast.info("No changes to save", { detail: activePath, duration: 2000 });
+    toast.info("No Changes to Save", { detail: activePath, duration: 2000 });
     return;
   }
   await saveDoc(activePath);
@@ -119,10 +119,10 @@ async function saveAll(): Promise<void> {
   try {
     await useWorkspace.getState().saveAll();
     const failed = Object.values(useWorkspace.getState().docs).filter((d) => d.dirty && d.error);
-    if (failed.length) toast.error(`${failed.length} file${failed.length > 1 ? "s" : ""} failed to save`, { detail: failed.map((d) => d.path).join(", ") });
-    else toast.success(`Saved ${dirty} file${dirty > 1 ? "s" : ""}`);
+    if (failed.length) toast.error(`${failed.length} File${failed.length > 1 ? "s" : ""} Failed to Save`, { detail: failed.map((d) => d.path).join(", ") });
+    else toast.success(`Saved ${dirty} File${dirty > 1 ? "s" : ""}`);
   } catch (e) {
-    toast.error("Save all failed", { detail: errMsg(e) });
+    toast.error("Save All Failed", { detail: errMsg(e) });
   }
 }
 
@@ -134,7 +134,7 @@ function boot() {
     // init() never rejects; failures land in state.error.
     void ws.init().then(() => {
       const err = useWorkspace.getState().error;
-      if (err) toast.error("Couldn't load the workspace files", { detail: err });
+      if (err) toast.error("Couldn't Load the Workspace Files", { detail: err });
     });
   }
   const lib = useLibrary.getState();
@@ -165,12 +165,12 @@ export function App() {
 // ─────────────────────────────── loading screen ───────────────────────────────
 
 const TIPS: string[] = [
-  "Start in PLAYBOOK: open STUDIO, add plays from the library and set the four audibles per set",
+  "Start in Playbook: open Studio, add plays from the library and set the four audibles per set",
   `Every edit can be undone: ${comboLabel("mod+z")} undo, ${comboLabel("shift+mod+z")} redo`,
   `${comboLabel("mod+s")} saves the file you're editing to playbooks/`,
   "Draw a route once, save it to My Routes, and reuse it on any play and player",
   "The red route is the primary receiver — pick it in the designer's Play panel",
-  "Plays tagged NEEDS MOD aren't global — the Playbook Studio mod pulls them in",
+  "Plays tagged Needs Mod aren't global — the Playbook Studio mod pulls them in",
   "Custom plays start from a base play in the same set; handoff and option mechanics stay locked",
   "The game PC turns everything into one mod, pbstudio.fbmod, plus one save per playbook",
   "New here? The ? at the top right opens the guide for the screen you're on",
@@ -204,7 +204,7 @@ function LoadingScreen({ onSkip }: { onSkip(): void }) {
         {failed ? (
           <div className={s.loadError}>
             <div className={s.loadErrorTitle}>
-              <Icon name="warning" size={20} /> Couldn't load the play library
+              <Icon name="warning" size={20} /> Couldn't Load the Play Library
             </div>
             <code className={s.loadErrorMsg}>{error ?? "Unknown error"}</code>
             <div className={s.loadErrorHint}>
@@ -216,7 +216,7 @@ function LoadingScreen({ onSkip }: { onSkip(): void }) {
                 Retry
               </Button>
               <Button variant="secondary" size="lg" onClick={onSkip}>
-                Continue without library
+                Continue Without Library
               </Button>
             </div>
           </div>
@@ -225,7 +225,7 @@ function LoadingScreen({ onSkip }: { onSkip(): void }) {
             <ProgressBar
               value={value}
               indeterminate={value === undefined}
-              label={progress.label || (status === "idle" ? "Starting" : "Loading library")}
+              label={progress.label || (status === "idle" ? "Starting" : "Loading Library")}
               detail={formatProgress(progress.loaded, progress.total)}
             />
           </div>
@@ -243,7 +243,7 @@ function LoadingScreen({ onSkip }: { onSkip(): void }) {
 
 /**
  * Where a top tab goes. Clicking the tab you're on returns to its start screen; otherwise each tab reopens where you
- * left it (state/router.ts remembers it). From the play-call preview, PLAYBOOK opens the same book in the builder.
+ * left it (state/router.ts remembers it). From the play-call preview, Playbook opens the same book in the builder.
  */
 function tabTarget(id: TabView, current: Route): string {
   if (current.view === id) return `#/${id}`;
@@ -301,7 +301,7 @@ function Shell() {
     { id: "undo", label: "Undo", keys: ["mod+z"], enabled: canUndo, run: undo },
     { id: "redo", label: "Redo", keys: ["shift+mod+z", "mod+y"], enabled: canRedo, run: redo },
     { id: "save", label: "Save", keys: ["mod+s"], allowInInput: true, enabled: !!activePath, run: () => void saveActive() },
-    { id: "save-all", label: "Save all", keys: ["shift+mod+s"], allowInInput: true, enabled: dirtyCount > 0, run: () => void saveAll() },
+    { id: "save-all", label: "Save All", keys: ["shift+mod+s"], allowInInput: true, enabled: dirtyCount > 0, run: () => void saveAll() },
   ];
   useActions("global", globalActions);
 
@@ -316,7 +316,7 @@ function Shell() {
       <header className={s.topbar}>
         <a className={s.brand} href="#/playbook" aria-label="Playbook Studio home">
           <span className={s.brandEyebrow}>Madden NFL 27</span>
-          {/* Narrow windows show "PB STUDIO": a bare "PLAYBOOK" next to the PLAYBOOK tab reads like a duplicate tab. */}
+          {/* Narrow windows show "PB Studio": a bare "Playbook" next to the Playbook tab reads like a duplicate tab. */}
           <span className={s.brandMark}>
             <span className={s.brandLong}>Playbook</span>
             <span className={s.brandShort}>PB</span> <span className={s.brandStudio}>Studio</span>
@@ -383,7 +383,7 @@ function DocChip({ dirtyCount }: { dirtyCount: number }) {
       {error && <Icon name="warning" size={15} className={s.docError} />}
       {conflict && (
         <button type="button" className={s.diskChanged} onClick={() => openConflict(activePath)} title="Changed on disk — reload, overwrite or save a copy">
-          <Icon name="warning" size={13} /> Changed on disk
+          <Icon name="warning" size={13} /> Changed on Disk
         </button>
       )}
       <span className={s.docName}>{basename(activePath)}</span>

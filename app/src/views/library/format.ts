@@ -1,10 +1,10 @@
 // Small display helpers shared by the library views.
 
-/** "M1left" → "Motion 1 · left", "SM2right" → "Shift 2 · right". */
+/** "M1left" → "Motion 1 · Left", "SM2right" → "Shift 2 · Right". */
 export function presetLabel(key: string): string {
   const m = key.match(/^(S?M)(\d+)(left|right)$/i);
   if (!m) return key;
-  return `${m[1].toUpperCase() === "SM" ? "Shift" : "Motion"} ${m[2]} · ${m[3].toLowerCase()}`;
+  return `${m[1].toUpperCase() === "SM" ? "Shift" : "Motion"} ${m[2]} · ${m[3].charAt(0).toUpperCase()}${m[3].slice(1).toLowerCase()}`;
 }
 
 /** "StanceType_2pt_UpRight" → "2pt UpRight". */

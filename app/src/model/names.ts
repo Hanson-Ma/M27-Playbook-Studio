@@ -42,6 +42,15 @@ export function uniqueName(base: string, taken: Set<string>, sep = "_"): string 
   }
 }
 
+/**
+ * Madden names (formations, sets, plays, play types) as they read in game: ALL CAPS. Use only when building
+ * display text in the model (messages, notes, summaries) — never for keys, ids, assets or anything compared
+ * against game data.
+ */
+export function maddenName(s: string): string {
+  return String(s).toUpperCase(); // String(): hand-edited JSON can put a non-string where a name belongs
+}
+
 /** "Y_Trips_Wk" → "Y Trips Wk". */
 export function displayFromLeaf(leafName: string): string {
   return leafName.replace(/_+/g, " ").trim();

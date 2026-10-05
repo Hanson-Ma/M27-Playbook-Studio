@@ -13,13 +13,22 @@ import s from "./LeftPane.module.css";
 export function LeftPane() {
   return (
     <div className={s.pane}>
-      <StepHeader step={1} title="Pick a set" hint="Formations hold sets; sets hold plays" />
+      <StepHeader step={1} title="Pick a Set" hint="Formations hold sets; sets hold plays" />
       <SelectionBar />
       <Tree />
       <ClipboardPanel />
     </div>
   );
 }
+
+const LEVEL_LABEL: Record<string, string> = {
+  book: "Selected",
+  formation: "Formation",
+  set: "Set",
+  play: "Play",
+  tset: "Template Set",
+  tplay: "Template Play",
+};
 
 /** What's selected, with visible buttons for every tree command. */
 function SelectionBar() {
@@ -31,13 +40,15 @@ function SelectionBar() {
   const level = node?.level ?? "book";
   const editable = level === "formation" || level === "set" || level === "play";
   const template = level === "tset" || level === "tplay" || (level === "formation" && !!node?.rf?.template);
-  const what = !node ? "" : count > 1 ? `${count} ${level}s` : level === "book" ? "Whole playbook" : labelOf(node);
+  const what = !node ? "" : count > 1 ? `${count} ${level}s` : level === "book" ? "Whole Playbook" : labelOf(node);
+  // a single formation / set / play is a Madden name (caps); "Whole Playbook" and "3 sets" are chrome
+  const whatIsName = !!node && count <= 1 && level !== "book";
   const canPaste = !!clipTop && level !== "tset" && level !== "tplay" && !(template && clipTop.kind !== "formation");
   return (
     <div className={s.selBar} role="toolbar" aria-label="Selection">
       <span className={s.selWhat} title={what}>
-        <span className={s.selLevel}>{level === "tset" ? "template set" : level === "tplay" ? "template play" : level === "book" ? "selected" : level}</span>
-        <span className={s.selName}>{what}</span>
+        <span className={s.selLevel}>{LEVEL_LABEL[level] ?? level}</span>
+        <span className={cx(s.selName, whatIsName && "caps")}>{what}</span>
       </span>
       <IconButton icon="copy" size="sm" title={level === "book" ? "Copy every formation" : "Copy"} onClick={() => copySelection(data)} />
       <IconButton
@@ -89,7 +100,7 @@ function ClipboardPanel() {
             <div className={s.clipItem}>
               <Icon name="sparkle" size={14} className={s.clipKind} />
               <div className={s.clipText}>
-                <div className={s.clipLabel}>CPU weights</div>
+                <div className={s.clipLabel}>CPU Weights</div>
                 <div className={s.clipSub}>
                   {Object.keys(weights.cpu).length} situations · from {weights.from}
                 </div>
@@ -114,7 +125,7 @@ function ClipRow({ item, onPaste }: { item: ClipItem; onPaste(): void }) {
     <div className={s.clipItem}>
       <Icon name={KIND_ICON[item.kind]} size={14} className={s.clipKind} />
       <div className={s.clipText}>
-        <div className={s.clipLabel}>{item.label}</div>
+        <div className={cx(s.clipLabel, !(item.kind === "plays" && item.entries.length > 1) && "caps")}>{item.label}</div>
         <div className={s.clipSub}>
           {clipCount(item)}
           {fromOther ? ` · ${item.sourcePath.replace(/^playbooks\//, "")}` : item.from ? ` · ${item.from}` : ""}

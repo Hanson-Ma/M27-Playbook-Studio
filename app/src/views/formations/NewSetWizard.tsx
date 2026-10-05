@@ -27,6 +27,7 @@ import { Button, EmptyState, FormRow, Modal, Segmented, Select, TextInput, Virtu
 import { Advanced } from "./Common";
 import { SetCard, SET_CARD_ASPECT } from "./SetCard";
 import { activate, fileName, openSet, setArt, type SetsDoc } from "./shared";
+import { titleCase } from "../designer/titleCase";
 import s from "./Wizard.module.css";
 
 type Step = "pick" | "details";
@@ -51,8 +52,8 @@ export function NewSetWizard({ lib, docs, defaultFile, initialBase, onClose }: N
     <Modal
       open
       onClose={onClose}
-      eyebrow={`New set · step ${step === "pick" ? 1 : 2} of 2`}
-      title={step === "pick" ? "Pick a set to start from" : "Name your set"}
+      eyebrow={`New Set · Step ${step === "pick" ? 1 : 2} of 2`}
+      title={step === "pick" ? "Pick a Set to Start From" : "Name Your Set"}
       width={1040}
       footer={null}
       scopeId="formations.wizard"
@@ -156,7 +157,7 @@ function PickStep({ lib, initial, onPick, onCancel }: { lib: LibraryIndex; initi
             selectedIndex={formIndex}
             onSelect={(i) => chooseFormation(formList[i])}
             getKey={(i) => formList[i].asset}
-            empty={<EmptyState compact icon="search" title="No formations match" />}
+            empty={<EmptyState compact icon="search" title="No Formations Match" />}
             aria-label="Formations"
             renderRow={(i) => {
               const f = formList[i];
@@ -173,10 +174,16 @@ function PickStep({ lib, initial, onPick, onCancel }: { lib: LibraryIndex; initi
         </div>
         <div className={s.pickCol}>
           <div className={s.colHead}>
-            {formation ? `${formation.name} sets` : "Sets"}
+            {formation ? (
+              <span>
+                <span className="caps">{formation.name}</span> Sets
+              </span>
+            ) : (
+              "Sets"
+            )}
             {formation && (() => {
               const cls = setDepthClass(allSets[0]?.movements?.Normal ?? []);
-              return cls ? <span className={s.colMeta}>{DEPTH_CLASS_LABEL[cls]}</span> : null;
+              return cls ? <span className={s.colMeta}>{titleCase(DEPTH_CLASS_LABEL[cls])}</span> : null;
             })()}
           </div>
           <TextInput value={setQuery} onChange={setSetQuery} icon="search" placeholder={`Filter ${allSets.length} sets…`} clearable size="sm" aria-label="Filter sets" />
@@ -192,7 +199,7 @@ function PickStep({ lib, initial, onPick, onCancel }: { lib: LibraryIndex; initi
             onSelect={(i) => setPicked(sets[i].asset)}
             onActivate={(i) => onPick(sets[i])}
             getKey={(i) => sets[i].asset}
-            empty={<EmptyState compact icon="search" title={formation ? "No sets match" : "Pick a formation"} />}
+            empty={<EmptyState compact icon="search" title={formation ? "No Sets Match" : "Pick a Formation"} />}
             aria-label="Sets"
             renderCell={(i, st) => {
               const set = sets[i];
@@ -202,7 +209,11 @@ function PickStep({ lib, initial, onPick, onCancel }: { lib: LibraryIndex; initi
                   fill
                   art={setArt(set)}
                   name={set.name}
-                  subtitle={`${formation ? formationShort(formation.name) : ""} · ${plays} plays`}
+                  subtitle={
+                    <>
+                      <span className="caps">{formation ? formationShort(formation.name) : ""}</span> · {plays} plays
+                    </>
+                  }
                   selected={st.selected}
                   onClick={() => setPicked(set.asset)}
                   onDoubleClick={() => onPick(set)}
@@ -216,7 +227,15 @@ function PickStep({ lib, initial, onPick, onCancel }: { lib: LibraryIndex; initi
         <Button variant="ghost" onClick={onCancel}>
           Cancel
         </Button>
-        <span className={s.footNote}>{current ? `Starting from ${formation ? formationShort(formation.name) : ""} ${current.name.toUpperCase()}` : "Click a set (double-click to continue)"}</span>
+        <span className={s.footNote}>
+          {current ? (
+            <>
+              Starting from <span className="caps">{`${formation ? formationShort(formation.name) : ""} ${current.name}`}</span>
+            </>
+          ) : (
+            "Click a set (double-click to continue)"
+          )}
+        </span>
         <span className={s.grow} />
         <Button variant="primary" iconRight="chevronRight" onClick={next} disabled={!current}>
           Next
@@ -310,7 +329,7 @@ function DetailsStep({ lib, docs, base, defaultFile, onBack, onDone }: { lib: Li
         );
       }
     } catch (e) {
-      toast.error("Couldn't create the set", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Couldn't Create the Set", { detail: e instanceof Error ? e.message : String(e) });
       return;
     }
     activate(targetPath);
@@ -326,11 +345,12 @@ function DetailsStep({ lib, docs, base, defaultFile, onBack, onDone }: { lib: Li
     }
   };
 
-  const fileOptions = [...usable.map((d) => ({ value: d.path, label: `${fileName(d.path)} · ${d.data!.sets.length} set${d.data!.sets.length === 1 ? "" : "s"}` })), { value: NEW_FILE, label: "New file…" }];
+  const fileOptions = [...usable.map((d) => ({ value: d.path, label: `${fileName(d.path)} · ${d.data!.sets.length} set${d.data!.sets.length === 1 ? "" : "s"}` })), { value: NEW_FILE, label: "New File…" }];
+  // A native select can't style part of an option: the formation names (Madden names) are upper-cased here.
   const formOptions = [
-    { value: "base", label: `Keep it in ${baseFormName}` },
-    ...fileForms.map((f) => ({ value: customFormationAsset(f.asset), label: `${f.name} (my formation)` })),
-    { value: "new", label: "New formation…" },
+    { value: "base", label: `Keep It in ${baseFormName.toUpperCase()}` },
+    ...fileForms.map((f) => ({ value: customFormationAsset(f.asset), label: `${f.name.toUpperCase()} (My Formation)` })),
+    { value: "new", label: "New Formation…" },
   ];
   const plays = lib.playsBySet.get(base.asset)?.length ?? 0;
 
@@ -338,33 +358,41 @@ function DetailsStep({ lib, docs, base, defaultFile, onBack, onDone }: { lib: Li
     <div className={s.stepBody}>
       <div className={s.details}>
         <div className={s.preview}>
-          <SetCard art={setArt(base)} name={base.name} subtitle={`${formationShort(baseFormName)} · ${plays} plays`} />
+          <SetCard
+            art={setArt(base)}
+            name={base.name}
+            subtitle={
+              <>
+                <span className="caps">{formationShort(baseFormName)}</span> · {plays} plays
+              </>
+            }
+          />
           <p className={s.hint}>
             Your set starts as an exact copy of this one: same players, same motion presets. Next you'll move players and choose which of its plays (or plays from any
             other set) to copy in.
           </p>
         </div>
         <div className={s.form}>
-          <FormRow label="Set name" error={errors.name} hint="The name you'll see in the game and use in playbooks.">
+          <FormRow label="Set Name" error={errors.name} hint="The name you'll see in the game and use in playbooks.">
             <TextInput value={name} onChange={setName} invalid={!!errors.name} autoFocus onKeyDown={enterCreates} aria-label="Set name" />
           </FormRow>
           <FormRow label="Formation" hint={mode === "new" ? `A new formation based on ${baseFormName}; it shows up in the formation list like a game formation.` : "Which formation the set appears under in the game."}>
             <Select value={mode} onChange={setFormMode} options={formOptions} aria-label="Formation" />
           </FormRow>
           {mode === "new" && (
-            <FormRow label="Formation name" error={errors.formName}>
+            <FormRow label="Formation Name" error={errors.formName}>
               <TextInput value={formName} onChange={setFormName} invalid={!!errors.formName} onKeyDown={enterCreates} aria-label="Formation name" />
             </FormRow>
           )}
-          <FormRow label="Save in" error={errors.file} hint={file === NEW_FILE ? `Creates ${targetPath ?? "playbooks/sets/<name>.json"} (unsaved until ⌘/Ctrl+S).` : undefined}>
+          <FormRow label="Save In" error={errors.file} hint={file === NEW_FILE ? `Creates ${targetPath ?? "playbooks/sets/<name>.json"} (unsaved until ⌘/Ctrl+S).` : undefined}>
             <div className={s.fileRow}>
               <Segmented<"existing" | "new">
                 size="sm"
                 value={file === NEW_FILE ? "new" : "existing"}
                 onChange={(v) => setFile(v === "new" ? NEW_FILE : (usable[0]?.path ?? NEW_FILE))}
                 options={[
-                  { value: "existing", label: "Existing file", disabled: !usable.length },
-                  { value: "new", label: "New file" },
+                  { value: "existing", label: "Existing File", disabled: !usable.length },
+                  { value: "new", label: "New File" },
                 ]}
                 aria-label="File"
               />
@@ -375,12 +403,12 @@ function DetailsStep({ lib, docs, base, defaultFile, onBack, onDone }: { lib: Li
               )}
             </div>
           </FormRow>
-          <Advanced id="wizard" hint={advancedError ? "fix the asset name" : "asset names (generated)"}>
-            <FormRow label="Set asset" error={errors.asset} hint={asset === undefined ? `Generated from the prefix "${prefix}" and the name.` : "Asset leaf name, [A-Za-z0-9_]."}>
+          <Advanced id="wizard" hint={advancedError ? "Fix the asset name" : "Asset names (generated)"}>
+            <FormRow label="Set Asset" error={errors.asset} hint={asset === undefined ? `Generated from the prefix "${prefix}" and the name.` : "Asset leaf name, [A-Za-z0-9_]."}>
               <TextInput value={assetShown} onChange={(v) => setAsset(v)} mono invalid={!!errors.asset} onKeyDown={enterCreates} aria-label="Set asset" />
             </FormRow>
             {mode === "new" && (
-              <FormRow label="Formation asset" error={errors.formAsset}>
+              <FormRow label="Formation Asset" error={errors.formAsset}>
                 <TextInput value={formAssetShown} onChange={(v) => setFormAsset(v)} mono invalid={!!errors.formAsset} onKeyDown={enterCreates} aria-label="Formation asset" />
               </FormRow>
             )}
@@ -396,7 +424,7 @@ function DetailsStep({ lib, docs, base, defaultFile, onBack, onDone }: { lib: Li
         </Button>
         <span className={s.grow} />
         <Button variant="primary" onClick={create} disabled={!valid} title={valid ? "Create the set and open it" : Object.values(errors).find(Boolean)}>
-          Create set
+          Create Set
         </Button>
       </div>
     </div>

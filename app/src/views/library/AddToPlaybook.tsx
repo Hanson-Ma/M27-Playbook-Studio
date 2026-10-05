@@ -40,7 +40,7 @@ export function addToBook(path: string, key: PlayKey): boolean {
   const play = catalog?.get(key);
   const doc = useWorkspace.getState().docs[path] as DocEntry<PlaybookSpec> | undefined;
   if (!catalog || !play || !doc || doc.error || !doc.data) {
-    toast.error("Couldn't add the play", { detail: doc?.error ?? "Playbook or play not found" });
+    toast.error("Couldn't Add the Play", { detail: doc?.error ?? "Playbook or play not found" });
     return false;
   }
   const bookName = doc.data.name || leaf(path);
@@ -54,7 +54,7 @@ export function addToBook(path: string, key: PlayKey): boolean {
       { label: "Add play from library" },
     );
   } catch (e) {
-    toast.error(`Can't add "${play.name}" to ${bookName}`, { detail: errMsg(e) });
+    toast.error(`Can't Add "${play.name.toUpperCase()}" to ${bookName}`, { detail: errMsg(e) });
     return false;
   }
   if (!loc) return false;
@@ -68,8 +68,8 @@ export function addToBook(path: string, key: PlayKey): boolean {
   const setName = Array.isArray(fe.sets) ? fe.sets[where.s]?.set : "";
   const detail = `${fe.formation} › ${setName} · play ${where.p + 1}`;
   const action = { label: "Open", run: () => navigate(openBookHref(path, where)) };
-  if (where.added) toast.success(`Added "${play.name}" to ${bookName}`, { detail: `${detail} — unsaved (${saveHint})`, action, duration: 6000 });
-  else toast.info(`"${play.name}" is already in ${bookName}`, { detail, action });
+  if (where.added) toast.success(`Added "${play.name.toUpperCase()}" to ${bookName}`, { detail: `${detail} — unsaved (${saveHint})`, action, duration: 6000 });
+  else toast.info(`"${play.name.toUpperCase()}" Is Already in ${bookName}`, { detail, action });
   return true;
 }
 
@@ -110,7 +110,7 @@ export function AddToPlaybookHost() {
   const close = () => useAddState.setState({ key: undefined });
   if (!play) {
     return (
-      <Modal open title="Add to playbook" onClose={close} width="sm">
+      <Modal open title="Add to Playbook" onClose={close} width="sm">
         <p className={s.note}>This play isn't in the catalog anymore.</p>
       </Modal>
     );
@@ -194,11 +194,11 @@ function AddDialog({ play, onClose }: { play: ResolvedPlay; onClose(): void }) {
     let name: string | null;
     try {
       name = await promptDialog({
-        title: "New playbook",
+        title: "New Playbook",
         label: `Name (A–Z, 0–9 — the save becomes ${playSide === "defense" ? "PBOOKDEF" : "PBOOKOFF"}-<NAME>)`,
         initial: defaultBookName(playSide),
         placeholder: "MYBOOK",
-        confirmLabel: "Create & add",
+        confirmLabel: "Create & Add",
         body: `A new ${playSide} playbook${playSide === "offense" ? " with goal line and special teams kept as template sections" : ""}. It stays unsaved until you save it.`,
         validate: (v) => {
           const n = sanitizeBookName(v);
@@ -218,7 +218,7 @@ function AddDialog({ play, onClose }: { play: ResolvedPlay; onClose(): void }) {
     try {
       useWorkspace.getState().create<PlaybookSpec>(path, "playbook", newPlaybookSpec(n, playSide));
     } catch (e) {
-      toast.error("Couldn't create the playbook", { detail: errMsg(e) });
+      toast.error("Couldn't Create the Playbook", { detail: errMsg(e) });
       return;
     }
     if (addToBook(path, play.key)) onClose();
@@ -228,18 +228,18 @@ function AddDialog({ play, onClose }: { play: ResolvedPlay; onClose(): void }) {
     <Modal
       open
       onClose={onClose}
-      eyebrow="Add to playbook"
-      title={play.name}
+      eyebrow="Add to Playbook"
+      title={<span className="caps">{play.name}</span>}
       width="md"
       onConfirm={() => void confirm()}
-      confirmLabel={choice === NEW_ROW ? "New playbook…" : chosen?.existing ? "Show in book" : "Add"}
+      confirmLabel={choice === NEW_ROW ? "New Playbook…" : chosen?.existing ? "Show in Book" : "Add"}
       confirmDisabled={!canConfirm}
       scopeId="library.add.modal"
     >
       <div className={s.summary}>
         <PlayTypeTag playType={play.playType} size="sm" />
         <span className={s.subtitle}>{cardSubtitle(play, catalog)}</span>
-        {!play.global && <Tag tone="needsMod" size="sm">{play.source === "custom" ? "Custom · mod" : "Needs mod"}</Tag>}
+        {!play.global && <Tag tone="needsMod" size="sm">{play.source === "custom" ? "Custom · Mod" : "Needs Mod"}</Tag>}
       </div>
       {!play.global && (
         <p className={s.note}>
@@ -287,12 +287,12 @@ function AddDialog({ play, onClose }: { play: ResolvedPlay; onClose(): void }) {
                 </span>
               ) : r.existing ? (
                 <Tag tone="ok" variant="soft" size="sm">
-                  Already in book
+                  Already in Book
                 </Tag>
               ) : null}
               {r.side && (
                 <Tag tone="neutral" variant="outline" size="sm">
-                  {r.side}
+                  {r.side === "defense" ? "Defense" : "Offense"}
                 </Tag>
               )}
             </span>
@@ -308,7 +308,7 @@ function AddDialog({ play, onClose }: { play: ResolvedPlay; onClose(): void }) {
         >
           <span className={s.rowMain}>
             <span className={s.rowName}>
-              <Icon name="plus" size={15} /> New {playSide} playbook…
+              <Icon name="plus" size={15} /> New {playSide === "defense" ? "Defense" : "Offense"} Playbook…
             </span>
             <span className={s.rowPath}>playbooks/&lt;name&gt;.json</span>
           </span>

@@ -30,7 +30,7 @@
 .sectionTitle {
   font-size: var(--fd-md);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .count {
@@ -47,8 +47,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .clear:hover {
@@ -58,8 +57,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-4);
 }
 .note,
@@ -111,8 +109,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   transition:
     background var(--t-fast) var(--ease),
     color var(--t-fast) var(--ease);
@@ -194,8 +191,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .more:hover {
   color: var(--text);

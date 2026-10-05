@@ -1,5 +1,5 @@
 // Help (#/help[/<section>][?h=<heading id>]): the in-app user guide. Left: search + section list; right: the section
-// as a reading column with "On this page" links and previous/next. "Open the PDF guide" opens the printable guide built
+// as a reading column with "On This Page" links and previous/next. "Open the PDF Guide" opens the printable guide built
 // from the same Markdown (npm run guide → public/guide/Playbook-Studio-Guide.pdf, shipped with the site).
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { href, navigate, useRoute } from "../../state/router";
@@ -134,7 +134,7 @@ export function HelpView() {
             onClick={() => window.open(PDF_URL, "_blank", "noopener")}
             title="The whole guide as one PDF, with screenshots (opens in a new tab, where you can print or save it)"
           >
-            Open the PDF guide
+            Open the PDF Guide
           </Button>
         </div>
       </aside>
@@ -171,8 +171,8 @@ export function HelpView() {
             </footer>
           </article>
           {toc.length > 1 && (
-            <aside className={s.toc} aria-label="On this page">
-              <div className={s.tocHead}>On this page</div>
+            <aside className={s.toc} aria-label="On This Page">
+              <div className={s.tocHead}>On This Page</div>
               {toc.map((h) => (
                 <button
                   key={h.id}

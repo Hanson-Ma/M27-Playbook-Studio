@@ -57,8 +57,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 
@@ -75,7 +74,9 @@
   margin: 0 2px;
 }
 
+/* the set name: a Madden name, so caps */
 .title {
+  text-transform: uppercase;
   font-size: var(--fd-2xl);
   font-weight: 700;
   line-height: 0.95;
@@ -91,8 +92,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
@@ -130,8 +130,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 
@@ -172,8 +171,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
   border-radius: var(--r-pill);
 }
@@ -343,8 +341,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 
@@ -358,8 +355,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-2);
   cursor: default;
 }
@@ -424,8 +420,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 
@@ -458,8 +453,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 500;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-2);
 }
 
@@ -537,8 +531,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
   transition:
     background var(--t-fast) var(--ease),
@@ -645,8 +638,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
 }
 
@@ -670,7 +662,13 @@
   font-size: var(--fd-md);
   font-weight: 500;
   letter-spacing: 0.02em;
+  /* copied plays by name: Madden play names */
   text-transform: uppercase;
+}
+
+.cloneList .muted {
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .cloneList li {
@@ -705,8 +703,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-xs);
   font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
   margin-right: 4px;
 }
@@ -720,8 +717,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
 }
 
@@ -766,8 +762,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-sm);
   font-weight: 500;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 

@@ -5,7 +5,7 @@
 import { strToU8, zipSync, type Zippable } from "fflate";
 import { EXPORT_COMMAND, MOD_FILE, SAVES_FOLDER, type ExportSummary } from "./exportSummary";
 import { serializeDoc } from "./json";
-import { leaf } from "./names";
+import { leaf, maddenName } from "./names";
 import type { DocKind } from "./types";
 
 export interface BundleDoc {
@@ -91,7 +91,7 @@ export function bundleReadme(entries: readonly BundleEntry[], opts: BundleOption
     for (const save of s.saves) {
       lines.push(
         `  ${save.saveName}  <- ${save.file}: ${save.plays} plays in ${save.sets} sets / ${save.formations} formations` +
-          (save.templateSections.length ? ` + template: ${save.templateSections.join(", ")}` : "") +
+          (save.templateSections.length ? ` + template: ${save.templateSections.map(maddenName).join(", ")}` : "") +
           (save.willFail ? "  [WILL FAIL - fix the errors in Playbook Studio]" : ""),
       );
       // Why tools/pbook-build.mjs would stop on it (export.ps1 then builds nothing).
@@ -109,8 +109,8 @@ export function bundleReadme(entries: readonly BundleEntry[], opts: BundleOption
           : "") +
         `${count(s.customPlays.length, "custom play")} from ${count(s.playsFiles.length, "plays file")}, ${count(s.pulled.length, "library play")} pulled in`,
     );
-    for (const f of forms) lines.push(`      formation ${f.name} (new, from ${f.baseName || leaf(f.base)})`);
-    for (const st of sets) lines.push(`      set ${st.formationName} / ${st.name}${st.clones ? ` - ${count(st.clones, "cloned play")}` : ""}`);
+    for (const f of forms) lines.push(`      formation ${maddenName(f.name)} (new, from ${f.baseName ? maddenName(f.baseName) : leaf(f.base)})`);
+    for (const st of sets) lines.push(`      set ${maddenName(st.formationName)} / ${maddenName(st.name)}${st.clones ? ` - ${count(st.clones, "cloned play")}` : ""}`);
     for (const note of s.notes) lines.push(`  note: ${note}`);
   }
   lines.push("");

@@ -154,10 +154,10 @@ describe("exportSummary vs tools/pbook-build.mjs", () => {
     big.formations.unshift({ formation: "Shotgun", sets: Array.from({ length: 62 }, (_, i) => ({ set: sets[i % sets.length].name, plays: [{ play: lib.playsBySet.get(sets[i % sets.length].asset)![0].name }] })) });
     const r = exportSummary(cat, { playbooks: [audible, shape, side, missing, doc("zz-big", big)], plays }, { template: tc });
     const [a, b, c, d, e] = r.saves;
-    expect(a.failures).toEqual(["Y Trips Wk: audible slot 2 used twice", '"PBS Snag": audible slot must be 1–4', '"PBS Snag": unknown CPU situation in cpu']);
-    expect(b.failures).toEqual(['Shotgun: Bunch: "plays" must be an array']);
-    expect(c.failures).toEqual([expect.stringMatching(/^Unknown formation "Nickel" \("Nickel" is a defense formation/)]);
-    expect(d.failures).toEqual(['"Strong I" (formId 4) has no sets in the template, so "template" would drop it']);
+    expect(a.failures).toEqual(["Y TRIPS WK: audible slot 2 used twice", '"PBS SNAG": audible slot must be 1–4', '"PBS SNAG": unknown CPU situation in cpu']);
+    expect(b.failures).toEqual(['SHOTGUN: BUNCH: "plays" must be an array']);
+    expect(c.failures).toEqual([expect.stringMatching(/^Unknown formation "NICKEL" \("NICKEL" is a defense formation/)]);
+    expect(d.failures).toEqual(['"STRONG I" (formId 4) has no sets in the template, so "template" would drop it']);
     expect(e.failures).toEqual(["STID: 76 rows exceeds capacity 75 (template sections included)"]);
     expect(r.failing).toEqual(["PBOOKOFF-AUD", "PBOOKOFF-SH", "PBOOKOFF-SD", "PBOOKOFF-MS", "PBOOKOFF-BIG"]);
     // Without the template the capacity / template sections can't be known, so those saves aren't failed on it.
@@ -173,7 +173,7 @@ describe("exportSummary vs tools/pbook-build.mjs", () => {
   it("fails a custom formation kept as a template section (pbook-build throws)", () => {
     const gun = doc("zz-gun", { name: "GN", side: "offense", formations: [{ formation: "Gun PBS", sets: "template" }] });
     const r = exportSummary(ocat, { playbooks: [gun], plays, sets: [setsDoc] });
-    expect(r.saves[0].failures).toEqual([expect.stringMatching(/^"Gun PBS" \(formId \d+\) has no sets in the template, so "template" would drop it$/)]);
+    expect(r.saves[0].failures).toEqual([expect.stringMatching(/^"GUN PBS" \(formId \d+\) has no sets in the template, so "template" would drop it$/)]);
   });
 
   it("survives wrong-shaped specs", () => {

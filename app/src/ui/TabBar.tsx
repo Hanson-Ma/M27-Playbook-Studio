@@ -1,4 +1,4 @@
-// Madden-style tab row: TAB  TAB  TAB with the active tab as a light-gray pill. Mouse first; with keyboard focus on a
+// Madden-style tab row: Tab  Tab  Tab with the active tab as a light-gray pill. Mouse first; with keyboard focus on a
 // tab, ←/→ (and Home/End) move to the neighbouring tab, like any web tab list.
 import { useEffect, useRef, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import { cx } from "./cx";
@@ -13,6 +13,8 @@ export interface TabItem<T extends string = string> {
   badge?: ReactNode;
   disabled?: boolean;
   title?: string;
+  /** ALL CAPS label (a Madden name: formation, set, play). Default: the label as written (Title Case). */
+  caps?: boolean;
 }
 
 export interface TabBarProps<T extends string = string> {
@@ -81,7 +83,7 @@ export function TabBar<T extends string = string>({ items, active, onChange, siz
               onClick={() => onChange(t.id)}
             >
               {renderIcon(t.icon, size === "lg" ? 18 : 15)}
-              <span className={s.label}>{t.label}</span>
+              <span className={cx(s.label, t.caps && s.caps)}>{t.label}</span>
               {t.badge !== undefined && t.badge !== null && <span className={s.badge}>{t.badge}</span>}
             </button>
           );

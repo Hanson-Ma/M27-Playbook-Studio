@@ -13,6 +13,7 @@ import type { LibraryIndex } from "./library";
 import { AUDIBLE_FLAG_BITS } from "./audibles";
 import { nameAddressProblem } from "./playbookOps";
 import { formationBookSide } from "./library";
+import { maddenName } from "./names";
 import { bookFormation, type ResolveOptions } from "./resolveBook";
 import { SITUATION_BY_ID, SITUATION_ORDER } from "./situations";
 import type { AudibleSlot, FormationDef, FormationEntry, PlayDef, PlayEntry, SetDef, SetEntry, Side } from "./types";
@@ -440,16 +441,16 @@ export function templatePlayProblem(
 ): string | undefined {
   if (tp.foreign) {
     const own = catalog?.lib.setByAsset.get(tp.play.set)?.name;
-    return `filed under ${ts.set.name} in the stock save, but it belongs to ${own ?? "another set"} — a playbook lists a play in its own set`;
+    return `Filed under ${maddenName(ts.set.name)} in the stock save, but it belongs to ${own ? maddenName(own) : "another set"} — a playbook lists a play in its own set`;
   }
   if (!catalog) return undefined;
   const problem = nameAddressProblem(catalog, tp.play.asset, side, opts);
-  return problem ? `can't be listed by name: ${problem}` : undefined;
+  return problem ? `Can't be listed by name: ${problem}` : undefined;
 }
 
 /** Plays of a template formation that explicit entries can't carry, as "Set / Play" (foreign plays; with a catalog also name clashes). */
 export function templateSkippedPlays(tf: TemplateFormation, catalog?: Catalog, side: Side = "offense", opts: ResolveOptions = {}): string[] {
-  return tf.sets.flatMap((ts) => ts.plays.filter((tp) => templatePlayProblem(ts, tp, catalog, side, opts)).map((tp) => `${ts.set.name} / ${tp.play.name}`));
+  return tf.sets.flatMap((ts) => ts.plays.filter((tp) => templatePlayProblem(ts, tp, catalog, side, opts)).map((tp) => `${maddenName(ts.set.name)} / ${maddenName(tp.play.name)}`));
 }
 
 /**
@@ -460,12 +461,12 @@ export function templateSkippedPlays(tf: TemplateFormation, catalog?: Catalog, s
 export function templateFormationProblem(tf: TemplateFormation, lib: LibraryIndex, side?: Side, opts: ResolveOptions = {}): string | undefined {
   const own = formationBookSide(tf.formation);
   const s = side ?? own;
-  if (own !== s) return `${tf.formation.name} is ${own === "offense" ? "an offense" : "a defense"} formation, so ${s === "offense" ? "an offense" : "a defense"} playbook can't list it`;
+  if (own !== s) return `${maddenName(tf.formation.name)} is ${own === "offense" ? "an offense" : "a defense"} formation, so ${s === "offense" ? "an offense" : "a defense"} playbook can't list it`;
   const prefer: ResolveOptions = opts.template ? opts : { template: { formations: [tf], formIds: [tf.formation.formId], unresolved: [], unknownSituations: 0 } };
   const picked = bookFormation(lib, tf.formation.name, s, prefer);
   if (picked?.asset === tf.formation.asset) return undefined;
   const label = picked ? `${picked.asset.split("/").slice(-3, -1).join("/")} (formId ${picked.formId})` : "no formation";
-  return `tools/pbook-build.mjs resolves "${tf.formation.name}" to ${label}, not formId ${tf.formation.formId}, so its sets can't be written explicitly — keep it as "template"`;
+  return `tools/pbook-build.mjs resolves "${maddenName(tf.formation.name)}" to ${label}, not formId ${tf.formation.formId}, so its sets can't be written explicitly — keep it as "template"`;
 }
 
 /**
@@ -496,7 +497,7 @@ export function templateFormationToEntry(
     const plays: PlayEntry[] = [];
     for (const tp of ts.plays) {
       const reason = setClash
-        ? `set "${ts.set.name}" shares its name with another set in ${tf.formation.name}`
+        ? `Set "${maddenName(ts.set.name)}" shares its name with another set in ${maddenName(tf.formation.name)}`
         : templatePlayProblem(ts, tp, catalog, side, opts);
       if (reason) skip(ts, tp, reason);
       else plays.push(playEntryOf(tp));

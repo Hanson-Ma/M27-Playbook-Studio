@@ -42,8 +42,12 @@ export function ClonePlaysModal(p: ClonePlaysModalProps) {
     <Modal
       open
       onClose={p.onClose}
-      eyebrow={`${p.spec.name || "Custom set"} · copy plays from any set`}
-      title={`Plays in this set · ${count}`}
+      eyebrow={
+        <>
+          {p.spec.name ? <span className="caps">{p.spec.name}</span> : "Custom Set"} · Copy Plays From Any Set
+        </>
+      }
+      title={`Plays in This Set · ${count}`}
       width={1200}
       footer={null}
       scopeId="formations.plays"
@@ -151,7 +155,7 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
   const customize = () => {
     if (!entry || idx === undefined) return;
     if (!entry.asset || !isValidAsset(entry.asset)) {
-      toast.error("Fix the play's asset name first");
+      toast.error("Fix the Play's Asset Name First");
       return;
     }
     // The plays file the user last worked in; otherwise my-plays.json (created by the designer if it doesn't exist) —
@@ -160,7 +164,7 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
     const set = customSetPath(spec, formations);
     const key = cloneKey(spec, entry.asset, formations);
     if (!set || !key) {
-      toast.error("Fix the set's asset name first");
+      toast.error("Fix the Set's Asset Name First");
       return;
     }
     onClose();
@@ -179,8 +183,8 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
               setFilter("all");
             }}
             options={[
-              { value: "base", label: `Starting set · ${basePlays.length}`, title: `Plays of ${base.name}` },
-              { value: "all", label: "All sets", title: "Search every offense play in the game" },
+              { value: "base", label: `Starting Set · ${basePlays.length}`, title: `Plays of ${base.name}` },
+              { value: "all", label: "All Sets", title: "Search every offense play in the game" },
             ]}
             aria-label="Where to copy plays from"
           />
@@ -193,9 +197,9 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
             onChange={setFilter}
             options={[
               { value: "all", label: "Everything" },
-              { value: "checked", label: `In this set · ${entries.length}` },
-              { value: "safe", label: "No warnings" },
-              { value: "warn", label: "Needs a look" },
+              { value: "checked", label: `In This Set · ${entries.length}` },
+              { value: "safe", label: "No Warnings" },
+              { value: "warn", label: "Needs a Look" },
             ]}
             aria-label="Filter"
           />
@@ -208,7 +212,7 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
           onSelect={(i) => setCursorAsset(list[i].asset)}
           onActivate={(i) => toggle(list[i])}
           getKey={(i) => list[i].asset}
-          empty={<EmptyState compact icon="search" title={source === "all" && !query ? "Type to search every play" : "No plays match"} />}
+          empty={<EmptyState compact icon="search" title={source === "all" && !query ? "Type to Search Every Play" : "No Plays Match"} />}
           aria-label="Plays"
           renderRow={(i) => {
             const pl = list[i];
@@ -222,9 +226,23 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
                 <div className={s.rowText}>
                   <span className={s.rowName}>{pl.name}</span>
                   <span className={s.rowSub}>
-                    {e ? `as “${e.name}”` : ""}
+                    {e ? (
+                      <>
+                        as “<span className="caps">{e.name}</span>”
+                      </>
+                    ) : (
+                      ""
+                    )}
                     {e && other ? " · " : ""}
-                    {other ? `from ${playSetLabel(lib, pl)}` : !e ? <span className={s.rowAsset}>{leaf(pl.asset)}</span> : ""}
+                    {other ? (
+                      <>
+                        from <span className="caps">{playSetLabel(lib, pl)}</span>
+                      </>
+                    ) : !e ? (
+                      <span className={s.rowAsset}>{leaf(pl.asset)}</span>
+                    ) : (
+                      ""
+                    )}
                   </span>
                 </div>
                 {w.length > 0 && (
@@ -240,11 +258,11 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
         <div className={s.leftTools}>
           {source === "base" && (
             <Button size="sm" variant="secondary" icon="plus" disabled={!safeShown.length} onClick={() => addAll(safeShown)} title="Copy every listed play that has no warnings">
-              Add all without warnings{safeShown.length ? ` (${safeShown.length})` : ""}
+              Add All Without Warnings{safeShown.length ? ` (${safeShown.length})` : ""}
             </Button>
           )}
           <Button size="sm" variant="ghost" icon="close" disabled={!checkedShown} onClick={removeShown} title="Remove every listed play from this set">
-            Remove listed{checkedShown ? ` (${checkedShown})` : ""}
+            Remove Listed{checkedShown ? ` (${checkedShown})` : ""}
           </Button>
           <span className={s.grow} />
           {totalWarn > 0 && <span className={s.warnText}>{totalWarn} copied play{totalWarn === 1 ? " needs" : "s need"} a look</span>}
@@ -255,14 +273,14 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
         {current ? (
           <PlayPreview key={current.asset} lib={lib} base={base} spec={spec} play={current} vip={entry?.vip} warnings={warningsOf(current)} />
         ) : (
-          <EmptyState compact icon="field" title="Pick a play to preview it" />
+          <EmptyState compact icon="field" title="Pick a Play to Preview It" />
         )}
         {current && entry && idx !== undefined ? (
           <div className={s.entryForm}>
-            <FormRow label="Name in this set" error={!entry.name?.trim() ? "Required" : nameTaken ? "Another play in this set has this name" : undefined}>
+            <FormRow label="Name in This Set" error={!entry.name?.trim() ? "Required" : nameTaken ? "Another play in this set has this name" : undefined}>
               <TextInput value={entry.name ?? ""} size="sm" invalid={!entry.name?.trim() || nameTaken} onChange={(v) => update((d) => void (d.plays![idx].name = v), "clone-name", 1500)} aria-label="Play name in this set" />
             </FormRow>
-            <FormRow label="Primary receiver (red route)">
+            <FormRow label="Primary Receiver (Red Route)">
               <Select
                 size="sm"
                 value={entry.vip === undefined ? "" : String(entry.vip)}
@@ -274,7 +292,7 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
                   }, "clone-vip")
                 }
                 options={[
-                  { value: "", label: `Same as the original${normal[current.vip] ? ` (${playerLabel(normal[current.vip])})` : ""}` },
+                  { value: "", label: `Same as the Original${normal[current.vip] ? ` (${playerLabel(normal[current.vip])})` : ""}` },
                   ...normal.flatMap((a, i) => (isEligible(a) && i !== current.vip ? [{ value: String(i), label: `${playerLabel(a)} · slot ${i}` }] : [])),
                 ]}
                 aria-label="Primary receiver"
@@ -282,13 +300,13 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
             </FormRow>
             <div className={s.entryActions}>
               <Button size="sm" variant="secondary" icon="route" onClick={customize} title="Open the designer with a new custom play based on this copy (change routes, blocking, reads…)">
-                Customize this play…
+                Customize This Play…
               </Button>
               <Button size="sm" variant="ghost" icon="close" onClick={() => toggle(current)}>
-                Remove from set
+                Remove From Set
               </Button>
             </div>
-            <Advanced id="clone" hint="asset name">
+            <Advanced id="clone" hint="Asset name">
               <FormRow label="Asset" error={!isValidAsset(entry.asset ?? "") ? "Letters, digits and _ only" : assetTaken ? "Another play in this set has this asset" : undefined}>
                 <TextInput value={entry.asset ?? ""} size="sm" mono invalid={!isValidAsset(entry.asset ?? "") || assetTaken} onChange={(v) => update((d) => void (d.plays![idx].asset = v), "clone-asset", 1500)} aria-label="Clone asset" />
               </FormRow>
@@ -300,7 +318,7 @@ function ClonePlays({ lib, base, spec, formations, normal, update, onClose }: Cl
             <div className={s.addRow}>
               <span>Not in this set yet.</span>
               <Button size="sm" variant="primary" icon="plus" onClick={() => toggle(current)}>
-                Copy into this set
+                Copy Into This Set
               </Button>
             </div>
           </div>
@@ -347,7 +365,7 @@ function PlayPreview({ lib, base, spec, play, vip, warnings }: { lib: LibraryInd
           value={view}
           onChange={setView}
           options={[
-            { value: "custom", label: "In your set" },
+            { value: "custom", label: "In Your Set" },
             { value: "original", label: "Original" },
           ]}
           aria-label="Preview alignment"

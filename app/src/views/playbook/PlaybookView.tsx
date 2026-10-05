@@ -38,15 +38,15 @@ function OpenDefaultBook() {
     <div className={s.center}>
       <EmptyState
         icon="tree"
-        title="No playbooks yet"
+        title="No Playbooks Yet"
         body="A playbook is the list of formations, sets and plays you'll see in Madden. Start empty, or start from the game's stock playbook and trim it down."
         action={
           <>
             <Button variant="primary" icon="plus" onClick={() => void newPlaybook(false)}>
-              New playbook
+              New Playbook
             </Button>
             <Button icon="download" onClick={() => void newPlaybook(true)}>
-              New from stock template
+              New From Stock Template
             </Button>
           </>
         }

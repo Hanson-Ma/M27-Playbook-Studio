@@ -44,6 +44,7 @@ import { Inspector } from "./Inspector";
 import { PlayPanel } from "./PlayPanel";
 import { PlayerStrip } from "./PlayerStrip";
 import { getMyRoutes, saveToMyRoutes } from "./routesStore";
+import { titleCase } from "./titleCase";
 import { DesignerCtx, lockOf, playerName, slotGeometry, useDesigner, type DesignerCtxValue, type EditorUi } from "./shared";
 import s from "./Editor.module.css";
 
@@ -141,13 +142,13 @@ export function Editor({ file, index }: { file: string; index: number }) {
     if (at >= 0 && at !== index) navigate(href("designer", file, at), { replace: true });
   }, [at, index, file]);
 
-  const back = <Button onClick={() => navigate("#/designer")}>Back to plays</Button>;
+  const back = <Button onClick={() => navigate("#/designer")}>Back to Plays</Button>;
   if (!catalog) return null;
-  if (!doc) return <Centered title="Plays file not found" body={file} action={back} />;
-  if (doc.error || !doc.data) return <Centered title="This plays file can't be edited" body={doc.error ?? "Empty file"} action={back} />;
+  if (!doc) return <Centered title="Plays File Not Found" body={file} action={back} />;
+  if (doc.error || !doc.data) return <Centered title="This Plays File Can't Be Edited" body={doc.error ?? "Empty file"} action={back} />;
   if (at < 0) return <Removed file={file} />;
   const spec = plays?.[at];
-  if (!isPlay(spec) || id === undefined) return <Centered title="Play not found" body={`${file} has no play #${index + 1}.`} action={back} />;
+  if (!isPlay(spec) || id === undefined) return <Centered title="Play Not Found" body={`${file} has no play #${index + 1}.`} action={back} />;
   return <EditorInner key={`${file}#${id}`} file={file} index={at} playId={id} />;
 }
 
@@ -166,7 +167,7 @@ function Removed({ file }: { file: string }) {
     <div className={s.centered}>
       <EmptyState
         icon="warning"
-        title="This play was removed"
+        title="This Play Was Removed"
         body="Undo brings it back, or go back to the plays list."
         action={
           <div className={s.centeredActions}>
@@ -177,7 +178,7 @@ function Removed({ file }: { file: string }) {
               Redo
             </Button>
             <Button variant="ghost" onClick={() => navigate("#/designer")}>
-              Back to plays
+              Back to Plays
             </Button>
           </div>
         }
@@ -190,14 +191,14 @@ function Removed({ file }: { file: string }) {
 async function savePlays(file: string): Promise<void> {
   const ws = useWorkspace.getState();
   if (!ws.docs[file]?.dirty) {
-    toast.info("No changes to save", { detail: file, duration: 2000 });
+    toast.info("No Changes to Save", { detail: file, duration: 2000 });
     return;
   }
   try {
     await ws.save(file);
     toast.success("Saved", { detail: file });
   } catch (e) {
-    toast.error("Save failed", { detail: e instanceof Error ? e.message : String(e) });
+    toast.error("Save Failed", { detail: e instanceof Error ? e.message : String(e) });
   }
 }
 
@@ -241,7 +242,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
       try {
         out = JSON.parse(JSON.stringify(specFromState(next, { catalog: cat, docs, file, index, prefix: useSettings.getState().assetPrefix }))) as Obj;
       } catch (e) {
-        toast.error("Couldn't write the play", { detail: e instanceof Error ? e.message : String(e) });
+        toast.error("Couldn't Write the Play", { detail: e instanceof Error ? e.message : String(e) });
         return;
       }
       ws.update<PlaysFile>(
@@ -284,7 +285,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
   const makePrimary = useCallback(
     (slot: number) => {
       edit((st) => setPlayField(st, "vip", slot), "Primary receiver");
-      toast.success(`${set ? playerName(set, slot) : `Slot ${slot}`} is the primary receiver`, { detail: "Their route is drawn red — the QB's first look.", duration: 2500 });
+      toast.success(`${set ? playerName(set, slot) : `Slot ${slot}`} Is the Primary Receiver`, { detail: "Their route is drawn red — the QB's first look.", duration: 2500 });
     },
     [edit, set],
   );
@@ -296,17 +297,17 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
       const keep = lockOf(st, ui, slot) ?? undefined;
       const steps = st.slots[slot]?.steps ?? [];
       if (!canSaveRoute(steps, keep)) {
-        toast.info("Nothing to save yet", { detail: "Draw or pick a route for this player first." });
+        toast.info("Nothing to Save Yet", { detail: "Draw or pick a route for this player first." });
         return;
       }
       const existing = getMyRoutes();
       const suggestion = suggestRouteName(st, slot);
       const name = await promptDialog({
-        title: "Save route to My Routes",
-        label: "Route name",
+        title: "Save Route to My Routes",
+        label: "Route Name",
         initial: suggestion,
         body: "Saved routes can be put on any player in any play — they flip automatically for the other side of the field.",
-        confirmLabel: "Save route",
+        confirmLabel: "Save Route",
         validate: (v) => (!v.trim() ? "Give the route a name" : undefined),
       });
       if (!name) return;
@@ -395,16 +396,16 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
     // ⌘S saves the plays file being edited, whatever the shell's active doc is.
     { id: "save", label: "Save", keys: ["mod+s"], allowInInput: true, run: () => void savePlays(file) },
     { id: "deselect", label: "Deselect", keys: ["Escape"], enabled: !!ui.vertex || ui.drawing || selSlot !== undefined || ui.moveStart !== undefined, run: escape },
-    { id: "delete", label: "Delete point", keys: ["Delete", "Backspace"], enabled: vertexSelected, run: deleteSelected },
+    { id: "delete", label: "Delete Point", keys: ["Delete", "Backspace"], enabled: vertexSelected, run: deleteSelected },
   ];
   useActions("designer.editor", actions);
 
   if (!set || !state.base || !ctx) {
     return (
       <Centered
-        title="The base play isn't in the library"
+        title="The Base Play Isn't in the Library"
         body={`${spec.name}: base ${String(spec.base)} wasn't found. Edit the plays file or pick another base from the plays list.`}
-        action={<Button onClick={() => navigate("#/designer")}>Back to plays</Button>}
+        action={<Button onClick={() => navigate("#/designer")}>Back to Plays</Button>}
       />
     );
   }
@@ -438,10 +439,10 @@ function suggestRouteName(st: DesignerState, slot: number): string {
     .replace(/_(Lt|Rt|Left|Right)$/, "")
     .replace(/_/g, " ")
     .trim();
-  const nice = words ? words.charAt(0).toUpperCase() + words.slice(1).toLowerCase() : "";
+  const nice = words ? titleCase(words.toLowerCase()) : "";
   const name = st.slots[slot]?.name;
   if (name && !/_\d+$/.test(name) && !/^PBS_(X|Z|Y|Slot|HB|FB|TE\d)_/.test(name)) return name.replace(/^PBS_/, "").replace(/_/g, " ");
-  return nice || "My route";
+  return nice || "My Route";
 }
 
 /** Right-click menu for a player (field or player strip). */
@@ -459,27 +460,27 @@ function PlayerMenu({ slot, at, onClose }: { slot: number; at: { x: number; y: n
   const select = (tab: EditorUi["tab"]) => setUi({ slot, vertex: undefined, tab, drawing: false, moveStart: undefined });
   const items: MenuItem[] = [
     { kind: "heading", label: playerName(set, slot) },
-    ...(eligible ? [{ label: "Edit route", icon: "route", onSelect: () => select("route") } satisfies MenuItem] : []),
-    { label: "Edit blocking", icon: "block", onSelect: () => select("block") },
-    ...(!lineman ? [{ label: "Edit motion", icon: "motion", onSelect: () => select("motion") } satisfies MenuItem] : []),
+    ...(eligible ? [{ label: "Edit Route", icon: "route", onSelect: () => select("route") } satisfies MenuItem] : []),
+    { label: "Edit Blocking", icon: "block", onSelect: () => select("block") },
+    ...(!lineman ? [{ label: "Edit Motion", icon: "motion", onSelect: () => select("motion") } satisfies MenuItem] : []),
     { kind: "separator" },
     ...(eligible
       ? [
           slot === d.vip
-            ? ({ label: "Primary receiver (red route)", checked: true, disabled: true } satisfies MenuItem)
-            : ({ label: "Make primary receiver (red route)", onSelect: () => d.makePrimary(slot) } satisfies MenuItem),
+            ? ({ label: "Primary Receiver (Red Route)", checked: true, disabled: true } satisfies MenuItem)
+            : ({ label: "Make Primary Receiver (Red Route)", onSelect: () => d.makePrimary(slot) } satisfies MenuItem),
         ]
       : []),
-    ...(lock !== null && canSaveRoute(steps, lock || undefined) ? [{ label: "Save route to My Routes…", icon: "star", onSelect: () => d.saveRoute(slot) } satisfies MenuItem] : []),
+    ...(lock !== null && canSaveRoute(steps, lock || undefined) ? [{ label: "Save Route to My Routes…", icon: "star", onSelect: () => d.saveRoute(slot) } satisfies MenuItem] : []),
     ...(sl.movable
       ? [
           moved
-            ? ({ label: "Reset to formation spot", icon: "undo", onSelect: () => d.edit((st) => clearStartOverride(st, slot), "Reset start spot") } satisfies MenuItem)
-            : ({ label: "Move this player for this play only", icon: "drag", onSelect: () => setUi({ slot, moveStart: slot, vertex: undefined, drawing: false }) } satisfies MenuItem),
+            ? ({ label: "Reset to Formation Spot", icon: "undo", onSelect: () => d.edit((st) => clearStartOverride(st, slot), "Reset start spot") } satisfies MenuItem)
+            : ({ label: "Move This Player for This Play Only", icon: "drag", onSelect: () => setUi({ slot, moveStart: slot, vertex: undefined, drawing: false }) } satisfies MenuItem),
         ]
       : []),
-    ...(isSlotChanged(state, slot) ? [{ label: "Reset to the base play's assignment", icon: "undo", onSelect: () => d.edit((st) => resetSlot(st, slot), "Reset player") } satisfies MenuItem] : []),
-    ...(isSlotLocked(state, slot) && lock === null ? [{ kind: "heading", label: "Handoff player: locked (see the right panel)" } satisfies MenuItem] : []),
+    ...(isSlotChanged(state, slot) ? [{ label: "Reset to the Base Play's Assignment", icon: "undo", onSelect: () => d.edit((st) => resetSlot(st, slot), "Reset player") } satisfies MenuItem] : []),
+    ...(isSlotLocked(state, slot) && lock === null ? [{ kind: "heading", label: "Handoff Player: Locked (See the Right Panel)" } satisfies MenuItem] : []),
   ];
   return <Menu items={items} anchor={at} onClose={onClose} scopeId="designer.player" minWidth={260} />;
 }
@@ -494,16 +495,17 @@ function EditorHeader() {
     <header className={s.header}>
       <IconButton icon="chevronLeft" title="Back to the plays list" onClick={() => navigate("#/designer")} />
       <div className={s.titles}>
+        {/* Formation › set and the base play are Madden names (caps); "Base" is chrome. */}
         <div className={s.eyebrow}>
-          {play ? cardSubtitle(play, catalog) : ""} · base {state.base?.name}
+          <span className="caps">{play ? cardSubtitle(play, catalog) : ""}</span> · Base <span className="caps">{state.base?.name}</span>
         </div>
-        <h1 className={s.title}>{state.play.name || "Untitled play"}</h1>
+        <h1 className={s.title}>{state.play.name || "Untitled Play"}</h1>
       </div>
       <PlayTypeTag playType={playType} />
       {problems.length > 0 && (
         <Tooltip content={<ul className={s.problemList}>{problems.map((p, i) => <li key={i}>{p}</li>)}</ul>}>
           <Tag tone="danger" icon="warning">
-            {problems.length} problem{problems.length > 1 ? "s" : ""}
+            {problems.length} Problem{problems.length > 1 ? "s" : ""}
           </Tag>
         </Tooltip>
       )}
@@ -515,10 +517,10 @@ function EditorHeader() {
           onClick={() => setUi({ free: !ui.free })}
           title={ui.free ? "Points go exactly where you drop them. Click to snap to 0.5 yd and 5° steps." : "Points snap to 0.5 yd and 5° steps. Click for free placement (or hold Alt while dragging)."}
         >
-          {ui.free ? "Free placement" : "Snap to grid"}
+          {ui.free ? "Free Placement" : "Snap to Grid"}
         </Button>
         <Button size="sm" variant="ghost" icon="flip" active={ui.flip} onClick={() => setUi({ flip: !ui.flip })} title="Show the play flipped (view only — the play itself isn't changed)">
-          Flip view
+          Flip View
         </Button>
         <Button size="sm" variant="ghost" onClick={() => navigate(href("library", "play", play?.key ?? ""))} disabled={!play} title="Open this play in the library">
           Details

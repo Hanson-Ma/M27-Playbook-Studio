@@ -6,7 +6,7 @@ import s from "./Layout.module.css";
 
 export interface PanelProps {
   title?: ReactNode;
-  /** Small gray uppercase line above the title. */
+  /** Small gray line above the title (Title Case). */
   eyebrow?: ReactNode;
   /** Right side of the header (buttons). */
   actions?: ReactNode;

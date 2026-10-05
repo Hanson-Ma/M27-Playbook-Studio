@@ -25,7 +25,7 @@ async function persist(what: string): Promise<boolean> {
     await useWorkspace.getState().save(ROUTES_PATH);
     return true;
   } catch (e) {
-    toast.error(`Couldn't save My Routes (${what})`, { detail: e instanceof Error ? e.message : String(e) });
+    toast.error(`Couldn't Save My Routes (${what})`, { detail: e instanceof Error ? e.message : String(e) });
     return false;
   }
 }
@@ -34,7 +34,7 @@ function change(recipe: (d: RoutesDoc) => void, label: string): boolean {
   const ws = useWorkspace.getState();
   const doc = ws.docs[ROUTES_PATH];
   if (doc?.error) {
-    toast.error("My Routes can't be changed", { detail: `${ROUTES_PATH} couldn't be read: ${doc.error}` });
+    toast.error("My Routes Can't Be Changed", { detail: `${ROUTES_PATH} couldn't be read: ${doc.error}` });
     return false;
   }
   if (!doc) ws.create<RoutesDoc>(ROUTES_PATH, "appdata", emptyRoutesDoc());

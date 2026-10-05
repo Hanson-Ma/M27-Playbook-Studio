@@ -58,7 +58,7 @@ function NoSlot() {
       <EmptyState
         compact
         icon="route"
-        title="Pick a player"
+        title="Pick a Player"
         body="Click a player on the field or in the row above it. Then choose a route, draw one point by point, set up blocking or motion — or right-click the player for quick actions."
       />
       <ol className={s.steps}>
@@ -96,7 +96,7 @@ function SlotInspector({ slot }: { slot: number }) {
       <header className={s.slotHead}>
         <div className={s.slotTitles}>
           <div className={s.eyebrow}>
-            {positionName(a.pos)} · slot {slot}
+            {positionName(a.pos)} · Slot {slot}
           </div>
           <h2 className={s.slotTitle}>
             {label}
@@ -106,7 +106,7 @@ function SlotInspector({ slot }: { slot: number }) {
         <div className={s.slotTags}>
           {primary && (
             <Tag tone="danger" size="sm" title="The primary receiver's route is drawn red: the QB's first look">
-              Primary receiver
+              Primary Receiver
             </Tag>
           )}
           {changed && (
@@ -121,7 +121,7 @@ function SlotInspector({ slot }: { slot: number }) {
           )}
           {bad.length > 0 && (
             <Tag tone="danger" size="sm" icon="warning" title={bad.map((b) => unbuildableReason(b.type)).join("\n")}>
-              Can't build
+              Can't Build
             </Tag>
           )}
         </div>
@@ -130,17 +130,17 @@ function SlotInspector({ slot }: { slot: number }) {
       <div className={s.quickRow}>
         {eligible && !primary && (
           <Button size="sm" variant="secondary" onClick={() => d.makePrimary(slot)} title="Make this player's route the red one (the QB's first look)">
-            <span className={s.redDot} aria-hidden /> Make primary receiver
+            <span className={s.redDot} aria-hidden /> Make Primary Receiver
           </Button>
         )}
         {canSave && (
           <Button size="sm" variant="secondary" icon="star" onClick={() => d.saveRoute(slot)} title="Keep this route to reuse it on any play and player">
-            Save route to My Routes
+            Save Route to My Routes
           </Button>
         )}
         {changed && (
           <Button size="sm" variant="ghost" icon="undo" onClick={() => d.edit((st) => resetSlot(st, slot), "Reset player")} title="Back to what this player does in the base play">
-            Reset player
+            Reset Player
           </Button>
         )}
       </div>
@@ -150,7 +150,7 @@ function SlotInspector({ slot }: { slot: number }) {
       {lockedBase && <LockPanel slot={slot} lock={lock} />}
       {lock === null ? (
         <div className={s.lockedBody}>
-          <div className={s.sectionTitle}>What this player does (locked)</div>
+          <div className={s.sectionTitle}>What This Player Does (Locked)</div>
           <ol className={s.summary}>
             {steps
               .filter((x) => x.type !== "None")
@@ -220,7 +220,7 @@ function StartSpot({ slot }: { slot: number }) {
       <div className={s.spotActions}>
         {moved ? (
           <Button size="sm" variant="ghost" icon="undo" onClick={() => (d.edit((st) => clearStartOverride(st, slot), "Reset start spot"), setUi({ moveStart: undefined }))}>
-            Reset to formation spot
+            Reset to Formation Spot
           </Button>
         ) : ui.moveStart === slot ? (
           <Button size="sm" variant="ghost" onClick={() => setUi({ moveStart: undefined })}>
@@ -228,7 +228,7 @@ function StartSpot({ slot }: { slot: number }) {
           </Button>
         ) : (
           <Button size="sm" variant="ghost" icon="drag" onClick={() => setUi({ moveStart: slot, vertex: undefined, drawing: false })}>
-            Move this player for this play only
+            Move This Player for This Play Only
           </Button>
         )}
       </div>
@@ -247,14 +247,14 @@ function BuildError({ slot, types }: { slot: number; types: string[] }) {
     }, "Remove unbuildable steps");
   return (
     <div className={s.buildError} role="alert">
-      <div className={s.buildErrorTitle}>Can't build this player's assignment</div>
+      <div className={s.buildErrorTitle}>Can't Build This Player's Assignment</div>
       <p className={s.note}>
         {types.join(", ")} {types.length > 1 ? "have" : "has"} no example in the game's library, so the game-side builder can't make {types.length > 1 ? "them" : "it"} and the
-        export would stop. Remove {types.length > 1 ? "them" : "it"} (a double move can use a cut such as Stutter or Slant-and-go instead).
+        export would stop. Remove {types.length > 1 ? "them" : "it"} (a double move can use a cut such as Stutter or Slant-and-Go instead).
       </p>
       <div className={s.buildErrorActions}>
         <Button size="sm" variant="danger" icon="trash" onClick={remove}>
-          Remove {types.length > 1 ? "these steps" : types[0]}
+          Remove {types.length > 1 ? "These Steps" : types[0]}
         </Button>
       </div>
     </div>
@@ -268,7 +268,7 @@ function LockPanel({ slot, lock }: { slot: number; lock: number | null }) {
   const precan = base.slice(0, n).map(stepSummary).join(" → ");
   return (
     <div className={cx(s.lockPanel, lock !== null && s.lockOpen)}>
-      <div className={s.lockTitle}>{lock === null ? "Handoff player — locked" : "Editing after the handoff"}</div>
+      <div className={s.lockTitle}>{lock === null ? "Handoff Player — Locked" : "Editing After the Handoff"}</div>
       <p className={s.note}>
         This player's first steps ({precan || "the handoff"}) are paired with the QB — a handoff, fake, option or pitch — so they always come from the base play, and so
         does where they line up. To change the handoff itself, pick another base play on the left.
@@ -276,7 +276,7 @@ function LockPanel({ slot, lock }: { slot: number; lock: number | null }) {
       </p>
       {lock === null ? (
         <Button size="sm" icon="unlock" onClick={() => d.setUi((u) => ({ unlocked: { ...u.unlocked, [slot]: n }, drawing: false }))}>
-          Edit what happens after the handoff
+          Edit What Happens After the Handoff
         </Button>
       ) : d.ui.unlocked[slot] === undefined ? null : (
         <Button
@@ -291,7 +291,7 @@ function LockPanel({ slot, lock }: { slot: number; lock: number | null }) {
             })
           }
         >
-          Lock again
+          Lock Again
         </Button>
       )}
     </div>

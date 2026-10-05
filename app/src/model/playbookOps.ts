@@ -4,7 +4,7 @@
 // formation the template save contains); pass `{ template }` (useTemplate().contents) when you have it.
 import type { Catalog } from "./catalog";
 import type { LibraryIndex } from "./library";
-import { norm } from "./names";
+import { maddenName, norm } from "./names";
 import { bookFormation, bookSide, formationBookSide, isCustomSet, type ResolveOptions } from "./resolveBook";
 import type { FormationDef, FormationEntry, PlayEntry, PlayKey, PlaybookSpec, SetEntry, Side } from "./types";
 
@@ -56,10 +56,10 @@ const formationLabel = (f: FormationDef) => `${f.asset.split("/").slice(-3, -1).
 export function formationAddressProblem(lib: LibraryIndex, formation: FormationDef, side?: Side, opts: ResolveOptions = {}): string | undefined {
   const own = formationBookSide(formation);
   const s = side ?? own;
-  if (own !== s) return `${formation.name} is a${own === "offense" ? "n offense" : " defense"} formation — it can't go in a${s === "offense" ? "n offense" : " defense"} playbook`;
+  if (own !== s) return `${maddenName(formation.name)} is a${own === "offense" ? "n offense" : " defense"} formation — it can't go in a${s === "offense" ? "n offense" : " defense"} playbook`;
   const picked = bookFormation(lib, formation.name, s, opts);
   if (picked?.asset === formation.asset) return undefined;
-  return `Formation "${formation.name}" shares its name with ${picked ? formationLabel(picked) : "another formation"}; the game-side builder picks that one`;
+  return `Formation "${maddenName(formation.name)}" shares its name with ${picked ? formationLabel(picked) : "another formation"}; the game-side builder picks that one`;
 }
 
 /**
@@ -79,13 +79,13 @@ export function nameAddressProblem(catalog: Catalog, key: PlayKey, side?: Side, 
   const bySetName = lib.setByName(formation, set.name);
   if (bySetName?.asset !== set.asset)
     return bySetName && !isCustomSet(lib, bySetName) && isCustomSet(lib, set)
-      ? `A library set in ${formation.name} is also named "${set.name}" (the game-side builder picks the library set; rename the custom set)`
-      : `Set "${set.name}" shares its name with another set in ${formation.name}`;
+      ? `A library set in ${maddenName(formation.name)} is also named "${maddenName(set.name)}" (the game-side builder picks the library set; rename the custom set)`
+      : `Set "${maddenName(set.name)}" shares its name with another set in ${maddenName(formation.name)}`;
   const byName = catalog.playInSetByName(set.asset, play.name);
   if (byName?.key !== play.key)
     return byName?.source === "library" && play.source === "custom"
-      ? `A library play in ${set.name} is also named "${play.name}" (the game-side builder picks the library play; rename the custom play)`
-      : `Another play in ${set.name} is also named "${play.name}"`;
+      ? `A library play in ${maddenName(set.name)} is also named "${maddenName(play.name)}" (the game-side builder picks the library play; rename the custom play)`
+      : `Another play in ${maddenName(set.name)} is also named "${maddenName(play.name)}"`;
   return undefined;
 }
 
@@ -110,7 +110,7 @@ export function addPlayProblem(spec: PlaybookSpec, catalog: Catalog, key: PlayKe
   const play = catalog.get(key)!;
   const formation = catalog.lib.formationByAsset.get(play.formation)!;
   const tpl = templateEntriesFor(spec, catalog.lib, formation, opts);
-  if (tpl.length) return `Convert ${tpl[0].formation} to explicit first (it's a "template" section in this playbook)`;
+  if (tpl.length) return `Convert ${maddenName(String(tpl[0].formation))} to explicit first (it's a "template" section in this playbook)`;
   return undefined;
 }
 

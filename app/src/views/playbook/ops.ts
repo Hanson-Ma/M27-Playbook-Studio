@@ -3,6 +3,7 @@
 import { createElement, type KeyboardEvent } from "react";
 import { IS_MAC, comboLabel } from "../../input/keys";
 import { clipboardStore, clipLabel, pasteInto, pasteSummary, type ClipEntry, type ClipItem, type ClipKind, type PasteResult } from "../../model/clipboard";
+import { maddenName } from "../../model/names";
 import { addPlayProblem, addPlayToSpec, nameAddressProblem } from "../../model/playbookOps";
 import {
   addFormation,
@@ -129,12 +130,12 @@ export function copySelection(data: BuilderData): ClipItem | undefined {
   }
   const leftOut = skipped.length ? `Left out (can't be listed by name): ${skippedLine(skipped)}` : undefined;
   if (!entries.length) {
-    toast.info("Nothing to copy", { detail: leftOut });
+    toast.info("Nothing to Copy", { detail: leftOut });
     return undefined;
   }
   const item = clipboardStore.getState().push({ kind, sourcePath: data.path, label: clipLabel(kind, entries), entries, from });
   const count = kind === "plays" ? undefined : `${plural(entries.length, kind === "formation" ? "formation" : "set")}`;
-  toast.success(`Copied ${item.label}`, { detail: [count, leftOut].filter(Boolean).join("\n") || undefined, duration: leftOut ? 6000 : 2200 });
+  toast.success(`Copied ${kind === "plays" && entries.length > 1 ? item.label : maddenName(item.label)}`, { detail: [count, leftOut].filter(Boolean).join("\n") || undefined, duration: leftOut ? 6000 : 2200 });
   return item;
 }
 
@@ -142,12 +143,12 @@ export function copySelection(data: BuilderData): ClipItem | undefined {
 export function pasteAtSelection(data: BuilderData, item?: ClipItem): void {
   const it = item ?? clipboardStore.getState().items[0];
   if (!it) {
-    toast.info("The clipboard is empty", { detail: "Copy formations, sets or plays first (right-click → Copy)." });
+    toast.info("The Clipboard Is Empty", { detail: "Copy formations, sets or plays first (right-click → Copy)." });
     return;
   }
   const node = cursorNode(data);
   if (node && (node.level === "tset" || node.level === "tplay" || (node.level === "formation" && node.rf?.template && it.kind !== "formation"))) {
-    toast.error("Can't paste into a template section", { detail: "Convert it to explicit sets first." });
+    toast.error("Can't Paste Into a Template Section", { detail: "Convert it to explicit sets first." });
     return;
   }
   const target = node?.ref;
@@ -176,7 +177,7 @@ function removalSummary(nodes: BookNode[]): string {
       plays += n.rf.sets.reduce((k, rs) => k + rs.plays.length, 0);
     } else if (n.level === "set" && n.rs) plays += n.rs.plays.length;
   }
-  const what = nodes.length === 1 ? labelOf(first) : plural(nodes.length, first.level);
+  const what = nodes.length === 1 ? shownLabel(first) : plural(nodes.length, first.level);
   const parts = [sets ? plural(sets, "set") : "", plays ? plural(plays, "play") : ""].filter(Boolean);
   const tpl = template ? ` (${template === nodes.length && nodes.length === 1 ? "a template section" : plural(template, "template section")})` : "";
   return parts.length ? `${what}${tpl} with ${parts.join(" and ")}` : `${what}${tpl}`;
@@ -192,7 +193,7 @@ export async function removeSelection(data: BuilderData): Promise<void> {
   const first = nodes[0];
   if (nodes.some((n) => n.level !== "play")) {
     const ok = await confirmDialog({
-      title: `Remove ${nodes.length === 1 ? labelOf(first) : plural(nodes.length, first.level)}?`,
+      title: `Remove ${nodes.length === 1 ? shownLabel(first) : plural(nodes.length, first.level)}?`,
       body: `${removalSummary(nodes)} leaves this playbook. Undo (${comboLabel("mod+z")}) brings it back until you close the app.`,
       confirmLabel: "Remove",
       danger: true,
@@ -203,7 +204,7 @@ export async function removeSelection(data: BuilderData): Promise<void> {
     if (!spec) return;
     const ids = bookIds(spec);
     if (nodes.some((n) => idOf(ids, n.ref!) !== n.id)) {
-      toast.warning("Nothing removed", { detail: "The playbook changed while the dialog was open. Select the entries again." });
+      toast.warning("Nothing Removed", { detail: "The playbook changed while the dialog was open. Select the entries again." });
       return;
     }
   }
@@ -236,7 +237,7 @@ export async function removeSelection(data: BuilderData): Promise<void> {
   }
   if (next) selectRefs(data.path, [next]);
   else useBuilderUi.getState().select(BOOK_ID);
-  const label = nodes.length === 1 ? labelOf(first) : plural(nodes.length, first.level);
+  const label = nodes.length === 1 ? shownLabel(first) : plural(nodes.length, first.level);
   toast.info(`Removed ${label}`, {
     detail: `Undo: ${comboLabel("mod+z")}`,
     action: { label: "Undo", run: () => useWorkspace.getState().undo(data.path) },
@@ -291,6 +292,9 @@ export function labelOf(n: BookNode): string {
   return n.tp?.play.name ?? "Play";
 }
 
+/** labelOf for toasts and dialogs: formation / set / play names in caps, as in Madden. */
+const shownLabel = (n: BookNode): string => (n.level === "book" ? labelOf(n) : maddenName(labelOf(n)));
+
 // ───────────────────────────── template sections ─────────────────────────────
 
 /**
@@ -308,19 +312,19 @@ export async function convertTemplate(data: BuilderData, f: number): Promise<voi
       data.template.status === "error"
         ? `The template playbook couldn't be read: ${data.template.error}`
         : data.template.status === "ready"
-          ? `The template playbook has no "${name}" sets`
+          ? `The template playbook has no "${maddenName(name)}" sets`
           : "The template playbook is still loading";
-    toast.error("Can't convert", { detail: why });
+    toast.error("Can't Convert", { detail: why });
     return;
   }
   const conv = templateFormationToEntry(tf, data.catalog, data.side, { template: data.template.contents });
   if (conv.problem) {
-    toast.error(`Can't convert ${name}`, { detail: conv.problem, duration: 9000 });
+    toast.error(`Can't Convert ${maddenName(name)}`, { detail: conv.problem, duration: 9000 });
     return;
   }
   if (conv.skipped.length) {
     const ok = await confirmDialog({
-      title: `Make ${tf.formation.name} editable?`,
+      title: `Make ${maddenName(tf.formation.name)} Editable?`,
       body: createElement(
         "div",
         null,
@@ -335,14 +339,14 @@ export async function convertTemplate(data: BuilderData, f: number): Promise<voi
     const spec = latestSpec(data.path);
     const ids = spec ? bookIds(spec) : undefined;
     if (!spec || !ids || idOf(ids, { f }) !== node.id || getFormation(spec, f)?.sets !== "template") {
-      toast.warning("Nothing converted", { detail: "The playbook changed while the dialog was open." });
+      toast.warning("Nothing Converted", { detail: "The playbook changed while the dialog was open." });
       return;
     }
   }
   const sets = Array.isArray(conv.entry.sets) ? conv.entry.sets : [];
   data.edit(`Make ${tf.formation.name} editable`, (d) => convertTemplateFormation(d, f, conv.entry));
   const plays = sets.reduce((k, x) => k + (x.plays?.length ?? 0), 0);
-  toast.success(`${tf.formation.name}: ${plural(sets.length, "set")} · ${plural(plays, "play")} now editable`, {
+  toast.success(`${maddenName(tf.formation.name)}: ${plural(sets.length, "set")} · ${plural(plays, "play")} now editable`, {
     detail: conv.skipped.length ? `Left out ${conv.skipped.length}: ${skippedLine(conv.skipped)}` : undefined,
     duration: conv.skipped.length ? 8000 : 3000,
   });
@@ -389,17 +393,18 @@ export function addPlays(data: BuilderData, keys: PlayKey[], into?: { f: number;
       // a "template" section of the book — convert it to explicit first).
       const problem = into ? nameAddressProblem(data.catalog, key, data.side, { template: data.template.contents }) : addPlayProblem(d, data.catalog, key, { template: data.template.contents });
       if (problem) {
-        skipped.push(`${play.name} — ${problem}`);
+        skipped.push(`${maddenName(play.name)} — ${problem}`);
         continue;
       }
       if (into) {
         if (!intoSet || play.set !== intoSet.asset) {
-          skipped.push(`${play.name} — belongs to ${data.lib.setByAsset.get(play.set)?.name ?? "another set"}`);
+          const own = data.lib.setByAsset.get(play.set)?.name;
+          skipped.push(`${maddenName(play.name)} — belongs to ${own ? maddenName(own) : "another set"}`);
           continue;
         }
         const se = getSet(d, into.f, into.s)!;
         if (se.plays?.some((e) => data.catalog.playInSetByName(intoSet.asset, String(e.play ?? ""))?.key === key)) {
-          already.push(play.name);
+          already.push(maddenName(play.name));
           continue;
         }
         const [p] = insertPlays(d, into.f, into.s, [{ play: play.name }], at);
@@ -409,7 +414,7 @@ export function addPlays(data: BuilderData, keys: PlayKey[], into?: { f: number;
       }
       const loc = addPlayToSpec(d, data.catalog, key, undefined, { template: data.template.contents });
       if (loc.added) added.push({ f: loc.f, s: loc.s, p: loc.p });
-      else already.push(play.name);
+      else already.push(maddenName(play.name));
     }
   });
   const details = [
@@ -419,7 +424,7 @@ export function addPlays(data: BuilderData, keys: PlayKey[], into?: { f: number;
   if (added.length) {
     toast.success(`Added ${plural(added.length, "play")}`, { detail: details.join("\n") || undefined, duration: details.length ? 6000 : 2500 });
     selectRefs(data.path, added);
-  } else toast.warning("Nothing added", { detail: details.join("\n") || undefined });
+  } else toast.warning("Nothing Added", { detail: details.join("\n") || undefined });
   return added.length;
 }
 
@@ -453,13 +458,13 @@ export function copyWeights(data: BuilderData, n: BookNode): void {
   const cpu = n.rp ? cpuOf(n.rp.entry) : n.tp?.cpu ?? {};
   const name = n.rp?.entry.play ?? n.tp?.play.name ?? "";
   clipboardStore.getState().setWeights({ cpu, from: String(name) });
-  toast.success(`Copied ${plural(Object.keys(cpu).length, "weight")}`, { detail: String(name), duration: 2000 });
+  toast.success(`Copied ${plural(Object.keys(cpu).length, "weight")}`, { detail: maddenName(String(name)), duration: 2000 });
 }
 
 export function pasteWeights(data: BuilderData, refs: EntryRef[]): void {
   const w = clipboardStore.getState().weights;
   if (!w) {
-    toast.info("No weights copied yet");
+    toast.info("No Weights Copied Yet");
     return;
   }
   const plays = refs.filter((r) => r.p !== undefined);
@@ -470,7 +475,7 @@ export function pasteWeights(data: BuilderData, refs: EntryRef[]): void {
       if (e) setCpuWeights(e, w.cpu);
     }
   });
-  toast.success(`Pasted weights from ${w.from} to ${plural(plays.length, "play")}`, { duration: 2500 });
+  toast.success(`Pasted Weights From ${maddenName(w.from)} to ${plural(plays.length, "play")}`, { duration: 2500 });
 }
 
 export function clearWeights(data: BuilderData, refs: EntryRef[]): void {

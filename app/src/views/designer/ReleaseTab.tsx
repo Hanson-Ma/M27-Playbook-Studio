@@ -17,8 +17,8 @@ const KINDS: { value: ReleaseKind; label: string }[] = [
 
 const ANIMS = [
   { value: "", label: "None" },
-  { value: "MOVETYPE_WRSTART", label: "Receiver start" },
-  { value: "MOVETYPE_WRSTART_QUICK", label: "Quick start" },
+  { value: "MOVETYPE_WRSTART", label: "Receiver Start" },
+  { value: "MOVETYPE_WRSTART_QUICK", label: "Quick Start" },
 ];
 
 export function ReleaseSection({ slot, lock }: { slot: number; lock: number }) {
@@ -54,7 +54,7 @@ export function ReleaseSection({ slot, lock }: { slot: number; lock: number }) {
               </div>
             )}
             <div className={s.paramStack}>
-              <span className={s.fieldLabel}>Start anim</span>
+              <span className={s.fieldLabel}>Start Anim</span>
               <Segmented block size="sm" options={ANIMS} value={anim} onChange={(v) => applyRelease(kind, v || null)} aria-label="Release animation" />
             </div>
           </div>

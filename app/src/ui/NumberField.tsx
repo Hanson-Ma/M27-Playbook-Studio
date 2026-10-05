@@ -18,7 +18,7 @@ export interface NumberFieldProps {
   precision?: number;
   /** Unit after the number: "yd", "°", "%". */
   suffix?: string;
-  /** Scrub handle inside the field on the left ("X", "DIST"); drag it horizontally to change the value. */
+  /** Scrub handle inside the field on the left ("X", "Dist"); drag it horizontally to change the value. */
   label?: ReactNode;
   /** Pixels of drag per step while scrubbing (default 4). */
   scrubPixels?: number;

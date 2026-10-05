@@ -27,8 +27,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 10px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-4);
 }
 .selName {
@@ -38,7 +37,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 12.5px;
-  text-transform: uppercase;
   color: var(--text-2);
 }
 .selRemove:hover:not(:disabled) {
@@ -78,8 +76,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 .clipCount {
   min-width: 18px;
@@ -103,8 +100,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-xs);
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .clipClear:hover {
@@ -145,7 +141,6 @@
   white-space: nowrap;
   font-family: var(--font-display);
   font-weight: 500;
-  text-transform: uppercase;
   font-size: var(--fd-md);
 }
 .clipSub {

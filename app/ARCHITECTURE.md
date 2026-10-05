@@ -120,11 +120,17 @@ bottom-right (`0 CALLS | 0.0 AVG YDS`); a translucent bottom legend bar listing 
     step) loads them into the headless test browser only. DM Mono (OFL) comes from Google Fonts (`index.html`).
   - Weights: NB has 300 / 350 (Book) / 400 / 500 / 700 — use 500 (Medium) for small labels, tabs, buttons and 700
     (Bold) for names, titles, active tabs; never 600/800 (they'd snap to 700). DM Mono: 400/500.
-  - Display scale `--fd-xs…--fd-3xl` (10 / 11 / 12.5 / 14 / 17 / 22 / 31 px) for uppercase labels, tabs, names and
-    titles; the body scale `--fs-*` (11 … 40 px) stays for running text, inputs and menus. NB caps are ~35 % wider than
-    the old Barlow Condensed, so display type runs a step smaller. Tracking: small caps (≤ 12.5 px) +0.03–0.08em
-    (eyebrows up to ~0.12em), 14–17 px ≤ 0.02em, bigger titles 0 or slightly negative. No `padding-top` nudges for
-    caps in flex boxes (NB centres on its own).
+  - **Casing (2026-10-04):** ALL CAPS only for what shows in Madden — formation and set names, play names, play types
+    (keep `text-transform: uppercase` on those rules, or the global `caps` class; `Tag`/`Chip`/`TabItem` take a `caps`
+    prop, `SearchSelect` takes `caps` (value + menu options) or `caps="options"`, and `SearchOption.chrome` opts an
+    option out). Everything else is written in the source as it should show: Title Case for titles, tabs, buttons,
+    labels, eyebrows, toast and empty-state titles; sentence case for body text, captions, hints and tooltips. Don't
+    add caps tracking to mixed-case text (letter-spacing 0–0.01em).
+  - Display scale `--fd-xs…--fd-3xl` (10 / 11 / 12.5 / 14 / 17 / 22 / 31 px) for labels, tabs, names and titles; the
+    body scale `--fs-*` (11 … 40 px) stays for running text, inputs and menus. NB caps are ~35 % wider than the old
+    Barlow Condensed, so display type runs a step smaller. Tracking for caps (Madden names): small (≤ 12.5 px)
+    +0.03–0.08em, 14–17 px ≤ 0.02em, bigger titles 0 or slightly negative. No `padding-top` nudges in flex boxes (NB
+    centres on its own).
   - DM Mono (`var(--font-num)` + `font-variant-numeric: tabular-nums`, letter-spacing 0) for small numbers and code:
     counts and meters (`77/750`, tree counts, tab badges, filter counts), the stat chip on play cards (`ID 4706`),
     ids, asset paths and file names, coordinate readouts, NumberField inputs, page counters, percentages. Headline

@@ -33,22 +33,22 @@ export function SetPanel({ setNode }: { setNode: BookNode }) {
         </span>
         <div className={s.titles}>
           <h2 className={s.title}>
-            {String(rs.entry.set)}
-            {custom && <span className={s.customTag}>Custom set</span>}
+            <span className="caps">{String(rs.entry.set)}</span>
+            {custom && <span className={s.customTag}>Custom Set</span>}
           </h2>
           <div className={s.sub}>
-            {String(rf.entry.formation)} · {rs.plays.length} play{rs.plays.length === 1 ? "" : "s"} · {audibles}/4 audibles
+            <span className="caps">{String(rf.entry.formation)}</span> · {rs.plays.length} play{rs.plays.length === 1 ? "" : "s"} · {audibles}/4 audibles
           </div>
           {(rs.malformed ?? rs.problem) && <div className={s.problem}>{rs.malformed ?? rs.problem}</div>}
         </div>
         <div className={s.headActions}>
           {editHref && (
             <Button size="sm" icon="field" onClick={() => navigate(editHref)} title="Change player spots and motions in the Formations editor">
-              Edit set
+              Edit Set
             </Button>
           )}
           <Button size="sm" variant="primary" icon="plus" onClick={() => useBuilderUi.getState().setDrawer(true)}>
-            Add plays
+           Add Plays
           </Button>
         </div>
       </header>
@@ -153,7 +153,7 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
   return (
     <div className={s.cardsScroll} data-autoscroll>
       <div className={s.sectionTitle}>
-        In this playbook
+        In This Playbook
         <span className={s.sectionHint} title="Drag cards to reorder · shift / ⌘-click to select several · right-click (or ⋯) for options">
           Drag to reorder · right-click for options
         </span>
@@ -163,11 +163,11 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
           <EmptyState
             compact
             icon="playcall"
-            title="No plays in this set yet"
-            body="Tick plays in the list on the right, or search the whole library with Add plays."
+            title="No Plays in This Set Yet"
+            body="Tick plays in the list on the right, or search the whole library with Add Plays."
             action={
               <Button size="sm" icon="plus" onClick={() => useBuilderUi.getState().setDrawer(true)}>
-                Add plays
+               Add Plays
               </Button>
             }
           />
@@ -353,7 +353,7 @@ function ToggleList({ setNode }: { setNode: BookNode }) {
   if (!set)
     return (
       <section className={s.toggleWrap}>
-        <div className={s.sectionTitle}>Plays in this set</div>
+        <div className={s.sectionTitle}>Plays in This Set</div>
         <div className={s.toggleEmpty}>This set can't be found, so its plays can't be listed. Check the set name, or remove it.</div>
       </section>
     );
@@ -361,7 +361,7 @@ function ToggleList({ setNode }: { setNode: BookNode }) {
   return (
     <section className={s.toggleWrap}>
       <div className={s.sectionTitle}>
-        All plays in this set
+        All Plays in This Set
         <span className={s.sectionHint}>
           {included} of {available.length} added
         </span>
@@ -382,7 +382,7 @@ function ToggleList({ setNode }: { setNode: BookNode }) {
           ))}
         </div>
         <CategoryChips filter={catFilter} active={cats} onChange={setCats} className={s.catChips} />
-        <Toggle size="sm" checked={onlyIn} onChange={setOnlyIn} label="Only show added plays" />
+        <Toggle size="sm" checked={onlyIn} onChange={setOnlyIn} label="Only Show Added Plays" />
       </div>
       <VirtualList
         className={s.toggleList}

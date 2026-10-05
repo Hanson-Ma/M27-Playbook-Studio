@@ -298,7 +298,7 @@ export function EditField() {
               : "Click inside the shaded area to add motion points (up to 5); drag the blue diamonds to move them."
             : ui.drawing
               ? "Drawing: click the field to add route points · double-click to stop · hold Alt for free placement."
-              : "Drag the white points to reshape · the + on a leg adds a point · right-click a point for its cut · “Draw route” to click new points.";
+              : "Drag the white points to reshape · the + on a leg adds a point · right-click a point for its cut · “Draw Route” to click new points.";
 
   return (
     <div
@@ -369,13 +369,13 @@ export function EditField() {
         {sel !== undefined && editable && !motionTab && ui.moveStart !== sel && (
           <>
             <Button size="sm" variant="ghost" icon="route" active={ui.drawing} onClick={() => setUi({ drawing: !ui.drawing, vertex: undefined })} title="When on, clicking the field adds a route point">
-              {ui.drawing ? "Drawing on" : "Draw route"}
+              {ui.drawing ? "Drawing On" : "Draw Route"}
             </Button>
             <Button size="sm" variant="ghost" icon="plus" onClick={addPoint} title="Add point: a point 5 yd past the end of the route" aria-label="Add point">
-              {compactTools ? undefined : "Add point"}
+              {compactTools ? undefined : "Add Point"}
             </Button>
             <Button size="sm" variant="ghost" icon="trash" disabled={!legSelected} onClick={deletePoint} title="Delete point: the selected route point (Delete key)" aria-label="Delete point">
-              {compactTools ? undefined : "Delete point"}
+              {compactTools ? undefined : "Delete Point"}
             </Button>
             <Button
               size="sm"
@@ -386,7 +386,7 @@ export function EditField() {
               title="Clear route: remove the whole route and start drawing a new one from his spot (his spot, motion and release stay)"
               aria-label="Clear route"
             >
-              {compactTools ? undefined : "Clear route"}
+              {compactTools ? undefined : "Clear Route"}
             </Button>
             <Button
               size="sm"
@@ -421,10 +421,10 @@ export function EditField() {
               title={`Add motion point (up to ${MOTION_LIMITS.maxWaypoints})`}
               aria-label="Add motion point"
             >
-              {compactTools ? undefined : "Add motion point"}
+              {compactTools ? undefined : "Add Motion Point"}
             </Button>
             <Button size="sm" variant="ghost" icon="trash" disabled={ui.vertex?.kind !== "wp"} onClick={deletePoint} title="Delete the selected motion point (Delete key)" aria-label="Delete motion point">
-              {compactTools ? undefined : "Delete motion point"}
+              {compactTools ? undefined : "Delete Motion Point"}
             </Button>
           </>
         )}
@@ -435,7 +435,7 @@ export function EditField() {
             </Button>
             {startSpot && (
               <Button size="sm" variant="ghost" icon="undo" onClick={() => (d.edit((st) => clearStartOverride(st, sel), "Reset start spot"), setUi({ moveStart: undefined }))}>
-                Reset to formation spot
+                Reset to Formation Spot
               </Button>
             )}
           </>
@@ -630,7 +630,7 @@ function Handles({ geom, steps, flip, lock, vertex, motionTab, dragInfo, onStart
               {lockedV ? <rect x={-4.5} y={-4.5} width={9} height={9} rx={1.5} /> : <circle r={6.5} />}
               {cut && (
                 <text className={s.cutText} x={10} y={-8}>
-                  {cutName(String(cut.cutType)).toUpperCase()}
+                  {cutName(String(cut.cutType))}
                 </text>
               )}
             </g>

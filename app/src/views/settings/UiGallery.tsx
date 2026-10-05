@@ -72,6 +72,11 @@ const SAMPLE_TYPES = [
 ];
 
 const TONES: TagTone[] = ["needsMod", "custom", "neutral", "ok", "warning", "danger", "info"];
+const TONE_LABEL: Partial<Record<TagTone, string>> = { needsMod: "Needs Mod", ok: "OK" };
+
+/** "solid" → "Solid" (row labels and demo buttons show enum-ish values in Title Case). */
+const cap = (v: string) => v.charAt(0).toUpperCase() + v.slice(1);
+const SIZE_LABEL = { sm: "Small", md: "Medium", lg: "Large" } as const;
 
 function Section({ title, eyebrow, children, actions }: { title: string; eyebrow?: string; children: ReactNode; actions?: ReactNode }) {
   return (
@@ -102,8 +107,8 @@ export function UiGallery() {
             Settings
           </Button>
           <div>
-            <div className={s.eyebrow}>Playbook Studio · UI kit</div>
-            <h1 className={s.title}>Component gallery</h1>
+            <div className={s.eyebrow}>Playbook Studio · UI Kit</div>
+            <h1 className={s.title}>Component Gallery</h1>
           </div>
         </header>
         <div className={s.stack}>
@@ -122,7 +127,7 @@ export function UiGallery() {
         open={modal}
         onClose={() => setModal(false)}
         eyebrow="Modal"
-        title="Rename play"
+        title="Rename Play"
         onConfirm={() => {
           setModal(false);
           toast.success("Confirmed");
@@ -144,7 +149,7 @@ export function UiGallery() {
 
 function GlyphSection() {
   return (
-    <Section title="Audible glyphs & keycaps" eyebrow="Input" actions={<AudibleStyleSwitch />}>
+    <Section title="Audible Glyphs & Keycaps" eyebrow="Input" actions={<AudibleStyleSwitch />}>
       <table className={s.glyphTable}>
         <thead>
           <tr>
@@ -175,7 +180,7 @@ function GlyphSection() {
           ))}
         </tbody>
       </table>
-      <Divider label="Audible slots (Settings → Audibles decides the button per slot)" />
+      <Divider label="Audible Slots (Settings → Audibles Decides the Button per Slot)" />
       {MODES.map((m) => (
         <Row key={m.mode} label={m.label}>
           {([1, 2, 3, 4] as const).map((slot) => (
@@ -183,21 +188,21 @@ function GlyphSection() {
           ))}
         </Row>
       ))}
-      <Row label="Your style">
+      <Row label="Your Style">
         {([1, 2, 3, 4] as const).map((slot) => (
           <AudibleGlyph key={slot} slot={slot} size="lg" />
         ))}
         <span className={s.dim}>(no `mode`: follows the audible style switch)</span>
       </Row>
-      <Divider label="Keycaps (platform-aware; only universal keys)" />
+      <Divider label="Keycaps (Platform-Aware; Only Universal Keys)" />
       <Row>
         {COMBOS.map((c) => (
           <Glyph key={c} keys={[c]} size="md" />
         ))}
       </Row>
-      <Row label="Help links">
+      <Row label="Help Links">
         <HelpLink section="routes" />
-        <HelpLink section="routes" label="How cuts work" />
+        <HelpLink section="routes" label="How Cuts Work" />
       </Row>
     </Section>
   );
@@ -211,14 +216,14 @@ function ButtonSection() {
   return (
     <Section title="Buttons">
       {(["sm", "md", "lg"] as const).map((size) => (
-        <Row key={size} label={size}>
+        <Row key={size} label={SIZE_LABEL[size]}>
           {variants.map((v) => (
             <Button key={v} variant={v} size={size}>
-              {v}
+              {cap(v)}
             </Button>
           ))}
           <Button size={size} icon="plus">
-            With icon
+            With Icon
           </Button>
           <Button size={size} variant="primary" icon="check">
             Select
@@ -228,7 +233,7 @@ function ButtonSection() {
           </Button>
         </Row>
       ))}
-      <Row label="states">
+      <Row label="States">
         <Button disabled>Disabled</Button>
         <Button variant="primary" disabled>
           Disabled
@@ -241,16 +246,16 @@ function ButtonSection() {
             window.setTimeout(() => setLoading(false), 1500);
           }}
         >
-          Click to load
+          Click to Load
         </Button>
         <Button active>Active</Button>
         <Button variant="secondary" icon="duplicate">
           Duplicate
         </Button>
       </Row>
-      <Row label="icon buttons">
+      <Row label="Icon Buttons">
         {(["undo", "redo", "save", "copy", "paste", "trash", "flip", "eye", "star", "gear"] as const).map((i) => (
-          <IconButton key={i} icon={i} title={i} shortcut={i === "undo" ? { keys: ["mod+z"] } : i === "save" ? { keys: ["mod+s"] } : undefined} />
+          <IconButton key={i} icon={i} title={cap(i)} shortcut={i === "undo" ? { keys: ["mod+z"] } : i === "save" ? { keys: ["mod+s"] } : undefined} />
         ))}
         <IconButton icon="plus" title="Secondary" variant="secondary" />
         <IconButton icon="check" title="Primary" variant="primary" />
@@ -269,7 +274,7 @@ function TabsSection() {
   const [big, setBig] = useState("formation");
   const [small, setSmall] = useState("routes");
   return (
-    <Section title="Tab bars">
+    <Section title="Tab Bars">
       <div className={s.tabsDemo}>
         <TabBar
           items={[
@@ -278,13 +283,14 @@ function TabsSection() {
             { id: "concept", label: "Concept" },
             { id: "type", label: "Play Type" },
             { id: "custom", label: "Custom", badge: 6 },
+            { id: "set", label: "Y Trips Wk", caps: true, title: "caps: a Madden name as the label" },
             { id: "off", label: "Disabled", disabled: true },
           ]}
           active={big}
           onChange={setBig}
         />
       </div>
-      <Row label="small">
+      <Row label="Small">
         <TabBar
           size="sm"
           items={[
@@ -307,9 +313,9 @@ function TagSection() {
   const [chips, setChips] = useState(["Shotgun", "Mesh", "3rd & Medium"]);
   const [on, setOn] = useState<Record<string, boolean>>({ pass: true });
   return (
-    <Section title="Tags & chips">
+    <Section title="Tags & Chips">
       {(["solid", "soft", "outline"] as const).map((variant) => (
-        <Row key={variant} label={variant}>
+        <Row key={variant} label={cap(variant)}>
           {PLAY_FAMILIES.map((f) => (
             <Tag key={f} tone={f} variant={variant}>
               {familyLabel(f)}
@@ -317,12 +323,12 @@ function TagSection() {
           ))}
           {TONES.map((t) => (
             <Tag key={t} tone={t} variant={variant}>
-              {t === "needsMod" ? "Needs mod" : t}
+              {TONE_LABEL[t] ?? cap(t)}
             </Tag>
           ))}
         </Row>
       ))}
-      <Row label="helpers">
+      <Row label="Helpers">
         {SAMPLE_TYPES.map((t) => (
           <PlayTypeTag key={t} playType={t} />
         ))}
@@ -331,17 +337,20 @@ function TagSection() {
           Custom
         </Tag>
         <Tag color="var(--art-route)" variant="soft">
-          Any color
+          Any Color
+        </Tag>
+        <Tag tone="neutral" variant="outline" caps title="caps: a Madden name">
+          Gun Bunch
         </Tag>
       </Row>
-      <Row label="chips">
+      <Row label="Chips">
         {chips.map((c) => (
           <Chip key={c} onRemove={() => setChips(chips.filter((x) => x !== c))}>
             {c}
           </Chip>
         ))}
         {["pass", "run", "screen"].map((f) => (
-          <Chip key={f} active={!!on[f]} onClick={() => setOn({ ...on, [f]: !on[f] })} count={f === "pass" ? 412 : 233} color={`var(--${f === "pass" ? "blue" : f === "run" ? "red" : "teal"})`}>
+          <Chip key={f} caps active={!!on[f]} onClick={() => setOn({ ...on, [f]: !on[f] })} count={f === "pass" ? 412 : 233} color={`var(--${f === "pass" ? "blue" : f === "run" ? "red" : "teal"})`}>
             {f}
           </Chip>
         ))}
@@ -390,37 +399,37 @@ function FormSection() {
   );
 
   return (
-    <Section title="Form controls">
+    <Section title="Form Controls">
       <div className={s.formGrid}>
-        <FormRow label="Text input" hint="Icon, clear button, Esc clears">
+        <FormRow label="Text Input" hint="Icon, clear button, Esc clears">
           <TextInput value={search} onChange={setSearch} icon="search" clearable placeholder="Search plays…" />
         </FormRow>
-        <FormRow label="Invalid + mono" error="Only [A-Za-z0-9_]">
+        <FormRow label="Invalid + Mono" error="Only [A-Za-z0-9_]">
           <TextInput value={text} onChange={setText} mono invalid suffix="leaf" />
         </FormRow>
-        <FormRow label="Number fields" hint="Drag the label to scrub · arrows step · Shift ×10">
+        <FormRow label="Number Fields" hint="Drag the label to scrub · arrows step · Shift ×10">
           <div className={s.inlineRow}>
             <NumberField label="Dist" value={dist} onChange={setDist} step={0.5} min={0} max={100} suffix="yd" width={130} />
             <NumberField label="Dir" value={dir} onChange={setDir} step={5} min={0} max={359} suffix="°" width={120} />
             <NumberField value={pct} onChange={setPct} min={0} max={100} suffix="%" width={96} size="sm" />
           </div>
         </FormRow>
-        <FormRow label="Select (native)">
-          <Select value={sel} onChange={setSel} options={["Normal", "M1left", "M1right", { value: "SM5right", label: "SM5 right (shift)" }]} />
+        <FormRow label="Select (Native)">
+          <Select value={sel} onChange={setSel} options={["Normal", "M1left", "M1right", { value: "SM5right", label: "SM5 Right (Shift)" }]} />
         </FormRow>
-        <FormRow label="Search select · enum">
+        <FormRow label="Search Select · Enum">
           <SearchSelect value={enumVal} onChange={setEnumVal} options={enumOptions} />
         </FormRow>
-        <FormRow label="Search select · 5,000 assignments" hint="Virtualized; type to filter, click or ↑/↓ + Enter">
+        <FormRow label="Search Select · 5,000 Assignments" hint="Virtualized; type to filter, click or ↑/↓ + Enter">
           <SearchSelect value={asg} onChange={setAsg} options={assignmentOptions} placeholder="Pick an assignment…" allowCustom />
         </FormRow>
-        <FormRow label="Text area">
+        <FormRow label="Text Area">
           <TextArea value={area} onChange={setArea} autoGrow rows={2} />
         </FormRow>
-        <FormRow label="Toggle · checkbox">
+        <FormRow label="Toggle · Checkbox">
           <div className={s.inlineRow}>
-            <Toggle checked={tog} onChange={setTog} label="Show pass pro" />
-            <Checkbox checked={chk} onChange={setChk} label="Global only" />
+            <Toggle checked={tog} onChange={setTog} label="Show Pass Pro" />
+            <Checkbox checked={chk} onChange={setChk} label="Global Only" />
             <Checkbox checked={false} indeterminate onChange={() => {}} label="Mixed" />
           </div>
         </FormRow>
@@ -429,18 +438,18 @@ function FormSection() {
             value={seg}
             onChange={setSeg}
             options={[
-              { value: "left", label: "Left hash" },
+              { value: "left", label: "Left Hash" },
               { value: "middle", label: "Middle" },
-              { value: "right", label: "Right hash" },
+              { value: "right", label: "Right Hash" },
             ]}
           />
         </FormRow>
-        <FormRow label="Slider · CPU weight">
+        <FormRow label="Slider · CPU Weight">
           <Slider value={weight} onChange={setWeight} aria-label="Weight" />
         </FormRow>
       </div>
-      <Divider label="Inline rows (settings style)" />
-      <FormRow inline label="Hide minigame formations" hint="FormRow with `inline`">
+      <Divider label="Inline Rows (Settings Style)" />
+      <FormRow inline label="Hide Minigame Formations" hint="FormRow with `inline`">
         <Toggle checked={tog} onChange={setTog} />
       </FormRow>
     </Section>
@@ -451,22 +460,22 @@ function FormSection() {
 
 const MENU: MenuItem[] = [
   { kind: "heading", label: "Play" },
-  { label: "Open in designer", icon: "route", onSelect: () => toast.info("Open") },
+  { label: "Open in Designer", icon: "route", onSelect: () => toast.info("Open") },
   { label: "Duplicate", icon: "duplicate", shortcut: "mod+d", onSelect: () => toast.info("Duplicate") },
   { label: "Copy", icon: "copy", shortcut: "mod+c", onSelect: () => toast.info("Copy") },
   { label: "Favorite", icon: "star", checked: true, onSelect: () => toast.info("Favorite") },
   {
-    label: "Add to audible",
+    label: "Add to Audible",
     icon: "playcall",
     submenu: [
-      { label: "Quick pass", icon: <AudibleGlyph slot={1} size="sm" />, onSelect: () => toast.info("Slot 1") },
+      { label: "Quick Pass", icon: <AudibleGlyph slot={1} size="sm" />, onSelect: () => toast.info("Slot 1") },
       { label: "Run", icon: <AudibleGlyph slot={2} size="sm" />, onSelect: () => toast.info("Slot 2") },
-      { label: "Deep pass", icon: <AudibleGlyph slot={3} size="sm" />, onSelect: () => toast.info("Slot 3") },
-      { label: "Play action", icon: <AudibleGlyph slot={4} size="sm" />, onSelect: () => toast.info("Slot 4") },
+      { label: "Deep Pass", icon: <AudibleGlyph slot={3} size="sm" />, onSelect: () => toast.info("Slot 3") },
+      { label: "Play Action", icon: <AudibleGlyph slot={4} size="sm" />, onSelect: () => toast.info("Slot 4") },
     ],
   },
   { kind: "separator" },
-  { label: "Disabled item", icon: "lock", disabled: true },
+  { label: "Disabled Item", icon: "lock", disabled: true },
   { label: "Remove", icon: "trash", danger: true, shortcut: "Delete", onSelect: () => toast.warning("Removed") },
 ];
 
@@ -474,13 +483,13 @@ function OverlaySection({ openModal }: { openModal(): void }) {
   const cm = useContextMenu();
   return (
     <Section title="Overlays">
-      <Row label="dialogs">
+      <Row label="Dialogs">
         <Button variant="primary" onClick={openModal}>
           Modal
         </Button>
         <Button
           onClick={async () => {
-            const ok = await confirmDialog({ title: "Delete formation?", body: "Removes Gun Trips TE and its 14 plays from this playbook.", confirmLabel: "Delete", danger: true });
+            const ok = await confirmDialog({ title: "Delete Formation?", body: "Removes GUN TRIPS TE and its 14 plays from this playbook.", confirmLabel: "Delete", danger: true });
             toast.info(ok ? "Confirmed" : "Cancelled");
           }}
         >
@@ -489,7 +498,7 @@ function OverlaySection({ openModal }: { openModal(): void }) {
         <Button
           onClick={async () => {
             const v = await promptDialog({
-              title: "New playbook",
+              title: "New Playbook",
               label: "Name (A–Z, 0–9)",
               initial: "STUDIOTEST",
               mono: true,
@@ -501,34 +510,34 @@ function OverlaySection({ openModal }: { openModal(): void }) {
           promptDialog
         </Button>
       </Row>
-      <Row label="toasts">
-        <Button size="sm" onClick={() => toast.info("Library loaded", { detail: "11,055 plays · 808 sets" })}>
+      <Row label="Toasts">
+        <Button size="sm" onClick={() => toast.info("Library Loaded", { detail: "11,055 plays · 808 sets" })}>
           Info
         </Button>
         <Button size="sm" onClick={() => toast.success("Saved", { detail: "playbooks/studio-test.json" })}>
           Success
         </Button>
-        <Button size="sm" onClick={() => toast.warning("Duplicate audible", { detail: "Slot 2 is used twice in Gun Trips TE" })}>
+        <Button size="sm" onClick={() => toast.warning("Duplicate Audible", { detail: "Slot 2 is used twice in GUN TRIPS TE" })}>
           Warning
         </Button>
         <Button
           size="sm"
-          onClick={() => toast.error("Save failed", { detail: "EACCES: permission denied", action: { label: "Retry", run: () => toast.success("Retried") } })}
+          onClick={() => toast.error("Save Failed", { detail: "EACCES: permission denied", action: { label: "Retry", run: () => toast.success("Retried") } })}
         >
           Error
         </Button>
       </Row>
-      <Row label="tooltip & menus">
+      <Row label="Tooltip & Menus">
         <Tooltip content="Tooltips show on hover (and keyboard focus)" shortcut={{ keys: ["mod+k"] }}>
           <Button variant="ghost" icon="info">
-            Hover me
+            Hover Me
           </Button>
         </Tooltip>
         <MenuButton items={MENU} icon="list">
           Menu
         </MenuButton>
         <div className={s.contextArea} onContextMenu={(e) => cm.open(e, MENU)}>
-          Right-click here
+          Right-Click Here
         </div>
         {cm.node}
       </Row>
@@ -542,7 +551,7 @@ function ListSection() {
   const [sel, setSel] = useState(3);
   const [cell, setCell] = useState(0);
   return (
-    <Section title="Virtual list & grid" eyebrow="Click to select, double-click to open; arrows work while the list has focus">
+    <Section title="Virtual List & Grid" eyebrow="Click to Select, Double-Click to Open; Arrows Work While the List Has Focus">
       <div className={s.lists}>
         <VirtualList
           className={s.listBox}
@@ -550,7 +559,7 @@ function ListSection() {
           rowHeight={30}
           selectedIndex={sel}
           onSelect={setSel}
-          onActivate={(i) => toast.info(`Activated row ${i + 1}`)}
+          onActivate={(i) => toast.info(`Activated Row ${i + 1}`)}
           renderRow={(i, st) => (
             <div className={s.listRow}>
               <span className={s.mono}>{String(i + 1).padStart(4, "0")}</span>
@@ -569,7 +578,7 @@ function ListSection() {
           stretch
           selectedIndex={cell}
           onSelect={setCell}
-          onActivate={(i) => toast.info(`Activated card ${i + 1}`)}
+          onActivate={(i) => toast.info(`Activated Card ${i + 1}`)}
           renderCell={(i, st) => (
             <div className={s.card} data-selected={st.selected || undefined}>
               <span className={s.cardNum}>{i + 1}</span>
@@ -586,7 +595,7 @@ function ListSection() {
 
 function LayoutSection() {
   return (
-    <Section title="Layout & feedback">
+    <Section title="Layout & Feedback">
       <Toolbar>
         <Button size="sm" icon="plus">
           Add
@@ -608,10 +617,10 @@ function LayoutSection() {
           </ScrollShadow>
           <SplitPane direction="vertical" initial={110} min={60} max={300} sized="end" storageKey="pbstudio.gallery.split2">
             <div className={s.paneFill}>
-              <EmptyState compact icon="field" title="No play selected" body="Pick a play from the list to see its art." />
+              <EmptyState compact icon="field" title="No Play Selected" body="Pick a play from the list to see its art." />
             </div>
             <div className={s.paneFill}>
-              <Panel title="Nested panel" eyebrow="Panel" tone="raised" actions={<IconButton icon="close" title="Close" size="sm" />}>
+              <Panel title="Nested Panel" eyebrow="Panel" tone="raised" actions={<IconButton icon="close" title="Close" size="sm" />}>
                 Panels have an eyebrow, a title, actions and a scrolling body.
               </Panel>
             </div>
@@ -621,22 +630,22 @@ function LayoutSection() {
       <div className={s.progressGrid}>
         <ProgressBar value={0.42} label="plays.json" detail="7.1 / 17.0 MB" />
         <ProgressBar indeterminate label="Indexing" />
-        <ProgressBar value={0.9} tone="ok" label="Capacity · plays" detail="675 / 750" />
-        <ProgressBar value={1} tone="danger" label="Weight rows" detail="2,200 / 2,200" size="sm" />
+        <ProgressBar value={0.9} tone="ok" label="Capacity · Plays" detail="675 / 750" />
+        <ProgressBar value={1} tone="danger" label="Weight Rows" detail="2,200 / 2,200" size="sm" />
       </div>
-      <Row label="spinners">
+      <Row label="Spinners">
         <Spinner size={14} />
         <Spinner size={20} />
         <Spinner size={28} />
       </Row>
       <EmptyState
         icon="folder"
-        title="No playbooks yet"
+        title="No Playbooks Yet"
         body="Create one from scratch or start from a stock book. Files land in playbooks/<name>.json."
         action={
           <>
             <Button variant="primary" icon="plus">
-              New playbook
+              New Playbook
             </Button>
             <Button variant="secondary">Open…</Button>
           </>

@@ -10,14 +10,16 @@ import { NumberField, SearchSelect, cx } from "../../ui";
 import { Disclosure } from "./Disclosure";
 import { GapPicker } from "./GapDiagram";
 import { useDesigner } from "./shared";
+import { titleCase } from "./titleCase";
 import s from "./Inspector.module.css";
 
-const techniqueLabel = (v: string) => v.replace(/^BLOCKINGTECHNIQUE_/, "").replace(/_/g, " ").toLowerCase();
+/** "BLOCKINGTECHNIQUE_LEAD_BLOCK" → "Lead block" (a caption: sentence case). */
+const techniqueLabel = (v: string) => v.replace(/^BLOCKINGTECHNIQUE_/, "").replace(/_/g, " ").toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
 /** "A_GAP_RIGHT" → "A gap right", "RUN_HOLE" → "the play's run hole". */
 const gapLabel = (v: string) => (v === "RUN_HOLE" ? "the play's run hole" : v.replace(/_GAP_/, " gap ").replace(/_/g, " ").toLowerCase().replace(/^(\w)/, (c) => c.toUpperCase()));
 
 const GAP_TOOLS = new Set<BlockToolId>(["lead", "kickout", "trap", "wham", "crack", "stalk", "pull"]);
-const pullOptions = PULL_ANIMS.map((v) => ({ value: v, label: v.replace(/^MOVETYPE_/, "").replace(/_/g, " ") }));
+const pullOptions = PULL_ANIMS.map((v) => ({ value: v, label: titleCase(v.replace(/^MOVETYPE_/, "").replace(/_/g, " ").toLowerCase()) }));
 
 /** Replace the first step (at or after `from`) matching `pred` with a patched copy. */
 function patchFirst(steps: Step[], from: number, pred: (s: Step) => boolean, patch: Record<string, unknown>): Step[] | undefined {
@@ -83,7 +85,7 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
       lib
         .enumValues("BlockingTechnique")
         .filter((v) => !/TOTAL|INVALID/.test(v))
-        .map((v) => ({ value: v, label: v.replace(/^BLOCKINGTECHNIQUE_/, "").replace(/_/g, " ").toLowerCase().replace(/^\w/, (c) => c.toUpperCase()) })),
+        .map((v) => ({ value: v, label: titleCase(v.replace(/^BLOCKINGTECHNIQUE_/, "").replace(/_/g, " ").toLowerCase()) })),
     [lib],
   );
 
@@ -92,13 +94,13 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
       <section className={s.section}>
         <div className={s.sectionHead}>
           <span className={s.sectionTitle}>Blocking</span>
-          {current && <span className={s.muted}>Now: {BLOCK_TOOLS.find((t) => t.id === current)?.label}</span>}
+          {current && <span className={s.muted}>Now: {titleCase(BLOCK_TOOLS.find((t) => t.id === current)?.label ?? "")}</span>}
         </div>
         <div className={s.tiles}>
           {tiles.map(({ tool, steps: st }) => (
             <button key={tool.id} type="button" className={cx(s.tile, current === tool.id && s.tileActive)} onClick={() => apply(tool.id)} title={tool.hint}>
               <MiniRoute set={set} slot={slot} steps={st} size={58} />
-              <span className={s.tileLabel}>{tool.label}</span>
+              <span className={s.tileLabel}>{titleCase(tool.label)}</span>
             </button>
           ))}
         </div>
@@ -107,7 +109,7 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
       {current && GAP_TOOLS.has(current) && lead && (
         <section className={s.section}>
           <div className={s.sectionHead}>
-            <span className={s.sectionTitle}>Which gap</span>
+            <span className={s.sectionTitle}>Which Gap</span>
             <span className={s.muted}>{gapLabel(String(lead.blockingGap))}</span>
           </div>
           <GapPicker
@@ -150,12 +152,12 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
       {(current === "release" || current === "screen") && (
         <section className={s.section}>
           <div className={s.sectionHead}>
-            <span className={s.sectionTitle}>{current === "release" ? "Block, then release" : "Screen release"}</span>
+            <span className={s.sectionTitle}>{current === "release" ? "Block, Then Release" : "Screen Release"}</span>
           </div>
           <div className={s.params}>
             <NumberField
               size="sm"
-              label="BLOCK"
+              label="Block"
               suffix="s"
               value={typeof timed?.time === "number" ? (timed.time as number) : 0}
               min={0}

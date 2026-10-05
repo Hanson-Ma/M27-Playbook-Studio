@@ -2,7 +2,7 @@
 // Every op edits entries in place or moves whole entry objects, so unknown keys always survive; inserted entries are
 // deep clones. Name resolution and validation live in resolveBook.ts / playbookOps.ts.
 import { assignAudible } from "./playbookOps";
-import { norm, sanitizeBookName } from "./names";
+import { maddenName, norm, sanitizeBookName } from "./names";
 import { SITUATION_GROUPS, SITUATION_LABELS, isSituationKey, type SituationKey } from "./situations";
 import type { TemplateConversion, TemplateFormationConversion } from "./tdb";
 import type { AudibleSlot, FormationEntry, PlayEntry, PlaybookSpec, SetEntry, Side } from "./types";
@@ -227,7 +227,7 @@ export function insertFormations(spec: PlaybookSpec, entries: FormationEntry[], 
 export function insertSets(spec: PlaybookSpec, f: number, entries: SetEntry[], at?: number): number[] {
   const fe = getFormation(spec, f);
   if (!fe) throw new Error(`No formation ${f}`);
-  if (!Array.isArray(fe.sets)) throw new Error(`${fe.formation} is a template section — convert it to explicit sets first`);
+  if (!Array.isArray(fe.sets)) throw new Error(`${maddenName(String(fe.formation))} is a template section — convert it to explicit sets first`);
   const i = clampAt(at ?? fe.sets.length, fe.sets.length);
   fe.sets.splice(i, 0, ...entries.map((e) => deepClone(e)));
   return entries.map((_, k) => i + k);
@@ -469,7 +469,7 @@ export function cpuOf(e: PlayEntry | undefined): Record<string, number> {
 export function convertTemplateFormation(spec: PlaybookSpec, f: number, explicit: FormationEntry | TemplateFormationConversion): void {
   const fe = getFormation(spec, f);
   if (!fe) throw new Error(`No formation ${f}`);
-  if (fe.sets !== "template") throw new Error(`${fe.formation} is not a template section`);
+  if (fe.sets !== "template") throw new Error(`${maddenName(String(fe.formation))} is not a template section`);
   let entry: FormationEntry;
   if (isConversion(explicit)) {
     if (explicit.problem) throw new Error(explicit.problem);
@@ -593,7 +593,7 @@ export interface CpuEditorGroup {
 /**
  * Rows for the CPU-weights editor. Simple view (`all` false): the common situations plus every situation that already
  * has a weight (never hide data). `all`: every situation by group. Unknown keys in `cpu` always come last in an
- * "Unknown keys" group. Empty groups are dropped.
+ * "Unknown Keys" group. Empty groups are dropped.
  */
 export function cpuEditorGroups(cpu: Record<string, number>, all: boolean): CpuEditorGroup[] {
   const common = new Set<string>(COMMON_CPU_KEYS);
@@ -604,6 +604,6 @@ export function cpuEditorGroups(cpu: Record<string, number>, all: boolean): CpuE
     set: g.keys.filter((k) => k in cpu).length,
   }));
   const unknown = Object.keys(cpu).filter((k) => !isSituationKey(k));
-  if (unknown.length) groups.push({ id: "unknown", label: "Unknown keys", rows: unknown.map((k) => ({ key: k, label: k, known: false })), set: unknown.length });
+  if (unknown.length) groups.push({ id: "unknown", label: "Unknown Keys", rows: unknown.map((k) => ({ key: k, label: k, known: false })), set: unknown.length });
   return groups.filter((g) => g.rows.length);
 }

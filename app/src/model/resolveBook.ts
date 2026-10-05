@@ -13,6 +13,7 @@
 // references them by name exactly like stock ones; they and custom plays need the mod (pbstudio.fbmod).
 import { playProblemLevel, type Catalog } from "./catalog";
 import { formationBookSide, type LibraryIndex } from "./library";
+import { maddenName } from "./names";
 import { isSituationKey } from "./situations";
 import type { SaveCapacity, TemplateContents, TemplateSectionRows } from "./tdb";
 import type {
@@ -210,7 +211,7 @@ function sectionRows(t: TemplateContents, formId: number | undefined): TemplateS
 
 /** pbook-build's message when a "template" section has nothing to copy (it throws; the whole export stops). */
 export function templateMissingMessage(name: string, formId: number | undefined): string {
-  return `"${name}" (formId ${formId ?? "?"}) has no sets in the template, so "template" would drop it`;
+  return `"${maddenName(name)}" (formId ${formId ?? "?"}) has no sets in the template, so "template" would drop it`;
 }
 
 export function resolvePlaybook(spec: PlaybookSpec, catalog: Catalog, opts: ResolveOptions = {}): ResolvedBook {
@@ -260,8 +261,8 @@ export function resolvePlaybook(spec: PlaybookSpec, catalog: Catalog, opts: Reso
       const other = name.trim() ? otherSideFormation(lib, name, side) : undefined;
       if (other) {
         rf.wrongSide = other;
-        rf.problem = `"${name}" is ${side === "offense" ? "a defense" : "an offense"} formation — ${side === "offense" ? "an offense" : "a defense"} playbook can't use it`;
-      } else rf.problem = `Unknown formation "${name}"`;
+        rf.problem = `"${maddenName(name)}" is ${side === "offense" ? "a defense" : "an offense"} formation — ${side === "offense" ? "an offense" : "a defense"} playbook can't use it`;
+      } else rf.problem = `Unknown formation "${maddenName(name)}"`;
     } else if (isCustomFormation(lib, formation)) rf.custom = true;
     if (template) {
       counts.templateFormations++;
@@ -296,7 +297,7 @@ export function resolvePlaybook(spec: PlaybookSpec, catalog: Catalog, opts: Reso
         entry: sEntry,
         index: si,
         set,
-        problem: !formation ? "Formation not resolved" : set ? undefined : `Unknown set "${setName}" in ${formation.name}`,
+        problem: !formation ? "Formation not resolved" : set ? undefined : `Unknown set "${maddenName(setName)}" in ${maddenName(formation.name)}`,
         plays: [],
       };
       if (set && isCustomSet(lib, set)) {
@@ -304,7 +305,7 @@ export function resolvePlaybook(spec: PlaybookSpec, catalog: Catalog, opts: Reso
         counts.customSets++;
       }
       if (!setName.trim()) rs.malformed = `Set entry ${si + 1} has no "set" name`;
-      else if (!Array.isArray(sEntry.plays)) rs.malformed = `${setName}: "plays" must be an array`;
+      else if (!Array.isArray(sEntry.plays)) rs.malformed = `${maddenName(setName)}: "plays" must be an array`;
       const plays: unknown[] = Array.isArray(sEntry.plays) ? sEntry.plays : [];
       rs.plays = plays.map((rawPlay, pi): ResolvedBookPlay => {
         counts.plays++;
@@ -315,7 +316,7 @@ export function resolvePlaybook(spec: PlaybookSpec, catalog: Catalog, opts: Reso
             entry: { play: "" },
             index: pi,
             problem: "Not a play entry",
-            malformed: `Play entry ${pi + 1} in ${setName || `set ${si + 1}`} must be an object`,
+            malformed: `Play entry ${pi + 1} in ${setName ? maddenName(setName) : `set ${si + 1}`} must be an object`,
           };
         }
         const pEntry = rawPlay as PlayEntry;
@@ -337,9 +338,9 @@ export function resolvePlaybook(spec: PlaybookSpec, catalog: Catalog, opts: Reso
           entry: pEntry,
           index: pi,
           play,
-          problem: play ? undefined : set ? `Unknown play "${playName}" in ${set.name}` : "Set not resolved",
+          problem: play ? undefined : set ? `Unknown play "${maddenName(playName)}" in ${maddenName(set.name)}` : "Set not resolved",
         };
-        if (!playName.trim()) rp.malformed = `Play entry ${pi + 1} in ${setName || `set ${si + 1}`} has no "play" name`;
+        if (!playName.trim()) rp.malformed = `Play entry ${pi + 1} in ${setName ? maddenName(setName) : `set ${si + 1}`} has no "play" name`;
         return rp;
       });
       return rs;
@@ -372,7 +373,7 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
   else if (!/^[A-Za-z0-9]+$/.test(name))
     push("error", "book-name", `Playbook name "${name}" may only use A–Z and 0–9 (save file PBOOKOFF-${name.toUpperCase()})`);
   if (spec.side !== "offense" && spec.side !== "defense")
-    push("error", "book-side", `side must be "offense" or "defense" (got ${JSON.stringify(spec.side)})`);
+    push("error", "book-side", `Side must be "offense" or "defense" (got ${JSON.stringify(spec.side)})`);
 
   const tpl = opts.template;
   const book = resolvePlaybook(spec, catalog, opts);
@@ -396,10 +397,10 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
       if (!rf.template || rf.templateRows?.formId === undefined) continue;
       const tf = tpl.formations.find((f) => f.formation.formId === rf.templateRows!.formId);
       for (const ts of tf?.sets ?? []) {
-        const label = `the "${rf.entry.formation}" template section`;
+        const label = `the "${maddenName(String(rf.entry.formation))}" template section`;
         if (!setHome.has(ts.set.asset)) setHome.set(ts.set.asset, label);
         const slots = slotsOf(ts.set.asset);
-        for (const tp of ts.plays) if (tp.audible && !slots.has(tp.audible)) slots.set(tp.audible, { label: `"${tp.play.name}" (${label})`, entry: `t${rf.index}` });
+        for (const tp of ts.plays) if (tp.audible && !slots.has(tp.audible)) slots.set(tp.audible, { label: `"${maddenName(tp.play.name)}" (${label})`, entry: `t${rf.index}` });
       }
     }
 
@@ -414,14 +415,14 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
         `${rf.problem} (tools/pbook-build.mjs only looks at ${bookSide(spec)} formations, so the whole export stops)`,
         fw,
       );
-    else if (!rf.formation) push("error", "formation-unknown", rf.problem ?? `Unknown formation "${fname}"`, fw);
+    else if (!rf.formation) push("error", "formation-unknown", rf.problem ?? `Unknown formation "${maddenName(fname)}"`, fw);
     if (rf.templateMissing && rf.formation)
       push(
         "error",
         "template-empty",
         rf.custom
-          ? `${fname} is a custom formation, so the template save has no sets for it — tools/pbook-build.mjs stops (${templateMissingMessage(fname, rf.formation.formId)}). List its sets explicitly`
-          : `The template save has no ${fname} sets — tools/pbook-build.mjs stops (${templateMissingMessage(fname, rf.formation.formId)}). List its sets explicitly or remove the section`,
+          ? `${maddenName(fname)} is a custom formation, so the template save has no sets for it — tools/pbook-build.mjs stops (${templateMissingMessage(fname, rf.formation.formId)}). List its sets explicitly`
+          : `The template save has no ${maddenName(fname)} sets — tools/pbook-build.mjs stops (${templateMissingMessage(fname, rf.formation.formId)}). List its sets explicitly or remove the section`,
         fw,
       );
     if (rf.formation) {
@@ -431,19 +432,19 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
         push(
           "warning",
           "formation-duplicate",
-          `${rf.formation.name} appears twice (entries ${prev.index + 1} and ${rf.index + 1}) — tools/pbook-build.mjs writes ${twice} twice ` +
+          `${maddenName(rf.formation.name)} appears twice (entries ${prev.index + 1} and ${rf.index + 1}) — tools/pbook-build.mjs writes ${twice} twice ` +
             `(duplicate save rows; the in-game effect is untested)`,
           fw,
         );
       } else seenFormations.set(rf.formation.asset, { index: rf.index, template: rf.template });
       // Own rule ids (not "needs-mod", which counts plays: custom + clones + pulled = counts.custom + counts.pulled).
       if (rf.custom && !rf.template)
-        push("info", "custom-formation", `${fname} is a custom formation (built into pbstudio.fbmod from playbooks/sets/)`, fw);
+        push("info", "custom-formation", `${maddenName(fname)} is a custom formation (built into pbstudio.fbmod from playbooks/sets/)`, fw);
     }
     if (rf.template) continue;
     if (!rf.malformed && !Array.isArray(rf.entry.sets))
       push("error", "formation-sets", `"sets" must be an array or "template"`, fw);
-    if (rf.sets.length === 0 && !rf.malformed) push("warning", "formation-empty", `${fname || `Formation ${rf.index + 1}`} has no sets`, fw);
+    if (rf.sets.length === 0 && !rf.malformed) push("warning", "formation-empty", `${fname ? maddenName(fname) : `Formation ${rf.index + 1}`} has no sets`, fw);
 
     for (const rs of rf.sets) {
       const sw = where(rf.index, rs.index);
@@ -453,12 +454,12 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
       if (rs.set) {
         const home = setHome.get(rs.set.asset);
         if (home !== undefined)
-          push("warning", "set-duplicate", `${rs.set.name} is also written by ${home} — the save gets this set twice`, sw);
-        else setHome.set(rs.set.asset, `entry ${rf.index + 1} (${fname})`);
+          push("warning", "set-duplicate", `${maddenName(rs.set.name)} is also written by ${home} — the save gets this set twice`, sw);
+        else setHome.set(rs.set.asset, `entry ${rf.index + 1} (${maddenName(fname)})`);
         // (Sets of a custom formation are covered by the formation's note.)
-        if (rs.custom && !rf.custom) push("info", "custom-set", `${sname} is a custom set (built into pbstudio.fbmod from playbooks/sets/)`, sw);
+        if (rs.custom && !rf.custom) push("info", "custom-set", `${maddenName(sname)} is a custom set (built into pbstudio.fbmod from playbooks/sets/)`, sw);
       }
-      if (rs.plays.length === 0 && !rs.malformed) push("warning", "set-empty", `${sname} has no plays`, sw);
+      if (rs.plays.length === 0 && !rs.malformed) push("warning", "set-empty", `${maddenName(sname)} has no plays`, sw);
 
       // Audible slots are per in-game set: entries that resolve to the same set (or a template section's copy) share them.
       const entryKey = `${rf.index}/${rs.index}`;
@@ -471,47 +472,47 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
         else if (rp.problem && rs.set) push("error", "play-unknown", rp.problem, pw);
         if (rp.play) {
           const prev = seenPlays.get(rp.play.key);
-          if (prev !== undefined) push("warning", "play-duplicate", `"${e.play}" is listed twice in ${sname}`, pw);
+          if (prev !== undefined) push("warning", "play-duplicate", `"${maddenName(String(e.play))}" is listed twice in ${maddenName(sname)}`, pw);
           else seenPlays.set(rp.play.key, rp.index);
           if (rp.play.source === "custom")
             push(
               "info",
               "needs-mod",
               isClonePlay(rp.play)
-                ? `"${e.play}" is cloned into the custom set ${rs.set?.name ?? sname} (built into pbstudio.fbmod)`
-                : `"${e.play}" is a custom play (built into pbstudio.fbmod)`,
+                ? `"${maddenName(String(e.play))}" is cloned into the custom set ${maddenName(rs.set?.name ?? sname)} (built into pbstudio.fbmod)`
+                : `"${maddenName(String(e.play))}" is a custom play (built into pbstudio.fbmod)`,
               pw,
             );
           else if (!rp.play.global)
-            push("info", "needs-mod", `"${e.play}" isn't in the global play sheet; the mod will pull it in`, pw);
+            push("info", "needs-mod", `"${maddenName(String(e.play))}" isn't in the global play sheet; the mod will pull it in`, pw);
           const level = playProblemLevel(rp.play.problems);
-          if (level) push(level, "play-problem", `"${e.play}": ${rp.play.problems.join("; ")}`, pw);
+          if (level) push(level, "play-problem", `"${maddenName(String(e.play))}": ${rp.play.problems.join("; ")}`, pw);
         }
         if (e.audible !== undefined) {
           if (![1, 2, 3, 4].includes(e.audible as number))
-            push("error", "audible-range", `"${e.play}": audible must be 1–4 (got ${JSON.stringify(e.audible)})`, pw);
+            push("error", "audible-range", `"${maddenName(String(e.play))}": audible must be 1–4 (got ${JSON.stringify(e.audible)})`, pw);
           else {
             const prev = slots.get(e.audible);
-            if (!prev) slots.set(e.audible, { label: `"${e.play}"`, entry: entryKey });
+            if (!prev) slots.set(e.audible, { label: `"${maddenName(String(e.play))}"`, entry: entryKey });
             else if (prev.entry === entryKey)
-              push("error", "audible-duplicate", `Audible ${e.audible} is used by ${prev.label} and "${e.play}" in ${sname}`, pw);
+              push("error", "audible-duplicate", `Audible ${e.audible} is used by ${prev.label} and "${maddenName(String(e.play))}" in ${maddenName(sname)}`, pw);
             else
               push(
                 "error",
                 "audible-duplicate",
-                `Audible ${e.audible} in ${sname} is also used by ${prev.label} — the in-game set would have two plays on one audible slot`,
+                `Audible ${e.audible} in ${maddenName(sname)} is also used by ${prev.label} — the in-game set would have two plays on one audible slot`,
                 pw,
               );
           }
         }
         if (e.cpu !== undefined) {
           if (!e.cpu || typeof e.cpu !== "object" || Array.isArray(e.cpu))
-            push("error", "cpu-shape", `"${e.play}": cpu must be an object of situation → weight`, pw);
+            push("error", "cpu-shape", `"${maddenName(String(e.play))}": cpu must be an object of situation → weight`, pw);
           else
             for (const [k, v] of Object.entries(e.cpu)) {
-              if (!isSituationKey(k)) push("error", "cpu-key", `"${e.play}": unknown CPU situation "${k}"`, pw);
+              if (!isSituationKey(k)) push("error", "cpu-key", `"${maddenName(String(e.play))}": unknown CPU situation "${k}"`, pw);
               if (typeof v !== "number" || !Number.isFinite(v) || v < 0 || v > 100)
-                push("error", "cpu-weight", `"${e.play}": CPU weight for ${k} must be 0–100 (got ${JSON.stringify(v)})`, pw);
+                push("error", "cpu-weight", `"${maddenName(String(e.play))}": CPU weight for ${k} must be 0–100 (got ${JSON.stringify(v)})`, pw);
             }
         }
       }
@@ -549,9 +550,9 @@ export function playbookIssues(spec: PlaybookSpec, catalog: Catalog, file?: stri
     const names = new Set((spec.formations ?? []).map((f) => (isObj(f) ? String(f.formation ?? "") : "").toLowerCase()));
     for (const st of SPECIAL_TEAMS_FORMATIONS)
       if (!names.has(st.toLowerCase()))
-        push("info", "special-teams", `No "${st}" formation — special teams come from it (usually kept as "template")`);
+        push("info", "special-teams", `No "${maddenName(st)}" formation — special teams come from it (usually kept as "template")`);
     for (const st of RECOMMENDED_FORMATIONS)
-      if (!names.has(st.toLowerCase())) push("info", "goal-line", `No "${st}" formation (usually kept as "template")`);
+      if (!names.has(st.toLowerCase())) push("info", "goal-line", `No "${maddenName(st)}" formation (usually kept as "template")`);
   }
   return out;
 }

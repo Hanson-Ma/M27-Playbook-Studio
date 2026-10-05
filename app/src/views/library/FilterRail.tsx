@@ -34,7 +34,7 @@ const SPECIAL_FAMILIES: PlayFamily[] = ["special", "pass", "run", "defense", "ot
 
 const fmt = (n: number | undefined) => (n ?? 0).toLocaleString("en-US");
 
-function Section({ title, children, aside, dim }: { title: string; children: ReactNode; aside?: ReactNode; dim?: boolean }) {
+function Section({ title, children, aside, dim }: { title: ReactNode; children: ReactNode; aside?: ReactNode; dim?: boolean }) {
   return (
     <section className={cx(s.section, dim && s.dim)}>
       <header className={s.sectionHead}>
@@ -112,7 +112,8 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
     return [...types]
       .map((t) => {
         const info = playTypeInfo(t);
-        return { value: t, label: info.long, hint: `${info.label} · ${fmt(counts?.playType.get(t))}`, group: info.label };
+        // The menu renders in a portal (no .caps wrapper reaches it): play types are uppercased here, display only.
+        return { value: t, label: info.long.toUpperCase(), hint: `${info.label} · ${fmt(counts?.playType.get(t))}`, group: info.label };
       })
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [index, side, personal, counts]);
@@ -146,8 +147,8 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
 
   const availOptions: RadioRow<NonNullable<PlayFilters["availability"]>>[] = [
     { value: "all", label: "All", count: counts?.availability.all },
-    { value: "global", label: "Works without mod", count: counts?.availability.global, title: "Global plays: usable in a custom playbook without the mod" },
-    { value: "needsMod", label: "Needs mod", count: counts?.availability.needsMod, title: "Not global: the export pulls them into pbstudio.fbmod", color: "var(--amber)" },
+    { value: "global", label: "Works Without Mod", count: counts?.availability.global, title: "Global plays: usable in a custom playbook without the mod" },
+    { value: "needsMod", label: "Needs Mod", count: counts?.availability.needsMod, title: "Not global: the export pulls them into pbstudio.fbmod", color: "var(--amber)" },
   ];
   const sourceOptions: RadioRow<NonNullable<PlayFilters["source"]>>[] = [
     { value: "all", label: "All", count: counts?.source.all },
@@ -206,7 +207,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
                 onClick={() => setFilters({ formation: on ? undefined : f.asset, set: undefined })}
                 title={f.asset}
               >
-                <span className={s.itemName}>
+                <span className={cx(s.itemName, "caps")}>
                   {f.name}
                   {f.hint && <span className={s.itemHint}>{f.hint}</span>}
                 </span>
@@ -219,7 +220,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
       </Section>
 
       {formation && (
-        <Section title={`Set · ${formation.name}`} dim={personal} aside={filters.set ? <ClearLink onClick={() => setFilters({ set: undefined })} /> : <span className={s.count}>{formation.sets.length}</span>}>
+        <Section title={<>Set · <span className="caps">{formation.name}</span></>} dim={personal} aside={filters.set ? <ClearLink onClick={() => setFilters({ set: undefined })} /> : <span className={s.count}>{formation.sets.length}</span>}>
           <div className={cx(s.list, s.listTall)} role="listbox" aria-label="Sets">
             {formation.sets.map((st) => {
               const n = counts?.set.get(st.asset) ?? 0;
@@ -234,7 +235,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
                   onClick={() => setFilters({ set: on ? undefined : st.asset })}
                   title={st.asset}
                 >
-                  <span className={s.itemName}>{st.name}</span>
+                  <span className={cx(s.itemName, "caps")}>{st.name}</span>
                   <span className={s.itemCount}>{fmt(n)}</span>
                 </button>
               );
@@ -243,14 +244,14 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
         </Section>
       )}
 
-      <Section title="Play type" aside={filters.families?.length || filters.playType ? <ClearLink onClick={() => setFilters({ families: undefined, playType: undefined })} /> : undefined}>
+      <Section title="Play Type" aside={filters.families?.length || filters.playType ? <ClearLink onClick={() => setFilters({ families: undefined, playType: undefined })} /> : undefined}>
         <div className={s.chips}>
           {families.map((f) => {
             const n = counts?.family.get(f) ?? 0;
             const on = famSet.has(f);
             if (!n && !on) return null;
             return (
-              <Chip key={f} active={on} color={familyColor(f)} count={n} onClick={() => setFilters({ families: toggleIn(filters.families, f), playType: undefined })}>
+              <Chip key={f} caps active={on} color={familyColor(f)} count={n} onClick={() => setFilters({ families: toggleIn(filters.families, f), playType: undefined })}>
                 {familyLabel(f)}
               </Chip>
             );
@@ -271,7 +272,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
       <Section title="Concept" aside={filters.categories?.length || filters.readConcepts?.length ? <ClearLink onClick={() => setFilters({ categories: undefined, readConcepts: undefined })} /> : undefined}>
         {categories.length > 0 && (
           <>
-            <div className={s.subhead}>Your categories</div>
+            <div className={s.subhead}>Your Categories</div>
             <div className={s.chips}>
               {categories.map((c) => {
                 const on = catActive.has(c.id);
@@ -292,7 +293,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
             </div>
           </>
         )}
-        <div className={s.subhead}>Read concepts</div>
+        <div className={s.subhead}>Read Concepts</div>
         <div className={s.chips}>
           {shownConcepts.map((c) => (
             <Chip
@@ -307,14 +308,14 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
           {!readConcepts.length && <span className={s.none}>No read concepts in these plays</span>}
           {readConcepts.length > 14 && (
             <button type="button" className={s.more} onClick={() => setAllConcepts(!allConcepts)}>
-              {allConcepts ? "Fewer" : `+${readConcepts.length - 14} more`}
+              {allConcepts ? "Fewer" : `+${readConcepts.length - 14} More`}
             </button>
           )}
         </div>
       </Section>
 
       {(side !== "defense" || personal) && (
-        <Section title="Route contains" aside={filters.routes?.length ? <ClearLink onClick={() => setFilters({ routes: undefined })} /> : undefined}>
+        <Section title="Route Contains" aside={filters.routes?.length ? <ClearLink onClick={() => setFilters({ routes: undefined })} /> : undefined}>
           <div className={s.chips}>
             {ROUTE_FAMILIES.map((r) => {
               const n = counts?.routes.get(r) ?? 0;
@@ -340,7 +341,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
       </Section>
 
       <Section title="Favorites">
-        <Toggle checked={!!filters.favoritesOnly} onChange={(v) => setFilters({ favoritesOnly: v || undefined })} label={`Favorites only · ${fmt(counts?.favorites)}`} size="sm" />
+        <Toggle checked={!!filters.favoritesOnly} onChange={(v) => setFilters({ favoritesOnly: v || undefined })} label={`Favorites Only · ${fmt(counts?.favorites)}`} size="sm" />
       </Section>
 
       <p className={s.footnote}>

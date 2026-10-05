@@ -60,14 +60,14 @@ export function Builder({ path }: { path: string }) {
     );
   const reload = (
     <Button icon="refresh" onClick={() => void useWorkspace.getState().refresh()}>
-      Reload files
+      Reload Files
     </Button>
   );
-  const other = <PlaybooksMenuButton label="Open another playbook" />;
+  const other = <PlaybooksMenuButton label="Open Another Playbook" />;
   if (!doc)
     return (
       <div className={s.center}>
-        <EmptyState icon="file" title="Playbook not found" body={<code className={s.code}>{path}</code>} action={other} />
+        <EmptyState icon="file" title="Playbook Not Found" body={<code className={s.code}>{path}</code>} action={other} />
       </div>
     );
   if (doc.error)
@@ -75,7 +75,7 @@ export function Builder({ path }: { path: string }) {
       <div className={s.center}>
         <EmptyState
           icon="warning"
-          title="This playbook couldn't be loaded"
+          title="This Playbook Couldn't Be Loaded"
           body={
             <>
               <code className={s.code}>{doc.error}</code>
@@ -96,7 +96,7 @@ export function Builder({ path }: { path: string }) {
       <div className={s.center}>
         <EmptyState
           icon="file"
-          title="Not a playbook"
+          title="Not a Playbook"
           body={
             <>
               <code className={s.code}>{path}</code>
@@ -122,7 +122,7 @@ export function Builder({ path }: { path: string }) {
         {libStatus === "loading" ? (
           <Spinner size={28} label="Loading the play library" />
         ) : (
-          <EmptyState icon="warning" title="The play library isn't loaded" body="The builder looks up formations, sets and plays in the game's play library. Reload once it's available." />
+          <EmptyState icon="warning" title="The Play Library Isn't Loaded" body="The builder looks up formations, sets and plays in the game's play library. Reload once it's available." />
         )}
       </div>
     );
@@ -157,7 +157,7 @@ function BuilderCrashed({ error, onRetry }: { error: Error; onRetry(): void }) {
     <div className={s.center}>
       <EmptyState
         icon="warning"
-        title="This playbook couldn't be shown"
+        title="This Playbook Couldn't Be Shown"
         body={
           <>
             <code className={s.code}>{error.message}</code>
@@ -167,10 +167,10 @@ function BuilderCrashed({ error, onRetry }: { error: Error; onRetry(): void }) {
         action={
           <>
             <Button icon="refresh" onClick={() => void useWorkspace.getState().refresh()}>
-              Reload files
+              Reload Files
             </Button>
-            <Button onClick={onRetry}>Try again</Button>
-            <PlaybooksMenuButton label="Open another playbook" />
+            <Button onClick={onRetry}>Try Again</Button>
+            <PlaybooksMenuButton label="Open Another Playbook" />
           </>
         }
       />
@@ -418,7 +418,7 @@ function makeDragHandlers(get: () => BuilderData): DragHandlers {
   };
 
   const refused = (_payload: DragPayload, c: DropCheck) => {
-    if (c.reason) toast.warning("Can't drop there", { detail: c.reason, duration: 3500 });
+    if (c.reason) toast.warning("Can't Drop There", { detail: c.reason, duration: 3500 });
   };
 
   return { check, drop, refused };

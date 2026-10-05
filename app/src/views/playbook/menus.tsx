@@ -31,7 +31,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
   if (node.level === "set" && node.rs)
     items.push(
       {
-        label: "Add plays to this set…",
+        label: "Add Plays to This Set…",
         icon: "plus",
         onSelect: () => {
           useBuilderUi.getState().select(node.id);
@@ -54,10 +54,10 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
   if (editable) {
     items.push(
       { label: `Duplicate${multi}`, icon: "duplicate", shortcut: "mod+d", onSelect: () => duplicateSelection(data) },
-      { label: "Move up", icon: "chevronUp", onSelect: () => nudgeSelection(data, -1) },
-      { label: "Move down", icon: "chevronDown", onSelect: () => nudgeSelection(data, 1) },
+      { label: "Move Up", icon: "chevronUp", onSelect: () => nudgeSelection(data, -1) },
+      { label: "Move Down", icon: "chevronDown", onSelect: () => nudgeSelection(data, 1) },
       {
-        label: node.level === "play" ? `Remove from playbook${multi}` : `Remove${multi}…`,
+        label: node.level === "play" ? `Remove From Playbook${multi}` : `Remove${multi}…`,
         icon: "trash",
         shortcut: "Delete",
         danger: true,
@@ -71,7 +71,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
     items.push({ kind: "separator" });
     if (node.rf.template)
       items.push({
-        label: "Convert to editable sets",
+        label: "Convert to Editable Sets",
         icon: "unlock",
         hint: "copies the template's sets and plays in",
         disabled: !node.tf,
@@ -79,7 +79,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
       });
     else if (node.rf.sets.length)
       items.push({
-        label: "Select all sets",
+        label: "Select All Sets",
         icon: "list",
         onSelect: () => {
           const fid = data.ids.formations[node.ref!.f];
@@ -93,7 +93,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
     items.push(
       { kind: "separator" },
       {
-        label: "Select all plays",
+        label: "Select All Plays",
         icon: "list",
         disabled: !node.rs.plays.length,
         onSelect: () => {
@@ -125,35 +125,35 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
           })),
         ],
       },
-      { label: "Copy CPU weights", icon: "copy", disabled: !!multi, onSelect: () => copyWeights(data, node) },
+      { label: "Copy CPU Weights", icon: "copy", disabled: !!multi, onSelect: () => copyWeights(data, node) },
       {
-        label: `Paste CPU weights${multi}`,
+        label: `Paste CPU Weights${multi}`,
         icon: "paste",
         disabled: !clip.weights,
         hint: clip.weights ? `from ${clip.weights.from}` : undefined,
         onSelect: () => pasteWeights(data, selectedRefs(data)),
       },
-      { label: `Clear CPU weights${multi}`, icon: "close", onSelect: () => clearWeights(data, selectedRefs(data)) },
+      { label: `Clear CPU Weights${multi}`, icon: "close", onSelect: () => clearWeights(data, selectedRefs(data)) },
     );
     if (play) {
-      items.push({ kind: "separator" }, { label: "Open in library", icon: "external", onSelect: () => openInLibrary(play.key) });
+      items.push({ kind: "separator" }, { label: "Open in Library", icon: "external", onSelect: () => openInLibrary(play.key) });
       if (play.source === "custom" && !play.clone && play.file !== undefined && play.index !== undefined)
-        items.push({ label: "Edit in designer", icon: "route", onSelect: () => navigate(`#/designer/${encodeURIComponent(play.file!)}/${play.index}`) });
+        items.push({ label: "Edit in Designer", icon: "route", onSelect: () => navigate(`#/designer/${encodeURIComponent(play.file!)}/${play.index}`) });
       const setHref = play.clone ? data.custom.editHref(play.set) : undefined;
-      if (setHref) items.push({ label: "Edit its custom set", icon: "field", onSelect: () => navigate(setHref) });
+      if (setHref) items.push({ label: "Edit Its Custom Set", icon: "field", onSelect: () => navigate(setHref) });
     }
   }
 
   if ((node.level === "tset" || node.level === "tplay") && node.rf) {
-    items.push({ kind: "separator" }, { label: "Convert section to editable sets", icon: "unlock", disabled: !node.tf, onSelect: () => void convertTemplate(data, node.ref!.f) });
-    if (node.tp) items.push({ label: "Open in library", icon: "external", onSelect: () => openInLibrary(node.tp!.play.asset) });
+    items.push({ kind: "separator" }, { label: "Convert Section to Editable Sets", icon: "unlock", disabled: !node.tf, onSelect: () => void convertTemplate(data, node.ref!.f) });
+    if (node.tp) items.push({ label: "Open in Library", icon: "external", onSelect: () => openInLibrary(node.tp!.play.asset) });
   }
 
   if (node.id === BOOK_ID) {
     items.push(
       { kind: "separator" },
       {
-        label: "Expand all",
+        label: "Expand All",
         icon: "chevronDown",
         onSelect: () => {
           const ui2 = useBuilderUi.getState();
@@ -166,7 +166,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
         },
       },
       {
-        label: "Collapse all",
+        label: "Collapse All",
         icon: "chevronUp",
         onSelect: () => {
           const exp: Record<string, boolean> = {};
@@ -174,7 +174,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
           useBuilderUi.setState({ expanded: exp });
         },
       },
-      { label: "Preview in game", icon: "playcall", onSelect: () => navigate(`#/playcall/${encodeURIComponent(data.path)}`) },
+      { label: "Preview in Game", icon: "playcall", onSelect: () => navigate(`#/playcall/${encodeURIComponent(data.path)}`) },
     );
   }
   return items;

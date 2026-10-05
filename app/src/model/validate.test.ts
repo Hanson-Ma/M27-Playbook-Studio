@@ -87,7 +87,7 @@ describe("validateAll on the example files", () => {
       ["error", "/formations/0"],
       ["error", "/formations/1"],
     ]);
-    expect(t[0].message).toMatch(/Gun PBS is a custom formation/);
+    expect(t[0].message).toMatch(/GUN PBS is a custom formation/);
   });
 });
 
@@ -109,7 +109,7 @@ describe("custom plays based on a clone (FORMATS.md §5)", () => {
 
   it("flags names and assets a clone in that set already uses (pbook-build finds the clone first)", () => {
     const r = at(1);
-    expect(r.find((x) => x.rule === "play-name-duplicate")?.message).toMatch(/a play cloned into Y Trips Tight Wk .* the game-side builder picks the clone/);
+    expect(r.find((x) => x.rule === "play-name-duplicate")?.message).toMatch(/a play cloned into Y TRIPS TIGHT WK .* the game-side builder picks the clone/);
     expect(r.find((x) => x.rule === "play-asset-duplicate")?.message).toMatch(/already used by a play cloned into this set/);
   });
 

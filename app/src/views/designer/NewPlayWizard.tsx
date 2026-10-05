@@ -18,6 +18,7 @@ import { href, navigate } from "../../state/router";
 import { useSettings } from "../../state/settings";
 import { useDoc, useDocsOfKind, useWorkspace } from "../../state/workspace";
 import { Button, Chip, FormRow, Modal, Select, Tag, TextInput, VirtualList, cx, toast } from "../../ui";
+import { titleCase } from "./titleCase";
 import s from "./Wizard.module.css";
 
 export interface WizardPrefill {
@@ -32,7 +33,7 @@ type Step = "formation" | "set" | "base" | "name";
 const STEPS: { id: Step; label: string }[] = [
   { id: "formation", label: "Formation" },
   { id: "set", label: "Set" },
-  { id: "base", label: "Base play" },
+  { id: "base", label: "Base Play" },
   { id: "name", label: "Name" },
 ];
 
@@ -183,7 +184,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
         ws.update<PlaysFile>(targetPath, (d) => void d.plays.push(spec), { label: "New play" });
       }
     } catch (e) {
-      toast.error("Couldn't create the play", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Couldn't Create the Play", { detail: e instanceof Error ? e.message : String(e) });
       return;
     }
     useSettings.getState().set({ lastPlaysFile: targetPath });
@@ -201,7 +202,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
     <Modal
       open
       onClose={onClose}
-      eyebrow="New play"
+      eyebrow="New Play"
       title={
         <span className={s.crumbs}>
           {STEPS.map((x, i) => (
@@ -230,7 +231,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
           </Button>
           {step === "name" && (
             <Button variant="primary" disabled={!canCreate} onClick={create}>
-              Create play
+              Create Play
             </Button>
           )}
         </>
@@ -285,7 +286,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
                   <span className={s.rowName}>{x.name}</span>
                   {custom && (
                     <Tag tone="custom" size="sm" title="Your custom set (Formations)">
-                      Custom set
+                      Custom Set
                     </Tag>
                   )}
                   <span className={s.rowMeta}>{n} plays</span>
@@ -317,7 +318,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
       {step === "name" && setAsset && (
         <div className={s.nameStep}>
           <div className={s.nameForm}>
-            <FormRow label="Play name" error={nameErr} hint="Unique within the set (library and custom plays).">
+            <FormRow label="Play Name" error={nameErr} hint="Unique within the set (library and custom plays).">
               <TextInput
                 autoFocus
                 value={name}
@@ -329,7 +330,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
               />
             </FormRow>
             <FormRow
-              label="Asset name"
+              label="Asset Name"
               error={assetErr}
               hint={`The play's name in the game files (in ${leaf(folder(setAsset).slice(0, -1))}/), made from the play name with letters, digits and underscores only. You can leave it as it is.`}
             >
@@ -343,16 +344,16 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
                 }}
               />
             </FormRow>
-            <FormRow label="Plays file" error={fileErr || undefined}>
+            <FormRow label="Plays File" error={fileErr || undefined}>
               <Select
                 value={file}
-                options={[...docs.filter((d) => !d.error).map((d) => ({ value: d.path, label: d.path })), { value: NEW_FILE, label: "New plays file…" }]}
+                options={[...docs.filter((d) => !d.error).map((d) => ({ value: d.path, label: d.path })), { value: NEW_FILE, label: "New Plays File…" }]}
                 onChange={setFile}
                 className={file === NEW_FILE ? undefined : s.monoSelect}
               />
             </FormRow>
             {file === NEW_FILE && (
-              <FormRow label="New file path">
+              <FormRow label="New File Path">
                 <TextInput mono value={newFilePath} onChange={setNewFilePath} />
               </FormRow>
             )}
@@ -494,7 +495,7 @@ function BaseStep({
             {header && <div className={s.sectionHead}>{header}</div>}
             {showLabel && (
               <div className={s.groupHead}>
-                {g.label} <span className={s.groupCount}>{g.plays.length}</span>
+                {titleCase(g.label)} <span className={s.groupCount}>{g.plays.length}</span>
               </div>
             )}
             <div className={s.cards}>

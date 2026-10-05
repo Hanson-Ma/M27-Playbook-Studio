@@ -73,7 +73,7 @@ describe("checks strip", () => {
   it("turns the line count into an error and OL / QB depth into warnings", () => {
     const off = effectiveNormal(base, { positions: [{ slot: 3, y: -2.2 }] });
     const groups = checkGroups(off, alignmentIssues(off, base));
-    expect(groups.find((c) => c.id === "line")).toMatchObject({ level: "error", label: "6 on the line" });
+    expect(groups.find((c) => c.id === "line")).toMatchObject({ level: "error", label: "6 on the Line" });
     const qb = effectiveNormal(base, { positions: [{ slot: 0, y: -1.4 }] });
     const g2 = checkGroups(qb, alignmentIssues(qb, base));
     expect(g2.find((c) => c.id === "depth")?.level).toBe("warning");

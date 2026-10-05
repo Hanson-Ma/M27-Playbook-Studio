@@ -465,7 +465,7 @@ describe("cpuEditorGroups", () => {
     // A set weight outside the common list is never hidden.
     expect(keys).toContain("Kneel");
     expect(keys).not.toContain("Punt");
-    expect(groups[groups.length - 1]).toMatchObject({ id: "unknown", label: "Unknown keys", set: 1, rows: [{ key: "Bogus", known: false }] });
+    expect(groups[groups.length - 1]).toMatchObject({ id: "unknown", label: "Unknown Keys", set: 1, rows: [{ key: "Bogus", known: false }] });
     expect(groups.find((g) => g.id === "down")?.set).toBe(1);
     // Groups without rows are dropped (no special-teams weights set, none common).
     expect(groups.some((g) => g.id === "special")).toBe(false);

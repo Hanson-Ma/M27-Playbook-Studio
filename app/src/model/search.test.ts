@@ -303,7 +303,7 @@ describe("grouping", () => {
     expect(fam[0].title).toBe("PASS");
     expect(fam.reduce((n, s) => n + s.entries.length, 0)).toBe(r.entries.length);
     const con = groupResults(r.entries, "concept");
-    expect(con.at(-1)!.title).toBe("No concept");
+    expect(con.at(-1)!.title).toBe("No Concept");
     const mesh = con.find((s) => s.title === "Mesh")!;
     expect(mesh.entries.every((e) => e.facets.readConcepts.includes("Mesh"))).toBe(true);
     expect(groupResults(r.entries, "none")).toHaveLength(1);

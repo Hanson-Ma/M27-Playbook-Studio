@@ -1,4 +1,4 @@
-// Mini line-of-scrimmage diagrams: the BlockingGap picker (A–E / OUTSIDE on both sides + RUN_HOLE) and the
+// Mini line-of-scrimmage diagrams: the BlockingGap picker (A–E / Out on both sides + Run Hole) and the
 // runHole picker (0 middle, odd = left, even = right).
 // The buttons are evenly spaced, not to scale: to scale the A gaps (and holes 0 / 1 / 2) sit under a yard apart, so
 // their buttons would overlap in a 200–250 px diagram. The linemen are placed on the same piecewise-linear scale
@@ -56,15 +56,15 @@ function Linemen({ at }: { at: (x: number) => string }) {
 }
 
 const LETTERS = ["A", "B", "C", "D", "E", "OUTSIDE"] as const;
-// OUT · E · D · C · B · A | A · B · C · D · E · OUT (the OUT labels are wider: a bigger slot).
+// Out · E · D · C · B · A | A · B · C · D · E · Out (the Out labels are wider: a bigger slot).
 const GAP_SCALE = stopScale(
   [...LETTERS].reverse().map((l) => ({ x: -GAP_X[l], w: l === "OUTSIDE" ? 1.5 : 1 })).concat(LETTERS.map((l) => ({ x: GAP_X[l], w: l === "OUTSIDE" ? 1.5 : 1 }))),
 );
 
 export function GapPicker({ value, onChange, disabled }: { value: string; onChange(v: string): void; disabled?: boolean }) {
   const gaps = LETTERS.flatMap((l) => [
-    { value: `${l}_GAP_Left`, x: -GAP_X[l], label: l === "OUTSIDE" ? "OUT" : l },
-    { value: `${l}_GAP_RIGHT`, x: GAP_X[l], label: l === "OUTSIDE" ? "OUT" : l },
+    { value: `${l}_GAP_Left`, x: -GAP_X[l], label: l === "OUTSIDE" ? "Out" : l },
+    { value: `${l}_GAP_RIGHT`, x: GAP_X[l], label: l === "OUTSIDE" ? "Out" : l },
   ]);
   return (
     <div className={s.wrap}>
@@ -76,7 +76,7 @@ export function GapPicker({ value, onChange, disabled }: { value: string; onChan
             key={g.value}
             type="button"
             disabled={disabled}
-            className={cx(s.gap, g.label === "OUT" && s.out, value === g.value && s.on)}
+            className={cx(s.gap, g.label === "Out" && s.out, value === g.value && s.on)}
             style={{ left: GAP_SCALE(g.x) }}
             title={g.value}
             onClick={() => onChange(g.value)}
@@ -86,7 +86,7 @@ export function GapPicker({ value, onChange, disabled }: { value: string; onChan
         ))}
       </div>
       <button type="button" disabled={disabled} className={cx(s.holeBtn, value === "RUN_HOLE" && s.on)} onClick={() => onChange("RUN_HOLE")}>
-        Run hole
+        Run Hole
       </button>
     </div>
   );

@@ -44,7 +44,7 @@ function renderInline(nodes: Inline[], key = ""): ReactNode[] {
 
 const CALLOUT: Record<CalloutKind, { icon: IconName; label: string }> = {
   tip: { icon: "sparkle", label: "Tip" },
-  warning: { icon: "warning", label: "Heads up" },
+  warning: { icon: "warning", label: "Heads Up" },
   note: { icon: "info", label: "Note" },
 };
 
@@ -56,7 +56,7 @@ function CodeBlock({ lang, value }: { lang?: string; value: string }) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1500);
     } catch {
-      toast.error("Couldn't copy", { detail: "Select the text and copy it by hand." });
+      toast.error("Couldn't Copy", { detail: "Select the text and copy it by hand." });
     }
   };
   return (

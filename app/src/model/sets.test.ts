@@ -600,6 +600,6 @@ describe("names, clones and dependencies", () => {
     const warn = validateSetsFile(doc.data, lib, { file: doc.path }).filter((i) => i.rule === "set-play-depends");
     // PBS T Inside Zone / PBS O HB Draw only lead-block with moved receivers (FORMATS.md §5: safe); Mtn Mesh realigns.
     expect(warn.map((i) => i.where)).toEqual(["/sets/1/plays/1"]);
-    expect(warn[0].message).toMatch(/PBS O Mtn Mesh: depends on moved WR1, WR2: has a fixed starting spot/);
+    expect(warn[0].message).toMatch(/Play PBS O MTN MESH: depends on moved WR1, WR2: has a fixed starting spot/);
   });
 });

@@ -210,7 +210,7 @@ export function AddPlaysDrawer() {
   const setLabel = setAsset ? setOptions.find((x) => x.value === setAsset)?.label : undefined;
   const setIsCustom = scope === "set" && data.custom.set(setAsset);
   const searchPlaceholder =
-    // the set itself is named in the picker right beside the field (in uppercase), so the placeholder doesn't repeat it
+    // the set itself is named in the picker right beside the field (in caps), so the placeholder doesn't repeat it
     scope === "set" ? (setLabel ? "Search this set's plays" : "Search this set") : scope === "book" ? "Search every set of this playbook's formations" : "Type a play name, e.g. Mesh, Four Verticals…";
 
   return (
@@ -218,17 +218,17 @@ export function AddPlaysDrawer() {
       <ActionLayer token={token}>
         <header className={s.head}>
           <div className={s.titles}>
-            <div className={s.eyebrow}>Step 2 · from the library</div>
-            <h2 className={s.title}>Add plays</h2>
+            <div className={s.eyebrow}>Step 2 · From the Library</div>
+            <h2 className={s.title}>Add Plays</h2>
           </div>
           <Segmented<Scope>
             size="sm"
             value={scope}
             onChange={setScope}
             options={[
-              { value: "set", label: "One set", title: "Plays of one set" },
-              { value: "book", label: "My formations", disabled: !formations.inBook.length, title: "Every set of the formations in this playbook" },
-              { value: "library", label: "Whole library", title: "Every formation on this side of the ball" },
+              { value: "set", label: "One Set", title: "Plays of one set" },
+              { value: "book", label: "My Formations", disabled: !formations.inBook.length, title: "Every set of the formations in this playbook" },
+              { value: "library", label: "Whole Library", title: "Every formation on this side of the ball" },
             ]}
             aria-label="Where to search"
           />
@@ -243,15 +243,16 @@ export function AddPlaysDrawer() {
               placeholder="Pick a set"
               renderValue={(o) => (o ? <span className={s.setValue}>{o.label}</span> : undefined)}
               searchPlaceholder="Search sets…"
+              caps
               size="sm"
               width={260}
               menuWidth={360}
               aria-label="Set"
             />
           )}
-          {setIsCustom && <span className={s.customTag}>Custom set</span>}
+          {setIsCustom && <span className={s.customTag}>Custom Set</span>}
           <TextInput value={query} onChange={setQuery} placeholder={searchPlaceholder} icon="search" clearable size="sm" autoFocus wrapperClassName={s.search} aria-label="Search plays" />
-          <Toggle size="sm" checked={hideIn} onChange={setHideIn} label="Hide plays already added" />
+          <Toggle size="sm" checked={hideIn} onChange={setHideIn} label="Hide Plays Already Added" />
         </div>
         <div className={s.chips}>
           {PLAY_FAMILIES.filter((f) => famCounts.has(f)).map((f) => (
@@ -264,7 +265,7 @@ export function AddPlaysDrawer() {
         <CategoryChips filter={catFilter} active={cats} onChange={setCats} className={s.catChips} />
         {libraryWaiting ? (
           <div className={s.gridWrap}>
-            <EmptyState icon="search" title="Search the whole library" body="Type at least two letters of a play name. Plays from formations that aren't in this playbook yet are added with their formation and set." />
+            <EmptyState icon="search" title="Search the Whole Library" body="Type at least two letters of a play name. Plays from formations that aren't in this playbook yet are added with their formation and set." />
           </div>
         ) : (
           <div ref={sizeRef} className={s.gridWrap}>
@@ -281,7 +282,7 @@ export function AddPlaysDrawer() {
               getKey={(i) => plays[i].key}
               padEnd={24}
               aria-label="Library plays"
-              empty={<EmptyState compact icon="search" title="No plays match" body={scope === "set" ? "Try another set, or search the whole library." : "Try fewer words."} />}
+              empty={<EmptyState compact icon="search" title="No Plays Match" body={scope === "set" ? "Try another set, or search the whole library." : "Try fewer words."} />}
               renderCell={(i) => {
                 const p = plays[i];
                 const problem = problemOf(p.key);
@@ -299,8 +300,8 @@ export function AddPlaysDrawer() {
                         pc.length || isIn || problem || customSet ? (
                           <>
                             <CategoryDots cats={pc} className={s.cardDots} />
-                            {customSet && <span className={s.customBadge}>Custom set</span>}
-                            {isIn ? <span className={s.inBook}>Added</span> : problem ? <span className={s.blocked}>Can't add</span> : null}
+                            {customSet && <span className={s.customBadge}>Custom Set</span>}
+                            {isIn ? <span className={s.inBook}>Added</span> : problem ? <span className={s.blocked}>Can't Add</span> : null}
                           </>
                         ) : undefined
                       }
@@ -316,7 +317,7 @@ export function AddPlaysDrawer() {
           <span className={s.picked}>{picked.length ? `${picked.length} selected` : "Click cards to select them, or drag one onto a set in the tree"}</span>
           {plays.length > 0 && (
             <Button size="sm" variant="ghost" onClick={selectAll}>
-              Select all
+              Select All
             </Button>
           )}
           {picked.length > 0 && (
@@ -325,7 +326,7 @@ export function AddPlaysDrawer() {
             </Button>
           )}
           <Button variant="primary" icon="plus" disabled={!picked.length} onClick={add}>
-            Add {picked.length || ""} play{picked.length === 1 ? "" : "s"}
+            Add {picked.length || ""} Play{picked.length === 1 ? "" : "s"}
           </Button>
         </footer>
       </ActionLayer>

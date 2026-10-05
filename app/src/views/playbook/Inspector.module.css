@@ -30,15 +30,14 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .audFact {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .callout {
@@ -67,8 +66,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -98,7 +96,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  text-transform: uppercase;
   color: var(--text-2);
 }
 .sep {
@@ -200,8 +197,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .groupCount {
@@ -274,8 +270,7 @@
 .dl dt {
   font-family: var(--font-display);
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   font-size: var(--fd-xs);
   color: var(--text-3);
   padding-top: 2px;

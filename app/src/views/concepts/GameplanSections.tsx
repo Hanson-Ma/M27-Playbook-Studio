@@ -112,7 +112,7 @@ function PlayLine({ r, doc, right, template }: { r: BookPlayRef; doc: ConceptsDo
       </div>
       {template && (
         <Tag tone="neutral" size="sm" icon="lock" title="From a template section: copied from the template save by the game-side builder">
-          From template
+          From Template
         </Tag>
       )}
       <div className={s.playChips}>
@@ -171,11 +171,11 @@ export function MatrixSection({ group, doc, catalog }: { group: Extract<Category
   const others = filter.filter((id) => ix.byId.has(id) && groupOf(ix.byId.get(id)!) !== group);
 
 
-  const label = GROUP_LABEL[group].toUpperCase();
+  const label = GROUP_LABEL[group];
   return (
     <div className={s.page}>
       <GameplanBar doc={doc} books={books} book={book} rb={rb}>
-        {nested && <Toggle size="sm" checked={topLevelOnly} onChange={(v) => uiSet({ topLevelOnly: v })} label="Top level only" />}
+        {nested && <Toggle size="sm" checked={topLevelOnly} onChange={(v) => uiSet({ topLevelOnly: v })} label="Top Level Only" />}
       </GameplanBar>
       {!rb || !m ? (
         <NoBook books={books} />
@@ -194,7 +194,7 @@ export function MatrixSection({ group, doc, catalog }: { group: Extract<Category
               <thead>
                 <tr>
                   <th className={s.corner}>
-                    <div className={s.cornerTitle}>{label} concepts by formation</div>
+                    <div className={s.cornerTitle}>{label} Concepts by Formation</div>
                     <div className={s.cornerHint}>
                       {m.plays} plays
                       {others.length > 0 && ` tagged ${others.map((id) => ix.byId.get(id)?.name).join(" / ")}`}
@@ -243,7 +243,7 @@ export function MatrixSection({ group, doc, catalog }: { group: Extract<Category
               <tfoot>
                 <tr className={s.totals}>
                   <th className={s.rowHead} scope="row">
-                    Whole book
+                    Whole Book
                   </th>
                   <td className={s.num}>{m.plays}</td>
                   {m.totals.map((t, ci) => (
@@ -259,7 +259,7 @@ export function MatrixSection({ group, doc, catalog }: { group: Extract<Category
             {sel ? (
               <CellDetail row={sel.row} category={sel.col.category} plays={sel.plays} doc={doc} onShow={() => openCell(sel.row, c, sel.plays)} />
             ) : (
-              <EmptyState compact icon="grid" title="Pick a cell" />
+              <EmptyState compact icon="grid" title="Pick a Cell" />
             )}
           </aside>
           {hover && m.rows[hover.r] && m.columns[hover.c] && (
@@ -277,12 +277,12 @@ function HoverList({ row, category, plays }: { row: MatrixRow; category: Concept
   return (
     <>
       <div className={s.hoverHead}>
-        <ColorDot color={category.color} /> {category.name} · {row.label}
+        <ColorDot color={category.color} /> {category.name} · <span className="caps">{row.label}</span>
       </div>
       {plays.length ? (
         <ul className={s.hoverList}>
           {plays.slice(0, 12).map((p) => (
-            <li key={`${p.f}/${p.s}/${p.p}`}>
+            <li key={`${p.f}/${p.s}/${p.p}`} className="caps">
               {p.play.name}
               {row.kind === "formation" && <span> · {p.set}</span>}
             </li>
@@ -323,7 +323,7 @@ function CellDetail({ row, category, plays, doc, onShow }: { row: MatrixRow; cat
         </div>
       )}
       <Button size="sm" variant="secondary" iconRight="chevronRight" onClick={onShow}>
-        {plays.length ? "Show in Tag Plays" : row.kind === "set" ? `Browse ${row.label}` : "Tag untagged plays"}
+        {plays.length ? "Show in Tag Plays" : row.kind === "set" ? <>Browse <span className="caps">{row.label}</span></> : "Tag Untagged Plays"}
       </Button>
     </div>
   );
@@ -415,8 +415,8 @@ export function SituationsSection({ doc, catalog }: { doc: ConceptsDoc; catalog:
           value={groupBy}
           onChange={setGroupBy}
           options={[
-            { value: "none", label: "By weight" },
-            { value: "category", label: "By category" },
+            { value: "none", label: "By Weight" },
+            { value: "category", label: "By Category" },
           ]}
           aria-label="Group"
         />
@@ -444,7 +444,7 @@ export function SituationsSection({ doc, catalog }: { doc: ConceptsDoc; catalog:
           <section className={s.sitMain}>
             <header className={s.sitHead}>
               <div>
-                <div className={s.detailEyebrow}>What do I have for</div>
+                <div className={s.detailEyebrow}>What Do I Have For</div>
                 <h2 className={s.sitTitle}>{SITUATION_LABELS[situation] ?? situation}</h2>
               </div>
               <div className={s.sitStats}>
@@ -479,10 +479,10 @@ export function SituationsSection({ doc, catalog }: { doc: ConceptsDoc; catalog:
                       ? `Neither this playbook's plays nor its ${sections(rb.counts.templateFormations)} (from the template save) carry a CPU weight for ${SITUATION_LABELS[situation] ?? situation}. Set CPU weights per play in the Playbook tab.`
                       : "Set CPU weights per play in the Playbook tab (CPU situation weights).")
                   }
-                  action={book ? <Button size="sm" onClick={() => navigate(href("playbook", book.path))}>Open playbook</Button> : undefined}
+                  action={book ? <Button size="sm" onClick={() => navigate(href("playbook", book.path))}>Open Playbook</Button> : undefined}
                 />
               ) : !list.length ? (
-                <EmptyState compact icon="filter" title="No plays match the category filter" />
+                <EmptyState compact icon="filter" title="No Plays Match the Category Filter" />
               ) : (
                 grouped.map((g) => (
                   <Fragment key={g.key}>
@@ -579,17 +579,17 @@ export function CoverageSection({ doc, catalog }: { doc: ConceptsDoc; catalog: C
             <Stat label="Plays" value={refs.length} />
             <Stat label="Tagged" value={tagged} sub={refs.length ? `${Math.round((tagged / refs.length) * 100)}%` : undefined} />
             <Stat label="Untagged" value={untagged} warn={untagged > 0} />
-            <Stat label="Categories used" value={rows.filter((r) => r.plays.length).length} sub={`of ${rows.length}`} />
+            <Stat label="Categories Used" value={rows.filter((r) => r.plays.length).length} sub={`of ${rows.length}`} />
             <Stat label="Holes" value={rows.filter((r) => !r.plays.length).length} warn={rows.some((r) => !r.plays.length)} />
             {untagged > 0 && (
               <Button variant="secondary" icon="tag" onClick={() => showInTagging(book?.path, { untagged: true })}>
-                Tag the {untagged} untagged
+                Tag the {untagged} Untagged
               </Button>
             )}
           </div>
           {rb.counts.templateFormations > 0 && <div className={s.templateNote}>{templateGap(rb, { status: "ready" }, false)}</div>}
           {!rows.length ? (
-            <EmptyState icon="tag" title="No categories" body="Add categories first." />
+            <EmptyState icon="tag" title="No Categories" body="Add categories first." />
           ) : (
             <table className={s.cov}>
               <thead>

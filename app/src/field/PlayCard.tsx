@@ -37,9 +37,9 @@ export interface PlayCardProps {
   size?: PlayCardSize;
   /** Dark chip bottom-right of the art, e.g. "AUD 2 | 3 CPU". */
   stat?: ReactNode;
-  /** Extra badges top-right (after the automatic CUSTOM / NEEDS MOD). */
+  /** Extra badges top-right (after the automatic Custom / Needs Mod). */
   badges?: ReactNode;
-  /** Automatic CUSTOM / NEEDS MOD badges (default true). */
+  /** Automatic Custom / Needs Mod badges (default true). */
   autoBadges?: boolean;
   flip?: boolean;
   ballSpot?: BallSpot;
@@ -169,7 +169,7 @@ export const PlayCard = memo(function PlayCard(props: PlayCardProps) {
             {custom && <span className={`${styles.badge} ${styles.custom}`}>Custom</span>}
             {needsMod && (
               <span className={`${styles.badge} ${styles.needsMod}`} title="Not in the global play sheet: needs pbstudio.fbmod">
-                Needs mod
+                Needs Mod
               </span>
             )}
             {badges}

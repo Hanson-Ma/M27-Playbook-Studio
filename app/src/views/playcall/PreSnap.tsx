@@ -137,14 +137,14 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
           <div className={s.eyebrow}>
             {item.formationName} <span>›</span> {item.setName}
           </div>
-          <h1 className={s.name}>{play.name}</h1>
+          <h1 className={cx(s.name, "caps")}>{play.name}</h1>
           <div className={s.subtitle}>{item.subtitle}</div>
           <div className={s.tags}>
             <PlayTypeTag playType={play.playType} />
             {play.source === "custom" && <Tag tone="custom">Custom</Tag>}
             {item.template && (
               <Tag tone="neutral" icon="lock" title="Copied from the template save by the game-side builder — read-only here">
-                From template
+               From Template
               </Tag>
             )}
             {!play.global && <NeedsModTag />}
@@ -177,7 +177,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
 
           <section className={s.section}>
             <h2 className={s.sectionTitle}>
-              CPU play calling <span className={s.count}>{cpu.length || ""}</span>
+              CPU Play Calling <span className={s.count}>{cpu.length || ""}</span>
             </h2>
             {cpu.length ? (
               <ul className={s.cpu}>
@@ -198,7 +198,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
 
           {reads.length > 0 && (
             <section className={s.section}>
-              <h2 className={s.sectionTitle}>Read progression</h2>
+              <h2 className={s.sectionTitle}>Read Progression</h2>
               <ol className={s.reads}>
                 {reads.map((r, i) => (
                   <li key={i} data-primary={r.pos === play.vip || undefined}>
@@ -215,10 +215,10 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
             <h2 className={s.sectionTitle}>Details</h2>
             <dl className={s.details}>
               <dt>Type</dt>
-              <dd>{info.long}</dd>
+              <dd className="caps">{info.long}</dd>
               {vipLabel && (
                 <>
-                  <dt>Primary receiver</dt>
+                  <dt>Primary Receiver</dt>
                   <dd>
                     <span className={s.vipDot} /> {vipLabel}
                   </dd>
@@ -273,10 +273,10 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
               {favorite ? "Favorited" : "Favorite"}
             </Button>
             <Button variant="secondary" icon="external" onClick={openLibrary} title="Open this play's detail in the library">
-              Open in library
+              Open in Library
             </Button>
             <Button variant="primary" icon="list" onClick={editInPlaybook} title={item.template ? "Show the template section in the playbook builder" : "Select this play in the playbook builder"}>
-              {item.template ? "Show in playbook" : "Edit in playbook"}
+              {item.template ? "Show in Playbook" : "Edit in Playbook"}
             </Button>
           </div>
         </aside>

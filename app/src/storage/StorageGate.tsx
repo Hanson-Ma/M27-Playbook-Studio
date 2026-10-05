@@ -62,7 +62,7 @@ function FolderCard({ state }: { state: Extract<StoragePhase, { phase: "folder" 
   return (
     <section className={s.card} aria-labelledby="storage-title">
       <h2 id="storage-title" className={s.title}>
-        {remembered ? "Welcome back" : "Open your 2026 Playbook folder"}
+        {remembered ? "Welcome Back" : "Open Your 2026 Playbook Folder"}
       </h2>
       <p className={s.lead}>
         Playbook Studio works on the files in your <b>2026 Playbook</b> folder — the one with <code>data</code>, <code>playbooks</code> and{" "}
@@ -77,12 +77,12 @@ function FolderCard({ state }: { state: Extract<StoragePhase, { phase: "folder" 
               Reconnect to “{remembered}”
             </Button>
             <Button variant="secondary" size="lg" disabled={busy} onClick={() => void openFolder()}>
-              Open a different folder…
+              Open a Different Folder…
             </Button>
           </>
         ) : (
           <Button variant="primary" size="lg" icon="folder" loading={busy} onClick={() => void openFolder()}>
-            Open folder…
+            Open Folder…
           </Button>
         )}
       </div>
@@ -105,7 +105,7 @@ function FolderCard({ state }: { state: Extract<StoragePhase, { phase: "folder" 
             </>
           ) : (
             <>
-              Click <b>Open folder…</b> and pick <b>2026 Playbook</b> (not a folder inside it).
+              Click <b>Open Folder…</b> and pick <b>2026 Playbook</b> (not a folder inside it).
             </>
           )}
         </li>
@@ -119,7 +119,7 @@ function FolderCard({ state }: { state: Extract<StoragePhase, { phase: "folder" 
       </ol>
 
       <details className={s.more}>
-        <summary>How does this work?</summary>
+        <summary>How Does This Work?</summary>
         <p>
           This website is only the app. When you open a folder, Chrome or Edge lets this page read and write the files inside it — nothing
           else on your computer, and nothing leaves it. Saves land in <code>playbooks/</code> and <code>app-data/</code> exactly like when the
@@ -138,7 +138,7 @@ function UnsupportedCard({ reason }: { reason: "insecure" | "no-api" }) {
   return (
     <section className={s.card} aria-labelledby="storage-title">
       <h2 id="storage-title" className={s.titleWarn}>
-        <Icon name="warning" size={20} /> {reason === "insecure" ? "Open this page over https" : "Use Chrome or Edge"}
+        <Icon name="warning" size={20} /> {reason === "insecure" ? "Open This Page Over HTTPS" : "Use Chrome or Edge"}
       </h2>
       {reason === "insecure" ? (
         <p className={s.lead}>
@@ -172,7 +172,7 @@ function ServerDownCard({ error }: { error: string }) {
   return (
     <section className={s.card} aria-labelledby="storage-title">
       <h2 id="storage-title" className={s.titleWarn}>
-        <Icon name="warning" size={20} /> Can't reach the local server
+        <Icon name="warning" size={20} /> Can't Reach the Local Server
       </h2>
       <p className={s.lead}>{error}</p>
       <p className={s.note}>
@@ -180,7 +180,7 @@ function ServerDownCard({ error }: { error: string }) {
       </p>
       <div className={s.actions}>
         <Button variant="primary" size="lg" icon="refresh" loading={busy} onClick={() => void retry()}>
-          Try again
+          Try Again
         </Button>
       </div>
     </section>

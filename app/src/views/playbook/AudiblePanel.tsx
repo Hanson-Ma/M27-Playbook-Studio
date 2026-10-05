@@ -38,10 +38,10 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
       <div className={s.head}>
         <h3 className={s.h3}>Audibles</h3>
         <span className={s.count}>{bySlot.size}/4</span>
-        <HelpLink section="audibles" label="How audibles work" className={s.help} />
+        <HelpLink section="audibles" label="How Audibles Work" className={s.help} />
       </div>
       <div className={s.styleRow}>
-        <span className={s.styleLabel}>Show as</span>
+        <span className={s.styleLabel}>Show As</span>
         <AudibleStyleSwitch size="sm" />
       </div>
       <div className={s.diamond}>
@@ -110,8 +110,8 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
       <p className={s.hint}>
         {cursorInSet
           ? selSlot
-            ? `${selName} is the ${AUDIBLE_CATEGORY[selSlot as AudibleSlot]} audible. Click another button to move it, or the same one to clear it.`
-            : `Click a button to make ${selName} that audible.`
+            ? <><span className="caps">{selName}</span> is the {AUDIBLE_CATEGORY[selSlot as AudibleSlot]} audible. Click another button to move it, or the same one to clear it.</>
+            : <>Click a button to make <span className="caps">{selName}</span> that audible.</>
           : "Select a play of this set (or drag its card here), then click a button. One play per button."}
       </p>
     </section>

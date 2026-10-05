@@ -3,6 +3,7 @@
 // shapes the play art draws at route corners).
 import { CutIcon as FieldCutIcon } from "../../field";
 import { CUT_LEFT, CUT_PREFIX, cutLabel } from "../../model/routes";
+import { titleCase } from "./titleCase";
 import s from "./Cuts.module.css";
 
 export type CutGroupId = "speed" | "hard" | "turnback" | "double" | "screen" | "other";
@@ -17,42 +18,42 @@ export interface CutGroup {
 const C = (short: string, name: string) => ({ value: CUT_PREFIX + short, name });
 
 export const CUT_GROUPS: CutGroup[] = [
-  { id: "speed", label: "Speed cuts", hint: "Rounded — the receiver keeps his speed", cuts: [C("22", "Speed cut 22°"), C("45", "Speed cut 45°")] },
+  { id: "speed", label: "Speed Cuts", hint: "Rounded — the receiver keeps his speed", cuts: [C("22", "Speed Cut 22°"), C("45", "Speed Cut 45°")] },
   {
     id: "hard",
-    label: "Hard cuts",
+    label: "Hard Cuts",
     hint: "Plant and turn sharply",
-    cuts: [C("67", "Hard cut 67°"), C("90", "Hard cut 90°"), C("90_INSIDE", "Hard cut 90° (inside)")],
+    cuts: [C("67", "Hard Cut 67°"), C("90", "Hard Cut 90°"), C("90_INSIDE", "Hard Cut 90° (Inside)")],
   },
   {
     id: "turnback",
-    label: "Turn back / sit",
+    label: "Turn Back / Sit",
     hint: "Stop and come back to the ball",
     cuts: [
       C("CURL", "Curl"),
       C("HITCH_COMEBACK", "Comeback"),
-      C("HITCH_COMEBACK_INSIDE", "Comeback (inside)"),
-      C("HINGECOMEBACK", "Hinge comeback"),
-      C("180", "Turn back 180°"),
-      C("180_PARTIAL", "Partial turn back"),
+      C("HITCH_COMEBACK_INSIDE", "Comeback (Inside)"),
+      C("HINGECOMEBACK", "Hinge Comeback"),
+      C("180", "Turn Back 180°"),
+      C("180_PARTIAL", "Partial Turn Back"),
       C("SMASH", "Smash"),
-      C("SMASH_QUICK", "Quick smash"),
-      C("DRAG_STOP", "Settle (drag stop)"),
+      C("SMASH_QUICK", "Quick Smash"),
+      C("DRAG_STOP", "Settle (Drag Stop)"),
     ],
   },
   {
     id: "double",
-    label: "Double moves",
+    label: "Double Moves",
     hint: "Fake one way, then go",
     cuts: [
       C("STUTTER", "Stutter"),
-      C("STUTTER_STREAK", "Stutter-go"),
-      C("SLANT_AND_GO", "Slant-and-go"),
-      C("HITCH_GO_INSIDE", "Hitch-and-go (inside)"),
-      C("HITCH_GO_OUTSIDE", "Hitch-and-go (outside)"),
-      C("OUT_AND_UP", "Out-and-up"),
-      C("STICKNOD", "Stick-nod"),
-      C("POSTCORNER", "Post-corner"),
+      C("STUTTER_STREAK", "Stutter-Go"),
+      C("SLANT_AND_GO", "Slant-and-Go"),
+      C("HITCH_GO_INSIDE", "Hitch-and-Go (Inside)"),
+      C("HITCH_GO_OUTSIDE", "Hitch-and-Go (Outside)"),
+      C("OUT_AND_UP", "Out-and-Up"),
+      C("STICKNOD", "Stick-Nod"),
+      C("POSTCORNER", "Post-Corner"),
       C("ZIG", "Zig"),
       C("SHAKE", "Shake"),
       C("HESITATION", "Hesitation"),
@@ -64,20 +65,20 @@ export const CUT_GROUPS: CutGroup[] = [
     hint: "Turn and catch behind the line",
     cuts: [
       C("SCREEN", "Screen"),
-      C("BUBBLE_SCREEN", "Bubble screen"),
-      C("BUBBLE_SCREEN_SHORT", "Short bubble"),
-      C("SCREEN_BACKPEDAL_SHORT", "Backpedal screen (short)"),
-      C("SCREEN_BACKPEDAL_LONG", "Backpedal screen (long)"),
+      C("BUBBLE_SCREEN", "Bubble Screen"),
+      C("BUBBLE_SCREEN_SHORT", "Short Bubble"),
+      C("SCREEN_BACKPEDAL_SHORT", "Backpedal Screen (Short)"),
+      C("SCREEN_BACKPEDAL_LONG", "Backpedal Screen (Long)"),
     ],
   },
 ];
 
 const BY_VALUE = new Map(CUT_GROUPS.flatMap((g) => g.cuts.map((c) => [c.value, { ...c, group: g.id }] as const)));
 
-/** Plain name of a cut type ("Speed cut 45°", "Stutter-go"); unknown ones fall back to the enum's words. */
+/** Plain name of a cut type ("Speed Cut 45°", "Stutter-Go"); unknown ones fall back to the enum's words. */
 export function cutName(cutType: string | undefined): string {
-  if (!cutType) return "No cut";
-  return BY_VALUE.get(cutType)?.name ?? cutLabel(cutType);
+  if (!cutType) return "No Cut";
+  return BY_VALUE.get(cutType)?.name ?? titleCase(cutLabel(cutType));
 }
 
 export function cutGroupOf(cutType: string | undefined): CutGroupId {

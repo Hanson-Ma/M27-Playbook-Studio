@@ -36,11 +36,11 @@ export class ErrorBoundary extends Component<Props, State> {
     return (
       <EmptyState
         icon="warning"
-        title={`${this.props.name ?? "This view"} hit an error`}
+        title={`${this.props.name ?? "This View"} Hit an Error`}
         body={<code style={{ fontFamily: "var(--font-mono)", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{error.message}</code>}
         action={
           <Button variant="primary" icon="refresh" onClick={() => this.setState({ error: undefined })}>
-            Try again
+            Try Again
           </Button>
         }
       />

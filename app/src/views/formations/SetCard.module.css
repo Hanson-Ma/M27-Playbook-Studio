@@ -1,4 +1,4 @@
-/* Alignment card: same family as the play-call PlayCard (flat dark art, white marks, condensed uppercase meta). */
+/* Alignment card: same family as the play-call PlayCard (flat dark art, white marks, the set name in caps — a Madden name — over a Title Case / sentence case subtitle). */
 .card {
   position: relative;
   display: flex;
@@ -72,9 +72,8 @@
   font-family: var(--font-display);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   line-height: 1;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 
@@ -132,14 +131,15 @@
 .name,
 .subtitle {
   font-family: var(--font-display);
-  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.05;
 }
 
+/* set names are Madden names: caps (the subtitle wraps its formation / set names in .caps itself) */
 .name {
+  text-transform: uppercase;
   font-size: var(--fd-lg);
   font-weight: 700;
   letter-spacing: 0.005em;
@@ -149,7 +149,7 @@
 .subtitle {
   font-size: var(--fd-xs);
   font-weight: 500;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   color: var(--text-2);
 }
 

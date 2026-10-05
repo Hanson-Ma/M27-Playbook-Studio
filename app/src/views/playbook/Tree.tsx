@@ -468,7 +468,7 @@ function FormationRow({ node }: { node: BookNode }) {
         {rf.template && (
           <span className={s.tplLine} title="Copied as-is from the template save (convert it to edit its sets)">
             <Icon name="lock" size={10} />
-            From template
+           From Template
           </span>
         )}
       </span>
@@ -616,6 +616,7 @@ function AddFormationRow() {
         options={options}
         renderValue={() => <AddLabel text="Formation" />}
         searchPlaceholder="Search formations…"
+        caps="options"
         size="sm"
         className={s.addSelect}
         menuWidth={320}
@@ -654,6 +655,7 @@ function AddSetRow({ f }: { f: number }) {
         options={options}
         renderValue={() => <AddLabel text="Set" />}
         searchPlaceholder={`Search ${formation.name} sets…`}
+        caps="options"
         size="sm"
         className={s.addSelect}
         menuWidth={300}

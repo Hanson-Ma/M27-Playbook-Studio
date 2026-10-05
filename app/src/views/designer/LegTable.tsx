@@ -8,7 +8,7 @@ import { CutIcon, cutName } from "./cuts";
 import { slotGeometry, useDesigner } from "./shared";
 import s from "./Inspector.module.css";
 
-const LEG_NAMES: Record<string, string> = { MoveDirection: "Move", ReceiveHandoff: "Take handoff", RecievePitch: "Take pitch", HeadTurnRunRoute: "Look back" };
+const LEG_NAMES: Record<string, string> = { MoveDirection: "Move", ReceiveHandoff: "Take Handoff", RecievePitch: "Take Pitch", HeadTurnRunRoute: "Look Back" };
 
 export function LegTable({ slot, lock }: { slot: number; lock: number }) {
   const d = useDesigner();
@@ -26,7 +26,7 @@ export function LegTable({ slot, lock }: { slot: number; lock: number }) {
     <div className={s.legs}>
       {before.length > 0 && <div className={s.legAside}>Before: {before.join(" · ")}</div>}
       {route.legs.length === 0 && (
-        <div className={s.legEmpty}>No route yet — pick one above, or turn on “Draw route” over the field and click to add points.</div>
+        <div className={s.legEmpty}>No route yet — pick one above, or turn on “Draw Route” over the field and click to add points.</div>
       )}
       {route.legs.map((leg, k) => {
         const locked = k < geom.firstEditableLeg;
@@ -57,7 +57,7 @@ export function LegTable({ slot, lock }: { slot: number; lock: number }) {
                     {cutName(String(cut.cutType))}
                   </span>
                 ) : (
-                  "No cut"
+                  "No Cut"
                 )}
               </button>
               <IconButton

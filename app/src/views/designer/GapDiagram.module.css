@@ -103,8 +103,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
 }
 .holeBtn.on {

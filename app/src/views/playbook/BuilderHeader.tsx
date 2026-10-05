@@ -27,13 +27,13 @@ export function BuilderHeader() {
       </div>
       <div className={s.actions}>
         <Button size="sm" icon="playcall" onClick={() => navigate(`#/playcall/${encodeURIComponent(data.path)}`)} title="See the playbook the way Madden's play-call screen shows it">
-          Preview in game
+          Preview in Game
         </Button>
         <Button size="sm" icon="tag" onClick={() => navigate("#/concepts?from=playbook")} title="Gameplan: your concept categories, play tags, run / pass mix and situations">
           Gameplan
         </Button>
         <Button size="sm" variant="primary" icon="plus" active={drawer} onClick={() => useBuilderUi.getState().setDrawer(!drawer)}>
-          Add plays
+          Add Plays
         </Button>
       </div>
     </header>

@@ -1,4 +1,4 @@
-/* Play-call preview: Madden 27 play-call screen — top tab row, big bold uppercase heading, three large cards per page,
+/* Play-call preview: Madden 27 play-call screen — top tab row, big bold heading, three large cards per page,
    page dots and a caveat line. Mouse-driven: no controller chrome. */
 .page {
   height: 100%;
@@ -24,8 +24,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-lg);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 
 /* ───────────── top row ───────────── */
@@ -71,8 +70,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
   line-height: 1;
 }
@@ -85,7 +83,6 @@
   align-items: baseline;
   gap: 7px;
   font-family: var(--font-display);
-  text-transform: uppercase;
   white-space: nowrap;
 }
 /* headline number: NB Bold, proportional figures (NB's tabular ones are spaced like a mono face) */
@@ -99,7 +96,7 @@
 .countLabel {
   font-size: var(--fd-lg);
   font-weight: 500;
-  letter-spacing: 0.025em;
+  letter-spacing: 0;
   color: var(--text-2);
 }
 
@@ -124,8 +121,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
   line-height: 1;
 }
@@ -146,7 +142,6 @@
   color: var(--text-2);
   font: inherit;
   letter-spacing: inherit;
-  text-transform: inherit;
   transition:
     color var(--t-fast) var(--ease),
     background var(--t-fast) var(--ease);
@@ -162,7 +157,6 @@
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
-  text-transform: inherit;
   transition: color var(--t-fast) var(--ease);
 }
 .crumbLink:hover {
@@ -191,12 +185,11 @@
   flex: none;
   padding-bottom: 4px;
   font-family: var(--font-display);
-  text-transform: uppercase;
 }
 .headStat {
   font-size: var(--fd-lg);
   font-weight: 500;
-  letter-spacing: 0.025em;
+  letter-spacing: 0;
   color: var(--text-3);
   white-space: nowrap;
 }
@@ -211,11 +204,11 @@
 .headStat span {
   color: var(--text-3);
 }
-/* "PAGE 1 / 6": the word like the stat labels (NB), the numbers in DM Mono */
+/* "Page 1 / 6": the word like the stat labels (NB), the numbers in DM Mono */
 .pageNum {
   font-size: var(--fd-lg);
   font-weight: 500;
-  letter-spacing: 0.025em;
+  letter-spacing: 0;
   color: var(--text-3);
   white-space: nowrap;
 }
@@ -235,7 +228,7 @@
   gap: 5px;
   font-size: var(--fd-sm);
   font-weight: 500;
-  letter-spacing: 0.07em;
+  letter-spacing: 0;
   color: var(--text-3);
   text-decoration: none;
   white-space: nowrap;
@@ -475,8 +468,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text);
   line-height: 1;
 }
@@ -560,7 +552,6 @@
 .tileName,
 .tileSub {
   font-family: var(--font-display);
-  text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -575,7 +566,7 @@
 .tileSub {
   font-size: var(--sub-fs, var(--fd-lg));
   font-weight: 500;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   color: var(--text-2);
 }
 
@@ -766,13 +757,12 @@
 }
 
 /* ───────────── small pieces ───────────── */
-/* play-call picker value: bold uppercase like every other name on this screen */
+/* play-call picker value: the playbook name in bold display type (shown as stored) */
 .bookValue {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  letter-spacing: 0.015em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   line-height: 1;
 }
 
@@ -794,7 +784,8 @@
   vertical-align: top;
   font-variant-numeric: tabular-nums;
 }
-/* the audible's category is a word, not a number: NB like the type tag on the left */
+/* the audible's category is a word, not a number: NB like the type tag on the left, in caps like Madden's audible
+   types (also inside PlayCard's stat slot) */
 .statAud {
   display: inline-flex;
   align-items: center;
@@ -803,18 +794,20 @@
   font-family: var(--font-display);
   font-weight: 500;
   letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 /* a play name in a tile's stat chip (concept / play-type groups) */
 .statName {
   font-family: var(--font-display);
   font-weight: 500;
   letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 .statSep {
   color: var(--text-4);
 }
 
-/* FROM TEMPLATE badge (top-right of template-section cards, next to the favorite star) */
+/* "From Template" badge (top-right of template-section cards, next to the favorite star) */
 .tplBadge {
   display: inline-flex;
   align-items: center;
@@ -826,8 +819,7 @@
   font-family: var(--font-display);
   font-size: calc(var(--chip-fs, 14px) - 1px);
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   line-height: 1;
-  text-transform: uppercase;
   white-space: nowrap;
 }

@@ -35,7 +35,7 @@ type Section = "audibles" | "editor" | "data";
 const SECTIONS: TabItem<Section>[] = [
   { id: "audibles", label: "Audibles" },
   { id: "editor", label: "Editor" },
-  { id: "data", label: "Files & data" },
+  { id: "data", label: "Files & Data" },
 ];
 
 const SECTION_HELP: Record<Section, string> = { audibles: "audibles", editor: "getting-started", data: "hosting" };
@@ -101,7 +101,7 @@ function AudiblesSection() {
 
   return (
     <div className={s.stack}>
-      <Panel eyebrow="Audibles" title="Button style" scroll={false}>
+      <Panel eyebrow="Audibles" title="Button Style" scroll={false}>
         <div className={s.styleRow}>
           <AudibleStyleSwitch size="md" />
           <div className={s.stylePreview} aria-label="Preview">
@@ -121,11 +121,11 @@ function AudiblesSection() {
 
       <Panel
         eyebrow="Audibles"
-        title="Which button is which slot"
+        title="Which Button Is Which Slot"
         scroll={false}
         actions={
           <Button size="sm" variant="ghost" icon="refresh" disabled={isDefault} onClick={() => useSettings.getState().resetAudibleButtons()}>
-            Reset to default
+            Reset to Default
           </Button>
         }
       >
@@ -195,24 +195,24 @@ function EditorSection() {
 
   return (
     <div className={s.stack}>
-      <Panel eyebrow="Editor" title="Field & lists" scroll={false}>
+      <Panel eyebrow="Editor" title="Field & Lists" scroll={false}>
         <div className={s.rows}>
-          <FormRow inline label="Ball spot" hint="Which hash the ball sits on in play diagrams. Only changes the picture.">
+          <FormRow inline label="Ball Spot" hint="Which hash the ball sits on in play diagrams. Only changes the picture.">
             <Segmented<BallSpot>
               options={[
-                { value: "left", label: "Left hash" },
+                { value: "left", label: "Left Hash" },
                 { value: "middle", label: "Middle" },
-                { value: "right", label: "Right hash" },
+                { value: "right", label: "Right Hash" },
               ]}
               value={st.ballSpot}
               onChange={(v) => set({ ballSpot: v })}
               aria-label="Ball spot"
             />
           </FormRow>
-          <FormRow inline label="Show pass protection" hint="Draw the offensive line's pass blocks in large diagrams (play cards always hide them).">
+          <FormRow inline label="Show Pass Protection" hint="Draw the offensive line's pass blocks in large diagrams (play cards always hide them).">
             <Toggle checked={st.showPassPro} onChange={(v) => set({ showPassPro: v })} aria-label="Show pass protection" />
           </FormRow>
-          <FormRow inline label="Hide minigame formations" hint="Leave out drill and minigame formations (MG_, ST_, NST_, skeleton…) in lists and pickers.">
+          <FormRow inline label="Hide Minigame Formations" hint="Leave out drill and minigame formations (MG_, ST_, NST_, skeleton…) in lists and pickers.">
             <Toggle checked={st.hideMinigames} onChange={(v) => set({ hideMinigames: v })} aria-label="Hide minigame formations" />
           </FormRow>
         </div>
@@ -220,7 +220,7 @@ function EditorSection() {
       <Panel eyebrow="Editor" title="Naming" scroll={false}>
         <FormRow
           inline
-          label="Name prefix"
+          label="Name Prefix"
           hint={
             <>
               Added to the internal names of your custom plays and routes so they never clash with the game's, e.g.{" "}
@@ -263,17 +263,17 @@ function StoragePanel() {
     try {
       await what();
     } catch (e) {
-      toast.error("Couldn't change the folder", { detail: errMsg(e) });
+      toast.error("Couldn't Change the Folder", { detail: errMsg(e) });
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <Panel eyebrow="Files & data" title="Where your files are" scroll={false}>
+    <Panel eyebrow="Files & Data" title="Where Your Files Are" scroll={false}>
       <div className={s.storage}>
         <div className={s.storageIcon}>
-          <Tag tone={folder ? "info" : "ok"}>{folder ? "Folder in this browser" : "Local server"}</Tag>
+          <Tag tone={folder ? "info" : "ok"}>{folder ? "Folder in This Browser" : "Local Server"}</Tag>
         </div>
         <div className={s.storageText}>
           <code className={s.code}>{storage.label || "—"}</code>
@@ -292,7 +292,7 @@ function StoragePanel() {
               onClick={() => void run(() => storage.switchFolder())}
               title="Pick another copy of the 2026 Playbook folder (save your changes first). The app reloads on it."
             >
-              Change folder…
+              Change Folder…
             </Button>
             <Button
               size="sm"
@@ -301,7 +301,7 @@ function StoragePanel() {
               onClick={() => void run(() => storage.forgetFolder())}
               title="Forget this folder in this browser and go back to the start screen. Your files stay where they are."
             >
-              Close folder
+              Close Folder
             </Button>
           </div>
         )}
@@ -331,14 +331,14 @@ function DataSection() {
   const clear = async (what: "favorites" | "recents", count: number) => {
     if (!count) return;
     const ok = await confirmDialog({
-      title: `Clear ${what}?`,
+      title: `Clear ${what === "favorites" ? "Favorites" : "Recents"}?`,
       body: `Removes ${count} ${what === "favorites" ? "favorite" : "recent"} play${count > 1 ? "s" : ""}. Nothing in playbooks/ changes.`,
       confirmLabel: "Clear",
       danger: true,
     });
     if (ok) {
       useSettings.getState().set({ [what]: [] });
-      toast.success(`Cleared ${what}`);
+      toast.success(`Cleared ${what === "favorites" ? "Favorites" : "Recents"}`);
     }
   };
 
@@ -346,9 +346,9 @@ function DataSection() {
     setRefreshing(true);
     try {
       await useWorkspace.getState().refresh();
-      toast.success("Files reloaded", { detail: "Changed files on disk were picked up; unsaved edits were kept." });
+      toast.success("Files Reloaded", { detail: "Changed files on disk were picked up; unsaved edits were kept." });
     } catch (e) {
-      toast.error("Reload failed", { detail: errMsg(e) });
+      toast.error("Reload Failed", { detail: errMsg(e) });
     } finally {
       setRefreshing(false);
     }
@@ -356,14 +356,14 @@ function DataSection() {
 
   const resetPrefs = async () => {
     const ok = await confirmDialog({
-      title: "Reset all preferences?",
+      title: "Reset All Preferences?",
       body: "Audible style and buttons, name prefix, field options, favorites and recents go back to defaults. Your files are untouched.",
       confirmLabel: "Reset",
       danger: true,
     });
     if (ok) {
       useSettings.setState(useSettings.getInitialState(), true);
-      toast.success("Preferences reset");
+      toast.success("Preferences Reset");
     }
   };
 
@@ -372,19 +372,19 @@ function DataSection() {
     <div className={s.stack}>
       <StoragePanel />
       <div className={s.twoCol}>
-        <Panel eyebrow="Files & data" title="Workspace" scroll={false}>
+        <Panel eyebrow="Files & Data" title="Workspace" scroll={false}>
           <div className={s.rows}>
             <FormRow inline label={<>Files · <span className={s.count}>{files}</span></>} hint="Playbooks, custom plays, custom sets and app data.">
               <Button size="sm" variant="ghost" icon="refresh" loading={refreshing} onClick={() => void reloadFiles()}>
-                Reload from disk
+                Reload From Disk
               </Button>
             </FormRow>
-            <FormRow inline label="Unsaved files" hint={dirty ? "Save with ⌘/Ctrl+S (this file) or Shift+⌘/Ctrl+S (all files)." : "Everything is saved."}>
-              {dirty ? <Tag tone="needsMod">{dirty} unsaved</Tag> : <Tag tone="ok">All saved</Tag>}
+            <FormRow inline label="Unsaved Files" hint={dirty ? "Save with ⌘/Ctrl+S (this file) or Shift+⌘/Ctrl+S (all files)." : "Everything is saved."}>
+              {dirty ? <Tag tone="needsMod">{dirty} Unsaved</Tag> : <Tag tone="ok">All Saved</Tag>}
             </FormRow>
           </div>
         </Panel>
-        <Panel eyebrow="Files & data" title="Your lists" scroll={false}>
+        <Panel eyebrow="Files & Data" title="Your Lists" scroll={false}>
           <div className={s.rows}>
             <FormRow inline label={<>Favorites · <span className={s.count}>{favorites}</span></>} hint="Starred plays (kept in this browser).">
               <Button size="sm" variant="ghost" icon="trash" disabled={!favorites} onClick={() => void clear("favorites", favorites)}>
@@ -398,7 +398,7 @@ function DataSection() {
             </FormRow>
             <FormRow inline label="Preferences" hint="Everything on these settings pages, kept in this browser.">
               <Button size="sm" variant="ghost" icon="refresh" onClick={() => void resetPrefs()}>
-                Reset all
+                Reset All
               </Button>
             </FormRow>
           </div>
@@ -406,12 +406,12 @@ function DataSection() {
       </div>
 
       <Panel
-        eyebrow="Files & data"
-        title="Play library"
+        eyebrow="Files & Data"
+        title="Play Library"
         scroll={false}
         actions={
           <Button size="sm" variant="ghost" icon="refresh" loading={status.loading} onClick={load}>
-            Check again
+            Check Again
           </Button>
         }
       >
@@ -421,13 +421,13 @@ function DataSection() {
           </div>
         ) : status.error ? (
           <div className={s.serverError}>
-            <Tag tone="danger">Not reachable</Tag>
+            <Tag tone="danger">Not Reachable</Tag>
             <span>Couldn't read the files: {status.error}</span>
           </div>
         ) : d ? (
           <div className={s.server}>
             <div className={s.inline}>
-              <Tag tone={d.hasLibrary ? "ok" : "danger"}>{d.hasLibrary ? "Library found" : "Library missing"}</Tag>
+              <Tag tone={d.hasLibrary ? "ok" : "danger"}>{d.hasLibrary ? "Library Found" : "Library Missing"}</Tag>
               <span className={s.dim}>
                 <code className={s.mono}>data/library</code> in
               </span>
@@ -457,15 +457,15 @@ function DataSection() {
 
       <div className={s.advanced}>
         <Button variant="ghost" size="sm" icon={devOpen ? "chevronDown" : "chevronRight"} onClick={() => setDevOpen((o) => !o)} aria-expanded={devOpen}>
-          Advanced: developer pages
+          Advanced: Developer Pages
         </Button>
         {devOpen && (
           <div className={s.advancedBody}>
             <Button size="sm" icon="field" onClick={() => navigate("#/settings/art")}>
-              Play-art bench
+              Play-Art Bench
             </Button>
             <Button size="sm" icon="grid" onClick={() => navigate("#/settings/gallery")}>
-              Component gallery
+              Component Gallery
             </Button>
             <span className={s.dim}>Test pages for checking play drawings and UI pieces.</span>
           </div>

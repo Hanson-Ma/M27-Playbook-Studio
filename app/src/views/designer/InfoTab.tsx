@@ -29,12 +29,12 @@ export function InfoTab({ slot }: { slot: number }) {
   const routeTypes = lib.enumValues("AssignRouteType");
 
   const source = !changed
-    ? { label: "Base assignment", value: assignmentPath(baseAsset ?? "") }
+    ? { label: "Base Assignment", value: assignmentPath(baseAsset ?? "") }
     : typeof spec === "string"
-      ? { label: "Library assignment", value: spec }
+      ? { label: "Library Assignment", value: spec }
       : authored
-        ? { label: "Authored assignment", value: `PBS/${name ?? "(new)"}` }
-        : { label: "Library assignment", value: resolved?.assignment ? assignmentPath(resolved.assignment) : "(matches a library chain)" };
+        ? { label: "Authored Assignment", value: `PBS/${name ?? "(new)"}` }
+        : { label: "Library Assignment", value: resolved?.assignment ? assignmentPath(resolved.assignment) : "(matches a library chain)" };
 
   return (
     <>
@@ -50,7 +50,7 @@ export function InfoTab({ slot }: { slot: number }) {
           <dd className={s.mono}>
             {assignmentPath(baseAsset ?? "")} <span className={s.muted}>· {rt(baseRt)}</span>
           </dd>
-          <dt>Route type</dt>
+          <dt>Route Type</dt>
           <dd>{rt(resolved?.routeType ?? sl.routeType ?? baseRt) || "—"}</dd>
           <dt>Mechanics</dt>
           <dd>{hasMechanics(sl.steps) ? "Handoff / option steps (paired)" : "None"}</dd>
@@ -72,14 +72,23 @@ export function InfoTab({ slot }: { slot: number }) {
           )}
           {name && authored && (
             <>
-              <dt>Used by</dt>
-              <dd>{uses.length ? uses.map((u) => `${u.play || "?"} · slot ${u.slot}`).join(", ") : "only this play"}</dd>
+              <dt>Used By</dt>
+              <dd>
+                {uses.length
+                  ? uses.map((u, k) => (
+                      <span key={k}>
+                        {k > 0 && ", "}
+                        <span className="caps">{u.play || "?"}</span> · slot {u.slot}
+                      </span>
+                    ))
+                  : "Only this play"}
+              </dd>
             </>
           )}
         </dl>
         {changed && (
           <Button size="sm" variant="ghost" icon="undo" onClick={() => d.edit((st) => resetSlot(st, slot), "Reset slot")}>
-            Reset to the base play
+            Reset to the Base Play
           </Button>
         )}
       </section>
@@ -87,7 +96,7 @@ export function InfoTab({ slot }: { slot: number }) {
       {authored && (
         <section className={s.section}>
           <div className={s.sectionHead}>
-            <span className={s.sectionTitle}>Authored assignment</span>
+            <span className={s.sectionTitle}>Authored Assignment</span>
           </div>
           <div className={s.paramRows}>
             <div className={s.paramRow}>
@@ -96,7 +105,7 @@ export function InfoTab({ slot }: { slot: number }) {
                 size="sm"
                 mono
                 value={rename ?? name ?? ""}
-                placeholder="generated on save"
+                placeholder="Generated on save"
                 onChange={(v) => setRename(v.replace(/[^A-Za-z0-9_]/g, ""))}
                 onBlur={() => {
                   if (rename !== null && rename && rename !== name) d.edit((st) => setSlotInfo(st, slot, { name: rename }), "Rename assignment");
@@ -108,7 +117,7 @@ export function InfoTab({ slot }: { slot: number }) {
               />
             </div>
             <div className={s.paramRow}>
-              <span className={s.fieldLabel}>Route type</span>
+              <span className={s.fieldLabel}>Route Type</span>
               <SearchSelect
                 size="sm"
                 value={sl.routeType ?? (typeof spec === "object" ? (spec as NewAssignmentSpec)?.routeType : undefined)}
@@ -135,7 +144,7 @@ export function InfoTab({ slot }: { slot: number }) {
           </dd>
           <dt>Stance</dt>
           <dd>{a.stance.replace(/^StanceType_/, "")}</dd>
-          <dt>Motion man</dt>
+          <dt>Motion Man</dt>
           <dd>{a.motionMan ? "Yes" : "No"}</dd>
         </dl>
       </section>

@@ -95,10 +95,10 @@ const GROUP_RULES: Record<CheckId, string[]> = {
 export function checkGroups(alignment: AlignmentPos[], issues: ValidationIssue[]): CheckGroup[] {
   const qb = alignment.find(isQB);
   const labels: Record<CheckId, string> = {
-    players: `${alignment.length} players`,
-    line: `${alignment.filter(onLine).length} on the line`,
-    ol: "OL spacing",
-    depth: qb ? `QB ${depthLabel(depthClass(qb.y))}` : "QB / HB depth",
+    players: `${alignment.length} Players`,
+    line: `${alignment.filter(onLine).length} on the Line`,
+    ol: "OL Spacing",
+    depth: qb ? `QB ${depthLabel(depthClass(qb.y))}` : "QB / HB Depth",
     spacing: "Spacing",
   };
   return (Object.keys(GROUP_RULES) as CheckId[]).map((id) => {
@@ -109,7 +109,7 @@ export function checkGroups(alignment: AlignmentPos[], issues: ValidationIssue[]
 }
 
 function depthLabel(c: ReturnType<typeof depthClass>): string {
-  return c === "under-center" ? "under center" : c;
+  return c === "under-center" ? "Under Center" : c.charAt(0).toUpperCase() + c.slice(1);
 }
 
 // ───────────────────────────── plays to clone ─────────────────────────────

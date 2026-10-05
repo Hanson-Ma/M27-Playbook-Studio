@@ -13,7 +13,7 @@ function kindLabel(file: string): string {
   if (file.startsWith("playbooks/plays/")) return "Plays";
   if (file.startsWith("playbooks/sets/")) return "Sets";
   if (file === "app-data/concepts.json") return "Concepts";
-  if (file.startsWith("app-data/")) return "App data";
+  if (file.startsWith("app-data/")) return "App Data";
   if (file.startsWith("playbooks/")) return "Playbook";
   return "Workspace";
 }
@@ -64,7 +64,7 @@ export function IssuesBar({ issues, onShow }: { issues: readonly ValidationIssue
     <section className={cx(s.card, s.issuesBar)}>
       <LevelIcon level={counts.warning ? "warning" : "info"} />
       <span className={s.issuesBarText}>
-        Nothing blocks the export
+        Nothing Blocks the Export
         <span className={s.issuesBarSub}>
           {[counts.warning ? plural(counts.warning, "warning") : "", counts.info ? plural(counts.info, "note") : ""].filter(Boolean).join(" · ")} worth a look
         </span>
@@ -95,7 +95,7 @@ export function IssuesPanel(p: IssuesPanelProps) {
   if (p.libraryState !== "ready") {
     body =
       p.libraryState === "loading" ? (
-        <EmptyState icon={<Spinner size={26} />} title="Loading the play library…" body="Validation resolves every play against data/library." />
+        <EmptyState icon={<Spinner size={26} />} title="Loading the Play Library…" body="Validation resolves every play against data/library." />
       ) : (
         <EmptyState
           icon="warning"
@@ -103,13 +103,13 @@ export function IssuesPanel(p: IssuesPanelProps) {
           body="Validation needs data/library/*.json to resolve formations, sets and plays. Saving and the export bundle still work."
           action={
             <Button variant="secondary" icon="refresh" onClick={p.onLoadLibrary}>
-              Load library
+              Load Library
             </Button>
           }
         />
       );
   } else if (p.issues.length === 0) {
-    body = <EmptyState compact icon="check" title="Everything checks out" body="No errors, warnings or notes across playbooks, plays, sets and concepts." />;
+    body = <EmptyState compact icon="check" title="Everything Checks Out" body="No errors, warnings or notes across playbooks, plays, sets and concepts." />;
   } else {
     body = (
       <VirtualList
@@ -129,7 +129,7 @@ export function IssuesPanel(p: IssuesPanelProps) {
         }}
         padEnd={8}
         aria-label="Validation issues"
-        empty={<EmptyState compact icon="filter" title="Nothing at this level" />}
+        empty={<EmptyState compact icon="filter" title="Nothing at This Level" />}
         renderRow={(i, { selected }) => {
           const r = p.rows[i];
           return <IssueRow row={r} selected={selected} docs={p.docs} onOpen={p.onOpen} onToggle={p.onToggleFile} onHover={(on) => setHover(on && r.kind === "issue" ? r.id : undefined)} />;
@@ -142,8 +142,8 @@ export function IssuesPanel(p: IssuesPanelProps) {
     <section className={cx(s.card, s.issuesCard)}>
       <header className={s.cardHead}>
         <div className={s.cardTitles}>
-          <div className={s.cardEyebrow}>Checked live · click one to fix it</div>
-          <h2 className={s.cardTitle}>{counts.error ? "Problems to fix" : "Worth a look"}</h2>
+          <div className={s.cardEyebrow}>Checked Live · Click One to Fix It</div>
+          <h2 className={s.cardTitle}>{counts.error ? "Problems to Fix" : "Worth a Look"}</h2>
         </div>
         <div className={s.filterBar}>
           <TabBar items={tabs} active={p.filter} onChange={p.onFilter} size="sm" aria-label="Severity filter" className={s.filterTabs} />
@@ -255,10 +255,12 @@ function IssueDetail({ issue, docs, onOpen }: { issue?: ValidationIssue; docs: R
     <div className={s.detail}>
       <div className={s.detailHead}>
         <LevelIcon level={issue.level} size={14} />
-        <span className={s.detailLevel}>{issue.level === "info" ? "Note" : issue.level}</span>
+        <span className={s.detailLevel}>{issue.level === "info" ? "Note" : issue.level === "error" ? "Error" : "Warning"}</span>
         {issue.rule && <code className={s.detailRule}>{issue.rule}</code>}
         <span className={s.detailWhere} title={issue.where}>
-          {[issue.file, where].filter(Boolean).join(" › ")}
+          {issue.file}
+          {issue.file && where && " › "}
+          {where && <span className="caps">{where}</span>}
         </span>
         {target && (
           <Button size="sm" variant="secondary" iconRight="chevronRight" className={s.detailGo} onClick={() => onOpen(issue)}>
@@ -282,11 +284,11 @@ function UnsavedFiles({ dirty, onSave, onSaveAll, saving }: { dirty: readonly Do
     <div className={s.unsaved}>
       <div className={s.unsavedHead}>
         <span className={s.unsavedTitle}>
-          <span className={s.unsavedDot} /> {plural(dirty.length, "unsaved file")}
+          <span className={s.unsavedDot} /> {plural(dirty.length, "Unsaved File")}
         </span>
         <span className={s.unsavedHint}>Export saves them first</span>
         <Button size="sm" variant="secondary" icon="save" loading={saving} onClick={onSaveAll}>
-          Save all
+          Save All
         </Button>
       </div>
       <ul className={s.unsavedList}>

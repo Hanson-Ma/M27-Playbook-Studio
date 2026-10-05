@@ -59,14 +59,14 @@ describe("paste plays", () => {
   it("pastes plays that resolve in the target set, after the selected play", () => {
     const { next, r } = paste(book("studio-lib.json"), "plays", [{ play: "Curls", cpu: { FirstDown: 5 }, z: 1 }, { play: "Not A Play" }], { f: 0, s: 0, p: 1 });
     expect(r.added).toEqual([{ f: 0, s: 0, p: 2 }]);
-    expect(r.skipped).toEqual([{ label: "Not A Play", reason: "not a play in Y Trips Wk" }]);
+    expect(r.skipped).toEqual([{ label: "NOT A PLAY", reason: "not a play in Y TRIPS WK" }]);
     expect(sets(next)[0].plays[2]).toEqual({ play: "Curls", cpu: { FirstDown: 5 }, z: 1 });
   });
 
   it("skips plays already in the set and drops used audible slots", () => {
     const { next, r } = paste(book("studio-lib.json"), "plays", [{ play: "Slants", audible: 1 }, { play: "Curls", audible: 1 }, { play: "Stick", audible: 2 }], { f: 0, s: 0 });
-    expect(r.skipped).toEqual([{ label: "Slants", reason: "already in Y Trips Wk" }]);
-    expect(r.droppedAudibles).toEqual(["Curls (audible 1)", "Stick (audible 2)"]);
+    expect(r.skipped).toEqual([{ label: "SLANTS", reason: "already in Y TRIPS WK" }]);
+    expect(r.droppedAudibles).toEqual(["CURLS (audible 1)", "STICK (audible 2)"]);
     expect(names(sets(next)[0]).slice(-2)).toEqual(["Curls", "Stick"]);
     expect(playbookIssues(next, cat).filter((i) => i.level === "error")).toEqual([]);
   });
@@ -95,14 +95,14 @@ describe("paste sets", () => {
     ];
     const { next, r } = paste(book("studio-lib.json"), "set", entries, { f: 0, s: 0 });
     expect(r.skipped).toEqual([
-      { label: "Slants", reason: "already in Y Trips Wk" },
-      { label: "Pro", reason: "not a set of Shotgun" },
+      { label: "SLANTS", reason: "already in Y TRIPS WK" },
+      { label: "PRO", reason: "not a set of SHOTGUN" },
     ]);
     expect(r.added[0]).toEqual({ f: 0, s: 1 });
     expect(sets(next)[1]).toEqual({ set: "Trips TE", plays: [{ play: "Four Verticals" }], k: 1 });
     // merged: Curls added to the existing Y Trips Wk, Slants skipped as already there
     expect(names(sets(next)[0])).toContain("Curls");
-    expect(r.merged).toEqual(["Y Trips Wk (+1 plays)"]);
+    expect(r.merged).toEqual(["Y TRIPS WK (+1 plays)"]);
   });
 
   it("refuses template sections", () => {
@@ -122,7 +122,7 @@ describe("paste formations", () => {
     expect(next.formations.map((f) => f.formation)).toEqual(["Shotgun", "Pistol", "Goal Line Offense", "Special", "Kickoff", "Safety Kickoff"]);
     expect(next.formations[1].c).toBe(3);
     expect(r.added[0]).toEqual({ f: 1 });
-    expect(r.skipped.map((s) => s.label)).toContain("Mesh"); // already in Bunch
+    expect(r.skipped.map((s) => s.label)).toContain("MESH"); // already in Bunch
     expect(r.skipped.some((s) => /4-3/.test(s.label) || /defense/.test(s.reason) || /unknown/.test(s.reason))).toBe(true);
     const summary = pasteSummary(r);
     expect(summary.level).toBe("warning");
@@ -145,6 +145,6 @@ describe("paste formations", () => {
 
   it("summarizes an empty paste", () => {
     const { r } = paste(book("studio-lib.json"), "formation", [{ formation: "Special", sets: "template" }]);
-    expect(pasteSummary(r)).toMatchObject({ message: "Nothing pasted", level: "warning" });
+    expect(pasteSummary(r)).toMatchObject({ message: "Nothing Pasted", level: "warning" });
   });
 });

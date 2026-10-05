@@ -136,9 +136,9 @@ export function LibraryGrid() {
   if (status !== "ready" || !index) {
     body =
       status === "error" ? (
-        <EmptyState icon="warning" title="The play library didn't load" body={libError ?? "Reload the app to try again."} />
+        <EmptyState icon="warning" title="The Play Library Didn't Load" body={libError ?? "Reload the app to try again."} />
       ) : (
-        <EmptyState icon={<Spinner size={26} />} title="Loading the play library" body="11,055 plays, 808 sets and 5,402 assignments…" />
+        <EmptyState icon={<Spinner size={26} />} title="Loading the Play Library" body="11,055 plays, 808 sets and 5,402 assignments…" />
       );
   } else {
     body = (
@@ -224,7 +224,7 @@ export function LibraryGrid() {
           onClick={() => useLibraryUi.getState().set({ flip: !useLibraryUi.getState().flip })}
           title="Mirror every play card (plays that can't flip stay as they are)"
         >
-          {flip ? "Flipped" : "Flip plays"}
+          {flip ? "Flipped" : "Flip Plays"}
         </Button>
         <div className={s.count} aria-live="polite" title={count !== total && total > 0 ? `${fmt(count)} of ${fmt(total)} plays` : undefined}>
           <span className={s.countNum}>{fmt(count)}</span>
@@ -297,7 +297,7 @@ const PlayCell = memo(function PlayCell({ entry, selected, flip, ballSpot, favor
         <>
           {customSet && (
             <span className={s.customSet} title="In a custom set (playbooks/sets/) — built into the mod">
-              Custom set
+              Custom Set
             </span>
           )}
           {favorite && (
@@ -324,11 +324,13 @@ const PlayCell = memo(function PlayCell({ entry, selected, flip, ballSpot, favor
 function SectionHeader({ section }: { section?: ResultSection }) {
   if (!section) return null;
   const n = section.entries.length;
+  // Formation › set and play-type sections are Madden names (caps); concept sections show the user's names as typed.
+  const caps = section.key.startsWith("set:") || section.key.startsWith("family:");
   return (
     <div className={s.sectionHead} style={section.color ? ({ "--accent": section.color } as CSSProperties) : undefined}>
       {section.color && <span className={s.sectionAccent} />}
-      <span className={s.sectionTitle}>{section.title}</span>
-      {section.subtitle && <span className={s.sectionSub}>{section.subtitle}</span>}
+      <span className={cx(s.sectionTitle, caps && "caps")}>{section.title}</span>
+      {section.subtitle && <span className={cx(s.sectionSub, caps && "caps")}>{section.subtitle}</span>}
       <span className={s.sectionCount}>
         {fmt(n)} {n === 1 ? "play" : "plays"}
       </span>
@@ -343,15 +345,15 @@ function ActiveFilters({ index, filters, query, personal, concepts }: { index?: 
   const chips: { key: string; label: ReactNode; color?: string; remove(): void }[] = [];
   if (!personal && filters.formation) {
     const f = index?.formations.get(filters.formation);
-    chips.push({ key: "formation", label: f?.name ?? leaf(filters.formation), remove: () => set({ formation: undefined, set: undefined }) });
+    chips.push({ key: "formation", label: <span className="caps">{f?.name ?? leaf(filters.formation)}</span>, remove: () => set({ formation: undefined, set: undefined }) });
     if (filters.set) {
       const st = f?.sets.find((x) => x.asset === filters.set);
-      chips.push({ key: "set", label: st?.name ?? leaf(filters.set), remove: () => set({ set: undefined }) });
+      chips.push({ key: "set", label: <span className="caps">{st?.name ?? leaf(filters.set)}</span>, remove: () => set({ set: undefined }) });
     }
   }
   for (const fam of filters.families ?? [])
     chips.push({ key: `fam:${fam}`, label: familyLabel(fam), color: familyColor(fam), remove: () => set({ families: filters.families!.filter((x) => x !== fam) }) });
-  if (filters.playType) chips.push({ key: "type", label: playTypeInfo(filters.playType).long, color: playTypeInfo(filters.playType).color, remove: () => set({ playType: undefined }) });
+  if (filters.playType) chips.push({ key: "type", label: <span className="caps">{playTypeInfo(filters.playType).long}</span>, color: playTypeInfo(filters.playType).color, remove: () => set({ playType: undefined }) });
   for (const id of filters.categories ?? []) {
     const c = concepts?.categories.find((x) => x.id === id);
     chips.push({ key: `cat:${id}`, label: c?.name ?? id, color: c?.color, remove: () => set({ categories: filters.categories!.filter((x) => x !== id) }) });
@@ -359,11 +361,11 @@ function ActiveFilters({ index, filters, query, personal, concepts }: { index?: 
   for (const c of filters.readConcepts ?? []) chips.push({ key: `rc:${c}`, label: `Concept: ${c}`, remove: () => set({ readConcepts: filters.readConcepts!.filter((x) => x !== c) }) });
   for (const r of filters.routes ?? []) chips.push({ key: `rt:${r}`, label: `Has ${r}`, remove: () => set({ routes: filters.routes!.filter((x) => x !== r) }) });
   if (filters.availability && filters.availability !== "all")
-    chips.push({ key: "avail", label: filters.availability === "global" ? "Works without mod" : "Needs mod", color: filters.availability === "needsMod" ? "var(--amber)" : undefined, remove: () => set({ availability: undefined }) });
+    chips.push({ key: "avail", label: filters.availability === "global" ? "Works Without Mod" : "Needs Mod", color: filters.availability === "needsMod" ? "var(--amber)" : undefined, remove: () => set({ availability: undefined }) });
   if (filters.source && filters.source !== "all") chips.push({ key: "source", label: filters.source === "custom" ? "Custom" : "Stock", remove: () => set({ source: undefined }) });
-  if (filters.favoritesOnly) chips.push({ key: "fav", label: "★ Favorites only", remove: () => set({ favoritesOnly: undefined }) });
+  if (filters.favoritesOnly) chips.push({ key: "fav", label: "★ Favorites Only", remove: () => set({ favoritesOnly: undefined }) });
 
-  const side = personal ? "All sides" : filters.side === "offense" ? "Offense" : filters.side === "defense" ? "Defense" : "Special teams";
+  const side = personal ? "All Sides" : filters.side === "offense" ? "Offense" : filters.side === "defense" ? "Defense" : "Special Teams";
   return (
     <div className={s.chips}>
       <span className={s.sideLabel}>{side}</span>
@@ -386,7 +388,7 @@ function ActiveFilters({ index, filters, query, personal, concepts }: { index?: 
             useLibraryUi.getState().set({ query: "" });
           }}
         >
-          Clear all
+          Clear All
         </Button>
       )}
     </div>
@@ -396,8 +398,8 @@ function ActiveFilters({ index, filters, query, personal, concepts }: { index?: 
 function NoResults({ tab, query, filters }: { tab: LibTab; query: string; filters: PlayFilters }) {
   const any = activeFilterCount(filters) > 0 || !!query.trim();
   if (tab === "favorites" && !any)
-    return <EmptyState icon="star" title="No favorites yet" body="Select a play and click ☆ Favorite (or right-click a card) to keep it here." className={s.empty} />;
-  if (tab === "recent" && !any) return <EmptyState icon="refresh" title="Nothing opened yet" body="Plays you open show up here, most recent first." className={s.empty} />;
+    return <EmptyState icon="star" title="No Favorites Yet" body="Select a play and click ☆ Favorite (or right-click a card) to keep it here." className={s.empty} />;
+  if (tab === "recent" && !any) return <EmptyState icon="refresh" title="Nothing Opened Yet" body="Plays you open show up here, most recent first." className={s.empty} />;
   return (
     <EmptyState
       icon="search"
@@ -411,7 +413,7 @@ function NoResults({ tab, query, filters }: { tab: LibTab; query: string; filter
             useLibraryUi.getState().set({ query: "" });
           }}
         >
-          Clear search & filters
+          Clear Search & Filters
         </Button>
       }
       className={s.empty}
@@ -436,7 +438,7 @@ function SelectionActions({ entry, favorite, onOpen }: { entry: SearchEntry; fav
         Open
       </Button>
       <Button size="sm" variant="secondary" icon="plus" onClick={() => openAddToPlaybook(p.key)}>
-        Add to playbook
+        Add to Playbook
       </Button>
       <Button size="sm" variant="secondary" icon={p.source === "custom" ? "route" : "duplicate"} disabled={!design.enabled} title={design.title} onClick={design.run}>
         {design.label}

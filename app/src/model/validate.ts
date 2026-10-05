@@ -9,7 +9,7 @@
 // Every issue carries `file`, a JSON-pointer-ish `where` and a `rule` id so the UI can group it and jump to the editor.
 import { classifyPlayProblem, type Catalog } from "./catalog";
 import type { LibraryIndex } from "./library";
-import { folder, leaf, norm } from "./names";
+import { folder, leaf, maddenName, norm } from "./names";
 import { glyphFor, positionCode } from "./positions";
 import { validateSetsFile } from "./sets";
 import { saveNameFor } from "./playbook";
@@ -338,7 +338,7 @@ function playsContext(docs: readonly SpecDoc<PlaysFile>[], catalog: Catalog): Pl
 }
 
 const other = (list: { file: string; index: number; name: string }[], file: string, index: number) =>
-  list.filter((x) => !(x.file === file && x.index === index)).map((x) => `"${x.name}" (${x.file} #${x.index + 1})`);
+  list.filter((x) => !(x.file === file && x.index === index)).map((x) => `"${maddenName(x.name)}" (${x.file} #${x.index + 1})`);
 
 function sameNewSpec(a: Record<string, unknown>, b: Record<string, unknown>): boolean {
   const pick = (o: Record<string, unknown>) => JSON.stringify([o.template ?? null, o.keep ?? 0, o.steps ?? null]);
@@ -358,7 +358,7 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
   const vocab = stepVocabulary(lib);
   const p = spec as CustomPlaySpec & Record<string, unknown>;
   const name = typeof p.name === "string" ? p.name : "";
-  const label = name.trim() ? `"${name}"` : `Play #${index + 1}`;
+  const label = name.trim() ? `"${maddenName(name)}"` : `Play #${index + 1}`;
 
   if (!name.trim()) push("error", "play-name", `${label}: name is empty`);
   const asset = typeof p.asset === "string" ? p.asset : "";
@@ -389,8 +389,8 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
           "error",
           "play-name-duplicate",
           clash.source === "library"
-            ? `${label}: a library play in ${set?.name ?? leaf(base.set)} has the same name — the game-side builder picks the library play; rename the custom play`
-            : `${label}: a play cloned into ${set?.name ?? leaf(base.set)} (${clash.file ?? "playbooks/sets/"}) has the same name — the game-side builder picks the clone; rename the custom play`,
+            ? `${label}: a library play in ${set ? maddenName(set.name) : leaf(base.set)} has the same name — the game-side builder picks the library play; rename the custom play`
+            : `${label}: a play cloned into ${set ? maddenName(set.name) : leaf(base.set)} (${clash.file ?? "playbooks/sets/"}) has the same name — the game-side builder picks the clone; rename the custom play`,
         );
     }
     if (LEAF_RE.test(asset)) {
@@ -539,7 +539,7 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
       push(
         "warning",
         "assignment-redefined",
-        `${who}: "${nw}" is first defined by "${first.play}" (${first.file} #${first.index + 1}) with different steps; the builder reuses that first definition`,
+        `${who}: "${nw}" is first defined by "${maddenName(first.play)}" (${first.file} #${first.index + 1}) with different steps; the builder reuses that first definition`,
         sw,
       );
   }
@@ -592,7 +592,7 @@ export function playsFileIssues(doc: SpecDoc<PlaysFile>, catalog: Catalog, ctx?:
       const { rule, level } = classifyPlayProblem(problem);
       if (have.has(`${rp.index}|${rule}`)) continue;
       have.add(`${rp.index}|${rule}`);
-      out.push({ level, rule, message: `"${rp.name || `#${rp.index + 1}`}": ${problem}`, file, where: `/plays/${rp.index}` });
+      out.push({ level, rule, message: `"${rp.name ? maddenName(rp.name) : `#${rp.index + 1}`}": ${problem}`, file, where: `/plays/${rp.index}` });
     }
   }
   return out;
@@ -627,7 +627,7 @@ export function setsFileIssues(
         const { rule, level } = classifyPlayProblem(problem);
         if (seen.has(rule)) continue;
         seen.add(rule);
-        out.push({ level, rule, message: `"${rp.name || leaf(rp.key)}": ${problem}`, file, where: w });
+        out.push({ level, rule, message: `"${rp.name ? maddenName(rp.name) : leaf(rp.key)}": ${problem}`, file, where: w });
       }
     }
   return out;
@@ -737,7 +737,7 @@ function refinePlayProblem(issue: ValidationIssue, spec: PlaybookSpec, catalog: 
   if (play.file) {
     const shown = errors.length ? errors : play.problems;
     const at = isClonePlay(play) ? `cloned in ${play.file}` : `${play.file} #${(play.index ?? 0) + 1}`;
-    issue.message = `"${play.name}" (${at}): ${shown.join("; ")}`;
+    issue.message = `"${maddenName(play.name)}" (${at}): ${shown.join("; ")}`;
   }
 }
 

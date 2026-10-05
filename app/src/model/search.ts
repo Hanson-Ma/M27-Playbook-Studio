@@ -822,7 +822,7 @@ export interface GroupOptions {
 /**
  * Split results into sections. "none" = one untitled section; "formation" = one per formation › set (first-seen
  * order); "concept" = user categories (doc order) then read concepts (most plays first), a play can appear in several,
- * plays without any land in "No concept"; "family" = PASS / RUN / … in PLAY_FAMILIES order.
+ * plays without any land in "No Concept"; "family" = PASS / RUN / … in PLAY_FAMILIES order.
  */
 export function groupResults(entries: SearchEntry[], mode: GroupMode, opts: GroupOptions = {}): ResultSection[] {
   if (mode === "none") return entries.length ? [{ key: "all", title: "", entries }] : [];
@@ -886,7 +886,7 @@ export function groupResults(entries: SearchEntry[], mode: GroupMode, opts: Grou
       }
     for (const c of e.facets.readConcepts) {
       let sec = readSections.get(c);
-      if (!sec) readSections.set(c, (sec = { key: `read:${c}`, title: c, subtitle: "Read concept", entries: [] }));
+      if (!sec) readSections.set(c, (sec = { key: `read:${c}`, title: c, subtitle: "Read Concept", entries: [] }));
       sec.entries.push(e);
       placed = true;
     }
@@ -894,7 +894,7 @@ export function groupResults(entries: SearchEntry[], mode: GroupMode, opts: Grou
   }
   const reads = [...readSections.values()].sort((a, b) => b.entries.length - a.entries.length || a.title.localeCompare(b.title));
   const out = [...[...catSections.values()].filter((s) => s.entries.length), ...reads];
-  if (none.length) out.push({ key: "none", title: "No concept", entries: none });
+  if (none.length) out.push({ key: "none", title: "No Concept", entries: none });
   return out;
 }
 

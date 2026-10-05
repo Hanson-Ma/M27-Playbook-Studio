@@ -1,4 +1,5 @@
-// Tags (play-type chips like Madden's blue PASS) and removable filter chips.
+// Tags (play-type chips like Madden's blue PASS) and removable filter chips. Tag and Chip text shows as written
+// (Title Case for chrome); pass `caps` when it is a Madden name (play type, formation, play) — PlayTypeTag always is.
 import type { CSSProperties, MouseEvent, ReactNode } from "react";
 import { familyColor, playTypeInfo, type PlayFamily } from "../model/playtypes";
 import { cx } from "./cx";
@@ -30,14 +31,16 @@ export interface TagProps {
   size?: "sm" | "md";
   icon?: IconName | ReactNode;
   title?: string;
+  /** ALL CAPS (for Madden names: play types, formations, plays). Default: the text as written. */
+  caps?: boolean;
   className?: string;
 }
 
-export function Tag({ children, tone = "neutral", color, variant = "solid", size = "md", icon, title, className }: TagProps) {
+export function Tag({ children, tone = "neutral", color, variant = "solid", size = "md", icon, title, caps, className }: TagProps) {
   const c = color ?? (tone in TONE_COLOR ? TONE_COLOR[tone as keyof typeof TONE_COLOR] : familyColor(tone as PlayFamily));
   const dark = !color && LIGHT_TONES.has(tone);
   return (
-    <span className={cx(s.tag, s[variant], s[size], dark && s.darkText, className)} style={{ "--tag": c } as CSSProperties} title={title}>
+    <span className={cx(s.tag, s[variant], s[size], dark && s.darkText, caps && s.caps, className)} style={{ "--tag": c } as CSSProperties} title={title}>
       {renderIcon(icon, size === "sm" ? 11 : 13)}
       {children}
     </span>
@@ -48,17 +51,17 @@ export function Tag({ children, tone = "neutral", color, variant = "solid", size
 export function PlayTypeTag({ playType, size, variant, className }: { playType: string; size?: TagProps["size"]; variant?: TagProps["variant"]; className?: string }) {
   const info = playTypeInfo(playType);
   return (
-    <Tag tone={info.family} size={size} variant={variant} title={info.long} className={className}>
+    <Tag tone={info.family} size={size} variant={variant} title={info.long} caps className={className}>
       {info.label}
     </Tag>
   );
 }
 
-/** Amber "NEEDS MOD" badge for non-global library plays. */
+/** Amber "Needs Mod" badge for non-global library plays. */
 export function NeedsModTag({ size, className }: { size?: TagProps["size"]; className?: string }) {
   return (
     <Tag tone="needsMod" size={size} className={className} title="Not global: only usable in a custom playbook with the Playbook Studio mod installed">
-      Needs mod
+      Needs Mod
     </Tag>
   );
 }
@@ -75,11 +78,13 @@ export interface ChipProps {
   count?: number;
   disabled?: boolean;
   title?: string;
+  /** ALL CAPS label (for Madden names: play types, formations, plays). Default: the text as written. */
+  caps?: boolean;
   className?: string;
 }
 
 /** Filter chip: toggleable (onClick + active) and/or removable (onRemove). */
-export function Chip({ children, onRemove, onClick, active, color, icon, count, disabled, title, className }: ChipProps) {
+export function Chip({ children, onRemove, onClick, active, color, icon, count, disabled, title, caps, className }: ChipProps) {
   const Tagname = onClick ? "button" : "span";
   return (
     <span className={cx(s.chip, active && s.chipActive, disabled && s.chipDisabled, className)} title={title}>
@@ -89,7 +94,7 @@ export function Chip({ children, onRemove, onClick, active, color, icon, count, 
       >
         {color && <span className={s.dot} style={{ background: color }} />}
         {renderIcon(icon, 13)}
-        <span className={s.chipLabel}>{children}</span>
+        <span className={cx(s.chipLabel, caps && s.caps)}>{children}</span>
         {count !== undefined && <span className={s.count}>{count}</span>}
       </Tagname>
       {onRemove && (

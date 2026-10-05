@@ -27,6 +27,5 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 12px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }

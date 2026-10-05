@@ -74,7 +74,7 @@ export function PlayerStrip() {
                 <span className={s.label}>{label}</span>
                 {role !== label && g.id !== "line" && <span className={s.role}>{role}</span>}
                 {locked && <Icon name="lock" size={12} className={s.lock} />}
-                {moved && <span className={s.moved}>moved</span>}
+                {moved && <span className={s.moved}>Moved</span>}
                 {changed && !locked && <span className={s.changed} aria-label="Changed" />}
               </button>
             );

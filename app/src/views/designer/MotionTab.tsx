@@ -11,6 +11,7 @@ import type { AutoMotionWaypoint, Step } from "../../model/types";
 import { Button, IconButton, NumberField, SearchSelect, Segmented, Toggle, cx } from "../../ui";
 import { Disclosure } from "./Disclosure";
 import { alignmentOf, useDesigner } from "./shared";
+import { titleCase } from "./titleCase";
 import s from "./Inspector.module.css";
 
 const L = MOTION_LIMITS;
@@ -32,7 +33,7 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
     [motion, start, wps, pos, motionMen],
   );
   const length = motion ? motionPathLength(start, wps.map((w) => w.position)) : 0;
-  const events = useMemo(() => lib.enumValues("AutomotionStartEvent").map((v) => ({ value: v, label: v.replace(/^AUTOMOTIONSTARTEVENT_/, "").replace(/_/g, " ").toLowerCase() })), [lib]);
+  const events = useMemo(() => lib.enumValues("AutomotionStartEvent").map((v) => ({ value: v, label: titleCase(v.replace(/^AUTOMOTIONSTARTEVENT_/, "").replace(/_/g, " ").toLowerCase()) })), [lib]);
 
   if (!canMotion(pos) || isOffensiveLine(pos)) {
     return (
@@ -80,12 +81,12 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
       <section className={s.section}>
         <div className={s.sectionHead}>
           <span className={s.sectionTitle}>Motion</span>
-          <span className={s.muted}>before the snap</span>
+          <span className={s.muted}>Before the snap</span>
         </div>
         <div className={s.btnGrid}>
           {MOTION_PRESETS.map((p) => (
             <Button key={p.id} size="sm" disabled={locked} onClick={() => applyPreset(p.id)} title={p.hint}>
-              {p.label}
+              {titleCase(p.label)}
             </Button>
           ))}
         </div>
@@ -99,10 +100,10 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
         <section className={s.section}>
           <div className={s.sectionHead}>
             <span className={s.sectionTitle}>
-              Motion points <span className={s.muted}>·</span> <span className={cx(s.muted, s.num)}>{length.toFixed(1)} yd</span>
+              Motion Points <span className={s.muted}>·</span> <span className={cx(s.muted, s.num)}>{length.toFixed(1)} yd</span>
             </span>
             <Button size="sm" variant="ghost" icon="trash" disabled={locked} onClick={() => (commit(setMotion(steps, null), "Remove motion"), setUi({ vertex: undefined }))}>
-              Remove motion
+              Remove Motion
             </Button>
           </div>
           {issues.length > 0 && (
@@ -153,10 +154,10 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
             })}
           </div>
           <Button size="sm" icon="plus" disabled={locked || wps.length >= L.maxWaypoints} onClick={addPoint} title={wps.length >= L.maxWaypoints ? `Real plays use at most ${L.maxWaypoints} motion points` : undefined}>
-            Add motion point
+            Add Motion Point
           </Button>
           {locked && <p className={s.note}>This motion is part of the kept handoff.</p>}
-          <Disclosure id="motion.more" title="More options" hint="start, delays, facing">
+          <Disclosure id="motion.more" title="More Options" hint="Start, delays, facing">
             <div className={s.paramRows}>
               <div className={s.paramRow}>
                 <span className={s.fieldLabel}>Starts</span>
@@ -164,14 +165,14 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
               </div>
             </div>
             <div className={s.params}>
-              <NumberField size="sm" label="DELAY" suffix="s" value={Number(motion.startDelay ?? 0)} min={0} max={10} step={0.125} precision={3} disabled={locked} onChange={(v) => patchStep({ startDelay: v }, "Motion delay")} />
-              <NumberField size="sm" label="END DELAY" suffix="s" value={Number(motion.endDelay ?? 0)} min={0} max={10} step={0.125} precision={3} disabled={locked} onChange={(v) => patchStep({ endDelay: v }, "Motion end delay")} />
+              <NumberField size="sm" label="Delay" suffix="s" value={Number(motion.startDelay ?? 0)} min={0} max={10} step={0.125} precision={3} disabled={locked} onChange={(v) => patchStep({ startDelay: v }, "Motion delay")} />
+              <NumberField size="sm" label="End Delay" suffix="s" value={Number(motion.endDelay ?? 0)} min={0} max={10} step={0.125} precision={3} disabled={locked} onChange={(v) => patchStep({ endDelay: v }, "Motion end delay")} />
             </div>
             {wps.map((w, j) => (
               <div key={j} className={s.paramRow}>
-                <span className={s.fieldLabel}>Point {j + 1} facing</span>
+                <span className={s.fieldLabel}>Point {j + 1} Facing</span>
                 <div className={s.legLine}>
-                  <Toggle size="sm" checked={!!w.shouldFaceEndPoint} onChange={(v) => patchWp(j, { shouldFaceEndPoint: v }, "Motion facing", 0)} label="Face where he's going" />
+                  <Toggle size="sm" checked={!!w.shouldFaceEndPoint} onChange={(v) => patchWp(j, { shouldFaceEndPoint: v }, "Motion facing", 0)} label="Face Where He's Going" />
                   <NumberField size="sm" suffix="°" value={w.facingAngle} step={15} min={0} max={359} disabled={locked || !!w.shouldFaceEndPoint} onChange={(v) => patchWp(j, { facingAngle: v }, "Motion facing")} />
                 </div>
               </div>
@@ -183,7 +184,7 @@ export function MotionTab({ slot, lock }: { slot: number; lock: number }) {
           <p className={s.note}>No motion yet. Pick a preset above, or click inside the shaded area on the field to drop the first motion point.</p>
           <div>
             <Button size="sm" icon="plus" onClick={addPoint}>
-              Add motion point
+              Add Motion Point
             </Button>
           </div>
         </section>

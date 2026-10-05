@@ -34,8 +34,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   white-space: nowrap;
   cursor: pointer;
   transition:

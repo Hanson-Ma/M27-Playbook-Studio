@@ -310,7 +310,7 @@ describe("custom formations, sets and clones (catalog overlay, FORMATS.md §5)",
     expect(onClone).toMatchObject({ key: TIGHT + "PBS_On_Clone", set: TIGHT + "PBS_Y_Trips_Tight_Wk", base: tightKey, vip: 2, playType: "OffensePlayType_PassPlayAction" });
     expect(onClone.slots[4]).toMatchObject({ authored: "PBS_Clone_Corner", changed: true });
     expect(onClone.slots[3]).toMatchObject({ assignment: ASSIGNMENT_ROOT + "RunRoute/WR_Run90for30", changed: false }); // the clone's slot
-    expect(redefine.problems.join()).toMatch(/"PBS_Clone_Corner" is first defined by "C Curls"/); // clones build first
+    expect(redefine.problems.join()).toMatch(/"PBS_Clone_Corner" is first defined by "C CURLS"/); // clones build first
     expect(c.playsInSet(TIGHT + "PBS_Y_Trips_Tight_Wk").map((p) => p.name)).toEqual(["C Curls", "On Clone"]);
 
     // The designer resolves with catalog.lib: the clone base is found through the overlay.
@@ -343,14 +343,14 @@ describe("custom formations, sets and clones (catalog overlay, FORMATS.md §5)",
     expect(classifyPlayProblem(lost.problems[0]).rule).toBe("play-base");
     expect(twin.problems.join(" | ")).toMatch(/vip 14 is not a slot/);
     expect(twin.problems.join(" | ")).toMatch(/asset PBS_Twin is also used by/);
-    expect(twin2.problems.join(" | ")).toMatch(/name "twin" is also used by another custom play in this set/);
+    expect(twin2.problems.join(" | ")).toMatch(/name "TWIN" is also used by another custom play in this set/);
     expect(power.problems).toEqual([]); // any set may be cloned (the editor warns about slot order)
     expect(power2.problems).toEqual([]); // an earlier clone may be cloned
     expect(power2.slots.map((s) => s.assignment)).toEqual(lib.playByAsset.get(OFF + "I_Form/Close/Power_O")!.assignments);
     const [mineByName, mineByAsset] = c.custom;
-    expect(mineByName.problems.join()).toMatch(/name "Power" is also a cloned play in this set \(the game-side builder picks the clone/);
+    expect(mineByName.problems.join()).toMatch(/name "POWER" is also a cloned play in this set \(the game-side builder picks the clone/);
     expect(classifyPlayProblem(mineByName.problems[0]).rule).toBe("play-name-duplicate");
-    expect(mineByAsset.problems.join()).toMatch(/asset PBS_Power2 is also used by the cloned play "Power 2"/);
+    expect(mineByAsset.problems.join()).toMatch(/asset PBS_Power2 is also used by the cloned play "POWER 2"/);
     expect(c.playInSetByName(TIGHT + "PBS_Y_Trips_Tight_Wk", "power")).toBe(power); // the clone wins like custom-plays.tsv
     expect(c.get(TIGHT + "PBS_Power2")).toBe(power2);
   });

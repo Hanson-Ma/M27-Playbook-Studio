@@ -21,8 +21,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .ghost[data-refused] {
@@ -44,6 +43,7 @@
   font-size: var(--fs-sm);
   font-variant-numeric: tabular-nums;
 }
+/* one dragged item: its Madden name in caps (a count label like "3 plays" stays as written) */
 .label {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -54,8 +54,6 @@
   gap: 3px;
   color: var(--danger);
   font-size: var(--fs-sm);
-  text-transform: none;
-  letter-spacing: 0;
   font-family: var(--font-body);
   font-weight: 500;
 }

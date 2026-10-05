@@ -1,7 +1,7 @@
 // Play-call cards: formation / set / group tiles shaped like the in-game play card (art + NAME + gray line), the play
 // card wrapper (PlayCard + stat chip + favorite star) and the placeholder for unresolved entries.
-// Template sections (read from the template save) carry a FROM TEMPLATE badge. Art is only computed for mounted
-// tiles (3 per page).
+// Template sections (read from the template save) carry a "From Template" badge. Names (formation / set / play) are in
+// caps; concept group names show as typed. Art is only computed for mounted tiles (3 per page).
 import { memo, useMemo, type CSSProperties, type KeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import { Field, PlayArtLayer, PlayCard, cardViewport } from "../../field";
 import { AudibleGlyph } from "../../input/glyphs";
@@ -87,6 +87,8 @@ interface TileProps {
   overlay?: ReactNode;
   glyph?: ReactNode;
   name: string;
+  /** Name in caps (formation / set / play / play-type names); false for text shown as written (concept names, "No Audible"). */
+  nameCaps?: boolean;
   sub: ReactNode;
   tag?: { label: string; color: string };
   stat?: ReactNode;
@@ -133,7 +135,7 @@ const Tile = memo(function Tile(p: TileProps) {
       <div className={s.tileMeta}>
         {p.glyph && <span className={s.tileGlyph}>{p.glyph}</span>}
         <span className={s.tileText}>
-          <span className={s.tileName}>{p.name}</span>
+          <span className={cx(s.tileName, p.nameCaps !== false && "caps")}>{p.name}</span>
           <span className={s.tileSub}>{p.sub}</span>
         </span>
       </div>
@@ -168,7 +170,7 @@ export function TemplateBadge() {
   return (
     <span className={s.tplBadge} title={'From a "sets": "template" section: copied from the template save by the game-side builder (read-only here)'}>
       <Icon name="lock" size={11} />
-      From template
+     From Template
     </span>
   );
 }
@@ -181,12 +183,12 @@ export function missingTemplateText(f: CallFormation): string {
 /** Overlay for a template section whose contents aren't available (loading / unreadable save / not in the save). */
 function TemplateOverlay({ f }: { f: CallFormation }) {
   const template = useTemplate();
-  if (f.templateState === "missing") return <MissingOverlay title="Not in the template save" body={missingTemplateText(f)} />;
-  if (template.status === "error") return <MissingOverlay title="Template save unreadable" body={template.error} />;
+  if (f.templateState === "missing") return <MissingOverlay title="Not in the Template Save" body={missingTemplateText(f)} />;
+  if (template.status === "error") return <MissingOverlay title="Template Save Unreadable" body={template.error} />;
   return (
     <>
       <Spinner size={22} />
-      <span className={s.overlayTitle}>Loading template…</span>
+      <span className={s.overlayTitle}>Loading Template…</span>
       <span className={s.overlayBody}>Reading the template save for this section's sets and plays</span>
     </>
   );
@@ -205,11 +207,11 @@ export const FormationTile = memo(function FormationTile({ f, ...p }: CommonTile
       art={art ? <ArtField art={art} side={side} ballSpot={ballSpot} label={`${f.name} alignment`} tight /> : <EmptyField ballSpot={ballSpot} />}
       overlay={
         f.problem ? (
-          <MissingOverlay title="Unknown formation" body={f.problem} />
+          <MissingOverlay title="Unknown Formation" body={f.problem} />
         ) : closedTemplate ? (
           <TemplateOverlay f={f} />
         ) : !first ? (
-          <MissingOverlay title="No sets" body={f.template ? "The template save has no sets for this formation" : "Add sets in the playbook builder"} quiet />
+          <MissingOverlay title="No Sets" body={f.template ? "The template save has no sets for this formation" : "Add sets in the playbook builder"} quiet />
         ) : undefined
       }
       badges={f.template ? <TemplateBadge /> : undefined}
@@ -234,7 +236,7 @@ export const SetTile = memo(function SetTile({ set, ...p }: CommonTileProps & { 
   return (
     <Tile
       art={art ? <ArtField art={art} side={side} ballSpot={ballSpot} label={`${set.name} alignment`} tight /> : <EmptyField ballSpot={ballSpot} />}
-      overlay={set.problem ? <MissingOverlay title="Unknown set" body={set.problem} /> : undefined}
+      overlay={set.problem ? <MissingOverlay title="Unknown Set" body={set.problem} /> : undefined}
       glyph={p.glyph}
       name={set.name}
       sub={`${formationShort(set.formationName)} · ${n} play${n === 1 ? "" : "s"}`}
@@ -249,7 +251,7 @@ export const SetTile = memo(function SetTile({ set, ...p }: CommonTileProps & { 
 // ───────────────────────────── group tiles ─────────────────────────────
 
 /** A concept / play-type group, previewed by its first play (that play's art, type tag and name chip). */
-export const GroupTile = memo(function GroupTile({ group, ...p }: CommonTileProps & { group: CallGroup }) {
+export const GroupTile = memo(function GroupTile({ group, nameCaps, ...p }: CommonTileProps & { group: CallGroup; nameCaps?: boolean }) {
   const catalog = useCatalog();
   const ballSpot = useSettings((st) => st.ballSpot);
   const lead = group.items.find((i) => i.play)?.play;
@@ -267,6 +269,7 @@ export const GroupTile = memo(function GroupTile({ group, ...p }: CommonTileProp
       art={art && lead ? <ArtField art={art} side={lead.side} ballSpot={ballSpot} label={`${group.label}: ${lead.name}`} /> : <EmptyField ballSpot={ballSpot} />}
       glyph={p.glyph}
       name={group.label}
+      nameCaps={nameCaps}
       sub={`${group.eyebrow ? `${group.eyebrow} · ` : ""}${n} play${n === 1 ? "" : "s"}`}
       tag={lead ? { label: playTypeInfo(lead.playType).label, color: playTypeInfo(lead.playType).color } : undefined}
       stat={lead ? <span className={s.statName}>{lead.name}</span> : undefined}
@@ -344,7 +347,7 @@ export const PlaySlot = memo(function PlaySlot({ item, glyph, selected, flip, fa
     return (
       <Tile
         art={<EmptyField ballSpot={ballSpot} />}
-        overlay={<MissingOverlay title="Play not found" body={item.problem} />}
+        overlay={<MissingOverlay title="Play Not Found" body={item.problem} />}
         glyph={glyph}
         name={item.name || "(unnamed)"}
         sub={subtitle ?? item.subtitle}
@@ -388,7 +391,7 @@ export function EmptySlot({ glyph, label, sub }: { glyph?: ReactNode; label: str
       <div className={s.tileMeta}>
         {glyph && <span className={cx(s.tileGlyph, s.dimGlyph)}>{glyph}</span>}
         <span className={s.tileText}>
-          <span className={cx(s.tileName, s.emptyName)}>No audible</span>
+          <span className={cx(s.tileName, s.emptyName)}>No Audible</span>
           <span className={s.tileSub}>{sub}</span>
         </span>
       </div>

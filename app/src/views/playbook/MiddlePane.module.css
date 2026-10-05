@@ -62,8 +62,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  text-transform: uppercase;
-  letter-spacing: 0.015em;
+  letter-spacing: 0;
 }
 
 .tplTag,
@@ -74,8 +73,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   line-height: 1.35;
 }
 .tplTag {
@@ -109,8 +107,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
 }
 .advHead:hover {
@@ -132,8 +129,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .dl dd {
@@ -153,8 +149,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .json {
@@ -176,8 +171,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .bigTitle {
@@ -263,8 +257,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  text-transform: uppercase;
-  letter-spacing: 0.015em;
+  letter-spacing: 0;
   color: var(--text);
 }
 .dangerDetail {
@@ -319,8 +312,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .tile.danger .tileValue {
@@ -386,15 +378,14 @@
   font-size: var(--fd-lg);
   text-transform: uppercase;
 }
-/* "3 SETS · 23 PLAYS": words in NB like the other meta lines, the counts in DM Mono */
+/* "3 sets · 23 plays": words in NB like the other meta lines, the counts in DM Mono */
 .formMeta {
   margin-left: auto;
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
   color: var(--text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 .formMeta b {
@@ -487,10 +478,13 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 12.5px;
-  text-transform: uppercase;
   letter-spacing: 0.02em;
   color: var(--text-2);
   line-height: 1.3;
+}
+/* play names in caps; "+3 more" / "No plays yet" (.dim) stay as written */
+.setTilePlays > span:not(.dim) {
+  text-transform: uppercase;
 }
 .setTilePlays > span {
   overflow: hidden;
@@ -514,8 +508,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 .modText {
   color: var(--amber);

@@ -38,6 +38,7 @@ import { Disclosure } from "./Disclosure";
 import { HolePicker } from "./GapDiagram";
 import { ReadsEditor } from "./ReadsEditor";
 import { useDesigner } from "./shared";
+import { titleCase } from "./titleCase";
 import s from "./PlayPanel.module.css";
 
 export function PlayPanel() {
@@ -67,7 +68,7 @@ export function PlayPanel() {
   );
   const baseBlocking = String(baseFieldValue(state, "blocking") ?? "");
   const blockingOptions = useMemo(
-    () => [{ value: "", label: `Inherit · ${blockingLabel(baseBlocking)}` }, ...blockingLeaves(lib).map((v) => ({ value: v, label: blockingLabel(v), hint: v }))],
+    () => [{ value: "", label: `Inherit · ${titleCase(blockingLabel(baseBlocking))}` }, ...blockingLeaves(lib).map((v) => ({ value: v, label: titleCase(blockingLabel(v)), hint: v }))],
     [lib, baseBlocking],
   );
   const eligible = eligibleSlots(set);
@@ -98,15 +99,15 @@ export function PlayPanel() {
     const losses = swapBaseLosses(state, catalog, v);
     const target = lib.playByAsset.get(v);
     const ok = await confirmDialog({
-      title: `Use "${target?.name}" as the base?`,
-      eyebrow: "Swap base play",
+      title: `Use "${target?.name}" as the Base?`,
+      eyebrow: "Swap Base Play",
       body: (
         <>
           <p>The base supplies the alignment, handoff / play-action mechanics, flags and default reads. Your slot edits carry over where neither base has handoff mechanics.</p>
           {losses.length > 0 && <p>These slots reset to the new base: {losses.map(slotName).join(", ")}.</p>}
         </>
       ),
-      confirmLabel: "Swap base",
+      confirmLabel: "Swap Base",
     });
     if (ok) d.edit((st) => swapBase(st, catalog, v), "Swap base");
   };
@@ -115,7 +116,7 @@ export function PlayPanel() {
   const isRun = family === "run" || family === "option";
 
   const assetRow = (
-    <FormRow label="File name (asset)" error={assetErr} hint={autoAsset ? "Made from the play name" : "Letters, digits and _ only"}>
+    <FormRow label="File Name (Asset)" error={assetErr} hint={autoAsset ? "Made from the play name" : "Letters, digits and _ only"}>
       <div className={s.inline}>
         <TextInput size="sm" mono value={asset} invalid={!!assetErr} onChange={(v) => d.edit((st) => setPlayAsset(st, v.replace(/[^A-Za-z0-9_]/g, "")), "Asset", 1500)} />
         <Button size="sm" variant="ghost" disabled={autoAsset} onClick={() => d.edit((st) => setPlayAsset(st, suggestAsset(catalog, set.asset, name, prefix, selfKey)), "Asset")}>
@@ -125,7 +126,7 @@ export function PlayPanel() {
     </FormRow>
   );
   const blockingRow = (
-    <FormRow label="Blocking scheme">
+    <FormRow label="Blocking Scheme">
       <SearchSelect
         size="sm"
         value={typeof state.play.blocking === "string" ? state.play.blocking : ""}
@@ -137,7 +138,7 @@ export function PlayPanel() {
     </FormRow>
   );
   const holeRow = (
-    <FormRow label={<span className={s.labelRow}>Run hole <span className={s.dim}>{runHole === 0 ? "middle" : runHole % 2 ? "left" : "right"}</span></span>}>
+    <FormRow label={<span className={s.labelRow}>Run Hole <span className={s.dim}>{runHole === 0 ? "Middle" : runHole % 2 ? "Left" : "Right"}</span></span>}>
       <div className={s.inline}>
         <HolePicker value={runHole} onChange={(v) => d.edit((st) => setPlayField(st, "runHole", v), "Run hole")} />
         <IconButton icon="undo" size="sm" title="Use the base play's run hole" disabled={!("runHole" in state.play)} onClick={() => d.edit((st) => setPlayField(st, "runHole", undefined), "Run hole")} />
@@ -153,22 +154,30 @@ export function PlayPanel() {
           <TextInput size="sm" value={name} invalid={!!nameErr} onChange={rename} />
         </FormRow>
         <RenameRefs catalog={catalog} file={file} index={index} set={set.asset} name={name} asset={asset} blocked={!!nameErr || !!assetErr} />
-        <FormRow label="Base play" hint="The play this one starts from: same formation and set, handoffs and protection.">
-          <SearchSelect size="sm" value={String(state.play.base)} options={baseOptions} onChange={changeBase} width="100%" menuWidth={320} />
+        <FormRow label="Base Play" hint="The play this one starts from: same formation and set, handoffs and protection.">
+          <SearchSelect
+            size="sm"
+            value={String(state.play.base)}
+            options={baseOptions}
+            onChange={changeBase}
+            caps
+            width="100%"
+            menuWidth={320}
+          />
         </FormRow>
       </section>
 
       <section className={s.section}>
-        <div className={s.eyebrow}>Play call</div>
+        <div className={s.eyebrow}>Play Call</div>
         <FormRow
-          label={<span className={s.labelRow}><span className={s.redDot} aria-hidden /> Primary receiver (red route)</span>}
+          label={<span className={s.labelRow}><span className={s.redDot} aria-hidden /> Primary Receiver (Red Route)</span>}
           hint={
             "vip" in state.play && typeof baseFieldValue(state, "vip") === "number" ? (
               // Changed: say from what, with a labelled way back (a bare undo arrow was easy to miss).
               <span className={s.hintRow}>
                 Changed from the base play's {slotName(baseFieldValue(state, "vip") as number)}.
                 <Button size="sm" variant="ghost" icon="undo" onClick={() => d.edit((st) => setPlayField(st, "vip", undefined), "Primary receiver")} title="Use the base play's primary receiver again">
-                  Use base
+                  Use Base
                 </Button>
               </span>
             ) : (
@@ -178,11 +187,23 @@ export function PlayPanel() {
         >
           <SearchSelect size="sm" value={String(vip)} options={vipOptions} onChange={(v) => d.edit((st) => setPlayField(st, "vip", Number(v)), "Primary receiver")} width="100%" />
         </FormRow>
-        <FormRow label="Play type">
+        <FormRow label="Play Type">
           <SearchSelect
             size="sm"
             value={typeof state.play.playType === "string" ? state.play.playType : ""}
             options={playTypeOptions}
+            renderValue={(o, v) => {
+              // Play types are Madden names: caps (the "Inherit ·" prefix stays chrome).
+              const label = o?.label ?? v ?? "";
+              const m = /^Inherit · (.*)$/.exec(label);
+              return m ? (
+                <>
+                  Inherit · <span className="caps">{m[1]}</span>
+                </>
+              ) : (
+                <span className="caps">{label}</span>
+              );
+            }}
             onChange={(v) => d.edit((st) => setPlayField(st, "playType", v || undefined), "Play type")}
             width="100%"
             menuWidth={320}
@@ -192,7 +213,7 @@ export function PlayPanel() {
         {isRun && blockingRow}
       </section>
 
-      <Disclosure id="play.advanced" title="Advanced" hint={explicitReads ? "reads edited" : "asset, reads"} className={s.advanced}>
+      <Disclosure id="play.advanced" title="Advanced" hint={explicitReads ? "Reads edited" : "Asset, reads"} className={s.advanced}>
         {assetRow}
         {!isRun && blockingRow}
         {!isRun && holeRow}
@@ -202,7 +223,7 @@ export function PlayPanel() {
       <section className={s.section}>
         <FilePlays />
         <Button size="sm" icon="playcall" onClick={() => self && openAddToPlaybook(self.key)} disabled={!self}>
-          Add to playbook…
+          Add to Playbook…
         </Button>
       </section>
     </div>
@@ -232,7 +253,7 @@ function FilePlays() {
     const ok = await confirmDialog({ title: `Delete "${plays[index]?.name}"?`, body: "It's removed from the plays file (undo brings it back until you leave).", confirmLabel: "Delete", danger: true });
     if (!ok) return;
     useWorkspace.getState().update<PlaysFile>(file, (draft) => void draft.plays.splice(index, 1), { label: "Delete play" });
-    toast.info("Play deleted", { detail: "Save the file to keep the change." });
+    toast.info("Play Deleted", { detail: "Save the file to keep the change." });
     navigate("#/designer");
   };
 
@@ -346,7 +367,7 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
         <strong>Still uses “{orig.name}”:</strong> {parts.join(" · ")}. Those references won't resolve until they're updated too.
       </p>
       <Button size="sm" variant="secondary" disabled={p.blocked} onClick={updateAll} title={p.blocked ? "Fix the name / asset first" : undefined}>
-        Update everywhere
+        Update Everywhere
       </Button>
     </div>
   );

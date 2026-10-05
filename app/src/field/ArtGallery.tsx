@@ -35,8 +35,8 @@ export function ArtGallery() {
           Settings
         </Button>
         <div>
-          <div className={styles.eyebrow}>Playbook Studio · renderer bench</div>
-          <h1>Play art</h1>
+          <div className={styles.eyebrow}>Playbook Studio · Renderer Bench</div>
+          <h1>Play Art</h1>
         </div>
       </header>
       <p className={styles.intro}>
@@ -78,10 +78,10 @@ function CardsSection() {
   const [flip, setFlip] = useState(false);
   return (
     <Section
-      title="Play cards"
+      title="Play Cards"
       aside={
         <Toggle on={flip} onChange={setFlip}>
-          Flip art
+          Flip Art
         </Toggle>
       }
     >
@@ -153,17 +153,17 @@ function CutsSection() {
       aside={
         <>
           <Toggle on={dir === "left"} onChange={() => setDir("left")}>
-            Icons left
+            Icons Left
           </Toggle>
           <Toggle on={dir === "right"} onChange={() => setDir("right")}>
-            Icons right
+            Icons Right
           </Toggle>
           <span className={styles.sep} />
           <Toggle on={cuts} onChange={setCuts}>
-            Cut styles
+            Cut Styles
           </Toggle>
           <Toggle on={motionArea} onChange={setMotionArea}>
-            Motion area
+            Motion Area
           </Toggle>
         </>
       }
@@ -191,7 +191,7 @@ function CutsSection() {
           <PlayCard play={showcasePlay} art={showcase} size="sm" />
         </div>
       </div>
-      <div className={styles.rowLabel}>Engine routes for WR2 (right) · icon direction follows the toggle</div>
+      <div className={styles.rowLabel}>Engine Routes for WR2 (Right) · Icon Direction Follows the Toggle</div>
       <div className={styles.cutGrid}>
         {CUT_DEMOS.map((c) => {
           const cut = `RECEIVER_CUT_ANGLE_${c.cut}`;
@@ -206,7 +206,7 @@ function CutsSection() {
               </div>
               <figcaption>
                 <b>{c.name}</b> · {c.cut.replace(/_/g, " ")} {c.dir === "LEFT" ? "L" : "R"}
-                <span className={styles.muted}>{st ? CUT_STYLE_INFO[st].label : "plain corner"}</span>
+                <span className={styles.muted}>{st ? CUT_STYLE_INFO[st].label : "Plain corner"}</span>
               </figcaption>
             </figure>
           );
@@ -259,7 +259,7 @@ function FieldSection() {
       aside={
         <>
           {ART_FIXTURES.map((f) => (
-            <Toggle key={f.id} on={f.id === id} onChange={() => (setId(f.id), setSelected(undefined))}>
+            <Toggle key={f.id} caps on={f.id === id} onChange={() => (setId(f.id), setSelected(undefined))}>
               {f.play.name}
             </Toggle>
           ))}
@@ -271,18 +271,18 @@ function FieldSection() {
             Coords
           </Toggle>
           <Toggle on={dim} onChange={setDim}>
-            Dim others
+            Dim Others
           </Toggle>
           <Toggle on={compact} onChange={setCompact}>
             Compact
           </Toggle>
           <Toggle on={firstDown} onChange={setFirstDown}>
-            1st down
+            1st Down
           </Toggle>
           <span className={styles.sep} />
           {BALL_SPOTS.map((b) => (
             <Toggle key={b} on={ballSpot === b} onChange={() => setBallSpot(b)}>
-              Ball {b}
+              Ball {b[0].toUpperCase() + b.slice(1)}
             </Toggle>
           ))}
         </>
@@ -362,14 +362,14 @@ function MiniSection() {
   );
 
   return (
-    <Section title="Mini routes" aside={<span className={styles.muted}>Click to select · {SAMPLE_ROUTES.length * 2 + libraryRoutes.length} thumbnails</span>}>
-      <div className={styles.rowLabel}>WR2 (right, 16.25 / −2.2)</div>
+    <Section title="Mini Routes" aside={<span className={styles.muted}>Click to select · {SAMPLE_ROUTES.length * 2 + libraryRoutes.length} thumbnails</span>}>
+      <div className={styles.rowLabel}>WR2 (Right, 16.25 / −2.2)</div>
       {row("r", SET_Y_TRIPS_WK, 4, SAMPLE_ROUTES)}
-      <div className={styles.rowLabel}>WR1 (left, −16.25 / −0.8), mirrored, primary</div>
+      <div className={styles.rowLabel}>WR1 (Left, −16.25 / −0.8), Mirrored, Primary</div>
       {row("l", SET_Y_TRIPS_WK, 3, SAMPLE_ROUTES, true, true)}
       {libraryRoutes.length > 0 && (
         <>
-          <div className={styles.rowLabel}>Library assignments by route type (WR1)</div>
+          <div className={styles.rowLabel}>Library Assignments by Route Type (WR1)</div>
           {row("lib", libSet, 3, libraryRoutes)}
         </>
       )}
@@ -433,7 +433,7 @@ function RealPlaysSection() {
 
   if (!catalog) {
     return (
-      <Section title="Real plays · art engine">
+      <Section title="Real Plays · Art Engine">
         <div className={styles.hint}>
           {status === "loading"
             ? `Loading library… ${progress.label} ${progress.total ? Math.round((progress.loaded / progress.total) * 100) + "%" : ""}`
@@ -442,7 +442,7 @@ function RealPlaysSection() {
               : "Library not loaded."}{" "}
           {status !== "loading" && (
             <button className={styles.button} onClick={() => void useLibrary.getState().load()}>
-              Load library
+              Load Library
             </button>
           )}
         </div>
@@ -462,7 +462,7 @@ function RealPlaysSection() {
           play={p}
           size="sm"
           flip={flip}
-          stat={p.problems.length ? `${p.problems.length} PROBLEM${p.problems.length > 1 ? "S" : ""}` : undefined}
+          stat={p.problems.length ? `${p.problems.length} problem${p.problems.length > 1 ? "s" : ""}` : undefined}
           selected={selected?.key === p.key}
           onClick={() => setPicked(p.key)}
         />
@@ -472,7 +472,7 @@ function RealPlaysSection() {
 
   return (
     <Section
-      title="Real plays · art engine"
+      title="Real Plays · Art Engine"
       aside={
         <>
           <Toggle on={flip} onChange={setFlip}>
@@ -539,7 +539,7 @@ function PlayInspector({ catalog, play, flip, why }: { catalog: Catalog; play: R
         <div className={styles.inspectorTitle}>
           <PlayTypeTag playType={play.playType} size="sm" />
           {play.source === "custom" && <Tag tone="custom" size="sm">Custom</Tag>}
-          {!play.global && play.source === "library" && <Tag tone="needsMod" size="sm">Needs mod</Tag>}
+          {!play.global && play.source === "library" && <Tag tone="needsMod" size="sm">Needs Mod</Tag>}
         </div>
         <h3 className={styles.inspectorName}>{play.name}</h3>
         <div className={styles.inspectorSub}>{cardSubtitle(play, catalog)}</div>
@@ -548,7 +548,7 @@ function PlayInspector({ catalog, play, flip, why }: { catalog: Catalog; play: R
         {play.base && <div className={styles.muted}>Base: {prettyAsset(play.base, 1)}</div>}
         <div className={styles.controls}>
           <Toggle on={passPro} onChange={setPassPro}>
-            Pass pro
+            Pass Pro
           </Toggle>
           <Toggle on={labels} onChange={setLabels}>
             Labels
@@ -571,7 +571,7 @@ function PlayInspector({ catalog, play, flip, why }: { catalog: Catalog; play: R
             ))}
           </ul>
         )}
-        <div className={styles.rowLabel}>{focus === undefined ? "Hover or click a player" : `Slot ${focus} · ${player?.label ?? "?"}`}</div>
+        <div className={styles.rowLabel}>{focus === undefined ? "Hover or Click a Player" : `Slot ${focus} · ${player?.label ?? "?"}`}</div>
         {resolved && (
           <div className={styles.slotInfo}>
             <div className={styles.muted}>
@@ -603,7 +603,7 @@ function WholeSetSection() {
   if (!catalog) return null;
   return (
     <Section
-      title="Every play in Gun Y Trips Wk"
+      title="Every Play in GUN Y TRIPS WK"
       aside={
         <>
           <Toggle on={open} onChange={setOpen}>
@@ -630,9 +630,9 @@ function WholeSetSection() {
 
 // ───────────────────────────── controls ─────────────────────────────
 
-function Toggle({ on, onChange, children }: { on: boolean; onChange: (v: boolean) => void; children: ReactNode }) {
+function Toggle({ on, onChange, caps, children }: { on: boolean; onChange: (v: boolean) => void; caps?: boolean; children: ReactNode }) {
   return (
-    <button type="button" className={styles.toggle} data-on={on || undefined} aria-pressed={on} onClick={() => onChange(!on)}>
+    <button type="button" className={caps ? `${styles.toggle} caps` : styles.toggle} data-on={on || undefined} aria-pressed={on} onClick={() => onChange(!on)}>
       {children}
     </button>
   );

@@ -26,6 +26,7 @@ import { MyRoutesSection } from "./MyRoutesSection";
 import { OffFieldNotice, tileOffField, warnIfOffField } from "./OffField";
 import { RouteLibrary } from "./RouteLibrary";
 import { slotGeometry, useDesigner } from "./shared";
+import { titleCase } from "./titleCase";
 import s from "./Inspector.module.css";
 
 const RELEASE_OPTS = [
@@ -36,7 +37,7 @@ const RELEASE_OPTS = [
 ] as const;
 
 const END_OPTS = [
-  { value: "getopen", label: "Find space" },
+  { value: "getopen", label: "Find Space" },
   { value: "sit", label: "Sit" },
   { value: "none", label: "None" },
 ] as const;
@@ -101,7 +102,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
       <OffFieldNotice slot={slot} lock={lock} />
       <section className={s.section}>
         <div className={s.sectionHead}>
-          <span className={s.sectionTitle}>Pick a route</span>
+          <span className={s.sectionTitle}>Pick a Route</span>
           <span className={s.muted}>{side === "left" ? "Left side" : "Right side"} · "out" = toward the sideline</span>
         </div>
         <div className={s.tiles}>
@@ -111,11 +112,11 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
               type="button"
               className={cx(s.tile, activePreset?.id === t.def.id && s.tileActive)}
               onClick={() => applyPreset(t.def.id, {}, `Route: ${t.def.label}`)}
-              title={t.off ? `${t.def.label} — runs off the field from this player's spot` : t.def.label}
+              title={t.off ? `${titleCase(t.def.label)} — runs off the field from this player's spot` : titleCase(t.def.label)}
             >
               <MiniRoute set={set} slot={slot} steps={t.steps} size={58} primary={slot === d.vip} />
-              <span className={s.tileLabel}>{t.def.label}</span>
-              {t.off && <span className={s.offTag}>off field</span>}
+              <span className={s.tileLabel}>{titleCase(t.def.label)}</span>
+              {t.off && <span className={s.offTag}>Off Field</span>}
             </button>
           ))}
         </div>
@@ -125,7 +126,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
 
       <MyRoutesSection slot={slot} lock={lock} />
 
-      <Disclosure id="route.double" title="Double moves" hint="fake, then go" defaultOpen={!!activeDouble}>
+      <Disclosure id="route.double" title="Double Moves" hint="Fake, then go" defaultOpen={!!activeDouble}>
         <div className={s.tiles}>
           {doubles.map((t) => (
             <button
@@ -133,11 +134,11 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
               type="button"
               className={cx(s.tile, activeDouble === t.dm.id && s.tileActive)}
               onClick={() => applyDouble(t.dm.id)}
-              title={t.off ? `${t.dm.label} — runs off the field from this player's spot` : t.dm.label}
+              title={t.off ? `${titleCase(t.dm.label)} — runs off the field from this player's spot` : titleCase(t.dm.label)}
             >
               <MiniRoute set={set} slot={slot} steps={t.steps} size={58} primary={slot === d.vip} />
-              <span className={s.tileLabel}>{t.dm.label}</span>
-              {t.off && <span className={s.offTag}>off field</span>}
+              <span className={s.tileLabel}>{titleCase(t.dm.label)}</span>
+              {t.off && <span className={s.offTag}>Off Field</span>}
             </button>
           ))}
         </div>
@@ -145,7 +146,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
 
       <section className={s.section}>
         <div className={s.sectionHead}>
-          <span className={s.sectionTitle}>Route points</span>
+          <span className={s.sectionTitle}>Route Points</span>
           {hasLegs && <Segmented size="sm" options={[...END_OPTS]} value={end} onChange={(v) => setEnd(v as RouteEnd)} aria-label="At the end of the route" />}
         </div>
         <LegTable slot={slot} lock={lock} />
@@ -153,11 +154,11 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
 
       <section className={s.section}>
         <div className={s.sectionHead}>
-          <span className={s.sectionTitle}>Game routes</span>
+          <span className={s.sectionTitle}>Game Routes</span>
         </div>
         <p className={s.note}>Use any of the 5,400 routes from the game's own plays, drawn from this player's spot.</p>
         <Button size="sm" icon="list" onClick={() => setLibrary(true)} disabled={lock > 0}>
-          Browse game routes…
+          Browse Game Routes…
         </Button>
         {lock > 0 && <p className={s.note}>Not available while the handoff is kept.</p>}
       </section>
@@ -174,13 +175,13 @@ function PresetParams({ preset, params, onChange }: { preset: RoutePresetId; par
   return (
     <section className={s.section}>
       <div className={s.sectionHead}>
-        <span className={s.sectionTitle}>{def.label}</span>
-        <span className={s.muted}>adjust the shape</span>
+        <span className={s.sectionTitle}>{titleCase(def.label)}</span>
+        <span className={s.muted}>Adjust the shape</span>
       </div>
       <div className={s.params}>
-        {has("stem") && <NumberField size="sm" label="DEPTH" value={p.stem} min={0.5} max={40} step={0.5} suffix="yd" onChange={(v) => set("stem", v)} />}
-        {has("breakLength") && <NumberField size="sm" label="AFTER BREAK" value={p.breakLength} min={0} max={50} step={0.5} suffix="yd" onChange={(v) => set("breakLength", v)} />}
-        {has("breakAngle") && <NumberField size="sm" label="ANGLE" value={p.breakAngle} min={0} max={170} step={5} suffix="°" onChange={(v) => set("breakAngle", v)} />}
+        {has("stem") && <NumberField size="sm" label="Depth" value={p.stem} min={0.5} max={40} step={0.5} suffix="yd" onChange={(v) => set("stem", v)} />}
+        {has("breakLength") && <NumberField size="sm" label="After Break" value={p.breakLength} min={0} max={50} step={0.5} suffix="yd" onChange={(v) => set("breakLength", v)} />}
+        {has("breakAngle") && <NumberField size="sm" label="Angle" value={p.breakAngle} min={0} max={170} step={5} suffix="°" onChange={(v) => set("breakAngle", v)} />}
       </div>
       <div className={s.paramRows}>
         {has("breakDir") && (
@@ -199,13 +200,13 @@ function PresetParams({ preset, params, onChange }: { preset: RoutePresetId; par
         )}
         {has("end") && (
           <div className={s.paramRow}>
-            <span className={s.fieldLabel}>At the end</span>
+            <span className={s.fieldLabel}>At the End</span>
             <Segmented size="sm" options={[...END_OPTS]} value={p.end} onChange={(v) => set("end", v as RouteEnd)} />
           </div>
         )}
       </div>
       {(has("release") || has("stemSpeed") || has("breakSpeed")) && (
-        <Disclosure id="route.preset.more" title="More options" hint="release, speeds">
+        <Disclosure id="route.preset.more" title="More Options" hint="Release, speeds">
           {has("release") && (
             <div className={s.paramRow}>
               <span className={s.fieldLabel}>Release</span>
@@ -213,8 +214,8 @@ function PresetParams({ preset, params, onChange }: { preset: RoutePresetId; par
             </div>
           )}
           <div className={s.params}>
-            {has("stemSpeed") && <NumberField size="sm" label="SPEED BEFORE" value={p.stemSpeed} min={10} max={100} step={5} onChange={(v) => set("stemSpeed", v)} />}
-            {has("breakSpeed") && <NumberField size="sm" label="SPEED AFTER" value={p.breakSpeed} min={10} max={100} step={5} onChange={(v) => set("breakSpeed", v)} />}
+            {has("stemSpeed") && <NumberField size="sm" label="Speed Before" value={p.stemSpeed} min={10} max={100} step={5} onChange={(v) => set("stemSpeed", v)} />}
+            {has("breakSpeed") && <NumberField size="sm" label="Speed After" value={p.breakSpeed} min={10} max={100} step={5} onChange={(v) => set("breakSpeed", v)} />}
           </div>
         </Disclosure>
       )}

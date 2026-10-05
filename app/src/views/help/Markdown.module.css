@@ -1,4 +1,4 @@
-/* Guide typography: body text for reading, Madden condensed uppercase for headings. */
+/* Guide typography: body text for reading, the display face (Title Case in the Markdown) for headings. */
 .md {
   color: var(--text-2);
   font-size: 15px;
@@ -121,8 +121,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 10.5px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
   color: var(--text-3);
 }
 .copy {
@@ -138,8 +136,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 .copy:hover {
   background: var(--bg-4);
@@ -177,8 +173,6 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: 11.5px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 .table td {
   padding: 8px 12px;
@@ -216,8 +210,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 13px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
 }
 .calloutBody > :last-child {
   margin-bottom: 0;

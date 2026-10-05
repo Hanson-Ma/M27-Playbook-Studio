@@ -50,7 +50,7 @@ async function addFlow(group: CategoryGroup, parent?: ConceptCategory): Promise<
   const doc = getConcepts();
   if (!doc) return;
   const name = await promptDialog({
-    title: parent ? `New sub-category of ${parent.name}` : `New ${GROUP_LABEL[group]} category`,
+    title: parent ? `New Sub-Category of ${parent.name}` : `New ${GROUP_LABEL[group]} Category`,
     label: "Name",
     placeholder: group === "run" ? "e.g. Split Zone" : group === "pass" ? "e.g. Sail" : "e.g. 3rd Down",
     confirmLabel: "Add",
@@ -144,7 +144,7 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
     const si = sib.findIndex((c) => c.id === cat.id);
     const targets = nestTargets(d, cat.id);
     const nestItems: MenuItem[] = [
-      { id: "top", label: "Top level", icon: "chevronLeft", disabled: !node?.parent, onSelect: () => move("nest", (x) => moveCategory(x, cat.id, { group: groupOf(cat), parent: null })) },
+      { id: "top", label: "Top Level", icon: "chevronLeft", disabled: !node?.parent, onSelect: () => move("nest", (x) => moveCategory(x, cat.id, { group: groupOf(cat), parent: null })) },
       { kind: "separator" },
     ];
     for (const g of CATEGORY_GROUPS) {
@@ -180,7 +180,7 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
           { kind: "separator" },
           {
             id: "custom",
-            label: "More colors…",
+            label: "More Colors…",
             icon: "grid",
             onSelect: () => {
               const el = rowEls.current.get(cat.id)?.querySelector<HTMLElement>("[data-swatch]");
@@ -189,16 +189,16 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
           },
         ],
       },
-      { id: "sub", label: "Add sub-category", icon: "plus", onSelect: () => void add(groupOf(cat), cat) },
+      { id: "sub", label: "Add Sub-Category", icon: "plus", onSelect: () => void add(groupOf(cat), cat) },
       { kind: "separator" },
-      { id: "up", label: "Move up", icon: "chevronUp", disabled: si <= 0, onSelect: () => move("reorder", (x) => moveCategoryBy(x, cat.id, -1)) },
-      { id: "down", label: "Move down", icon: "chevronDown", disabled: si < 0 || si >= sib.length - 1, onSelect: () => move("reorder", (x) => moveCategoryBy(x, cat.id, 1)) },
-      { id: "indent", label: si > 0 ? `Nest under ${sib[si - 1].name}` : "Nest under previous", icon: "chevronRight", disabled: si <= 0, onSelect: () => move("nest", (x) => indentCategory(x, cat.id)) },
-      { id: "outdent", label: "Up a level", icon: "chevronLeft", disabled: !node?.parent, onSelect: () => move("nest", (x) => outdentCategory(x, cat.id)) },
-      { id: "under", label: "Move under…", icon: "tree", submenu: nestItems },
+      { id: "up", label: "Move Up", icon: "chevronUp", disabled: si <= 0, onSelect: () => move("reorder", (x) => moveCategoryBy(x, cat.id, -1)) },
+      { id: "down", label: "Move Down", icon: "chevronDown", disabled: si < 0 || si >= sib.length - 1, onSelect: () => move("reorder", (x) => moveCategoryBy(x, cat.id, 1)) },
+      { id: "indent", label: si > 0 ? `Nest Under ${sib[si - 1].name}` : "Nest Under Previous", icon: "chevronRight", disabled: si <= 0, onSelect: () => move("nest", (x) => indentCategory(x, cat.id)) },
+      { id: "outdent", label: "Up a Level", icon: "chevronLeft", disabled: !node?.parent, onSelect: () => move("nest", (x) => outdentCategory(x, cat.id)) },
+      { id: "under", label: "Move Under…", icon: "tree", submenu: nestItems },
       {
         id: "group",
-        label: "Move to group",
+        label: "Move to Group",
         icon: "list",
         submenu: CATEGORY_GROUPS.map((g) => ({
           id: g,
@@ -213,7 +213,7 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
       { kind: "separator" },
       {
         id: "show",
-        label: "Show tagged plays",
+        label: "Show Tagged Plays",
         icon: "filter",
         onSelect: () => {
           uiSet({ scope: "tagged", filter: [cat.id], untagged: false, suggested: false, checked: [] });
@@ -313,7 +313,7 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
                 </Button>
               </header>
               <div className={s.rows}>
-                {nodes.length === 0 && <EmptyState compact icon="tag" title="No categories" body={drag ? "Drop here to move it into this group." : "Add one, or drag one here."} />}
+                {nodes.length === 0 && <EmptyState compact icon="tag" title="No Categories" body={drag ? "Drop here to move it into this group." : "Add one, or drag one here."} />}
                 {nodes.map((n) => {
                   const on = cur.id === n.cat.id;
                   const dz = drop && "id" in drop && drop.id === n.cat.id ? drop.zone : undefined;
@@ -401,7 +401,7 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
             variant="ghost"
             onClick={async () => {
               const ok = await confirmDialog({
-                title: "Forget missing plays?",
+                title: "Forget Missing Plays?",
                 body: `Removes tags, notes and dismissals for ${orphans.length} play key${orphans.length > 1 ? "s" : ""}:\n${orphans.slice(0, 5).join("\n")}${orphans.length > 5 ? "\n…" : ""}`,
                 confirmLabel: "Forget",
                 danger: true,
@@ -409,7 +409,7 @@ export function CategoriesSection({ doc }: { doc: ConceptsDoc }) {
               if (ok) editConcepts("forget", (d) => forgetPlays(d, orphans));
             }}
           >
-            Clean up
+            Clean Up
           </Button>
         </div>
       )}
@@ -435,7 +435,7 @@ function RenameInput({ cat, onDone }: { cat: ConceptCategory; onDone(): void }) 
     if (done.current) return;
     done.current = true;
     if (!error && value.trim() !== cat.name) editConcepts("rename", (d) => void renameCategory(d, cat.id, value));
-    else if (error && value.trim() !== cat.name) toast.warning("Not renamed", { detail: error });
+    else if (error && value.trim() !== cat.name) toast.warning("Not Renamed", { detail: error });
     onDone();
   };
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

@@ -41,11 +41,11 @@ export function EntryScreen() {
         ) : (
           <EmptyState
             icon="field"
-            title="The set editor needs the play library"
+            title="The Set Editor Needs the Play Library"
             body="Custom sets start from a game set (data/library/sets.json)."
             action={
               <Button variant="primary" onClick={() => void useLibrary.getState().load()}>
-                Load library
+                Load Library
               </Button>
             }
           />
@@ -121,13 +121,13 @@ function Entry({ lib }: { lib: LibraryIndex }) {
   const newFile = async () => {
     const taken = new Set(docs.map((d) => d.path));
     const name = await promptDialog({
-      title: "New sets file",
+      title: "New Sets File",
       body: (
         <>
           Custom sets are saved in <code className={s.pathCode}>playbooks/sets/&lt;name&gt;.json</code>.
         </>
       ),
-      label: "File name",
+      label: "File Name",
       initial: "custom-sets",
       mono: true,
       confirmLabel: "Create",
@@ -146,7 +146,7 @@ function Entry({ lib }: { lib: LibraryIndex }) {
       activate(path);
       toast.success(`Created ${fileName(path)}`, { detail: "Unsaved until you save it (⌘/Ctrl+S)." });
     } catch (e) {
-      toast.error("Couldn't create the file", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Couldn't Create the File", { detail: e instanceof Error ? e.message : String(e) });
     }
   };
 
@@ -181,7 +181,7 @@ function Entry({ lib }: { lib: LibraryIndex }) {
       body: doc.isNew
         ? "The file was never saved; it is just dropped."
         : `Moves the file${count ? ` and its ${count} set${count === 1 ? "" : "s"}` : ""} to app-data/.trash.`,
-      confirmLabel: "Delete file",
+      confirmLabel: "Delete File",
       danger: true,
     });
     if (!ok) return;
@@ -190,7 +190,7 @@ function Entry({ lib }: { lib: LibraryIndex }) {
       if (filter === doc.path) setFilter(ALL);
       toast.success(`Deleted ${fileName(doc.path)}`);
     } catch (e) {
-      toast.error("Delete failed", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Delete Failed", { detail: e instanceof Error ? e.message : String(e) });
     }
   };
 
@@ -198,7 +198,7 @@ function Entry({ lib }: { lib: LibraryIndex }) {
     { id: "open", label: "Open", icon: "external", onSelect: () => openSet(it.file, it.index) },
     { id: "dup", label: "Duplicate", icon: "duplicate", disabled: !it.base, onSelect: () => duplicate(it) },
     { kind: "separator" },
-    { id: "del", label: "Delete set", icon: "trash", danger: true, onSelect: () => void remove(it) },
+    { id: "del", label: "Delete Set", icon: "trash", danger: true, onSelect: () => void remove(it) },
   ];
 
   const totalSets = docs.reduce((n, d) => n + (d.error ? 0 : (d.data?.sets?.length ?? 0)), 0);
@@ -207,15 +207,15 @@ function Entry({ lib }: { lib: LibraryIndex }) {
     <div className={s.page}>
       <header className={s.header}>
         <div>
-          <div className={s.eyebrow}>Custom formations · playbooks/sets</div>
-          <h1 className={s.title}>Formations & sets</h1>
+          <div className={s.eyebrow}>Custom Formations · playbooks/sets</div>
+          <h1 className={s.title}>Formations & Sets</h1>
         </div>
         <span className={s.grow} />
         <Button variant="secondary" icon="file" onClick={() => void newFile()}>
-          New sets file
+          New Sets File
         </Button>
         <Button variant="primary" icon="plus" onClick={() => setWizard(true)}>
-          New set
+          New Set
         </Button>
       </header>
       <p className={s.intro}>
@@ -227,7 +227,7 @@ function Entry({ lib }: { lib: LibraryIndex }) {
       <div className={s.body}>
         <aside className={s.sidebar}>
           <div className={s.sideHead}>Files</div>
-          <FileRow label="All sets" count={totalSets} active={shownFilter === ALL} onClick={() => setFilter(ALL)} />
+          <FileRow label="All Sets" count={totalSets} active={shownFilter === ALL} onClick={() => setFilter(ALL)} />
           {docs.map((d) => {
             const c = countIssues(fileDisplayIssues.get(d.path) ?? []);
             return (
@@ -245,20 +245,20 @@ function Entry({ lib }: { lib: LibraryIndex }) {
               />
             );
           })}
-          {docs.length === 0 && <div className={s.sideEmpty}>No files in playbooks/sets/ yet — “New set” creates one for you.</div>}
+          {docs.length === 0 && <div className={s.sideEmpty}>No files in playbooks/sets/ yet — “New Set” creates one for you.</div>}
         </aside>
 
         <main className={s.main}>
           {(() => {
             const doc = shownFilter !== ALL ? docs.find((d) => d.path === shownFilter) : undefined;
             if (doc?.error) {
-              return <EmptyState icon="warning" title={`Can't open ${fileName(doc.path)}`} body={doc.error} />;
+              return <EmptyState icon="warning" title={`Can't Open ${fileName(doc.path)}`} body={doc.error} />;
             }
             if (!items.length) {
               return (
                 <EmptyState
                   icon="field"
-                  title={docs.length ? "No custom sets in this file yet" : "No custom sets yet"}
+                  title={docs.length ? "No Custom Sets in This File Yet" : "No Custom Sets Yet"}
                   body={
                     <ol className={s.steps}>
                       <li>Pick a game set to start from (for example Gun Y Trips Wk).</li>
@@ -268,7 +268,7 @@ function Entry({ lib }: { lib: LibraryIndex }) {
                   }
                   action={
                     <Button variant="primary" icon="plus" onClick={() => setWizard(true)}>
-                      New set
+                      New Set
                     </Button>
                   }
                 />
@@ -319,13 +319,31 @@ function SetItemCard({ item, lib, selected, showFile, onOpen, onMenu }: { item: 
   const c = countIssues(issues);
   const plays = Array.isArray(spec.plays) ? spec.plays.length : 0;
   const moved = useMemo(() => (base ? changedSlots(base, spec).length : 0), [base, spec]);
+  const sub = base ? customSubtitle(lib, spec, item.formations) : undefined;
   return (
     <div data-set-key={item.key} className={s.cardWrap}>
       <SetCard
         fill
         art={art}
         name={spec.name || "(unnamed)"}
-        subtitle={(base ? customSubtitle(lib, spec, item.formations) : "STARTING SET MISSING") + (showFile ? ` · ${fileName(item.file)}` : "")}
+        subtitle={
+          <>
+            {sub ? (
+              <>
+                <span className="caps">{sub.formation}</span>
+                {sub.from && (
+                  <>
+                    {" · from "}
+                    <span className="caps">{sub.from}</span>
+                  </>
+                )}
+              </>
+            ) : (
+              "Starting set missing"
+            )}
+            {showFile ? ` · ${fileName(item.file)}` : ""}
+          </>
+        }
         selected={selected}
         tag={<>Custom</>}
         stat={[`${moved} moved`, `${plays} play${plays === 1 ? "" : "s"}`].join(" · ")}
@@ -333,7 +351,7 @@ function SetItemCard({ item, lib, selected, showFile, onOpen, onMenu }: { item: 
           <>
             {c.errors > 0 && (
               <Tag tone="danger" size="sm" title={issues.filter((i) => i.level === "error").map((i) => i.message).join("\n")}>
-                {c.errors} error{c.errors === 1 ? "" : "s"}
+                {c.errors} Error{c.errors === 1 ? "" : "s"}
               </Tag>
             )}
             {c.warnings > 0 && (

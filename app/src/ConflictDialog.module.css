@@ -37,8 +37,6 @@
 .choices dt {
   font-family: var(--font-display);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
   color: var(--text);
 }
 .choices dd {

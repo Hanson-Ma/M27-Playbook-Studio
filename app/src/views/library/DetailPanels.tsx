@@ -67,7 +67,7 @@ export function OverviewPanel({ play, catalog }: { play: ResolvedPlay; catalog: 
           <span className={s.typeDot} style={{ "--c": info.color } as CSSProperties} />
           {info.long}
         </div>
-        <button type="button" className={s.linkBtn} onClick={browseSet} title="Show every play in this set">
+        <button type="button" className={cx(s.linkBtn, "caps")} onClick={browseSet} title="Show every play in this set">
           {formation?.name ?? displayFromLeaf(leaf(play.formation))} › {set?.name ?? displayFromLeaf(leaf(play.set))}
           <Icon name="chevronRight" size={13} />
         </button>
@@ -76,7 +76,7 @@ export function OverviewPanel({ play, catalog }: { play: ResolvedPlay; catalog: 
       <section className={cx(s.avail, custom ? s.availCustom : play.global ? s.availOk : s.availMod)}>
         <div className={s.availTitle}>
           <Icon name={play.global ? "check" : "warning"} size={15} />
-          {custom ? "Custom play · needs the mod" : play.global ? "Global · works without the mod" : "Needs mod"}
+          {custom ? "Custom Play · Needs the Mod" : play.global ? "Global · Works Without the Mod" : "Needs Mod"}
         </div>
         <p className={s.availBody}>
           {custom
@@ -89,26 +89,26 @@ export function OverviewPanel({ play, catalog }: { play: ResolvedPlay; catalog: 
 
       <dl className={s.kv}>
         {play.side !== "defense" && (
-          <KV k="Primary receiver">
+          <KV k="Primary Receiver">
             <span className={s.vipValue}>
               <span className={s.vipDot} />
               {vipSlot ? `${positionName(vipSlot.pos)} (slot ${play.vip})` : `Slot ${play.vip}`} · red route
             </span>
             {design.enabled && (
               <button type="button" className={s.linkBtn} onClick={design.run} title="The primary receiver is set per play in the designer (Play → Primary receiver)">
-                {custom ? "Change in designer" : "Change it on a copy"} <Icon name="chevronRight" size={13} />
+                {custom ? "Change in Designer" : "Change It on a Copy"} <Icon name="chevronRight" size={13} />
               </button>
             )}
           </KV>
         )}
-        {(info.family === "run" || info.family === "option" || play.runHole > 0) && <KV k="Run hole">{runHoleLabel(play.runHole)}</KV>}
-        <KV k="Can flip">{yesNo(play.canFlip)}</KV>
-        <KV k="Hot routes">{yesNo(play.allowHotRoutes)}</KV>
+        {(info.family === "run" || info.family === "option" || play.runHole > 0) && <KV k="Run Hole">{runHoleLabel(play.runHole)}</KV>}
+        <KV k="Can Flip">{yesNo(play.canFlip)}</KV>
+        <KV k="Hot Routes">{yesNo(play.allowHotRoutes)}</KV>
         <KV k="Source">{custom ? (isSetClone(play) ? "Cloned into a custom set" : "Custom play") : "Stock library"}</KV>
         {custom && (
-          <KV k={isSetClone(play) ? "Cloned from" : "Base play"}>
+          <KV k={isSetClone(play) ? "Cloned From" : "Base Play"}>
             {base ? (
-              <button type="button" className={s.linkBtn} onClick={() => navigate(playHref(base.key))}>
+              <button type="button" className={cx(s.linkBtn, "caps")} onClick={() => navigate(playHref(base.key))}>
                 {base.name} <Icon name="chevronRight" size={13} />
               </button>
             ) : (
@@ -127,23 +127,23 @@ export function OverviewPanel({ play, catalog }: { play: ResolvedPlay; catalog: 
               <span className={s.assetText} title={play.asset}>
                 {play.asset.replace("football/Gameplay/playbooks/PlayLibrary/", "…/")}
               </span>
-              <IconButton icon="copy" title="Copy asset path" size="sm" onClick={() => void copyText(play.asset, "Asset path copied")} />
+              <IconButton icon="copy" title="Copy asset path" size="sm" onClick={() => void copyText(play.asset, "Asset Path Copied")} />
             </span>
           </KV>
-          <KV k="Play type" mono>
+          <KV k="Play Type" mono>
             {play.playType.replace(/^(Offense|Defense)PlayType_/, "")}
           </KV>
           <KV k="Blocking" mono>
             {play.blocking ? leaf(play.blocking) : "—"}
           </KV>
-          <KV k="Run hole">{runHoleLabel(play.runHole)}</KV>
+          <KV k="Run Hole">{runHoleLabel(play.runHole)}</KV>
           {custom && (
             <KV k="File" mono>
               {play.clone ? `${play.clone.file} · set #${play.clone.setIndex + 1} · clone #${play.clone.index + 1}` : `${play.file} #${(play.index ?? 0) + 1}`}
             </KV>
           )}
           {custom && play.base && (
-            <KV k="Base asset" mono>
+            <KV k="Base Asset" mono>
               {play.base}
             </KV>
           )}
@@ -154,7 +154,7 @@ export function OverviewPanel({ play, catalog }: { play: ResolvedPlay; catalog: 
         <div className={s.blockHead}>
           <span>Concepts</span>
           <button type="button" className={s.linkBtn} onClick={() => navigate(`#/concepts?play=${encodeURIComponent(play.key)}&from=library`)}>
-            Edit tags <Icon name="chevronRight" size={13} />
+            Edit Tags <Icon name="chevronRight" size={13} />
           </button>
         </div>
         <div className={s.chips}>
@@ -295,7 +295,7 @@ function StepsView({ steps }: { steps: ResolvedPlay["slots"][number]["steps"] })
         {!real.length && <li className={s.dimText}>No steps</li>}
       </ol>
       <details className={s.raw}>
-        <summary>Raw steps JSON</summary>
+        <summary>Raw Steps JSON</summary>
         <pre>{JSON.stringify(steps, null, 2)}</pre>
       </details>
     </div>

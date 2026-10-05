@@ -18,7 +18,7 @@
 //   a play cloned into it <set folder>/<asset>. A set references a custom formation by that FULL path. Ids are the
 //   builder's FNV-1a ids (gameId), so they match research/index/custom-*.tsv.
 import type { LibraryIndex } from "./library";
-import { folder, leaf, norm, sanitizeAssetLeaf, uniqueName } from "./names";
+import { folder, leaf, maddenName, norm, sanitizeAssetLeaf, uniqueName } from "./names";
 import { glyphFor, isEligible, positionCode, positionName, slotLabel } from "./positions";
 import { isMechanics } from "./steps";
 import {
@@ -1022,7 +1022,7 @@ export function cloneWarnings(lib: LibraryIndex, play: PlayDef, normal: Alignmen
     const s = srcNormal[slot];
     if (!s) return;
     if (role(s.pos) !== role(a.pos)) {
-      out.push({ slot, label: playerLabel(a), kind: "personnel", reason: `slot ${slot} is a ${positionName(s.pos).toLowerCase()} in ${src.name} but a ${positionName(a.pos).toLowerCase()} here — the assignment goes to whoever is in that slot` });
+      out.push({ slot, label: playerLabel(a), kind: "personnel", reason: `slot ${slot} is a ${positionName(s.pos).toLowerCase()} in ${maddenName(src.name)} but a ${positionName(a.pos).toLowerCase()} here — the assignment goes to whoever is in that slot` });
     }
     const moved = Math.abs(s.x - a.x) > 0.01 || Math.abs(s.y - a.y) > 0.01;
     if (!moved) return;
@@ -1083,7 +1083,7 @@ export function alignmentIssues(normal: AlignmentPos[], base: SetDef, ctx: Align
     const baseLine = baseNormal.filter(onLine).length;
     let msg = `${line.length} players on the line of scrimmage — the game-side builder needs exactly ${LINE_COUNT} (a player is on the line when y > −1.5)`;
     if (line.length < LINE_COUNT && near.length) msg += `; ${near.map((a) => `${playerLabel(a)} (y ${fmt(a.y)})`).join(", ")} count as off the line for the builder — move them up (y −1.4 or closer to the line) or pick another base set`;
-    if (baseLine === line.length && baseNormal.length === normal.length) msg += ` (the base set ${base.name} lines up this way too)`;
+    if (baseLine === line.length && baseNormal.length === normal.length) msg += ` (the base set ${maddenName(base.name)} lines up this way too)`;
     push("error", "set-line-count", msg);
   }
 
@@ -1129,7 +1129,7 @@ export function alignmentIssues(normal: AlignmentPos[], base: SetDef, ctx: Align
     if (!ctx.soft) {
       const flipped = flippedAlignment(normal);
       for (const [i, j] of overlaps(flipped)) {
-        push("warning", "set-flip-overlap", `when the play is flipped, ${label(normal[i], i)} and ${label(normal[j], j)} land on the same spot — check their flip partners`);
+        push("warning", "set-flip-overlap", `When the play is flipped, ${label(normal[i], i)} and ${label(normal[j], j)} land on the same spot — check their flip partners`);
       }
       normal.forEach((a, i) => {
         const p = flipPartner(normal, i);
@@ -1293,7 +1293,7 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
   formations.forEach((cf, i) => {
     const where = `/formations/${i}`;
     if (!isObj(cf)) return push("error", "formation-entry", "Formation entry must be an object", where);
-    const label = cf.name || cf.asset || `#${i + 1}`;
+    const label = cf.name ? maddenName(cf.name) : cf.asset || `#${i + 1}`;
     if (typeof cf.name !== "string" || !cf.name.trim()) push("error", "formation-name", `Formation ${label}: name is required`, where);
     if (!isValidAsset(cf.asset)) push("error", "formation-asset", `Formation ${label}: asset must be [A-Za-z0-9_]`, where);
     else {
@@ -1304,16 +1304,16 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
     }
     const bf = typeof cf.base === "string" ? stock.formationByAsset.get(cf.base) : undefined;
     if (!bf) push("error", "formation-base", `Formation ${label}: base ${typeof cf.base === "string" && cf.base ? leaf(cf.base) : "(missing)"} isn't a library formation`, where);
-    else if (bf.type !== "FormationType_Offense") push("warning", "formation-base-side", `Formation ${label}: base ${bf.name} isn't an offense formation (custom formations are built under Formations/Offense)`, where);
+    else if (bf.type !== "FormationType_Offense") push("warning", "formation-base-side", `Formation ${label}: base ${maddenName(bf.name)} isn't an offense formation (custom formations are built under Formations/Offense)`, where);
     if (typeof cf.name === "string" && cf.name.trim()) {
       const type = customFormationSide(cf);
       const isDef = (t: string) => t === "FormationType_Defense" || t === "FormationType_KickReturn" || t === "FormationType_Safety_KickReturn";
       const clash = stock.data.formations.find((f) => norm(f.name) === norm(cf.name) && isDef(f.type) === isDef(type));
-      if (clash) push("error", "formation-name-taken", `Formation ${label}: the library formation ${leaf(clash.asset)} is also called "${cf.name}" — playbooks would get the library one; rename it`, where);
+      if (clash) push("error", "formation-name-taken", `Formation ${label}: the library formation ${leaf(clash.asset)} is also called "${maddenName(cf.name)}" — playbooks would get the library one; rename it`, where);
       else {
         const earlier: Owner<CustomFormationSpec>[] = [];
         for (const [, list] of cross.formations) for (const o of list) if (o.spec !== cf && isObj(o.spec) && typeof o.spec.name === "string" && norm(o.spec.name) === norm(cf.name) && before(o, me(i))) earlier.push(o);
-        if (earlier.length) push("error", "formation-name-duplicate", `Formation ${label}: custom formation ${where1(earlier[0])} is also called "${cf.name}" — playbooks get that one; rename this one`, where);
+        if (earlier.length) push("error", "formation-name-duplicate", `Formation ${label}: custom formation ${where1(earlier[0])} is also called "${maddenName(cf.name)}" — playbooks get that one; rename this one`, where);
       }
     }
     if (isValidAsset(cf.asset) && !cross.usedFormations.has(customFormationAsset(cf.asset).toLowerCase())) push("info", "formation-unused", `Formation ${label} isn't used by any custom set`, where);
@@ -1325,49 +1325,49 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
   data.sets.forEach((spec, i) => {
     const where = `/sets/${i}`;
     if (!isObj(spec)) return push("error", "set-entry", "Set entry must be an object", where);
-    const label = spec.name || spec.asset || `#${i + 1}`;
+    const label = spec.name ? maddenName(spec.name) : spec.asset || `#${i + 1}`;
     const p = (level: ValidationIssue["level"], rule: string, msg: string, w = where) => push(level, rule, `${label}: ${msg}`, w);
 
-    if (typeof spec.name !== "string" || !spec.name.trim()) p("error", "set-name", "name is required");
-    if (!isValidAsset(spec.asset)) p("error", "set-asset", `asset "${typeof spec.asset === "string" ? spec.asset : ""}" must be [A-Za-z0-9_]`);
+    if (typeof spec.name !== "string" || !spec.name.trim()) p("error", "set-name", "Name is required");
+    if (!isValidAsset(spec.asset)) p("error", "set-asset", `Asset "${typeof spec.asset === "string" ? spec.asset : ""}" must be [A-Za-z0-9_]`);
 
     const base = typeof spec.base === "string" ? stock.setByAsset.get(spec.base) : undefined;
     if (!base) {
-      p("error", "set-base", `base set ${typeof spec.base === "string" && spec.base ? leaf(spec.base) : "(missing)"} isn't in the library`);
+      p("error", "set-base", `Base set ${typeof spec.base === "string" && spec.base ? leaf(spec.base) : "(missing)"} isn't in the library`);
       return;
     }
     const baseForm = stock.formationByAsset.get(base.formation);
-    if (baseForm && stock.formationSide(baseForm) !== "offense") p("warning", "set-base-side", `base set ${base.name} isn't an offense set`);
+    if (baseForm && stock.formationSide(baseForm) !== "offense") p("warning", "set-base-side", `Base set ${maddenName(base.name)} isn't an offense set`);
 
     // Formation: a library formation, or a custom formation (any sets file) by its full asset path.
     let formAsset: Asset | undefined;
     const ref = typeof spec.formation === "string" ? spec.formation : "";
-    if (!ref) p("error", "set-formation", "formation is required");
+    if (!ref) p("error", "set-formation", "Formation is required");
     else if (low.formations.has(ref.toLowerCase())) {
       formAsset = low.formations.get(ref.toLowerCase())!.asset;
-      if (formAsset !== base.formation) p("warning", "set-formation-mismatch", `formation ${leaf(formAsset)} differs from the base set's (${leaf(base.formation)})`);
+      if (formAsset !== base.formation) p("warning", "set-formation-mismatch", `Formation ${leaf(formAsset)} differs from the base set's (${leaf(base.formation)})`);
     } else if (cross.formations.has(ref.toLowerCase())) {
       const cf = cross.formations.get(ref.toLowerCase())![0].spec;
       formAsset = customFormationAsset(cf.asset);
-      if (typeof cf.base === "string" && cf.base !== base.formation) p("warning", "set-formation-mismatch", `custom formation ${cf.name} is based on ${leaf(cf.base)}, the base set is from ${leaf(base.formation)}`);
+      if (typeof cf.base === "string" && cf.base !== base.formation) p("warning", "set-formation-mismatch", `Custom formation ${maddenName(cf.name)} is based on ${leaf(cf.base)}, the base set is from ${leaf(base.formation)}`);
     } else if (!ref.includes("/") && cross.formationLeaves.has(ref.toLowerCase())) {
-      p("error", "set-formation-path", `formation must be the full asset path ${customFormationAsset(cross.formationLeaves.get(ref.toLowerCase())![0].spec.asset)} — the game-side builder looks formations up by path`);
-    } else p("error", "set-formation", `formation ${ref} isn't a library formation or a custom formation in playbooks/sets/`);
+      p("error", "set-formation-path", `Formation must be the full asset path ${customFormationAsset(cross.formationLeaves.get(ref.toLowerCase())![0].spec.asset)} — the game-side builder looks formations up by path`);
+    } else p("error", "set-formation", `Formation ${ref} isn't a library formation or a custom formation in playbooks/sets/`);
 
     // Asset and name inside the formation folder.
     if (formAsset && isValidAsset(spec.asset)) {
       const full = `${folder(formAsset)}${spec.asset}/${spec.asset}`;
-      if (low.sets.has(full.toLowerCase())) p("error", "set-asset-duplicate", `asset ${spec.asset} collides with the library set ${leaf(full)} in this formation`);
+      if (low.sets.has(full.toLowerCase())) p("error", "set-asset-duplicate", `Asset ${spec.asset} collides with the library set ${leaf(full)} in this formation`);
       const dup = others(cross.sets.get(full.toLowerCase()), spec);
-      if (dup.length) p("error", "set-asset-duplicate", `asset ${spec.asset} is also used by custom set ${dup.map(where1).join(", ")} in this formation`);
+      if (dup.length) p("error", "set-asset-duplicate", `Asset ${spec.asset} is also used by custom set ${dup.map(where1).join(", ")} in this formation`);
     }
     if (formAsset && typeof spec.name === "string" && spec.name.trim()) {
       const dir = folder(formAsset);
       const stockClash = stock.data.sets.find((s) => s.asset.startsWith(dir) && norm(s.name) === norm(spec.name));
-      if (stockClash) p("error", "set-name-duplicate", `the library set ${leaf(stockClash.asset)} in this formation is also called "${spec.name}" — playbooks would get the library set; rename it`);
+      if (stockClash) p("error", "set-name-duplicate", `The library set ${leaf(stockClash.asset)} in this formation is also called "${maddenName(spec.name)}" — playbooks would get the library set; rename it`);
       else {
         const earlier = others(cross.setsInFolder.get(`${dir.toLowerCase()}|${norm(spec.name)}`), spec).filter((o) => before(o, me(i)));
-        if (earlier.length) p("error", "set-name-duplicate", `custom set ${where1(earlier[0])} in this formation is also called "${spec.name}" — playbooks get that one; rename this one`);
+        if (earlier.length) p("error", "set-name-duplicate", `Custom set ${where1(earlier[0])} in this formation is also called "${maddenName(spec.name)}" — playbooks get that one; rename this one`);
       }
     }
 
@@ -1375,20 +1375,20 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
     const n = normalOf(base).length;
     const range = `0–${n - 1}`;
     if (spec.positions !== undefined) {
-      if (!Array.isArray(spec.positions)) p("error", "set-positions", "positions must be an array", `${where}/positions`);
+      if (!Array.isArray(spec.positions)) p("error", "set-positions", "Positions must be an array", `${where}/positions`);
       else {
         const seen = new Set<number>();
         spec.positions.forEach((e, k) => {
           const ew = `${where}/positions/${k}`;
-          if (!isObj(e) || !isSlot(e.slot, n)) return p("error", "set-positions", `positions entry ${k + 1}: slot must be ${range}`, ew);
-          if (seen.has(e.slot)) p("warning", "set-positions-duplicate", `positions: slot ${e.slot} is listed twice — the later entry wins`, ew);
+          if (!isObj(e) || !isSlot(e.slot, n)) return p("error", "set-positions", `Positions entry ${k + 1}: slot must be ${range}`, ew);
+          if (seen.has(e.slot)) p("warning", "set-positions-duplicate", `Positions: slot ${e.slot} is listed twice — the later entry wins`, ew);
           seen.add(e.slot);
-          for (const f of ["x", "y", "facing"] as const) if (e[f] !== undefined && !isNum(e[f])) p("error", "set-positions", `positions slot ${e.slot}: ${f} must be a number`, ew);
-          if (e.stance !== undefined && (typeof e.stance !== "string" || (stances.size && !stances.has(e.stance)))) p("error", "set-stance", `positions slot ${e.slot}: unknown stance ${String(e.stance)}`, ew);
-          if (isNum(e.facing) && !Number.isInteger(e.facing)) p("warning", "set-facing", `positions slot ${e.slot}: facing is stored in whole degrees (${e.facing} → ${Math.round(e.facing)})`, ew);
-          if (isNum(e.facing) && (e.facing < 0 || e.facing >= 360)) p("warning", "set-facing", `positions slot ${e.slot}: facing should be 0–359°`, ew);
-          if (e.flipAssign !== undefined && !isSlot(e.flipAssign, n)) p("error", "set-flip-assign", `positions slot ${e.slot}: flipAssign must be a slot (${range})`, ew);
-          if (e.motionMan !== undefined && typeof e.motionMan !== "boolean") p("error", "set-motion-man", `positions slot ${e.slot}: motionMan must be true or false`, ew);
+          for (const f of ["x", "y", "facing"] as const) if (e[f] !== undefined && !isNum(e[f])) p("error", "set-positions", `Positions slot ${e.slot}: ${f} must be a number`, ew);
+          if (e.stance !== undefined && (typeof e.stance !== "string" || (stances.size && !stances.has(e.stance)))) p("error", "set-stance", `Positions slot ${e.slot}: unknown stance ${String(e.stance)}`, ew);
+          if (isNum(e.facing) && !Number.isInteger(e.facing)) p("warning", "set-facing", `Positions slot ${e.slot}: facing is stored in whole degrees (${e.facing} → ${Math.round(e.facing)})`, ew);
+          if (isNum(e.facing) && (e.facing < 0 || e.facing >= 360)) p("warning", "set-facing", `Positions slot ${e.slot}: facing should be 0–359°`, ew);
+          if (e.flipAssign !== undefined && !isSlot(e.flipAssign, n)) p("error", "set-flip-assign", `Positions slot ${e.slot}: flipAssign must be a slot (${range})`, ew);
+          if (e.motionMan !== undefined && typeof e.motionMan !== "boolean") p("error", "set-motion-man", `Positions slot ${e.slot}: motionMan must be true or false`, ew);
         });
       }
     }
@@ -1399,17 +1399,17 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
     // Motion presets: only the base set's presets, only the slots each one moves, x and y both.
     const mw = `${where}/movements`;
     if (spec.movements !== undefined && !isObj(spec.movements)) {
-      p("error", "set-movements", "movements must be an object of preset → entries", mw);
+      p("error", "set-movements", "Movements must be an object of preset → entries", mw);
     } else if (isObj(spec.movements)) {
       const keys = basePresetKeys(base);
       for (const key of Object.keys(spec.movements)) {
         const w = `${mw}/${key}`;
         if (key === NORMAL) {
-          p("error", "set-movements", "use positions (not movements.Normal) for the base alignment", w);
+          p("error", "set-movements", "Use positions (not movements.Normal) for the base alignment", w);
           continue;
         }
         if (!isBasePreset(base, key)) {
-          p("error", "set-preset-missing", `base set ${base.name} has no motion preset ${key} — presets can't be added${keys.length ? ` (it has ${keys.map(presetLabel).join(", ")})` : ""}`, w);
+          p("error", "set-preset-missing", `Base set ${maddenName(base.name)} has no motion preset ${key} — presets can't be added${keys.length ? ` (it has ${keys.map(presetLabel).join(", ")})` : ""}`, w);
           continue;
         }
         const list = spec.movements[key];
@@ -1440,7 +1440,7 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
     }
 
     // Plays cloned into the set (from any set), with optional §3 overrides.
-    if (spec.plays !== undefined && !Array.isArray(spec.plays)) p("error", "set-plays", "plays must be an array", `${where}/plays`);
+    if (spec.plays !== undefined && !Array.isArray(spec.plays)) p("error", "set-plays", "Plays must be an array", `${where}/plays`);
     else if (Array.isArray(spec.plays)) {
       const names = new Map<string, number>();
       const assets = new Map<string, number>();
@@ -1451,21 +1451,21 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
       const layout = (s: SetDef) => normalOf(s).map((a) => positionCode(a.pos)).join(",");
       spec.plays.forEach((c, k) => {
         const w = `${where}/plays/${k}`;
-        if (!isObj(c)) return p("error", "set-plays", `play ${k + 1} must be an object`, w);
+        if (!isObj(c)) return p("error", "set-plays", `Play ${k + 1} must be an object`, w);
         const from = typeof c.from === "string" ? c.from : "";
-        const pl = (typeof c.name === "string" && c.name) || (from ? leaf(from) : `#${k + 1}`);
-        const cp = (level: ValidationIssue["level"], rule: string, msg: string) => p(level, rule, `play ${pl}: ${msg}`, w);
+        const pl = typeof c.name === "string" && c.name ? maddenName(c.name) : from ? leaf(from) : `#${k + 1}`;
+        const cp = (level: ValidationIssue["level"], rule: string, msg: string) => p(level, rule, `Play ${pl}: ${msg}`, w);
         const play = from ? stock.playByAsset.get(from) : undefined;
         if (!from) cp("error", "set-play-from", `"from" (the play to clone) is required`);
         else if (!play && !cross.clones.has(from.toLowerCase())) cp("error", "set-play-from", `${leaf(from)} isn't a library play or a play cloned into a custom set`);
         if (play && play.set !== base.asset) {
           const fromSet = stock.setByAsset.get(play.set);
-          if (fromSet && layout(fromSet) !== layout(base)) cp("warning", "set-play-layout", `comes from ${fromSet.name}, whose players line up in a different slot order — its assignments go to this set's players by slot`);
+          if (fromSet && layout(fromSet) !== layout(base)) cp("warning", "set-play-layout", `comes from ${maddenName(fromSet.name)}, whose players line up in a different slot order — its assignments go to this set's players by slot`);
         }
-        if (typeof c.name !== "string" || !c.name.trim()) p("error", "set-play-name", `play ${k + 1}: name is required`, w);
-        else if ((names.get(norm(c.name)) ?? 0) > 1) p("error", "set-play-name", `play name "${c.name}" is used twice in this set`, w);
+        if (typeof c.name !== "string" || !c.name.trim()) p("error", "set-play-name", `Play ${k + 1}: name is required`, w);
+        else if ((names.get(norm(c.name)) ?? 0) > 1) p("error", "set-play-name", `Play name "${maddenName(c.name)}" is used twice in this set`, w);
         if (!isValidAsset(c.asset)) cp("error", "set-play-asset", `asset must be [A-Za-z0-9_]`);
-        else if ((assets.get(c.asset.toLowerCase()) ?? 0) > 1) p("error", "set-play-asset", `play asset ${c.asset} is used twice in this set`, w);
+        else if ((assets.get(c.asset.toLowerCase()) ?? 0) > 1) p("error", "set-play-asset", `Play asset ${c.asset} is used twice in this set`, w);
         cloneOverrideIssues(c, n, stock, cp);
         if (play) {
           // Same rule as the Formations editor: measured against the play's OWN set; receivers' blocks follow them

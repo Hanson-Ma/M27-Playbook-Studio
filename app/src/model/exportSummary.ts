@@ -7,7 +7,7 @@
 // tools/export.ps1 runs with $ErrorActionPreference = "Stop": the first playbook pbook-build fails on stops the whole
 // export, so nothing is built. `willFail` / `failures` mirror every throw in pbook-build.mjs.
 import type { Catalog } from "./catalog";
-import { leaf, playSubtitle } from "./names";
+import { leaf, maddenName, playSubtitle } from "./names";
 import { BOOK_LIMITS, bookSide, resolvePlaybook, templateMissingMessage, type ResolveOptions, type SaveRows } from "./resolveBook";
 import { cloneAsset, customFormationAsset, customSetAsset } from "./sets";
 import { isSituationKey } from "./situations";
@@ -302,32 +302,32 @@ export function exportSummary(catalog: Catalog, docs: SummaryInput, opts: Resolv
       if (rf.template) base.templateSections.push(fname);
       if (rf.malformed) fail(`Entry ${rf.index + 1}: ${rf.malformed}`);
       // pbook-build only looks at formations of the playbook's side: `unknown formation "X"`.
-      else if (!rf.formation) fail(rf.wrongSide ? `Unknown formation "${fname}" (${rf.problem})` : `Unknown formation "${fname}"`);
+      else if (!rf.formation) fail(rf.wrongSide ? `Unknown formation "${maddenName(fname)}" (${rf.problem})` : `Unknown formation "${maddenName(fname)}"`);
       if (rf.formation) use(rf.formation.asset, base.saveName);
       if (rf.templateMissing && rf.formation) fail(templateMissingMessage(fname, rf.formation.formId));
       for (const rs of rf.sets) {
         // pbook-build stops at the first throw: an unresolved formation hides its sets' problems (and a set its plays').
-        if (rs.malformed) fail(`${fname}: ${rs.malformed}`);
-        else if (!rs.set && rf.formation) fail(`Unknown set "${String(rs.entry.set ?? "")}" in ${fname}`);
+        if (rs.malformed) fail(`${maddenName(fname)}: ${rs.malformed}`);
+        else if (!rs.set && rf.formation) fail(`Unknown set "${maddenName(String(rs.entry.set ?? ""))}" in ${maddenName(fname)}`);
         if (rs.set) use(rs.set.asset, base.saveName);
         const used = new Set<unknown>();
         for (const rp of rs.plays) {
           const e = rp.entry;
-          if (rp.malformed) fail(`${fname} › ${String(rs.entry.set ?? "")}: ${rp.malformed}`);
+          if (rp.malformed) fail(`${maddenName(fname)} › ${maddenName(String(rs.entry.set ?? ""))}: ${rp.malformed}`);
           // pbook-build: `audible slot must be 1-4` / `audible slot N used twice` (per set entry), unknown situation keys.
           const audible: unknown = e.audible ?? 0;
           if (audible) {
-            if (!AUDIBLE_KEYS.has(String(audible))) fail(`"${String(e.play ?? "")}": audible slot must be 1–4`);
+            if (!AUDIBLE_KEYS.has(String(audible))) fail(`"${maddenName(String(e.play ?? ""))}": audible slot must be 1–4`);
             else {
               base.audibles++;
-              if (used.has(audible)) fail(`${String(rs.entry.set ?? "")}: audible slot ${String(audible)} used twice`);
+              if (used.has(audible)) fail(`${maddenName(String(rs.entry.set ?? ""))}: audible slot ${String(audible)} used twice`);
             }
           }
           used.add(audible);
           if (e.cpu && !Object.keys(Object(e.cpu)).every((k) => isSituationKey(k)))
-            fail(`"${String(e.play ?? "")}": unknown CPU situation in cpu`);
+            fail(`"${maddenName(String(e.play ?? ""))}": unknown CPU situation in cpu`);
           if (!rp.play) {
-            if (!rp.malformed && rs.set) fail(`Unresolved play "${String(e.play ?? "")}" in ${String(rs.entry.set ?? "")}`);
+            if (!rp.malformed && rs.set) fail(`Unresolved play "${maddenName(String(e.play ?? ""))}" in ${maddenName(String(rs.entry.set ?? ""))}`);
             unresolved.push({
               file: doc.path,
               saveName: base.saveName,

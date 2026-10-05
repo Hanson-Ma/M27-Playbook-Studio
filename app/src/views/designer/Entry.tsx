@@ -39,8 +39,8 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
 
   const newFile = async () => {
     const name = await promptDialog({
-      title: "New plays file",
-      label: "File name (playbooks/plays/<name>.json)",
+      title: "New Plays File",
+      label: "File Name (playbooks/plays/<name>.json)",
       initial: "my-plays",
       mono: true,
       validate: (v) => {
@@ -55,9 +55,9 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
     try {
       useWorkspace.getState().create<PlaysFile>(path, "plays", { plays: [] });
       pickFile(path);
-      toast.success("Plays file created", { detail: `${path} — save it once it has plays.` });
+      toast.success("Plays File Created", { detail: `${path} — save it once it has plays.` });
     } catch (e) {
-      toast.error("Couldn't create the file", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Couldn't Create the File", { detail: e instanceof Error ? e.message : String(e) });
     }
   };
 
@@ -80,7 +80,7 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
       await useWorkspace.getState().save(path);
       toast.success("Saved", { detail: path });
     } catch (e) {
-      toast.error("Save failed", { detail: e instanceof Error ? e.message : String(e) });
+      toast.error("Save Failed", { detail: e instanceof Error ? e.message : String(e) });
     }
   };
 
@@ -105,7 +105,7 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
       <header className={s.header}>
         <div>
           <div className={s.eyebrow}>Playbook Studio</div>
-          <h1 className={s.title}>Play designer</h1>
+          <h1 className={s.title}>Play Designer</h1>
         </div>
         <p className={s.lede}>
           Make your own plays: start from a play in the game (it gives the formation, where everyone lines up and any handoff), then change routes, blocks and
@@ -113,17 +113,17 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
         </p>
         <div className={s.headerTools}>
           <Button variant="primary" icon="plus" onClick={() => setWizardOpen(true)}>
-            New play
+            New Play
           </Button>
           <Button icon="file" onClick={newFile}>
-            New plays file
+            New Plays File
           </Button>
         </div>
       </header>
 
       <div className={s.body}>
         <aside className={s.files}>
-          <div className={s.filesHead}>Plays files</div>
+          <div className={s.filesHead}>Plays Files</div>
           {docs.length === 0 && <div className={s.noFiles}>No plays files yet.</div>}
           {docs.map((d) => {
             const n = Array.isArray(d.data?.plays) ? d.data.plays.length : 0;
@@ -134,7 +134,7 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
                 <button type="button" className={s.fileMain} onClick={() => pickFile(d.path)}>
                   <span className={s.fileName}>{typeof d.data?.title === "string" ? d.data.title : leaf(d.path).replace(/\.json$/, "")}</span>
                   <span className={s.fileMeta}>
-                    {d.error ? "can't load" : `${n} play${n === 1 ? "" : "s"}`} · <span className={s.fileMetaPath}>{leaf(d.path)}</span>
+                    {d.error ? "Can't load" : `${n} play${n === 1 ? "" : "s"}`} · <span className={s.fileMetaPath}>{leaf(d.path)}</span>
                   </span>
                 </button>
                 <div className={s.fileBadges}>
@@ -153,15 +153,15 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
 
         <main className={s.main}>
           {current?.error ? (
-            <EmptyState icon="warning" title="This plays file can't be loaded" body={current.error} />
+            <EmptyState icon="warning" title="This Plays File Can't Be Loaded" body={current.error} />
           ) : !current ? (
             <EmptyState
               icon="route"
-              title="No plays files yet"
+              title="No Plays Files Yet"
               body="A plays file holds your custom plays. Create one, then design your first play."
               action={
                 <Button variant="primary" icon="file" onClick={newFile}>
-                  New plays file
+                  New Plays File
                 </Button>
               }
             />
@@ -174,11 +174,11 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
               {plays.length === 0 ? (
                   <EmptyState
                     icon="route"
-                    title="No plays in this file yet"
-                    body="Click New play: pick a formation, a set and a play to start from, then make it your own."
+                    title="No Plays in This File Yet"
+                    body="Click New Play: pick a formation, a set and a play to start from, then make it your own."
                     action={
                       <Button variant="primary" icon="plus" onClick={() => setWizardOpen(true)}>
-                        New play
+                        New Play
                       </Button>
                     }
                   />
@@ -204,7 +204,7 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
                       onContextMenu={(e) =>
                         cm.open(e, [
                           { label: "Edit", icon: "route", onSelect: () => open(p) },
-                          { label: "Add to playbook…", icon: "playcall", onSelect: () => openAddToPlaybook(p.key) },
+                          { label: "Add to Playbook…", icon: "playcall", onSelect: () => openAddToPlaybook(p.key) },
                           { kind: "separator" },
                           { label: "Delete…", icon: "trash", danger: true, onSelect: () => deletePlay(p) },
                         ])
@@ -218,7 +218,7 @@ export function Entry({ wizard, query }: { wizard?: boolean; query?: URLSearchPa
                         badges={
                           p.problems.length > 0 ? (
                             <Tag tone="danger" size="sm" title={p.problems.join("\n")}>
-                              {p.problems.length} problem{p.problems.length > 1 ? "s" : ""}
+                              {p.problems.length} Problem{p.problems.length > 1 ? "s" : ""}
                             </Tag>
                           ) : undefined
                         }

@@ -56,7 +56,7 @@ export function MiddlePane() {
   }
   return (
     <div className={s.pane}>
-      <StepHeader step={2} title="Add & order plays" hint={hint} />
+      <StepHeader step={2} title="Add & Order Plays" hint={hint} />
       {body}
     </div>
   );
@@ -82,9 +82,9 @@ function BookOverview() {
     { label: "Formations", value: c.formations + c.templateFormations },
     { label: "Sets", value: c.sets },
     { label: "Plays", value: c.plays },
-    { label: "Need the mod", value: c.custom + c.pulled, tone: c.custom + c.pulled ? "amber" : undefined },
+    { label: "Need the Mod", value: c.custom + c.pulled, tone: c.custom + c.pulled ? "amber" : undefined },
   ];
-  if (c.unresolved) tiles.push({ label: "Can't be found", value: c.unresolved, tone: "danger" });
+  if (c.unresolved) tiles.push({ label: "Can't Be Found", value: c.unresolved, tone: "danger" });
   const doc = useDoc<PlaybookSpec>(data.path);
   return (
     <div className={s.scroll} data-autoscroll>
@@ -103,7 +103,7 @@ function BookOverview() {
           <li className={s.guideStep}>
             <span className={s.guideNum}>1</span>
             <div>
-              <div className={s.guideTitle}>Pick a set</div>
+              <div className={s.guideTitle}>Pick a Set</div>
               <p>
                 In the tree, add a formation (“+ Formation”), then one of its sets (“+ Set”). {explicit ? "Click a set to open it." : ""}
               </p>
@@ -112,8 +112,8 @@ function BookOverview() {
           <li className={s.guideStep}>
             <span className={s.guideNum}>2</span>
             <div>
-              <div className={s.guideTitle}>Add & order plays</div>
-              <p>Tick plays in the set's list, or use Add plays to search the library. Drag cards to set the order.</p>
+              <div className={s.guideTitle}>Add & Order Plays</div>
+              <p>Tick plays in the set's list, or use Add Plays to search the library. Drag cards to set the order.</p>
             </div>
           </li>
           <li className={s.guideStep}>
@@ -127,14 +127,14 @@ function BookOverview() {
         <div className={s.actions}>
           {firstSet && (
             <Button variant="primary" icon="chevronRight" onClick={() => useBuilderUi.getState().select(firstSet)}>
-              Open the first set
+              Open the First Set
             </Button>
           )}
           <Button icon="plus" onClick={() => useBuilderUi.getState().setDrawer(true)}>
-            Add plays
+           Add Plays
           </Button>
           <Button icon="playcall" onClick={() => navigate(`#/playcall/${encodeURIComponent(data.path)}`)}>
-            Preview in game
+           Preview in Game
           </Button>
           <Button icon="export" onClick={() => navigate("#/export")}>
             Export
@@ -153,7 +153,7 @@ function BookOverview() {
         <section className={s.section}>
           <h3 className={s.h3}>Formations</h3>
           {data.book.formations.length === 0 ? (
-            <EmptyState compact icon="field" title="No formations yet" body="Use “+ Formation” at the bottom of the tree to add your first one." />
+            <EmptyState compact icon="field" title="No Formations Yet" body="Use “+ Formation” at the bottom of the tree to add your first one." />
           ) : (
             <div className={s.formList}>
               {data.book.formations.map((rf) => {
@@ -214,14 +214,14 @@ function BookOverview() {
             <dd>
               <code className={s.code}>{data.path}</code>
             </dd>
-            <dt>Template sections</dt>
+            <dt>Template Sections</dt>
             <dd>{c.templateFormations}</dd>
-            <dt>CPU weight rows</dt>
+            <dt>CPU Weight Rows</dt>
             <dd>{c.cpuRows}</dd>
           </dl>
           {Object.keys(extra).length > 0 && (
             <>
-              <div className={s.subhead}>Other keys in the file (kept as-is)</div>
+              <div className={s.subhead}>Other Keys in the File (Kept As-Is)</div>
               <pre className={s.json}>{formatJson(extra, { width: 60 })}</pre>
             </>
           )}
@@ -258,12 +258,12 @@ function FormationOverview({ node }: { node: BookNode }) {
     <div className={s.scroll} data-autoscroll>
       <div className={s.inner}>
         <div className={s.eyebrow}>
-          Formation {custom && <span className={s.customTag}>Custom formation</span>}
+          Formation {custom && <span className={s.customTag}>Custom Formation</span>}
         </div>
-        <h1 className={s.bigTitle}>{String(rf.entry.formation)}</h1>
+        <h1 className={cx(s.bigTitle, "caps")}>{String(rf.entry.formation)}</h1>
         {(rf.malformed ?? rf.problem) && <div className={s.problem}>{rf.malformed ?? rf.problem}</div>}
         {rf.sets.length === 0 ? (
-          <EmptyState compact icon="grid" title="No sets yet" body="Add one with “+ Set” under this formation in the tree." />
+          <EmptyState compact icon="grid" title="No Sets Yet" body="Add one with “+ Set” under this formation in the tree." />
         ) : (
           <div className={s.setGrid}>
             {rf.sets.map((rs, i) => {
@@ -302,13 +302,13 @@ function FormationOverview({ node }: { node: BookNode }) {
               </dd>
               <dt>formId</dt>
               <dd>{rf.formation.formId}</dd>
-              <dt>Sets in the library</dt>
+              <dt>Sets in the Library</dt>
               <dd>{data.lib.setsByFormation.get(rf.formation.asset)?.length ?? 0}</dd>
             </dl>
           )}
           {Object.keys(extra).length > 0 && (
             <>
-              <div className={s.subhead}>Other keys in the file (kept as-is)</div>
+              <div className={s.subhead}>Other Keys in the File (Kept As-Is)</div>
               <pre className={s.json}>{formatJson(extra, { width: 60 })}</pre>
             </>
           )}
@@ -346,7 +346,7 @@ const SetTile = memo(function SetTile({ id, data, onPointerDown }: { id: string;
         <span className={s.setTileName}>{String(rs.entry.set)}</span>
         <span className={s.setTileCount}>{rs.plays.length}</span>
       </div>
-      {custom && <span className={cx(s.customTag, s.tileTag)}>Custom set</span>}
+      {custom && <span className={cx(s.customTag, s.tileTag)}>Custom Set</span>}
       {(rs.malformed ?? rs.problem) && <div className={s.problem}>{rs.malformed ?? rs.problem}</div>}
       <div className={s.setTileAud}>
         {AUDIBLE_SLOTS.map((sl) => (
@@ -389,9 +389,9 @@ function TemplateFormationView({ node }: { node: BookNode }) {
     <div className={s.scroll} data-autoscroll>
       <div className={s.inner}>
         <div className={s.eyebrow}>
-          <Icon name="lock" size={12} /> Template section
+          <Icon name="lock" size={12} /> Template Section
         </div>
-        <h1 className={s.bigTitle}>{String(rf.entry.formation)}</h1>
+        <h1 className={cx(s.bigTitle, "caps")}>{String(rf.entry.formation)}</h1>
         <p className={s.lead}>
           This formation is copied as-is from the game's template playbook — every set, play, audible and CPU weight. That's the easy way to keep
           special teams and goal line. Convert it to pick and order its plays yourself.
@@ -400,7 +400,7 @@ function TemplateFormationView({ node }: { node: BookNode }) {
           <div className={s.dangerBox} role="alert">
             <Icon name="warning" size={18} />
             <div>
-              <div className={s.dangerTitle}>Nothing to copy</div>
+              <div className={s.dangerTitle}>Nothing to Copy</div>
               <p>{empty}</p>
             </div>
           </div>
@@ -409,7 +409,7 @@ function TemplateFormationView({ node }: { node: BookNode }) {
         {tf && tf.sets.length > 0 && (
           <div className={s.actions}>
             <Button variant="primary" icon="unlock" onClick={() => void convertTemplate(data, rf.index)}>
-              Convert to editable sets
+              Convert to Editable Sets
             </Button>
           </div>
         )}
@@ -468,12 +468,12 @@ function TemplateSetView({ setNode }: { setNode: BookNode }) {
     <div className={s.scroll} data-autoscroll>
       <div className={s.inner}>
         <div className={s.eyebrow}>
-          <Icon name="lock" size={12} /> {setNode.tf?.formation.name} · template section (read-only)
+          <Icon name="lock" size={12} /> <span className="caps">{setNode.tf?.formation.name}</span> · Template Section (Read-Only)
         </div>
-        <h1 className={s.bigTitle}>{ts.set.name}</h1>
+        <h1 className={cx(s.bigTitle, "caps")}>{ts.set.name}</h1>
         <div className={s.actions}>
           <Button icon="unlock" onClick={() => void convertTemplate(data, setNode.ref!.f)}>
-            Convert {setNode.tf?.formation.name} to editable sets
+            Convert {setNode.tf?.formation.name} to Editable Sets
           </Button>
         </div>
         <div className={s.cardGrid}>

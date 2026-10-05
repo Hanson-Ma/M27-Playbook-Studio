@@ -15,15 +15,13 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .title {
   font-size: var(--fd-3xl);
   font-weight: 700;
   line-height: 0.95;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 .lede {
@@ -60,8 +58,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-2);
   margin-bottom: 2px;
 }
@@ -116,7 +113,6 @@
   font-weight: 700;
   font-size: var(--fd-lg);
   letter-spacing: 0.01em;
-  text-transform: uppercase;
   line-height: 1.05;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -168,7 +164,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-xl);
-  text-transform: uppercase;
   letter-spacing: 0.01em;
 }
 .mainPath {

@@ -1,4 +1,4 @@
-// Audible style switch: XBOX / PS5 / KEYBOARD — how audible slots are drawn (settings.audibleStyle). The only place
+// Audible style switch: Xbox / PS5 / Keyboard — how audible slots are drawn (settings.audibleStyle). The only place
 // the app shows controller buttons is the audible setup, so this sits next to the audible diamond (playbook builder)
 // and in Settings → Audibles.
 //   import { AudibleStyleSwitch } from "../../input/AudibleStyleSwitch";

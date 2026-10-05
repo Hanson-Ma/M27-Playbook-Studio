@@ -23,7 +23,7 @@ export function RouteLibrary({ slot, onClose }: { slot: number; onClose(): void 
 
   const typeOptions = useMemo(
     () => [
-      { value: "all", label: "All route types" },
+      { value: "all", label: "All Route Types" },
       ...[...lib.assignmentsByRouteType.entries()]
         .filter(([rt]) => !/^AssignRouteType_(Def|K_|P_|ST_)/.test(rt))
         .sort((a, b) => rtLabel(a[0]).localeCompare(rtLabel(b[0])))
@@ -66,11 +66,11 @@ export function RouteLibrary({ slot, onClose }: { slot: number; onClose(): void 
     <Modal
       open
       onClose={onClose}
-      eyebrow="Use a route from the game's plays"
-      title="Game routes"
+      eyebrow="Use a Route From the Game's Plays"
+      title="Game Routes"
       width="xl"
       onConfirm={() => choose(sel)}
-      confirmLabel="Use this route"
+      confirmLabel="Use This Route"
       confirmDisabled={!list.length}
       scopeId="designer.library"
       bodyClassName={s.libBody}
@@ -78,8 +78,8 @@ export function RouteLibrary({ slot, onClose }: { slot: number; onClose(): void 
       <div className={s.libBar}>
         <Select size="sm" value={type} options={typeOptions} onChange={(v) => (setType(v), setSel(0))} wrapperClassName={s.libType} />
         <TextInput size="sm" icon="search" value={q} onChange={(v) => (setQ(v), setSel(0))} placeholder="Filter by name…" clearable onClear={() => setQ("")} />
-        <Toggle size="sm" checked={noMotion} onChange={(v) => (setNoMotion(v), setSel(0))} label="Hide routes with motion" />
-        <span className={s.muted}>{list.length} routes · click one, then “Use this route” (or double-click)</span>
+        <Toggle size="sm" checked={noMotion} onChange={(v) => (setNoMotion(v), setSel(0))} label="Hide Routes With Motion" />
+        <span className={s.muted}>{list.length} routes · click one, then “Use This Route” (or double-click)</span>
       </div>
       {list.length === 0 ? (
         <div className={s.legEmpty}>No routes match — try another route type or clear the filter.</div>

@@ -41,6 +41,7 @@ import { ALIGN_REGION, EditorField, type Ghost } from "./EditorField";
 import { FlippedPlayerPanel, PlayerPanel, PresetPlayerPanel, SetPanel } from "./Inspector";
 import { checkGroups, cloneWarnings, presetTarget, type CheckGroup, type CloneWarning } from "./setModel";
 import { FLIPPED, activate, customSetArt, customSubtitle, fileName, formationNameOf, setDisplayIssues, useLib, useSetsDocs, useSetsIssues } from "./shared";
+import { titleCase } from "../designer/titleCase";
 import s from "./Editor.module.css";
 
 const back = () => navigate("#/formations");
@@ -53,13 +54,13 @@ export function SetEditorScreen({ file, index }: { file: string; index: number }
   const base = spec && lib ? lib.setByAsset.get(spec.base) : undefined;
 
   let problem: { title: string; body?: string } | undefined;
-  if (!lib) problem = { title: "The set editor needs the play library" };
+  if (!lib) problem = { title: "The Set Editor Needs the Play Library" };
   else if (!ready) problem = undefined;
   else if (!doc) problem = { title: `${file} isn't open`, body: "It may have been deleted or renamed." };
   else if (doc.error) problem = { title: `Can't open ${fileName(file)}`, body: doc.error };
   else if (!Array.isArray(doc.data?.sets)) problem = { title: `${fileName(file)} has no "sets" list` };
   else if (!spec || typeof spec !== "object") problem = { title: `Set ${index + 1} doesn't exist in ${fileName(file)}`, body: `The file has ${doc.data!.sets.length} set(s).` };
-  else if (!base) problem = { title: "Starting set not found", body: `${spec.base || "(no base)"} isn't in the game library — fix the "base" in ${file}.` };
+  else if (!base) problem = { title: "Starting Set Not Found", body: `${spec.base || "(no base)"} isn't in the game library — fix the "base" in ${file}.` };
 
   if (!ready && !problem) {
     return (
@@ -73,11 +74,11 @@ export function SetEditorScreen({ file, index }: { file: string; index: number }
       <div className={s.center}>
         <EmptyState
           icon="warning"
-          title={problem?.title ?? "Can't open this set"}
+          title={problem?.title ?? "Can't Open This Set"}
           body={problem?.body}
           action={
             <Button variant="secondary" icon="chevronLeft" onClick={back}>
-              Back to sets
+              Back to Sets
             </Button>
           }
         />
@@ -295,6 +296,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
   const cls = setDepthClass(normal);
   const plays = Array.isArray(spec.plays) ? spec.plays.length : 0;
   const form = formationNameOf(lib, spec, fileData.formations);
+  const sub = customSubtitle(lib, spec, fileData.formations);
   const spot = sel !== undefined && preset ? preset[sel] : undefined;
   const motionDist = spot && sel !== undefined && normal[sel] ? Math.hypot(spot.x - normal[sel].x, spot.y - normal[sel].y) : undefined;
   const normalEdited = changedSlots(base, spec).length > 0;
@@ -313,38 +315,44 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
           <div className={s.eyebrow}>
             <span className={s.eyebrowFile}>{fileName(file)}</span>
             <span className={s.sep}>·</span>
-            set {index + 1} of {fileData.sets.length}
+            Set {index + 1} of {fileData.sets.length}
           </div>
           <h1 className={s.title}>{spec.name || "(unnamed set)"}</h1>
           <div className={s.subtitle}>
-            {customSubtitle(lib, spec, fileData.formations)}
+            <span className="caps">{sub.formation}</span>
+            {sub.from && (
+              <>
+                <span className={s.sep}>·</span>
+                from <span className="caps">{sub.from}</span>
+              </>
+            )}
             {form.custom && <span className={s.sep}>·</span>}
-            {form.custom && "my formation"}
+            {form.custom && "My Formation"}
             {cls && <span className={s.sep}>·</span>}
-            {cls && DEPTH_CLASS_LABEL[cls]}
+            {cls && titleCase(DEPTH_CLASS_LABEL[cls])}
           </div>
         </div>
         <span className={s.grow} />
         {errors + warnings === 0 ? (
           <Tag tone="ok" icon="check" title="Passes every check the game-side builder makes">
-            Ready to build
+            Ready to Build
           </Tag>
         ) : (
           <>
             {errors > 0 && (
               <Tag tone="danger" title={issues.filter((p) => p.level === "error").map((p) => p.message).join("\n")}>
-                {errors} error{errors === 1 ? "" : "s"}
+                {errors} Error{errors === 1 ? "" : "s"}
               </Tag>
             )}
             {warnings > 0 && (
               <Tag tone="warning" variant="soft" title={warningText}>
-                {warnings} warning{warnings === 1 ? "" : "s"}
+                {warnings} Warning{warnings === 1 ? "" : "s"}
               </Tag>
             )}
           </>
         )}
         <Button variant={plays ? "secondary" : "primary"} icon="list" onClick={() => setPlaysOpen(true)}>
-          {`Plays in this set · ${plays}`}
+          {`Plays in This Set · ${plays}`}
         </Button>
       </header>
 
@@ -368,7 +376,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
                 onClick={(e) => setPresetMenu(presetMenu ? null : e.currentTarget)}
                 title="Motion presets come from the starting set. Pick one to change where its moving player ends up. Presets can't be added or removed — the game-side builder only edits the targets of existing presets."
               >
-                {mode === NORMAL ? `Motion presets · ${keys.length}` : presetLabel(mode)}
+                {mode === NORMAL ? `Motion Presets · ${keys.length}` : presetLabel(mode)}
                 {mode !== NORMAL && <span className={s.pillSub}>{moverLabel(mode)}</span>}
                 {keys.some((k) => changedPresetSlots(base, spec, k).length > 0) && <span className={s.pillDot} aria-label="edited" />}
                 <Icon name="chevronDown" size={12} />
@@ -383,7 +391,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
               initialId={mode}
               onClose={() => setPresetMenu(null)}
               items={[
-                { kind: "heading", label: "Pre-snap motion presets (from the starting set)" },
+                { kind: "heading", label: "Pre-Snap Motion Presets (From the Starting Set)" },
                 ...keys.map((k) => ({
                   id: k,
                   label: presetLabel(k),
@@ -392,7 +400,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
                   onSelect: () => pickView(k),
                 })),
                 { kind: "separator" },
-                { id: NORMAL, label: "Back to the alignment", icon: "field", onSelect: () => setView(NORMAL) },
+                { id: NORMAL, label: "Back to the Alignment", icon: "field", onSelect: () => setView(NORMAL) },
               ]}
             />
           )}
@@ -405,7 +413,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
             setFlipped(v);
             if (v) setView(NORMAL);
           }}
-          label="Show flipped"
+          label="Show Flipped"
           title="Show where everyone lines up when the play is flipped, as the game computes it from each player's flip partner"
         />
         <Segmented
@@ -418,7 +426,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
           ]}
           aria-label="Snap"
         />
-        <Toggle size="sm" checked={ghosts} onChange={setGhosts} label="Original spots" title="Show where moved players started (dashed rings)" />
+        <Toggle size="sm" checked={ghosts} onChange={setGhosts} label="Original Spots" title="Show where moved players started (dashed rings)" />
       </div>
 
       <div className={s.main}>
@@ -446,7 +454,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
             <div className={cx(s.fieldHint, flipped && s.fieldHintFlip)}>
               {flipped ? (
                 <>
-                  <b>Flipped view</b> · read-only — set flip partners per player (Advanced)
+                  <b>Flipped View</b> · read-only — set flip partners per player (Advanced)
                 </>
               ) : mode !== NORMAL ? (
                 <>
@@ -466,7 +474,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
             fix={
               lineFix && mode === NORMAL ? (
                 <Button size="sm" variant="secondary" icon="check" onClick={fixLine} title="The game-side builder counts a player as on the line only above y −1.5; this moves them to −1.4">
-                  Move {lineFix.map((slot) => playerLabel(normal[slot])).join(", ")} onto the line
+                  Move {lineFix.map((slot) => playerLabel(normal[slot])).join(", ")} Onto the Line
                 </Button>
               ) : undefined
             }
@@ -545,7 +553,7 @@ function ChecksStrip({ checks, flipped, motionDist, fix }: { checks: CheckGroup[
   const first = checks.find((c) => c.level === "error") ?? checks.find((c) => c.level === "warning");
   return (
     <div className={s.strip} role="status">
-      <span className={s.stripLabel}>{flipped ? "Flipped checks" : "Game checks"}</span>
+      <span className={s.stripLabel}>{flipped ? "Flipped Checks" : "Game Checks"}</span>
       {checks.map((c) => (
         <span key={c.id} className={s.check} data-level={c.level} title={c.messages.join("\n") || "OK"}>
           <Icon name={c.level === "ok" ? "check" : "warning"} size={13} />

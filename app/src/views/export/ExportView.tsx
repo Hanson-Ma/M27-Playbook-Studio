@@ -43,7 +43,7 @@ export function ExportView() {
             }
           />
         ) : (
-          <EmptyState icon={<Spinner size={26} />} title="Loading playbooks…" />
+          <EmptyState icon={<Spinner size={26} />} title="Loading Playbooks…" />
         )}
       </div>
     );
@@ -125,8 +125,8 @@ function ExportPage() {
 
   const copyCommand = async () => {
     const cmd = EXPORT_COMMAND;
-    if (await copyText(cmd)) toast.success("Command copied", { detail: cmd, duration: 2500 });
-    else toast.error("Couldn't copy", { detail: "Select the command and copy it by hand." });
+    if (await copyText(cmd)) toast.success("Command Copied", { detail: cmd, duration: 2500 });
+    else toast.error("Couldn't Copy", { detail: "Select the command and copy it by hand." });
   };
 
   const download = () => {
@@ -137,9 +137,9 @@ function ExportPage() {
       const name = bundleFileName(date);
       downloadBytes(bytes, name);
       const n = bundleEntries(all).length;
-      toast.success("Bundle downloaded", { detail: `${name} · ${plural(n, "file")} + README.txt` });
+      toast.success("Bundle Downloaded", { detail: `${name} · ${plural(n, "file")} + README.txt` });
     } catch (e) {
-      toast.error("Couldn't build the bundle", { detail: errMsg(e) });
+      toast.error("Couldn't Build the Bundle", { detail: errMsg(e) });
     }
   };
 
@@ -149,7 +149,7 @@ function ExportPage() {
       await useWorkspace.getState().save(path);
       toast.success("Saved", { detail: path });
     } catch (e) {
-      toast.error("Save failed", { detail: `${path}: ${errMsg(e)}` });
+      toast.error("Save Failed", { detail: `${path}: ${errMsg(e)}` });
     } finally {
       setSaving(false);
     }
@@ -161,9 +161,9 @@ function ExportPage() {
     setSaving(true);
     try {
       await useWorkspace.getState().saveAll();
-      toast.success(`Saved ${plural(n, "file")}`);
+      toast.success(`Saved ${plural(n, "File")}`);
     } catch (e) {
-      toast.error("Save all failed", { detail: errMsg(e) });
+      toast.error("Save All Failed", { detail: errMsg(e) });
     } finally {
       setSaving(false);
     }
@@ -177,7 +177,7 @@ function ExportPage() {
       .sort();
     const ok = await confirmDialog({
       eyebrow: "Export",
-      title: pending.length ? `Save ${plural(pending.length, "file")} and export?` : "Export now?",
+      title: pending.length ? `Save ${plural(pending.length, "File")} and Export?` : "Export Now?",
       body: (
         <div className={s.confirmBody}>
           {pending.length ? (
@@ -195,7 +195,7 @@ function ExportPage() {
           <p className={s.confirmNote}>Then run the command on the game PC (it's shown after the check).</p>
         </div>
       ),
-      confirmLabel: pending.length ? "Save & export" : "Export",
+      confirmLabel: pending.length ? "Save & Export" : "Export",
     });
     if (!ok) return;
     setBusy(true);
@@ -227,14 +227,14 @@ function ExportPage() {
   const nothing = !!summary && summary.saves.length === 0 && summary.customPlays.length === 0 && summary.customSets.length === 0;
   const status =
     libraryState !== "ready"
-      ? { tone: "warn", icon: "warning" as const, text: libraryState === "loading" ? "Checking…" : "Library not loaded" }
+      ? { tone: "warn", icon: "warning" as const, text: libraryState === "loading" ? "Checking…" : "Library Not Loaded" }
       : counts.error
-        ? { tone: "bad", icon: "close" as const, text: `${plural(counts.error, "problem")} to fix` }
+        ? { tone: "bad", icon: "close" as const, text: `${plural(counts.error, "Problem")} to Fix` }
         : failing.length
-          ? { tone: "bad", icon: "close" as const, text: "Build would fail" }
+          ? { tone: "bad", icon: "close" as const, text: "Build Would Fail" }
           : nothing
-            ? { tone: "warn", icon: "info" as const, text: "Nothing to export yet" }
-            : { tone: "ok", icon: "check" as const, text: "Ready to export" };
+            ? { tone: "warn", icon: "info" as const, text: "Nothing to Export Yet" }
+            : { tone: "ok", icon: "check" as const, text: "Ready to Export" };
   const sub: string[] = [];
   if (libraryState === "ready") {
     if (counts.error) sub.push(`in ${plural(new Set(errors.map((e) => e.file ?? "")).size, "file")} — fix them first`);
@@ -266,10 +266,10 @@ function ExportPage() {
               Export
             </Button>
             <Button variant="secondary" size="lg" icon="download" disabled={bundleCount === 0} onClick={download} title="Every playbook / plays / sets file as a .zip (for a game PC without the repo)">
-              Download zip
+              Download .zip
             </Button>
             <Button variant="secondary" size="lg" icon="copy" onClick={() => void copyCommand()} title={EXPORT_COMMAND}>
-              Copy command
+              Copy Command
             </Button>
           </div>
         </header>

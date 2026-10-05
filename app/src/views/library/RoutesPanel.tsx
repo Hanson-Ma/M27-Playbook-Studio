@@ -107,7 +107,7 @@ export function RoutesPanel({ play, set, art, slot, flip, preset, preview, onPre
   };
 
   if (slot === undefined || !player || !alignment) {
-    return <EmptyState icon="route" title="Pick a player" body="Click a player on the field to browse routes from their alignment." compact />;
+    return <EmptyState icon="route" title="Pick a Player" body="Click a player on the field to browse routes from their alignment." compact />;
   }
 
   const scopes = play.side === "defense" ? DEFENSE_SCOPES : play.side === "special" ? SPECIAL_SCOPES : OFFENSE_SCOPES;
@@ -132,7 +132,7 @@ export function RoutesPanel({ play, set, art, slot, flip, preset, preview, onPre
         {myRoutes && (
           <Segmented
             options={[
-              { value: "library", label: "Library routes" },
+              { value: "library", label: "Library Routes" },
               { value: "mine", label: `My Routes · ${myRoutes.length}` },
             ]}
             value={source}
@@ -215,7 +215,7 @@ export function RoutesPanel({ play, set, art, slot, flip, preset, preview, onPre
               onUse={canUse ? onUse : undefined}
             />
           )}
-          empty={<EmptyState icon="search" title="No assignments" body={filter ? `Nothing matches “${filter}” in this scope.` : "Nothing in this scope."} compact />}
+          empty={<EmptyState icon="search" title="No Assignments" body={filter ? `Nothing matches “${filter}” in this scope.` : "Nothing in this scope."} compact />}
           aria-label="Route library"
           className={s.routeList}
         />
@@ -253,7 +253,7 @@ function RouteRow({
           <span className={s.routeName}>{item.label}</span>
           {item.side && (
             <Tag tone={item.side === "inside" ? "info" : "neutral"} variant="soft" size="sm">
-              {item.side}
+              {item.side === "inside" ? "Inside" : "Outside"}
             </Tag>
           )}
           {current && (
@@ -275,7 +275,7 @@ function RouteRow({
           className={s.useBtn}
           title="Open a new play in the designer with this route on the player"
         >
-          Use in designer
+          Use in Designer
         </Button>
       )}
     </div>
@@ -342,7 +342,7 @@ function MyRoutesList({
         compact
       />
     );
-  if (!items.length) return <EmptyState icon="search" title="No routes match" body={`Nothing matches “${filter}”.`} compact />;
+  if (!items.length) return <EmptyState icon="search" title="No Routes Match" body={`Nothing matches “${filter}”.`} compact />;
 
   return (
     <div className={s.mineList} role="listbox" aria-label="My Routes">

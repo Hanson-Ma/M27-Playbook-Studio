@@ -1,4 +1,4 @@
-/* Playbook Studio design tokens — Madden 27 play-call look: near-black glass, bold grotesk uppercase labels,
+/* Playbook Studio design tokens — Madden 27 play-call look: near-black glass, bold grotesk labels (caps only for Madden names),
    light-gray active pills, flat dark fields with yellow/red/light-blue route art. Dark theme only. */
 
 /* Fonts — NB International Pro (primary) is a licensed DESKTOP font: the app never ships, embeds, converts or
@@ -41,9 +41,9 @@
   --fs-2xl: 28px;
   --fs-3xl: 40px;
 
-  /* Display scale (uppercase labels, tabs, names, titles). NB International caps are ~35 % wider than the old
-     condensed face, so display type runs a step smaller than the body scale: track small caps a little (0.04–0.08em),
-     big caps not at all. */
+  /* Display scale (labels, tabs, names, titles). NB International caps are ~35 % wider than the old condensed face, so
+     display type runs a step smaller than the body scale. Chrome is Title Case with no tracking; caps (Madden names
+     only) track small sizes a little (0.02–0.04em), big caps not at all. */
   --fd-xs: 10px; /* eyebrows, tiny tags */
   --fd-sm: 11px; /* field labels, meta lines */
   --fd-md: 12.5px; /* section heads, buttons (sm) */

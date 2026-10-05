@@ -30,8 +30,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .bookMeta em {
@@ -141,7 +140,6 @@
   font-weight: 700;
   font-size: var(--fd-xl);
   letter-spacing: -0.005em;
-  text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
 }
@@ -150,8 +148,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-xs);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .numHead {
@@ -162,8 +159,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .colHead {
@@ -189,8 +185,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 10.5px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   line-height: 1.1;
   color: var(--text-2);
   overflow-wrap: anywhere; /* only a word longer than the column breaks (seed names all fit: "VERTICALS" is 55 px) */
@@ -244,8 +239,7 @@
   background: var(--bg-2);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .num {
   padding: 0 var(--s2);
@@ -262,8 +256,7 @@
   font-family: var(--font-display);
   font-size: 10px;
   font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-4);
   line-height: 1;
 }
@@ -331,8 +324,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .detailTitle {
@@ -352,8 +344,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }
@@ -408,8 +399,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .hoverList {
   margin: 0;
@@ -455,8 +445,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-4);
 }
 .sitItem {
@@ -473,8 +462,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   cursor: pointer;
 }
 .sitItem:hover {
@@ -517,8 +505,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .sitStats b {
@@ -545,8 +532,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 11px;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .sitList {
   flex: 1;
@@ -565,8 +551,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .sitGroupRow span:last-child {
@@ -674,8 +659,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .cov {
@@ -698,8 +682,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .cov tr:last-child td {
@@ -719,8 +702,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .covRow {
   cursor: default;
@@ -785,8 +767,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: color-mix(in srgb, var(--danger) 70%, var(--text));
 }
 .audItem {
@@ -807,8 +788,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 
@@ -826,8 +806,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-xs);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   transition:
     color var(--t-fast) var(--ease),

@@ -45,7 +45,7 @@ export const useLibrary = create<LibraryState>()((set, get) => ({
       // Unknown totals count what has arrived so far, so the bar never runs past 100%.
       const t = FILES.reduce((n, f) => n + Math.max(totals[f], loaded[f]), 0);
       const pending = FILES.find((f) => !done.has(f));
-      set({ progress: { loaded: l, total: t, label: label ?? (pending ? `${pending}.json` : "Indexing plays…") } });
+      set({ progress: { loaded: l, total: t, label: label ?? (pending ? `${pending}.json` : "Indexing Plays…") } });
     };
     const fetchOne = async <T,>(name: FileName): Promise<T> => {
       const value = await fetchLibraryFile<T>(name, (l, t) => {
@@ -68,7 +68,7 @@ export const useLibrary = create<LibraryState>()((set, get) => ({
           fetchOne<Record<string, AssignmentDef>>("assignments"),
           fetchOne<EnumsFile>("enums"),
         ]);
-        report("Indexing plays…");
+        report("Indexing Plays…");
         // Let the loading screen paint the final progress before the synchronous index build.
         await new Promise((r) => setTimeout(r, 0));
         const data: LibraryData = { formations, sets, plays, assignments, enums };

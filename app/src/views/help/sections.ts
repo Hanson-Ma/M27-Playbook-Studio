@@ -25,18 +25,18 @@ export interface HelpSection {
 }
 
 export const HELP_SECTIONS: readonly HelpSection[] = [
-  { id: "getting-started", title: "Getting started", blurb: "What the app does, the round trip to the game, saving" },
-  { id: "playbook", title: "Build a playbook", blurb: "Formations, sets and plays; special teams; limits" },
-  { id: "audibles", title: "Audibles & CPU calls", blurb: "The four audible buttons, Xbox / PS5 glyphs, CPU weights" },
-  { id: "preview", title: "Preview in game", blurb: "See the playbook like Madden's play-call screen" },
-  { id: "library", title: "Find plays", blurb: "Search and filter the library, NEEDS MOD, add to a playbook" },
-  { id: "concepts", title: "Gameplan: concepts & tags", blurb: "Tag plays, run / pass matrices, situations" },
-  { id: "designer", title: "Design a play", blurb: "Base play, players, blocks, motion, the red route" },
-  { id: "routes", title: "Routes, cuts & My Routes", blurb: "Presets, drawing, cut styles, saved routes" },
-  { id: "formations", title: "Formations & custom sets", blurb: "Move players, motion presets, copy plays in" },
-  { id: "export", title: "Export to the game", blurb: "Check, export, run the command, apply the mod" },
-  { id: "hosting", title: "Use it on your website", blurb: "Upload by FTP, open your folder, the Madden PC" },
-  { id: "faq", title: "FAQ & troubleshooting", blurb: "Common questions and fixes" },
+  { id: "getting-started", title: "Getting Started", blurb: "What the app does, the round trip to the game, saving" },
+  { id: "playbook", title: "Build a Playbook", blurb: "Formations, sets and plays; special teams; limits" },
+  { id: "audibles", title: "Audibles & CPU Calls", blurb: "The four audible buttons, Xbox / PS5 glyphs, CPU weights" },
+  { id: "preview", title: "Preview in Game", blurb: "See the playbook like Madden's play-call screen" },
+  { id: "library", title: "Find Plays", blurb: "Search and filter the library, Needs Mod, add to a playbook" },
+  { id: "concepts", title: "Gameplan: Concepts & Tags", blurb: "Tag plays, run / pass matrices, situations" },
+  { id: "designer", title: "Design a Play", blurb: "Base play, players, blocks, motion, the red route" },
+  { id: "routes", title: "Routes, Cuts & My Routes", blurb: "Presets, drawing, cut styles, saved routes" },
+  { id: "formations", title: "Formations & Custom Sets", blurb: "Move players, motion presets, copy plays in" },
+  { id: "export", title: "Export to the Game", blurb: "Check, export, run the command, apply the mod" },
+  { id: "hosting", title: "Use It on Your Website", blurb: "Upload by FTP, open your folder, the Madden PC" },
+  { id: "faq", title: "FAQ & Troubleshooting", blurb: "Common questions and fixes" },
 ];
 
 export const DEFAULT_HELP_SECTION: HelpSectionId = "getting-started";

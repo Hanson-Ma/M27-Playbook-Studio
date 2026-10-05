@@ -1,7 +1,7 @@
 // Play-call preview (#/playcall/<playbook path>): the playbook as the Madden 27 play-call screen, driven by the mouse.
-// Tabs FORMATION · CONCEPT · PLAY TYPE · AUDIBLES · FAVORITES · RECENT, three cards per page (click a card to drill in
+// Tabs Formation · Concept · Play Type · Audibles · Favorites · Recent, three cards per page (click a card to drill in
 // or open the play; the ☆ on a card favorites it), ‹ › arrows / dots / the wheel page, breadcrumbs and Back go up a
-// level, "Back to playbook" returns to the builder. Picking a play opens the full-screen pre-snap view. Arrow keys
+// level, "Back to Playbook" returns to the builder. Picking a play opens the full-screen pre-snap view. Arrow keys
 // page while the stage has focus. View state lives in the URL query (tab, at, pg, play, flip) — see playcallModel.ts.
 // "sets": "template" sections open read-only once the template save is read (state/template.ts).
 import { useEffect, useMemo, useState, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
@@ -78,7 +78,7 @@ export function PlayCallView() {
     if (!ready || !docs.length || (path && doc)) return;
     const pick =
       docs.find((d) => d.path === lastPlaybook && !d.error) ?? docs.find((d) => d.path === DEFAULT_BOOK && !d.error) ?? docs.find((d) => !d.error) ?? docs[0];
-    if (path) toast.info(`${basename(path)} no longer exists`, { detail: `Renamed or deleted — showing ${pick.data?.name || basename(pick.path)} instead.`, duration: 3000 });
+    if (path) toast.info(`${basename(path)} No Longer Exists`, { detail: `Renamed or deleted — showing ${pick.data?.name || basename(pick.path)} instead.`, duration: 3000 });
     navigate(href("playcall", pick.path), { replace: true });
   }, [path, doc, ready, docs, lastPlaybook]);
 
@@ -91,7 +91,7 @@ export function PlayCallView() {
     return (
       <Centered>
         {wsError ? (
-          <EmptyState icon="warning" title="Couldn't load the workspace" body={wsError} action={<RetryWorkspace />} />
+          <EmptyState icon="warning" title="Couldn't Load the Workspace" body={wsError} action={<RetryWorkspace />} />
         ) : (
           <div className={s.loading}>
             <Spinner size={22} /> Loading playbooks…
@@ -131,11 +131,11 @@ function NoPlaybooks() {
     <Centered>
       <EmptyState
         icon="playcall"
-        title="No playbooks yet"
+        title="No Playbooks Yet"
         body="Create a playbook in the builder (playbooks/<name>.json), then preview it here exactly like the in-game play-call screen."
         action={
           <Button variant="primary" onClick={go}>
-            Open the playbook builder
+            Open the Playbook Builder
           </Button>
         }
       />
@@ -151,11 +151,11 @@ function NoLibrary() {
     <Centered>
       <EmptyState
         icon="field"
-        title="The play library isn't loaded"
+        title="The Play Library Isn't Loaded"
         body={error ?? "The play-call preview draws every play from data/library. Load it to continue."}
         action={
           <Button variant="primary" loading={status === "loading"} onClick={load}>
-            Load library
+            Load Library
           </Button>
         }
       />
@@ -256,9 +256,9 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     if (level.kind === "formations") {
       const f = item as CallFormation;
       if (!canOpenFormation(f)) {
-        if (f.templateState === "missing") toast.warning(`${f.name}: not in the template save`, { detail: missingTemplateText(f), duration: 5000 });
-        else if (template.status === "error") toast.error("Couldn't read the template save", { detail: template.error, duration: 4000 });
-        else toast.info(`Loading ${f.name} from the template save…`, { duration: 2000 });
+        if (f.templateState === "missing") toast.warning(`${f.name}: Not in the Template Save`, { detail: missingTemplateText(f), duration: 5000 });
+        else if (template.status === "error") toast.error("Couldn't Read the Template Save", { detail: template.error, duration: 4000 });
+        else toast.info(`Loading ${f.name} From the Template Save…`, { duration: 2000 });
         return;
       }
       setCursor(f.id);
@@ -307,13 +307,13 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     if (!key) return;
     const was = useSettings.getState().favorites.includes(key);
     useSettings.getState().toggleFavorite(key);
-    if (was) toast.info(`Removed ${item.name} from favorites`, { duration: 1800 });
-    else toast.success(`Added ${item.name} to favorites`, { duration: 1800 });
+    if (was) toast.info(`Removed ${item.name} From Favorites`, { duration: 1800 });
+    else toast.success(`Added ${item.name} to Favorites`, { duration: 1800 });
   };
 
   const openPlay = (item: CallPlay) => {
     if (!item.play) {
-      toast.warning(`"${item.name}" didn't resolve`, { detail: item.problem });
+      toast.warning(`"${item.name}" Didn't Resolve`, { detail: item.problem });
       return;
     }
     useSettings.getState().pushRecent(item.play.key);
@@ -368,14 +368,14 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
       <header className={s.top}>
         <div className={s.topLeft}>
           <Button variant="ghost" icon="chevronLeft" onClick={() => navigate(href("playbook", path))} title="Back to this playbook in the builder">
-            Back to playbook
+           Back to Playbook
           </Button>
           <BookSelect docs={docs} path={path} />
         </div>
         <TabBar items={TAB_ITEMS} active={nav.tab} onChange={setTab} className={s.tabs} aria-label="Play call" />
         <div className={s.topRight}>
           <Button size="sm" variant="secondary" icon="flip" active={nav.flip} onClick={toggleFlip} title="Mirror every play (plays that can't flip stay as they are)">
-            {nav.flip ? "Flipped" : "Flip plays"}
+            {nav.flip ? "Flipped" : "Flip Plays"}
           </Button>
           <div className={s.count} aria-live="polite">
             {level ? (
@@ -392,11 +392,11 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
         <Centered>
           <EmptyState
             icon="warning"
-            title={`${bookName} can't be previewed`}
+            title={`${bookName} Can't Be Previewed`}
             body={doc.error ?? bookError ?? "The file isn't a playbook spec."}
             action={
               <Button variant="secondary" onClick={() => navigate(href("playbook", path))}>
-                Open in the playbook builder
+               Open in the Playbook Builder
               </Button>
             }
           />
@@ -527,7 +527,7 @@ function Heading({
   pages: number;
   audSet?: CallSet;
   concepts: "tags" | "reads";
-  /** "STUDIO · Offense" — the eyebrow at a tab's root level. */
+  /** "STUDIO · Offense" — the eyebrow at a tab's root level (the playbook name as stored). */
   bookLabel: string;
   onCrumb(at: string[]): void;
   onBack(): void;
@@ -545,11 +545,11 @@ function Heading({
             {audSet && (
               <>
                 <span className={s.sep}>›</span>
-                <span>{audSet.formationName}</span>
+                <span className="caps">{audSet.formationName}</span>
               </>
             )}
           </nav>
-          <h1 className={s.title}>{audSet ? audSet.name : "No sets"}</h1>
+          <h1 className={cx(s.title, audSet && "caps")}>{audSet ? audSet.name : "No Sets"}</h1>
         </div>
         <div className={s.headRight}>
           {level.items.length > 1 && (
@@ -557,7 +557,7 @@ function Heading({
           )}
           {audSet?.duplicateAudibles.map((sl) => (
             <Tag key={sl} tone="danger" size="sm" icon="warning">
-              Audible {sl} used twice
+              Audible {sl} Used Twice
             </Tag>
           ))}
           {audSet?.problem && (
@@ -567,7 +567,7 @@ function Heading({
           )}
           <span className={s.headStat}>
             <b>{n}</b>
-            <span> / 4</span> audibles
+            <span> / 4</span> Audibles
           </span>
           {level.items.length > 0 && (
             <span className={s.pageNum}>
@@ -581,6 +581,8 @@ function Heading({
   }
   const crumbs = level.crumbs;
   const n = level.items.length;
+  // Below a tab's root the crumbs and the title are formation / set names or play types (caps); concept names show as typed.
+  const namesCaps = nav.tab !== "concept";
   return (
     <div className={s.heading}>
       <div className={s.headLeft}>
@@ -597,9 +599,9 @@ function Heading({
               <span key={i} className={s.crumb}>
                 {i > 0 && <span className={s.sep}>›</span>}
                 {last ? (
-                  <span className={s.crumbCurrent}>{c.label}</span>
+                  <span className={cx(s.crumbCurrent, i > 0 && namesCaps && "caps")}>{c.label}</span>
                 ) : (
-                  <button type="button" className={s.crumbLink} onClick={() => onCrumb(c.at)}>
+                  <button type="button" className={cx(s.crumbLink, i > 0 && namesCaps && "caps")} onClick={() => onCrumb(c.at)}>
                     {c.label}
                   </button>
                 )}
@@ -607,18 +609,18 @@ function Heading({
             );
           })}
         </nav>
-        <h1 className={s.title}>{level.title}</h1>
+        <h1 className={cx(s.title, level.at.length > 0 && namesCaps && "caps")}>{level.title}</h1>
       </div>
       <div className={s.headRight}>
         {((level.kind === "sets" && level.formation.template) || (level.kind === "plays" && level.set?.template)) && (
           <Tag tone="neutral" size="sm" icon="lock" title="Copied from the template save by the game-side builder — read-only here">
-            From template
+           From Template
           </Tag>
         )}
         {nav.tab === "concept" && level.kind === "groups" && (
           <a className={s.sourceNote} href="#/concepts?from=playbook" title="Concept categories live in the Concepts view (app-data/concepts.json)">
             <Icon name="tag" size={13} />
-            {concepts === "tags" ? "Your concept tags" : "Read concepts · no tags yet"}
+            {concepts === "tags" ? "Your Concept Tags" : "Read Concepts · No Tags Yet"}
           </a>
         )}
         {nav.flip && (
@@ -678,22 +680,22 @@ function Footer({ counts }: { counts?: BookCounts }) {
         <span className={s.footChips}>
           {counts.custom > 0 && (
             <Tag tone="custom" size="sm" variant="soft">
-              {counts.custom} custom
+              {counts.custom} Custom
             </Tag>
           )}
           {counts.pulled > 0 && (
             <Tag tone="needsMod" size="sm" variant="soft">
-              {counts.pulled} needs mod
+              {counts.pulled} Needs Mod
             </Tag>
           )}
           {counts.unresolved > 0 && (
             <Tag tone="danger" size="sm" variant="soft">
-              {counts.unresolved} unresolved
+              {counts.unresolved} Unresolved
             </Tag>
           )}
           {counts.templateFormations > 0 && (
             <Tag tone="neutral" size="sm" variant="soft" icon="lock">
-              {counts.templateFormations} template
+              {counts.templateFormations} Template
             </Tag>
           )}
         </span>
@@ -723,7 +725,7 @@ function LevelContent(p: LevelContentProps) {
   const { level, pageItems, flip, cursor } = p;
 
   if (level.kind === "audibles") {
-    if (!p.audSet) return <LevelEmpty title="No sets" body="This playbook has no sets to audible from." bookPath={p.bookPath} />;
+    if (!p.audSet) return <LevelEmpty title="No Sets" body="This playbook has no sets to audible from." bookPath={p.bookPath} />;
     return (
       <AudibleDiamond
         set={p.audSet}
@@ -753,7 +755,7 @@ function LevelContent(p: LevelContentProps) {
           }
           case "groups": {
             const g = it as CallGroup;
-            return <GroupTile key={g.id} group={g} flip={flip} selected={cursor === g.id} onClick={() => p.onChoose(i)} />;
+            return <GroupTile key={g.id} group={g} nameCaps={p.tab === "type"} flip={flip} selected={cursor === g.id} onClick={() => p.onChoose(i)} />;
           }
           case "plays": {
             const item = it as CallPlay;
@@ -783,7 +785,7 @@ function LevelEmpty({ title, body, bookPath, icon = "playcall" }: { title: strin
       body={body}
       action={
         <Button variant="secondary" onClick={() => navigate(href("playbook", bookPath))}>
-          Open in the playbook builder
+         Open in the Playbook Builder
         </Button>
       }
     />
@@ -792,10 +794,10 @@ function LevelEmpty({ title, body, bookPath, icon = "playcall" }: { title: strin
 
 function EmptyLevel({ level, tab, bookPath }: { level: CallLevel; tab: PlayCallTab; bookPath: string }) {
   if (tab === "favorites")
-    return <EmptyState icon="star" title="No favorites in this playbook" body="Click the ☆ on any play card (or Favorite in its pre-snap view) to keep it here." />;
-  if (tab === "recent") return <EmptyState icon="refresh" title="Nothing called yet" body="Plays you pick in this playbook show up here, most recent first." />;
-  if (level.kind === "sets") return <LevelEmpty title="No sets" body={`${level.title} has no sets yet.`} bookPath={bookPath} />;
-  if (level.kind === "plays") return <LevelEmpty title="No plays" body={`${level.title} has no plays yet.`} bookPath={bookPath} />;
-  if (level.kind === "groups") return <LevelEmpty title="No plays to group" body="None of this playbook's plays resolved." bookPath={bookPath} />;
-  return <LevelEmpty title="No formations" body="This playbook has no formations yet." bookPath={bookPath} />;
+    return <EmptyState icon="star" title="No Favorites in This Playbook" body="Click the ☆ on any play card (or Favorite in its pre-snap view) to keep it here." />;
+  if (tab === "recent") return <EmptyState icon="refresh" title="Nothing Called Yet" body="Plays you pick in this playbook show up here, most recent first." />;
+  if (level.kind === "sets") return <LevelEmpty title="No Sets" body={`${level.title} has no sets yet.`} bookPath={bookPath} />;
+  if (level.kind === "plays") return <LevelEmpty title="No Plays" body={`${level.title} has no plays yet.`} bookPath={bookPath} />;
+  if (level.kind === "groups") return <LevelEmpty title="No Plays to Group" body="None of this playbook's plays resolved." bookPath={bookPath} />;
+  return <LevelEmpty title="No Formations" body="This playbook has no formations yet." bookPath={bookPath} />;
 }

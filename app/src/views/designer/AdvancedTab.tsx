@@ -17,16 +17,16 @@ export function AdvancedTab({ slot, lock }: { slot: number; lock: number }) {
     <>
       <p className={s.note}>Technical details for this player. Everything here is optional — the Route, Block and Motion tabs cover normal play design.</p>
       {eligible && (
-        <Disclosure id="adv.release" title="Release" hint="first step off the line" defaultOpen>
+        <Disclosure id="adv.release" title="Release" hint="First step off the line" defaultOpen>
           <ReleaseSection slot={slot} lock={lock} />
         </Disclosure>
       )}
       <InfoTab slot={slot} />
-      <Disclosure id="adv.steps" title="Raw steps" hint="the exact step list">
+      <Disclosure id="adv.steps" title="Raw Steps" hint="The exact step list">
         <StepsTab slot={slot} lock={lock} bare />
       </Disclosure>
       {eligible && (
-        <Disclosure id="adv.red" title="Red routes in the game" hint="primary receiver">
+        <Disclosure id="adv.red" title="Red Routes in the Game" hint="Primary receiver">
           <p className={s.note}>
             The primary receiver (red route) is the play's <code>vip</code> slot. Stock plays have exactly one red route. In testing, plays whose reads were rewritten
             (all combo 0, Concept_Invalid) showed several red routes in the game, so keep the base play's reads unless you need to change them, and set the

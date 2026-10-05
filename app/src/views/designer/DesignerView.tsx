@@ -18,7 +18,7 @@ export function DesignerView() {
   if (status === "error") {
     return (
       <div className={s.center}>
-        <EmptyState icon="warning" title="The play library didn't load" body={error ?? "Check the server and data/library/."} />
+        <EmptyState icon="warning" title="The Play Library Didn't Load" body={error ?? "Check the server and data/library/."} />
       </div>
     );
   }

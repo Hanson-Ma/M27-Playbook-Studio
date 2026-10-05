@@ -23,9 +23,9 @@ export function targetHref(t: IssueTarget): string {
 }
 
 export const TARGET_LABEL: Record<IssueTarget["view"], string> = {
-  playbook: "Playbook builder",
-  designer: "Play designer",
-  formations: "Formation editor",
+  playbook: "Playbook Builder",
+  designer: "Play Designer",
+  formations: "Formation Editor",
   concepts: "Concepts",
 };
 

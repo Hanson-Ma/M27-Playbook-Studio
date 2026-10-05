@@ -36,8 +36,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-3);
 }
 .title {
@@ -73,7 +72,6 @@
   font-family: var(--font-num);
   font-weight: 500;
   font-size: var(--fd-sm);
-  text-transform: uppercase;
   letter-spacing: 0;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
@@ -118,8 +116,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
 }
 .inBook {
   background: var(--bg-0);
@@ -155,8 +152,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 10px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   line-height: 1.2;
 }
 .head {

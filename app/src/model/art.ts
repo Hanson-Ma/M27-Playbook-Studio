@@ -90,10 +90,10 @@ export function cutStyle(cut: string | undefined): CutStyle | undefined {
 
 /** Plain-language names for the cut styles (legends, the guide, the cut picker). */
 export const CUT_STYLE_INFO: Record<CutStyle, { label: string; hint: string }> = {
-  speed: { label: "Speed cut", hint: "Rounded corner: the receiver bends the route without slowing down (22° / 45°)." },
-  hard: { label: "Hard cut", hint: "Sharp corner: the receiver plants and breaks (67° / 90°)." },
-  fake: { label: "Double move", hint: "Zig mark: the receiver sells a fake here, then keeps going (stutter, out-and-up, post-corner…)." },
-  turnback: { label: "Turn back", hint: "Hook: the receiver stops and turns back to the ball (curl, comeback, hitch, smash, screen)." },
+  speed: { label: "Speed Cut", hint: "Rounded corner: the receiver bends the route without slowing down (22° / 45°)." },
+  hard: { label: "Hard Cut", hint: "Sharp corner: the receiver plants and breaks (67° / 90°)." },
+  fake: { label: "Double Move", hint: "Zig mark: the receiver sells a fake here, then keeps going (stutter, out-and-up, post-corner…)." },
+  turnback: { label: "Turn Back", hint: "Hook: the receiver stops and turns back to the ball (curl, comeback, hitch, smash, screen)." },
   settle: { label: "Settle", hint: "Bar: the receiver stops in the open space and waits for the ball (drag stop)." },
 };
 

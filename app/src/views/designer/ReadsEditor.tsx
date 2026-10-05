@@ -47,9 +47,9 @@ export function ReadsEditor() {
   return (
     <>
       <div className={s.fileHead}>
-        <div className={s.subhead}>Reads {explicit ? <span className={s.edited}>edited</span> : <span className={s.dim}>· from base</span>}</div>
+        <div className={s.subhead}>Reads {explicit ? <span className={s.edited}>Edited</span> : <span className={s.dim}>· from base</span>}</div>
         <Button size="sm" variant="ghost" icon="undo" disabled={!explicit} onClick={() => d.edit((st) => setPlayField(st, "reads", undefined), "Reset reads")}>
-          Use base reads
+          Use Base Reads
         </Button>
       </div>
       <div className={s.reads}>
@@ -116,7 +116,7 @@ export function ReadsEditor() {
           if (pos !== undefined) write([...reads, { pos, pct: 0.5 }], "Add read");
         }}
       >
-        Add read{" "}
+        Add Read{" "}
         <span className={s.count}>
           {reads.length}/{max}
         </span>

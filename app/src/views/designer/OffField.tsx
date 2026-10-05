@@ -32,13 +32,13 @@ export function OffFieldNotice({ slot, lock }: { slot: number; lock: number }) {
         <p className={s.offFieldText}>
           {NOTE}{" "}
           {fitted
-            ? "Fit to field shortens the legs that head that way — the depth and the cuts stay."
-            : "Shorten the legs that head that way (drag the points, or Route points below)."}
+            ? "Fit to Field shortens the legs that head that way — the depth and the cuts stay."
+            : "Shorten the legs that head that way (drag the points, or Route Points below)."}
         </p>
       </div>
       {fitted && (
         <Button size="sm" variant="secondary" icon="route" onClick={() => d.commitSlot(slot, fitted, "Fit route to field")}>
-          Fit to field
+          Fit to Field
         </Button>
       )}
     </section>
@@ -56,11 +56,11 @@ export function warnIfOffField(d: DesignerCtxValue, slot: number, steps: Step[],
   if (!off) return;
   const canFit = !!fittedSteps(d, slot, steps, lock);
   toast.warning(`"${routeName}" ${offFieldText(off)} for this player`, {
-    detail: `${NOTE} ${canFit ? "Fit to field shortens the legs that head that way." : "Shorten the legs that head that way."}`,
+    detail: `${NOTE} ${canFit ? "Fit to Field shortens the legs that head that way." : "Shorten the legs that head that way."}`,
     duration: 8000,
     action: canFit
       ? {
-          label: "Fit to field",
+          label: "Fit to Field",
           run: () =>
             d.edit((st) => {
               const cur = st.slots[slot]?.steps;

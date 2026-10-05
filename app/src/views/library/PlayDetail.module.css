@@ -47,6 +47,7 @@
 .title {
   font-size: var(--fd-3xl);
   font-weight: 700;
+  text-transform: uppercase; /* play name */
   line-height: 0.95;
   white-space: nowrap;
   overflow: hidden;
@@ -106,7 +107,6 @@
   font-size: var(--fd-sm);
   line-height: 14px;
   letter-spacing: 0;
-  text-transform: uppercase;
   color: var(--text-3);
   font-variant-numeric: tabular-nums;
 }
@@ -178,8 +178,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .previewChip {
@@ -205,15 +204,13 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .previewText {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -289,8 +286,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   border-bottom: 1px solid var(--line);
   padding-bottom: 4px;
@@ -331,8 +327,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-md);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   text-align: left;
 }
 .blockHead .linkBtn {
@@ -366,8 +361,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .availOk .availTitle {
   color: var(--green);
@@ -395,8 +389,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   padding-top: 2px;
 }
@@ -510,15 +503,13 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  text-transform: uppercase;
   line-height: 1;
 }
 .playerPos {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   white-space: nowrap;
   overflow: hidden;
@@ -538,8 +529,7 @@
   font-family: var(--font-display);
   font-size: var(--fd-xs);
   font-weight: 500;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-4);
 }
 .playerBottom {
@@ -563,8 +553,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--art-route);
 }
 .playerFlags {
@@ -638,8 +627,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .raw pre {
@@ -710,7 +698,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  text-transform: uppercase;
   line-height: 1;
 }
 .readVip .readLabel {
@@ -755,8 +742,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .readCombo {
@@ -772,8 +758,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-2);
 }
 .vipDot {
@@ -814,8 +799,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   white-space: nowrap;
 }
@@ -831,7 +815,6 @@
   font-weight: 500;
   font-size: var(--fd-xs);
   letter-spacing: 0;
-  text-transform: uppercase;
   color: var(--text-4);
   font-variant-numeric: tabular-nums;
 }
@@ -854,8 +837,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 .routeGroupCount {
   font-family: var(--font-num);
@@ -900,7 +882,6 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  text-transform: uppercase;
   letter-spacing: 0.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -941,8 +922,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
   white-space: nowrap;
   overflow: hidden;
@@ -971,8 +951,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-sm);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--text-3);
 }
 .advanced > summary:hover {

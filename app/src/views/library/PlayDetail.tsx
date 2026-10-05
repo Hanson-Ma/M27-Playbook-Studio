@@ -41,9 +41,9 @@ export function PlayDetail({ playKey }: { playKey: string }) {
     return (
       <div className={s.center}>
         {status === "error" ? (
-          <EmptyState icon="warning" title="The play library didn't load" />
+          <EmptyState icon="warning" title="The Play Library Didn't Load" />
         ) : (
-          <EmptyState icon={<Spinner size={26} />} title="Loading the play library" />
+          <EmptyState icon={<Spinner size={26} />} title="Loading the Play Library" />
         )}
       </div>
     );
@@ -57,7 +57,7 @@ export function PlayDetail({ playKey }: { playKey: string }) {
           body={<span className={s.mono}>{playKey}</span>}
           action={
             <Button variant="primary" icon="chevronLeft" onClick={back}>
-              Back to library
+              Back to Library
             </Button>
           }
         />
@@ -177,7 +177,7 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
   // A library route preview opens a new play in the designer with that route on the player; saved routes are applied
   // in the designer itself (My Routes), so they only preview here.
   const previewHref = preview && !preview.item.saved && play.side !== "defense" ? designerNewHref(play, preview.slot, preview.item.path) : undefined;
-  const designerLabel = previewHref ? "Use route in designer" : design.label;
+  const designerLabel = previewHref ? "Use Route in Designer" : design.label;
   const designerOk = previewHref ? true : design.enabled;
   const runDesigner = () => {
     if (previewHref) navigate(previewHref);
@@ -194,7 +194,7 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
     });
 
   // Esc: clear the route preview first, then back to the grid.
-  useActions("library.detail", [{ id: "back", label: preview ? "Clear preview" : "Back", keys: ["Escape"], run: () => (preview ? setPreview(undefined) : back()) }]);
+  useActions("library.detail", [{ id: "back", label: preview ? "Clear Preview" : "Back", keys: ["Escape"], run: () => (preview ? setPreview(undefined) : back()) }]);
 
   const info = cardSubtitle(play, catalog);
   const highlight = hoverSlot ?? (preview ? preview.slot : undefined);
@@ -220,12 +220,12 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
             )}
             {catalog.customAssets?.has(play.set) && (
               <Tag tone="custom" variant="soft" size="sm" title="This play's set is a custom set (playbooks/sets/), built into the mod">
-                Custom set
+                Custom Set
               </Tag>
             )}
             {!play.global && (
               <Tag tone="needsMod" size="sm">
-                Needs mod
+                Needs Mod
               </Tag>
             )}
             {favorite && <span className={s.favStar}>★</span>}
@@ -242,7 +242,7 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
             {favorite ? "Favorited" : "Favorite"}
           </Button>
           <Button variant="secondary" icon="plus" onClick={() => openAddToPlaybook(play.key)}>
-            Add to playbook…
+            Add to Playbook…
           </Button>
           <Button variant="primary" icon={custom || previewHref ? "route" : "duplicate"} onClick={runDesigner} disabled={!designerOk} title={previewHref ? undefined : design.title}>
             {designerLabel}
@@ -287,7 +287,7 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
                   size="sm"
                   value={preset ?? "Normal"}
                   onChange={(v) => setPreset(v === "Normal" ? undefined : v)}
-                  options={[{ value: "Normal", label: "Normal (no motion)" }, ...presets.map((p) => ({ value: p, label: presetLabel(p) }))]}
+                  options={[{ value: "Normal", label: "Normal (No Motion)" }, ...presets.map((p) => ({ value: p, label: presetLabel(p) }))]}
                   aria-label="Motion preset"
                 />
               </div>

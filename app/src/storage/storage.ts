@@ -207,7 +207,7 @@ async function ensureWritable(handle: FsDirHandle): Promise<boolean> {
   }
 }
 
-/** Start screen: "Open folder…" (click handler). */
+/** Start screen: "Open Folder…" (click handler). */
 export async function openFolder(): Promise<void> {
   const cur = getPhase();
   const base = cur.phase === "folder" ? cur : { phase: "folder" as const, remembered: remembered?.name };
@@ -223,7 +223,7 @@ export async function openFolder(): Promise<void> {
         ...base,
         busy: false,
         problem: "The browser didn't allow saving to that folder.",
-        hint: "Click Open folder again and choose “Edit files” (or “Allow”) when the browser asks.",
+        hint: "Click Open Folder again and choose “Edit files” (or “Allow”) when the browser asks.",
       });
       return;
     }

@@ -13,22 +13,20 @@
   border-top: none;
   padding-top: 0;
 }
-/* section heads (PLAY, PLAY CALL): a step above the 12 px form labels under them */
+/* section heads (Play, Play Call): a step above the 12 px form labels under them */
 .eyebrow {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-lg);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text);
 }
-/* a heading inside a section (READS in Advanced): the old eyebrow size, a step under PLAY / PLAY CALL */
+/* a heading inside a section (Reads in Advanced): the old eyebrow size, a step under Play / Play Call */
 .subhead {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text);
   white-space: nowrap;
 }
@@ -162,6 +160,7 @@
   max-height: 220px;
   overflow-y: auto;
 }
+/* the file's plays by name: Madden play names, so caps */
 .fileRow {
   display: flex;
   align-items: center;

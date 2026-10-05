@@ -43,7 +43,7 @@ export const MotionBounds = memo(function MotionBounds({ visible = true, from, u
   const w = Math.abs(b.x - a.x);
   const h = Math.abs(b.y - a.y);
   const ppy = Math.max(pxPerYard, 0.5);
-  const text = label === true ? "Motion area" : label || "";
+  const text = label === true ? "Motion Area" : label || "";
   const reach = from ? motionReach(usedYards) : undefined;
   const c = from ? toSvg(from) : undefined;
   const scale = `scale(${+(1 / ppy).toPrecision(5)})`;

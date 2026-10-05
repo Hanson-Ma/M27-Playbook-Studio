@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import { computeArt, emptyArt } from "../../model/art";
 import type { LibraryIndex } from "../../model/library";
-import { formationShort } from "../../model/names";
+import { formationShort, maddenName } from "../../model/names";
 import { NORMAL, effectiveNormal, effectiveSet, flippedSet, issuesForSet, validateSetsFiles } from "../../model/sets";
 import type { CustomSetSpec, PlayArt, SetDef, SetsFile, ValidationIssue } from "../../model/types";
 import { useLibrary } from "../../state/library";
@@ -84,11 +84,13 @@ export function formationNameOf(lib: LibraryIndex, spec: CustomSetSpec, formatio
   return { name: lib.formationByAsset.get(spec.formation)?.name ?? "Unknown formation", custom: false };
 }
 
-/** "GUN · FROM Y TRIPS WK" style subtitle for a custom set: formation short name + base set. */
-export function customSubtitle(lib: LibraryIndex, spec: CustomSetSpec, formations: SetsFile["formations"]): string {
+/**
+ * The pieces of a custom set's "GUN · from Y TRIPS WK" subtitle: the formation's short name and the base set's name
+ * (Madden names: callers show them in caps, the "from" between them is chrome).
+ */
+export function customSubtitle(lib: LibraryIndex, spec: CustomSetSpec, formations: SetsFile["formations"]): { formation: string; from?: string } {
   const form = formationNameOf(lib, spec, formations);
-  const base = lib.setByAsset.get(spec.base)?.name;
-  return `${form.custom ? form.name.toUpperCase() : formationShort(form.name)}${base ? ` · FROM ${base.toUpperCase()}` : ""}`;
+  return { formation: form.custom ? form.name : formationShort(form.name), from: lib.setByAsset.get(spec.base)?.name };
 }
 
 /** Make `file` the doc that global undo/redo/save act on. */
@@ -129,7 +131,7 @@ export function setDisplayIssues(lib: LibraryIndex, fileIssues: ValidationIssue[
       where: `/sets/${index}/plays/${k}`,
       file: fileIssues[0]?.file,
       // Same "<set>: …" shape as validateSetsFile messages (the inspector strips the set name).
-      message: `${spec.name || "Set"}: play ${c.name || play.name} — ${first.label} ${first.reason}${w.length > 1 ? ` (+${w.length - 1} more)` : ""}`,
+      message: `${spec.name ? maddenName(spec.name) : "Set"}: Play ${maddenName(c.name || play.name)} — ${first.label} ${first.reason}${w.length > 1 ? ` (+${w.length - 1} more)` : ""}`,
     });
   });
   return out;

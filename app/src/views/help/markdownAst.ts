@@ -35,7 +35,7 @@ export type Block =
 
 export interface ParsedDoc {
   blocks: Block[];
-  /** Headings in order (for an "On this page" list): level, id, plain text. */
+  /** Headings in order (for an "On This Page" list): level, id, plain text. */
   toc: { level: number; id: string; text: string }[];
   /** Text of the first level-1 heading. */
   title?: string;
