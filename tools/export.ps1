@@ -5,6 +5,7 @@
 # Run on the machine with Madden 27 + MMC Editor. Close the game first when using -Install.
 param(
     [switch]$Install,
+    [string]$Bundle,   # zip downloaded from Playbook Studio (playbooks/**, app-data/**): unpacked into the repo first
     [switch]$SkipPlays,
     [string]$Template = "$PSScriptRoot\..\playbooks\templates\PBOOKOFF-TEMPLATE"
 )
@@ -14,6 +15,25 @@ $saves = Join-Path ([Environment]::GetFolderPath("MyDocuments")) "Madden NFL 27\
 Set-Location $root
 
 New-Item -ItemType Directory -Force build, backups | Out-Null
+
+# 0. Optional: import an export bundle from the web app (current playbooks/ and app-data/ are backed up first).
+if ($Bundle) {
+    $stamp = Get-Date -Format yyyyMMdd-HHmmss
+    $tmp = Join-Path $env:TEMP "pbstudio-bundle-$stamp"
+    Expand-Archive -LiteralPath $Bundle -DestinationPath $tmp -Force
+    $src = Get-ChildItem $tmp -Directory -Recurse -Filter playbooks | Select-Object -First 1
+    if (-not $src) { throw "bundle has no playbooks/ folder" }
+    foreach ($dir in "playbooks", "app-data") {
+        $from = Join-Path $src.Parent.FullName $dir
+        if (-not (Test-Path $from)) { continue }
+        if (Test-Path $dir) { robocopy $dir (Join-Path "backups" "$dir-$stamp") /E /NFL /NDL /NJH /NJS /NP | Out-Null }
+        # robocopy merges into the existing folder (Copy-Item -Recurse would nest it); exit codes < 8 are success.
+        robocopy $from $dir /E /NFL /NDL /NJH /NJS /NP | Out-Null
+        if ($LASTEXITCODE -ge 8) { throw "copying $dir from bundle failed ($LASTEXITCODE)" }
+        Write-Host "imported $dir from bundle (previous copy in backups\$dir-$stamp)"
+    }
+    Remove-Item $tmp -Recurse -Force
+}
 Remove-Item build\pull-plays.json -ErrorAction SilentlyContinue
 
 $bookFiles = @(Get-ChildItem playbooks\*.json | Where-Object Name -ne "mod.json")
