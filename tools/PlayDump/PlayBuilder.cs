@@ -66,6 +66,7 @@ namespace PlayDump
                 Console.Error.WriteLine($"pull {asset} (playId {r.playId})");
             }
             RegisterGlobal(built);
+            if (spec["formationOrder"] is JArray order) ReorderFormations(order);
             VerifyClosure(built.Select(b => b.entry));
             // PBS_DUMP_NEW=<dir>: write every asset this build added as JSON, to check what really landed in the EBX.
             string dumpDir = Environment.GetEnvironmentVariable("PBS_DUMP_NEW");
@@ -277,6 +278,39 @@ namespace PlayDump
             am.ModifyEbx(gpsEntry.Name, gps);
             gpsEntry.ModifiedEntry.DependentAssets.AddRange(plays.Select(x => x.entry.Guid));
             Console.Error.WriteLine($"registered {plays.Count} plays in {gpsEntry.Name}");
+        }
+
+        // Custom playbooks list formations in GlobalPlaySheet.FormationContainers order (verified in-game: the FUSION list
+        // read Goal Line, Pistol, I Form, Shotgun, Singleback = the stock container order). Move the named formations to
+        // the front, then rebuild setIds, which runs parallel to the flattened SetContainers.
+        void ReorderFormations(JArray order)
+        {
+            EbxAssetEntry gpsEntry = am.EnumerateEbx("GlobalPlaySheet").First();
+            EbxAsset gps = am.GetEbx(gpsEntry);
+            dynamic root = gps.RootObject;
+            List<PointerRef> fcs = root.FormationContainers;
+            string FormName(PointerRef p) => am.GetEbxEntry(((PointerRef)((dynamic)p.Internal).Formation).External.FileGuid).Name.ToLowerInvariant();
+            var frontIdx = order.Select(n =>
+            {
+                int i = fcs.FindIndex(p => FormName(p) == ((string)n).ToLowerInvariant());
+                return i >= 0 ? i : throw new InvalidOperationException("formationOrder: not in GlobalPlaySheet: " + n);
+            }).ToList();
+            var front = frontIdx.Select(i => fcs[i]).ToList();
+            var reordered = front.Concat(fcs.Where((p, i) => !frontIdx.Contains(i))).ToList();
+            var setIds = new List<uint>();
+            foreach (PointerRef fc in reordered)
+                foreach (PointerRef sc in (List<PointerRef>)((dynamic)fc.Internal).Sets)
+                {
+                    EbxAssetEntry e = am.GetEbxEntry(((PointerRef)((dynamic)sc.Internal).Set).External.FileGuid);
+                    EbxAsset set = e.IsAdded ? (EbxAsset)e.ModifiedEntry.DataObject : am.GetEbx(e);
+                    setIds.Add((uint)((dynamic)set.RootObject).setId);
+                }
+            List<uint> ids = root.setIds;
+            if (setIds.Count != ids.Count) throw new InvalidOperationException($"formationOrder: {setIds.Count} sets vs {ids.Count} setIds");
+            fcs.Clear(); fcs.AddRange(reordered);
+            ids.Clear(); ids.AddRange(setIds);
+            am.ModifyEbx(gpsEntry.Name, gps);
+            Console.Error.WriteLine("formation order: " + string.Join(", ", front.Select(p => FormName(p).Split('/').Last())));
         }
 
         // GlobalPlaySheet.playIds and formationIds are sorted ascending in the stock sheet; keep them that way.

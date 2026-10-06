@@ -1,5 +1,5 @@
 // Checks the built FUSION sets (PBS_DUMP_NEW dump in build/fusion/added) against the M24 mod: every skill player's
-// normal + flipped spot, and every motion preset's spots (normal + flipped), mapped through the converter's slot map.
+// normal + flipped spot, and every motion preset's motion man (normal + flipped spot), mapped through the converter's slot map.
 // usage: node tools/m24/verify-fusion-sets.mjs
 import { readFileSync, readdirSync } from "node:fs";
 import { readTdbBE } from "./tdbbe.mjs";
@@ -32,7 +32,8 @@ for (const f of F) for (const s of f.sets) {
   for (const pn of names.get(s.setl) ?? []) {
     const m = pn.match(/^(S?)M(\d)(le|ri|l|r)$/); if (!m) continue;
     const k = +m[2], m27 = `${m[1]}M${slotOf[k]}${m[3].startsWith("l") ? "left" : "right"}`;
-    for (const p of A(s.setl, pn).filter(p => p.poso >= 1 && p.poso <= 5 && p.x !== null)) {
+    // only the motion man moves (by design: no other player shifts during a motion)
+    for (const p of A(s.setl, pn).filter(p => p.poso === k && p.x !== null)) {
       const o = norm.find(z => z.poso === p.poso);
       if (eq(o.x, p.x) && eq(o.y, p.y) && eq(o.fx, p.fx) && eq(o.fy, p.fy)) continue; // doesn't move in this preset
       checked++;

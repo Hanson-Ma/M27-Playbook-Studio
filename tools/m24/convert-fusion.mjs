@@ -66,6 +66,8 @@ const ptVal = p => enums.OffensePlayType[p.offensePlayType] ?? -1;
 const qbAnim27 = p => { const s = stepsOf(p.assignments[0]).find(s => s.type === "CannedHandoff"); return s ? `${s.handoffAnim}/${s.flippedHandoffAnim}` : null; };
 const isRollout27 = p => stepsOf(p.assignments[0]).some(s => (s.type === "HandoffFake" && /ROLL/.test(s.handoffExit)) || (s.type === "QBScramble" && /NONE/.test(s.dropBackType) && s.distance >= 2));
 const hasPull27 = p => p.assignments.slice(6, 11).some(a => stepsOf(a).some(s => s.type === "InitialAnim" && /PULL/.test(s.anim) && !/SCREEN/.test(s.anim)));
+// a designed block whose M27 realignment belongs to the play (Wham TE): anything but a plain/stalk block
+const specialBlock = asset => stepsOf(asset).some(s => s.type === "LeadBlock" && !/STALK|WR_SCREEN/.test(s.blockingTechnique));
 const passBlockers27 = p => p.assignments.slice(1, 6).filter(a => /Block_Pass/.test(A[a]?.routeType ?? "") || (stepsOf(a).some(s => s.type === "PassBlock") && !stepsOf(a).some(s => s.type === "RunRoute"))).length;
 
 // ---------- set matching ----------
@@ -118,26 +120,35 @@ const shiftOf = steps => { const s = steps.find(x => x.code === 48); return s ? 
 const ofpStance = (type, spot) => type === "W" ? "Receiver" : type === "B" && spot.y < -3.5 ? "HB" : spot.y > -1.75 ? "ThreePoint" : "TwoPoint";
 const RUNBLOCK = { type: "RunBlock", stalkDistance: 0, slamDuration: 0, time: 0, flags: "RunBlockFlags_None", receiverBlockType: "RECEIVERBLOCKTYPE_STALK" };
 
-// M24 chain -> M27 steps. 45 = motion to an absolute spot (1/4 yd) starting at the snap; 46 ends the motion;
-// a waypoint past the line (y > -1) is the post-snap path, so it becomes MoveDirection legs.
-function convertSteps(steps, start, type, warn, { runPlay = false } = {}) {
+// M24 chain -> M27 steps.
+//  45 = motion to an absolute spot (1/4 yd) that starts when you snap; the ball is snapped at the first waypoint, so later
+//       waypoints are the post-snap path (return motions JR/RM keep both pre-snap); a waypoint past the line is clamped
+//       to the player's depth (the Wham TE's short motion inside).
+//  48 = pre-snap shift (OverrideFormPos). 18 = LeadBlock: M24 technique ids are M27's + 1 (5 wham, 12 stalk, 10 cutoff).
+//  14 = pass block (val2 2 = protect the receiver, screens); 15 = block: run block on runs/PA/RPO, pass pro otherwise.
+const ENUMS = L("enums.json").enums;
+const BT = ENUMS.BlockingTechnique, GAPS = ENUMS.BlockingGap, INIT = ENUMS.InitialMoveType;
+function convertSteps(steps, start, type, warn, { runPlay = false, kind = "pass", toks = [] } = {}) {
   const out = [];
   let pos = { ...start }, motion = null, motionDone = false;
+  const keepAllWaypoints = toks.includes("JR") || toks.includes("RM");
   const shift = shiftOf(steps);
   if (shift) { out.push({ type: "OverrideFormPos", stance: ofpStance(type, shift), offsetX: shift.x, offsetY: shift.y }); pos = { ...shift }; }
+  const blocker = !steps.some(x => x.code === 8 || x.code === 36 || x.code === 9);
+  const leg = (to, v3) => { const d = dist(pos, to); if (d > 0.1) out.push({ type: runPlay ? "MoveDirection" : "RunRoute", distance: r2(d), direction: r2(((Math.atan2(to.y - pos.y, to.x - pos.x) * 180 / Math.PI) + 360) % 360), speed: spd(v3) }); };
   for (let i = 0; i < steps.length; i++) {
     const s = steps[i];
     switch (s.code) {
       case 45: {
-        const to = { x: quarter(s.val1), y: quarter(s.val2) };
-        if (!motionDone && to.y <= -1) {
-          if (!motion) { motion = { type: "AutoMotion", waypoints: [], startEvent: "AUTOMOTIONSTARTEVENT_SNAP", startDelay: 0, endDelay: 0, automotionOrderTransitID: 1, automotionOrderPlayer: 0, stanceAtTarget: "StanceType_None", useLegacyLocoPathing: false, shouldStopAtTarget: false }; out.push(motion); }
+        let to = { x: quarter(s.val1), y: quarter(s.val2) };
+        if (!motionDone && !motion) {
+          if (to.y > -1) to = { x: to.x, y: pos.y };
+          motion = { type: "AutoMotion", waypoints: [], startEvent: "AUTOMOTIONSTARTEVENT_SNAP", startDelay: 0, endDelay: 0, automotionOrderTransitID: 1, automotionOrderPlayer: 0, stanceAtTarget: "StanceType_None", useLegacyLocoPathing: false, shouldStopAtTarget: false, $start: { ...pos } };
+          out.push(motion);
           motion.waypoints.push({ x: to.x, y: to.y, speed: spd(s.val3), facingAngle: 0, locoStyle: "AUTOMOTIONLOCOSTYLE_NORMAL", shouldFaceEndPoint: true });
-        } else {
-          motionDone = true;
-          const d = dist(pos, to);
-          if (d > 0.1) out.push({ type: runPlay ? "MoveDirection" : "RunRoute", distance: r2(d), direction: r2(((Math.atan2(to.y - pos.y, to.x - pos.x) * 180 / Math.PI) + 360) % 360), speed: spd(s.val3) });
-        }
+        } else if (!motionDone && keepAllWaypoints && to.y <= -1) {
+          motion.waypoints.push({ x: to.x, y: to.y, speed: spd(s.val3), facingAngle: 0, locoStyle: "AUTOMOTIONLOCOSTYLE_NORMAL", shouldFaceEndPoint: true });
+        } else { motionDone = true; leg(to, s.val3); }
         pos = to;
         break;
       }
@@ -162,19 +173,57 @@ function convertSteps(steps, start, type, warn, { runPlay = false } = {}) {
         if (options.length) out.push({ type: "OptionRoute", options });
         break;
       }
-      case 37: case 48: case 26: case 35: break;
+      case 26: // opening step of a blocker (TE pull across on PA P, screen blockers' release); routes keep M27's release
+        if (blocker && INIT[s.val1] && !/INVALID|NUM_MOVES|LAST_/.test(INIT[s.val1])) out.push({ type: "InitialAnim", optionalInitalDirection: -1, anim: INIT[s.val1], direction: r2(deg(s.val2)) });
+        break;
+      case 37: case 48: case 35: break;
       case 10: out.push({ type: "GetOpen" }); break;
       case 25: if (s.val1 > 0) out.push({ type: "Delay", time: r2(s.val1 / 32) }); break;
-      case 14: out.push({ type: "PassBlock", time: r2(s.val1 / 32), flags: "PassBlockFlags_None" }); break;
-      case 15: out.push(runPlay ? RUNBLOCK : { type: "PassBlock", time: 0, flags: "PassBlockFlags_ProtectReceiver" }); break;
-      case 18: out.push({ ...RUNBLOCK, receiverBlockType: "RECEIVERBLOCKTYPE_NORMAL" }); break;
+      case 14: out.push({ type: "PassBlock", time: r2(s.val1 / 32), flags: s.val2 === 2 ? "PassBlockFlags_ProtectReceiver" : "PassBlockFlags_None" }); break;
+      case 15: out.push(runPlay || kind === "pa" || kind === "rpo" ? { ...RUNBLOCK, receiverBlockType: "RECEIVERBLOCKTYPE_NORMAL" } : { type: "PassBlock", time: 0, flags: kind === "screen" ? "PassBlockFlags_ProtectReceiver" : "PassBlockFlags_None" }); break;
+      case 18: {
+        const tech = BT[s.val1 - 1];
+        out.push(tech && !/TOTAL|INVALID/.test(tech) ? { type: "LeadBlock", blockingTechnique: tech, blockingGap: s.val2 < 0 || !GAPS[s.val2] ? "RUN_HOLE" : GAPS[s.val2] } : { ...RUNBLOCK, receiverBlockType: "RECEIVERBLOCKTYPE_NORMAL" });
+        break;
+      }
       case 255: i = steps.length; break;
       default: warn(`step code ${s.code} skipped`);
     }
   }
   const last = out.at(-1);
   if (last && /RunRoute|ReceiverCut|Delay|OptionRoute/.test(last.type) && !out.some(s => s.type === "GetOpen")) out.push({ type: "GetOpen" });
+  tuneMotion(out, start, toks);
+  for (const st of out) delete st.$start;
   return out;
+}
+
+// Motion feel (user notes): jets (J/JW/JF/JB) run full speed and snap just after crossing the QB; burst motions (BM)
+// travel about twice as far; the YM RPO TE motion goes a bit further. The route after the motion keeps its shape.
+function moveAlongLeg(out, mi, extra) {
+  const m = out[mi], w = m.waypoints[0];
+  const li = out.findIndex((x, k) => k > mi && /RunRoute|MoveDirection/.test(x.type));
+  if (li < 0) return;
+  const l = out[li], t = Math.min(extra, l.distance - 0.5);
+  if (t <= 0) return;
+  w.x = r2(w.x + t * Math.cos(l.direction * Math.PI / 180)); w.y = r2(w.y + t * Math.sin(l.direction * Math.PI / 180));
+  l.distance = r2(l.distance - t);
+}
+function tuneMotion(out, start, toks) {
+  const mi = out.findIndex(x => x.type === "AutoMotion");
+  if (mi < 0) return;
+  const m = out[mi], w = m.waypoints[0], from = m.$start ?? start;
+  const jet = toks.some(t => /^J[WFB]?$/.test(t));
+  if (jet) {
+    for (const p of m.waypoints) p.speed = 100;
+    const side = Math.sign(from.x), li = out.findIndex((x, k) => k > mi && /RunRoute|MoveDirection/.test(x.type));
+    if (side && li > 0 && m.waypoints.length === 1 && Math.sign(w.x) !== -side) {
+      const c = Math.cos(out[li].direction * Math.PI / 180);
+      if (Math.sign(c) === -side && Math.abs(c) > 0.3) moveAlongLeg(out, mi, (Math.abs(w.x) + 1.25) / Math.abs(c));
+    }
+  }
+  // bursts are short hops; a long BM motion (the Hail Mary HB) keeps its length
+  if (toks.includes("BM") && m.waypoints.length === 1 && dist(from, w) < 3) { w.x = r2(from.x + (w.x - from.x) * 2); w.y = r2(from.y + (w.y - from.y) * 2); }
+  if (toks.includes("YM") && toks.includes("RPO")) moveAlongLeg(out, mi, 1.5);
 }
 
 function routeType(steps, startX) {
@@ -321,7 +370,7 @@ function findBase(p, kind, info, custom, hbShift, slotOf) {
     return null;
   }
   if (kind === "pa" || kind === "rpo") {
-    const passLike = q => !RUN_TYPES.has(ptVal(q)) && !TRICK.has(ptVal(q));
+    const passLike = q => !RUN_TYPES.has(ptVal(q)) && !TRICK.has(ptVal(q)) && (kind === "rpo" || !RPO_TYPES.has(ptVal(q)));
     const rolls = q => isRollout27(q) === rollout;
     const pull = q => hasPull27(q) === wantPull;
     const rpoFirst = kind === "rpo" ? [q => RPO_TYPES.has(ptVal(q)) && rolls(q) && pull(q), q => RPO_TYPES.has(ptVal(q))] : [q => !RPO_TYPES.has(ptVal(q)) && rolls(q) && pull(q), q => !RPO_TYPES.has(ptVal(q)) && rolls(q), q => rolls(q)];
@@ -343,7 +392,14 @@ function findBase(p, kind, info, custom, hbShift, slotOf) {
   const dropTiers = kind === "pass" ? tiers : setTiers(info, custom, null, false);
   const isScreen = q => ptVal(q) === 5 || /screen/i.test(q.name);
   const drop = q => !RUN_TYPES.has(ptVal(q)) && !TRICK.has(ptVal(q)) && !RPO_TYPES.has(ptVal(q)) && !q.assignments.slice(1, 6).some(hasHandoff);
-  if (kind === "screen") { const q = search(tiers, q => isScreen(q) && !RPO_TYPES.has(ptVal(q)), [q => /slip/i.test(q.name)]); if (q) return { q, how: "screen" }; }
+  if (kind === "screen") {
+    // the M24 back's screen side (sum of his legs) must match the M27 back's, and it must be the back's screen
+    const side24 = Math.sign((p.players.find(x => x.poso === 1)?.steps ?? []).filter(x => x.code === 3 || x.code === 8).reduce((a, x) => a + yds(x.val1) * Math.cos(deg(x.val2) * Math.PI / 180), 0));
+    const side27 = q => Math.sign(stepsOf(q.assignments[1]).filter(x => /RunRoute|MoveDirection/.test(x.type)).reduce((a, x) => a + x.distance * Math.cos(x.direction * Math.PI / 180), 0));
+    const hbScreen = q => isScreen(q) && !RPO_TYPES.has(ptVal(q)) && !/TE |WR |Y |Jet|Tunnel|Bubble/i.test(q.name) && side27(q) === side24 && !hasHandoff(q.assignments[1]);
+    const q = search(tiers, hbScreen, [q => /slip/i.test(q.name), q => /HB/.test(q.name)]);
+    if (q) return { q, how: `HB screen to the ${side24 > 0 ? "right" : "left"}` };
+  }
   const q = search(dropTiers, q => drop(q) && !isScreen(q), [q => ptVal(q) === p.plyt && !/rollout|boot|sprint|PA/i.test(q.name), q => PASS_TYPES.has(ptVal(q)) && !/rollout|boot|sprint|PA/i.test(q.name), q => PASS_TYPES.has(ptVal(q))]);
   return q ? { q, how: kind === "pass" || kind === "screen" ? "dropback" : `${kind.toUpperCase()} fell back to a dropback${hbWide ? " (back split out)" : ""}` } : null;
 }
@@ -429,6 +485,8 @@ function portPresets(setl, norm24, slotOf, custom) {
       return e;
     });
     if (!entries.some(e => e.motionMan)) entries[0].motionMan = true;
+    // the motion man moves alone: no other player shifts during a motion (user request)
+    entries.splice(0, entries.length, ...entries.filter(e => e.motionMan));
     out[`${name.startsWith("S") ? "S" : ""}M${slotOf[k]}${dir}`] = entries;
   }
   return out;
@@ -512,35 +570,35 @@ for (const f of F) {
         // M24 shift for a ball carrier: go to the source play's spot so the precan lines up (PM = back on the other side)
         const shiftStep = spot => ({ type: "OverrideFormPos", stance: ofpStance(typeAt(j), spot), offsetX: spot.x, offsetY: spot.y });
         const carrierShift = shift && mechanics ? (dist(srcN[j], shift) < 1.5 ? srcN[j] : shift) : shift;
+        const opts = { kind, toks: tokensOf(name) };
+        // a blocker that moves first (motion, shift, pull across, release): his whole M24 chain, with its exact block
+        const movingBlocker = !isRoute(st) && (hasMotion(st) || shift || st.some(x => x.code === 3 || x.code === 26)) && st.some(x => [14, 15, 18].includes(x.code)) && !st.some(x => x.code === 58 || x.code === 13);
         if (runPlay || mechanics || (kind === "rpo" && i === 1) || (kind === "screen" && i === 1)) {
-          // M27 keeps this player (run blocking, handoff/fake/read mechanics) - unless M24 gave a receiver a motion to keep
-          if (runPlay && !mechanics && i >= 2 && hasMotion(st) && !hasMotion27(baseA) && !st.some(x => x.code === 58 || x.code === 13)) {
-            const steps = convertSteps(st, { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, { runPlay: true });
+          // M27 keeps this player (run blocking, handoff/fake/read mechanics) - unless M24 gave a blocker a motion/shift (Wham, YM)
+          if (runPlay && !mechanics && i >= 2 && (hasMotion(st) || shift) && !st.some(x => x.code === 58 || x.code === 13)) {
+            const steps = convertSteps(st, { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, { runPlay: true, ...opts });
             if (!steps.some(x => /Block/.test(x.type))) steps.push(RUNBLOCK);
             players[j] = newAssignment(steps, m24[i].x, { routeType: "AssignRouteType_Block_Run" });
           } else if (!runPlay && mechanics && i === 1 && kind === "pa" && st.length && isRoute(st.slice(lastMech + 1))) {
             // PA back: M27 fake, then the M24 route that follows the M24 fake
             const keep = stepsOf(baseA).findLastIndex(x => HANDOFF_STEPS.has(x.type) || x.type === "AutoMotion") + 1;
-            const steps = convertSteps(st.slice(lastMech + 1), { x: m24[i].x, y: m24[i].y }, typeAt(j), warn);
+            const steps = convertSteps(st.slice(lastMech + 1), { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, opts);
             players[j] = newAssignment(steps, m24[i].x, { keep, template: baseA.replace(AROOT, ""), drop: ["OverrideFormPos"], prepend: carrierShift ? [shiftStep(carrierShift)] : [] });
-          } else if (carrierShift || hasOFP(baseA)) {
+          } else if (carrierShift || (hasOFP(baseA) && !specialBlock(baseA))) {
+            // M27 realignments that only reposition players to the stock formation go; designed ones (Wham TE) stay
             players[j] = keptAssignment(baseA, carrierShift ? [shiftStep(carrierShift)] : []);
           }
-        } else if (isRoute(st) || hasMotion(st)) {
-          const steps = convertSteps(st.slice(st[0]?.code === 58 ? lastMech + 1 : 0), { x: m24[i].x, y: m24[i].y }, typeAt(j), warn);
+        } else if (isRoute(st) || hasMotion(st) || movingBlocker) {
+          const steps = convertSteps(st.slice(st[0]?.code === 58 ? lastMech + 1 : 0), { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, opts);
           if (shift && !steps.some(x => x.type === "OverrideFormPos")) steps.unshift(shiftStep(shift));
           players[j] = newAssignment(steps, m24[i].x);
         } else if (st.some(x => x.code === 14 || x.code === 15 || x.code === 18)) {
           players[j] = kind === "rpo" ? "Blocking/RunBlock_All" : "Blocking/ALL_PassBlock";
-        } else if (hasOFP(baseA)) {
+        } else if (hasOFP(baseA) && !specialBlock(baseA)) {
           players[j] = keptAssignment(baseA);
           if (st.length > 1) warn(`slot ${j}: M24 chain ${st.map(x => x.code).join(",")} not recognized, kept M27 (minus its shift)`);
         } else if (st.length > 1) warn(`slot ${j}: M24 chain ${st.map(x => x.code).join(",")} not recognized, kept M27`);
         if (typeof players[j] === "object") stats.assignments.add(players[j].new);
-      }
-      if (kind === "pa" && tokensOf(name).includes("P") && !hasPull27(base)) {
-        const donor = pullDonor(base, n[0]);
-        if (donor) { for (let j = 6; j <= 10; j++) players[j] = donor.assignments[j].replace(AROOT, ""); log(`    - ${name}: pulling line borrowed from "${donor.name}" (${setByAsset.get(donor.set).name})`); }
       }
       if (Object.keys(players).length) entry.players = players;
 
@@ -564,12 +622,9 @@ for (const f of F) {
             if (!v) reads.unshift({ pos: vip, pct: Math.min(1, r2(top + 0.05)) || 0.9, combo: 0, concept: "Concept_Invalid" });
             else if (v.pct <= top) { v.pct = Math.min(1, r2(top + 0.05)); if (v.pct <= top) reads.filter(r => r.pos !== vip && r.pct >= v.pct).forEach(r => r.pct = r2(v.pct - 0.05)); }
           }
-          // M27 RPOs throw to one (Alert) or two (Read/Peek) pass options; the rest keep their routes as decoys
-          if (kind === "rpo" && RPO_TYPES.has(ptVal(base))) {
-            const max = ptVal(base) === 207 ? 1 : 2;
-            const keepPos = new Set([...reads].filter(r => r.pct > 0).sort((a, b) => (b.pos === vip) - (a.pos === vip) || b.pct - a.pct).slice(0, max).map(r => r.pos));
-            for (const r of reads) if (!keepPos.has(r.pos)) r.pct = 0;
-          }
+          // RPO: every receiver with a route is throwable (a read percentage above 0)
+          if (kind === "rpo") for (const r of reads) if (routeSlots.has(r.pos) && r.pct <= 0) r.pct = 0.1;
+          if (kind === "rpo") for (const j of routeSlots) if (!reads.some(r => r.pos === j)) reads.push({ pos: j, pct: 0.1, combo: 0, concept: "Concept_Invalid" });
           if (reads.length) entry.reads = reads;
         }
         stats.passes++;
@@ -593,7 +648,7 @@ for (const f of F) {
       const shifted = Object.values(players).some(a => typeof a === "object" && (a.prepend?.length || a.steps?.some(x => x.type === "OverrideFormPos")));
       if (toks.some(t => /^(J[WFRB]?|YM|EM|YEM|BM|RM|HBM)$/.test(t)) && !motionSlots.length && !shifted) issues.push("no motion");
       if (toks.includes("PM") && !Object.values(players).some(a => typeof a === "object" && (a.prepend?.length || a.steps?.some(x => x.type === "OverrideFormPos")))) issues.push("no pre-motion shift");
-      if (toks.includes("P") && !hasPull27(base) && typeof players[7] !== "string" && typeof players[9] !== "string") issues.push("no pulling lineman");
+      if (toks.includes("P") && ![1, 2, 3, 4, 5].some(j => typeof players[j] === "object" && players[j].steps?.some(x => x.type === "MoveDirection") && players[j].steps?.some(x => /Block/.test(x.type)))) issues.push("no pull-across block");
       if (/\bboot\b/i.test(name) && !isRollout27(base)) issues.push("QB doesn't roll out");
       if ((kind === "pa" || kind === "rpo" || runPlay) && anim && qbAnim27(base) !== anim) issues.push(`handoff ${anim} not matched (got ${qbAnim27(base)})`);
       audit.push(`| ${target} | ${setName} | ${name} | ${kind} | ${motionSlots.join(",") || "-"} | ${issues.join("; ") || "ok"} |`);

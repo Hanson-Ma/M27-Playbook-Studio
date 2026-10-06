@@ -11,5 +11,16 @@
     "PositionAssignmentDefine": "football/Gameplay/playbooks/PlayLibrary/Assignments/RunRoute/WR_Run90for30",
     "Set": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk",
     "Formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun"
-  }
+  },
+  "formationOrder": [
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Singleback",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/I_Form",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Pistol",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Goal_Line_Offense",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Hail_Mary/Hail_Mary",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Special/Special",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Kickoff/Kickoff/Kickoff",
+    "football/Gameplay/playbooks/PlayLibrary/Formations/SafetyKickoff/Safety_Kickoff/Safety_Kickoff"
+  ]
 }

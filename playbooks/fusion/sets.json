@@ -118,16 +118,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 5,
-      "y": -1.2,
-      "fx": -5,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_3pt",
-      "fstance": "StanceType_3pt"
      }
     ],
     "M2right": [
@@ -140,16 +130,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 5,
-      "y": -2.2,
-      "fx": -5,
-      "fy": -1.2,
-      "motionMan": false,
-      "stance": "StanceType_3pt",
-      "fstance": "StanceType_3pt"
      }
     ],
     "M5right": [
@@ -207,7 +187,23 @@
      "asset": "FUS_YM_RPO_Stick",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Pro/HB_Blast_Alert_Z_Lookie",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_e0815a2c3a",
+       "routeType": "AssignRouteType_Block_Pass",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_HOLE_BACKSIDE",
+         "blockingGap": "A_GAP_Left"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_2c9e8760fa",
        "routeType": "AssignRouteType_RR_Hitch",
@@ -233,7 +229,7 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -243,29 +239,29 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
       "5": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_80bfc0b56f",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": 0.75,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -284,7 +280,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 4.75,
          "direction": 180,
          "speed": 100
         },
@@ -310,7 +306,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -322,7 +318,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -690,7 +686,29 @@
         }
        ]
       },
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_ea6d7b26f8",
+       "routeType": "AssignRouteType_RR_Wheel_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 2,
+         "direction": 149.06,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_e19d03635b",
        "routeType": "AssignRouteType_RR_Curl_Medium",
@@ -846,7 +864,29 @@
      "asset": "FUS_PA_P_Deep_Curls",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/PA_Misdirection",
      "players": {
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_ea6d7b26f8",
+       "routeType": "AssignRouteType_RR_Wheel_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 2,
+         "direction": 149.06,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_d30102cff2",
        "routeType": "AssignRouteType_RR_Curl_Medium",
@@ -919,12 +959,29 @@
         }
        ]
       },
-      "5": "Blocking/ALL_PassBlock",
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/LG_Pull_H6_PowerORt",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/ALL_Run_Action_Block",
-      "10": "Blocking/ALL_Run_Action_Block"
+      "5": {
+       "new": "FUSION/R_54566f2a93",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 6,
+         "direction": 180,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
@@ -991,7 +1048,29 @@
         }
        ]
       },
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_ea6d7b26f8",
+       "routeType": "AssignRouteType_RR_Wheel_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 2,
+         "direction": 149.06,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_ddee85297b",
        "routeType": "AssignRouteType_RR_Drag",
@@ -1251,26 +1330,6 @@
     ],
     "M5right": [
      {
-      "slot": 3,
-      "x": -9,
-      "y": -0.8,
-      "fx": -9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 4,
-      "x": 11,
-      "y": -0.8,
-      "fx": 9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": 8,
       "y": -2.2,
@@ -1294,26 +1353,6 @@
      }
     ],
     "M5left": [
-     {
-      "slot": 3,
-      "x": -9,
-      "y": -0.8,
-      "fx": -11,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 4,
-      "x": 9,
-      "y": -0.8,
-      "fx": 9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": -5,
@@ -2047,15 +2086,15 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Split_Close_Pro/Corner_Strike",
      "players": {
       "1": {
-       "new": "FUSION/R_3982392840",
+       "new": "FUSION/R_3c73b8a8a9",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17.5,
-           "y": -2.5,
+           "x": -15,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -2496,16 +2535,6 @@
     ],
     "M5left": [
      {
-      "slot": 4,
-      "x": 9,
-      "y": -0.8,
-      "fx": 9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": -5,
       "y": -2.2,
@@ -2566,16 +2595,6 @@
     ],
     "M5right": [
      {
-      "slot": 3,
-      "x": -9,
-      "y": -0.8,
-      "fx": -9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": 18,
       "y": -1.2,
@@ -2617,7 +2636,29 @@
      "asset": "FUS_PA_Cross",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/PA_Deep_Cross_Go",
      "players": {
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_aa2fde07cd",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_BACKSTEP",
+         "direction": 22.5
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 0.88,
+         "direction": 19.689999999999998,
+         "speed": 75
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_3ec6bc10f3",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -2926,7 +2967,29 @@
         }
        ]
       },
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_ea6d7b26f8",
+       "routeType": "AssignRouteType_RR_Wheel_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 2,
+         "direction": 149.06,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_a470706886",
        "routeType": "AssignRouteType_RR_Streak",
@@ -3080,7 +3143,23 @@
         }
        ]
       },
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_f52d3ec02b",
+       "routeType": "AssignRouteType_Block_Pass",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 2.81
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_HOLE_LAST",
+         "blockingGap": "D_GAP_RIGHT"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_7f2fc9e6d9",
        "routeType": "AssignRouteType_RR_Option_Route",
@@ -3126,16 +3205,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -3152,7 +3231,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -3245,7 +3324,23 @@
      "asset": "FUS_PA_Double_Post",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_7872ed48d3",
+       "routeType": "AssignRouteType_Block_Pass",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 137.81
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE",
+         "blockingGap": "RUN_HOLE"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_5b63761da8",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -3600,7 +3695,29 @@
      "asset": "FUS_RZ_FM_PA_Mesh",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_aa2fde07cd",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_BACKSTEP",
+         "direction": 22.5
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 0.88,
+         "direction": 19.689999999999998,
+         "speed": 75
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_773f0688b9",
        "routeType": "AssignRouteType_RR_In_Middle",
@@ -3843,7 +3960,23 @@
      "asset": "FUS_YM_RPO_Stick",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Dive_Alert_Bubble",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_d7dc52db83",
+       "routeType": "AssignRouteType_Block_Pass",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 45
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE",
+         "blockingGap": "A_GAP_RIGHT"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_2c9e8760fa",
        "routeType": "AssignRouteType_RR_Hitch",
@@ -3870,14 +4003,14 @@
       },
       "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_80bfc0b56f",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": 0.75,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -3896,7 +4029,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 4.75,
          "direction": 180,
          "speed": 100
         },
@@ -3922,7 +4055,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -3975,21 +4108,27 @@
        "steps": []
       },
       "2": {
-       "new": "FUSION/R_f7c9dfd363",
-       "template": "Blocking/FB_IForm_H1_Lead_Backside",
-       "keep": -1,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [
+       "new": "FUSION/R_babe100c35",
+       "routeType": "AssignRouteType_Block_Run",
+       "steps": [
         {
          "type": "OverrideFormPos",
          "stance": "TwoPoint",
          "offsetX": -1.25,
          "offsetY": -2.25
+        },
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 129.38
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_BACKSIDE_CUTOFF",
+         "blockingGap": "A_GAP_Left"
         }
-       ],
-       "steps": []
+       ]
       }
      }
     },
@@ -4204,7 +4343,23 @@
         }
        ]
       },
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_572095dfcc",
+       "routeType": "AssignRouteType_Block_Pass",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 143.44
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_074d3cfc92",
        "routeType": "AssignRouteType_RR_In_Middle",
@@ -4334,7 +4489,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace/HB_Zone_Wk",
      "players": {
       "5": {
-       "new": "FUSION/R_7f5a690e2a",
+       "new": "FUSION/R_1de901f37e",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -4370,7 +4525,7 @@
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_STALK"
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
       }
@@ -4588,16 +4743,6 @@
    "presets": {
     "M5left": [
      {
-      "slot": 3,
-      "x": -5,
-      "y": -2.2,
-      "fx": 8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": -10,
       "y": -2.2,
@@ -4634,16 +4779,6 @@
     ],
     "M2right": [
      {
-      "slot": 3,
-      "x": -8,
-      "y": -0.8,
-      "fx": 5,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 2,
       "x": 18,
       "y": -2.2,
@@ -4668,26 +4803,6 @@
     ],
     "M4left": [
      {
-      "slot": 2,
-      "x": -8,
-      "y": -0.8,
-      "fx": -10,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 8,
-      "y": -0.8,
-      "fx": 8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 4,
       "x": -10,
       "y": -2.2,
@@ -4699,26 +4814,6 @@
      }
     ],
     "M4right": [
-     {
-      "slot": 2,
-      "x": -8,
-      "y": -0.8,
-      "fx": -8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 10,
-      "y": -2.2,
-      "fx": 8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 4,
       "x": 18,
@@ -4884,16 +4979,16 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -4910,7 +5005,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -5039,19 +5134,41 @@
         }
        ]
       },
-      "3": "Blocking/ALL_PassBlock",
+      "3": {
+       "new": "FUSION/R_117a66fbb7",
+       "routeType": "AssignRouteType_RR_Flat_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 168.75
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "4": "Blocking/ALL_PassBlock",
       "5": {
-       "new": "FUSION/R_485eb412a7",
+       "new": "FUSION/R_1b257b27bf",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.5,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -4,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -5068,7 +5185,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.43,
          "direction": 191.25,
          "speed": 100
         },
@@ -5220,16 +5337,16 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -5246,7 +5363,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -5485,7 +5602,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/HB_Dive",
      "players": {
       "5": {
-       "new": "FUSION/R_34b4a0734c",
+       "new": "FUSION/R_4718874c06",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -5527,7 +5644,7 @@
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_STALK"
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
       }
@@ -5544,7 +5661,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Counter",
      "players": {
       "5": {
-       "new": "FUSION/R_6a5ff081e4",
+       "new": "FUSION/R_4b916f5061",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -5581,12 +5698,9 @@
          "speed": 100
         },
         {
-         "type": "RunBlock",
-         "stalkDistance": 0,
-         "slamDuration": 0,
-         "time": 0,
-         "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE",
+         "blockingGap": "RUN_HOLE"
         }
        ]
       }
@@ -6327,14 +6441,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -6353,7 +6467,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -6440,7 +6554,29 @@
      "asset": "FUS_PA_P_Deep_Curls",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/PA_Misdirection",
      "players": {
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_54566f2a93",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 6,
+         "direction": 180,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_e19d03635b",
        "routeType": "AssignRouteType_RR_Curl_Medium",
@@ -6544,12 +6680,7 @@
          "type": "GetOpen"
         }
        ]
-      },
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/LG_Pull_H6_PowerORt",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/ALL_Run_Action_Block",
-      "10": "Blocking/ALL_Run_Action_Block"
+      }
      },
      "vip": 4,
      "reads": [
@@ -6590,7 +6721,29 @@
      "asset": "FUS_PA_P_Double_Post",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_54566f2a93",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 6,
+         "direction": 180,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_5b63761da8",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -6688,12 +6841,7 @@
          "type": "GetOpen"
         }
        ]
-      },
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/LG_Pull_H6_PowerORt",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/ALL_Run_Action_Block",
-      "10": "Blocking/ALL_Run_Action_Block"
+      }
      },
      "vip": 3,
      "reads": [
@@ -6814,16 +6962,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -6840,7 +6988,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -7022,16 +7170,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -7048,7 +7196,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -7163,16 +7311,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -7189,7 +7337,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -7211,7 +7359,7 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -7221,17 +7369,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       }
@@ -7252,7 +7400,7 @@
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 1,
        "concept": "Concept_Invalid"
       },
@@ -7264,7 +7412,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.05,
        "combo": 2,
        "concept": "Concept_Invalid"
       }
@@ -7368,16 +7516,6 @@
     ],
     "M3left": [
      {
-      "slot": 5,
-      "x": -5,
-      "y": -2.2,
-      "fx": 7,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 3,
       "x": -18,
       "y": -2.2,
@@ -7389,16 +7527,6 @@
      }
     ],
     "M2right": [
-     {
-      "slot": 5,
-      "x": -7,
-      "y": -0.8,
-      "fx": 5,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 2,
       "x": 8,
@@ -7509,16 +7637,16 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_fa3ab7ff28",
+       "new": "FUSION/R_5d8225f8b7",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": 1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -7535,7 +7663,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 11.25,
          "speed": 100
         },
@@ -7780,12 +7908,29 @@
         }
        ]
       },
-      "5": "Blocking/ALL_PassBlock",
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/LG_Pull_H6_PowerORt",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/ALL_Run_Action_Block",
-      "10": "Blocking/ALL_Run_Action_Block"
+      "5": {
+       "new": "FUSION/R_e4d483c006",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 0
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 6,
+         "direction": 0,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
@@ -8049,7 +8194,31 @@
         }
        ]
       },
-      "2": "Blocking/ALL_PassBlock",
+      "2": {
+       "new": "FUSION/R_58f8ba0a13",
+       "routeType": "AssignRouteType_Block_Run",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 39.38
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_KICKOUT",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
+         "type": "RunBlock",
+         "stalkDistance": 0,
+         "slamDuration": 0,
+         "time": 0,
+         "flags": "RunBlockFlags_None",
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_7f2fc9e6d9",
        "routeType": "AssignRouteType_RR_Option_Route",
@@ -8205,7 +8374,29 @@
      "asset": "FUS_RPO_Bubble",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Dive_Alert_Bubble",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_117a66fbb7",
+       "routeType": "AssignRouteType_RR_Flat_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 168.75
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_22f5fc796c",
        "routeType": "AssignRouteType_RR_Wheel_Lt",
@@ -8227,7 +8418,29 @@
        ]
       },
       "4": "Blocking/RunBlock_All",
-      "5": "Blocking/RunBlock_All"
+      "5": {
+       "new": "FUSION/R_117a66fbb7",
+       "routeType": "AssignRouteType_RR_Flat_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 168.75
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      }
      },
      "vip": 3,
      "reads": [
@@ -8678,15 +8891,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_2ea5dcb93b",
+       "new": "FUSION/R_ab1512f96d",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
-           "y": -3.25,
+           "x": 1.25,
+           "y": -2.9,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -8704,7 +8917,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.73,
          "direction": 5.6299999999999955,
          "speed": 100
         },
@@ -8829,7 +9042,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Flex/HB_Dive",
      "players": {
       "3": {
-       "new": "FUSION/R_efa8639304",
+       "new": "FUSION/R_bf2fdde1a1",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -8871,7 +9084,7 @@
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_STALK"
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
       }
@@ -9255,19 +9468,37 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_7f9cc519bb",
-       "routeType": "AssignRouteType_RR_Hitch",
+       "new": "FUSION/R_e597b8ad05",
+       "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
-         "type": "RunRoute",
-         "distance": 4.73,
-         "direction": 83.93,
-         "speed": 35
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": 5.5,
+           "y": -2.2,
+           "speed": 35,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
         },
         {
-         "type": "PassBlock",
+         "type": "RunBlock",
+         "stalkDistance": 0,
+         "slamDuration": 0,
          "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
+         "flags": "RunBlockFlags_None",
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
       },
@@ -9552,7 +9783,7 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_1b6288fa2b",
+       "new": "FUSION/R_a68b489631",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
@@ -9561,7 +9792,7 @@
           {
            "x": 9,
            "y": -5,
-           "speed": 50,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -9599,7 +9830,29 @@
         }
        ]
       },
-      "4": "Blocking/ALL_PassBlock",
+      "4": {
+       "new": "FUSION/R_9f2825c7af",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_TRAP_PULL",
+         "direction": 174.38
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 174.38,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "5": {
        "new": "FUSION/R_63e6f6b32a",
        "routeType": "AssignRouteType_RR_Option_Route",
@@ -9643,12 +9896,7 @@
          "type": "GetOpen"
         }
        ]
-      },
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/LG_Pull_H6_PowerORt",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/ALL_Run_Action_Block",
-      "10": "Blocking/ALL_Run_Action_Block"
+      }
      },
      "vip": 5,
      "reads": [
@@ -9851,7 +10099,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/HB_Wham",
      "players": {
       "4": {
-       "new": "FUSION/R_14fcedbc61",
+       "new": "FUSION/R_b638d64b4a",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -9861,30 +10109,32 @@
          "offsetY": -2.25
         },
         {
-         "type": "MoveDirection",
-         "distance": 4.98,
-         "direction": 107.53,
-         "speed": 35
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": 5.5,
+           "y": -2.25,
+           "speed": 35,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
         },
         {
-         "type": "RunBlock",
-         "stalkDistance": 0,
-         "slamDuration": 0,
-         "time": 0,
-         "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_WHAM",
+         "blockingGap": "RUN_HOLE"
         }
        ]
-      },
-      "5": {
-       "new": "FUSION/R_44cfde9ca7",
-       "template": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion",
-       "keep": -1,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": []
       }
      }
     },
@@ -10153,7 +10403,7 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_1b6288fa2b",
+       "new": "FUSION/R_a68b489631",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
@@ -10162,7 +10412,7 @@
           {
            "x": 9,
            "y": -5,
-           "speed": 50,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -10200,7 +10450,29 @@
         }
        ]
       },
-      "4": "Blocking/ALL_PassBlock",
+      "4": {
+       "new": "FUSION/R_54566f2a93",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 6,
+         "direction": 180,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "5": {
        "new": "FUSION/R_c184cd26af",
        "routeType": "AssignRouteType_RR_Post_Deep",
@@ -10244,12 +10516,7 @@
          "type": "GetOpen"
         }
        ]
-      },
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/LG_Pull_H6_PowerORt",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/ALL_Run_Action_Block",
-      "10": "Blocking/ALL_Run_Action_Block"
+      }
      },
      "vip": 2,
      "reads": [
@@ -10683,16 +10950,6 @@
    "presets": {
     "M4left": [
      {
-      "slot": 3,
-      "x": -10,
-      "y": -2.2,
-      "fx": 8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 4,
       "x": -5,
       "y": -2.2,
@@ -10701,16 +10958,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 5,
-      "y": -1.2,
-      "fx": -5,
-      "fy": -2.35,
-      "motionMan": false,
-      "stance": "StanceType_3pt",
-      "fstance": "StanceType_3pt"
      }
     ],
     "M1left": [
@@ -10775,16 +11022,6 @@
     ],
     "M2right": [
      {
-      "slot": 3,
-      "x": -8,
-      "y": -0.8,
-      "fx": 10,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 2,
       "x": 10,
       "y": -2.2,
@@ -10793,16 +11030,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 5,
-      "y": -2.2,
-      "fx": -5,
-      "fy": -1.2,
-      "motionMan": false,
-      "stance": "StanceType_3pt",
-      "fstance": "StanceType_3pt"
      }
     ],
     "M2left": [
@@ -10849,7 +11076,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Close/HB_Wham",
      "players": {
       "5": {
-       "new": "FUSION/R_14fcedbc61",
+       "new": "FUSION/R_b638d64b4a",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -10859,18 +11086,30 @@
          "offsetY": -2.25
         },
         {
-         "type": "MoveDirection",
-         "distance": 4.98,
-         "direction": 107.53,
-         "speed": 35
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": 5.5,
+           "y": -2.25,
+           "speed": 35,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
         },
         {
-         "type": "RunBlock",
-         "stalkDistance": 0,
-         "slamDuration": 0,
-         "time": 0,
-         "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_WHAM",
+         "blockingGap": "RUN_HOLE"
         }
        ]
       }
@@ -10889,7 +11128,7 @@
     {
      "name": "JF PA PW Ziggo",
      "asset": "FUS_JF_PA_PW_Ziggo",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Flex/RPO_Alert_Bubble",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/PA_Cross_Switch",
      "players": {
       "2": {
        "new": "FUSION/R_3c9f7ac85d",
@@ -10930,14 +11169,14 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -10956,7 +11195,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -11073,13 +11312,13 @@
     {
      "name": "PA Dagger",
      "asset": "FUS_PA_Dagger",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Flex/RPO_Alert_Bubble",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/PA_Cross_Switch",
      "players": {
       "1": {
-       "new": "FUSION/R_4488f81e45",
+       "new": "FUSION/R_480dc8da25",
        "routeType": "AssignRouteType_RR_Flat_Lt",
        "keep": 3,
-       "template": "Halfback/SB_H1_InsideZoneLt_Precan_46_50",
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
        "drop": [
         "OverrideFormPos"
        ],
@@ -11312,16 +11551,16 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_fa3ab7ff28",
+       "new": "FUSION/R_5d8225f8b7",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": 1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -11338,7 +11577,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 11.25,
          "speed": 100
         },
@@ -11463,7 +11702,29 @@
      "asset": "FUS_RPO_Bubble",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Dive_Alert_Bubble",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_117a66fbb7",
+       "routeType": "AssignRouteType_RR_Flat_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 168.75
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_22f5fc796c",
        "routeType": "AssignRouteType_RR_Wheel_Lt",
@@ -11485,7 +11746,7 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -11495,17 +11756,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -11527,7 +11788,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -11781,7 +12042,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -11793,13 +12054,13 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.5,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.23,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -12083,12 +12344,29 @@
         }
        ]
       },
-      "5": "Blocking/ALL_PassBlock",
-      "6": "Blocking/ALL_Run_Action_Block",
-      "7": "Blocking/ALL_Run_Action_Block",
-      "8": "Blocking/ALL_Run_Action_Block",
-      "9": "Blocking/RG_Pull_H4_Deep_kickout_G_Lead_FollowHole",
-      "10": "Blocking/ALL_Run_Action_Block"
+      "5": {
+       "new": "FUSION/R_54566f2a93",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 180
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 6,
+         "direction": 180,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
@@ -12413,16 +12691,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 18,
-      "y": -0.8,
-      "fx": 5,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -12459,16 +12727,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": -5,
-      "y": -2.2,
-      "fx": -18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
@@ -12500,7 +12758,7 @@
     {
      "name": "HB Slip Screen",
      "asset": "FUS_HB_Slip_Screen",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Close/Cheat_TE_Screen",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Doubles_Flex_Hip/HB_Slip_Screen",
      "players": {
       "2": "Blocking/ALL_PassBlock",
       "3": {
@@ -12641,7 +12899,27 @@
      "asset": "FUS_RPO_Flat",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Close/RPO_Power_Alert_Outs",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_022dd10d1d",
+       "routeType": "AssignRouteType_Block_Pass",
+       "steps": [
+        {
+         "type": "Delay",
+         "time": 0.03
+        },
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_FB_LEADBLOCK",
+         "direction": 81.56
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE",
+         "blockingGap": "RUN_HOLE"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_0ba0a99949",
        "routeType": "AssignRouteType_RR_Flat_Lt",
@@ -12668,7 +12946,7 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -12678,17 +12956,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -12710,7 +12988,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -13155,16 +13433,6 @@
    "presets": {
     "M5right": [
      {
-      "slot": 4,
-      "x": 10,
-      "y": -2.2,
-      "fx": -10,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": 18,
       "y": -0.8,
@@ -13225,16 +13493,6 @@
     ],
     "M5left": [
      {
-      "slot": 4,
-      "x": 10,
-      "y": -0.8,
-      "fx": -10,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": -5,
       "y": -2.2,
@@ -13276,9 +13534,31 @@
      "asset": "FUS_RPO_Bubble",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Open/Zone_Alert_Bubble",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "3": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -13288,17 +13568,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -13322,13 +13602,35 @@
         }
        ]
       },
-      "5": "Blocking/RunBlock_All"
+      "5": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -13456,14 +13758,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -13482,7 +13784,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -13820,16 +14122,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -13846,7 +14148,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -13964,14 +14266,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -13990,7 +14292,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -14017,7 +14319,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.5,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -14109,16 +14411,6 @@
    "presets": {
     "M5right": [
      {
-      "slot": 2,
-      "x": 5,
-      "y": -2.2,
-      "fx": -5,
-      "fy": -1.5,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_3pt"
-     },
-     {
       "slot": 5,
       "x": 18,
       "y": -0.8,
@@ -14130,16 +14422,6 @@
      }
     ],
     "M5left": [
-     {
-      "slot": 2,
-      "x": 5,
-      "y": -1.5,
-      "fx": -5,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_3pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": -5,
@@ -14480,7 +14762,7 @@
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.5,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -14726,14 +15008,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -14752,7 +15034,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -14791,7 +15073,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.85,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -14803,7 +15085,7 @@
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.75,
        "combo": 1,
        "concept": "Concept_Invalid"
       }
@@ -15095,16 +15377,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 4,
-      "x": 5,
-      "y": -1,
-      "fx": 9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_3pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -15129,16 +15401,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_3pt"
-     },
-     {
-      "slot": 2,
-      "x": 10,
-      "y": -2.2,
-      "fx": 18,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M4left": [
@@ -16610,14 +16872,14 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -16636,7 +16898,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -16668,7 +16930,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.25,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -16972,16 +17234,6 @@
     ],
     "M5left": [
      {
-      "slot": 4,
-      "x": 9,
-      "y": -0.8,
-      "fx": 9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": -5,
       "y": -2.2,
@@ -17005,16 +17257,6 @@
      }
     ],
     "M5right": [
-     {
-      "slot": 2,
-      "x": -9,
-      "y": -0.8,
-      "fx": -9,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": 18,
@@ -17165,14 +17407,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -17191,7 +17433,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -17472,15 +17714,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_d2c3bc4132",
+       "new": "FUSION/R_00907e1893",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
+           "x": -1.25,
+           "y": -2.75,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -17498,7 +17740,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 5,
+         "distance": 2.45,
          "direction": 168.75,
          "speed": 100
         },
@@ -17509,9 +17751,12 @@
          "speed": 100
         },
         {
-         "type": "PassBlock",
+         "type": "RunBlock",
+         "stalkDistance": 0,
+         "slamDuration": 0,
          "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
+         "flags": "RunBlockFlags_None",
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
       },
@@ -17533,7 +17778,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 2,
        "concept": "Concept_Invalid"
       },
@@ -19258,14 +19503,14 @@
      "players": {
       "2": "Blocking/RunBlock_All",
       "3": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -19284,7 +19529,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -19637,29 +19882,9 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -2.2,
-      "fx": -10,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
-     {
-      "slot": 4,
-      "x": 10,
-      "y": -0.8,
-      "fx": 18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": -5,
@@ -19684,16 +19909,6 @@
      }
     ],
     "M5right": [
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -0.8,
-      "fx": -11,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": 18,
@@ -19763,16 +19978,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 4,
-      "x": 10,
-      "y": -2.2,
-      "fx": 18,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ]
    },
@@ -19834,14 +20039,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -19860,7 +20065,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -19905,7 +20110,7 @@
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.25,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -22074,7 +22279,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Normal_Y_Off_Close/Exit_RPO_Zone_Hitches",
      "players": {
       "2": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -22084,22 +22289,22 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
       "3": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -22109,17 +22314,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -22155,7 +22360,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -22173,7 +22378,7 @@
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -22459,15 +22664,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_4b9d5eb4b8",
+       "new": "FUSION/R_13b9a7e57c",
        "routeType": "AssignRouteType_RR_Streak",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
+           "x": -1.25,
+           "y": -2.75,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -22485,7 +22690,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -22903,16 +23108,6 @@
      }
     ],
     "M2right": [
-     {
-      "slot": 5,
-      "x": -12,
-      "y": -2.2,
-      "fx": 20,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 2,
       "x": -10,
@@ -24306,15 +24501,15 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Flanker_Close/HB_Sweep",
      "players": {
       "5": {
-       "new": "FUSION/R_db140d4146",
+       "new": "FUSION/R_ed073e5f92",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -22.5,
-           "y": -3,
+           "x": -25,
+           "y": -3.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -24342,7 +24537,7 @@
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_STALK"
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         },
         {
          "type": "GetOpen"
@@ -24445,16 +24640,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 3,
-      "x": -16,
-      "y": -0.8,
-      "fx": -16,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M1left": [
@@ -24470,16 +24655,6 @@
      }
     ],
     "M5left": [
-     {
-      "slot": 4,
-      "x": 16,
-      "y": -0.8,
-      "fx": 16,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": 9,
@@ -24563,15 +24738,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_3982392840",
+       "new": "FUSION/R_2987e364f2",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17.5,
-           "y": -2.5,
+           "x": -19,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -24972,15 +25147,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_3982392840",
+       "new": "FUSION/R_2987e364f2",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17.5,
-           "y": -2.5,
+           "x": -19,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25209,15 +25384,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_eeb57c85e3",
+       "new": "FUSION/R_b215a352db",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17.5,
-           "y": -2.5,
+           "x": 19,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25526,15 +25701,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_7794c96f21",
+       "new": "FUSION/R_e47f8bcc97",
        "routeType": "AssignRouteType_RR_In_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17.5,
-           "y": -2.5,
+           "x": -19,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25703,15 +25878,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_a7383c339e",
+       "new": "FUSION/R_c32da37e6d",
        "routeType": "AssignRouteType_RR_Out_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -15,
-           "y": -2.5,
+           "x": -14,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25928,7 +26103,7 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -25938,22 +26113,22 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
       "5": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -25963,17 +26138,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       }
@@ -25988,13 +26163,13 @@
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 2,
        "concept": "Concept_Invalid"
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 2,
        "concept": "Concept_Invalid"
       },
@@ -26082,16 +26257,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -2.2,
-      "fx": -18,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "SM1right": [
@@ -26107,16 +26272,6 @@
      }
     ],
     "M5right": [
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -0.8,
-      "fx": -18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": 10,
@@ -26136,16 +26291,6 @@
       "fx": 10,
       "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 4,
-      "x": 18,
-      "y": -2.2,
-      "fx": 18,
-      "fy": -2.2,
-      "motionMan": false,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
      }
@@ -26175,16 +26320,6 @@
      }
     ],
     "M5left": [
-     {
-      "slot": 4,
-      "x": 18,
-      "y": -0.8,
-      "fx": 18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": -5,
@@ -26444,14 +26579,14 @@
        ]
       },
       "2": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -26470,7 +26605,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -27758,7 +27893,7 @@
       },
       "3": "Blocking/RunBlock_All",
       "4": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -27768,17 +27903,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -27800,7 +27935,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -28463,15 +28598,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_9c3da4488f",
+       "new": "FUSION/R_4eca5eb455",
        "routeType": "AssignRouteType_RR_In_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17.5,
-           "y": -2.5,
+           "x": 17,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -28660,15 +28795,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_a97f36023b",
+       "new": "FUSION/R_2c86d4a433",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17.5,
-           "y": -2.5,
+           "x": 17,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -29104,14 +29239,14 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Flanker_Close/Escape",
      "players": {
       "1": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -29130,7 +29265,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -30240,14 +30375,14 @@
        ]
       },
       "2": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -30266,7 +30401,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -30675,16 +30810,6 @@
     ],
     "M2left": [
      {
-      "slot": 4,
-      "x": 8,
-      "y": -0.8,
-      "fx": -18,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 2,
       "x": -10,
       "y": -2.2,
@@ -30696,16 +30821,6 @@
      }
     ],
     "M3right": [
-     {
-      "slot": 4,
-      "x": 9,
-      "y": -2.2,
-      "fx": -8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 3,
       "x": -8,
@@ -30939,7 +31054,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles_HB_Wk/RPO_Zone_Read_Bubble",
      "players": {
       "2": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -30949,17 +31064,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -30991,16 +31106,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -31017,7 +31132,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -31070,13 +31185,13 @@
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -31380,16 +31495,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -31406,7 +31521,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -31550,14 +31665,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -31576,7 +31691,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -31633,19 +31748,19 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.95,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -32322,16 +32437,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -32348,7 +32463,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -32919,16 +33034,6 @@
     ],
     "M2left": [
      {
-      "slot": 4,
-      "x": 8,
-      "y": -0.8,
-      "fx": -9,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 2,
       "x": -10,
       "y": -2.2,
@@ -32952,16 +33057,6 @@
      }
     ],
     "M3right": [
-     {
-      "slot": 4,
-      "x": 9,
-      "y": -2.2,
-      "fx": -8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 3,
       "x": -8,
@@ -35711,29 +35806,9 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -0.8,
-      "fx": -18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M5left": [
-     {
-      "slot": 4,
-      "x": 18,
-      "y": -0.8,
-      "fx": 18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": -5,
@@ -35755,16 +35830,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 5,
-      "x": 10,
-      "y": -0.8,
-      "fx": 10,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "M2left": [
@@ -35775,16 +35840,6 @@
       "fx": -16,
       "fy": -0.8,
       "motionMan": true,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -2.2,
-      "fx": -18,
-      "fy": -2.2,
-      "motionMan": false,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
      }
@@ -35827,16 +35882,6 @@
     ],
     "M5right": [
      {
-      "slot": 4,
-      "x": 18,
-      "y": -2.2,
-      "fx": 18,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 5,
       "x": 16,
       "y": -0.8,
@@ -35867,14 +35912,14 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex/RPO_Zone_Peek",
      "players": {
       "2": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -35893,7 +35938,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -35990,7 +36035,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -36002,7 +36047,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.15,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -37384,15 +37429,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_eeb57c85e3",
+       "new": "FUSION/R_940c082014",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17.5,
-           "y": -2.5,
+           "x": 17,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -37820,16 +37865,6 @@
      }
     ],
     "M4left": [
-     {
-      "slot": 5,
-      "x": -8,
-      "y": -2.2,
-      "fx": 8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 4,
       "x": 8,
@@ -38628,7 +38663,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Tight_Slot_Open/RPO_Zone_Peek",
      "players": {
       "2": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -38638,22 +38673,22 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
       "3": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -38663,17 +38698,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -38704,14 +38739,14 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_a73427571d",
+       "new": "FUSION/R_82a3e5999d",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -2.25,
+           "x": 1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -38730,7 +38765,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 0,
          "speed": 100
         },
@@ -38756,7 +38791,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -38780,7 +38815,7 @@
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       }
@@ -40854,7 +40889,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles_HB_Wk/RPO_Zone_Alert_Bubble",
      "players": {
       "2": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -40864,17 +40899,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
@@ -40904,7 +40939,7 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -40914,22 +40949,22 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       },
       "5": {
-       "new": "FUSION/R_58c270e640",
+       "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
        "steps": [
         {
@@ -40939,17 +40974,17 @@
          "speed": 100
         },
         {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
+        },
+        {
          "type": "RunBlock",
          "stalkDistance": 0,
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
         }
        ]
       }
@@ -40964,13 +40999,13 @@
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
       {
        "pos": 2,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 1,
        "concept": "Concept_Invalid"
       },
@@ -40982,7 +41017,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.1,
        "combo": 1,
        "concept": "Concept_Invalid"
       }
@@ -42648,16 +42683,6 @@
       "motionMan": true,
       "stance": "StanceType_2pt",
       "fstance": "StanceType_2pt"
-     },
-     {
-      "slot": 3,
-      "x": -18,
-      "y": -0.8,
-      "fx": -8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
      }
     ],
     "SM1left": [
@@ -42673,16 +42698,6 @@
      }
     ],
     "M5left": [
-     {
-      "slot": 4,
-      "x": 8,
-      "y": -0.8,
-      "fx": 18,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 5,
       "x": 12.5,
@@ -44209,15 +44224,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_4b9d5eb4b8",
+       "new": "FUSION/R_13b9a7e57c",
        "routeType": "AssignRouteType_RR_Streak",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
+           "x": -1.25,
+           "y": -2.75,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -44235,7 +44250,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -44388,15 +44403,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_3982392840",
+       "new": "FUSION/R_2b73b9571f",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17.5,
-           "y": -2.5,
+           "x": -17,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -44598,14 +44613,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -44624,7 +44639,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -44772,15 +44787,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_3982392840",
+       "new": "FUSION/R_2b73b9571f",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17.5,
-           "y": -2.5,
+           "x": -17,
+           "y": -2.8,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -45635,7 +45650,29 @@
         }
        ]
       },
-      "3": "Blocking/RunBlock_All",
+      "3": {
+       "new": "FUSION/R_117a66fbb7",
+       "routeType": "AssignRouteType_RR_Flat_Lt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 168.75
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "4": {
        "new": "FUSION/R_2c9e8760fa",
        "routeType": "AssignRouteType_RR_Hitch",
@@ -45708,7 +45745,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.35,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -47150,16 +47187,6 @@
     ],
     "M2left": [
      {
-      "slot": 4,
-      "x": 8,
-      "y": -0.8,
-      "fx": -10,
-      "fy": -2.2,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
-     {
       "slot": 2,
       "x": -5,
       "y": -2.2,
@@ -47183,16 +47210,6 @@
      }
     ],
     "M3right": [
-     {
-      "slot": 4,
-      "x": 10,
-      "y": -2.2,
-      "fx": -8,
-      "fy": -0.8,
-      "motionMan": false,
-      "stance": "StanceType_2pt",
-      "fstance": "StanceType_2pt"
-     },
      {
       "slot": 3,
       "x": -8,
@@ -47266,7 +47283,29 @@
         }
        ]
       },
-      "3": "Blocking/RunBlock_All",
+      "3": {
+       "new": "FUSION/R_b35fd82e58",
+       "routeType": "AssignRouteType_RR_Hitch",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 90
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 2,
+         "direction": 90,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "4": {
        "new": "FUSION/R_373683e1ee",
        "routeType": "AssignRouteType_RR_Flat_Rt",
@@ -47364,7 +47403,7 @@
       },
       {
        "pos": 5,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       }
@@ -47449,16 +47488,16 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_89bd432288",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.25,
-           "speed": 69,
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -47475,7 +47514,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.7,
          "direction": 168.75,
          "speed": 100
         },
@@ -47744,7 +47783,29 @@
      "asset": "FUS_RPO_Bubble_Flat",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/RPO_Zone_Peek",
      "players": {
-      "2": "Blocking/RunBlock_All",
+      "2": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_0ba0a99949",
        "routeType": "AssignRouteType_RR_Flat_Lt",
@@ -47790,7 +47851,29 @@
         }
        ]
       },
-      "5": "Blocking/RunBlock_All"
+      "5": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
@@ -47956,7 +48039,28 @@
         }
        ]
       },
-      "5": "Blocking/ALL_PassBlock"
+      "5": {
+       "new": "FUSION/R_35498550ee",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0.16,
+         "flags": "PassBlockFlags_None"
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 7.5,
+         "direction": 5.6299999999999955,
+         "speed": 79
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
@@ -48464,14 +48568,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_0d1ed9909c",
+       "new": "FUSION/R_ccafc4126e",
        "routeType": "AssignRouteType_RR_In_Middle",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 2.25,
+           "x": -1.25,
            "y": -3.25,
            "speed": 100,
            "facingAngle": 0,
@@ -48490,7 +48594,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 2.75,
          "direction": 180,
          "speed": 100
         },
@@ -48710,7 +48814,28 @@
         }
        ]
       },
-      "5": "Blocking/ALL_PassBlock"
+      "5": {
+       "new": "FUSION/R_35498550ee",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0.16,
+         "flags": "PassBlockFlags_None"
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 7.5,
+         "direction": 5.6299999999999955,
+         "speed": 79
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      }
      },
      "vip": 3,
      "reads": [
@@ -48800,15 +48925,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_049d1b89f0",
-       "routeType": "AssignRouteType_RR_In_Middle",
+       "new": "FUSION/R_1decde2cfa",
+       "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 1.25,
-           "y": -3.75,
+           "x": -1.25,
+           "y": -3.12,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -48826,7 +48951,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 3.67,
          "direction": 165.94000000000005,
          "speed": 100
         },
@@ -48883,7 +49008,7 @@
      "reads": [
       {
        "pos": 3,
-       "pct": 0,
+       "pct": 0.32,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -48901,7 +49026,7 @@
       },
       {
        "pos": 4,
-       "pct": 0,
+       "pct": 0.15,
        "combo": 0,
        "concept": "Concept_Invalid"
       },
@@ -49313,8 +49438,52 @@
      "asset": "FUS_BM_Bubble_Flat",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Quads/Bunch_Trail",
      "players": {
-      "1": "Blocking/ALL_PassBlock",
-      "2": "Blocking/ALL_PassBlock",
+      "1": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
+      "2": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      },
       "3": {
        "new": "FUSION/R_0ba0a99949",
        "routeType": "AssignRouteType_RR_Flat_Lt",
@@ -49341,7 +49510,7 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_40837a3b98",
+       "new": "FUSION/R_9bcb64acfd",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
@@ -49351,14 +49520,6 @@
            "x": 7.5,
            "y": -3.75,
            "speed": 69,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          },
-          {
-           "x": 10,
-           "y": -5,
-           "speed": 39,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
            "shouldFaceEndPoint": true
@@ -49372,6 +49533,12 @@
          "stanceAtTarget": "StanceType_None",
          "useLegacyLocoPathing": false,
          "shouldStopAtTarget": false
+        },
+        {
+         "type": "RunRoute",
+         "distance": 2.8,
+         "direction": 333.43,
+         "speed": 39
         },
         {
          "type": "RunRoute",
@@ -49390,7 +49557,29 @@
         }
        ]
       },
-      "5": "Blocking/ALL_PassBlock"
+      "5": {
+       "new": "FUSION/R_5a3a0e57aa",
+       "routeType": "AssignRouteType_RR_Flat_Rt",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_WRSTART",
+         "direction": 11.25
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 11.25,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_ProtectReceiver"
+        }
+       ]
+      }
      },
      "vip": 4,
      "reads": [
