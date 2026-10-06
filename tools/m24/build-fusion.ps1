@@ -2,7 +2,7 @@
 #   ../MAMA9 (M24 mod: mama9.DB, customplaybooks.DB, release/PBOOKOFF-FUSION) -> playbooks/fusion/*.json (convert)
 #   playbooks/fusion/sets.json  -> mods/fusion.fbproject + mods/fusion.fbmod
 #   playbooks/fusion/FUSION.json -> build/fusion/PBOOKOFF-FUSION
-# -Install copies the save into Documents\Madden NFL 27\saves and the mod + save + readme into ..\FUSION Madden 27 (next to this repo).
+# -Install copies the save into Documents\Madden NFL 27\saves and the mod + save + readme/report/preview into release\fusion (tracked in git).
 # FUSION's mod edits GlobalPlaySheet like mods/pbstudio.fbmod does, so enable only one of the two in MMC Mod Manager.
 param(
     [switch]$Install,
@@ -46,7 +46,7 @@ if ($Install) {
     Copy-Item $save $dest -Force
     Write-Host "installed $dest"
 
-    $kit = Join-Path $root "..\FUSION Madden 27"   # P:\Dropbox\Projects\Madden Modding\FUSION Madden 27
+    $kit = Join-Path $root "release\fusion"   # the one folder: tracked in git, synced by Dropbox
     New-Item -ItemType Directory -Force $kit | Out-Null
     Copy-Item mods\fusion.fbmod, mods\fusion.fbproject, $save -Destination $kit -Force
     Copy-Item playbooks\fusion\README.txt (Join-Path $kit "README.txt") -Force
