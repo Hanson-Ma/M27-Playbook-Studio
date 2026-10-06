@@ -1,16 +1,11 @@
 {
-  "title": "Game tweaks (practice + motion snap)",
-  "version": "0.1.0",
-  "description": "Practice starts at midfield, Practice Field loads the indoor practice facility, motion snap works on any motion. Global offline settings; independent of FUSION.",
+  "title": "Game tweaks (practice start + motion snap)",
+  "version": "0.2.0",
+  "description": "Practice starts at midfield (experimental: touchback spot), motion snap works on any motion. Global offline settings; independent of FUSION.",
   "legacyJson": {
     "common/database/json/ingameconfig_defaults.json": {
-      "GPCF_SKIP_KICKOFF_YARDLINE": 0,
+      "GPCF_TOUCHBACK_SPOT": 50,
       "GPCF_ALLOW_SNAP_TO_ANY": true
-    }
-  },
-  "subLevels": {
-    "content/worlds/components/objects/DsubMap/Madden_DSubMap": {
-      "34": "content/worlds/Stadiums/practiceIndoor/practiceIndoor"
     }
   }
 }

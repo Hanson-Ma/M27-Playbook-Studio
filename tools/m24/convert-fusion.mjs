@@ -67,6 +67,8 @@ const qbAnim27 = p => { const s = stepsOf(p.assignments[0]).find(s => s.type ===
 const isRollout27 = p => stepsOf(p.assignments[0]).some(s => (s.type === "HandoffFake" && /ROLL/.test(s.handoffExit)) || (s.type === "QBScramble" && /NONE/.test(s.dropBackType) && s.distance >= 2));
 const hasPull27 = p => p.assignments.slice(6, 11).some(a => stepsOf(a).some(s => s.type === "InitialAnim" && /PULL/.test(s.anim) && !/SCREEN/.test(s.anim)));
 // a designed block whose M27 realignment belongs to the play (Wham TE): anything but a plain/stalk block
+const WHAM_TE = "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion";
+const STALK_UPFIELD = "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock";
 const specialBlock = asset => stepsOf(asset).some(s => s.type === "LeadBlock" && !/STALK|WR_SCREEN/.test(s.blockingTechnique));
 const passBlockers27 = p => p.assignments.slice(1, 6).filter(a => /Block_Pass/.test(A[a]?.routeType ?? "") || (stepsOf(a).some(s => s.type === "PassBlock") && !stepsOf(a).some(s => s.type === "RunRoute"))).length;
 
@@ -128,7 +130,7 @@ const RUNBLOCK = { type: "RunBlock", stalkDistance: 0, slamDuration: 0, time: 0,
 //  14 = pass block (val2 2 = protect the receiver, screens); 15 = block: run block on runs/PA/RPO, pass pro otherwise.
 const ENUMS = L("enums.json").enums;
 const BT = ENUMS.BlockingTechnique, GAPS = ENUMS.BlockingGap, INIT = ENUMS.InitialMoveType;
-function convertSteps(steps, start, type, warn, { runPlay = false, kind = "pass", toks = [] } = {}) {
+function convertSteps(steps, start, type, warn, { runPlay = false, kind = "pass", toks = [], lineMates = [] } = {}) {
   const out = [];
   let pos = { ...start }, motion = null, motionDone = false;
   const keepAllWaypoints = toks.includes("JR") || toks.includes("RM");
@@ -192,7 +194,7 @@ function convertSteps(steps, start, type, warn, { runPlay = false, kind = "pass"
   }
   const last = out.at(-1);
   if (last && /RunRoute|ReceiverCut|Delay|OptionRoute/.test(last.type) && !out.some(s => s.type === "GetOpen")) out.push({ type: "GetOpen" });
-  tuneMotion(out, start, toks);
+  tuneMotion(out, start, toks, lineMates);
   for (const st of out) delete st.$start;
   return out;
 }
@@ -208,7 +210,7 @@ function moveAlongLeg(out, mi, extra) {
   w.x = r2(w.x + t * Math.cos(l.direction * Math.PI / 180)); w.y = r2(w.y + t * Math.sin(l.direction * Math.PI / 180));
   l.distance = r2(l.distance - t);
 }
-function tuneMotion(out, start, toks) {
+function tuneMotion(out, start, toks, lineMates) {
   const mi = out.findIndex(x => x.type === "AutoMotion");
   if (mi < 0) return;
   const m = out[mi], w = m.waypoints[0], from = m.$start ?? start;
@@ -221,8 +223,13 @@ function tuneMotion(out, start, toks) {
       if (Math.sign(c) === -side && Math.abs(c) > 0.3) moveAlongLeg(out, mi, (Math.abs(w.x) + 1.25) / Math.abs(c));
     }
   }
-  // bursts are short hops; a long BM motion (the Hail Mary HB) keeps its length
-  if (toks.includes("BM") && m.waypoints.length === 1 && dist(from, w) < 3) { w.x = r2(from.x + (w.x - from.x) * 2); w.y = r2(from.y + (w.y - from.y) * 2); }
+  // bursts are short hops toward the on-line WR on that side: stop just short of and behind him for a clean release
+  // (a long BM motion, the Hail Mary HB, keeps its target)
+  if (toks.includes("BM") && m.waypoints.length === 1 && dist(from, w) < 6) {
+    const mate = (lineMates ?? []).filter(p => Math.sign(p.x) === Math.sign(from.x) && dist(p, from) > 0.5).sort((a, b) => Math.abs(a.x - from.x) - Math.abs(b.x - from.x))[0];
+    if (mate) { w.x = r2(mate.x + Math.sign(from.x - mate.x || from.x) * 1.5); w.y = r2(mate.y - 1.7); }
+    else { w.x = r2(from.x + (w.x - from.x) * 2); w.y = r2(from.y + (w.y - from.y) * 2); }
+  }
   if (toks.includes("YM") && toks.includes("RPO")) moveAlongLeg(out, mi, 1.5);
 }
 
@@ -412,6 +419,52 @@ function pullDonor(base, qbSpot) {
   return c.find(q => fakeSide(q) === fakeSide(base)) ?? c[0] ?? null;
 }
 
+// Run plays: outside WRs release upfield and stalk, inside WRs and TEs run block. Special blocks from the M27 play
+// (wham, lead, kickout, cutoff) go to our player of the same type when the slots don't line up (a WR must never get the
+// wham TE's realignment). Ball carriers, M24 motions and anything already rebuilt stay as they are.
+function runBlockers(base, custom, players, srcN, name) {
+  const taken = new Set(Object.keys(players).map(Number));
+  const special = k => specialBlock(base.assignments[k]) && !hasHandoff(base.assignments[k]);
+  const moved = new Set();
+  for (let k = 1; k <= 5; k++) {
+    if (!special(k) || taken.has(k) || typeOf27(custom[k].pos) === typeOf27(srcN[k].pos)) continue;
+    const j = [1, 2, 3, 4, 5].filter(j => j !== k && !taken.has(j) && !moved.has(j) && typeOf27(custom[j].pos) === typeOf27(srcN[k].pos) && !hasHandoff(base.assignments[j]))
+      .sort((a, b) => dist(custom[a], srcN[k]) - dist(custom[b], srcN[k]))[0];
+    if (j) { players[j] = base.assignments[k].replace(AROOT, ""); moved.add(j); }
+  }
+  if (/wham/i.test(name)) {
+    const te = [1, 2, 3, 4, 5].filter(j => typeOf27(custom[j].pos) === "E" && !taken.has(j)).sort((a, b) => Math.abs(custom[a].x - 5) - Math.abs(custom[b].x - 5))[0];
+    if (te && !moved.has(te)) { players[te] = WHAM_TE; moved.add(te); }
+  }
+  const wrs = [1, 2, 3, 4, 5].filter(j => typeOf27(custom[j].pos) === "W");
+  const outside = new Set([-1, 1].map(sd => wrs.filter(j => Math.sign(custom[j].x) === sd && Math.abs(custom[j].x) >= 7).sort((a, b) => Math.abs(custom[b].x) - Math.abs(custom[a].x))[0]).filter(Boolean));
+  for (let j = 1; j <= 5; j++) {
+    if (taken.has(j) || moved.has(j) || hasHandoff(base.assignments[j])) continue;
+    if (special(j) && typeOf27(custom[j].pos) === typeOf27(srcN[j].pos)) continue;
+    if (typeOf27(custom[j].pos) === "B") continue;
+    players[j] = outside.has(j) ? STALK_UPFIELD : "Blocking/RunBlock_All";
+  }
+}
+
+// Sled: the TE chips, then releases wider to lead block; the back runs a straight, slightly slower flat.
+function sledTweak(players, custom, typeAt) {
+  for (const [j, a] of Object.entries(players)) {
+    if (typeof a !== "object" || !a.steps) continue;
+    let changed = false;
+    if (typeAt(+j) === "E" && a.steps.some(x => x.type === "PassBlock") && a.steps.some(x => x.type === "MoveDirection")) {
+      for (const x of a.steps) if (x.type === "MoveDirection") { const right = Math.cos(x.direction * Math.PI / 180) >= 0; x.distance = r2(Math.min(12, x.distance * 1.5)); x.direction = right ? 12 : 168; }
+      changed = true;
+    }
+    if (+j === 1 && !a.keep) {
+      changed = true;
+      const legs = a.steps.filter(x => /RunRoute|MoveDirection/.test(x.type));
+      const side = Math.sign(legs.reduce((s, x) => s + x.distance * Math.cos(x.direction * Math.PI / 180), 0)) || 1;
+      a.steps = [...a.steps.filter(x => x.type === "Delay").slice(0, 1), { type: "RunRoute", distance: 10, direction: side > 0 ? 0 : 180, speed: 70 }, { type: "Delay", time: 1 }, { type: "GetOpen" }];
+    }
+    if (changed) Object.assign(a, newAssignment(a.steps, custom[+j].x));
+  }
+}
+
 // ---------- situational play calling (CPU weights by situation) ----------
 function passDepth(entry, custom) {
   // the concept name says it best; route geometry is the fallback (a slant's last leg is long but the throw is quick)
@@ -444,6 +497,7 @@ function situational(kind, name, form, depth, entry) {
     if (vip && typeof vip === "object" && /Out|Corner|Comeback|Flat/.test(vip.routeType)) add({ StopClock: 40 });
     if (toks.includes("M")) add({ SuddenChange: 45, "3rdAndLong": 40 });
   }
+  if (kind === "rpo" && /stick/i.test(name)) add({ "3rdAndShort": 60, "4thAndShort": 60, "2ndAndShort": 50, GoalLine: 55, Insidefive: 55, GoFor2: 45 });
   if (toks.includes("RZ")) {
     for (const k of ["SuddenChange", "3RDExtraLong", "4THExtraLong", "2ndAndLong", "3rdAndLong"]) delete w[k];
     add({ RedZone: 70, RedZone_16_to_20: 50, RedZone_11_to_15: 60, RedZone_6_to_10: 70, RedZone_3_to_5: 60, Insidefive: 50, GoalLinePass: 50, GoFor2: 50, RedZoneFringe: 40 });
@@ -564,18 +618,19 @@ for (const f of F) {
 
       for (let i = 1; i <= 5; i++) {
         const j = slotOf[i], baseA = base.assignments[j], st = chainOf(i);
-        const shift = shiftOf(st);
         const mechanics = hasHandoff(baseA);
+        // Wham plays: the TE runs the stock wham from his own spot, so the M24 pre-shift to the wing is dropped
+        const shift = /wham/i.test(name) && !mechanics ? null : shiftOf(st);
         const lastMech = st.reduce((k, x, idx) => MECH.has(x.code) ? idx : k, -1);
         // M24 shift for a ball carrier: go to the source play's spot so the precan lines up (PM = back on the other side)
         const shiftStep = spot => ({ type: "OverrideFormPos", stance: ofpStance(typeAt(j), spot), offsetX: spot.x, offsetY: spot.y });
         const carrierShift = shift && mechanics ? (dist(srcN[j], shift) < 1.5 ? srcN[j] : shift) : shift;
-        const opts = { kind, toks: tokensOf(name) };
+        const opts = { kind, toks: tokensOf(name), lineMates: [1, 2, 3, 4, 5].map(k => custom[k]).filter(p => p.y > -1.75 && (typeOf27(p.pos) === "W" || (typeOf27(p.pos) === "E" && Math.abs(p.x) >= 6))) }; // on-line WRs and flexed TEs
         // a blocker that moves first (motion, shift, pull across, release): his whole M24 chain, with its exact block
         const movingBlocker = !isRoute(st) && (hasMotion(st) || shift || st.some(x => x.code === 3 || x.code === 26)) && st.some(x => [14, 15, 18].includes(x.code)) && !st.some(x => x.code === 58 || x.code === 13);
         if (runPlay || mechanics || (kind === "rpo" && i === 1) || (kind === "screen" && i === 1)) {
           // M27 keeps this player (run blocking, handoff/fake/read mechanics) - unless M24 gave a blocker a motion/shift (Wham, YM)
-          if (runPlay && !mechanics && i >= 2 && (hasMotion(st) || shift) && !st.some(x => x.code === 58 || x.code === 13)) {
+          if (runPlay && !mechanics && i >= 2 && (hasMotion(st) || shift) && !st.some(x => x.code === 58 || x.code === 13) && !/wham/i.test(name)) {
             const steps = convertSteps(st, { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, { runPlay: true, ...opts });
             if (!steps.some(x => /Block/.test(x.type))) steps.push(RUNBLOCK);
             players[j] = newAssignment(steps, m24[i].x, { routeType: "AssignRouteType_Block_Run" });
@@ -588,6 +643,8 @@ for (const f of F) {
             // M27 realignments that only reposition players to the stock formation go; designed ones (Wham TE) stay
             players[j] = keptAssignment(baseA, carrierShift ? [shiftStep(carrierShift)] : []);
           }
+        } else if (movingBlocker && tokensOf(name).includes("YM") && typeAt(j) === "E" && !st.some(x => x.code === 3)) {
+          players[j] = WHAM_TE; // YM = the wham motion as a fake
         } else if (isRoute(st) || hasMotion(st) || movingBlocker) {
           const steps = convertSteps(st.slice(st[0]?.code === 58 ? lastMech + 1 : 0), { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, opts);
           if (shift && !steps.some(x => x.type === "OverrideFormPos")) steps.unshift(shiftStep(shift));
@@ -600,6 +657,8 @@ for (const f of F) {
         } else if (st.length > 1) warn(`slot ${j}: M24 chain ${st.map(x => x.code).join(",")} not recognized, kept M27`);
         if (typeof players[j] === "object") stats.assignments.add(players[j].new);
       }
+      if (kind === "run" || kind === "option") runBlockers(base, custom, players, srcN, name);
+      if (tokensOf(name).includes("Sled")) sledTweak(players, custom, typeAt);
       if (Object.keys(players).length) entry.players = players;
 
       if (!runPlay) {

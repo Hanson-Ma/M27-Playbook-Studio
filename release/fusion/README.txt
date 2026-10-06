@@ -1,4 +1,4 @@
-__FUSION OFFENSE - MADDEN 27 PORT (v2.1.0, test build)__
+__FUSION OFFENSE - MADDEN 27 PORT (v2.2.0, test build)__
 
 Ported from the Madden 24 FUSION mod (hansonma.org/projects/fusion).
 Offline only.
@@ -24,6 +24,16 @@ __HOW TO INSTALL__
    (If it's missing, copy it there from this folder.)
 
 4. Pick FUSION as your custom offense before an OFFLINE game.
+
+
+__v2.2 (test build 3)__
+
+- Wham: the TE stays in his spot and runs the stock wham (step back, across, wham block); WRs stay on the line.
+  YM plays fake the same wham motion.
+- Run plays: outside WRs release upfield and stalk; inside WRs and TEs run block.
+- Sled: the TE chips and releases wider to lead block; the HB runs a straight, slightly slower flat.
+- BM bursts motion to just outside and behind the on-line WR (or flexed TE) for a clean release.
+- RPO Stick plays are suggested for short yardage and goal line.
 
 
 __v2.1 (test build 2)__

@@ -683,10 +683,12 @@
             {
               "play": "YM RPO Stick",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -974,10 +976,12 @@
               "play": "RPO Stick",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -1206,10 +1210,12 @@
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             }
           ]
@@ -1565,10 +1571,12 @@
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -1589,10 +1597,12 @@
             {
               "play": "JF RPO Stick",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -2334,10 +2344,12 @@
             {
               "play": "JF RPO Stick",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -2580,10 +2592,12 @@
             {
               "play": "JF RPO Stick",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -3206,10 +3220,12 @@
               "play": "RPO Bubble Stick",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -3412,10 +3428,12 @@
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50,
+                "GoFor2": 45
               }
             },
             {
@@ -3455,12 +3473,12 @@
             {
               "play": "YM RPO Stick",
               "cpu": {
+                "3rdAndShort": 60,
+                "4thAndShort": 60,
                 "GoalLinePass": 60,
-                "Insidefive": 45,
-                "GoFor2": 45,
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30
+                "GoalLine": 55,
+                "Insidefive": 55,
+                "2ndAndShort": 50
               }
             },
             {

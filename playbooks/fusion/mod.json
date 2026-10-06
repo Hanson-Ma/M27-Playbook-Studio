@@ -1,6 +1,6 @@
 {
   "title": "FUSION Offense (Madden 27)",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "FUSION offense playbook, ported from the Madden 24 mod: custom sets, rebuilt routes and option routes, at-snap motions. Use with the PBOOKOFF-FUSION custom playbook. Offline only.",
   "bundles": [
     "win32/football/gameplay/playbooks/playlibrary/globalplaysheets/globalplaybooksheet_playbooks_brt",

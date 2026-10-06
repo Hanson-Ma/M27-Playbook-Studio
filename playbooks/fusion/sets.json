@@ -502,7 +502,12 @@
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Y_Off_Close/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Y_Off_Close/HB_Stretch",
+     "players": {
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Flat Shallow",
@@ -857,7 +862,12 @@
     {
      "name": "HB Toss",
      "asset": "FUS_HB_Toss",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/HB_Toss"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/HB_Toss",
+     "players": {
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA P Deep Curls",
@@ -1206,7 +1216,11 @@
     {
      "name": "HB Zone Split",
      "asset": "FUS_HB_Zone_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/Inside_Zone_Split",
+     "players": {
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     }
    ]
   },
@@ -2086,15 +2100,15 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Split_Close_Pro/Corner_Strike",
      "players": {
       "1": {
-       "new": "FUSION/R_3c73b8a8a9",
+       "new": "FUSION/R_cd61a165f1",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -15,
-           "y": -2.8,
+           "x": -10.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -3110,7 +3124,12 @@
     {
      "name": "HB Iso",
      "asset": "FUS_HB_Iso",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/HB_Iso"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/HB_Iso",
+     "players": {
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "JW PA Curl",
@@ -3688,7 +3707,12 @@
     {
      "name": "HB Power",
      "asset": "FUS_HB_Power",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Wing_Slot/HB_Power"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Wing_Slot/HB_Power",
+     "players": {
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "RZ FM PA Mesh",
@@ -3953,7 +3977,12 @@
     {
      "name": "HB Dive",
      "asset": "FUS_HB_Dive",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace/HB_Dive"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace/HB_Dive",
+     "players": {
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "YM RPO Stick",
@@ -4129,13 +4158,21 @@
          "blockingGap": "A_GAP_Left"
         }
        ]
-      }
+      },
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
      "name": "HB Power",
      "asset": "FUS_HB_Power",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Wing_Slot/HB_Power"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Wing_Slot/HB_Power",
+     "players": {
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Corner",
@@ -4303,13 +4340,21 @@
        ],
        "prepend": [],
        "steps": []
-      }
+      },
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
      "name": "HB Split",
      "asset": "FUS_HB_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Normal/HB_Split_O"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Normal/HB_Split_O",
+     "players": {
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Sprint Flat",
@@ -4481,13 +4526,20 @@
     {
      "name": "HB Counter Wk",
      "asset": "FUS_HB_Counter_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Normal/HB_Counter_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Normal/HB_Counter_Wk",
+     "players": {
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "YM HB Zone Wk",
      "asset": "FUS_YM_HB_Zone_Wk",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace/HB_Zone_Wk",
      "players": {
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
       "5": {
        "new": "FUSION/R_1de901f37e",
        "routeType": "AssignRouteType_Block_Run",
@@ -4679,7 +4731,12 @@
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/HB_Stretch",
+     "players": {
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     }
    ]
   },
@@ -4842,7 +4899,13 @@
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_North/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_North/HB_Stretch",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "JW PA Curl",
@@ -5064,7 +5127,13 @@
     {
      "name": "HB Trap",
      "asset": "FUS_HB_Trap",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/0_1_Trap"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/0_1_Trap",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "J PA WR Screen",
@@ -5601,6 +5670,9 @@
      "asset": "FUS_Jet_Dive",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/HB_Dive",
      "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
       "5": {
        "new": "FUSION/R_4718874c06",
        "routeType": "AssignRouteType_Block_Run",
@@ -5653,13 +5725,21 @@
     {
      "name": "Jet Sweep",
      "asset": "FUS_Jet_Sweep",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/Jet_Sweep_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/Jet_Sweep_Wk",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "Jet Counter Wk",
      "asset": "FUS_Jet_Counter_Wk",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Counter",
      "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
       "5": {
        "new": "FUSION/R_4b916f5061",
        "routeType": "AssignRouteType_Block_Run",
@@ -6178,7 +6258,13 @@
     {
      "name": "HB Zone Split",
      "asset": "FUS_HB_Zone_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/Inside_Zone_Split",
+     "players": {
+      "2": "Blocking/TE_Pull_H7_Deep_WingTE_Backside_Cutoff",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Boot Zig",
@@ -6880,7 +6966,12 @@
     {
      "name": "Jet Sweep Wk",
      "asset": "FUS_Jet_Sweep_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/Jet_Sweep_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/Jet_Sweep_Wk",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "JW PA Shallow Cross",
@@ -7091,7 +7182,13 @@
     {
      "name": "HB Zone Wk",
      "asset": "FUS_HB_Zone_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Y_Off_Trio_Close/HB_Zone_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Y_Off_Trio_Close/HB_Zone_Wk",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "JW PA CW",
@@ -7603,7 +7700,12 @@
     {
      "name": "HB Zone Split Wk",
      "asset": "FUS_HB_Zone_Split_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Inside_Zone_Split",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "JW PA Y Cross",
@@ -7971,6 +8073,7 @@
      "asset": "FUS_Jet_Sweep",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Jet_Sweep",
      "players": {
+      "2": "Blocking/RunBlock_All",
       "3": {
        "new": "FUSION/R_5ccf423424",
        "template": "Trick/WR_(30)_FlySweepRt_Override_Form_Pos",
@@ -7981,6 +8084,7 @@
        "prepend": [],
        "steps": []
       },
+      "4": "Blocking/RunBlock_All",
       "5": {
        "new": "FUSION/R_c76fc79442",
        "template": "OverrideFormPos/BL_ALL_Lead90for03_Off_Ball_X_-8.75",
@@ -8662,7 +8766,13 @@
     {
      "name": "HB Zone Wk",
      "asset": "FUS_HB_Zone_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_South/HB_Zone_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_South/HB_Zone_Wk",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Boot",
@@ -9041,6 +9151,7 @@
      "asset": "FUS_Jet_Dive_Wk",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Flex/HB_Dive",
      "players": {
+      "2": "Blocking/RunBlock_All",
       "3": {
        "new": "FUSION/R_bf2fdde1a1",
        "routeType": "AssignRouteType_Block_Run",
@@ -9087,7 +9198,9 @@
          "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
-      }
+      },
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
      }
     }
    ]
@@ -9467,41 +9580,7 @@
         }
        ]
       },
-      "4": {
-       "new": "FUSION/R_e597b8ad05",
-       "routeType": "AssignRouteType_Block_Run",
-       "steps": [
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 5.5,
-           "y": -2.2,
-           "speed": 35,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
-        {
-         "type": "RunBlock",
-         "stalkDistance": 0,
-         "slamDuration": 0,
-         "time": 0,
-         "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        }
-       ]
-      },
+      "4": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion",
       "5": {
        "new": "FUSION/R_f19a7f1be1",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -10098,44 +10177,10 @@
      "asset": "FUS_YM_Wham",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/HB_Wham",
      "players": {
-      "4": {
-       "new": "FUSION/R_b638d64b4a",
-       "routeType": "AssignRouteType_Block_Run",
-       "steps": [
-        {
-         "type": "OverrideFormPos",
-         "stance": "TwoPoint",
-         "offsetX": 7,
-         "offsetY": -2.25
-        },
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 5.5,
-           "y": -2.25,
-           "speed": 35,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
-        {
-         "type": "LeadBlock",
-         "blockingTechnique": "BLOCKINGTECHNIQUE_WHAM",
-         "blockingGap": "RUN_HOLE"
-        }
-       ]
-      }
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
      }
     },
     {
@@ -10143,6 +10188,7 @@
      "asset": "FUS_Jet_Sweep",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Jet_Sweep",
      "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
       "3": {
        "new": "FUSION/R_5ccf423424",
        "template": "Trick/WR_(30)_FlySweepRt_Override_Form_Pos",
@@ -10153,6 +10199,7 @@
        "prepend": [],
        "steps": []
       },
+      "4": "Blocking/RunBlock_All",
       "5": {
        "new": "FUSION/R_c76fc79442",
        "template": "OverrideFormPos/BL_ALL_Lead90for03_Off_Ball_X_-8.75",
@@ -10555,17 +10602,34 @@
     {
      "name": "HB Zone Split",
      "asset": "FUS_HB_Zone_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/Inside_Zone_Split",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "HB Zone Wk",
      "asset": "FUS_HB_Zone_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/HB_Zone_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/HB_Zone_Wk",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/HB_Stretch",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "PA Cross",
@@ -10725,7 +10789,13 @@
     {
      "name": "HB Trap",
      "asset": "FUS_HB_Trap",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/0_1_Trap"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/0_1_Trap",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "PA Fk Cross",
@@ -11075,55 +11145,33 @@
      "asset": "FUS_HB_Wham",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Close/HB_Wham",
      "players": {
-      "5": {
-       "new": "FUSION/R_b638d64b4a",
-       "routeType": "AssignRouteType_Block_Run",
-       "steps": [
-        {
-         "type": "OverrideFormPos",
-         "stance": "TwoPoint",
-         "offsetX": 7,
-         "offsetY": -2.25
-        },
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 5.5,
-           "y": -2.25,
-           "speed": 35,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
-        {
-         "type": "LeadBlock",
-         "blockingTechnique": "BLOCKINGTECHNIQUE_WHAM",
-         "blockingGap": "RUN_HOLE"
-        }
-       ]
-      }
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion"
      }
     },
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles/HB_Stretch",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "HB Zone Wk",
      "asset": "FUS_HB_Zone_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/HB_Zone_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/HB_Zone_Wk",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "JF PA PW Ziggo",
@@ -11307,7 +11355,12 @@
     {
      "name": "Jet Sweep",
      "asset": "FUS_Jet_Sweep",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot_Stack/Jet_Sweep"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot_Stack/Jet_Sweep",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Dagger",
@@ -11517,7 +11570,12 @@
     {
      "name": "HB Zone Split",
      "asset": "FUS_HB_Zone_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/Inside_Zone_Split",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "JW PA Boot Wk",
@@ -12251,7 +12309,12 @@
     {
      "name": "HB Zone Split",
      "asset": "FUS_HB_Zone_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Deuce_Close/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Deuce_Close/Inside_Zone_Split",
+     "players": {
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA P Double Post",
@@ -12595,7 +12658,13 @@
     {
      "name": "HB Counter",
      "asset": "FUS_HB_Counter",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace_Slot/HB_Counter"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace_Slot/HB_Counter",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     }
    ]
   },
@@ -13193,12 +13262,24 @@
     {
      "name": "Power Option",
      "asset": "FUS_Power_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/Power_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/Power_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "HB Zone Split",
      "asset": "FUS_HB_Zone_Split",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/Inside_Zone_Split"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/Inside_Zone_Split",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PA Boot",
@@ -13359,17 +13440,34 @@
     {
      "name": "HB Counter Wk",
      "asset": "FUS_HB_Counter_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace_Slot/HB_Counter"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace_Slot/HB_Counter",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "Lead Read Option",
      "asset": "FUS_Lead_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Deuce_Close/Y_Lead_Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Deuce_Close/Y_Lead_Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Close/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Close/HB_Stretch",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     }
    ]
   },
@@ -14233,7 +14331,12 @@
     {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Open_Flex/HB_Stretch"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Open_Flex/HB_Stretch",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "JF RPO Stick",
@@ -14684,7 +14787,13 @@
     {
      "name": "HB Zone Wk",
      "asset": "FUS_HB_Zone_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace/HB_Zone_Wk"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace/HB_Zone_Wk",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "FMO RPO Flat",
@@ -15862,7 +15971,13 @@
     {
      "name": "Speed Option",
      "asset": "FUS_Speed_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/Speed_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/Speed_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "PM Read Option",
@@ -15885,7 +16000,11 @@
         }
        ],
        "steps": []
-      }
+      },
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "Blocking/RunBlock_All",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
@@ -21917,7 +22036,11 @@
         }
        ],
        "steps": []
-      }
+      },
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
@@ -24227,14 +24350,14 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_9e61e34d35",
+       "new": "FUSION/R_dc9f11011c",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -23.75,
+           "x": -15.5,
            "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
@@ -24500,16 +24623,19 @@
      "asset": "FUS_BM_Power",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Flanker_Close/HB_Sweep",
      "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "Blocking/RunBlock_All",
+      "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_ed073e5f92",
+       "new": "FUSION/R_bb12bba1fb",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -25,
-           "y": -3.8,
+           "x": -15.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -24738,15 +24864,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_2987e364f2",
+       "new": "FUSION/R_cd61a165f1",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -19,
-           "y": -2.8,
+           "x": -10.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -24881,7 +25007,13 @@
     {
      "name": "Read Option",
      "asset": "FUS_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "Dagger Comeback",
@@ -25147,15 +25279,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_2987e364f2",
+       "new": "FUSION/R_cd61a165f1",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -19,
-           "y": -2.8,
+           "x": -10.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25384,15 +25516,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_b215a352db",
+       "new": "FUSION/R_e3f4eb97c4",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 19,
-           "y": -2.8,
+           "x": 10.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25701,15 +25833,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_e47f8bcc97",
+       "new": "FUSION/R_ed4c36390f",
        "routeType": "AssignRouteType_RR_In_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -19,
-           "y": -2.8,
+           "x": -10.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25878,15 +26010,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_c32da37e6d",
+       "new": "FUSION/R_d8d9577035",
        "routeType": "AssignRouteType_RR_Out_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -14,
-           "y": -2.8,
+           "x": -10.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -26738,7 +26870,13 @@
     {
      "name": "Read Option",
      "asset": "FUS_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles_HB_Wk/Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles_HB_Wk/Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "M Comebacks",
@@ -26954,7 +27092,11 @@
         }
        ],
        "steps": []
-      }
+      },
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
@@ -28904,7 +29046,13 @@
     {
      "name": "HB Trap",
      "asset": "FUS_HB_Trap",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Wing_Trips_Wk/Wide_Trap"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Wing_Trips_Wk/Wide_Trap",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "HB Slip Screen",
@@ -31398,7 +31546,12 @@
     {
      "name": "Lead Read Option",
      "asset": "FUS_Lead_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Y_Lead_Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Y_Lead_Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "JW PW Salem Option",
@@ -36261,7 +36414,13 @@
     {
      "name": "Read Option",
      "asset": "FUS_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Wing_Trio/GT_Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Wing_Trio/GT_Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "BM CC Salem",
@@ -36348,14 +36507,14 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_b25a1296aa",
+       "new": "FUSION/R_27d255c909",
        "routeType": "AssignRouteType_RR_Out_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 15,
+           "x": 11.5,
            "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
@@ -37429,15 +37588,15 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_940c082014",
+       "new": "FUSION/R_d2a7aef3e3",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17,
-           "y": -2.8,
+           "x": 11.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -38122,7 +38281,13 @@
     {
      "name": "Read Option",
      "asset": "FUS_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread/GT_Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread/GT_Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "FM Hoss Angle",
@@ -39157,7 +39322,11 @@
         }
        ],
        "steps": []
-      }
+      },
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
@@ -39941,7 +40110,13 @@
     {
      "name": "Read Option",
      "asset": "FUS_Read_Option",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Read_Option",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "Switch Cross",
@@ -40333,7 +40508,11 @@
         }
        ],
        "steps": []
-      }
+      },
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
      }
     },
     {
@@ -42051,47 +42230,18 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
      "players": {
       "1": {
-       "new": "FUSION/R_9b2dafcbdc",
+       "new": "FUSION/R_9106fd6667",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
-         "type": "OverrideFormPos",
-         "stance": "HB",
-         "offsetX": -3.75,
-         "offsetY": -7.5
-        },
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 2.5,
-           "y": -7.5,
-           "speed": 79,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
-        {
          "type": "RunRoute",
-         "distance": 7.5,
-         "direction": 2.8100000000000023,
-         "speed": 79
+         "distance": 10,
+         "direction": 0,
+         "speed": 70
         },
         {
-         "type": "RunRoute",
-         "distance": 7.5,
-         "direction": 11.25,
-         "speed": 98
+         "type": "Delay",
+         "time": 1
         },
         {
          "type": "GetOpen"
@@ -44403,15 +44553,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_2b73b9571f",
+       "new": "FUSION/R_6b9bef57d6",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17,
-           "y": -2.8,
+           "x": -11.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -44787,15 +44937,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_2b73b9571f",
+       "new": "FUSION/R_6b9bef57d6",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -17,
-           "y": -2.8,
+           "x": -11.5,
+           "y": -2.5,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -45973,7 +46123,12 @@
     {
      "name": "Read Option Lead",
      "asset": "FUS_Read_Option_Lead",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Y_Lead_Read_Option"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch/Y_Lead_Read_Option",
+     "players": {
+      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "3": "Blocking/RunBlock_All",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
+     }
     },
     {
      "name": "HB Slip Screen",
@@ -47250,7 +47405,13 @@
     {
      "name": "FMO Inside Zone",
      "asset": "FUS_FMO_Inside_Zone",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Inside_Zone"
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Inside_Zone",
+     "players": {
+      "2": "Blocking/RunBlock_All",
+      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
+      "5": "Blocking/RunBlock_All"
+     }
     },
     {
      "name": "RZ RM RPO Corndog",
@@ -47915,7 +48076,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Bunch_Smash",
      "players": {
       "1": {
-       "new": "FUSION/R_ec3eab767e",
+       "new": "FUSION/R_3eaeb7734a",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
@@ -47923,20 +48084,14 @@
          "time": 0.34
         },
         {
-         "type": "MoveDirection",
-         "distance": 2,
-         "direction": 84.38,
-         "speed": 49
-        },
-        {
          "type": "RunRoute",
-         "distance": 9,
+         "distance": 10,
          "direction": 0,
-         "speed": 59
+         "speed": 70
         },
         {
          "type": "Delay",
-         "time": 2.5
+         "time": 1
         },
         {
          "type": "GetOpen"
@@ -48040,7 +48195,7 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_35498550ee",
+       "new": "FUSION/R_c812684e55",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
@@ -48050,8 +48205,8 @@
         },
         {
          "type": "MoveDirection",
-         "distance": 7.5,
-         "direction": 5.6299999999999955,
+         "distance": 11.25,
+         "direction": 12,
          "speed": 79
         },
         {
@@ -48688,7 +48843,7 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Bunch_Smash",
      "players": {
       "1": {
-       "new": "FUSION/R_ec3eab767e",
+       "new": "FUSION/R_3eaeb7734a",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
@@ -48696,20 +48851,14 @@
          "time": 0.34
         },
         {
-         "type": "MoveDirection",
-         "distance": 2,
-         "direction": 84.38,
-         "speed": 49
-        },
-        {
          "type": "RunRoute",
-         "distance": 9,
+         "distance": 10,
          "direction": 0,
-         "speed": 59
+         "speed": 70
         },
         {
          "type": "Delay",
-         "time": 2.5
+         "time": 1
         },
         {
          "type": "GetOpen"
@@ -48815,7 +48964,7 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_35498550ee",
+       "new": "FUSION/R_c812684e55",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
@@ -48825,8 +48974,8 @@
         },
         {
          "type": "MoveDirection",
-         "distance": 7.5,
-         "direction": 5.6299999999999955,
+         "distance": 11.25,
+         "direction": 12,
          "speed": 79
         },
         {
