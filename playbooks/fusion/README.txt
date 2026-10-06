@@ -1,4 +1,4 @@
-__FUSION OFFENSE - MADDEN 27 PORT (v2.2.0, test build)__
+__FUSION OFFENSE - MADDEN 27 PORT (v2.3.0, test build)__
 
 Ported from the Madden 24 FUSION mod (hansonma.org/projects/fusion).
 Offline only.
@@ -24,6 +24,17 @@ __HOW TO INSTALL__
    (If it's missing, copy it there from this folder.)
 
 4. Pick FUSION as your custom offense before an OFFLINE game.
+
+
+__v2.3 (test build 4)__
+
+- HB Wham (Stack Y-Off) and YM Wham (Deuce Close) are gone.
+- PA Cross Mesh (was YM PA Cross Mesh, Deuce Close): a plain zone split PA. No Y motion; the Y comes across
+  behind the line away from the fake and blocks.
+- JW PA plays use Madden 27's jet sweep play action: the QB fakes the jet AND the HB, then the jet man keeps going
+  on his wheel. Boots still boot after both fakes. Not available for JW PA Drive (Pistol Trey Row) and
+  JW PA Verticals (Gun Doubles Tight): Madden 27 has no jet + HB fake from those backfields, so they keep the HB-only fake.
+- BM bursts: the ball snaps a touch earlier and the burst keeps moving through the snap instead of settling first.
 
 
 __v2.2 (test build 3)__

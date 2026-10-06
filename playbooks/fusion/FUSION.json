@@ -407,7 +407,7 @@
               }
             },
             {
-              "play": "YM PA Cross Mesh",
+              "play": "PA P Cross Mesh",
               "cpu": {
                 "Playaction": 70,
                 "2ndAndShort": 40,
@@ -449,17 +449,6 @@
                 "3rdAndLong": 40,
                 "FirstDown": 35,
                 "4thAndMedium": 35
-              }
-            },
-            {
-              "play": "YM Wham",
-              "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
               }
             },
             {
@@ -569,17 +558,6 @@
         {
           "set": "Stack Y-Off",
           "plays": [
-            {
-              "play": "HB Wham",
-              "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
-              }
-            },
             {
               "play": "HB Stretch",
               "audible": 1,

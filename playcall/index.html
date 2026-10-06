@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Play Call Sim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000;
+  --ink: #f2f2f2;
+  --ink-dim: #c9c9c9;
+  --muted: #9a9a9a;
+  --row: rgba(38, 38, 38, .62);
+  --row-sel: rgba(24, 24, 24, .9);
+  --pill: #ececec;
+  --pill-ink: #161616;
+  --team: #1d3f7d;
+  --team-ink: #fff;
+  --gold: #d9a63a;
+  --vip: #ff4b3e;
+  --option: #ffd23f;
+  --motion: #7ec8ff;
+  --block: #d5ac6e;
+  --carry: #ffffff;
+  --route: #ececec;
+  --field: #0d1410;
+  --font: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; }
+body { font-family: var(--font); color: var(--ink); user-select: none; -webkit-user-select: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+/* 2000x1125 stage, positions measured from the in-game screenshot, scaled to the window */
+#stage { position: absolute; left: 50%; top: 50%; width: 2000px; height: 1125px; transform-origin: 0 0; }
+.abs { position: absolute; }
+
+.vlabel { left: 24px; top: 556px; width: 28px; height: 140px; writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: 22px; font-weight: 600; letter-spacing: .5px; color: var(--ink-dim); white-space: nowrap; text-align: left; }
+
+.key { display: inline-flex; align-items: center; justify-content: center; min-width: 33px; height: 31px; padding: 0 6px;
+  background: #f4f4f4; color: #111; border-radius: 3px; font-size: 24px; font-weight: 700; line-height: 1; }
+.key.small { min-width: 24px; height: 24px; font-size: 17px; padding: 0 4px; border-radius: 2px; }
+/* controller glyphs */
+.pad { display: inline-flex; align-items: center; justify-content: center; height: 31px; min-width: 31px; padding: 0 7px;
+  border-radius: 16px; font-size: 19px; font-weight: 700; color: #111; background: #e8e8e8; }
+.pad.a { background: #5fb946; color: #fff; } .pad.b { background: #e0453a; color: #fff; }
+.pad.x { background: #3d7ce0; color: #fff; } .pad.y { background: #e9b833; color: #111; }
+.pad.small { height: 24px; min-width: 24px; font-size: 15px; padding: 0 6px; }
+
+.tabs { left: 80px; top: 536px; height: 46px; display: flex; align-items: center; }
+.tabs .key { margin-right: 13px; }
+.tab { height: 46px; padding: 0 13px; margin-right: 6px; display: flex; align-items: center; font-size: 30px; font-weight: 500;
+  color: var(--ink-dim); border-radius: 4px; letter-spacing: .2px; transition: background .12s, color .12s; }
+.tab.on { background: var(--pill); color: var(--pill-ink); font-weight: 600; }
+.tab:hover:not(.on) { color: #fff; }
+.tabs .key.right { margin-left: 15px; margin-right: 0; }
+
+.list { left: 84px; top: 600px; width: 576px; height: 337px; overflow: hidden; }
+.list-inner { position: absolute; left: 0; top: 0; width: 100%; transition: transform .16s ease-out; }
+.row { position: absolute; left: 0; width: 576px; height: 64px; background: var(--row); border-radius: 6px; display: flex; align-items: center;
+  border: 3px solid transparent; transition: background .1s, border-color .1s; cursor: pointer; }
+.row.on { background: var(--row-sel); border-color: #eaeaea; }
+.row:hover:not(.on) { background: rgba(60, 60, 60, .7); }
+.row .nm { position: absolute; left: 27px; font-size: 30px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; }
+.row .st { position: absolute; top: 4px; width: 90px; text-align: center; }
+.row .st b { display: block; font-size: 25px; font-weight: 600; line-height: 26px; }
+.row .st i { display: block; font-style: normal; font-size: 19px; font-weight: 500; color: var(--ink-dim); line-height: 22px; }
+.row .s1 { left: 357px; } .row .s2 { left: 461px; }
+.scroll { left: 670px; top: 600px; width: 3px; height: 322px; background: rgba(255, 255, 255, .18); }
+.thumb { position: absolute; left: 0; width: 3px; background: #f2f2f2; transition: top .16s, height .16s; }
+
+.setbar { left: 695px; top: 593px; width: 595px; height: 57px; border: 2px solid #d8d8d8; border-radius: 5px; display: flex; overflow: hidden; }
+.setbar .arr { width: 54px; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(20, 20, 20, .7); }
+.setbar .arr svg { width: 18px; height: 26px; }
+.setbar .arr:hover { background: rgba(70, 70, 70, .8); }
+.setbar .nm { flex: 1; background: #f1f1f1; color: #111; display: flex; align-items: center; justify-content: center; font-size: 30px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: .3px; cursor: pointer; white-space: nowrap; overflow: hidden; }
+.setbar.inplays .nm { background: #fff; }
+
+#dots { left: 0; top: 0; width: 2000px; height: 1125px; pointer-events: none; transition: opacity .15s; }
+.dotzone { left: 695px; top: 662px; width: 595px; height: 270px; cursor: pointer; }
+.dot circle { fill: var(--team); }
+.dot text { fill: var(--team-ink); font: 600 21px var(--font); text-anchor: middle; dominant-baseline: central; }
+
+.keyp { left: 1315px; top: 590px; width: 540px; transition: opacity .15s; }
+.keyp h2 { margin: 0; height: 44px; font-size: 30px; font-weight: 600; letter-spacing: .3px; border-bottom: 2px solid #e6e6e6; line-height: 38px; }
+.kp { position: relative; height: 58px; padding-left: 63px; margin-top: 0; }
+.kp:first-of-type { margin-top: 18px; }
+.kp .ic { position: absolute; left: 1px; top: 10px; width: 45px; height: 45px; border: 2px solid var(--gold); border-radius: 4px;
+  background: linear-gradient(#3a2a10, #1a1206); display: flex; align-items: center; justify-content: center; }
+.kp .ic svg { width: 26px; height: 26px; }
+.kp b { display: block; font-size: 30px; font-weight: 700; line-height: 30px; padding-top: 4px; text-transform: uppercase; letter-spacing: .2px; }
+.kp i { display: block; font-style: normal; font-size: 19px; font-weight: 500; color: var(--ink-dim); line-height: 20px; }
+
+.cards { left: 695px; top: 668px; width: 1160px; height: 270px; overflow: hidden; display: none; }
+.cards.show { display: block; }
+.cards-inner { position: absolute; left: 0; top: 0; height: 100%; transition: transform .18s ease-out; }
+.card { position: absolute; top: 0; width: 370px; height: 262px; background: rgba(22, 22, 22, .92); border: 3px solid transparent; border-radius: 6px;
+  cursor: pointer; overflow: hidden; transition: border-color .1s, transform .1s; }
+.card.on { border-color: #ececec; }
+.card:hover:not(.on) { border-color: rgba(255, 255, 255, .35); }
+.card.press { transform: scale(.97); }
+.card svg { position: absolute; left: 0; top: 0; width: 364px; height: 200px; background: var(--field); }
+.card .nm { position: absolute; left: 14px; right: 50px; top: 203px; height: 52px; display: flex; align-items: center; font-size: 27px; font-weight: 600;
+  text-transform: uppercase; line-height: 26px; letter-spacing: .2px; }
+.card .aud { position: absolute; right: 10px; top: 216px; min-width: 28px; height: 26px; border-radius: 3px; background: #2f2f2f; color: #ddd;
+  font-size: 17px; font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 5px; }
+.los { stroke: rgba(255, 255, 255, .28); stroke-width: 1.5; }
+.yd { stroke: rgba(255, 255, 255, .07); stroke-width: 1; }
+.art path, .art line { fill: none; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+.k-route { stroke: var(--route); } .k-vip { stroke: var(--vip); } .k-option { stroke: var(--option); } .k-carry { stroke: var(--carry); stroke-dasharray: 1 6; stroke-width: 4 !important; }
+.k-block { stroke: var(--block); } .k-motion { stroke: var(--motion); stroke-dasharray: 5 5; stroke-width: 2.6 !important; }
+.art .pl { fill: #e9e9e9; } .art .ol { fill: #6c6c6c; } .art .qb { fill: #fff; }
+.pager { left: 695px; top: 942px; width: 1160px; height: 6px; display: none; justify-content: center; gap: 8px; }
+.pager.show { display: flex; }
+.pager span { width: 34px; height: 4px; background: rgba(255, 255, 255, .22); border-radius: 2px; }
+.pager span.on { background: #eee; }
+
+.hints { left: 518px; top: 950px; height: 47px; padding: 0 16px; background: rgba(18, 18, 18, .88); border-radius: 24px; display: flex; align-items: center;
+  gap: 22px; white-space: nowrap; transform: translateX(-50%); margin-left: 490px; }
+.hint { display: flex; align-items: center; gap: 9px; font-size: 22px; font-weight: 600; letter-spacing: .2px; text-transform: uppercase; cursor: pointer; }
+.hint .glyphs { display: flex; gap: 3px; }
+
+.toast { left: 1000px; top: 1030px; transform: translateX(-50%); padding: 8px 18px; background: rgba(240, 240, 240, .95); color: #111; border-radius: 4px;
+  font-size: 22px; font-weight: 600; text-transform: uppercase; opacity: 0; transition: opacity .2s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; }
+.padstate { right: 40px; top: 30px; font-size: 18px; font-weight: 600; color: var(--muted); letter-spacing: .4px; text-transform: uppercase; }
+.padstate.on { color: #7fd36b; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="abs vlabel" id="vlabel">SEA / SELECT A PLAY</div>
+
+  <div class="abs tabs" id="tabs"></div>
+
+  <div class="abs list" id="list"><div class="list-inner" id="listInner"></div></div>
+  <div class="abs scroll"><div class="thumb" id="thumb"></div></div>
+
+  <div class="abs setbar" id="setbar">
+    <button class="arr" id="prevSet" aria-label="Previous set"><svg viewBox="0 0 18 26"><path d="M14 2 3 13l11 11" fill="none" stroke="#eee" stroke-width="3"/></svg></button>
+    <div class="nm" id="setName"></div>
+    <button class="arr" id="nextSet" aria-label="Next set"><svg viewBox="0 0 18 26"><path d="M4 2l11 11L4 24" fill="none" stroke="#eee" stroke-width="3"/></svg></button>
+  </div>
+
+  <svg class="abs" id="dots" viewBox="0 0 2000 1125"></svg>
+  <div class="abs dotzone" id="dotzone" title="Open plays"></div>
+
+  <div class="abs cards" id="cards"><div class="cards-inner" id="cardsInner"></div></div>
+  <div class="abs pager" id="pager"></div>
+
+  <div class="abs keyp" id="keyp">
+    <h2>KEY PLAYERS</h2>
+    <div class="kp"><div class="ic"><svg viewBox="0 0 26 26"><circle cx="13" cy="8" r="4.5" fill="#e3b04b"/><path d="M4 23c1-6 4.5-8.5 9-8.5s8 2.5 9 8.5" fill="#e3b04b"/><path d="M18 3l2 2 4-4" stroke="#e3b04b" stroke-width="2" fill="none"/></svg></div><b>Jaxon Smith-Njigba</b><i>#11 WR</i></div>
+    <div class="kp"><b>Sam Darnold</b><i>#14 QB</i></div>
+    <div class="kp"><b>Zach Charbonnet</b><i>#26 HB</i></div>
+    <div class="kp"><b>Cooper Kupp</b><i>#10 WR</i></div>
+  </div>
+
+  <div class="abs hints" id="hints"></div>
+  <div class="abs toast" id="toast"></div>
+  <div class="abs padstate" id="padstate">Keyboard</div>
+</div>
+
+<script src="data.js"></script>
+<script>
+"use strict";
+const BOOK = window.PLAYBOOK;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const TABS = ["Formation", "Concept", "Play Type", "Player", "Personnel Group", "Favorites"];
+const ROW_PITCH = 68, ROWS_VISIBLE = 5, CARD_W = 370, CARD_GAP = 25, CARDS_VISIBLE = 3;
+
+const S = { tab: 0, form: 0, set: [], view: "sets", play: 0, pad: false };
+BOOK.formations.forEach(() => S.set.push(0));
+const curForm = () => BOOK.formations[S.form];
+const curSet = () => curForm().sets[S.set[S.form]];
+
+// ---------- fit the 2000x1125 stage to the window ----------
+function fit() {
+  const k = Math.min(innerWidth / 2000, innerHeight / 1125);
+  $("stage").style.transform = `scale(${k}) translate(-1000px, -562.5px)`;
+}
+addEventListener("resize", fit);
+fit();
+
+// ---------- tabs ----------
+function renderTabs() {
+  const g = S.pad ? ["LT", "RT"] : ["Z", "C"];
+  $("tabs").innerHTML = glyph(g[0]) + TABS.map((t, i) => `<button class="tab${i === S.tab ? " on" : ""}" data-tab="${i}">${t.toUpperCase()}</button>`).join("") + glyph(g[1], "right");
+  $("tabs").querySelectorAll(".tab").forEach(b => b.onclick = () => setTab(+b.dataset.tab));
+}
+function setTab(i) {
+  S.tab = (i + TABS.length) % TABS.length;
+  renderTabs();
+  if (S.tab !== 0) toast(`${TABS[S.tab]} view isn't in this sim`);
+}
+
+// ---------- formation list ----------
+let listTop = 0;
+function renderList() {
+  $("listInner").innerHTML = BOOK.formations.map((f, i) => `<div class="row${i === S.form ? " on" : ""}" data-i="${i}" style="top:${i * ROW_PITCH}px">
+    <span class="nm">${esc(f.name)}</span><span class="st s1"><b>0</b><i>GOTO%</i></span><span class="st s2"><b>0.0</b><i>AVG YDS</i></span></div>`).join("");
+  $("listInner").querySelectorAll(".row").forEach(r => r.onclick = () => { if (S.view === "plays") S.view = "sets"; selectForm(+r.dataset.i); });
+  const n = BOOK.formations.length;
+  if (S.form < listTop) listTop = S.form;
+  if (S.form >= listTop + ROWS_VISIBLE) listTop = S.form - ROWS_VISIBLE + 1;
+  listTop = Math.max(0, Math.min(listTop, Math.max(0, n - ROWS_VISIBLE)));
+  $("listInner").style.transform = `translateY(${-listTop * ROW_PITCH}px)`;
+  const track = 322, h = n <= ROWS_VISIBLE ? track : track * ROWS_VISIBLE / n;
+  $("thumb").style.height = h + "px";
+  $("thumb").style.top = (n <= ROWS_VISIBLE ? 0 : (track - h) * listTop / (n - ROWS_VISIBLE)) + "px";
+}
+function selectForm(i) {
+  const n = BOOK.formations.length;
+  S.form = (i + n) % n;
+  S.play = 0;
+  render();
+}
+
+// ---------- set bar + formation dots ----------
+const NUMS = { WR: [11, 10, 22, 16, 18], TE: [88, 85, 87], HB: [8, 26], FB: [45], QB: [14], OL: [67, 76, 61, 75, 72] };
+// 20.8 px/yd inside the numbers (matches the screenshot); wider splits are squeezed so dots stay between the panels
+const dotX = x => { const a = Math.abs(x); return 983 + Math.sign(x) * (Math.min(a, 9) * 20.8 + Math.max(a - 9, 0) * 7.5); };
+const dotY = (y, qb) => 697 + (-0.6 - y) * 19 + (qb && y > -2.5 ? 19 : 0);
+function renderSet() {
+  const s = curSet(), f = curForm();
+  $("setName").textContent = `${s.name} - ${s.plays.length} ${s.plays.length === 1 ? "play" : "plays"}`;
+  $("setbar").classList.toggle("inplays", S.view === "plays");
+  const used = {};
+  const order = s.players.map((p, j) => ({ ...p, j })).sort((a, b) => a.x - b.x);
+  const num = {};
+  for (const p of order) { const list = NUMS[p.t] ?? [0]; const k = used[p.t] = (used[p.t] ?? -1) + 1; num[p.j] = list[k % list.length]; }
+  $("dots").innerHTML = s.players.map((p, j) => `<g class="dot"><circle cx="${dotX(p.x).toFixed(1)}" cy="${dotY(p.y, j === 0).toFixed(1)}" r="17"/>
+    <text x="${dotX(p.x).toFixed(1)}" y="${(dotY(p.y, j === 0) + 1).toFixed(1)}">${num[j]}</text></g>`).join("");
+  $("dots").style.opacity = S.view === "sets" ? 1 : 0;
+  $("dotzone").style.display = S.view === "sets" ? "block" : "none";
+  $("keyp").style.opacity = S.view === "sets" ? 1 : 0;
+}
+function changeSet(d) {
+  const n = curForm().sets.length;
+  S.set[S.form] = (S.set[S.form] + d + n) % n;
+  S.play = 0;
+  render();
+}
+
+// ---------- play cards ----------
+// art space: x -24..24 yd across 364px, y -10..24 yd down 200px
+const AX = x => 182 + x * 7.4, AY = y => 150 - y * 5.9;
+function artSvg(s, p) {
+  let g = "";
+  for (let yd = 5; yd <= 20; yd += 5) g += `<line class="yd" x1="0" x2="364" y1="${AY(yd)}" y2="${AY(yd)}"/>`;
+  g += `<line class="los" x1="0" x2="364" y1="${AY(0)}" y2="${AY(0)}"/>`;
+  p.art.forEach((a, j) => {
+    if (!a) return;
+    for (const [x1, y1, x2, y2] of a.motion ?? []) g += `<line class="k-motion" x1="${AX(x1)}" y1="${AY(y1)}" x2="${AX(x2)}" y2="${AY(y2)}"/>`;
+    if (a.path) {
+      const d = "M" + a.path.map(([x, y]) => `${AX(x).toFixed(1)} ${AY(y).toFixed(1)}`).join(" L");
+      g += `<path class="k-${a.kind === "block" ? "route" : a.kind}" d="${d}"/>`;
+      if (a.kind !== "carry") {
+        const [x1, y1] = a.path.at(-2), [x2, y2] = a.path.at(-1), ang = Math.atan2(AY(y2) - AY(y1), AX(x2) - AX(x1));
+        const tx = AX(x2), ty = AY(y2), h = 9;
+        g += `<path class="k-${a.kind}" d="M${(tx - h * Math.cos(ang - .5)).toFixed(1)} ${(ty - h * Math.sin(ang - .5)).toFixed(1)} L${tx.toFixed(1)} ${ty.toFixed(1)} L${(tx - h * Math.cos(ang + .5)).toFixed(1)} ${(ty - h * Math.sin(ang + .5)).toFixed(1)}"/>`;
+      }
+    } else if (a.kind === "block" && j <= 5) {
+      const last = a.motion?.length ? a.motion.at(-1).slice(2) : [s.players[j].x, s.players[j].y];
+      g += `<line class="k-block" x1="${AX(last[0]) - 7}" y1="${AY(last[1]) - 9}" x2="${AX(last[0]) + 7}" y2="${AY(last[1]) - 9}"/><line class="k-block" x1="${AX(last[0])}" y1="${AY(last[1]) - 9}" x2="${AX(last[0])}" y2="${AY(last[1]) - 3}"/>`;
+    }
+  });
+  s.players.forEach((pl, j) => g += `<circle class="${j === 0 ? "qb" : pl.t === "OL" ? "ol" : "pl"}" cx="${AX(pl.x).toFixed(1)}" cy="${AY(pl.y).toFixed(1)}" r="${j === 0 ? 5.5 : 5}"/>`);
+  return `<svg class="art" viewBox="0 0 364 200" aria-hidden="true">${g}</svg>`;
+}
+let cardsLeft = 0, cardsKey = "";
+function renderCards() {
+  const show = S.view === "plays";
+  $("cards").classList.toggle("show", show);
+  $("pager").classList.toggle("show", show);
+  if (!show) return;
+  const s = curSet(), key = S.form + "/" + S.set[S.form];
+  if (key !== cardsKey) {
+    cardsKey = key; cardsLeft = 0;
+    $("cardsInner").innerHTML = s.plays.map((p, i) => `<div class="card" data-i="${i}" style="left:${i * (CARD_W + CARD_GAP)}px">${artSvg(s, p)}
+      <div class="nm">${esc(p.name)}</div>${p.audible ? `<div class="aud" title="Audible slot">${p.audible}</div>` : ""}</div>`).join("");
+    $("cardsInner").querySelectorAll(".card").forEach(c => c.onclick = () => { const i = +c.dataset.i; if (i === S.play) callPlay(); else { S.play = i; renderCards(); } });
+  }
+  $("cardsInner").querySelectorAll(".card").forEach((c, i) => c.classList.toggle("on", i === S.play));
+  if (S.play < cardsLeft) cardsLeft = S.play;
+  if (S.play >= cardsLeft + CARDS_VISIBLE) cardsLeft = S.play - CARDS_VISIBLE + 1;
+  cardsLeft = Math.max(0, Math.min(cardsLeft, Math.max(0, s.plays.length - CARDS_VISIBLE)));
+  $("cardsInner").style.transform = `translateX(${-cardsLeft * (CARD_W + CARD_GAP)}px)`;
+  const pages = Math.ceil(s.plays.length / CARDS_VISIBLE);
+  $("pager").innerHTML = pages > 1 ? Array.from({ length: pages }, (_, i) => `<span class="${Math.floor(S.play / CARDS_VISIBLE) === i ? "on" : ""}"></span>`).join("") : "";
+}
+function movePlay(d) {
+  const n = curSet().plays.length;
+  S.play = Math.max(0, Math.min(n - 1, S.play + d));
+  renderCards();
+}
+function callPlay() {
+  // dummy: the press animation is all that happens
+  const c = $("cardsInner").querySelector(`.card[data-i="${S.play}"]`);
+  if (!c) return;
+  c.classList.add("press");
+  setTimeout(() => c.classList.remove("press"), 120);
+}
+
+// ---------- bottom hints ----------
+function glyph(k, extra = "") {
+  if (!S.pad) return `<span class="key${extra ? " " + extra : ""}">${k}</span>`;
+  const cls = { A: "a", B: "b", X: "x", Y: "y" }[k] ?? "";
+  return `<span class="pad ${cls}${extra ? " " + extra : ""}">${k}</span>`;
+}
+function renderHints() {
+  const f = curForm().name.toUpperCase();
+  const K = S.pad
+    ? { back: "B", sub: "X", rnd: "Y", pk: ["LB", "RB"], coach: "VIEW", sel: "A" }
+    : { back: "ESC", sub: "Q", rnd: "R", pk: ["A", "D"], coach: "TAB", sel: "ENTER" };
+  const items = [];
+  if (S.view === "plays") items.push(["back", [K.back], "Back"]);
+  items.push(["sub", [K.sub], "Substitution"], ["rnd2", [K.rnd], `[Double tap] Random ${f}`], ["rnd", [K.rnd], "Random play"], ["pk", K.pk, "Packages"], ["coach", [K.coach], "Coach adjustments"]);
+  $("hints").innerHTML = items.map(([id, ks, label]) => `<div class="hint" data-id="${id}"><span class="glyphs">${ks.map(k => glyph(k)).join("")}</span>${esc(label)}</div>`).join("");
+  $("hints").querySelectorAll(".hint").forEach(h => h.onclick = () => action(h.dataset.id));
+  $("padstate").textContent = S.pad ? "Controller connected" : "Keyboard / mouse";
+  $("padstate").classList.toggle("on", S.pad);
+}
+
+// ---------- actions ----------
+let toastTimer = 0;
+function toast(msg) {
+  $("toast").textContent = msg;
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("toast").classList.remove("show"), 1300);
+}
+let pkg = 0;
+function action(id) {
+  if (id === "back") back();
+  else if (id === "sub") toast("Substitution");
+  else if (id === "rnd") randomPlay();
+  else if (id === "rnd2") randomSet();
+  else if (id === "pk") { pkg = (pkg + 1) % 3; toast(`Package: ${["Normal", "Heavy", "Spread"][pkg]}`); }
+  else if (id === "coach") toast("Coach adjustments");
+}
+function open() { if (S.view === "sets") { S.view = "plays"; S.play = 0; render(); } else callPlay(); }
+function back() { if (S.view === "plays") { S.view = "sets"; render(); } }
+function randomSet() {
+  const n = curForm().sets.length;
+  S.set[S.form] = Math.floor(Math.random() * n);
+  S.view = "sets"; render();
+}
+function randomPlay() {
+  S.form = Math.floor(Math.random() * BOOK.formations.length);
+  S.set[S.form] = Math.floor(Math.random() * curForm().sets.length);
+  S.view = "plays";
+  S.play = Math.floor(Math.random() * curSet().plays.length);
+  render();
+}
+let rTimer = 0;
+function rKey() {
+  // single tap = random play, double tap = random set in this formation
+  if (rTimer) { clearTimeout(rTimer); rTimer = 0; randomSet(); return; }
+  rTimer = setTimeout(() => { rTimer = 0; randomPlay(); }, 260);
+}
+function nav(dir) {
+  if (S.view === "sets") {
+    if (dir === "up") selectForm(S.form - 1);
+    else if (dir === "down") selectForm(S.form + 1);
+    else changeSet(dir === "left" ? -1 : 1);
+  } else {
+    if (dir === "left") movePlay(-1);
+    else if (dir === "right") movePlay(1);
+    else if (dir === "up") movePlay(-CARDS_VISIBLE);
+    else movePlay(CARDS_VISIBLE);
+  }
+}
+
+function render() { renderList(); renderSet(); renderCards(); renderHints(); }
+
+// ---------- mouse ----------
+$("prevSet").onclick = () => { if (S.view === "plays") S.view = "sets"; changeSet(-1); };
+$("nextSet").onclick = () => { if (S.view === "plays") S.view = "sets"; changeSet(1); };
+$("setName").onclick = open;
+$("dotzone").onclick = open;
+let wheelAcc = 0;
+addEventListener("wheel", e => {
+  wheelAcc += e.deltaY;
+  if (Math.abs(wheelAcc) < 60) return;
+  const d = Math.sign(wheelAcc); wheelAcc = 0;
+  const overList = e.target.closest?.("#list");
+  if (overList) { if (S.view === "plays") S.view = "sets"; selectForm(S.form + d); }
+  else if (S.view === "plays") movePlay(d);
+  else changeSet(d);
+}, { passive: true });
+document.addEventListener("contextmenu", e => { e.preventDefault(); back(); });
+
+// ---------- keyboard ----------
+addEventListener("keydown", e => {
+  if (S.pad && e.repeat === false) { /* keyboard still works with a pad connected */ }
+  const k = e.key;
+  const map = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down" };
+  if (map[k]) { nav(map[k]); e.preventDefault(); return; }
+  if (k === "Enter" || k === " ") { open(); e.preventDefault(); }
+  else if (k === "Escape" || k === "Backspace") { back(); e.preventDefault(); }
+  else if (k === "z" || k === "Z") setTab(S.tab - 1);
+  else if (k === "c" || k === "C") setTab(S.tab + 1);
+  else if (k === "q" || k === "Q") action("sub");
+  else if ((k === "r" || k === "R") && !e.repeat) rKey();
+  else if (k === "a" || k === "A" || k === "d" || k === "D") action("pk");
+  else if (k === "Tab") { action("coach"); e.preventDefault(); }
+});
+
+// ---------- controller (standard mapping) ----------
+// A select, B back, X substitution, Y random (double tap: random set), LB/RB packages, LT/RT tabs, View coach adjustments,
+// d-pad or left stick to move, with key-repeat when held.
+const BTN = { A: 0, B: 1, X: 2, Y: 3, LB: 4, RB: 5, LT: 6, RT: 7, VIEW: 8, MENU: 9, UP: 12, DOWN: 13, LEFT: 14, RIGHT: 15 };
+const prev = {}, held = {};
+let padIndex = null;
+addEventListener("gamepadconnected", e => { padIndex = e.gamepad.index; S.pad = true; renderTabs(); renderHints(); toast("Controller connected"); });
+addEventListener("gamepaddisconnected", e => { if (e.gamepad.index === padIndex) { padIndex = null; S.pad = false; renderTabs(); renderHints(); toast("Controller disconnected"); } });
+function pressed(gp, name) { const b = gp.buttons[BTN[name]]; return !!b && (b.pressed || b.value > 0.5); }
+function poll(t) {
+  const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
+  const gp = pads.find(p => p.index === padIndex) ?? pads[0];
+  if (gp) {
+    if (!S.pad) { S.pad = true; padIndex = gp.index; renderTabs(); renderHints(); }
+    const edge = name => { const now = pressed(gp, name), was = prev[name]; prev[name] = now; return now && !was; };
+    if (edge("A")) open();
+    if (edge("B")) back();
+    if (edge("X")) action("sub");
+    if (edge("Y")) rKey();
+    if (edge("LB") || edge("RB")) action("pk");
+    if (edge("LT")) setTab(S.tab - 1);
+    if (edge("RT")) setTab(S.tab + 1);
+    if (edge("VIEW") || edge("MENU")) action("coach");
+    const ax = gp.axes[0] ?? 0, ay = gp.axes[1] ?? 0, dz = 0.5;
+    const dirs = {
+      up: pressed(gp, "UP") || ay < -dz, down: pressed(gp, "DOWN") || ay > dz,
+      left: pressed(gp, "LEFT") || ax < -dz, right: pressed(gp, "RIGHT") || ax > dz,
+    };
+    for (const [d, on] of Object.entries(dirs)) {
+      if (!on) { held[d] = 0; continue; }
+      if (!held[d]) { held[d] = t + 380; nav(d); }      // first press, then repeat after a short delay
+      else if (t >= held[d]) { held[d] = t + 95; nav(d); }
+    }
+  }
+  requestAnimationFrame(poll);
+}
+requestAnimationFrame(poll);
+
+// start on the screenshot's spot: Singleback / Tight Doubles when the book has it
+(() => {
+  const fi = BOOK.formations.findIndex(f => f.name === "Singleback");
+  if (fi >= 0) { S.form = fi; const si = BOOK.formations[fi].sets.findIndex(s => s.name === "Tight Doubles"); if (si >= 0) S.set[fi] = si; }
+  $("vlabel").textContent = "SEA / SELECT A PLAY";
+  renderTabs(); render();
+})();
+</script>
+</body>
+</html>

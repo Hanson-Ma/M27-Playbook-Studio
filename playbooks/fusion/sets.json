@@ -2100,15 +2100,23 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Split_Close_Pro/Corner_Strike",
      "players": {
       "1": {
-       "new": "FUSION/R_cd61a165f1",
+       "new": "FUSION/R_e63fdbf38b",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -10.5,
-           "y": -2.5,
+           "x": -13.82,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -11.45,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -3134,13 +3142,13 @@
     {
      "name": "JW PA Curl",
      "asset": "FUS_JW_PA_Curl",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/MG_Screen/Wing_Pair/Stretch_WR_Screen",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
      "players": {
       "1": {
-       "new": "FUSION/R_979964b964",
+       "new": "FUSION/R_f16dd868a9",
        "routeType": "AssignRouteType_RR_Block_and_Release",
+       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
        "keep": 3,
-       "template": "Halfback/SB_H6_Shuffle_Hand_RRFlat_Precan_114_112",
        "drop": [
         "OverrideFormPos"
        ],
@@ -3224,29 +3232,26 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_5fb8cc2c78",
+       "new": "FUSION/R_32bf23e116",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": -1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
+         "type": "RunRoute",
+         "distance": 6,
+         "direction": 180,
+         "speed": 65
+        },
+        {
+         "type": "RunRoute",
+         "distance": 3.53,
+         "direction": 172,
+         "speed": 65
         },
         {
          "type": "RunRoute",
@@ -4910,13 +4915,13 @@
     {
      "name": "JW PA Curl",
      "asset": "FUS_JW_PA_Curl",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Deep_Over",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
      "players": {
       "1": {
-       "new": "FUSION/R_480dc8da25",
+       "new": "FUSION/R_aafbe3323f",
        "routeType": "AssignRouteType_RR_Flat_Lt",
+       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
        "keep": 3,
-       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
        "drop": [
         "OverrideFormPos"
        ],
@@ -5042,29 +5047,26 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_5fb8cc2c78",
+       "new": "FUSION/R_32bf23e116",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": -1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
+         "type": "RunRoute",
+         "distance": 6,
+         "direction": 180,
+         "speed": 65
+        },
+        {
+         "type": "RunRoute",
+         "distance": 3.53,
+         "direction": 172,
+         "speed": 65
         },
         {
          "type": "RunRoute",
@@ -5313,8 +5315,43 @@
     {
      "name": "JW PA Boot",
      "asset": "FUS_JW_PA_Boot",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/Mtn_PA_Boot_Slide",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
      "players": {
+      "0": {
+       "new": "FUSION/R_0505d524c9",
+       "routeType": "AssignRouteType_QB_Handoff",
+       "template": "Precan/QB_UC_WR_FlySweepLt_FakeHBRt_PA_(24)",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "QBScramble",
+         "direction": 5,
+         "dropBackType": "DROP_TYPEENUM_NONEVALUE",
+         "distance": 4
+        }
+       ]
+      },
+      "1": {
+       "new": "FUSION/R_c94720cc1a",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_6a141c13ff",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -5406,29 +5443,26 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_5fb8cc2c78",
+       "new": "FUSION/R_32bf23e116",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": -1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
+         "type": "RunRoute",
+         "distance": 6,
+         "direction": 180,
+         "speed": 65
+        },
+        {
+         "type": "RunRoute",
+         "distance": 3.53,
+         "direction": 172,
+         "speed": 65
         },
         {
          "type": "RunRoute",
@@ -6976,8 +7010,25 @@
     {
      "name": "JW PA Shallow Cross",
      "asset": "FUS_JW_PA_Shallow_Cross",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Y_Off_Trio_Close/PA_TE_Screen",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
      "players": {
+      "1": {
+       "new": "FUSION/R_c94720cc1a",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_7046bf7b9a",
        "routeType": "AssignRouteType_RR_Block_and_Release",
@@ -7053,29 +7104,26 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_5fb8cc2c78",
+       "new": "FUSION/R_32bf23e116",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": -1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
+         "type": "RunRoute",
+         "distance": 6,
+         "direction": 180,
+         "speed": 65
+        },
+        {
+         "type": "RunRoute",
+         "distance": 3.53,
+         "direction": 172,
+         "speed": 65
         },
         {
          "type": "RunRoute",
@@ -7193,8 +7241,25 @@
     {
      "name": "JW PA CW",
      "asset": "FUS_JW_PA_CW",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
      "players": {
+      "1": {
+       "new": "FUSION/R_c94720cc1a",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_456fe39ed2",
        "routeType": "AssignRouteType_RR_Streak",
@@ -7267,29 +7332,26 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_5fb8cc2c78",
+       "new": "FUSION/R_32bf23e116",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": -1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
+         "type": "RunRoute",
+         "distance": 6,
+         "direction": 180,
+         "speed": 65
+        },
+        {
+         "type": "RunRoute",
+         "distance": 3.53,
+         "direction": 172,
+         "speed": 65
         },
         {
          "type": "RunRoute",
@@ -7710,8 +7772,25 @@
     {
      "name": "JW PA Y Cross",
      "asset": "FUS_JW_PA_Y_Cross",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Switch_Replace",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Wing_Flex_Close/Mtn_PA_Jet_Sweep",
      "players": {
+      "1": {
+       "new": "FUSION/R_151dcfd758",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "Blocking/HB_SB_H1_PA_Pass_Block_PA_Jet",
+       "keep": 4,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_071e6ae8e8",
        "routeType": "AssignRouteType_RR_Post_Deep",
@@ -7739,30 +7818,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_5d8225f8b7",
+       "new": "FUSION/R_d1597cee33",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingRt_24",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
         {
          "type": "RunRoute",
          "distance": 3.7,
@@ -9525,8 +9589,8 @@
      ]
     },
     {
-     "name": "YM PA Cross Mesh",
-     "asset": "FUS_YM_PA_Cross_Mesh",
+     "name": "PA P Cross Mesh",
+     "asset": "FUS_PA_P_Cross_Mesh",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/PA_Deep_Cross",
      "players": {
       "2": {
@@ -9580,7 +9644,29 @@
         }
        ]
       },
-      "4": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion",
+      "4": {
+       "new": "FUSION/R_9f2825c7af",
+       "routeType": "AssignRouteType_RR_Drag",
+       "steps": [
+        {
+         "type": "InitialAnim",
+         "optionalInitalDirection": -1,
+         "anim": "MOVETYPE_TRAP_PULL",
+         "direction": 174.38
+        },
+        {
+         "type": "MoveDirection",
+         "distance": 5,
+         "direction": 174.38,
+         "speed": 100
+        },
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "5": {
        "new": "FUSION/R_f19a7f1be1",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -9833,8 +9919,25 @@
     {
      "name": "JW PA P Shallow",
      "asset": "FUS_JW_PA_P_Shallow",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/PA_Cheat_Cross",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/PA_Jet_Sweep",
      "players": {
+      "1": {
+       "new": "FUSION/R_a4d4b6f789",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "Blocking/HB_SB_H1_PA_Pass_Block_PA_Jet_Deuce_Close",
+       "keep": 4,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_ddee85297b",
        "routeType": "AssignRouteType_RR_Drag",
@@ -9862,30 +9965,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_a68b489631",
+       "new": "FUSION/R_b63d58494f",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingRt_24_Deuce_Close",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 9,
-           "y": -5,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
         {
          "type": "RunRoute",
          "distance": 3.13,
@@ -10173,17 +10261,6 @@
      ]
     },
     {
-     "name": "YM Wham",
-     "asset": "FUS_YM_Wham",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/HB_Wham",
-     "players": {
-      "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
-      "3": "Blocking/RunBlock_All",
-      "4": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion",
-      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
-     }
-    },
-    {
      "name": "Jet Sweep",
      "asset": "FUS_Jet_Sweep",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Jet_Sweep",
@@ -10403,8 +10480,25 @@
     {
      "name": "JW PA P CW",
      "asset": "FUS_JW_PA_P_CW",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/PA_Cheat_Cross",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/PA_Jet_Sweep",
      "players": {
+      "1": {
+       "new": "FUSION/R_a4d4b6f789",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "Blocking/HB_SB_H1_PA_Pass_Block_PA_Jet_Deuce_Close",
+       "keep": 4,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_7f2fc9e6d9",
        "routeType": "AssignRouteType_RR_Option_Route",
@@ -10450,30 +10544,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_a68b489631",
+       "new": "FUSION/R_b63d58494f",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingRt_24_Deuce_Close",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 9,
-           "y": -5,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
         {
          "type": "RunRoute",
          "distance": 3.13,
@@ -11141,17 +11220,6 @@
    },
    "plays": [
     {
-     "name": "HB Wham",
-     "asset": "FUS_HB_Wham",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Close/HB_Wham",
-     "players": {
-      "2": "Blocking/RunBlock_All",
-      "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
-      "4": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
-      "5": "OverrideFormPos/BL_ALL_Wham90for0_TE_at_RtSlot_TightSlots_NO_Motion"
-     }
-    },
-    {
      "name": "HB Stretch",
      "asset": "FUS_HB_Stretch",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles/HB_Stretch",
@@ -11580,8 +11648,43 @@
     {
      "name": "JW PA Boot Wk",
      "asset": "FUS_JW_PA_Boot_Wk",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Flex/PA_Boot_Slide",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles/PA_Jet_Sweep",
      "players": {
+      "0": {
+       "new": "FUSION/R_63040cefb1",
+       "routeType": "AssignRouteType_QB_Play_Action",
+       "template": "Precan/QB_UC_HB_InsideZoneLt_PA_FLySweep_Dropback",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "QBScramble",
+         "direction": 175,
+         "dropBackType": "DROP_TYPEENUM_NONEVALUE",
+         "distance": 4.5
+        }
+       ]
+      },
+      "1": {
+       "new": "FUSION/R_d519b50e78",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Fake_FlySweep",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_203b96eb90",
        "routeType": "AssignRouteType_RR_Corner_Deep",
@@ -11609,30 +11712,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_5d8225f8b7",
+       "new": "FUSION/R_0c09916ae1",
        "routeType": "AssignRouteType_RR_Post_Deep",
+       "template": "WideReciever/Doubles_JetSweep_SwingRt",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
-        {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": 1.25,
-           "y": -2.75,
-           "speed": 100,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
         {
          "type": "RunRoute",
          "distance": 3.7,
@@ -24350,15 +24438,23 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_dc9f11011c",
+       "new": "FUSION/R_71d52462ee",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -15.5,
-           "y": -2.5,
+           "x": -17.07,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -15.95,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -24627,15 +24723,23 @@
       "3": "Blocking/RunBlock_All",
       "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_bb12bba1fb",
+       "new": "FUSION/R_77d865ccf8",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -15.5,
-           "y": -2.5,
+           "x": -17.07,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -15.95,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -24864,15 +24968,23 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_cd61a165f1",
+       "new": "FUSION/R_1d5ca038ae",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -10.5,
-           "y": -2.5,
+           "x": -12.42,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -11.05,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25279,15 +25391,23 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_cd61a165f1",
+       "new": "FUSION/R_1d5ca038ae",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -10.5,
-           "y": -2.5,
+           "x": -12.42,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -11.05,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25516,15 +25636,23 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_e3f4eb97c4",
+       "new": "FUSION/R_d92ee6ac22",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 10.5,
-           "y": -2.5,
+           "x": 12.43,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": 11.05,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -25833,15 +25961,23 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_ed4c36390f",
+       "new": "FUSION/R_82198764f8",
        "routeType": "AssignRouteType_RR_In_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -10.5,
-           "y": -2.5,
+           "x": -12.42,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -11.05,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -26010,15 +26146,23 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_d8d9577035",
+       "new": "FUSION/R_25fe18e53c",
        "routeType": "AssignRouteType_RR_Out_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -10.5,
-           "y": -2.5,
+           "x": -12.42,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -11.05,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -28740,15 +28884,23 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_4eca5eb455",
+       "new": "FUSION/R_30c0b156aa",
        "routeType": "AssignRouteType_RR_In_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17,
-           "y": -2.8,
+           "x": 17.35,
+           "y": -2.59,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": 17.1,
+           "y": -2.74,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -28937,15 +29089,23 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_2c86d4a433",
+       "new": "FUSION/R_b81da35aad",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 17,
-           "y": -2.8,
+           "x": 17.35,
+           "y": -2.59,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": 17.1,
+           "y": -2.74,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -36507,15 +36667,23 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_27d255c909",
+       "new": "FUSION/R_bdabe9ae8a",
        "routeType": "AssignRouteType_RR_Out_Deep",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 11.5,
-           "y": -2.5,
+           "x": 13.77,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": 12.15,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -37588,15 +37756,23 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_d2a7aef3e3",
+       "new": "FUSION/R_26cff85778",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 11.5,
-           "y": -2.5,
+           "x": 13.77,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": 12.15,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -44553,15 +44729,23 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_6b9bef57d6",
+       "new": "FUSION/R_1563e21dca",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -11.5,
-           "y": -2.5,
+           "x": -13.77,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -12.15,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -44937,15 +45121,23 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_6b9bef57d6",
+       "new": "FUSION/R_1563e21dca",
        "routeType": "AssignRouteType_RR_Drag",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -11.5,
-           "y": -2.5,
+           "x": -13.77,
+           "y": -2.39,
+           "speed": 59,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          },
+          {
+           "x": -12.15,
+           "y": -2.47,
            "speed": 59,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
