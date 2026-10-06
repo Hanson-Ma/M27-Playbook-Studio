@@ -26,6 +26,8 @@ namespace PlayDump
             App.ResourceManager = rm;
             App.AssetManager = am;
             App.PluginManager.Initialize();
+            // Same as FrostyProfileTaskWindow for Madden 22-27: legacy (non-EBX) files come from LegacyFileManagerV2.
+            am.RegisterCustomAssetManager("legacy", typeof(Frosty.Core.Legacy.LegacyFileManagerV2));
         }
     }
 }

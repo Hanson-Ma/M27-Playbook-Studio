@@ -18,3 +18,5 @@ build/
 # game-side build outputs
 mods/pbstudio.*
 mods/fusion.*
+mods/tweaks.fbmod
+mods/tweaks.fbproject

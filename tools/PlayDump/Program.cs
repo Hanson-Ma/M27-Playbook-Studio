@@ -37,7 +37,7 @@ namespace PlayDump
             // Boot() switches the working directory to the editor, so pin caller-relative paths first.
             repoDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".."));
             if (args.Length > 1 && (args[0] == "dump" || args[0] == "oracle" || args[0] == "index" || args[0] == "library")) args[1] = Path.GetFullPath(args[1]);
-            if (args[0] == "buildplays")
+            if (args[0] == "buildplays" || args[0] == "tweaks")
                 for (int i = 1; i < args.Length; i++)
                 {
                     if (args[i].StartsWith("--")) continue;
@@ -55,11 +55,13 @@ namespace PlayDump
         // Kept separate so FrostySdk types are only touched after the resolver is installed.
         static int Run(string[] args, string gameDir)
         {
-            bool writes = args[0] == "oracle" || args[0] == "buildplays";
+            bool writes = args[0] == "oracle" || args[0] == "buildplays" || args[0] == "legacy" || args[0] == "tweaks";
             Boot(gameDir, writes);
             switch (args[0])
             {
                 case "types": return CmdTypes(args.Length > 1 ? args[1] : ".");
+                case "tweaks": return Tweaks.Run(am, args[1], args[2], args[3]); // tweaks <out.fbproject> <out.fbmod> <tweaks.json>
+                case "legacy": return CmdLegacy(args.Length > 1 ? args[1] : ".", args.Length > 2 ? args[2] : null);
                 case "list": return CmdList(args[1], args.Length > 2 ? args[2] : ".");
                 case "dump": return CmdDump(args.Skip(1).ToArray());
                 case "bundles": return CmdBundles(args.Skip(1).ToArray());
@@ -162,6 +164,26 @@ namespace PlayDump
             am.SetLogger(log);
             am.Initialize(additionalStartup: true, new AssetManagerImportResult());
             log.Log("Loaded {0} ({1} ebx)", ProfilesLibrary.DisplayName, am.EnumerateEbx().Count());
+        }
+
+        // legacy <regex> [outDir]: list legacy (non-EBX) files, optionally extracting the matches
+        static int CmdLegacy(string regex, string outDir)
+        {
+            var re = new Regex(regex, RegexOptions.IgnoreCase);
+            int n = 0;
+            foreach (AssetEntry e in am.EnumerateCustomAssets("legacy").Where(x => re.IsMatch(x.Name)).OrderBy(x => x.Name))
+            {
+                Console.WriteLine($"{e.Size,10}  {e.Name}.{e.Type}");
+                if (outDir != null)
+                {
+                    string file = Path.Combine(outDir, (e.Name + "." + e.Type).Replace("/", "__"));
+                    Directory.CreateDirectory(outDir);
+                    using (Stream st = am.GetCustomAsset("legacy", e)) using (FileStream fo = File.Create(file)) st.CopyTo(fo);
+                }
+                n++;
+            }
+            Console.Error.WriteLine($"{n} legacy files");
+            return 0;
         }
 
         static int CmdTypes(string regex)
