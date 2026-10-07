@@ -1,4 +1,4 @@
-__FUSION OFFENSE - MADDEN 27 PORT (v2.3.0, test build)__
+__FUSION OFFENSE - MADDEN 27 PORT (v2.4.0, test build)__
 
 Ported from the Madden 24 FUSION mod (hansonma.org/projects/fusion).
 Offline only.
@@ -24,6 +24,36 @@ __HOW TO INSTALL__
    (If it's missing, copy it there from this folder.)
 
 4. Pick FUSION as your custom offense before an OFFLINE game.
+
+
+__v2.4 (test build 5)__
+
+Singleback Tight Doubles
+- JW PA Boot: plain HB fake and boot again, no jet fake.
+- JW PA Curl: the HB blocks after the fake.
+- J PA WR Screen: the motion snaps a hair earlier; the LT and LG release to lead the screen (EA's PA WR screen line).
+- Jet Counter Wk: the motion snaps a bit later so the WR clears the QB.
+- Jet Dive: the motion snaps earlier and stays flatter (shallower motion, straight across after the snap).
+
+Singleback Bunch Close
+- JW PA CW: plain HB zone fake (no jet fake) and the regular wheel.
+- JW RPO PW: the slant breaks 2 yards shorter.
+- JW PA Shallow Cross, and every play with the jet + HB double fake: the line pass protects. The double fake holds the
+  QB longer, and EA's run-action line was leaving the edge open.
+
+Singleback Bunch TE
+- JW PA Y Cross: plain HB zone weak fake, no jet fake.
+- PA P Y Curl: the LT pass sets and takes the edge rusher.
+- PA Dagger Zig: zone right play action.
+- RPO Bubble: the blocking WRs run block from the snap instead of freezing until the throw.
+  Same for the other bubble RPOs (Stack Y-Off, Pistol Trey Row, Gun Bunch, Gun Stack Y-Off Wk).
+
+Singleback Deuce Close
+- Jet Sweep: fixed (the QB ran forward without handing off). It now uses EA's own Deuce Close jet sweep, timed
+  for a jet starting 5 yards out like ours.
+
+Everywhere
+- PA plays where the M24 back fakes and then blocks now do that; 14 of them had the back running EA's route instead.
 
 
 __v2.3 (test build 4)__

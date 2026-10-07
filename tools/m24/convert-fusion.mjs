@@ -273,10 +273,11 @@ function kindOf(p) {
   if (!qb.includes(7)) return /option|read/i.test(name) || qb.includes(42) ? "option" : "run";
   return (hb.includes(1) && !hb.includes(8)) || /RPO/.test(name) ? "rpo" : "pa";
 }
+let edit = {}; // the current play's entry in EDITS
 const qbInfo24 = p => {
   const st = p.players.find(x => x.poso === 0)?.steps ?? [];
   const h = st.find(s => s.code === 58), drop = st.find(s => s.code === 7);
-  return { anim: h ? `${h.val1}/${h.val2}` : null, rollout: !!(h && drop && drop.val2 !== 0) };
+  return { anim: edit.anim ?? (h ? `${h.val1}/${h.val2}` : null), rollout: !!(h && drop && drop.val2 !== 0) };
 };
 const tokensOf = name => name.split(" ");
 const runPlayKind = kind => kind === "run" || kind === "option" || kind === "touch";
@@ -481,7 +482,15 @@ const JET_DONORS = plays.filter(q => ptVal(q) === 4).map(q => {
 }).filter(Boolean);
 // steps kept from a template once its OverrideFormPos is dropped, through the last step matching `test`
 const keepThrough = (asset, test) => stepsOf(asset).filter(s => s.type !== "OverrideFormPos").findLastIndex(test) + 1;
-function jetFake(players, base, custom, chain1) {
+// a back's fake: through his last handoff step, plus the backstep + ride some backs fake with (InitialAnim, MoveDirection)
+function fakeKeep(asset) {
+  const st = stepsOf(asset).filter(s => s.type !== "OverrideFormPos");
+  let end = keepThrough(asset, s => HANDOFF_STEPS.has(s.type));
+  while (end < st.length && /InitialAnim|MoveDirection/.test(st[end].type)) if (st[end++].type === "MoveDirection") break;
+  return end;
+}
+const PASS_BLOCK = { type: "PassBlock", time: 0, flags: "PassBlockFlags_None" };
+function jetFake(players, base, custom, chain1, { hbBlock = false } = {}) {
   const js = [2, 3, 4, 5].find(j => typeof players[j] === "object" && players[j].steps?.some(s => s.type === "AutoMotion"));
   if (!js) return null;
   const me = custom[js];
@@ -494,12 +503,11 @@ function jetFake(players, base, custom, chain1) {
   // everyone we didn't rebuild keeps what the old base gave him (the donor only brings the QB, the back and the jet mesh)
   for (let k = 1; k <= 5; k++) if (players[k] === undefined && k !== 1) players[k] = tmpl(base.assignments[k]);
   // back: the donor's fake, then the M24 route after the fake (or a pass block)
-  const hb = d.q.assignments[1], hbSteps = stepsOf(hb).filter(s => s.type !== "OverrideFormPos");
-  let fakeEnd = keepThrough(hb, s => HANDOFF_STEPS.has(s.type));
-  // some backs fake with a backstep + ride (InitialAnim, MoveDirection) instead of ReceiveHandoff steps
-  while (fakeEnd < hbSteps.length && /InitialAnim|MoveDirection/.test(hbSteps[fakeEnd].type)) if (hbSteps[fakeEnd++].type === "MoveDirection") break;
-  const after = typeof players[1] === "object" && players[1].template ? players[1].steps : chain1.some(s => s.code === 14 || s.code === 15) ? [{ type: "PassBlock", time: 0, flags: "PassBlockFlags_None" }] : null;
-  players[1] = after ? newAssignment(after, custom[1].x, { template: tmpl(hb), keep: fakeEnd, drop: ["OverrideFormPos"], prepend: [] }) : keptAssignment(hb);
+  const hb = d.q.assignments[1];
+  const after = hbBlock ? [PASS_BLOCK] : typeof players[1] === "object" && players[1].template ? players[1].steps : chain1.some(s => s.code === 14 || s.code === 15) ? [PASS_BLOCK] : null;
+  players[1] = after ? newAssignment(after, custom[1].x, { template: tmpl(hb), keep: fakeKeep(hb), drop: ["OverrideFormPos"], prepend: [] }) : keptAssignment(hb);
+  // the double fake holds the QB longer than a plain PA: EA's run-action line leaves the edge open, so pass protect
+  for (let k = 6; k <= 10; k++) players[k] = "Blocking/ALL_PABlock";
   // jet: the donor's mesh (motion, plus its legs until he's 3 yd past the QB: some donors mesh after the motion), then
   // our wheel (the M24 route after the motion)
   const jet = players[js], post = jet.steps.slice(jet.steps.findIndex(s => s.type === "AutoMotion") + 1);
@@ -525,6 +533,52 @@ const zoneSplitTE = x => newAssignment([{ type: "InitialAnim", optionalInitalDir
 // User edits on top of the M24 design (2026-10-06): plays removed, renamed
 const DROP_PLAYS = /^(HB|YM) Wham$/i;
 const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
+// Per-play edits from playtesting (2026-10-06), keyed "formation/set/play":
+//  noJetFake: plain HB fake (no jet double fake); anim: the QB/HB handoff to use instead of the M24 one (46/50 zone left,
+//  50/46 zone right); hbBlock: the back blocks after the fake; motion: snap `earlier` yd sooner along the motion
+//  (negative = later), `y` motion depth, `flat` straight-across legs after it; line: take the linemen from that stock
+//  play; ltEdge: the LT pass sets (takes the edge rusher) instead of run-action blocking; stem: yd added to the red route's stem.
+const EDITS = {
+  "Singleback/Tight Doubles/JW PA Boot": { noJetFake: true },
+  "Singleback/Tight Doubles/JW PA Curl": { hbBlock: true },
+  "Singleback/Tight Doubles/J PA WR Screen": { motion: { earlier: 0.75 }, line: ["Stretch WR Screen", "Wing Pair"] },
+  "Singleback/Tight Doubles/Jet Counter Wk": { motion: { earlier: -1.25 } },
+  "Singleback/Tight Doubles/Jet Dive": { motion: { earlier: 1, y: -2.9, flat: true } },
+  "Singleback/Bunch Close/JW PA CW": { noJetFake: true },
+  "Singleback/Bunch Close/JW RPO PW": { stem: -2 },
+  "Singleback/Bunch TE/JW PA Y Cross": { noJetFake: true, anim: "46/50" },
+  "Singleback/Bunch TE/PA P Y Curl": { ltEdge: true },
+  "Singleback/Bunch TE/PA Dagger Zig": { anim: "50/46" },
+  // the Bunch TE precan it got (223/226) times the mesh for a jet from 10.75 yd out; ours starts at 5, so the QB never
+  // met him and just ran forward. EA's own Deuce Close jet sweep starts at 5 (its jet is a TE in slot 2; ours, slot 3)
+  "Singleback/Deuce Close/Jet Sweep": { donor: ["Jet Sweep", "Deuce Close"] },
+};
+// a named stock play with its players matched to ours by spot (handoffs go by handoff order, not slot)
+function donorBase([pn, sn], custom) {
+  const q = plays.find(q => q.name === pn && setByAsset.get(q.set)?.name === sn);
+  if (!q) return null;
+  const n = setByAsset.get(q.set).movements.Normal, assignments = [...q.assignments], used = new Set();
+  for (let k = 1; k <= 5; k++) {
+    const j = [1, 2, 3, 4, 5].filter(j => !used.has(j) && dist(n[j], custom[k]) < 0.5).sort((a, b) => dist(n[a], custom[k]) - dist(n[b], custom[k]))[0];
+    if (j) { used.add(j); assignments[k] = q.assignments[j]; }
+  }
+  return { q: { ...q, assignments }, how: `user pick: stock "${pn}" (${sn}), players matched by spot` };
+}
+const rebuild = (a, x) => Object.assign(a, newAssignment(a.steps, x, { routeType: a.routeType, ...(a.template ? { template: a.template, keep: a.keep, drop: a.drop, prepend: a.prepend } : {}) }));
+function retime(players, custom, o) {
+  for (const [j, a] of Object.entries(players)) {
+    const mi = typeof a === "object" ? a.steps?.findIndex(s => s.type === "AutoMotion") ?? -1 : -1;
+    if (mi < 0) continue;
+    const w = a.steps[mi].waypoints[0], from = custom[+j], d = dist(from, w), t = o.earlier ?? 0;
+    w.x = r2(w.x - (w.x - from.x) / d * t); w.y = r2(w.y - (w.y - from.y) / d * t);
+    if (o.y != null) w.y = o.y;
+    const leg = a.steps.slice(mi + 1).find(s => /RunRoute|MoveDirection/.test(s.type));
+    if (leg) leg.distance = r2(Math.max(0.5, leg.distance + t));
+    if (o.flat) for (const s of a.steps.slice(mi + 1)) if (/RunRoute|MoveDirection/.test(s.type)) s.direction = Math.cos(s.direction * Math.PI / 180) < 0 ? 180 : 0;
+    rebuild(a, from.x);
+  }
+}
+const RPO_BLOCK = "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26"; // EA's bubble-RPO receiver block: run block from the snap
 
 // ---------- situational play calling (CPU weights by situation) ----------
 function passDepth(entry, custom) {
@@ -613,7 +667,7 @@ const book = { name: "FUSION", side: "offense", notes: "FUSION offense, ported f
 const stats = { sets: 0, plays: 0, passes: 0, runs: 0, animMatched: 0, animMissed: 0, assignments: new Set(), warnings: 0 };
 log(`# FUSION → Madden 27 port report\n\nGenerated by \`tools/m24/convert-fusion.mjs\`. Each FUSION set is a custom M27 set (closest stock set, re-aligned to the M24 mod alignment, with the M24 motion presets). QB/HB mechanics come from an M27 play with the same handoff animation as the M24 play; receivers get the M24 routes, blocks and motions.\n`);
 
-const byForm = new Map();
+const byForm = new Map(), usedEdits = new Set();
 for (const f of F) {
   const target = FORM_MAP[f.formation];
   if (!target) continue;
@@ -662,6 +716,9 @@ for (const f of F) {
       usedNames.add(norm(name));
       let leaf = "FUS_" + leafOf(name); for (let k = 2; usedLeaves.has(leaf); k++) leaf = "FUS_" + leafOf(name) + "_" + k; usedLeaves.add(leaf);
       const warn = msg => { stats.warnings++; log(`    - ${name}: ${msg}`); };
+      const editKey = `${target}/${setName}/${name}`;
+      edit = EDITS[editKey] ?? {};
+      if (EDITS[editKey]) usedEdits.add(editKey);
       const chainOf = poso => p.players.find(x => x.poso === poso)?.steps ?? [];
       // a shifted back only steers the search when he takes the handoff (PM); Tush Push backs just push
       const hbShift = chainOf(1).some(x => x.code === 58) ? shiftOf(chainOf(1)) : null;
@@ -669,7 +726,7 @@ for (const f of F) {
       const m24MotionSlots = new Set([1, 2, 3, 4, 5].filter(i => hasMotion(chainOf(i))).map(i => slotOf[i]));
       // players with M27 mechanics are kept as-is, so their built-in motion would survive: avoid bases that add one
       preferClean = q => [1, 2, 3, 4, 5].every(j => m24MotionSlots.has(j) || !(hasMotion27(q.assignments[j]) && (hasHandoff(q.assignments[j]) || runPlayKind(kind))));
-      const found = findBase(p, kind, best, custom, hbShift, slotOf);
+      const found = (edit.donor && donorBase(edit.donor, custom)) || findBase(p, kind, best, custom, hbShift, slotOf);
       preferClean = null;
       if (!found) { warn(`no M27 base play found, dropped`); continue; }
       let { q: base, how } = found;
@@ -703,6 +760,9 @@ for (const f of F) {
             const keep = stepsOf(baseA).findLastIndex(x => HANDOFF_STEPS.has(x.type) || x.type === "AutoMotion") + 1;
             const steps = convertSteps(st.slice(lastMech + 1), { x: m24[i].x, y: m24[i].y }, typeAt(j), warn, opts);
             players[j] = newAssignment(steps, m24[i].x, { keep, template: baseA.replace(AROOT, ""), drop: ["OverrideFormPos"], prepend: carrierShift ? [shiftStep(carrierShift)] : [] });
+          } else if (!runPlay && i === 1 && kind === "pa" && !carrierShift && st.slice(lastMech + 1).some(x => x.code === 14 || x.code === 15) && stepsOf(baseA).slice(fakeKeep(baseA)).some(x => x.type === "RunRoute")) {
+            // PA back that blocks after the fake in M24, where the M27 back runs a route: M27 fake, then pass block
+            players[j] = newAssignment([PASS_BLOCK], m24[i].x, { template: baseA.replace(AROOT, ""), keep: fakeKeep(baseA), drop: ["OverrideFormPos"], prepend: [] });
           } else if (carrierShift || (hasOFP(baseA) && !specialBlock(baseA))) {
             // M27 realignments that only reposition players to the stock formation go; designed ones (Wham TE) stay
             players[j] = keptAssignment(baseA, carrierShift ? [shiftStep(carrierShift)] : []);
@@ -722,6 +782,8 @@ for (const f of F) {
         if (typeof players[j] === "object") stats.assignments.add(players[j].new);
       }
       if (kind === "run" || kind === "option") runBlockers(base, custom, players, srcN, name);
+      // a spot-matched donor: whoever moved slots has to be written out (the play otherwise reads the donor's slot order)
+      if (edit.donor) { const orig = plays.find(q => q.asset === base.asset); for (let k = 1; k <= 5; k++) if (players[k] === undefined && base.assignments[k] !== orig.assignments[k]) players[k] = base.assignments[k].replace(AROOT, ""); }
       if (tokensOf(name).includes("Sled")) sledTweak(players, custom, typeAt);
       if (renamed && tokensOf(name).includes("P")) {
         // was a YM fake: the Y comes across as the zone split blocker instead
@@ -729,10 +791,23 @@ for (const f of F) {
         if (te) players[te] = zoneSplitTE(custom[te].x);
         else warn("no Y found for the zone split");
       }
-      if (kind === "pa" && tokensOf(name).includes("JW")) {
-        const d = jetFake(players, base, custom, chainOf(1));
+      if (kind === "pa" && tokensOf(name).includes("JW") && !edit.noJetFake) {
+        const d = jetFake(players, base, custom, chainOf(1), edit);
         if (d) { base = d.q; src = setByAsset.get(base.set); entry.from = base.asset; how = `jet + HB fake from stock PA (their jet from x ${d.start.x}, ours ${d.from.x})`; }
         else warn("JW PA: no stock jet + HB fake on these QB/back spots, kept the HB-only fake");
+      }
+      // RPO receivers who block: EA's run block from the snap (a protect-receiver pass block froze them until the throw)
+      if (kind === "rpo") for (const [j, a] of Object.entries(players)) if (typeof a === "object" && a.steps?.some(x => x.type === "PassBlock" && /ProtectReceiver/.test(x.flags)) && !a.steps.some(x => /RunRoute|OptionRoute|AutoMotion|OverrideFormPos/.test(x.type))) players[j] = RPO_BLOCK;
+      if (edit.motion) retime(players, custom, edit.motion);
+      if (edit.line) {
+        const [pn, sn] = edit.line, q = plays.find(q => q.name === pn && setByAsset.get(q.set)?.name === sn);
+        if (q) for (let k = 6; k <= 10; k++) players[k] = q.assignments[k].replace(AROOT, "");
+        else warn(`line donor "${pn}" (${sn}) not found`);
+      }
+      if (edit.ltEdge) players[6] = "Blocking/ALL_PABlock";
+      if (edit.stem) {
+        const v = p.vpos && slotOf[p.vpos], a = v && players[v], leg = typeof a === "object" ? a.steps.find(s => s.type === "RunRoute") : null;
+        if (leg) { leg.distance = r2(Math.max(1, leg.distance + edit.stem)); rebuild(a, custom[v].x); } else warn("stem edit: red route not rebuilt");
       }
       if (anim && kind !== "pass" && kind !== "screen") { if (qbAnim27(base) === anim) stats.animMatched++; else stats.animMissed++; }
       if (Object.keys(players).length) entry.players = players;
@@ -801,6 +876,8 @@ for (const f of F) {
     stats.sets++;
   }
 }
+edit = {};
+for (const k of Object.keys(EDITS)) if (!usedEdits.has(k)) { stats.warnings++; console.log(`EDITS: no play "${k}"`); }
 for (const name of MENU_ORDER) if (byForm.get(name)?.sets.length) book.formations.push(byForm.get(name));
 for (const t of TEMPLATE_FORMS) book.formations.push({ formation: t, sets: "template" });
 

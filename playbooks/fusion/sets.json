@@ -514,6 +514,23 @@
      "asset": "FUS_PA_Flat_Shallow",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
+      "1": {
+       "new": "FUSION/R_c18f3375f6",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_2adb12e569",
        "routeType": "AssignRouteType_RR_In_Middle",
@@ -2658,6 +2675,23 @@
      "asset": "FUS_PA_Cross",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/PA_Deep_Cross_Go",
      "players": {
+      "1": {
+       "new": "FUSION/R_3625ab4426",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_aa2fde07cd",
        "routeType": "AssignRouteType_RR_Drag",
@@ -2808,6 +2842,23 @@
      "asset": "FUS_PA_Boot",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/PA_Boot_Rt",
      "players": {
+      "1": {
+       "new": "FUSION/R_dee9952d13",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H3_Backstep_Hand_WheelRoute_Left",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_2adb12e569",
        "routeType": "AssignRouteType_RR_In_Middle",
@@ -3307,7 +3358,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 3,
      "reads": [
@@ -3348,6 +3404,23 @@
      "asset": "FUS_PA_Double_Post",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
+      "1": {
+       "new": "FUSION/R_c18f3375f6",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_7872ed48d3",
        "routeType": "AssignRouteType_Block_Pass",
@@ -3724,6 +3797,23 @@
      "asset": "FUS_RZ_FM_PA_Mesh",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
+      "1": {
+       "new": "FUSION/R_c18f3375f6",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_aa2fde07cd",
        "routeType": "AssignRouteType_RR_Drag",
@@ -4593,6 +4683,23 @@
      "asset": "FUS_PA_Mesh",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
+      "1": {
+       "new": "FUSION/R_c18f3375f6",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_4d4d5836d3",
        "routeType": "AssignRouteType_RR_Out_Middle",
@@ -4918,8 +5025,8 @@
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
      "players": {
       "1": {
-       "new": "FUSION/R_aafbe3323f",
-       "routeType": "AssignRouteType_RR_Flat_Lt",
+       "new": "FUSION/R_c94720cc1a",
+       "routeType": "AssignRouteType_Block_Pass",
        "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
        "keep": 3,
        "drop": [
@@ -4928,18 +5035,9 @@
        "prepend": [],
        "steps": [
         {
-         "type": "ReceiverCut",
-         "direction": "RECEIVER_CUT_DIR_LEFT",
-         "cutType": "RECEIVER_CUT_ANGLE_22"
-        },
-        {
-         "type": "RunRoute",
-         "distance": 12,
-         "direction": 168.75,
-         "speed": 100
-        },
-        {
-         "type": "GetOpen"
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
         }
        ]
       },
@@ -5090,7 +5188,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 2,
      "reads": [
@@ -5230,15 +5333,15 @@
       },
       "4": "Blocking/ALL_PassBlock",
       "5": {
-       "new": "FUSION/R_1b257b27bf",
+       "new": "FUSION/R_bcb1a69723",
        "routeType": "AssignRouteType_RR_Flat_Rt",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": -1.25,
-           "y": -4,
+           "x": -0.51,
+           "y": -3.86,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -5256,7 +5359,7 @@
         },
         {
          "type": "RunRoute",
-         "distance": 2.43,
+         "distance": 3.18,
          "direction": 191.25,
          "speed": 100
         },
@@ -5276,7 +5379,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/LT_LeadScreenLt_PA_WRScreen",
+      "7": "Blocking/LG_LeadScreen_Lt_HBSlipScreen",
+      "8": "Blocking/ALL_Run_Action_Block",
+      "9": "Blocking/ALL_Run_Action_Block",
+      "10": "Blocking/ALL_Run_Action_Block"
      },
      "vip": 5,
      "reads": [
@@ -5315,43 +5423,8 @@
     {
      "name": "JW PA Boot",
      "asset": "FUS_JW_PA_Boot",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/Mtn_PA_Boot_Slide",
      "players": {
-      "0": {
-       "new": "FUSION/R_0505d524c9",
-       "routeType": "AssignRouteType_QB_Handoff",
-       "template": "Precan/QB_UC_WR_FlySweepLt_FakeHBRt_PA_(24)",
-       "keep": 3,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": [
-        {
-         "type": "QBScramble",
-         "direction": 5,
-         "dropBackType": "DROP_TYPEENUM_NONEVALUE",
-         "distance": 4
-        }
-       ]
-      },
-      "1": {
-       "new": "FUSION/R_c94720cc1a",
-       "routeType": "AssignRouteType_Block_Pass",
-       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
-       "keep": 3,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": [
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_None"
-        }
-       ]
-      },
       "2": {
        "new": "FUSION/R_6a141c13ff",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -5443,26 +5516,29 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_32bf23e116",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
-       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
-       "keep": 2,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
        "steps": [
         {
-         "type": "RunRoute",
-         "distance": 6,
-         "direction": 180,
-         "speed": 65
-        },
-        {
-         "type": "RunRoute",
-         "distance": 3.53,
-         "direction": 172,
-         "speed": 65
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
         },
         {
          "type": "RunRoute",
@@ -5708,15 +5784,15 @@
       "3": "Blocking/RunBlock_All",
       "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_4718874c06",
+       "new": "FUSION/R_a118922d56",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 3.75,
-           "y": -3.75,
+           "x": 4.69,
+           "y": -2.9,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -5734,14 +5810,14 @@
         },
         {
          "type": "MoveDirection",
-         "distance": 10,
-         "direction": 174.38,
+         "distance": 11,
+         "direction": 180,
          "speed": 100
         },
         {
          "type": "MoveDirection",
          "distance": 10,
-         "direction": 174.38,
+         "direction": 180,
          "speed": 100
         },
         {
@@ -5775,15 +5851,15 @@
       "3": "Blocking/RunBlock_All",
       "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_4b916f5061",
+       "new": "FUSION/R_70f37b805b",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
          "type": "AutoMotion",
          "waypoints": [
           {
-           "x": 3.75,
-           "y": -3.75,
+           "x": 2.58,
+           "y": -4.18,
            "speed": 100,
            "facingAngle": 0,
            "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
@@ -5801,7 +5877,7 @@
         },
         {
          "type": "MoveDirection",
-         "distance": 1.25,
+         "distance": 0.5,
          "direction": 177.19000000000005,
          "speed": 100
         },
@@ -6121,6 +6197,23 @@
      "asset": "FUS_PA_Dagger_Zig",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
+      "1": {
+       "new": "FUSION/R_c18f3375f6",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_ba4fe2c5e0",
        "routeType": "AssignRouteType_RR_Option_Route",
@@ -6841,6 +6934,23 @@
      "asset": "FUS_PA_P_Double_Post",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
+      "1": {
+       "new": "FUSION/R_c18f3375f6",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_54566f2a93",
        "routeType": "AssignRouteType_RR_Drag",
@@ -7191,7 +7301,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 3,
      "reads": [
@@ -7241,12 +7356,12 @@
     {
      "name": "JW PA CW",
      "asset": "FUS_JW_PA_CW",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
      "players": {
       "1": {
-       "new": "FUSION/R_c94720cc1a",
+       "new": "FUSION/R_c18f3375f6",
        "routeType": "AssignRouteType_Block_Pass",
-       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
+       "template": "RunRoute/HB_SB_PA_H0_Run90for10_HookRt_2",
        "keep": 3,
        "drop": [
         "OverrideFormPos"
@@ -7332,26 +7447,29 @@
        ]
       },
       "4": {
-       "new": "FUSION/R_32bf23e116",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
-       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
-       "keep": 2,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
        "steps": [
         {
-         "type": "RunRoute",
-         "distance": 6,
-         "direction": 180,
-         "speed": 65
-        },
-        {
-         "type": "RunRoute",
-         "distance": 3.53,
-         "direction": 172,
-         "speed": 65
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
         },
         {
          "type": "RunRoute",
@@ -7444,12 +7562,12 @@
      "players": {
       "2": "Blocking/RunBlock_All",
       "3": {
-       "new": "FUSION/R_8bc83730eb",
+       "new": "FUSION/R_514d05e455",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
         {
          "type": "RunRoute",
-         "distance": 6.25,
+         "distance": 4.25,
          "direction": 90,
          "speed": 100
         },
@@ -7772,13 +7890,13 @@
     {
      "name": "JW PA Y Cross",
      "asset": "FUS_JW_PA_Y_Cross",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Wing_Flex_Close/Mtn_PA_Jet_Sweep",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Deep_Over",
      "players": {
       "1": {
-       "new": "FUSION/R_151dcfd758",
+       "new": "FUSION/R_3625ab4426",
        "routeType": "AssignRouteType_Block_Pass",
-       "template": "Blocking/HB_SB_H1_PA_Pass_Block_PA_Jet",
-       "keep": 4,
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
+       "keep": 3,
        "drop": [
         "OverrideFormPos"
        ],
@@ -7818,15 +7936,30 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_d1597cee33",
+       "new": "FUSION/R_5d8225f8b7",
        "routeType": "AssignRouteType_RR_Post_Deep",
-       "template": "WideReciever/Doubles_JetSweep_SwingRt_24",
-       "keep": 2,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
        "steps": [
+        {
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": 1.25,
+           "y": -2.75,
+           "speed": 100,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
+        },
         {
          "type": "RunRoute",
          "distance": 3.7,
@@ -7947,6 +8080,23 @@
      "asset": "FUS_PA_P_Y_Curl",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Deep_Over",
      "players": {
+      "1": {
+       "new": "FUSION/R_3625ab4426",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_af03e290d0",
        "routeType": "AssignRouteType_RR_Streak",
@@ -8096,7 +8246,8 @@
          "flags": "PassBlockFlags_None"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock"
      },
      "vip": 4,
      "reads": [
@@ -8164,7 +8315,7 @@
     {
      "name": "PA Dagger Zig",
      "asset": "FUS_PA_Dagger_Zig",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Deep_Over",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Switch_Replace",
      "players": {
       "2": {
        "new": "FUSION/R_4b02692712",
@@ -8542,29 +8693,7 @@
      "asset": "FUS_RPO_Bubble",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Dive_Alert_Bubble",
      "players": {
-      "2": {
-       "new": "FUSION/R_117a66fbb7",
-       "routeType": "AssignRouteType_RR_Flat_Lt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 168.75
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 168.75,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      },
+      "2": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26",
       "3": {
        "new": "FUSION/R_22f5fc796c",
        "routeType": "AssignRouteType_RR_Wheel_Lt",
@@ -8586,29 +8715,7 @@
        ]
       },
       "4": "Blocking/RunBlock_All",
-      "5": {
-       "new": "FUSION/R_117a66fbb7",
-       "routeType": "AssignRouteType_RR_Flat_Lt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 168.75
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 168.75,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      }
+      "5": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26"
      },
      "vip": 3,
      "reads": [
@@ -9593,6 +9700,23 @@
      "asset": "FUS_PA_P_Cross_Mesh",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/PA_Deep_Cross",
      "players": {
+      "1": {
+       "new": "FUSION/R_6d71fb53ba",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "Halfback/SB_H6_Shuffle_Hand_RRFlat_Precan_50_46",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_f6e505ad41",
        "routeType": "AssignRouteType_RR_Post_Deep",
@@ -10063,7 +10187,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 5,
      "reads": [
@@ -10263,12 +10392,12 @@
     {
      "name": "Jet Sweep",
      "asset": "FUS_Jet_Sweep",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Jet_Sweep",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Deuce_Close/Jet_Sweep",
      "players": {
       "2": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
       "3": {
-       "new": "FUSION/R_5ccf423424",
-       "template": "Trick/WR_(30)_FlySweepRt_Override_Form_Pos",
+       "new": "FUSION/R_3a10d8c15e",
+       "template": "Trick/WR_(10)_FlySweepRt",
        "keep": -1,
        "drop": [
         "OverrideFormPos"
@@ -10277,16 +10406,7 @@
        "steps": []
       },
       "4": "Blocking/RunBlock_All",
-      "5": {
-       "new": "FUSION/R_c76fc79442",
-       "template": "OverrideFormPos/BL_ALL_Lead90for03_Off_Ball_X_-8.75",
-       "keep": -1,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
-       "steps": []
-      }
+      "5": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock"
      }
     },
     {
@@ -10642,7 +10762,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 2,
      "reads": [
@@ -11246,6 +11371,23 @@
      "asset": "FUS_JF_PA_PW_Ziggo",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch/PA_Cross_Switch",
      "players": {
+      "1": {
+       "new": "FUSION/R_3625ab4426",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
+       "keep": 3,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_3c9f7ac85d",
        "routeType": "AssignRouteType_RR_Curl_Medium",
@@ -11807,7 +11949,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 4,
      "reads": [
@@ -11848,29 +11995,7 @@
      "asset": "FUS_RPO_Bubble",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Slot/HB_Dive_Alert_Bubble",
      "players": {
-      "2": {
-       "new": "FUSION/R_117a66fbb7",
-       "routeType": "AssignRouteType_RR_Flat_Lt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 168.75
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 168.75,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      },
+      "2": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26",
       "3": {
        "new": "FUSION/R_22f5fc796c",
        "routeType": "AssignRouteType_RR_Wheel_Lt",
@@ -12409,6 +12534,23 @@
      "asset": "FUS_PA_P_Double_Post",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace/PA_Deep_In",
      "players": {
+      "1": {
+       "new": "FUSION/R_e6b4125259",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_Pistol_H0_PA_FlatsLt_Delay_Precan_2_4",
+       "keep": 4,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_f6e505ad41",
        "routeType": "AssignRouteType_RR_Post_Deep",
@@ -13720,29 +13862,7 @@
      "asset": "FUS_RPO_Bubble",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Open/Zone_Alert_Bubble",
      "players": {
-      "2": {
-       "new": "FUSION/R_5a3a0e57aa",
-       "routeType": "AssignRouteType_RR_Flat_Rt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 11.25
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 11.25,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      },
+      "2": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26",
       "3": {
        "new": "FUSION/R_f4ecf62dbe",
        "routeType": "AssignRouteType_RR_Hitch",
@@ -13788,29 +13908,7 @@
         }
        ]
       },
-      "5": {
-       "new": "FUSION/R_5a3a0e57aa",
-       "routeType": "AssignRouteType_RR_Flat_Rt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 11.25
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 11.25,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      }
+      "5": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26"
      },
      "vip": 4,
      "reads": [
@@ -14243,6 +14341,23 @@
      "asset": "FUS_JW_PA_Drive",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Bunch/PA_Cross",
      "players": {
+      "1": {
+       "new": "FUSION/R_e6b4125259",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_Pistol_H0_PA_FlatsLt_Delay_Precan_2_4",
+       "keep": 4,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": {
        "new": "FUSION/R_00e97bafc4",
        "routeType": "AssignRouteType_RR_In_Deep",
@@ -14727,6 +14842,23 @@
      "asset": "FUS_FMO_PA_Comebacks",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace/PA_Deep_In",
      "players": {
+      "1": {
+       "new": "FUSION/R_e6b4125259",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "RunRoute/HB_Pistol_H0_PA_FlatsLt_Delay_Precan_2_4",
+       "keep": 4,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
+       "steps": [
+        {
+         "type": "PassBlock",
+         "time": 0,
+         "flags": "PassBlockFlags_None"
+        }
+       ]
+      },
       "2": "Blocking/ALL_PassBlock",
       "3": {
        "new": "FUSION/R_0939a5206c",
@@ -45992,29 +46124,7 @@
         }
        ]
       },
-      "3": {
-       "new": "FUSION/R_117a66fbb7",
-       "routeType": "AssignRouteType_RR_Flat_Lt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 168.75
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 168.75,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      },
+      "3": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26",
       "4": {
        "new": "FUSION/R_2c9e8760fa",
        "routeType": "AssignRouteType_RR_Hitch",
@@ -47636,29 +47746,7 @@
         }
        ]
       },
-      "3": {
-       "new": "FUSION/R_b35fd82e58",
-       "routeType": "AssignRouteType_RR_Hitch",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 90
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 2,
-         "direction": 90,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      },
+      "3": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26",
       "4": {
        "new": "FUSION/R_373683e1ee",
        "routeType": "AssignRouteType_RR_Flat_Rt",
@@ -48136,29 +48224,7 @@
      "asset": "FUS_RPO_Bubble_Flat",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/RPO_Zone_Peek",
      "players": {
-      "2": {
-       "new": "FUSION/R_5a3a0e57aa",
-       "routeType": "AssignRouteType_RR_Flat_Rt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 11.25
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 11.25,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      },
+      "2": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26",
       "3": {
        "new": "FUSION/R_0ba0a99949",
        "routeType": "AssignRouteType_RR_Flat_Lt",
@@ -48204,29 +48270,7 @@
         }
        ]
       },
-      "5": {
-       "new": "FUSION/R_5a3a0e57aa",
-       "routeType": "AssignRouteType_RR_Flat_Rt",
-       "steps": [
-        {
-         "type": "InitialAnim",
-         "optionalInitalDirection": -1,
-         "anim": "MOVETYPE_WRSTART",
-         "direction": 11.25
-        },
-        {
-         "type": "MoveDirection",
-         "distance": 5,
-         "direction": 11.25,
-         "speed": 100
-        },
-        {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_ProtectReceiver"
-        }
-       ]
-      }
+      "5": "Blocking/ALL_Lead90for04_WRScreen_STOCK_RunBlock26"
      },
      "vip": 4,
      "reads": [
