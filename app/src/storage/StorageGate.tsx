@@ -1,6 +1,6 @@
 // Decides where files live before the app boots (src/storage/storage.ts) and renders the app once a backend is
 // ready. Local server (`npm run dev` / `npm start`): straight through. Hosted as a static site: a Madden-styled
-// start screen asks for the "2026 Playbook" folder (or offers to reconnect to the one opened last time).
+// start screen asks for the playbook mod folder (or offers to reconnect to the one opened last time).
 import { useEffect, useState, type ReactNode } from "react";
 import { Button, Icon } from "../ui";
 import { openFolder, reconnectFolder, retryServer, startStorage, useStorageState, type StoragePhase } from "./storage";
@@ -62,11 +62,11 @@ function FolderCard({ state }: { state: Extract<StoragePhase, { phase: "folder" 
   return (
     <section className={s.card} aria-labelledby="storage-title">
       <h2 id="storage-title" className={s.title}>
-        {remembered ? "Welcome Back" : "Open Your 2026 Playbook Folder"}
+        {remembered ? "Welcome Back" : "Open Your Playbook Folder"}
       </h2>
       <p className={s.lead}>
-        Playbook Studio works on the files in your <b>2026 Playbook</b> folder — the one with <code>data</code>, <code>playbooks</code> and{" "}
-        <code>tools</code> inside. Your playbooks and the game library stay on this computer: nothing is uploaded. This page reads the folder
+        Playbook Studio works on the files in <b>the folder containing your playbook mod</b>: the one with <code>data</code>,{" "}
+        <code>playbooks</code> and <code>tools</code> inside. Your playbooks and the game library stay on this computer: nothing is uploaded. This page reads the folder
         you pick and saves your changes straight back into it.
       </p>
 
@@ -105,7 +105,7 @@ function FolderCard({ state }: { state: Extract<StoragePhase, { phase: "folder" 
             </>
           ) : (
             <>
-              Click <b>Open Folder…</b> and pick <b>2026 Playbook</b> (not a folder inside it).
+              Click <b>Open Folder…</b> and pick the folder containing your playbook mod (not a folder inside it).
             </>
           )}
         </li>
@@ -147,7 +147,7 @@ function UnsupportedCard({ reason }: { reason: "insecure" | "no-api" }) {
         </p>
       ) : (
         <p className={s.lead}>
-          Playbook Studio saves straight into your <b>2026 Playbook</b> folder, which needs <b>Google Chrome</b> or <b>Microsoft Edge</b> on a
+          Playbook Studio saves straight into the folder containing your playbook mod, which needs <b>Google Chrome</b> or <b>Microsoft Edge</b> on a
           Mac or PC. Safari, Firefox and phones can't open folders from a web page. Open this address in Chrome or Edge.
         </p>
       )}

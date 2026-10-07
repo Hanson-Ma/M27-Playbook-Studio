@@ -497,7 +497,7 @@ export async function checkFolder(root: FsDirHandle): Promise<FolderCheck> {
   return {
     ok: false,
     missing,
-    problem: `"${root.name}" doesn't look like your 2026 Playbook folder: ${missing.join(" and ")} ${missing.length > 1 ? "are" : "is"} missing.`,
-    hint: hint ?? "Pick the folder that contains data, playbooks and tools (usually called “2026 Playbook”).",
+    problem: `"${root.name}" doesn't look like the folder containing your playbook mod: ${missing.join(" and ")} ${missing.length > 1 ? "are" : "is"} missing.`,
+    hint: hint ?? "Pick the folder that contains data, playbooks and tools.",
   };
 }

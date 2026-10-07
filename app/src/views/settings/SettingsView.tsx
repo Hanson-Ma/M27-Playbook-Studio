@@ -280,7 +280,7 @@ function StoragePanel() {
           <p className={s.note}>
             {folder
               ? "Folder mode (the hosted app): the browser reads the play library from this folder on this computer and saves your playbooks straight into it. Nothing is uploaded."
-              : "Local server mode (npm run dev / npm start): the server reads and writes the 2026 Playbook folder it was started in. To work on another copy, run the app from that copy or use the hosted app."}
+              : "Local server mode (npm run dev / npm start): the server reads and writes the playbook folder it was started in. To work on another copy, run the app from that copy or use the hosted app."}
           </p>
         </div>
         {storage.canSwitch && (
@@ -290,7 +290,7 @@ function StoragePanel() {
               icon="folder"
               loading={busy}
               onClick={() => void run(() => storage.switchFolder())}
-              title="Pick another copy of the 2026 Playbook folder (save your changes first). The app reloads on it."
+              title="Pick another copy of your playbook mod folder (save your changes first). The app reloads on it."
             >
               Change Folder…
             </Button>

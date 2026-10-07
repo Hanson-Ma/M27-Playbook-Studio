@@ -371,7 +371,7 @@ function PulledCard({ summary }: { summary: ExportSummary }) {
 export function CommandCard({ onCopy, onDownload, bundleFiles, dirtyCount }: { onCopy(): void; onDownload(): void; bundleFiles: number; dirtyCount: number }) {
   return (
     <section className={s.card}>
-      <CardHead eyebrow="On the Game PC · In the 2026 Playbook Folder · Madden Closed" title="Run the Export" />
+      <CardHead eyebrow="On the Game PC · In Your Playbook Folder · Madden Closed" title="Run the Export" />
       <div className={s.cardBody}>
         <div className={s.command}>
           <code className={s.commandText}>{EXPORT_COMMAND}</code>

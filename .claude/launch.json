@@ -25,6 +25,26 @@
         "5179"
       ],
       "port": 5179
+    },
+    {
+      "name": "studio-built",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "app",
+        "start"
+      ],
+      "port": 5178
+    },
+    {
+      "name": "docs",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "tools/serve-static.mjs",
+        "docs",
+        "5180"
+      ],
+      "port": 5180
     }
   ]
 }
