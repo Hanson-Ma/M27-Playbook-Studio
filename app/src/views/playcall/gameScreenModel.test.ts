@@ -3,7 +3,8 @@ import type { CallFormation, CallGroup, CallPlay, CallSet } from "./playcallMode
 import {
   ROWS_VISIBLE,
   VISIBLE,
-  cardsLeft,
+  cardsFocused,
+  cardsTop,
   closeCards,
   describe,
   initialState,
@@ -72,19 +73,24 @@ suite("formation tab", () => {
     expect(describe(ctx, st).set?.id).toBe("0.1");
   });
 
-  it("Enter opens the cards, ← → walk them, ↑ ↓ jump a page, Back returns", () => {
+  it("Enter opens the cards as a column: ↑ ↓ walk it (no wrap), ← → switch set, Back returns", () => {
     let st = openCards(ctx, initialState());
     expect(describe(ctx, st).showCards).toBe(true);
+    expect(cardsFocused(st)).toBe(true);
     expect(st.play).toBe(0);
-    st = step(ctx, st, "LEFT");
-    expect(st.play).toBe(0); // no wrap inside the cards
-    st = step(ctx, st, "RIGHT");
-    st = step(ctx, st, "RIGHT");
-    expect(st.play).toBe(2);
-    st = step(ctx, st, "DOWN"); // 2 + 3 → clamps to the last (index 4)
-    expect(st.play).toBe(4);
     st = step(ctx, st, "UP");
-    expect(st.play).toBe(1);
+    expect(st.play).toBe(0); // no wrap inside the cards
+    st = step(ctx, st, "DOWN");
+    st = step(ctx, st, "DOWN");
+    expect(st.play).toBe(2);
+    for (let i = 0; i < 5; i++) st = step(ctx, st, "DOWN");
+    expect(st.play).toBe(4); // clamps to the last card
+    st = step(ctx, st, "UP");
+    expect(st.play).toBe(3);
+    // ← → change the set while staying in the cards; the new set's first play is selected
+    st = step(ctx, st, "RIGHT");
+    expect(describe(ctx, st).set?.id).toBe("0.1");
+    expect(st).toMatchObject({ inPlays: true, play: 0 });
     expect(closeCards(st).inPlays).toBe(false);
   });
 
@@ -94,10 +100,10 @@ suite("formation tab", () => {
     expect(selectRow(openCards(ctx, initialState()), 1)).toMatchObject({ row: 1, inPlays: false, play: 0 });
   });
 
-  it("stepSet (the bar's arrows) changes the set and drops back to the bar", () => {
+  it("stepSet (the bar's arrows) changes the set and keeps the cards open", () => {
     const st = stepSet(ctx, openCards(ctx, initialState()), 1);
     expect(describe(ctx, st).set?.id).toBe("0.1");
-    expect(st.inPlays).toBe(false);
+    expect(st).toMatchObject({ inPlays: true, play: 0 });
   });
 });
 
@@ -113,6 +119,18 @@ suite("other tabs", () => {
     expect(v.bar.label).toBe("Smash");
     expect(v.cards).toHaveLength(2);
     expect(describe(ctx, setTab(initialState(), "type")).cards).toHaveLength(7);
+  });
+
+  it("a group list: → goes into the cards, ↑ ↓ walk them, ← returns to the list", () => {
+    let st = setTab(initialState(), "concept");
+    expect(cardsFocused(st)).toBe(false);
+    st = step(ctx, st, "RIGHT");
+    expect(cardsFocused(st)).toBe(true);
+    st = step(ctx, step(ctx, st, "DOWN"), "DOWN");
+    expect(st).toMatchObject({ row: 0, play: 2 });
+    st = step(ctx, st, "LEFT");
+    expect(cardsFocused(st)).toBe(false);
+    expect(step(ctx, st, "DOWN").row).toBe(1);
   });
 
   it("audibles: the set's audible plays in slot order, empty slots skipped", () => {
@@ -142,10 +160,10 @@ suite("scrolling windows", () => {
     expect(listTop(10, 3, 20)).toBe(3);
     expect(listTop(0, 2, 3)).toBe(0);
     expect(listTop(18, 19, 20)).toBe(20 - ROWS_VISIBLE);
-    expect(cardsLeft(0, 2, 10)).toBe(0);
-    expect(cardsLeft(0, 3, 10)).toBe(1);
-    expect(cardsLeft(5, 1, 10)).toBe(1);
-    expect(cardsLeft(0, 1, 2)).toBe(0);
+    expect(cardsTop(0, 2, 10)).toBe(0);
+    expect(cardsTop(0, 3, 10)).toBe(1);
+    expect(cardsTop(5, 1, 10)).toBe(1);
+    expect(cardsTop(0, 1, 2)).toBe(0);
     expect(VISIBLE).toBe(3);
   });
 });

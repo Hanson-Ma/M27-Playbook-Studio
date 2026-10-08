@@ -35,6 +35,9 @@ export interface CutSizes {
   hookIn: number;
 }
 
+/** Unstyled bends up to this many degrees are smoothed when a path asks for it (arcs of a swing / wheel / zone run). */
+export const SMOOTH_MAX_TURN = 55;
+
 export interface CutDrawing {
   /** SVG path data for the whole line (M/L/Q, SVG coordinates). */
   d: string;
@@ -93,7 +96,7 @@ export function drawCutPath(
   points: Vec[],
   corners: CutCorner[],
   sizes: CutSizes,
-  opts: { lastVertexIndex?: number; hookTail?: number } = {},
+  opts: { lastVertexIndex?: number; hookTail?: number; smooth?: boolean } = {},
 ): CutDrawing {
   const n = points.length;
   if (!n) return { d: "", ticks: "", settle: false };
@@ -163,6 +166,16 @@ export function drawCutPath(
           const out = sub(uIn, uOut); // points away from the inside of the turn
           if (length(out) > 0.1) ticks += `M${pt(v)}L${pt(addv(v, mul(unit(out), sizes.tick)))}`;
         }
+        continue;
+      }
+    }
+    if (opts.smooth && !style && uIn && uOut && inLen > 1e-6 && outLen > 1e-6) {
+      // A gentle bend with no cut on it is a curve in the game, not a corner: round it (capped at 45% of each leg).
+      const dot = Math.max(-1, Math.min(1, uIn.x * uOut.x + uIn.y * uOut.y));
+      const turnDeg = (Math.acos(dot) * 180) / Math.PI;
+      const r = Math.min(sizes.round * 1.5, inLen * 0.45, outLen * 0.45);
+      if (turnDeg > 1 && turnDeg <= SMOOTH_MAX_TURN && r > 1e-6) {
+        d += `L${pt(addv(v, mul(uIn, -r)))}Q${pt(v)} ${pt(addv(v, mul(uOut, r)))}`;
         continue;
       }
     }

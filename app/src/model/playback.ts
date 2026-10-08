@@ -1,12 +1,28 @@
-// Play playback: turns a PlayArt into per-player tracks and moves the players along them. Everyone starts at the snap
-// and runs at the same speed, so short routes finish first; each player freezes where their route ends.
+// Play playback: turns a PlayArt into per-player tracks and moves the players along them. Everyone starts at the snap;
+// each leg runs at the pace of what it is (a receiver sprints, a QB backpedals through his drop, a back waits a beat
+// for the handoff), and a player freezes where his track ends.
 // Pure TS: the view drives `t` (seconds) and asks for the art at that time.
-import type { ArtKind, PlayArt, Vec } from "./types";
+import type { ArtKind, ArtPath, PlayArt, Vec } from "./types";
 
 /** Yards per second along a route (a receiver at a fast jog). */
 export const RUN_SPEED = 8;
-/** Never take longer than this to finish, however long the longest route is. */
+/** Never take longer than this to finish: longer plays are sped up to fit (see playSpeedup). */
 export const MAX_SECONDS = 7;
+/** A back / receiver who takes the ball from the QB starts this long after the snap (the mesh). */
+export const HANDOFF_DELAY = 0.6;
+
+/** Yards per second by what the path is. */
+const SPEED: Partial<Record<ArtKind, number>> = {
+  route: RUN_SPEED,
+  primary: RUN_SPEED,
+  run: 7.5,
+  option: 7,
+  motion: 4.5,
+  block: 5.5,
+  qb: 3.2, // backpedal through a drop
+};
+/** QB boots, rollouts and keepers (a QB path that ends in an arrow) move faster than a drop. */
+const QB_BOOT_SPEED = 5.5;
 
 export interface Track {
   slot: number;
@@ -15,61 +31,88 @@ export interface Track {
   /** Distance from the start to each point. */
   cum: number[];
   length: number;
+  /** Yards per second on each segment (pts[i] → pts[i + 1]). */
+  speeds: number[];
+  /** Seconds (after the snap) at which each point is reached; tcum[0] is the start delay. */
+  tcum: number[];
+  /** Seconds at which the track ends. */
+  end: number;
 }
 
 /** Kinds that move a player (coverage and rush lines belong to the defense's assignment, drawn but not run here). */
-const MOVING: ReadonlySet<ArtKind> = new Set<ArtKind>(["route", "primary", "run", "motion", "qb", "block"]);
+const MOVING: ReadonlySet<ArtKind> = new Set<ArtKind>(["route", "primary", "run", "motion", "qb", "block", "option"]);
 
 const dist = (a: Vec, b: Vec) => Math.hypot(a.x - b.x, a.y - b.y);
+
+const speedOf = (p: ArtPath): number => (p.kind === "qb" && p.cap === "arrow" ? QB_BOOT_SPEED : (SPEED[p.kind] ?? RUN_SPEED));
 
 /** One track per player that has somewhere to go (a lineman who just pass-blocks has none). */
 export function buildTracks(art: PlayArt): Track[] {
   const tracks: Track[] = [];
   for (const pl of art.players) {
-    const paths = art.paths.filter((p) => p.slot === pl.slot && MOVING.has(p.kind) && p.points.length > 1);
+    const paths = art.paths.filter((p) => p.slot === pl.slot && !p.alt && MOVING.has(p.kind) && p.points.length > 1);
     if (!paths.length) continue;
     // Pre-snap / snap motion first, then the route or run that follows it.
     const ordered = [...paths.filter((p) => p.kind === "motion"), ...paths.filter((p) => p.kind !== "motion")];
     const pts: Vec[] = [{ x: pl.at.x, y: pl.at.y }];
-    for (const p of ordered) for (const v of p.points) if (dist(pts[pts.length - 1], v) > 0.02) pts.push({ x: v.x, y: v.y });
+    const speeds: number[] = [];
+    for (const p of ordered) {
+      const sp = speedOf(p);
+      for (const v of p.points) {
+        if (dist(pts[pts.length - 1], v) > 0.02) {
+          pts.push({ x: v.x, y: v.y });
+          speeds.push(sp);
+        }
+      }
+    }
     if (pts.length < 2) continue;
     const cum = [0];
     for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + dist(pts[i - 1], pts[i]));
     const length = cum[cum.length - 1];
     // A block's "path" is its T-cap tick; only count it when the player really travels (a pull).
     if (length < 0.6) continue;
-    tracks.push({ slot: pl.slot, pts, cum, length });
+    // A back who runs the ball waits for the handoff (a QB keeper or a player in motion doesn't).
+    const takesBall = pl.glyph !== "qb" && ordered[0].kind === "run";
+    const delay = takesBall ? HANDOFF_DELAY : 0;
+    const tcum = [delay];
+    for (let i = 1; i < pts.length; i++) tcum.push(tcum[i - 1] + (cum[i] - cum[i - 1]) / speeds[i - 1]);
+    tracks.push({ slot: pl.slot, pts, cum, length, speeds, tcum, end: tcum[tcum.length - 1] });
   }
   return tracks;
 }
 
-/** Seconds until the last player stops. */
-export function playDuration(tracks: readonly Track[], speed = RUN_SPEED): number {
-  const longest = tracks.reduce((m, t) => Math.max(m, t.length), 0);
-  return Math.min(MAX_SECONDS, longest / speed);
+/** Seconds until the last player stops, at the play's natural pace, capped at MAX_SECONDS. */
+export function playDuration(tracks: readonly Track[]): number {
+  return Math.min(MAX_SECONDS, tracks.reduce((m, t) => Math.max(m, t.end), 0));
 }
 
-/** The player's spot after running for `seconds` (frozen at the end of the track). */
-export function positionAt(track: Track, seconds: number, speed = RUN_SPEED): Vec {
-  const d = Math.max(0, Math.min(track.length, seconds * speed));
+/** How much faster than natural pace the play runs so it fits in MAX_SECONDS (1 when it already does). */
+export function playSpeedup(tracks: readonly Track[]): number {
+  const natural = tracks.reduce((m, t) => Math.max(m, t.end), 0);
+  return natural > MAX_SECONDS ? natural / MAX_SECONDS : 1;
+}
+
+/** The player's spot `seconds` after the snap (waiting at the start until his delay, frozen at the end). */
+export function positionAt(track: Track, seconds: number): Vec {
+  const t = Math.max(track.tcum[0], Math.min(track.end, seconds));
   let i = 1;
-  while (i < track.cum.length - 1 && track.cum[i] < d) i++;
+  while (i < track.tcum.length - 1 && track.tcum[i] < t) i++;
   const a = track.pts[i - 1];
   const b = track.pts[i];
-  const span = track.cum[i] - track.cum[i - 1];
-  const f = span > 1e-9 ? (d - track.cum[i - 1]) / span : 1;
+  const span = track.tcum[i] - track.tcum[i - 1];
+  const f = span > 1e-9 ? (t - track.tcum[i - 1]) / span : 1;
   return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
 }
 
 /** The art with every tracked player moved to where they are `seconds` after the snap. */
-export function artAt(art: PlayArt, tracks: readonly Track[], seconds: number, speed = RUN_SPEED): PlayArt {
+export function artAt(art: PlayArt, tracks: readonly Track[], seconds: number): PlayArt {
   if (!tracks.length) return art;
   const by = new Map(tracks.map((t) => [t.slot, t]));
   return {
     ...art,
     players: art.players.map((p) => {
       const t = by.get(p.slot);
-      return t ? { ...p, at: positionAt(t, seconds, speed) } : p;
+      return t ? { ...p, at: positionAt(t, seconds) } : p;
     }),
   };
 }

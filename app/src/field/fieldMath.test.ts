@@ -132,21 +132,21 @@ describe("field markings", () => {
     close(sr, -3.0833 + 80 / 3);
   });
 
-  it("paints numbers like a real field with the LOS on the own 35", () => {
+  it("paints numbers like a real field with the ball on the 50", () => {
     const lines = yardLines(-12, 30);
     expect(lines.map((l) => l.y)).toEqual([-10, -5, 0, 5, 10, 15, 20, 25, 30]);
     const num = Object.fromEntries(lines.filter((l) => l.number).map((l) => [l.y, l.number]));
-    expect(num).toEqual({ [-5]: 30, 5: 40, 15: 50, 25: 40 });
-    expect(lines.find((l) => l.y === 0)?.major).toBe(false);
-    expect(lines.find((l) => l.y === 5)?.major).toBe(true);
+    expect(num).toEqual({ [-10]: 40, 0: 50, 10: 40, 20: 30, 30: 20 });
+    expect(lines.find((l) => l.y === 0)?.major).toBe(true);
+    expect(lines.find((l) => l.y === 5)?.major).toBe(false);
   });
 
   it("stops at the goal lines", () => {
-    const lines = yardLines(-50, 80);
-    expect(lines[0]).toMatchObject({ y: -35, yard: 0, goal: true, major: true });
-    expect(lines[lines.length - 1]).toMatchObject({ y: 65, yard: 100, goal: true });
+    const lines = yardLines(-60, 80);
+    expect(lines[0]).toMatchObject({ y: -50, yard: 0, goal: true, major: true });
+    expect(lines[lines.length - 1]).toMatchObject({ y: 50, yard: 100, goal: true });
     expect(lines.filter((l) => l.number === 50)).toHaveLength(1);
-    expect(fieldYRange()).toEqual({ minY: -45, maxY: 75 });
+    expect(fieldYRange()).toEqual({ minY: -60, maxY: 60 });
   });
 
   it("supports another LOS", () => {
@@ -167,7 +167,8 @@ describe("field markings", () => {
 
   it("ticks every yard except the 5s", () => {
     expect(yardTicks(-2, 2)).toEqual([-2, -1, 1, 2]);
-    expect(yardTicks(-40, -33)).toEqual([-34, -33]);
+    expect(yardTicks(-40, -33)).toEqual([-39, -38, -37, -36, -34, -33]);
+    expect(yardTicks(-60, -47)).toEqual([-49, -48, -47]); // stops at the goal line
   });
 });
 

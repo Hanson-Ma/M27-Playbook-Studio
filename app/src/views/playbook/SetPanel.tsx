@@ -25,6 +25,7 @@ export function SetPanel({ setNode }: { setNode: BookNode }) {
   const rs = setNode.rs!;
   const rf = setNode.rf!;
   const audibles = rs.plays.filter((p) => p.entry.audible).length;
+  const cardColumns = useSettings((st) => st.cardColumns);
   const custom = data.custom.set(rs.set?.asset);
   const editHref = data.custom.editHref(rs.set?.asset);
   return (
@@ -44,6 +45,18 @@ export function SetPanel({ setNode }: { setNode: BookNode }) {
           {(rs.malformed ?? rs.problem) && <div className={s.problem}>{rs.malformed ?? rs.problem}</div>}
         </div>
         <div className={s.headActions}>
+          <Segmented
+            size="sm"
+            className={s.colPicker}
+            aria-label="Cards per row"
+            value={String(cardColumns)}
+            options={[
+              { value: "3", label: "3", title: "3 cards per row: one page of the in-game play-call screen" },
+              { value: "6", label: "6", title: "6 cards per row" },
+              { value: "9", label: "9", title: "9 cards per row" },
+            ]}
+            onChange={(v) => useSettings.getState().set({ cardColumns: Number(v) as 3 | 6 | 9 })}
+          />
           {editHref && (
             <Button size="sm" icon="field" onClick={() => navigate(editHref)} title="Change player spots and motions in the Formations editor">
               Edit Set
@@ -158,18 +171,6 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
     <div className={s.cardsScroll} data-autoscroll>
       <div className={s.sectionTitle}>
         In This Playbook
-        <Segmented
-          size="sm"
-          className={s.colPicker}
-          aria-label="Cards per row"
-          value={String(cardColumns)}
-          options={[
-            { value: "3", label: "3", title: "3 per row: one page of the in-game play-call screen per row" },
-            { value: "6", label: "6" },
-            { value: "9", label: "9" },
-          ]}
-          onChange={(v) => useSettings.getState().set({ cardColumns: Number(v) as 3 | 6 | 9 })}
-        />
         <span className={s.sectionHint} title="Drag cards to reorder · double-click a card to edit the play · shift / ⌘-click to select several · right-click (or ⋯) for options">
           Drag to reorder · double-click to edit · right-click for options
         </span>

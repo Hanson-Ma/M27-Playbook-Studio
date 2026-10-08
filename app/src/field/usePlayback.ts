@@ -1,7 +1,7 @@
 // Runs a play: the players run their routes from the snap and freeze where each route ends (see model/playback.ts).
 // `art` is what to draw right now (the resting art until the first run); `run()` starts it again from the snap.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { artAt, buildTracks, playDuration } from "../model/playback";
+import { artAt, buildTracks, playDuration, playSpeedup } from "../model/playback";
 import type { PlayArt } from "../model/types";
 import { nextFrame } from "../ui/frames";
 
@@ -9,6 +9,8 @@ export interface Playback {
   art: PlayArt;
   /** True while the players are moving. */
   running: boolean;
+  /** True once the play has been run since it was opened (or stepped to). */
+  started: boolean;
   /** Start (or restart) the play from the snap. */
   run(): void;
   /** True when there is anything to animate. */
@@ -19,6 +21,7 @@ export interface Playback {
 export function usePlayback(art: PlayArt, playKey: string, autoRun = true): Playback {
   const tracks = useMemo(() => buildTracks(art), [art]);
   const duration = useMemo(() => playDuration(tracks), [tracks]);
+  const speedup = useMemo(() => playSpeedup(tracks), [tracks]);
   const [t, setT] = useState<number | undefined>(undefined);
   const [running, setRunning] = useState(false);
   const stop = useRef<(() => void) | undefined>(undefined);
@@ -59,6 +62,6 @@ export function usePlayback(art: PlayArt, playKey: string, autoRun = true): Play
   }, [playKey, autoRun, run]);
   useEffect(() => () => stop.current?.(), []);
 
-  const shown = useMemo(() => (t === undefined ? art : artAt(art, tracks, t)), [art, tracks, t]);
-  return { art: shown, running, run, canRun: tracks.length > 0 };
+  const shown = useMemo(() => (t === undefined ? art : artAt(art, tracks, t * speedup)), [art, tracks, t, speedup]);
+  return { art: shown, running, started: t !== undefined, run, canRun: tracks.length > 0 };
 }

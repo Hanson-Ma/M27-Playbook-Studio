@@ -425,6 +425,8 @@ export interface ArtPath {
   vertices?: ArtVertex[];
   /** Short label drawn near the end (e.g. "SIT", "BLOCK", "PULL"). */
   label?: string;
+  /** One branch of an option route (the receiver picks it from the coverage): drawn dashed, never run in playback. */
+  alt?: boolean;
 }
 
 export type ZoneKind = "deep" | "hook" | "flat" | "curlflat" | "spy";
@@ -486,6 +488,8 @@ export interface ArtOptions {
   /** Draw OL pass protection (hidden on small cards, shown in detail views). */
   showPassPro?: boolean;
   side?: Side;
+  /** AssignRouteType per slot: option routes draw their branches from its name (RR_Option_Hitch_Fade → hitch, fade). */
+  routeTypes?: (string | undefined)[];
 }
 
 // ───────────────────────────── Workspace / documents ─────────────────────────────

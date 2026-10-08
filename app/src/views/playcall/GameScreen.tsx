@@ -1,7 +1,8 @@
 // The play-select screen as Madden 27 draws it, in this app's style. Everything sits on the game's 1920-ish layout (a
 // 2000 × 1125 stage scaled to fit): the tab row with its LB / RB hints, the formation list on the left with its scroll
 // bar, the set bar (‹ SET - 9 plays ›) with the formation dots under it and KEY PLAYERS to the right, the play cards
-// (three at a time) with a page strip, and the hint pill at the bottom. A big field above shows what is selected.
+// as a vertical column on the right (three and a peek visible, scrolled a card at a time) and the hint pill at the
+// bottom. A big field above shows what is selected.
 // State and key / pad handling live in PlayCallView; this file draws.
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode, type WheelEvent } from "react";
 import { Field, PlayArtLayer, PlayCard, cardViewport } from "../../field";
@@ -17,15 +18,16 @@ import { useCatalog } from "../../state/library";
 import { useSettings } from "../../state/settings";
 import { Icon, cx } from "../../ui";
 import { AlignmentField, FavStar, StatChip, keyPlayers, sideOfSet } from "./CallTiles";
-import { ROWS_VISIBLE, VISIBLE, cardsLeft, listTop, type ScreenState, type View } from "./gameScreenModel";
-import { PLAYCALL_TABS, cardStat, type CallPlay, type PlayCallTab } from "./playcallModel";
+import { AUDIBLE_CATEGORY } from "../../model/audibles";
+import { ROWS_VISIBLE, cardsFocused, cardsTop, listTop, type ScreenState, type View } from "./gameScreenModel";
+import { PLAYCALL_TABS, cardStat, cpuRows, type CallPlay, type PlayCallTab } from "./playcallModel";
 import s from "./GameScreen.module.css";
 
 const STAGE_W = 2000;
 const STAGE_H = 1125;
 const ROW_PITCH = 68;
-const CARD_W = 370;
-const CARD_GAP = 25;
+/** A card in the column: the card (262 tall) plus the gap to the next one. */
+const CARD_PITCH = 286;
 
 export interface HintItem {
   id: string;
@@ -49,8 +51,8 @@ export interface GameScreenProps {
   onOpenSet(): void;
   onCard(index: number): void;
   onToggleFavorite(item: CallPlay): void;
-  /** Wheel: a step along the current axis. `list` when the pointer is over the formation list. */
-  onWheelStep(delta: 1 | -1, list: boolean): void;
+  /** Wheel: a step along what the pointer is over (the formation list, the card column, else the set bar). */
+  onWheelStep(delta: 1 | -1, zone: "list" | "cards" | "other"): void;
 }
 
 export function GameScreen(p: GameScreenProps) {
@@ -73,14 +75,14 @@ export function GameScreen(p: GameScreenProps) {
   // list + card scroll positions (a row / card at a time)
   const top = useRef(0);
   top.current = listTop(top.current, view.row, view.rows.length);
-  const left = useRef(0);
+  const cardTop = useRef(0);
   const cardsKey = `${st.tab}|${view.row}|${view.setIndex}`;
   const lastKey = useRef(cardsKey);
   if (lastKey.current !== cardsKey) {
     lastKey.current = cardsKey;
-    left.current = 0;
+    cardTop.current = 0;
   }
-  left.current = cardsLeft(left.current, st.play, view.cards.length);
+  cardTop.current = cardsTop(cardTop.current, st.play, view.cards.length);
 
   const wheel = useRef({ acc: 0 });
   const onWheel = (e: WheelEvent<HTMLDivElement>) => {
@@ -88,7 +90,8 @@ export function GameScreen(p: GameScreenProps) {
     if (Math.abs(wheel.current.acc) < 60) return;
     const d = Math.sign(wheel.current.acc) as 1 | -1;
     wheel.current.acc = 0;
-    p.onWheelStep(d, !!(e.target as Element).closest("[data-list]"));
+    const el = e.target as Element;
+    p.onWheelStep(d, el.closest("[data-list]") ? "list" : el.closest("[data-cards]") ? "cards" : "other");
   };
 
   const selected = view.showCards ? view.cards[st.play] : undefined;
@@ -102,8 +105,9 @@ export function GameScreen(p: GameScreenProps) {
         <Bar view={view} onStep={p.onSetStep} onOpen={p.onOpenSet} showCards={view.showCards} />
         {!view.showCards && view.set?.set && <Dots view={view} flip={p.flip} onOpen={p.onOpenSet} />}
         {!view.showCards && view.set?.set && <KeyPlayers view={view} flip={p.flip} />}
+        {view.showCards && <PlayInfo item={selected} />}
         {view.showCards && (
-          <Cards view={view} st={st} left={left.current} flip={p.flip} favorites={p.favorites} onCard={p.onCard} onToggleFavorite={p.onToggleFavorite} />
+          <Cards view={view} st={st} top={cardTop.current} flip={p.flip} favorites={p.favorites} onCard={p.onCard} onToggleFavorite={p.onToggleFavorite} />
         )}
         <Hints items={p.hints} />
       </div>
@@ -133,7 +137,7 @@ function Backdrop({ view, selected, flip, defense }: { view: View; selected?: Ca
   const side = catalog && set ? sideOfSet(catalog, set) : undefined;
   if (play) {
     return (
-      <div className={s.backdrop}>
+      <div className={cx(s.backdrop, view.showCards && s.backdropNarrow)}>
         <Field viewport={cardViewport(play.side)} ballSpot={ballSpot} fit="contain" firstDown={defense ? undefined : 10} className={s.backField} label={`${play.name} on the field`}>
           <PlayArtLayer art={art} showLabels />
         </Field>
@@ -148,7 +152,7 @@ function Backdrop({ view, selected, flip, defense }: { view: View; selected?: Ca
       </div>
     );
   }
-  return <div className={s.backdrop} />;
+  return <div className={cx(s.backdrop, view.showCards && s.backdropNarrow)} />;
 }
 
 // ───────────────────────────── tabs ─────────────────────────────
@@ -274,10 +278,52 @@ function KeyPlayers({ view, flip }: { view: View; flip: boolean }) {
 
 // ───────────────────────────── cards ─────────────────────────────
 
+/** The selected play in words under the set bar: name, type, audible and its heaviest CPU situations. */
+function PlayInfo({ item }: { item?: CallPlay }) {
+  const play = item?.play;
+  if (!item || !play) return <div className={s.info} />;
+  const info = playTypeInfo(play.playType);
+  const cpu = cpuRows(item.entry.cpu)
+    .filter((r) => r.weight > 0)
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, 3);
+  return (
+    <div className={s.info}>
+      <h2 className={s.infoName}>{play.name}</h2>
+      <div className={s.infoSub}>{item.subtitle}</div>
+      <div className={s.infoRow}>
+        <span className={s.infoTag} style={{ "--tag": info.color } as CSSProperties}>
+          {info.label}
+        </span>
+        <span className={s.infoLong}>{info.long}</span>
+      </div>
+      {item.audible && (
+        <div className={s.infoRow}>
+          <AudibleGlyph slot={item.audible} size="md" />
+          <span className={s.infoLong}>{play.side === "defense" ? `Audible ${item.audible}` : AUDIBLE_CATEGORY[item.audible]}</span>
+        </div>
+      )}
+      {cpu.length > 0 && (
+        <div className={s.infoCpu}>
+          {cpu.map((r) => (
+            <div key={r.key} className={s.infoCpuRow}>
+              <span>{r.label}</span>
+              <span className={s.infoBar}>
+                <span style={{ width: `${Math.max(0, Math.min(100, r.weight))}%` }} />
+              </span>
+              <b>{r.weight}</b>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Cards({
   view,
   st,
-  left,
+  top,
   flip,
   favorites,
   onCard,
@@ -285,32 +331,36 @@ function Cards({
 }: {
   view: View;
   st: ScreenState;
-  left: number;
+  top: number;
   flip: boolean;
   favorites: ReadonlySet<string>;
   onCard(i: number): void;
   onToggleFavorite(item: CallPlay): void;
 }) {
   const ballSpot = useSettings((x) => x.ballSpot);
+  const focused = cardsFocused(st);
   const n = view.cards.length;
-  const pages = Math.max(1, Math.ceil(n / VISIBLE));
   if (!n) {
     return (
-      <div className={s.cards}>
+      <div className={s.cards} data-cards>
         <div className={s.empty}>{view.bar.kind === "sets" ? "Nothing to show for this set" : "No plays here yet"}</div>
       </div>
     );
   }
+  // The scroll bar beside the column: thumb = the three cards in view out of all of them.
+  const track = 900;
+  const thumbH = n <= 3 ? track : (track * 3) / n;
+  const thumbTop = n <= 3 ? 0 : ((track - thumbH) * top) / (n - 3);
   return (
     <>
-      <div className={s.cards}>
-        <div className={s.cardsInner} style={{ transform: `translateX(${-left * (CARD_W + CARD_GAP)}px)` }}>
+      <div className={s.cards} data-cards>
+        <div className={s.cardsInner} style={{ transform: `translateY(${-top * CARD_PITCH}px)` }}>
           {view.cards.map((item, i) => {
             const play = item.play;
             const stat = cardStat(item);
             const info = play ? playTypeInfo(play.playType) : undefined;
             return (
-              <div key={item.id} className={cx(s.card, i === st.play && s.cardOn)} style={{ left: i * (CARD_W + CARD_GAP) }} onClick={() => onCard(i)}>
+              <div key={item.id} className={cx(s.card, i === st.play && focused && s.cardOn, i === st.play && !focused && s.cardPick)} style={{ top: i * CARD_PITCH }} onClick={() => onCard(i)}>
                 {play ? (
                   <PlayCard
                     play={play}
@@ -321,12 +371,12 @@ function Cards({
                     ballSpot={ballSpot}
                     autoBadges={false}
                     stat={stat ? <StatChip stat={stat} /> : undefined}
-                    badges={<FavStar on={favorites.has(play.key)} onToggle={() => onToggleFavorite(item)} size={18} />}
-                    style={{ "--name-fs": "26px", "--sub-fs": "17px", "--chip-fs": "15px", "--chip-inset": "10px" } as CSSProperties}
+                    badges={<FavStar on={favorites.has(play.key)} onToggle={() => onToggleFavorite(item)} size={22} />}
+                    style={{ "--name-fs": "28px", "--sub-fs": "21px", "--chip-fs": "19px", "--chip-inset": "12px", "--chip-py": "0.38em", "--chip-px": "0.7em", "--meta-pad": "4px 8px 8px", "--meta-gap": "12px" } as CSSProperties}
                   />
                 ) : (
                   <div className={s.missing} title={item.problem}>
-                    <Icon name="warning" size={22} />
+                    <Icon name="warning" size={26} />
                     <b>{item.name || "(unnamed)"}</b>
                     <i>Play not found</i>
                   </div>
@@ -336,8 +386,8 @@ function Cards({
           })}
         </div>
       </div>
-      <div className={s.pager} aria-hidden>
-        {pages > 1 && Array.from({ length: pages }, (_, i) => <span key={i} className={cx(Math.floor(st.play / VISIBLE) === i && s.pagerOn)} />)}
+      <div className={s.cardScroll} aria-hidden>
+        <div className={s.thumb} style={{ height: thumbH, top: thumbTop }} />
       </div>
     </>
   );

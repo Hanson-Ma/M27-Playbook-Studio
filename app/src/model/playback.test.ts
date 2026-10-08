@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MAX_SECONDS, RUN_SPEED, artAt, buildTracks, playDuration, positionAt } from "./playback";
+import { HANDOFF_DELAY, MAX_SECONDS, RUN_SPEED, artAt, buildTracks, playDuration, playSpeedup, positionAt } from "./playback";
 import type { ArtPath, ArtPlayer, PlayArt } from "./types";
 
 const player = (slot: number, x: number, y: number): ArtPlayer =>
@@ -49,5 +49,29 @@ describe("playback", () => {
   it("starts a motion player's route after their motion", () => {
     const m = buildTracks(art([player(2, 10, -1)], [path(2, "route", [[2, -1], [2, 10]]), path(2, "motion", [[10, -1], [2, -1]])]));
     expect(m[0].pts.map((p) => [p.x, p.y])).toEqual([[10, -1], [2, -1], [2, 10]]);
+  });
+
+  it("backpedals a QB through his drop slower than a receiver runs, and sprints him out on a boot", () => {
+    const qb = { ...player(1, 0, -6), glyph: "qb" } as ArtPlayer;
+    const drop = buildTracks(art([qb], [{ ...path(1, "qb", [[0, -6], [0, -9]]), cap: "none" }]))[0];
+    expect(drop.end).toBeCloseTo(3 / 3.2, 6);
+    const boot = buildTracks(art([qb], [path(1, "qb", [[0, -6], [-6, -6]])]))[0];
+    expect(boot.end).toBeCloseTo(6 / 5.5, 6);
+  });
+
+  it("makes a back wait for the handoff but not a QB keeper", () => {
+    const hb = player(2, 0, -6);
+    const run = buildTracks(art([hb], [path(2, "run", [[0, -6], [0, 4]])]))[0];
+    expect(positionAt(run, HANDOFF_DELAY * 0.5)).toEqual({ x: 0, y: -6 });
+    expect(positionAt(run, HANDOFF_DELAY + 1).y).toBeCloseTo(-6 + 7.5, 6);
+    const qb = { ...player(1, 0, -6), glyph: "qb" } as ArtPlayer;
+    const keep = buildTracks(art([qb], [path(1, "run", [[0, -6], [0, 4]])]))[0];
+    expect(keep.tcum[0]).toBe(0);
+  });
+
+  it("speeds a long play up to fit instead of cutting it off", () => {
+    const long = buildTracks(art([player(1, 0, 0)], [path(1, "route", [[0, 0], [0, 100]])]));
+    expect(playSpeedup(long)).toBeCloseTo(100 / RUN_SPEED / MAX_SECONDS, 6);
+    expect(playSpeedup(tracks)).toBe(1);
   });
 });

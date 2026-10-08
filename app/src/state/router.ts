@@ -78,6 +78,11 @@ export function href(view: ViewId, ...parts: (string | number)[]): string {
 
 export function navigate(hashOrView: string, opts: { replace?: boolean } = {}): void {
   const hash = hashOrView.startsWith("#") ? hashOrView : `#/${hashOrView}`;
+  const here = current.hash || href(current.view);
+  if (!opts.replace && hash !== here && trail[trail.length - 1] !== here) {
+    trail.push(here);
+    if (trail.length > TRAIL_MAX) trail.shift();
+  }
   if (opts.replace) history.replaceState(null, "", hash);
   else history.pushState(null, "", hash);
   current = parseRoute(location.hash);
@@ -141,4 +146,68 @@ export function rewriteRememberedPath(from: string, to?: string): void {
     const next = rewriteHashPath(hash, from, to) ?? `#/${view}`;
     if (next !== hash) remembered.set(view, next);
   }
+  for (let i = trail.length - 1; i >= 0; i--) {
+    const next = rewriteHashPath(trail[i], from, to);
+    if (next === null) trail.splice(i, 1);
+    else trail[i] = next;
+  }
+}
+
+// ─────────────────────────────── where you came from ───────────────────────────────
+// Back buttons return to the view that opened the current one (Overview → Play Call → Back lands on the Overview,
+// not always the builder). navigate() records the hash it leaves whenever the view changes; a screen asks for its
+// back target with a fallback for when it was opened directly (a link, a reload). Entries in the same view are
+// skipped unless asked for (a library play detail goes back to the grid, a different view of the same name).
+
+const trail: string[] = [];
+const TRAIL_MAX = 40;
+
+const VIEW_LABELS: Record<ViewId, string> = {
+  library: "Library",
+  playbook: "Playbook",
+  playcall: "Play Call",
+  overview: "Overview",
+  designer: "Designer",
+  formations: "Formations",
+  concepts: "Concepts",
+  export: "Export",
+  settings: "Settings",
+  help: "Help",
+};
+
+export const viewLabel = (view: ViewId): string => VIEW_LABELS[view];
+
+export interface BackTarget {
+  hash: string;
+  /** "Playbook", "Overview"… (the destination's name). */
+  label: string;
+  view: ViewId;
+}
+
+/** Where Back goes from `view`: the most recent other view in the trail, else `fallback`. */
+export function backTarget(view: ViewId, fallback: string, sameView = false): BackTarget {
+  for (let i = trail.length - 1; i >= 0; i--) {
+    const r = parseRoute(trail[i]);
+    if ((sameView || r.view !== view) && !UTILITY_VIEWS.has(r.view)) return { hash: trail[i], label: VIEW_LABELS[r.view], view: r.view };
+  }
+  const r = parseRoute(fallback);
+  return { hash: fallback, label: VIEW_LABELS[r.view], view: r.view };
+}
+
+/** Go back to `backTarget(view, fallback)` and drop the trail down to it (so Back doesn't ping-pong). */
+export function goBack(view: ViewId, fallback: string, sameView = false): void {
+  const t = backTarget(view, fallback, sameView);
+  for (let i = trail.length - 1; i >= 0; i--) {
+    if (trail[i] === t.hash) {
+      trail.length = i;
+      break;
+    }
+  }
+  navigate(t.hash, { replace: true });
+}
+
+/** The back target of the current screen, re-read on every route change (for button labels). */
+export function useBackTarget(view: ViewId, fallback: string, sameView = false): BackTarget {
+  useRoute();
+  return backTarget(view, fallback, sameView);
 }

@@ -1,6 +1,6 @@
 // Tiny route icon for one cut type (the designer's cut picker, the guide, legends): a short stem upfield, then the
 // turn / fake / hook the cut makes, drawn with the same cut geometry as the play art (cutGeometry.ts) — speed cuts
-// rounded, hard cuts sharp with a plant tick, double moves with a zig, turn-backs hooking, DRAG_STOP settling.
+// rounded, hard cuts sharp, double moves with a zig, turn-backs hooking, DRAG_STOP settling.
 // `dir` is the cut direction (left = counter-clockwise, toward −x on the field). Colors follow `currentColor`.
 import { memo } from "react";
 import { cutStyle, CUT_STYLE_INFO, type CutStyle } from "../model/art";
@@ -183,7 +183,6 @@ export const CutIcon = memo(function CutIcon({ cutType, dir = "right", size = 28
       <title>{label}</title>
       <circle className={styles.player} cx={r3(start.x)} cy={r3(-start.y)} r={r3(1.9 * k)} strokeWidth={r3(stroke * 0.7)} />
       <path className={styles.line} d={drawing.d} strokeWidth={r3(stroke)} />
-      {drawing.ticks && <path className={styles.line} d={drawing.ticks} strokeWidth={r3(stroke * 0.85)} />}
       <g transform={`translate(${r3(tip.x)} ${r3(-tip.y)}) rotate(${r3(angle)})`}>
         <path className={styles.fill} d={`M0 0L${r3(-arrowL)} ${r3(-arrowH)}L${r3(-arrowL)} ${r3(arrowH)}Z`} />
         {drawing.settle && (

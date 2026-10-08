@@ -339,6 +339,9 @@ interface PathShapeProps {
   compact?: boolean;
 }
 
+/** Paths a player runs (not blocks, coverage or rush lines): gentle unstyled bends are drawn as curves. */
+const SMOOTH_KINDS: ReadonlySet<ArtKind> = new Set<ArtKind>(["route", "primary", "run", "qb", "option", "motion"]);
+
 /** Speed-corner radius on the field (yd) and its on-screen minimum (px). */
 const CUT_ROUND_YD = 1.2;
 const CUT_ROUND_MIN_PX = 6;
@@ -378,8 +381,10 @@ export function PathShape({
   // Stop the line inside the arrowhead so the round line cap never pokes past the tip.
   const line = path.cap === "arrow" ? trimEnd(pts, (m.arrowLen * 0.6) / ppy) : pts;
   const corners = cuts && pts.length > 1 && path.vertices?.length ? cutCorners(path) : undefined;
-  const drawing = corners?.length
-    ? drawCutPath(line, corners, cutSizes(m, ppy, compact), { lastVertexIndex: maxVertexIndex(path) })
+  // Lines a player runs curve through gentle bends (swing arcs, wheels); blocks, coverage and rush lines stay straight.
+  const smooth = cuts && pts.length > 2 && SMOOTH_KINDS.has(path.kind);
+  const drawing = corners?.length || smooth
+    ? drawCutPath(line, corners ?? [], cutSizes(m, ppy, compact), { lastVertexIndex: maxVertexIndex(path), smooth })
     : undefined;
   const cls = [styles.path, colorClass ?? KIND_CLASS[path.kind], dim && styles.dim].filter(Boolean).join(" ");
   const capTransform = `translate(${r3(tip.x)} ${r3(-tip.y)}) rotate(${r3(angle)}) ${pxScale(ppy)}`;
@@ -414,7 +419,6 @@ export function PathShape({
         (drawing ? (
           <>
             <path className={lineClass} d={drawing.d} strokeWidth={width} />
-            {drawing.ticks && <path className={styles.line} data-cut="hard" d={drawing.ticks} strokeWidth={r3(width * 0.8)} />}
           </>
         ) : (
           <polyline className={lineClass} points={svgPoints(line)} strokeWidth={width} />

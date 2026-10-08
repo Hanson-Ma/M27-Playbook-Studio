@@ -11,7 +11,7 @@ import { positionCode } from "../../model/positions";
 import { defaultRouteScope, type RouteLibraryItem, type RouteScope } from "../../model/search";
 import type { ArtOptions, PlayArt, ResolvedPlay, SetDef, Step } from "../../model/types";
 import { useCatalog, useLibrary } from "../../state/library";
-import { navigate } from "../../state/router";
+import { goBack, navigate, useBackTarget } from "../../state/router";
 import { useSettings } from "../../state/settings";
 import { Button, EmptyState, IconButton, PlayTypeTag, Select, Spinner, TabBar, Tag, cx, type TabItem } from "../../ui";
 import { openAddToPlaybook } from "./AddToPlaybook";
@@ -33,7 +33,7 @@ const DETAIL_TABS: TabItem<DetailTab>[] = [
 export function PlayDetail({ playKey }: { playKey: string }) {
   const catalog = useCatalog();
   const status = useLibrary((st) => st.status);
-  const back = () => navigate("#/library");
+  const back = () => goBack("library", "#/library", true);
   const play = catalog?.get(playKey);
   useActions("library.detail.missing", play ? [] : [{ id: "back", label: "Back", keys: ["Escape"], run: back }]);
 
@@ -149,8 +149,9 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
   const back = () => {
     const e = entries.find((x) => x.key === play.key);
     if (e) useLibraryUi.getState().set({ selectedId: e.id, selectedKey: e.key });
-    navigate("#/library");
+    goBack("library", "#/library", true);
   };
+  const backTo = useBackTarget("library", "#/library", true);
 
   const setTab = (t: DetailTab) => {
     useLibraryUi.getState().set({ detailTab: t });
@@ -202,8 +203,8 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
   return (
     <div className={s.page}>
       <header className={s.head}>
-        <Button variant="ghost" icon="chevronLeft" onClick={back} className={s.backBtn} title="Back to the library grid (Esc)">
-          Library
+        <Button variant="ghost" icon="chevronLeft" onClick={back} className={s.backBtn} title={`Back to the ${backTo.label} (Esc)`}>
+          {backTo.label}
         </Button>
         <div className={s.titleBlock}>
           <div className={s.titleRow}>

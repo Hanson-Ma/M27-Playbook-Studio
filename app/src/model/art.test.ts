@@ -96,7 +96,7 @@ describe("spot checks against the dumped play sheets", () => {
     expect(end(hb).y).toBeGreaterThan(0);
 
     const [qb] = pathsOf(a, 0);
-    expect(qb).toMatchObject({ kind: "qb", cap: "none" });
+    expect(qb).toMatchObject({ kind: "qb", cap: "arrow" });
     near(end(qb), 0, -8); // shotgun 3-step ≈ 2 yd
     expect(pathsOf(a, 6)).toEqual([]); // OL pass pro hidden by default
     expect(pathsOf(art(play(F + "Offense/Shotgun/Y_Trips_Wk/Curls"), { showPassPro: true }), 6, "block")).toHaveLength(1);
@@ -463,3 +463,26 @@ function artMirror(a: PlayArt): PlayArt {
     flipped: !a.flipped,
   };
 }
+
+describe("optionBranches", () => {
+  it("draws every branch named by the option route type, relative to the nearer sideline", async () => {
+    const { optionBranches } = await import("./art");
+    // A right-side receiver, stem heading straight up: hitch and fade.
+    const hf = optionBranches("AssignRouteType_RR_Option_Hitch_Fade", { x: 10, y: 6 }, 90);
+    expect(hf).toHaveLength(2);
+    expect(hf[0].length).toBe(4); // the hook
+    const fade = hf[1][hf[1].length - 1];
+    expect(fade.x).toBeGreaterThan(10); // fades toward the sideline
+    expect(fade.y).toBeGreaterThan(6);
+    // Out / in mirror on the other side.
+    const [out] = optionBranches("AssignRouteType_RR_Option_Out_Fade", { x: -10, y: 6 }, 90);
+    expect(out[out.length - 1].x).toBeLessThan(-10);
+    const dig = optionBranches("AssignRouteType_RR_Option_Dig_Post", { x: 10, y: 6 }, 90);
+    expect(dig).toHaveLength(2);
+    expect(dig.every((b) => b[b.length - 1].x < 10)).toBe(true); // both break inside
+    // Generic option routes get the usual two breaks; other route types none.
+    expect(optionBranches("AssignRouteType_RR_Option_Route", { x: 8, y: 5 }, 90)).toHaveLength(2);
+    expect(optionBranches("AssignRouteType_RR_Slant", { x: 8, y: 5 }, 90)).toEqual([]);
+    expect(optionBranches(undefined, { x: 8, y: 5 }, 90)).toEqual([]);
+  });
+});

@@ -11,7 +11,7 @@ import { PadHints, type PadHint } from "../../input/PadHints";
 import { playTypeInfo } from "../../model/playtypes";
 import type { PlaybookSpec, ResolvedPlay } from "../../model/types";
 import { useCatalog } from "../../state/library";
-import { href, navigate, useRoute } from "../../state/router";
+import { goBack, href, navigate, useBackTarget, useRoute } from "../../state/router";
 import { DEFAULT_PLAYBOOK, useSettings, type BallSpot } from "../../state/settings";
 import { useDocsOfKind, useWorkspace, type DocEntry } from "../../state/workspace";
 import { Button, EmptyState, Icon, IconButton, Spinner, TabBar, cx, toast, type TabItem } from "../../ui";
@@ -370,7 +370,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
     { id: "down", label: "Move down", keys: ["ArrowDown"], repeat: true, enabled: browsing, run: () => move("DOWN") },
     { id: "open", label: "Open play", keys: ["Enter"], enabled: browsing && !!selId, run: open },
     { id: "fit", label: "Fit everything", keys: ["Home"], enabled: browsing, run: fit },
-    { id: "back", label: "Back to the playbook", keys: ["Escape"], enabled: browsing, run: () => navigate(href("playbook", path)) },
+    { id: "back", label: "Back", keys: ["Escape"], enabled: browsing, run: () => goBack("overview", href("playbook", path)) },
   ]);
 
   // ── controller ──
@@ -437,6 +437,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
   const selected = selId ? layout.byId.get(selId) : undefined;
   const tabs = useMemo<TabItem[]>(() => layout.formations.map((f) => ({ id: String(f.f), label: f.name, caps: true, title: `${f.setCount} sets · ${f.count} plays` })), [layout]);
   const totals = useMemo(() => ({ sets: layout.sets.length, plays: layout.plays.length }), [layout]);
+  const backTo = useBackTarget("overview", href("playbook", path));
   // Titles grow as the camera pulls back so they stay readable (world units; the camera scales them down again).
   const worldVars = {
     width: layout.width,
@@ -450,8 +451,8 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
     <div className={s.page}>
       <header className={s.top}>
         <div className={s.topLeft}>
-          <Button variant="ghost" icon="chevronLeft" onClick={() => navigate(href("playbook", path))} title="Back to this playbook in the builder (Esc)">
-            Back to Playbook
+          <Button variant="ghost" icon="chevronLeft" onClick={() => goBack("overview", href("playbook", path))} title={`Back to the ${backTo.label} (Esc)`}>
+            Back to {backTo.label}
           </Button>
           <div className={s.book}>
             <span className={s.eyebrow}>Overview</span>

@@ -1,6 +1,6 @@
 // Pure field math for the SVG renderer. One SVG user unit = one yard; SVG y points down, field y points up,
 // so every field → SVG conversion goes through sy()/toSvg(). No React/DOM here.
-import { HALF_WIDTH, HASH_HALF, LOS_YARD_LINE, clamp } from "../model/geometry";
+import { HALF_WIDTH, HASH_HALF, clamp } from "../model/geometry";
 import type { ArtBounds, ArtPath, PlayArt, Vec } from "../model/types";
 import type { BallSpot } from "../state/settings";
 
@@ -13,8 +13,8 @@ export const toSvg = (v: Vec): Vec => ({ x: v.x, y: -v.y });
 /** SVG point → field point. */
 export const fromSvg = (x: number, y: number): Vec => ({ x, y: -y });
 
-/** The LOS sits on the offense's own 35 unless a view says otherwise (only affects painted numbers/end zones). */
-export const DEFAULT_LOS_YARD_LINE = LOS_YARD_LINE;
+/** The ball sits on the 50 (midfield) unless a view says otherwise (only affects painted numbers/end zones). */
+export const DEFAULT_LOS_YARD_LINE = 50;
 
 /** Sideline-to-sideline, a little backfield and ~20 yd downfield: what a detail view shows by default. */
 export const DEFAULT_VIEWPORT: ArtBounds = { minX: -HALF_WIDTH - 1, maxX: HALF_WIDTH + 1, minY: -12, maxY: 24 };

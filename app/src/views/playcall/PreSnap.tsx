@@ -45,7 +45,7 @@ function presnapViewport(b: ArtBounds, defense: boolean): ArtBounds {
 
 const PAD_HINTS: PadHint[] = [
   { buttons: ["LEFT", "RIGHT"], label: "Previous / Next" },
-  { buttons: ["A"], label: "Replay" },
+  { buttons: ["A"], label: "Run Play" },
   { buttons: ["B"], label: "Back" },
   { buttons: ["X"], label: "Flip" },
   { buttons: ["Y"], label: "Favorite" },
@@ -74,9 +74,9 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
       return EMPTY_ART;
     }
   }, [catalog, play, flipped, showPassPro]);
-  // The play runs when it opens (and when you step to the next one): players run their routes and freeze at the end;
-  // click the field, press Space or the Replay button to run it again.
-  const playback = usePlayback(art, `${item.id}|${flipped}`);
+  // The play only runs when asked (click the field, A on the controller, Enter or the Run button): players run their
+  // routes and freeze at the end. Opening a play or stepping to the next one starts at the pre-snap look.
+  const playback = usePlayback(art, `${item.id}|${flipped}`, false);
   const press = useRef<{ x: number; y: number } | undefined>(undefined);
   const defense = art.players[0]?.side === "defense" || play.side === "defense";
   const { minX, maxX, minY, maxY } = presnapViewport(art.bounds, defense);
@@ -97,7 +97,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
     [
       { id: "prev", label: "Previous play", keys: ["ArrowLeft"], repeat: true, enabled: !!prev, run: () => prev && onStep(prev) },
       { id: "next", label: "Next play", keys: ["ArrowRight"], repeat: true, enabled: !!next, run: () => next && onStep(next) },
-      { id: "replay", label: "Run the play again", keys: ["Enter"], run: () => playback.run() },
+      { id: "replay", label: "Run the play", keys: ["Enter"], run: () => playback.run() },
       { id: "back", label: "Back", keys: ["Escape"], run: onClose },
     ],
     { modal: true },
@@ -175,7 +175,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
             onPointerUp={(e) => {
               const p = press.current;
               press.current = undefined;
-              // A click (not a drag to pan) runs the play again.
+              // A click (not a drag to pan) runs the play.
               if (p && Math.hypot(e.clientX - p.x, e.clientY - p.y) < 5) playback.run();
             }}
           >
@@ -195,10 +195,10 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
             <Button variant="secondary" icon="chevronLeft" onClick={onClose} title="Back to the play call (Esc)">
               Back
             </Button>
-            <Button variant="secondary" icon="refresh" disabled={!playback.canRun} onClick={playback.run} title="Run the play again (Enter, or click the field)">
-              Replay
+            <Button variant="secondary" icon="refresh" disabled={!playback.canRun} onClick={playback.run} title="Run the play (Enter, A, or click the field)">
+              {playback.started ? "Replay" : "Run Play"}
             </Button>
-            <span className={s.hint}>Click the field to run it again · Scroll to zoom · drag to pan</span>
+            <span className={s.hint}>Click the field to run the play · Scroll to zoom · drag to pan</span>
             <PadHints hints={PAD_HINTS} className={s.hint} />
           </div>
           {list.length > 1 && (

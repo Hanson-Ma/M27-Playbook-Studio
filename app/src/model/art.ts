@@ -109,6 +109,14 @@ const RUN_EXTEND = 5;
 const HANDOFF_TURN = 1.5;
 const MIN_DROP = 0.8;
 const PULL_DEPTH = 0.8;
+/** Read-option mesh: the QB shifts this far toward the back (lateral, upfield) before he gives or keeps. */
+const MESH_X = 1.4;
+const MESH_Y = 0.4;
+/** The keeper that follows a mesh: direction away from the back (90 ∓ this) and length. */
+const KEEP_SPREAD = 40;
+const KEEP_LEN = 6;
+/** A QB move at least this far sideways is a boot / rollout / sprint-out: its path ends in an arrow. */
+const BOOT_LATERAL = 3;
 
 const LEG_TYPES = new Set(["RunRoute", "MoveDirection", "ReceiveHandoff", "RecievePitch", "HeadTurnRunRoute"]);
 const ROUTE_LEGS = new Set(["RunRoute", "HeadTurnRunRoute"]);
@@ -189,6 +197,99 @@ export function findBallcarriers(slots: Step[][]): Set<number> {
   return found;
 }
 
+// ───────────────────────────── option routes ─────────────────────────────
+
+/**
+ * The branches of an option route, as point lists after the stem end `at` (heading `h`). The library keeps the choices
+ * as references we can't read (optionRouteId is empty), but the route type names them: RR_Option_Hitch_Fade = hitch or
+ * fade, RR_Option_Curl_Post_Seam = curl, post or seam. In / out are relative to the field (toward / away from the
+ * nearer sideline); a receiver in the middle breaks the way he is already heading.
+ */
+const OPTION_TOKENS: Record<string, string> = {
+  curl: "hook",
+  hitch: "hook",
+  stop: "hook",
+  fade: "fade",
+  streak: "seam",
+  seam: "seam",
+  bender: "seam",
+  out: "out",
+  in: "in",
+  dig: "dig",
+  drag: "drag",
+  slant: "slant",
+  post: "post",
+  corner: "corner",
+  comeback: "comeback",
+  juke: "in",
+};
+
+export function optionBranches(routeType: string | undefined, at: Vec, h: number): Vec[][] {
+  const name = String(routeType ?? "").replace(/^AssignRouteType_/, "");
+  if (!/^RR_Option_/.test(name)) return [];
+  const tokens = name
+    .replace(/^RR_Option_/, "")
+    .split("_")
+    .map((t) => t.toLowerCase());
+  const kinds: string[] = [];
+  for (const t of tokens) {
+    const k = OPTION_TOKENS[t];
+    if (k && !kinds.includes(k)) kinds.push(k);
+  }
+  // HB choice routes and the generic "Option Route" name no shape: the usual two breaks.
+  if (!kinds.length) kinds.push("in", "out");
+  // Outward = away from the middle; a receiver on the hash goes the way his stem leans.
+  const lean = Math.cos(h * DEG);
+  const out: 1 | -1 = Math.abs(at.x) > 0.5 ? (at.x > 0 ? 1 : -1) : lean >= 0 ? 1 : -1;
+  const toward = (outward: boolean, upDeg: number) => (outward === (out === 1) ? upDeg : 180 - upDeg); // upDeg: angle above the sideline direction
+  const leg = (dir: number, d: number): Vec => add(at, polar(dir, d));
+  const result: Vec[][] = [];
+  for (const k of kinds) {
+    switch (k) {
+      case "hook": {
+        const pts: Vec[] = [leg(h, 0.5)];
+        const side = out === 1 ? -1 : 1; // hooks bend back toward the QB, inside
+        for (const turn of HOOK_TURNS) pts.push(add(pts[pts.length - 1], polar(h + side * turn, HOOK_SEG)));
+        result.push(pts);
+        break;
+      }
+      case "fade":
+        result.push([leg(toward(true, 80), 14)]);
+        break;
+      case "seam":
+        result.push([leg(90, 14)]);
+        break;
+      case "out":
+        result.push([leg(toward(true, 8), 8)]);
+        break;
+      case "in":
+        result.push([leg(toward(false, 8), 9)]);
+        break;
+      case "dig":
+        result.push([leg(toward(false, 3), 11)]);
+        break;
+      case "drag":
+        result.push([leg(toward(false, 0), 13)]);
+        break;
+      case "slant":
+        result.push([leg(toward(false, 45), 8)]);
+        break;
+      case "post":
+        result.push([leg(toward(false, 60), 14)]);
+        break;
+      case "corner":
+        result.push([leg(toward(true, 60), 14)]);
+        break;
+      case "comeback": {
+        const top = leg(h, 1.5);
+        result.push([top, add(top, polar(toward(true, -60), 5))]);
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 // ───────────────────────────── per-slot walker ─────────────────────────────
 
 interface Role {
@@ -209,6 +310,8 @@ interface Shared {
   olRunDir: number;
   /** Where the QB's option keep ends (pitch men follow it), else the QB's snap spot. */
   qbRef?: Vec;
+  /** Side the QB meshes toward on a read option: +1 right, −1 left (where the back runs). */
+  meshSide: 1 | -1;
 }
 
 interface Pen {
@@ -218,6 +321,8 @@ interface Pen {
   label?: string;
   /** Last ReceiverCut after the last leg (a cut that ends the route). */
   endCut?: { cut: string; dir: string };
+  /** A QB path that includes a boot / rollout (drawn with an arrow; drops stay plain). */
+  boot?: boolean;
 }
 
 /** Walks one slot's steps with a cursor + heading, emitting paths (and zones) into `sh`. */
@@ -236,6 +341,7 @@ class SlotWalker {
     private readonly role: Role,
     start: Vec,
     private readonly sh: Shared,
+    private readonly routeType?: string,
   ) {
     this.cur = start;
     this.forward = role.defense ? 270 : 90;
@@ -294,7 +400,9 @@ class SlotWalker {
       const s = dir.includes("LEFT") ? 1 : dir.includes("RIGHT") ? -1 : polar(h + 90, 1).x * -this.cur.x >= 0 ? 1 : -1;
       for (const turn of HOOK_TURNS) this.lineTo(add(this.cur, polar(h + s * turn, HOOK_SEG)));
     }
-    this.emit(kind, kind === "qb" ? "none" : "arrow");
+    // QB drops, boots and rollouts end in an arrow too (a 1.5 yd handoff turn stays a plain stub under the QB).
+    const qbMoves = kind === "qb" && (pn.boot || pn.points.reduce((d, v, i) => (i ? d + len(sub(v, pn.points[i - 1])) : d), 0) >= 2);
+    this.emit(kind, kind === "qb" && !qbMoves ? "none" : "arrow");
   }
 
   private finishBlock(): void {
@@ -415,8 +523,14 @@ class SlotWalker {
           pn.vertices.push(v);
           break;
         }
-        case "GetOpen":
         case "OptionRoute":
+          // The stem is the common part; the game picks a branch by coverage. Show every one.
+          this.finishRoute();
+          optionBranches(this.routeType, this.cur, this.heading).forEach((alt, k) => {
+            this.sh.paths.push({ slot: this.role.slot, kind: "option", points: [this.cur, ...alt], cap: "arrow", dashed: true, alt: true, ...(k === 0 ? { label: "OPT" } : undefined) });
+          });
+          break;
+        case "GetOpen":
         case "ChaseBall":
           this.finishRoute();
           break;
@@ -432,7 +546,10 @@ class SlotWalker {
           break;
         case "QBScramble": {
           const v = qbDropVector(s);
-          if (v) this.lineTo(add(this.cur, v), i);
+          if (v) {
+            this.lineTo(add(this.cur, v), i);
+            if (Math.abs(v.x) >= BOOT_LATERAL) this.begin().boot = true;
+          }
           break;
         }
         case "HandOffTurn":
@@ -442,6 +559,20 @@ class SlotWalker {
           const rt = String(s.runType ?? "");
           this.lineTo(add(this.cur, polar(/LEFT/.test(rt) ? 165 : /RIGHT/.test(rt) ? 15 : this.heading, 4)), i);
           if (this.role.isQB) this.sh.qbRef = this.cur;
+          break;
+        }
+        case "OptionHandoff": {
+          // Read-option / RPO mesh: the QB rides toward the back; a keeper (RunEndZone after the mesh) runs away from him.
+          const side = this.sh.meshSide;
+          this.lineTo(add(this.cur, { x: side * MESH_X, y: MESH_Y }), i);
+          if (this.role.isQB) {
+            this.emit("qb", "none");
+            if (steps.slice(i + 1).some((x) => x.type === "RunEndZone")) {
+              this.lineTo(add(this.cur, polar(90 + side * KEEP_SPREAD, KEEP_LEN)), i);
+              this.sh.qbRef = this.cur;
+              this.emit("option", "arrow", { dashed: true, label: "KEEP" });
+            }
+          } else this.pen = null;
           break;
         }
         case "OptionFollow": {
@@ -633,6 +764,21 @@ function computeBounds(players: ArtPlayer[], paths: ArtPath[], zones: ArtZone[])
   return minX <= maxX ? { minX, maxX, minY, maxY } : { ...EMPTY_BOUNDS };
 }
 
+/** Which way the QB meshes on an option handoff: toward the back who gets the ball (his first leg, else where he stands). */
+function meshSideOf(normal: AlignmentPos[], carriers: ReadonlySet<number>, stepsOf: (i: number) => Step[]): 1 | -1 {
+  const qb = normal.findIndex((a) => glyphFor(a) === "qb");
+  const qx = qb >= 0 ? num(normal[qb].x, 0) : 0;
+  for (const slot of carriers) {
+    if (slot === qb) continue;
+    const leg = stepsOf(slot).find((s) => LEG_TYPES.has(s.type) && isNum(s.direction) && num(s.distance, 0) > 0);
+    const c = leg ? Math.cos(num(leg.direction, 90) * DEG) : 0;
+    if (Math.abs(c) > 0.15) return c > 0 ? 1 : -1;
+    const dx = num(normal[slot]?.x, 0) - qx;
+    if (Math.abs(dx) > 0.3) return dx > 0 ? 1 : -1;
+  }
+  return 1;
+}
+
 /**
  * Compute the art for a set + per-slot steps (slot i ↔ set.movements.Normal[i]). Extra slots without a player are
  * ignored; players without steps just stand. `opts.vip` marks the primary route; `opts.runHole` aims RUN_HOLE blocks.
@@ -653,7 +799,7 @@ export function computeArt(set: SetDef, slots: Step[][], opts: ArtOptions = {}):
   const carriers = findBallcarriers(normal.map((_, i) => stepsOf(i)));
   const olRunDir = carriers.size && runHole > 0 ? (runHole % 2 === 1 ? 110 : 70) : 90;
 
-  const sh: Shared = { paths: [], zones: [], runHole, showPassPro: !!opts.showPassPro, olRunDir };
+  const sh: Shared = { paths: [], zones: [], runHole, showPassPro: !!opts.showPassPro, olRunDir, meshSide: meshSideOf(normal, carriers, stepsOf) };
   const players: ArtPlayer[] = [];
 
   normal.forEach((a, slot) => {
@@ -694,7 +840,7 @@ export function computeArt(set: SetDef, slots: Step[][], opts: ArtOptions = {}):
     }
     if (at.x !== base.x || at.y !== base.y) sh.paths.push({ slot, kind: "realign", points: [base, at], cap: "none" });
     if (role.isQB && !sh.qbRef) sh.qbRef = at;
-    new SlotWalker(role, at, sh).run(steps);
+    new SlotWalker(role, at, sh, opts.routeTypes?.[slot]).run(steps);
   });
 
   const art: PlayArt = { players, paths: sh.paths, zones: sh.zones, bounds: computeBounds(players, sh.paths, sh.zones), flipped: false };
@@ -733,6 +879,7 @@ export function artForPlay(catalog: Catalog, play: ResolvedPlay, opts: ArtOption
     preset: opts.preset,
     showPassPro: !!opts.showPassPro,
     side: opts.side ?? artSideForPlay(catalog, play),
+    routeTypes: play.slots.map((sl) => sl.routeType),
   };
   const key = [
     play.source === "library" ? "L" : `C${catalog.version}`,

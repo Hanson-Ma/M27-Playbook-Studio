@@ -9,13 +9,14 @@ import { usePadHandler, type PadPress } from "../../input/gamepad";
 import type { PlaybookSpec, ResolvedPlay } from "../../model/types";
 import { CONCEPTS_PATH } from "../../model/conceptsDoc";
 import { useCatalog, useLibrary } from "../../state/library";
-import { getRoute, href, navigate, useRoute } from "../../state/router";
+import { getRoute, goBack, href, navigate, useBackTarget, useRoute } from "../../state/router";
 import { DEFAULT_PLAYBOOK, useSettings } from "../../state/settings";
 import { useDocsOfKind, useWorkspace, type DocEntry } from "../../state/workspace";
 import type { ConceptsDoc } from "../../model/types";
 import { Button, EmptyState, SearchSelect, Spinner, toast, useHelpTopic, type SearchOption } from "../../ui";
 import { GameScreen, type HintItem } from "./GameScreen";
 import {
+  cardsFocused,
   describe,
   initialState,
   openCards,
@@ -197,7 +198,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     goTab(ids[(ids.indexOf(st.tab) + d + ids.length) % ids.length]);
   };
 
-  const cardsActive = !!view && view.showCards && (st.tab !== "formation" || st.inPlays);
+  const cardsActive = !!view && view.showCards && cardsFocused(st);
   const selectedCard: CallPlay | undefined = cardsActive ? view?.cards[st.play] : undefined;
 
   const toggleFavorite = (item: CallPlay) => {
@@ -229,12 +230,12 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
         toast.info(`${f.name}: From the Template Save`, { detail: "Its sets come from the template save, once it has been read.", duration: 3000 });
         return;
       }
-      setSt((cur) => openCards(ctx, cur));
     }
+    setSt((cur) => openCards(ctx, cur));
   };
   const back = () => {
-    if (st.tab === "formation" && st.inPlays) setSt((cur) => closeCards(cur));
-    else navigate(href("playbook", path));
+    if (st.inPlays) setSt((cur) => closeCards(cur));
+    else goBack("playcall", href("playbook", path));
   };
   const random = () => ctx && setSt((cur) => randomPlay(ctx, cur));
   const clickCard = (i: number) => {
@@ -242,7 +243,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     if (i === st.play && cardsActive) {
       const item = view.cards[i];
       if (item) openPlay(item);
-    } else setSt((cur) => ({ ...cur, play: i }));
+    } else setSt((cur) => ({ ...cur, play: i, inPlays: true }));
   };
 
   // ── pre-snap ──
@@ -309,27 +310,29 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
   );
 
   const hints: HintItem[] = [
-    ...(st.tab === "formation" && st.inPlays ? [{ id: "back", label: "Back", pad: ["B" as const], key: "Esc", onClick: back }] : []),
+    ...(st.inPlays ? [{ id: "back", label: "Back", pad: ["B" as const], key: "Esc", onClick: back }] : []),
     { id: "select", label: cardsActive ? "Call Play" : "Select", pad: ["A"], key: "Enter", onClick: choose },
     { id: "flip", label: nav.flip ? "Unflip Plays" : "Flip Plays", pad: ["X"], onClick: toggleFlip },
     { id: "random", label: "Random Play", pad: ["Y"], onClick: random },
     { id: "tabs", label: "Tabs", pad: ["LB", "RB"], key: "PgUp", onClick: () => stepTab(1) },
   ];
 
-  const wheel = (d: 1 | -1, list: boolean) => {
+  // The wheel scrolls whatever it is over: the formation list, the card column (up and down), else the sets.
+  const wheel = (d: 1 | -1, zone: "list" | "cards" | "other") => {
     if (!ctx || !view) return;
-    if (list) return setSt((cur) => selectRow(cur, (view.row + d + Math.max(1, view.rows.length)) % Math.max(1, view.rows.length)));
-    if (cardsActive) return move(d === 1 ? "RIGHT" : "LEFT");
+    if (zone === "list") return setSt((cur) => selectRow(cur, (view.row + d + Math.max(1, view.rows.length)) % Math.max(1, view.rows.length)));
+    if (zone === "cards" && view.showCards) return setSt((cur) => step(ctx, cur.tab === "favorites" || cur.tab === "recent" ? cur : { ...cur, inPlays: true }, d === 1 ? "DOWN" : "UP"));
     if (st.tab === "formation" || st.tab === "audibles") setSt((cur) => stepSet(ctx, cur, d));
   };
 
+  const backTo = useBackTarget("playcall", href("playbook", path));
   const bookName = spec?.name || basename(doc.path);
   return (
     <div className={s.page}>
       <header className={s.top}>
         <div className={s.topLeft}>
-          <Button variant="ghost" icon="chevronLeft" onClick={() => navigate(href("playbook", path))} title="Back to this playbook in the builder">
-            Back to Playbook
+          <Button variant="ghost" icon="chevronLeft" onClick={() => goBack("playcall", href("playbook", path))} title={`Back to the ${backTo.label} (Esc)`}>
+            Back to {backTo.label}
           </Button>
           <BookSelect docs={docs} path={path} />
         </div>

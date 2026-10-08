@@ -1,10 +1,12 @@
-// The play-select screen's state machine (pure TS), modelled on Madden 27's own play-call flow:
+// The play-select screen's state machine (pure TS), modelled on Madden 27's own play-call flow, with the plays in a
+// vertical column on the right (so scrolling within a formation / group is up and down):
 //   FORMATION tab   a list of formations on the left; ↑ ↓ change formation, ← → cycle its sets (with wrap-around) in
-//                   the set bar, Enter opens the set's plays as cards (3 visible), ← → move along them, ↑ ↓ jump a
-//                   page, Back returns to the set bar.
-//   CONCEPT / PLAY TYPE   a list of groups on the left, the group's plays as cards straight away.
-//   AUDIBLES        the formation list and set bar, with the set's audible plays as cards.
-//   FAVORITES / RECENT    just the cards.
+//                   the set bar, Enter opens the set's plays as a column of cards (3 visible): ↑ ↓ move along it, ← →
+//                   switch set, Back returns to the set bar.
+//   CONCEPT / PLAY TYPE   a list of groups on the left, the group's plays as cards straight away: ↑ ↓ change group,
+//                   → moves into the cards (↑ ↓ along them), ← back to the list.
+//   AUDIBLES        the formation list and set bar like FORMATION, the set's audible plays as the cards.
+//   FAVORITES / RECENT    just the cards, ↑ ↓ along them.
 import type { AudibleSlot } from "../../model/types";
 import type { CallBook, CallFormation, CallGroup, CallPlay, CallSet, ConceptGrouping, PlayCallTab } from "./playcallModel";
 
@@ -27,11 +29,14 @@ export interface ScreenState {
   row: number;
   /** Selected set per formation row (formation / audibles tabs). */
   sets: Record<number, number>;
-  /** Formation tab: false = the set bar + formation dots, true = the set's play cards. */
+  /** Focus on the cards: false = the left list / set bar (formation tab: the formation dots), true = the play cards. */
   inPlays: boolean;
   /** Selected card. */
   play: number;
 }
+
+/** Whether the cards hold the focus (↑ ↓ move along them): always on favorites / recent, else after Enter / →. */
+export const cardsFocused = (st: ScreenState): boolean => st.tab === "favorites" || st.tab === "recent" || st.inPlays;
 
 export const initialState = (tab: PlayCallTab = "formation"): ScreenState => ({ tab, row: 0, sets: {}, inPlays: false, play: 0 });
 
@@ -158,19 +163,22 @@ export type Dir = "UP" | "DOWN" | "LEFT" | "RIGHT";
 /** One step of the d-pad. */
 export function step(ctx: Ctx, st: ScreenState, dir: Dir): ScreenState {
   const v = describe(ctx, st);
-  const inCards = v.showCards && (st.tab !== "formation" || st.inPlays);
-  if (!inCards) {
-    // formation tab, set bar: ↑ ↓ formations, ← → sets (wrapping)
-    if (dir === "UP" || dir === "DOWN") return { ...st, row: wrap(v.row + (dir === "DOWN" ? 1 : -1), v.rows.length), play: 0 };
+  const sets = st.tab === "formation" || st.tab === "audibles";
+  const nextSet = (d: 1 | -1): ScreenState => {
     if (!v.sets.length) return st;
-    const next = wrap(v.setIndex + (dir === "RIGHT" ? 1 : -1), v.sets.length);
-    return { ...st, sets: { ...st.sets, [v.row]: next }, play: 0 };
+    return { ...st, sets: { ...st.sets, [v.row]: wrap(v.setIndex + d, v.sets.length) }, play: 0 };
+  };
+  if (!cardsFocused(st)) {
+    // The list / set bar: ↑ ↓ rows. ← → cycle the sets (formation / audibles); on a group list → goes into the cards.
+    if (dir === "UP" || dir === "DOWN") return { ...st, row: wrap(v.row + (dir === "DOWN" ? 1 : -1), v.rows.length), play: 0 };
+    if (sets) return nextSet(dir === "RIGHT" ? 1 : -1);
+    return dir === "RIGHT" && v.cards.length ? { ...st, inPlays: true, play: 0 } : st;
   }
-  const n = v.cards.length;
-  if (dir === "LEFT" || dir === "RIGHT") return { ...st, play: clamp(st.play + (dir === "RIGHT" ? 1 : -1), 0, Math.max(0, n - 1)) };
-  // ↑ ↓: a page of cards on the formation tab; elsewhere the left list (when there is one), else a page
-  if (st.tab !== "formation" && v.hasList) return { ...st, row: wrap(v.row + (dir === "DOWN" ? 1 : -1), v.rows.length), play: 0 };
-  return { ...st, play: clamp(st.play + (dir === "DOWN" ? VISIBLE : -VISIBLE), 0, Math.max(0, n - 1)) };
+  // The cards: ↑ ↓ move along the column.
+  if (dir === "UP" || dir === "DOWN") return { ...st, play: clamp(st.play + (dir === "DOWN" ? 1 : -1), 0, Math.max(0, v.cards.length - 1)) };
+  if (sets) return nextSet(dir === "RIGHT" ? 1 : -1); // switch set without leaving the cards
+  if (dir === "LEFT" && v.hasList) return { ...st, inPlays: false };
+  return st;
 }
 
 /** Choose a row with the mouse (leaves the card view on the formation tab). */
@@ -182,19 +190,20 @@ export function selectRow(st: ScreenState, row: number): ScreenState {
 export function stepSet(ctx: Ctx, st: ScreenState, delta: 1 | -1): ScreenState {
   const v = describe(ctx, st);
   if (!v.sets.length) return st;
-  return { ...st, sets: { ...st.sets, [v.row]: wrap(v.setIndex + delta, v.sets.length) }, inPlays: st.tab === "formation" ? false : st.inPlays, play: 0 };
+  return { ...st, sets: { ...st.sets, [v.row]: wrap(v.setIndex + delta, v.sets.length) }, play: 0 };
 }
 
-/** Enter: open the set's plays (formation tab). Returns the same state when there is nothing to open. */
+/** Enter: put the focus on the cards (the set's plays, the group's plays, the audibles). Returns the same state when there is nothing to open. */
 export function openCards(ctx: Ctx, st: ScreenState): ScreenState {
+  if (cardsFocused(st)) return st;
   const v = describe(ctx, st);
-  if (st.tab === "formation" && !st.inPlays && v.set && v.set.plays.length) return { ...st, inPlays: true, play: 0 };
+  if (v.cards.length) return { ...st, inPlays: true, play: 0 };
   return st;
 }
 
-/** Back: from the cards to the set bar (formation tab). */
+/** Back: from the cards to the list / set bar. */
 export function closeCards(st: ScreenState): ScreenState {
-  return st.tab === "formation" && st.inPlays ? { ...st, inPlays: false } : st;
+  return st.inPlays && st.tab !== "favorites" && st.tab !== "recent" ? { ...st, inPlays: false } : st;
 }
 
 /** Switch tab; the new tab starts at its top. */
@@ -210,8 +219,8 @@ export function listTop(prev: number, row: number, count: number): number {
   return clamp(top, 0, Math.max(0, count - ROWS_VISIBLE));
 }
 
-/** The first visible card index that keeps `play` in view (the cards scroll a card at a time). */
-export function cardsLeft(prev: number, play: number, count: number): number {
+/** The first visible card index that keeps `play` in view (the column scrolls a card at a time). */
+export function cardsTop(prev: number, play: number, count: number): number {
   let left = prev;
   if (play < left) left = play;
   if (play >= left + VISIBLE) left = play - VISIBLE + 1;
@@ -240,8 +249,8 @@ export function randomPlay(ctx: Ctx, st: ScreenState, rnd: () => number = Math.r
     const start = Math.floor(rnd() * v.sets.length);
     let si = start;
     for (let i = 0; i < v.sets.length && !(st.tab === "audibles" ? audiblePlays(v.sets[si]) : v.sets[si].plays).length; i++) si = (si + 1) % v.sets.length;
-    next = { ...next, sets: { ...next.sets, [row]: si }, inPlays: st.tab === "formation" };
+    next = { ...next, sets: { ...next.sets, [row]: si } };
   }
   const cards = describe(ctx, next).cards;
-  return { ...next, play: cards.length ? Math.floor(rnd() * cards.length) : 0 };
+  return { ...next, inPlays: cards.length > 0, play: cards.length ? Math.floor(rnd() * cards.length) : 0 };
 }

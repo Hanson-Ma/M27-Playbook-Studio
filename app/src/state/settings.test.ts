@@ -23,7 +23,9 @@ describe("migrateSettings v1 → v2", () => {
   });
 
   it("leaves v2 state alone and survives garbage", () => {
-    expect(migrateSettings({ audibleStyle: "ps", lastPlaybook: "playbooks/studio-lib.json" }, 2)).toEqual({ audibleStyle: "ps", lastPlaybook: "playbooks/studio-lib.json" });
+    expect(migrateSettings({ audibleStyle: "ps", lastPlaybook: "playbooks/studio-lib.json" }, 3)).toEqual({ audibleStyle: "ps", lastPlaybook: "playbooks/studio-lib.json" });
+    expect(migrateSettings({ cardColumns: 6 }, 2).cardColumns).toBe(3);
+    expect(migrateSettings({ cardColumns: 9 }, 3).cardColumns).toBe(9);
     expect(migrateSettings(null, 0)).toMatchObject({ audibleStyle: "xbox", lastPlaybook: DEFAULT_PLAYBOOK });
   });
 });

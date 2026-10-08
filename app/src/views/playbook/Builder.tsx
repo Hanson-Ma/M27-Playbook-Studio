@@ -6,20 +6,20 @@
 import { Component, useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, type ErrorInfo, type ReactNode } from "react";
 import { useActions } from "../../input/actions";
 import type { Catalog } from "../../model/catalog";
-import { bookIds, parseWhere, whereOf, type EntryRef } from "../../model/playbook";
+import { bookIds, defaultPlaybookPath, parseWhere, whereOf, type EntryRef } from "../../model/playbook";
 import { playbookIssues, resolvePlaybook } from "../../model/resolveBook";
 import type { PlaybookSpec } from "../../model/types";
 import { useCatalog, useLibrary } from "../../state/library";
 import { navigate, useRoute } from "../../state/router";
 import { useSettings } from "../../state/settings";
-import { useDoc, useWorkspace } from "../../state/workspace";
+import { useDoc, useDocsOfKind, useWorkspace } from "../../state/workspace";
 import { Button, EmptyState, Menu, Spinner, SplitPane, toast, type MenuItem } from "../../ui";
 import { BuilderContext, DragHandlersContext, MenuOpener, buildNodes, type BookNode, type BuilderData } from "./context";
 import { customMarkers } from "./custom";
 import { DragLayer, halfOf, type DragHandlers, type DragPayload, type DropCheck, type DropTargetInfo } from "./dnd";
 import { AddPlaysDrawer } from "./AddPlays";
 import { BuilderHeader } from "./BuilderHeader";
-import { PlaybooksMenuButton } from "./books";
+import { PlaybooksMenuButton, bookHref } from "./books";
 import { Inspector } from "./Inspector";
 import { LeftPane } from "./LeftPane";
 import { nodeMenu } from "./menus";
@@ -40,6 +40,15 @@ export function Builder({ path }: { path: string }) {
   useEffect(() => {
     useBuilderUi.getState().open(path);
   }, [path]);
+
+  // A stale route naming a plays / sets file (a remembered tab, an old link) isn't a dead end: open the default playbook.
+  const books = useDocsOfKind<PlaybookSpec>("playbook");
+  const stray = ready && !loading && !!doc && doc.kind !== "playbook";
+  useEffect(() => {
+    if (!stray) return;
+    const to = defaultPlaybookPath(useSettings.getState().lastPlaybook, books.map((d) => d.path));
+    if (to && to !== path) navigate(bookHref(to), { replace: true });
+  }, [stray, books, path]);
 
   const exists = !!doc && !doc.error && isPlaybookShape(doc.kind, doc.data);
   useEffect(() => {

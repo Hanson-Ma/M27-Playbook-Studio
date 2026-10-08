@@ -11,6 +11,7 @@
 .head {
   flex: none;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--s3);
   padding: var(--s3) var(--s4);
@@ -29,7 +30,7 @@
   line-height: 1.1;
 }
 .titles {
-  flex: 1;
+  flex: 1 1 150px;
   min-width: 0;
 }
 .title {
@@ -60,9 +61,11 @@
 }
 .headActions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--s3);
-  flex: none;
+  margin-left: auto;
 }
 .customTag {
   display: inline-block;
@@ -94,7 +97,7 @@
   scroll-padding: var(--s3) 0 var(--s4);
 }
 .colPicker {
-  margin-left: auto;
+  flex: none;
 }
 .cardsScroll > .sectionTitle {
   padding-left: 0;

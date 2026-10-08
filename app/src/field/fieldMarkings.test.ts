@@ -35,8 +35,8 @@ describe("fieldMarkings with a depth scale", () => {
   const range = fieldYRange(35);
 
   it("keeps the true-scale paint unchanged and caches per scale", () => {
-    const a = fieldMarkings({ minY: -15, maxY: 30 });
-    expect(fieldMarkings({ minY: -15, maxY: 30, depth: TRUE_DEPTH })).toBe(a);
+    const a = fieldMarkings({ minY: -15, maxY: 30, los: 35 });
+    expect(fieldMarkings({ minY: -15, maxY: 30, los: 35, depth: TRUE_DEPTH })).toBe(a);
     const nums = numberYs(flatten(a));
     // LOS on the 35: numbers on the 20, 30, 40, 50, 40 (y −15 … 25) on both sides, at SVG y = −y.
     expect(nums.sort((x, y) => x - y)).toEqual([-25, -25, -15, -15, -5, -5, 5, 5, 15, 15]);

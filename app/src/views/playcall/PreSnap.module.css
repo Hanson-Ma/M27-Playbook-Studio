@@ -4,9 +4,19 @@
   inset: 0;
   z-index: 890;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 380px;
+  grid-template-columns: minmax(0, 1fr) 430px;
   gap: var(--s5);
   padding: var(--s5) var(--s6) var(--s6);
+  /* the sheet reads from across the room: bigger small text than the editor screens */
+  --fs-xs: 13.5px;
+  --fs-sm: 15px;
+  --fs-md: 16.5px;
+  --fs-lg: 18.5px;
+  --fd-xs: 12.5px;
+  --fd-sm: 14.5px;
+  --fd-md: 16px;
+  --fd-lg: 18px;
+  --fd-xl: 21px;
   background:
     radial-gradient(60% 50% at 30% 0%, color-mix(in srgb, var(--blue) 10%, transparent), transparent 70%),
     color-mix(in srgb, var(--bg-0) 93%, transparent);
@@ -63,7 +73,7 @@
   pointer-events: auto;
 }
 .hint {
-  padding: 4px 9px;
+  padding: 7px 14px;
   border-radius: var(--r-sm);
   background: var(--scrim);
   color: var(--text-3);
@@ -105,8 +115,8 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--s3);
-  padding: var(--s5);
+  gap: var(--s4);
+  padding: var(--s6);
   border-radius: var(--r-xl);
   background: color-mix(in srgb, var(--bg-1) 90%, transparent);
   border: 1px solid var(--line);

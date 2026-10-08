@@ -1,16 +1,16 @@
 # Preview in Game
 
 **Preview in Game** shows a playbook on Madden 27's own play-select screen, with the same layout and the same flow:
-the tabs across the middle, the formation list on the left, the set bar with the formation under it, and the play cards
-three at a time. Use it to see how your playbook will feel to call from, before you export.
+the tabs across the middle, the formation list on the left, the set bar with the formation under it, and the plays as
+a column of cards on the right. Use it to see how your playbook will feel to call from, before you export.
 
 ## Open the Preview
 
 1. In **Playbook**, open the playbook you want to see.
 2. Click **Preview in Game** at the top right.
 
-The playbook menu at the top left of the preview switches to another playbook. **Back to Playbook** returns to the
-editor. The preview always shows your file order; Madden sorts formations by how often you call them, so the game's
+The playbook menu at the top left of the preview switches to another playbook. **Back** returns to wherever you came from
+(the editor, or the Overview if you opened the preview from there). The preview always shows your file order; Madden sorts formations by how often you call them, so the game's
 order can differ.
 
 ![The Formation tab: one card per formation, three per page.](/guide/preview-formations.png)
@@ -19,10 +19,12 @@ order can differ.
 
 - **↑ ↓** pick a formation in the list. **← →** (or the arrows on the set bar) cycle through its sets; after the last
   set it wraps back to the first, like the game.
-- **Enter** (or a click on the set bar or the formation) opens the set's plays as cards. **← →** move along them and
-  **↑ ↓** jump a page. **Esc** goes back to the set bar.
-- **Enter** on a card (or a second click) calls the play and opens its pre-snap view. There the players **run
-  their routes and freeze at the end**; click the field, press **Enter** or **Replay** to run it again.
+- **Enter** (or a click on the set bar or the formation) opens the set's plays as a column of cards. **↑ ↓** (or the
+  mouse wheel) scroll down it one card at a time, **← →** switch to the previous or next set. **Esc** goes back to the
+  set bar.
+- **Enter** on a card (or a second click) calls the play and opens its pre-snap view. The play
+  **only runs when you ask**: click the field, press **A** on a controller, **Enter**, or hit **Run Play** and the players
+  run their routes (the QB drops back, a back takes the handoff) and freeze at the end; run it again the same way.
 - **PgUp / PgDn** (or the tab names) switch tabs. The big field at the top always shows the play or set you have
   selected.
 
@@ -37,7 +39,7 @@ legend. It works on every screen, not just the preview:
 
 | Button | What it does |
 |:--|:--|
-| **D-pad** or **left stick** | Moves between cards and controls. On the play-call screen ← → walk the cards and turn the page at the ends |
+| **D-pad** or **left stick** | Moves between cards and controls. On the play-call screen ↑ ↓ walk the card column and ← → switch sets |
 | **A** (✕) | Opens the card or presses the button that has the highlight |
 | **B** (○) | Goes back up one level, closes a menu or dialog |
 | **LB / RB** | Switch tabs: the play-call tabs here, the top bar's tabs everywhere else |
