@@ -88,17 +88,6 @@ export function ValidationStrip() {
         {meter("CPU Rows", c.cpuRows, tpl.cpuRows + tpl.inherited, limits.cpuRows, { inherited: tpl.inherited })}
       </div>
       <div className={s.status}>
-        {groups.mod.length > 0 && (
-          <button
-            type="button"
-            className={cx(s.pill, s.mod, open?.bucket === "mod" && s.pillOpen)}
-            title="Custom plays and plays outside the game's global list need the Playbook Studio mod (Export builds it)"
-            onClick={(e) => toggle("mod", e.currentTarget)}
-          >
-            <Icon name="info" size={14} />
-            {groups.mod.length} Play{groups.mod.length === 1 ? "" : "s"} Need{groups.mod.length === 1 ? "s" : ""} the Mod
-          </button>
-        )}
         <button
           type="button"
           className={cx(s.pill, status.tone, open?.bucket === "problems" && s.pillOpen)}

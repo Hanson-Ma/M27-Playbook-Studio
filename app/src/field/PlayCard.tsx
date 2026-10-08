@@ -103,7 +103,6 @@ export const PlayCard = memo(function PlayCard(props: PlayCardProps) {
 
   const sub = subtitle ?? cardSubtitle(play, catalog);
   const type = playTypeInfo(play.playType);
-  const needsMod = autoBadges && !play.global;
   const custom = autoBadges && play.source === "custom";
 
   const onKeyDown = onClick
@@ -164,14 +163,9 @@ export const PlayCard = memo(function PlayCard(props: PlayCardProps) {
           {type.label}
         </span>
         {stat !== undefined && stat !== null && stat !== false && <span className={styles.stat}>{stat}</span>}
-        {(custom || needsMod || badges) && (
+        {(custom || badges) && (
           <span className={styles.badges}>
             {custom && <span className={`${styles.badge} ${styles.custom}`}>Custom</span>}
-            {needsMod && (
-              <span className={`${styles.badge} ${styles.needsMod}`} title="Not in the global play sheet: needs pbstudio.fbmod">
-                Needs Mod
-              </span>
-            )}
             {badges}
           </span>
         )}

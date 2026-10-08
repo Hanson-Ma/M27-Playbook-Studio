@@ -19,7 +19,7 @@ import type { ArtBounds, PlayArt, ResolvedPlay } from "../../model/types";
 import { useCatalog } from "../../state/library";
 import { href, navigate } from "../../state/router";
 import { useSettings } from "../../state/settings";
-import { Button, Icon, IconButton, NeedsModTag, PlayTypeTag, Tag, cx } from "../../ui";
+import { Button, Icon, IconButton, PlayTypeTag, Tag, cx } from "../../ui";
 import { cpuRows, neighbor, runSchemeLabel, type CallPlay } from "./playcallModel";
 import s from "./PreSnap.module.css";
 
@@ -226,7 +226,6 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
                From Template
               </Tag>
             )}
-            {!play.global && <NeedsModTag />}
             {flipped && (
               <Tag tone="neutral" icon="flip">
                 Flipped

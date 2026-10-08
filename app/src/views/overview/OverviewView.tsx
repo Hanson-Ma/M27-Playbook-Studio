@@ -18,6 +18,7 @@ import { Button, EmptyState, Icon, IconButton, Spinner, TabBar, cx, toast, type 
 import { nextFrame } from "../../ui/frames";
 import type { CallPlay } from "../playcall/playcallModel";
 import { PreSnap } from "../playcall/PreSnap";
+import { LiteCard } from "./LiteCard";
 import { useCallBook } from "../playcall/useCallBook";
 import {
   COL_PAD,
@@ -40,6 +41,9 @@ import {
   type View,
 } from "./overviewModel";
 import s from "./Overview.module.css";
+
+/** Below this zoom the overview draws cheap cards (routes and players only). */
+const LITE_BELOW = 0.5;
 
 const basename = (p: string) => p.slice(p.lastIndexOf("/") + 1);
 
@@ -427,7 +431,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
   );
 
   // ── what to draw ──
-  const world = useMemo(() => worldRect(committed, dims.w, dims.h, 0.35), [committed, dims]);
+  const world = useMemo(() => worldRect(committed, dims.w, dims.h, 0.15), [committed, dims]);
   const plays = useMemo(() => (dims.w ? layout.plays.filter((p) => intersects(p, world)) : []), [layout, world, dims.w]);
   const sets = useMemo(() => (dims.w ? layout.sets.filter((x) => intersects(x, world)) : []), [layout, world, dims.w]);
   const selected = selId ? layout.byId.get(selId) : undefined;
@@ -505,7 +509,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
               </div>
             ))}
             {plays.map((p) => (
-              <WallCard key={p.id} p={p} flip={flip} ballSpot={ballSpot} selected={p.id === selId} />
+              <WallCard key={p.id} p={p} lite={committed.k < LITE_BELOW} flip={flip} ballSpot={ballSpot} selected={p.id === selId} />
             ))}
             {selected && <div className={s.ring} style={{ left: selected.x, top: selected.y, width: selected.w, height: selected.h }} aria-hidden />}
           </div>
@@ -544,12 +548,14 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
 
 interface CardProps {
   p: OvPlay;
+  /** Zoomed out: draw the cheap card. */
+  lite: boolean;
   flip: boolean;
   ballSpot: BallSpot;
   selected: boolean;
 }
 
-const WallCard = memo(function WallCard({ p, flip, ballSpot, selected }: CardProps) {
+const WallCard = memo(function WallCard({ p, lite, flip, ballSpot, selected }: CardProps) {
   const item = p.item;
   const play = item.play;
   const box: CSSProperties = { left: p.x, top: p.y, width: p.w, height: p.h };
@@ -563,6 +569,13 @@ const WallCard = memo(function WallCard({ p, flip, ballSpot, selected }: CardPro
     );
   }
   const type = playTypeInfo(play.playType);
+  if (lite) {
+    return (
+      <div className={s.card} style={box} data-ov-id={p.id} data-selected={selected || undefined}>
+        <LiteCard play={play} flip={flip && play.canFlip} />
+      </div>
+    );
+  }
   return (
     <div className={s.card} style={box} data-ov-id={p.id} data-selected={selected || undefined}>
       <PlayCard play={play} size="md" flip={flip && play.canFlip} ballSpot={ballSpot} autoBadges={false} subtitle={type.long} />

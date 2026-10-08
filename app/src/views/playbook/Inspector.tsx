@@ -89,11 +89,6 @@ function PlayInspector({ node }: { node: BookNode }) {
             Custom
           </Tag>
         )}
-        {play && !play.global && play.source !== "custom" && (
-          <Tag size="sm" tone="needsMod">
-            Needs Mod
-          </Tag>
-        )}
         <span className={s.audFact}>{slot && [1, 2, 3, 4].includes(slot) ? `${AUDIBLE_CATEGORY[slot]} Audible` : "No Audible"}</span>
       </div>
       {play?.problems.length ? <div className={s.problem}>{play.problems.join("; ")}</div> : null}

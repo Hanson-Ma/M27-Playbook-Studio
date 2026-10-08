@@ -9,7 +9,7 @@ import { getSet, togglePlay } from "../../model/playbook";
 import type { AudibleSlot, ConceptCategory, ResolvedPlay } from "../../model/types";
 import { PlayCard } from "../../field";
 import { navigate } from "../../state/router";
-import { Button, Checkbox, Chip, EmptyState, Icon, NeedsModTag, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
+import { Button, Checkbox, Chip, EmptyState, Icon, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
 import { CategoryChips, CategoryDots, playCategories, useCategoryFilter, useConcepts } from "./categories";
 import { useBuilder, useDragHandlers, useOpenMenu, type BookNode } from "./context";
 import { beginDrag } from "./dnd";
@@ -415,8 +415,6 @@ function ToggleList({ setNode }: { setNode: BookNode }) {
                 <Tag size="sm" tone="custom">
                   Custom
                 </Tag>
-              ) : !r.play.global ? (
-                <NeedsModTag size="sm" />
               ) : null}
               {r.audible && <AudibleGlyph slot={r.audible} size="sm" />}
               {disabled && <Icon name="warning" size={13} className={s.warn} />}
