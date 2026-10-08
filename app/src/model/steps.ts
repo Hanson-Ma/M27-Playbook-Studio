@@ -124,3 +124,20 @@ export function stepSummary(step: Step): string {
       return step.type.replace(/([a-z])([A-Z])/g, "$1 $2");
   }
 }
+
+/**
+ * What a `new` assignment spec keeps of its template (tools/PlayDump/PlayBuilder.cs BuildAssignment): `drop` removes
+ * those step types first, then `keep` (N ≥ 0 = the first N, −1 = every step before the terminating None) leaves the
+ * leading steps; `prepend` steps go in front of everything. Result = [...prepend, ...kept, ...authored, None].
+ */
+export function templateKept(
+  source: Step[] | undefined,
+  spec: { keep?: unknown; drop?: unknown },
+): { kept: Step[]; real: number; keep: number } {
+  const drop = new Set(Array.isArray(spec.drop) ? spec.drop.filter((d): d is string => typeof d === "string") : []);
+  const chain = (source ?? []).filter((s) => !drop.has(s.type));
+  const real = chain.length - (chain.length && chain[chain.length - 1].type === "None" ? 1 : 0);
+  const asked = typeof spec.keep === "number" ? Math.floor(spec.keep) : 0;
+  const keep = asked < 0 ? real : Math.max(0, asked);
+  return { kept: chain.slice(0, keep).filter((s) => s.type !== "None"), real, keep };
+}

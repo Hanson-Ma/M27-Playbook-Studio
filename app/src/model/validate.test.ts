@@ -226,7 +226,7 @@ describe("plays files (FORMATS.md §3)", () => {
     const probs = r.filter((i) => i.file === "playbooks/zz.json" && i.rule === "play-problem");
     expect(probs.map((i) => [i.where, i.level])).toEqual([
       ["/formations/0/sets/0/plays/0", "warning"],
-      ["/formations/0/sets/0/plays/1", "error"],
+      ["/formations/0/sets/0/plays/1", "warning"],
     ]);
     expect(probs[1].message).toContain(`${file} #5`);
   });

@@ -82,7 +82,6 @@ function BookOverview() {
     { label: "Formations", value: c.formations + c.templateFormations },
     { label: "Sets", value: c.sets },
     { label: "Plays", value: c.plays },
-    { label: "Need the Mod", value: c.custom + c.pulled, tone: c.custom + c.pulled ? "amber" : undefined },
   ];
   if (c.unresolved) tiles.push({ label: "Can't Be Found", value: c.unresolved, tone: "danger" });
   const doc = useDoc<PlaybookSpec>(data.path);

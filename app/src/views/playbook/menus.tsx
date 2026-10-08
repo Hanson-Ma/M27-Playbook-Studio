@@ -19,6 +19,7 @@ import {
   selectedRefs,
   setAudibleAt,
 } from "./ops";
+import { editPlay } from "./editPlay";
 import { BOOK_ID, useBuilderUi } from "./store";
 
 export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: boolean } = {}): MenuItem[] {
@@ -112,6 +113,7 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
     const cur = node.rp.entry.audible;
     items.push(
       { kind: "separator" },
+      { label: "Edit Play…", icon: "route", disabled: !!multi || !play || !!node.rf?.template, hint: "or double-click", onSelect: () => editPlay(data, node) },
       {
         label: "Audible",
         icon: "playcall",

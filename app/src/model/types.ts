@@ -214,7 +214,9 @@ export interface NewAssignmentSpec {
   new: string; // asset leaf under Assignments/PBS/; reused if the same name repeats
   routeType?: string; // AssignRouteType enum
   template?: string; // path under ASSIGNMENT_ROOT; default = the base play's assignment for this slot
-  keep?: number; // keep the first N steps of the template (1 = an AutoMotion, 2 = a handoff precan)
+  keep?: number; // keep the first N steps of the template (1 = an AutoMotion, 2 = a handoff precan); -1 = every step
+  drop?: string[]; // step types removed from the template first (e.g. ["OverrideFormPos"])
+  prepend?: Step[]; // steps placed before everything else (e.g. an OverrideFormPos realignment)
   steps: Step[]; // without the trailing None (added by the builder)
   [key: string]: unknown;
 }

@@ -16,7 +16,7 @@ import { saveNameFor } from "./playbook";
 import { motionIssues } from "./motionLimits";
 import { chainOffField, offFieldText } from "./routeBounds";
 import { bookFormation, bookSide, isClonePlay, playbookIssues, type ResolveOptions } from "./resolveBook";
-import { hasMechanics, isMechanics } from "./steps";
+import { hasMechanics, isMechanics, templateKept } from "./steps";
 import {
   ASSIGNMENT_ROOT,
   AUTHORED_FOLDER,
@@ -500,10 +500,11 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
     }
     let keep = 0;
     if (pspec.keep !== undefined) {
-      if (!isInt(pspec.keep) || pspec.keep < 0) push("error", "assignment-keep", `${who}: keep must be a whole number ≥ 0 (got ${q(pspec.keep)})`, sw);
+      if (!isInt(pspec.keep) || pspec.keep < -1) push("error", "assignment-keep", `${who}: keep must be a whole number ≥ 0, or -1 for every step (got ${q(pspec.keep)})`, sw);
       else {
-        keep = pspec.keep;
-        const real = source ? source.filter((s) => s.type !== "None").length : 0;
+        const tk = templateKept(source, pspec);
+        keep = tk.keep;
+        const real = tk.real;
         if (keep > 0 && !source) push("error", "assignment-keep", `${who}: keep ${keep} needs a template or a base slot`, sw);
         else if (keep > real) push("error", "assignment-keep", `${who}: keep ${keep} is more than the template's ${real} steps`, sw);
       }
@@ -517,7 +518,7 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
       const src = source ?? [];
       const prefix = src.reduce((n, st, i) => (isMechanics(st) ? i + 1 : n), 0);
       const authored = pspec.steps.filter((st): st is Step => isObj(st) && typeof st.type === "string");
-      const resolved = [...src.slice(0, keep), ...authored];
+      const resolved = [...templateKept(src, pspec).kept, ...authored];
       if (!hasMechanics(resolved))
         push(
           "error",
@@ -530,7 +531,7 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
     }
     if (Array.isArray(pspec.steps) && (keep === 0 || source)) {
       const authored = pspec.steps.filter((st): st is Step => isObj(st) && typeof st.type === "string");
-      const resolved = [...(source ?? []).slice(0, keep), ...authored];
+      const resolved = [...templateKept(source, pspec).kept, ...authored];
       offFieldCheck(resolved, n, who, sw);
       motionCheck(resolved, authored, n, who, sw);
     }

@@ -15,7 +15,7 @@
 import { overlayLibraryIndex, type LibraryIndex } from "./library";
 import { folder, leaf, maddenName, norm } from "./names";
 import { cloneAsset, customDefs, normalOf, type CustomDefs, type CustomSetDef, type SetsInput } from "./sets";
-import { hasMechanics, stepsEqual, withNone } from "./steps";
+import { hasMechanics, stepsEqual, templateKept, withNone } from "./steps";
 import {
   ASSIGNMENT_ROOT,
   AUTHORED_FOLDER,
@@ -202,18 +202,17 @@ function buildNewSteps(
     source = t?.steps;
     sourceRouteType = t?.routeType;
   }
-  const keep = typeof spec.keep === "number" && spec.keep > 0 ? Math.floor(spec.keep) : 0;
-  const kept = keep > 0 && source ? source.slice(0, keep) : [];
+  const { kept, real, keep } = templateKept(source, spec);
   if (keep > 0 && source) {
-    const real = source.length - (source.length && source[source.length - 1].type === "None" ? 1 : 0);
     if (keep > real) problems.push(`${where}: keep ${keep} is more than the template's ${real} steps`);
   } else if (keep > 0 && !source) {
     problems.push(`${where}: keep ${keep} needs a template or a base slot`);
   }
   const authoredSteps = Array.isArray(spec.steps) ? spec.steps.filter(isObj).map((s) => s as Step) : [];
+  const prependSteps = Array.isArray(spec.prepend) ? spec.prepend.filter(isObj).map((s) => s as Step) : [];
   if (!Array.isArray(spec.steps)) problems.push(`${where}: "steps" must be an array`);
   return {
-    steps: withNone([...kept.filter((s) => s.type !== "None"), ...authoredSteps]),
+    steps: withNone([...prependSteps, ...kept, ...authoredSteps]),
     routeType: typeof spec.routeType === "string" ? spec.routeType : sourceRouteType,
   };
 }
@@ -742,7 +741,7 @@ const PROBLEM_RULES: [RegExp, string, ValidationIssue["level"]][] = [
   [/is first defined by/, "assignment-redefined", "warning"],
   [/authored name .* must be/, "assignment-name", "error"],
   [/expected an assignment path/, "play-player-spec", "error"],
-  [/handoff\/option mechanics/, "mechanics", "error"],
+  [/handoff\/option mechanics/, "mechanics", "warning"],
   [/^"players" must be an object/, "play-players", "error"],
   [/^reads: only the first/, "reads-extra", "warning"],
   [/^reads: bad slot/, "read-pos", "error"],

@@ -9,10 +9,12 @@ import { getSet, togglePlay } from "../../model/playbook";
 import type { AudibleSlot, ConceptCategory, ResolvedPlay } from "../../model/types";
 import { PlayCard } from "../../field";
 import { navigate } from "../../state/router";
-import { Button, Checkbox, Chip, EmptyState, Icon, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
+import { useSettings } from "../../state/settings";
+import { Button, Checkbox, Chip, EmptyState, Icon, Segmented, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
 import { CategoryChips, CategoryDots, playCategories, useCategoryFilter, useConcepts } from "./categories";
 import { useBuilder, useDragHandlers, useOpenMenu, type BookNode } from "./context";
 import { beginDrag } from "./dnd";
+import { editPlay } from "./editPlay";
 import { LazyMount } from "./LazyMount";
 import { editorKey, labelOf } from "./ops";
 import { parentOf, useBuilderUi } from "./store";
@@ -78,6 +80,7 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
   const concepts = useConcepts();
   const dataRef = useRef(data);
   dataRef.current = data;
+  const cardColumns = useSettings((st) => st.cardColumns);
 
   const columns = () => {
     const g = grid.current;
@@ -117,6 +120,7 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
   const onClick = useCallback((id: string, e: MouseEvent) => {
     useBuilderUi.getState().select(id, { additive: e.metaKey || e.ctrlKey, range: e.shiftKey, order: idsRef.current });
   }, []);
+  const onEdit = useCallback((node: BookNode) => editPlay(dataRef.current, node), []);
   const onMenu = useCallback(
     (node: BookNode, at: { x: number; y: number }) => {
       const ui = useBuilderUi.getState();
@@ -154,8 +158,20 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
     <div className={s.cardsScroll} data-autoscroll>
       <div className={s.sectionTitle}>
         In This Playbook
-        <span className={s.sectionHint} title="Drag cards to reorder · shift / ⌘-click to select several · right-click (or ⋯) for options">
-          Drag to reorder · right-click for options
+        <Segmented
+          size="sm"
+          className={s.colPicker}
+          aria-label="Cards per row"
+          value={String(cardColumns)}
+          options={[
+            { value: "3", label: "3", title: "3 per row: one page of the in-game play-call screen per row" },
+            { value: "6", label: "6" },
+            { value: "9", label: "9" },
+          ]}
+          onChange={(v) => useSettings.getState().set({ cardColumns: Number(v) as 3 | 6 | 9 })}
+        />
+        <span className={s.sectionHint} title="Drag cards to reorder · double-click a card to edit the play · shift / ⌘-click to select several · right-click (or ⋯) for options">
+          Drag to reorder · double-click to edit · right-click for options
         </span>
       </div>
       {playIds.length === 0 ? (
@@ -173,7 +189,7 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
           />
         </div>
       ) : (
-        <div ref={grid} className={s.grid} data-drop="set-grid" data-drop-id={setNode.id} tabIndex={0} onKeyDown={onKeyDown} aria-label="Plays in this set, in order">
+        <div ref={grid} className={s.grid} style={{ gridTemplateColumns: `repeat(${cardColumns}, minmax(0, 1fr))` }} data-drop="set-grid" data-drop-id={setNode.id} tabIndex={0} onKeyDown={onKeyDown} aria-label="Plays in this set, in order">
           {playIds.map((id) => {
             const node = data.nodes.get(id);
             if (!node) return null;
@@ -181,10 +197,12 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
               <CardCell
                 key={id}
                 node={node}
+                size={cardColumns === 3 ? "md" : "sm"}
                 selected={selectedSet.has(id)}
                 isCursor={cursor === id}
                 cats={playCategories(concepts, node.rp?.play?.key)}
                 onClick={onClick}
+                onEdit={onEdit}
                 onMenu={onMenu}
                 onPointerDown={onPointerDown}
               />
@@ -198,11 +216,13 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
 
 interface CardCellProps {
   node: BookNode;
+  size: "sm" | "md";
   selected: boolean;
   isCursor: boolean;
   /** Concept categories of the play (color dots on the card). */
   cats: ConceptCategory[];
   onClick(id: string, e: MouseEvent): void;
+  onEdit(node: BookNode): void;
   onMenu(node: BookNode, at: { x: number; y: number }): void;
   onPointerDown(node: BookNode, e: PointerEvent): void;
 }
@@ -214,15 +234,17 @@ function cardSig(n: BookNode): string {
 }
 
 const sameCell = (a: CardCellProps, b: CardCellProps) =>
+  a.size === b.size &&
   a.selected === b.selected &&
   a.isCursor === b.isCursor &&
   a.cats.map((c) => c.id + c.color).join() === b.cats.map((c) => c.id + c.color).join() &&
   a.onClick === b.onClick &&
+  a.onEdit === b.onEdit &&
   a.onMenu === b.onMenu &&
   a.onPointerDown === b.onPointerDown &&
   (a.node === b.node || cardSig(a.node) === cardSig(b.node));
 
-const CardCell = memo(function CardCell({ node, selected, isCursor, cats, onClick, onMenu, onPointerDown }: CardCellProps) {
+const CardCell = memo(function CardCell({ node, size, selected, isCursor, cats, onClick, onEdit, onMenu, onPointerDown }: CardCellProps) {
   const rp = node.rp!;
   const play = rp.play;
   const cpu = rp.entry.cpu && typeof rp.entry.cpu === "object" ? Object.keys(rp.entry.cpu).length : 0;
@@ -235,6 +257,10 @@ const CardCell = memo(function CardCell({ node, selected, isCursor, cats, onClic
       data-drop="card"
       data-drop-id={node.id}
       onPointerDown={(e) => onPointerDown(node, e)}
+      onDoubleClick={(e) => {
+        if ((e.target as Element).closest("button")) return;
+        onEdit(node);
+      }}
       onContextMenu={(e) => {
         e.preventDefault();
         onMenu(node, { x: e.clientX, y: e.clientY });
@@ -244,7 +270,8 @@ const CardCell = memo(function CardCell({ node, selected, isCursor, cats, onClic
         {play ? (
           <PlayCard
             play={play}
-            size="sm"
+            size={size}
+            autoBadges={false}
             selected={selected}
             leading={slot && [1, 2, 3, 4].includes(slot) ? <AudibleGlyph slot={slot} size="md" /> : undefined}
             stat={cpu ? `CPU ${cpu}` : undefined}

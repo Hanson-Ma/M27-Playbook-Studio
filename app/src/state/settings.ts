@@ -22,6 +22,8 @@ export interface SettingsState {
   assetPrefix: string;
   /** Visualization only: which hash the ball sits on. */
   ballSpot: BallSpot;
+  /** Play cards per row in the builder's set view (3 / 6 / 9; 3 per row = one page of the in-game play-call screen). */
+  cardColumns: 3 | 6 | 9;
   /** Draw OL pass protection in detail views. */
   showPassPro: boolean;
   /** Hide minigame / tutorial / skills-trainer formations (MG_, ST_, NST_, skeleton drills) in pickers. */
@@ -66,6 +68,7 @@ export const useSettings = create<SettingsState>()(
       audibleButtons: { ...DEFAULT_AUDIBLE_BUTTONS },
       assetPrefix: "PBS_",
       ballSpot: "middle",
+      cardColumns: 6,
       showPassPro: true,
       hideMinigames: true,
       favorites: [],
