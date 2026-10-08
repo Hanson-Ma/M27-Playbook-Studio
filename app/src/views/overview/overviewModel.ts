@@ -1,20 +1,25 @@
-// Playbook overview layout and camera math (pure TS, no DOM). The whole playbook is one big wall:
-//   · one COLUMN per formation, left to right in playbook order (a long formation flows into a few lanes side by side)
-//   · inside a column, one BLOCK per set (a title, then its plays in rows of PER_ROW cards)
+// Playbook overview layout and camera math (pure TS, no DOM). The whole playbook is one big wall, laid out like the
+// game's play-call screen:
+//   · one BAND per formation, top to bottom in playbook order
+//   · across a band, one BLOCK per set, three columns of play cards each (3 cards per page, like the game)
+//   · the set order wraps around like the game's set carousel: the FIRST set sits in the middle (every band's first
+//     set lines up in one vertical spine), the next ones go to its right, and the last ones wrap to its left
 // The view pans and zooms a camera over it. `View` maps world → screen: screen = world · k + (x, y).
 import type { CallBook, CallFormation, CallPlay, CallSet } from "../playcall/playcallModel";
 
 export const CARD_W = 248;
 export const CARD_H = 176;
 export const GAP = 18;
-export const PER_ROW = 4;
+export const PER_ROW = 3;
 export const COL_PAD = 28;
-export const COL_GAP = 64;
-export const COL_W = PER_ROW * CARD_W + (PER_ROW - 1) * GAP + 2 * COL_PAD;
+/** Gap between two set blocks of a band. */
+export const BLOCK_GAP = 56;
+export const BLOCK_W = PER_ROW * CARD_W + (PER_ROW - 1) * GAP + 2 * COL_PAD;
 export const MARGIN = 80;
-export const FORM_HEAD_H = 220;
+export const FORM_HEAD_H = 150;
 export const SET_HEAD_H = 96;
-export const SET_GAP = 44;
+/** Vertical gap between two formation bands. */
+export const BAND_GAP = 80;
 
 export interface Rect {
   x: number;
@@ -26,7 +31,7 @@ export interface Rect {
 export interface OvPlay extends Rect {
   id: string;
   item: CallPlay;
-  /** Index of the formation column it belongs to, and the id of its set block. */
+  /** Index of the formation band it belongs to, and the id of its set block. */
   f: number;
   setId: string;
 }
@@ -37,6 +42,8 @@ export interface OvSet extends Rect {
   name: string;
   count: number;
   set: CallSet;
+  /** The first set of its formation (the one in the middle of the band). */
+  first: boolean;
 }
 
 export interface OvFormation extends Rect {
@@ -45,8 +52,6 @@ export interface OvFormation extends Rect {
   name: string;
   count: number;
   setCount: number;
-  /** Side-by-side columns its sets flow into (1 for most formations). */
-  lanes: number;
   formation: CallFormation;
 }
 
@@ -57,49 +62,43 @@ export interface OvLayout {
   sets: OvSet[];
   plays: OvPlay[];
   byId: ReadonlyMap<string, OvPlay>;
+  /** x of every band's first set (the spine down the middle of the wall). */
+  spineX: number;
 }
-
-/** A formation taller than this wraps its sets into a second (third…) lane, so no column towers over the rest. */
-export const LANE_TARGET_H = 3400;
-export const MAX_LANES = 4;
-export const LANE_GAP = 28;
 
 const setHeight = (n: number) => SET_HEAD_H + (n ? Math.ceil(n / PER_ROW) * (CARD_H + GAP) - GAP : 0);
 
 /**
- * Lay the playbook out as formation columns of set blocks of play cards. A formation with many sets flows into
- * several lanes side by side (the heading spans them), filling a lane until the next set would pass LANE_TARGET_H.
+ * The display order of a formation's sets, left to right: the last floor(N/2) sets wrap around to the left of the
+ * first one (3 sets → 3 · 1 · 2, 5 sets → 4 · 5 · 1 · 2 · 3). `index` is the position in the playbook.
  */
+export function ringOrder<T>(items: readonly T[]): { item: T; index: number }[] {
+  const left = Math.floor(items.length / 2);
+  const cut = items.length - left;
+  return [...items.slice(cut).map((item, i) => ({ item, index: cut + i })), ...items.slice(0, cut).map((item, i) => ({ item, index: i }))];
+}
+
+/** Lay the playbook out as formation bands of set blocks of play cards (see the file header). */
 export function layoutBook(book: Pick<CallBook, "formations">): OvLayout {
   const formations: OvFormation[] = [];
   const sets: OvSet[] = [];
   const plays: OvPlay[] = [];
   const byId = new Map<string, OvPlay>();
-  let height = 0;
-  let cursor = MARGIN;
+  // Every band's first set sits at the same x: leave room for the widest left wing.
+  const wing = Math.max(0, ...book.formations.map((f) => Math.floor(f.sets.length / 2)));
+  const spineX = MARGIN + wing * (BLOCK_W + BLOCK_GAP);
+  let y = MARGIN;
+  let right = spineX + BLOCK_W;
   book.formations.forEach((formation, f) => {
-    // Assign sets to lanes.
-    const laneOf: number[] = [];
-    let lane = 0;
-    let used = 0;
-    formation.sets.forEach((set, i) => {
+    const order = ringOrder(formation.sets);
+    const firstAt = order.findIndex((o) => o.index === 0);
+    const blocksTop = y + FORM_HEAD_H;
+    let bandH = 0;
+    order.forEach((o, i) => {
+      const set = o.item;
+      const x = spineX + (i - firstAt) * (BLOCK_W + BLOCK_GAP);
       const h = setHeight(set.plays.length);
-      if (i > 0 && used + SET_GAP + h > LANE_TARGET_H && lane < MAX_LANES - 1) {
-        lane++;
-        used = 0;
-      }
-      laneOf.push(lane);
-      used += (used ? SET_GAP : 0) + h;
-    });
-    const lanes = formation.sets.length ? lane + 1 : 1;
-    const width = lanes * COL_W + (lanes - 1) * LANE_GAP;
-    const x0 = cursor;
-    const bottoms: number[] = Array.from({ length: lanes }, () => MARGIN + FORM_HEAD_H);
-    formation.sets.forEach((set, i) => {
-      const l = laneOf[i];
-      const x = x0 + l * (COL_W + LANE_GAP);
-      const top = bottoms[l];
-      const rowsTop = top + SET_HEAD_H;
+      bandH = Math.max(bandH, h);
       set.plays.forEach((item, j) => {
         const p: OvPlay = {
           id: item.id,
@@ -107,36 +106,34 @@ export function layoutBook(book: Pick<CallBook, "formations">): OvLayout {
           f,
           setId: set.id,
           x: x + COL_PAD + (j % PER_ROW) * (CARD_W + GAP),
-          y: rowsTop + Math.floor(j / PER_ROW) * (CARD_H + GAP),
+          y: blocksTop + SET_HEAD_H + Math.floor(j / PER_ROW) * (CARD_H + GAP),
           w: CARD_W,
           h: CARD_H,
         };
         plays.push(p);
         byId.set(p.id, p);
       });
-      const h = setHeight(set.plays.length);
-      sets.push({ id: set.id, f, name: set.name, count: set.plays.length, set, x: x + COL_PAD, y: top, w: COL_W - 2 * COL_PAD, h });
-      bottoms[l] = top + h + SET_GAP;
+      sets.push({ id: set.id, f, name: set.name, count: set.plays.length, set, first: o.index === 0, x, y: blocksTop, w: BLOCK_W, h });
+      right = Math.max(right, x + BLOCK_W);
     });
-    const bottom = Math.max(...bottoms) - (formation.sets.length ? SET_GAP : 0);
+    const bandW = formation.sets.length ? formation.sets.length * BLOCK_W + (formation.sets.length - 1) * BLOCK_GAP : BLOCK_W;
+    const bandX = formation.sets.length ? spineX - firstAt * (BLOCK_W + BLOCK_GAP) : spineX;
     formations.push({
       id: formation.id,
       f,
       name: formation.name,
       count: formation.playCount,
       setCount: formation.sets.length,
-      lanes,
       formation,
-      x: x0,
-      y: MARGIN,
-      w: width,
-      h: Math.max(bottom, MARGIN + FORM_HEAD_H) - MARGIN,
+      x: bandX,
+      y,
+      w: bandW,
+      h: FORM_HEAD_H + bandH,
     });
-    height = Math.max(height, bottom);
-    cursor = x0 + width + COL_GAP;
+    y += FORM_HEAD_H + bandH + BAND_GAP;
   });
-  const width = book.formations.length ? cursor - COL_GAP + MARGIN : 2 * MARGIN;
-  return { width, height: height + MARGIN, formations, sets, plays, byId };
+  const height = book.formations.length ? y - BAND_GAP + MARGIN : 2 * MARGIN;
+  return { width: right + MARGIN, height, formations, sets, plays, byId, spineX };
 }
 
 // ───────────────────────────── camera ─────────────────────────────
@@ -181,15 +178,8 @@ export function intersects(a: Rect, b: Rect): boolean {
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
-/** How much of each card to draw: full art, a flat tile with the name, or just a colored block. */
-export type Detail = "full" | "light" | "dot";
-
-export const FULL_AT = 0.45;
-export const LIGHT_AT = 0.14;
-
-export function detailAt(k: number): Detail {
-  return k >= FULL_AT ? "full" : k >= LIGHT_AT ? "light" : "dot";
-}
+/** Below this zoom a card is smaller than comfortable to read: moving to it also zooms in. */
+export const COMFY_K = 0.45;
 
 // ───────────────────────────── moving around ─────────────────────────────
 
@@ -233,12 +223,12 @@ export function nearestTo(layout: Pick<OvLayout, "plays">, wx: number, wy: numbe
   return best;
 }
 
-/** The formation column whose horizontal span contains world x (else the nearest one). */
-export function formationAt(layout: Pick<OvLayout, "formations">, wx: number): OvFormation | undefined {
+/** The formation band whose vertical span contains world y (else the nearest one). */
+export function formationAt(layout: Pick<OvLayout, "formations">, wy: number): OvFormation | undefined {
   let best: OvFormation | undefined;
   let bestD = Infinity;
   for (const f of layout.formations) {
-    const d = wx < f.x ? f.x - wx : wx > f.x + f.w ? wx - (f.x + f.w) : 0;
+    const d = wy < f.y ? f.y - wy : wy > f.y + f.h ? wy - (f.y + f.h) : 0;
     if (d < bestD) {
       bestD = d;
       best = f;

@@ -1,0 +1,434 @@
+/* Madden 27 play-select screen on a 2000 × 1125 stage. The coordinates are the ones measured from the game
+   (tools: playcall/index.html); only the look (fonts, colors, corners) is this app's. */
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2000px;
+  height: 1125px;
+  transform-origin: 50% 50%;
+  font-family: var(--font-display);
+  color: var(--text);
+  user-select: none;
+}
+.stage button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* the field up top */
+.backdrop {
+  position: absolute;
+  left: 110px;
+  top: 14px;
+  width: 1780px;
+  height: 500px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--field-bg) 70%, var(--bg-0));
+}
+.backField {
+  position: absolute;
+  inset: 0;
+}
+.backCaption {
+  position: absolute;
+  left: 22px;
+  top: 16px;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text-3);
+}
+
+.vlabel {
+  position: absolute;
+  left: 24px;
+  top: 556px;
+  width: 30px;
+  height: 330px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-weight: 700;
+  font-size: 21px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* tabs */
+.tabs {
+  position: absolute;
+  left: 80px;
+  top: 536px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+}
+.tabKey {
+  display: inline-flex;
+  margin: 0 13px;
+}
+.tab {
+  height: 46px;
+  padding: 0 16px;
+  margin-right: 6px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--text-2);
+  border-radius: 8px;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+.tab:hover {
+  color: var(--text);
+}
+.tabOn {
+  background: var(--pill-bg) !important;
+  color: var(--pill-fg) !important;
+  font-weight: 700;
+}
+
+/* formation / group list */
+.list {
+  position: absolute;
+  left: 84px;
+  top: 600px;
+  width: 576px;
+  height: 337px;
+  overflow: hidden;
+}
+.listInner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  transition: transform 0.16s ease-out;
+}
+.row {
+  position: absolute;
+  left: 0;
+  width: 576px;
+  height: 64px;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background: color-mix(in srgb, var(--bg-2) 85%, transparent);
+  display: flex;
+  align-items: center;
+  transition:
+    background 0.1s,
+    border-color 0.1s;
+}
+.row:hover {
+  background: var(--bg-3);
+}
+.rowOn {
+  background: var(--bg-1) !important;
+  border-color: var(--text);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+}
+.rowLocked {
+  opacity: 0.55;
+}
+.rowName {
+  position: absolute;
+  left: 24px;
+  right: 230px;
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rowStat {
+  position: absolute;
+  top: 6px;
+  width: 104px;
+  text-align: center;
+}
+.rowStat1 {
+  left: 350px;
+}
+.rowStat2 {
+  left: 460px;
+}
+.rowStat b {
+  display: block;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 26px;
+}
+.rowStat i {
+  display: block;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.scroll {
+  position: absolute;
+  left: 670px;
+  top: 600px;
+  width: 3px;
+  height: 322px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.thumb {
+  position: absolute;
+  left: 0;
+  width: 3px;
+  background: var(--text);
+  transition:
+    top 0.16s,
+    height 0.16s;
+}
+
+/* set bar */
+.setbar {
+  position: absolute;
+  left: 695px;
+  top: 593px;
+  width: 595px;
+  height: 57px;
+  display: flex;
+  border: 2px solid var(--text-2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.setbarCards {
+  width: 1160px;
+}
+.arr {
+  width: 54px;
+  height: 100%;
+  display: grid !important;
+  place-items: center;
+  background: rgba(20, 20, 20, 0.7) !important;
+  color: var(--text);
+}
+.arr:hover:not(:disabled) {
+  background: var(--bg-4) !important;
+}
+.arr:disabled {
+  opacity: 0.35;
+  cursor: default !important;
+}
+.barName {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pill-bg) !important;
+  color: var(--pill-fg) !important;
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center !important;
+}
+.barName:disabled {
+  cursor: default !important;
+}
+
+/* formation dots */
+.dots {
+  position: absolute !important;
+  left: 695px;
+  top: 662px;
+  width: 595px;
+  height: 270px;
+  display: block;
+  border-radius: 10px;
+}
+.dotsField {
+  position: absolute;
+  inset: 0;
+}
+
+/* key players */
+.keyp {
+  position: absolute;
+  left: 1315px;
+  top: 590px;
+  width: 540px;
+}
+.keyp h2 {
+  margin: 0;
+  height: 44px;
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: uppercase;
+  line-height: 38px;
+  border-bottom: 2px solid var(--text-2);
+}
+.kp {
+  position: relative;
+  height: 58px;
+  padding-left: 63px;
+}
+.kp:first-of-type {
+  margin-top: 18px;
+}
+.kpIcon {
+  position: absolute;
+  left: 1px;
+  top: 10px;
+  width: 45px;
+  height: 45px;
+  border: 2px solid var(--amber);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--amber) 14%, var(--bg-0));
+  color: var(--amber);
+  display: grid;
+  place-items: center;
+}
+.kp b {
+  display: block;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 30px;
+  padding-top: 4px;
+  text-transform: uppercase;
+}
+.kp i {
+  display: block;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--text-2);
+  line-height: 20px;
+}
+
+/* play cards */
+.cards {
+  position: absolute;
+  left: 695px;
+  top: 668px;
+  width: 1160px;
+  height: 270px;
+  overflow: hidden;
+}
+.cardsInner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  transition: transform 0.18s ease-out;
+}
+.card {
+  position: absolute;
+  top: 0;
+  width: 370px;
+  height: 262px;
+  padding: 3px;
+  border: 3px solid transparent;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg-1) 92%, transparent);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.1s;
+}
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.cardOn,
+.cardOn:hover {
+  border-color: var(--text);
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.2);
+}
+.empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+  font-size: 26px;
+  color: var(--text-3);
+}
+.missing {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 20px;
+  color: var(--text-2);
+}
+.missing b {
+  font-size: 26px;
+  text-transform: uppercase;
+}
+.missing i {
+  font-style: normal;
+  font-size: 18px;
+}
+.pager {
+  position: absolute;
+  left: 695px;
+  top: 944px;
+  width: 1160px;
+  height: 6px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.pager span {
+  width: 34px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 2px;
+}
+.pagerOn {
+  background: var(--text) !important;
+}
+
+/* bottom hint pill */
+.hints {
+  position: absolute;
+  left: 1008px;
+  top: 972px;
+  height: 52px;
+  padding: 0 18px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  white-space: nowrap;
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+.hint {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.hint:hover {
+  color: var(--text-2);
+}

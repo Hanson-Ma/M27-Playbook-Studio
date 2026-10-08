@@ -47,7 +47,7 @@ const viewportCache = new WeakMap<PlayArt, ArtBounds>();
  * split and tall enough for the deepest player — kickoff / safety-kick sets spread their coverage team 25–40 yd
  * from the kicker, so those frames get taller (and wider, to keep the aspect).
  */
-function alignmentViewport(art: PlayArt): ArtBounds {
+export function alignmentViewport(art: PlayArt): ArtBounds {
   let v = viewportCache.get(art);
   if (v) return v;
   let maxAbs = 0;
@@ -73,7 +73,7 @@ function alignmentViewport(art: PlayArt): ArtBounds {
   return v;
 }
 
-function sideOfSet(catalog: Catalog | undefined, set: SetDef | undefined): Side | undefined {
+export function sideOfSet(catalog: Catalog | undefined, set: SetDef | undefined): Side | undefined {
   const f = set && catalog?.lib.formationOfSet(set.asset);
   const side = f ? catalog!.lib.formationSide(f) : undefined;
   return side === "special" ? undefined : side;
@@ -397,4 +397,25 @@ export function EmptySlot({ glyph, label, sub }: { glyph?: ReactNode; label: str
       </div>
     </div>
   );
+}
+
+/** A set's alignment as a field with just the 11 players (the formation dots of the play-select screen). */
+export function AlignmentField({ set, flip, className }: { set: SetDef; flip: boolean; className?: string }) {
+  const catalog = useCatalog();
+  const ballSpot = useSettings((st) => st.ballSpot);
+  const side = sideOfSet(catalog, set);
+  const art = useMemo(() => alignmentArt(set, side, flip && set.canFlip), [set, side, flip]);
+  return (
+    <Field viewport={alignmentViewport(art)} ballSpot={ballSpot} fit="contain" markings="none" className={className} label={`${set.name} alignment`}>
+      <PlayArtLayer art={art} />
+    </Field>
+  );
+}
+
+/** Where a set's skill players line up, for the "key players" list (QB, backs, then receivers wide to tight). */
+export function keyPlayers(set: SetDef, side: Side | undefined, flip: boolean): { label: string; slot: number }[] {
+  const art = alignmentArt(set, side, flip && set.canFlip);
+  const skill = art.players.filter((p) => p.glyph === "qb" || p.glyph === "skill");
+  const rank = (p: (typeof skill)[number]) => (p.glyph === "qb" ? 0 : /HB|FB|RB/.test(p.label) ? 1 : 2);
+  return [...skill].sort((a, b) => rank(a) - rank(b) || Math.abs(b.at.x) - Math.abs(a.at.x)).slice(0, 4).map((p) => ({ label: p.label, slot: p.slot }));
 }

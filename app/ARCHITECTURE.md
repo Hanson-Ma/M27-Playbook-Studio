@@ -627,3 +627,12 @@ feature folder and list the gap in your final report.
   tests use (STUDIO, PBS plays and sets) live in `app/test-fixtures/` (`libFixture.ts`).
 - Authored assignment names may sit in subfolders of `Assignments/PBS/` (`FUSION/R_ab12…`); a custom set wins a
   same-name clash with a stock set in the same formation (`LibraryIndex.setByName`, like `tools/pbook-build.mjs`).
+
+- **Play-call screen** (2026-10-08): `GameScreen.tsx` draws Madden 27's own play-select layout on a 2000 × 1125 stage scaled
+  to fit (positions measured from the game, see `playcall/index.html`); `gameScreenModel.ts` is its pure state machine
+  (formation list ↑ ↓, set carousel ← → with wrap-around, Enter into the cards, three cards at a time) with tests;
+  `PlayCallView.tsx` wires state, URL (tab, play, flip), keys and the pad. Playing a play: `model/playback.ts` turns the
+  art's paths into per-player tracks (same speed, freeze at the end), `field/usePlayback.ts` drives it, and PreSnap runs
+  it on open and on click / Enter / A.
+- **Overview layout** (2026-10-08): formations are horizontal bands; each set is a block of 3 card columns; the first set of
+  every band sits on one spine and the later sets wrap to its left (`ringOrder`); cards always draw their art.

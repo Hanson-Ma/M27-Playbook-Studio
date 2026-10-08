@@ -28,7 +28,6 @@ import { addPlays, moveEntries, setAudibleAt } from "./ops";
 import { BOOK_ID, parentOf, useBuilderUi } from "./store";
 import { useTemplate } from "./template";
 import { isPlaybookShape, playbookShapeProblem } from "./shape";
-import { ValidationStrip } from "./ValidationStrip";
 import s from "./Builder.module.css";
 
 export function Builder({ path }: { path: string }) {
@@ -241,7 +240,6 @@ function LoadedBuilder({ path, spec, catalog }: { path: string; spec: PlaybookSp
       <MenuOpener.Provider value={openMenu}>
         <DragHandlersContext.Provider value={dragHandlers}>
           <div className={s.builder}>
-            <ValidationStrip />
             <BuilderHeader />
             <div className={s.body}>
               <SplitPane initial={treeWidth()} min={240} max={560} storageKey="pbstudio.split.playbook.tree2" className={s.split}>

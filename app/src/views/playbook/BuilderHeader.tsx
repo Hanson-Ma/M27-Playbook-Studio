@@ -1,11 +1,13 @@
 // Builder header: the open playbook (its name opens the Playbooks menu — open another, new, duplicate, rename,
 // delete), the in-game save name and file, and the main actions as visible buttons (the same height as the playbook
-// button, since they are pressed often). The check strip (counts + export status) sits above it, as the second row.
+// button, since they are pressed often). The check strip (counts + export status) shares the row, between the name and the
+// buttons; on a narrow window the row wraps.
 // Saved / unsaved and the Save button live in the top bar (App.tsx DocChip) — one save status per screen, the same place on every screen.
 import { saveNameFor } from "../../model/playbook";
 import { navigate } from "../../state/router";
 import { Button, Tooltip } from "../../ui";
 import { PlaybooksMenuButton } from "./books";
+import { ValidationStrip } from "./ValidationStrip";
 import { useBuilder } from "./context";
 import { useBuilderUi } from "./store";
 import s from "./BuilderHeader.module.css";
@@ -26,6 +28,7 @@ export function BuilderHeader() {
           {data.path.replace(/^playbooks\//, "")}
         </span>
       </div>
+      <ValidationStrip />
       <div className={s.actions}>
         <Button size="lg" icon="playcall" onClick={() => navigate(`#/playcall/${encodeURIComponent(data.path)}`)} title="See the playbook the way Madden's play-call screen shows it">
           Preview in Game

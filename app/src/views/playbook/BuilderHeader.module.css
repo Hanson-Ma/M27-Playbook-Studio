@@ -2,7 +2,8 @@
   flex: none;
   display: flex;
   align-items: center;
-  gap: var(--s3);
+  gap: var(--s3) var(--s4);
+  flex-wrap: wrap;
   min-height: 56px;
   padding: 8px var(--s4);
   background: var(--bg-1);

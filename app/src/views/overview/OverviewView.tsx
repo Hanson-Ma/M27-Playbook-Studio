@@ -15,16 +15,17 @@ import { href, navigate, useRoute } from "../../state/router";
 import { DEFAULT_PLAYBOOK, useSettings, type BallSpot } from "../../state/settings";
 import { useDocsOfKind, useWorkspace, type DocEntry } from "../../state/workspace";
 import { Button, EmptyState, Icon, IconButton, Spinner, TabBar, cx, toast, type TabItem } from "../../ui";
+import { nextFrame } from "../../ui/frames";
 import type { CallPlay } from "../playcall/playcallModel";
 import { PreSnap } from "../playcall/PreSnap";
 import { useCallBook } from "../playcall/useCallBook";
 import {
+  COL_PAD,
   FORM_HEAD_H,
-  FULL_AT,
+  COMFY_K,
   MAX_K,
   MIN_K,
   clampK,
-  detailAt,
   fitView,
   formationAt,
   intersects,
@@ -34,7 +35,6 @@ import {
   SET_HEAD_H,
   worldRect,
   zoomAt,
-  type Detail,
   type OvLayout,
   type OvPlay,
   type View,
@@ -143,27 +143,6 @@ interface WallProps {
   layout: OvLayout;
   flip: boolean;
   onFlip(): void;
-}
-
-/** Animation frame, with a timer as the fallback for windows the browser isn't painting. */
-function nextFrame(run: () => void): () => void {
-  let done = false;
-  let raf = 0;
-  let timer = 0;
-  const go = () => {
-    if (done) return;
-    done = true;
-    cancelAnimationFrame(raf);
-    window.clearTimeout(timer);
-    run();
-  };
-  raf = requestAnimationFrame(go);
-  timer = window.setTimeout(go, 40);
-  return () => {
-    done = true;
-    cancelAnimationFrame(raf);
-    window.clearTimeout(timer);
-  };
 }
 
 function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
@@ -311,7 +290,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
     const sx = p.x * v.k + v.x;
     const sy = p.y * v.k + v.y;
     const comfy = sx >= 60 && sy >= 60 && sx + p.w * v.k <= w - 60 && sy + p.h * v.k <= h - 60;
-    if (comfy && v.k >= FULL_AT) return;
+    if (comfy && v.k >= COMFY_K) return;
     const k = Math.max(v.k, 0.7);
     animateTo({ k, x: w / 2 - (p.x + p.w / 2) * k, y: h / 2 - (p.y + p.h / 2) * k });
   };
@@ -342,16 +321,18 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
   const goFormation = (f: number, select_ = true) => {
     const form = layout.formations[f];
     if (!form) return;
+    const first = layout.sets.find((x) => x.f === f && x.first);
     const { w } = size.current;
-    // The formation fills the screen width (up to a comfortable zoom), its top sits just under the toolbar.
-    const k = clampK(Math.min(0.85, (w - 120) / form.w));
-    animateTo({ k, x: w / 2 - (form.x + form.w / 2) * k, y: 70 - form.y * k });
+    // The band's first set (the one in the middle) fills the screen width, its top sits just under the toolbar.
+    const box = first ?? form;
+    const k = clampK(Math.min(0.85, (w - 120) / box.w));
+    animateTo({ k, x: w / 2 - (box.x + box.w / 2) * k, y: 70 - form.y * k });
     if (select_) {
-      const first = layout.plays.find((p) => p.f === f);
-      if (first) setSelId(first.id);
+      const p = layout.plays.find((x) => x.f === f && x.setId === first?.id) ?? layout.plays.find((x) => x.f === f);
+      if (p) setSelId(p.id);
     }
   };
-  const activeFormation = dims.w ? formationAt(layout, (dims.w / 2 - committed.x) / committed.k)?.f : undefined;
+  const activeFormation = dims.w ? formationAt(layout, (dims.h / 2 - committed.y) / committed.k)?.f : undefined;
   const stepFormation = (d: 1 | -1) => {
     const n = layout.formations.length;
     if (!n) return;
@@ -446,7 +427,6 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
   );
 
   // ── what to draw ──
-  const detail = detailAt(committed.k);
   const world = useMemo(() => worldRect(committed, dims.w, dims.h, 0.35), [committed, dims]);
   const plays = useMemo(() => (dims.w ? layout.plays.filter((p) => intersects(p, world)) : []), [layout, world, dims.w]);
   const sets = useMemo(() => (dims.w ? layout.sets.filter((x) => intersects(x, world)) : []), [layout, world, dims.w]);
@@ -505,7 +485,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
           <div ref={worldRef} className={s.world} style={worldVars}>
             {layout.formations.map((f) => (
               <div key={f.id} className={s.col} style={{ left: f.x, top: f.y, width: f.w, height: f.h }} data-formation={f.f}>
-                <div className={s.formHead} style={{ height: FORM_HEAD_H - 24 }}>
+                <div className={s.formHead} style={{ height: FORM_HEAD_H - 24, left: layout.spineX - f.x + COL_PAD }}>
                   <h2 className={cx(s.formName, "caps")}>{f.name}</h2>
                   <span className={s.formMeta}>
                     {f.setCount} {f.setCount === 1 ? "set" : "sets"} · {f.count} {f.count === 1 ? "play" : "plays"}
@@ -517,6 +497,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
               <div key={st.id} className={s.setBlock} style={{ left: st.x - 14, top: st.y - 8, width: st.w + 28, height: st.h + 22 }}>
                 <div className={s.setHead} style={{ height: SET_HEAD_H }}>
                   <h3 className={cx(s.setName, "caps")}>{st.name}</h3>
+                  {st.first && <span className={s.firstTag}>Opens here</span>}
                   <span className={s.setMeta}>
                     {st.count} {st.count === 1 ? "play" : "plays"}
                   </span>
@@ -524,7 +505,7 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
               </div>
             ))}
             {plays.map((p) => (
-              <WallCard key={p.id} p={p} detail={detail} flip={flip} ballSpot={ballSpot} selected={p.id === selId} />
+              <WallCard key={p.id} p={p} flip={flip} ballSpot={ballSpot} selected={p.id === selId} />
             ))}
             {selected && <div className={s.ring} style={{ left: selected.x, top: selected.y, width: selected.w, height: selected.h }} aria-hidden />}
           </div>
@@ -563,39 +544,25 @@ function Wall({ path, bookName, side, layout, flip, onFlip }: WallProps) {
 
 interface CardProps {
   p: OvPlay;
-  detail: Detail;
   flip: boolean;
   ballSpot: BallSpot;
   selected: boolean;
 }
 
-const WallCard = memo(function WallCard({ p, detail, flip, ballSpot, selected }: CardProps) {
+const WallCard = memo(function WallCard({ p, flip, ballSpot, selected }: CardProps) {
   const item = p.item;
   const play = item.play;
   const box: CSSProperties = { left: p.x, top: p.y, width: p.w, height: p.h };
   if (!play) {
     return (
       <div className={cx(s.card, s.missing)} style={box} data-ov-id={p.id} data-selected={selected || undefined} title={item.problem}>
-        {detail !== "dot" && (
-          <>
-            <Icon name="warning" size={20} />
-            <span className={cx(s.lightName, "caps")}>{item.name || "(unnamed)"}</span>
-            <span className={s.lightType}>Not found</span>
-          </>
-        )}
+        <Icon name="warning" size={20} />
+        <span className={cx(s.lightName, "caps")}>{item.name || "(unnamed)"}</span>
+        <span className={s.lightType}>Not found</span>
       </div>
     );
   }
   const type = playTypeInfo(play.playType);
-  if (detail === "dot") return <div className={cx(s.card, s.dot)} style={{ ...box, "--tag": type.color } as CSSProperties} data-ov-id={p.id} data-selected={selected || undefined} />;
-  if (detail === "light") {
-    return (
-      <div className={cx(s.card, s.light)} style={{ ...box, "--tag": type.color } as CSSProperties} data-ov-id={p.id} data-selected={selected || undefined}>
-        <span className={cx(s.lightName, "caps")}>{play.name}</span>
-        <span className={s.lightType}>{type.label}</span>
-      </div>
-    );
-  }
   return (
     <div className={s.card} style={box} data-ov-id={p.id} data-selected={selected || undefined}>
       <PlayCard play={play} size="md" flip={flip && play.canFlip} ballSpot={ballSpot} autoBadges={false} subtitle={type.long} />

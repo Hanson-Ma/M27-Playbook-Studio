@@ -1,23 +1,20 @@
 import { describe, expect, it } from "vitest";
 import type { CallFormation, CallPlay, CallSet } from "../playcall/playcallModel";
 import {
+  BLOCK_GAP,
+  BLOCK_W,
   CARD_H,
   CARD_W,
-  COL_GAP,
-  COL_W,
   GAP,
-  LANE_GAP,
-  LANE_TARGET_H,
-  MAX_LANES,
   PER_ROW,
   clampK,
-  detailAt,
   fitView,
   formationAt,
   intersects,
   layoutBook,
   neighbor,
   nearestTo,
+  ringOrder,
   viewFor,
   worldRect,
   zoomAt,
@@ -31,28 +28,54 @@ const formation = (f: number, counts: number[]): CallFormation => {
   return { id: String(f), f, name: `Form ${f}`, sets, playCount: counts.reduce((a, b) => a + b, 0) } as unknown as CallFormation;
 };
 
-const book = { formations: [formation(0, [9, 3]), formation(1, [5]), formation(2, [])] };
+describe("ringOrder", () => {
+  it("puts the first item in the middle and wraps the last ones to its left", () => {
+    expect(ringOrder([1, 2, 3]).map((o) => o.item)).toEqual([3, 1, 2]);
+    expect(ringOrder([1, 2, 3, 4, 5]).map((o) => o.item)).toEqual([4, 5, 1, 2, 3]);
+    expect(ringOrder([1, 2]).map((o) => o.item)).toEqual([2, 1]);
+    expect(ringOrder([1]).map((o) => o.item)).toEqual([1]);
+    expect(ringOrder([])).toEqual([]);
+    expect(ringOrder(["a", "b", "c", "d"]).map((o) => o.index)).toEqual([2, 3, 0, 1]);
+  });
+});
 
 describe("layoutBook", () => {
+  const book = { formations: [formation(0, [9, 3, 4]), formation(1, [5, 6, 7, 8, 12]), formation(2, [])] };
   const l = layoutBook(book);
 
-  it("puts every play in its formation's column, in rows of PER_ROW", () => {
-    expect(l.plays).toHaveLength(17);
+  it("stacks formations as bands and lays each set out in 3 columns, in play order", () => {
+    expect(l.plays).toHaveLength(9 + 3 + 4 + 5 + 6 + 7 + 8 + 12);
     expect(l.formations.map((f) => [f.count, f.setCount])).toEqual([
-      [12, 2],
-      [5, 1],
+      [16, 3],
+      [38, 5],
       [0, 0],
     ]);
+    expect(l.formations[1].y).toBeGreaterThan(l.formations[0].y + l.formations[0].h - 1);
     const a = l.byId.get("0.0.0")!;
     const b = l.byId.get("0.0.1")!;
-    const e = l.byId.get(`0.0.${PER_ROW}`)!;
+    const c = l.byId.get("0.0.2")!;
+    const d = l.byId.get("0.0.3")!;
     expect(b.x - a.x).toBe(CARD_W + GAP);
-    expect(e.x).toBe(a.x);
-    expect(e.y - a.y).toBe(CARD_H + GAP);
-    expect(l.formations[1].x - l.formations[0].x).toBe(COL_W + COL_GAP);
+    expect(c.x - b.x).toBe(CARD_W + GAP);
+    expect(d.x).toBe(a.x);
+    expect(d.y - a.y).toBe(CARD_H + GAP);
+    expect(PER_ROW).toBe(3);
   });
 
-  it("never overlaps two cards, and keeps every card inside its set block", () => {
+  it("puts the first set of every band on one spine, the next sets to its right and the last ones to its left", () => {
+    const first0 = l.sets.find((s) => s.id === "0.0")!;
+    const first1 = l.sets.find((s) => s.id === "1.0")!;
+    expect(first0.first && first1.first).toBe(true);
+    expect(first0.x).toBe(l.spineX);
+    expect(first1.x).toBe(l.spineX);
+    expect(l.sets.find((s) => s.id === "0.1")!.x).toBe(l.spineX + BLOCK_W + BLOCK_GAP); // second: right
+    expect(l.sets.find((s) => s.id === "0.2")!.x).toBe(l.spineX - (BLOCK_W + BLOCK_GAP)); // last: left
+    // 5 sets: 4 5 [1] 2 3
+    const xs = ["1.3", "1.4", "1.0", "1.1", "1.2"].map((id) => l.sets.find((s) => s.id === id)!.x);
+    expect(xs).toEqual([-2, -1, 0, 1, 2].map((i) => l.spineX + i * (BLOCK_W + BLOCK_GAP)));
+  });
+
+  it("never overlaps two cards and keeps every card inside its set block and band", () => {
     for (let i = 0; i < l.plays.length; i++) {
       for (let j = i + 1; j < l.plays.length; j++) expect(intersects(l.plays[i], l.plays[j])).toBe(false);
     }
@@ -62,29 +85,14 @@ describe("layoutBook", () => {
       expect(p.x + p.w).toBeLessThanOrEqual(s.x + s.w);
       expect(p.y + p.h).toBeLessThanOrEqual(s.y + s.h);
       expect(p.y).toBeGreaterThan(s.y);
+      const band = l.formations[p.f];
+      expect(p.x).toBeGreaterThanOrEqual(band.x);
+      expect(p.x + p.w).toBeLessThanOrEqual(band.x + band.w);
+      expect(p.y + p.h).toBeLessThanOrEqual(band.y + band.h);
     }
     expect(l.height).toBeGreaterThan(Math.max(...l.plays.map((p) => p.y + p.h)));
     expect(l.width).toBeGreaterThan(Math.max(...l.plays.map((p) => p.x + p.w)));
-  });
-
-  it("flows a long formation into lanes side by side and keeps its sets apart", () => {
-    const tall = layoutBook({ formations: [formation(0, Array.from({ length: 14 }, () => 12)), formation(1, [4])] });
-    const f0 = tall.formations[0];
-    expect(f0.lanes).toBeGreaterThan(1);
-    expect(f0.lanes).toBeLessThanOrEqual(MAX_LANES);
-    expect(f0.w).toBe(f0.lanes * COL_W + (f0.lanes - 1) * LANE_GAP);
-    expect(tall.formations[1].x).toBe(f0.x + f0.w + COL_GAP);
-    for (let i = 0; i < tall.plays.length; i++) {
-      for (let j = i + 1; j < tall.plays.length; j++) expect(intersects(tall.plays[i], tall.plays[j])).toBe(false);
-    }
-    for (const st of tall.sets) expect(st.y + st.h).toBeLessThanOrEqual(f0.y + f0.h + 1);
-    // a lane stays near the target height (the last set may overshoot it by up to one set)
-    expect(f0.h).toBeLessThan(LANE_TARGET_H + 1200);
-    // every play sits inside its formation's box
-    for (const p of tall.plays.filter((x) => x.f === 0)) {
-      expect(p.x).toBeGreaterThanOrEqual(f0.x);
-      expect(p.x + p.w).toBeLessThanOrEqual(f0.x + f0.w);
-    }
+    expect(Math.min(...l.plays.map((p) => p.x))).toBeGreaterThan(0);
   });
 
   it("handles an empty playbook", () => {
@@ -97,11 +105,11 @@ describe("layoutBook", () => {
 
 describe("camera", () => {
   it("fits the whole wall and centers it", () => {
-    const l = layoutBook(book);
+    const l = layoutBook({ formations: [formation(0, [9, 3, 4]), formation(1, [5])] });
     const v = fitView(l, 1200, 700);
     expect(v.k).toBeLessThanOrEqual(1);
-    expect(l.width * v.k).toBeLessThanOrEqual(1200);
-    expect(l.height * v.k).toBeLessThanOrEqual(700);
+    expect(l.width * v.k).toBeLessThanOrEqual(1200 + 1e-6);
+    expect(l.height * v.k).toBeLessThanOrEqual(700 + 1e-6);
     expect(v.x + (l.width / 2) * v.k).toBeCloseTo(600, 5);
     expect(v.y + (l.height / 2) * v.k).toBeCloseTo(350, 5);
   });
@@ -128,37 +136,34 @@ describe("camera", () => {
     expect(w.x).toBeCloseTo(rect.x, 5);
     expect(w.y).toBeCloseTo(rect.y, 5);
     expect(w.w).toBeCloseTo(rect.w, 5);
-    const grown = worldRect(v, 1000, 600, 0.5);
-    expect(grown.w).toBeCloseTo(rect.w * 2, 5);
-  });
-
-  it("picks less detail as the camera pulls back", () => {
-    expect([2, 0.45, 0.3, 0.14, 0.1].map(detailAt)).toEqual(["full", "full", "light", "light", "dot"]);
+    expect(worldRect(v, 1000, 600, 0.5).w).toBeCloseTo(rect.w * 2, 5);
   });
 });
 
 describe("moving around", () => {
-  const l = layoutBook(book);
+  const l = layoutBook({ formations: [formation(0, [9, 3, 4]), formation(1, [5])] });
 
   it("walks along rows and down columns", () => {
     expect(neighbor(l, "0.0.0", "RIGHT")?.id).toBe("0.0.1");
     expect(neighbor(l, "0.0.1", "LEFT")?.id).toBe("0.0.0");
     expect(neighbor(l, "0.0.0", "DOWN")?.id).toBe(`0.0.${PER_ROW}`);
     expect(neighbor(l, `0.0.${PER_ROW}`, "UP")?.id).toBe("0.0.0");
-    expect(neighbor(l, "0.0.0", "UP")).toBeUndefined();
   });
 
-  it("crosses into the next formation's column at the right edge", () => {
-    expect(neighbor(l, `0.0.${PER_ROW - 1}`, "RIGHT")?.f).toBe(1);
+  it("crosses from one set block into the next across a band", () => {
+    // the first set's right edge leads to the second set (displayed to its right)
+    expect(neighbor(l, `0.0.${PER_ROW - 1}`, "RIGHT")?.setId).toBe("0.1");
+    // and its left edge to the last set (wrapped to the left)
+    expect(neighbor(l, "0.0.0", "LEFT")?.setId).toBe("0.2");
   });
 
-  it("goes from the end of a set into the next set below it", () => {
-    expect(neighbor(l, "0.0.8", "DOWN")?.setId).toBe("0.1");
+  it("goes from a band down into the next band", () => {
+    expect(neighbor(l, "0.0.6", "DOWN")?.f).toBe(1);
   });
 
-  it("finds the card nearest a point and the column under an x", () => {
-    expect(nearestTo(l, 0, 0)?.id).toBe("0.0.0");
-    expect(formationAt(l, l.formations[1].x + 10)?.f).toBe(1);
-    expect(formationAt(l, 1e6)?.f).toBe(2);
+  it("finds the card nearest a point and the band under a y", () => {
+    expect(nearestTo(l, 0, 0)).toBeDefined();
+    expect(formationAt(l, l.formations[1].y + 10)?.f).toBe(1);
+    expect(formationAt(l, 1e6)?.f).toBe(1);
   });
 });

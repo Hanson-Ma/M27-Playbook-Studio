@@ -114,7 +114,6 @@
 }
 .formHead {
   position: absolute;
-  left: 28px;
   right: 28px;
   top: 14px;
   display: flex;
@@ -165,6 +164,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.firstTag {
+  flex: none;
+  padding: 2px calc(8px * var(--sb));
+  border-radius: 6px;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(14px * var(--sb));
 }
 .setMeta {
   flex: none;

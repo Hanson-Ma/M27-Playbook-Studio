@@ -5,6 +5,7 @@
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { Field, PlayArtLayer } from "../../field";
+import { usePlayback } from "../../field/usePlayback";
 import { ActionLayer, useActions } from "../../input/actions";
 import { usePadHandler, type PadFrame, type PadPress } from "../../input/gamepad";
 import { PadHints, type PadHint } from "../../input/PadHints";
@@ -44,6 +45,7 @@ function presnapViewport(b: ArtBounds, defense: boolean): ArtBounds {
 
 const PAD_HINTS: PadHint[] = [
   { buttons: ["LEFT", "RIGHT"], label: "Previous / Next" },
+  { buttons: ["A"], label: "Replay" },
   { buttons: ["B"], label: "Back" },
   { buttons: ["X"], label: "Flip" },
   { buttons: ["Y"], label: "Favorite" },
@@ -72,6 +74,10 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
       return EMPTY_ART;
     }
   }, [catalog, play, flipped, showPassPro]);
+  // The play runs when it opens (and when you step to the next one): players run their routes and freeze at the end;
+  // click the field, press Space or the Replay button to run it again.
+  const playback = usePlayback(art, `${item.id}|${flipped}`);
+  const press = useRef<{ x: number; y: number } | undefined>(undefined);
   const defense = art.players[0]?.side === "defense" || play.side === "defense";
   const { minX, maxX, minY, maxY } = presnapViewport(art.bounds, defense);
   const viewport = useMemo(() => ({ minX, maxX, minY, maxY }), [minX, maxX, minY, maxY]);
@@ -91,6 +97,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
     [
       { id: "prev", label: "Previous play", keys: ["ArrowLeft"], repeat: true, enabled: !!prev, run: () => prev && onStep(prev) },
       { id: "next", label: "Next play", keys: ["ArrowRight"], repeat: true, enabled: !!next, run: () => next && onStep(next) },
+      { id: "replay", label: "Run the play again", keys: ["Enter"], run: () => playback.run() },
       { id: "back", label: "Back", keys: ["Escape"], run: onClose },
     ],
     { modal: true },
@@ -121,6 +128,9 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
             break;
           case "Y":
             toggleFavorite();
+            break;
+          case "A":
+            playback.run();
             break;
           case "UP":
             scrollPanel(-160);
@@ -158,7 +168,17 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
     <ActionLayer token={token}>
       <div ref={root} className={s.overlay} role="dialog" aria-modal="true" data-pad-own aria-label={`${play.name} pre-snap`} tabIndex={-1}>
         <div className={s.fieldCol}>
-          <div className={s.fieldBox} key={`${item.id}|${flipped}`}>
+          <div
+            className={s.fieldBox}
+            key={`${item.id}|${flipped}`}
+            onPointerDown={(e) => (press.current = { x: e.clientX, y: e.clientY })}
+            onPointerUp={(e) => {
+              const p = press.current;
+              press.current = undefined;
+              // A click (not a drag to pan) runs the play again.
+              if (p && Math.hypot(e.clientX - p.x, e.clientY - p.y) < 5) playback.run();
+            }}
+          >
             <Field
               interactive
               viewport={viewport}
@@ -168,14 +188,17 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
               label={`${play.name} on the field`}
               className={s.field}
             >
-              <PlayArtLayer art={art} showLabels />
+              <PlayArtLayer art={playback.art} showLabels={!playback.running} />
             </Field>
           </div>
           <div className={s.fieldTop}>
             <Button variant="secondary" icon="chevronLeft" onClick={onClose} title="Back to the play call (Esc)">
               Back
             </Button>
-            <span className={s.hint}>Scroll to zoom · drag to pan · double-click to reset</span>
+            <Button variant="secondary" icon="refresh" disabled={!playback.canRun} onClick={playback.run} title="Run the play again (Enter, or click the field)">
+              Replay
+            </Button>
+            <span className={s.hint}>Click the field to run it again · Scroll to zoom · drag to pan</span>
             <PadHints hints={PAD_HINTS} className={s.hint} />
           </div>
           {list.length > 1 && (

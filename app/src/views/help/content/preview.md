@@ -1,8 +1,8 @@
 # Preview in Game
 
-**Preview in Game** shows a playbook the way Madden's play-call screen does: big cards, three at a time, with the
-same **Formation**, **Concept** and **Play Type** tabs. Use it to see how your playbook will feel to call from, before you
-export.
+**Preview in Game** shows a playbook on Madden 27's own play-select screen, with the same layout and the same flow:
+the tabs across the middle, the formation list on the left, the set bar with the formation under it, and the play cards
+three at a time. Use it to see how your playbook will feel to call from, before you export.
 
 ## Open the Preview
 
@@ -17,10 +17,14 @@ order can differ.
 
 ## Move Around
 
-- **Click a card** to open it: a formation shows its sets, a set shows its plays.
-- **‹** and **›** (or the mouse wheel, or the dots under the cards) turn the page.
-- **Back** and the path above the title (Formations › SHOTGUN › Y TRIPS WK) go back up.
-- Click a play to see it full screen before the snap, as you would after calling it.
+- **↑ ↓** pick a formation in the list. **← →** (or the arrows on the set bar) cycle through its sets; after the last
+  set it wraps back to the first, like the game.
+- **Enter** (or a click on the set bar or the formation) opens the set's plays as cards. **← →** move along them and
+  **↑ ↓** jump a page. **Esc** goes back to the set bar.
+- **Enter** on a card (or a second click) calls the play and opens its pre-snap view. There the players **run
+  their routes and freeze at the end**; click the field, press **Enter** or **Replay** to run it again.
+- **PgUp / PgDn** (or the tab names) switch tabs. The big field at the top always shows the play or set you have
+  selected.
 
 ![The plays of Y TRIPS WK. Each card shows its audible button and how many CPU weights it has.](/guide/preview-plays.png)
 
@@ -65,7 +69,7 @@ formation, a block for every set and a card for every play.
 | **Formation** | Formations → sets → plays, in your file order |
 | **Concept** | Plays grouped by concept: your [Gameplan](#/help/concepts) categories and the game's own read concepts (Mesh, Smash…) |
 | **Play Type** | Plays grouped by type: PASS, RUN, PLAY ACTION, SCREEN, RPO, OPTION |
-| **Audibles** | Each set's four audibles on the controller diamond |
+| **Audibles** | A set's audible plays, in button order |
 | **Favorites** | Plays you starred (the ☆ on a card) |
 | **Recent** | Plays you opened recently |
 
