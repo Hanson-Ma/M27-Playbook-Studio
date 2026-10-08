@@ -51,7 +51,7 @@ describe("buildLibraryIndex", () => {
     expect(lib.formationByName("Special", undefined, { preferFormIds: new Set([12]) })?.asset).toBe(F + "Offense/Special/Special");
   });
 
-  it("overlays custom formations and sets (stock first, shared plays)", () => {
+  it("overlays custom formations and sets (a custom set wins a same-name clash, shared plays)", () => {
     const stockShotgun = lib.formationByName("Shotgun", "offense")!;
     const base = lib.setByAsset.get(F + "Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk")!;
     const gun = { formId: 1367080964, name: "Gun PBS", type: "FormationType_Offense", asset: F + "Offense/PBS_Gun/PBS_Gun" };

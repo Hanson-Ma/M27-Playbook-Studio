@@ -1,0 +1,278 @@
+/* Playbook overview: a toolbar, then one big pannable / zoomable wall of every formation, set and play. */
+.page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.centered {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* ───────────── toolbar ───────────── */
+.top {
+  flex: none;
+  display: grid;
+  grid-template-columns: minmax(300px, auto) minmax(0, 1fr) minmax(300px, auto);
+  align-items: center;
+  gap: var(--s4);
+  min-height: 52px;
+  padding: var(--s2) var(--s5);
+}
+.topLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  min-width: 0;
+}
+.book {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  color: var(--text-3);
+}
+.bookName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-xl);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chips {
+  justify-self: center;
+  min-width: 0;
+  max-width: 100%;
+}
+.topRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s4);
+  min-width: 0;
+}
+.counts {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-sm);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* ───────────── the wall ───────────── */
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 var(--s4) var(--s4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--bg-0);
+  overflow: hidden;
+}
+.viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+}
+.viewport[data-dragging] {
+  cursor: grabbing;
+}
+.viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--text) 35%, transparent);
+  border-radius: var(--r-lg);
+}
+.world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* a formation's column */
+.col {
+  position: absolute;
+  border-radius: 36px;
+  background: color-mix(in srgb, var(--bg-1) 55%, transparent);
+  border: 2px solid color-mix(in srgb, var(--line) 80%, transparent);
+}
+.formHead {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: calc(6px * var(--fb));
+  pointer-events: none;
+}
+.formName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(56px * var(--fb));
+  line-height: 1;
+  white-space: nowrap;
+}
+.formMeta {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: calc(22px * var(--fb));
+  color: var(--text-2);
+  line-height: 1;
+}
+
+/* a set's block inside the column */
+.setBlock {
+  position: absolute;
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--bg-2) 70%, transparent);
+  border: 1px solid var(--line);
+}
+.setHead {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  pointer-events: none;
+}
+.setName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: calc(28px * var(--sb));
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.setMeta {
+  flex: none;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: calc(18px * var(--sb));
+  color: var(--text-3);
+}
+
+/* ───────────── cards ───────────── */
+.card {
+  position: absolute;
+  cursor: pointer;
+}
+.light {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px 0 22px;
+  border-radius: 10px;
+  background: var(--bg-3);
+  border-left: 8px solid var(--tag);
+  overflow: hidden;
+}
+.lightName {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.lightType {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--tag);
+}
+.dot {
+  border-radius: 8px;
+  background: var(--tag);
+  opacity: 0.85;
+}
+.missing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--danger) 16%, var(--bg-2));
+  border: 2px dashed color-mix(in srgb, var(--danger) 60%, transparent);
+  color: var(--text-2);
+}
+
+/* the selected card: a white ring that keeps its on-screen thickness at any zoom */
+.ring {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: calc(3px * var(--inv)) solid var(--text);
+  border-radius: calc(8px * var(--inv));
+  box-shadow: 0 0 calc(18px * var(--inv)) rgba(255, 255, 255, 0.28);
+}
+
+/* ───────────── overlays ───────────── */
+.hud {
+  position: absolute;
+  left: var(--s4);
+  bottom: var(--s3);
+  right: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+  padding: 8px 12px;
+  width: fit-content;
+  max-width: calc(100% - 300px);
+  border-radius: var(--r-md);
+  background: var(--glass);
+}
+.help {
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+}
+.padHints {
+  pointer-events: none;
+}
+.zoom {
+  position: absolute;
+  right: var(--s3);
+  bottom: var(--s3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-radius: var(--r-md);
+  background: var(--glass);
+  border: 1px solid var(--line);
+}
+.zoomNum {
+  min-width: 46px;
+  text-align: center;
+  font-family: var(--font-num);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}

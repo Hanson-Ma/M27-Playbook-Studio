@@ -19,7 +19,7 @@ Every change you make goes around the same loop:
 3. **Run the export on the Madden PC.** Close Madden, open PowerShell in the `2026 Playbook` folder and run
    `tools\export.ps1 -Install`. It builds one mod and one playbook save per playbook.
 4. **Apply the mod in MMC Mod Manager.** Add (or refresh) `mods\pbstudio.fbmod`, click **Apply**, then **Launch**.
-5. **Pick your playbook in the game.** In an offline mode, choose your custom playbook (for example STUDIO).
+5. **Pick your playbook in the game.** In an offline mode, choose your custom playbook (for example FUSION).
 
 The [Export](#/help/export) section walks through steps 3 to 5 with screenshots.
 
@@ -32,7 +32,7 @@ people only ever need the first two and the last one.
 
 | Tab | What You Do There |
 |:--|:--|
-| **Playbook** | Open a playbook (STUDIO opens by default), arrange formations, sets and plays, set the four audibles of each set and tell the CPU when to call each play. |
+| **Playbook** | Open a playbook (FUSION opens by default), arrange formations, sets and plays, set the four audibles of each set and tell the CPU when to call each play. |
 | **Library** | Browse and search every play in the game (about 11,000) plus your own plays, then add them to a playbook. |
 | **Designer** | Make your own play from a play in the game: change routes, cuts, blocks, motion and the primary receiver (the red route). |
 | **Formations** | Make your own set: move players, adjust the pre-snap motions, copy plays into it. |
@@ -48,8 +48,8 @@ At the top right you'll also find:
 
 ## Your First Playbook in Ten Minutes
 
-1. Click **Playbook**. The STUDIO playbook (`playbooks/studio-test.json`) opens. To practise on a fresh one instead,
-   open the playbook menu at the top left (it shows **STUDIO**) and choose **New Playbook…**.
+1. Click **Playbook**. The FUSION playbook (`playbooks/FUSION.json`) opens. To practise on a fresh one instead,
+   open the playbook menu at the top left (it shows **FUSION**) and choose **New Playbook…**.
 2. In step 1 on the left, click a set, for example **Y TRIPS WK** under SHOTGUN. In a new playbook, first click
    **+ Formation** (type "shotgun", press Enter), then **+ Set** under it (type "y trips wk", press Enter).
 3. In step 2 in the middle, tick a few plays in **All Plays in This Set**. They appear as cards in **In This

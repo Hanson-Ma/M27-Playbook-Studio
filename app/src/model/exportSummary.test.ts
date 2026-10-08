@@ -16,11 +16,11 @@ const plays = [loadPlaysDoc("art-test.json"), loadPlaysDoc("pbs-ytrips-v1.json")
 const cat = buildCatalog(lib, plays);
 const book = (name: string): SpecDoc<PlaybookSpec> => ({
   path: `playbooks/${name}`,
-  data: JSON.parse(readFileSync(new URL(`../../../playbooks/${name}`, import.meta.url), "utf8")),
+  data: JSON.parse(readFileSync(new URL(`../../test-fixtures/${name}`, import.meta.url), "utf8")),
 });
 const setsDoc: { path: string; data: SetsFile } = {
   path: "playbooks/sets/pbs-sets-v1.json",
-  data: JSON.parse(readFileSync(new URL("../../../playbooks/sets/pbs-sets-v1.json", import.meta.url), "utf8")),
+  data: JSON.parse(readFileSync(new URL("../../test-fixtures/sets/pbs-sets-v1.json", import.meta.url), "utf8")),
 };
 const tc = templateContents(new Uint8Array(readFileSync(new URL("../../../playbooks/templates/PBOOKOFF-TEMPLATE", import.meta.url))), lib);
 

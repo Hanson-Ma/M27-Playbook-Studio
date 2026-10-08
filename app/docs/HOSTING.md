@@ -272,8 +272,7 @@ The hosted app always works on the folder on *that* computer, so the two copies 
 
 - **Nothing leaves your computer.** The site is static files. Your playbooks, the game library and the template save
   are read and written on your disk by your own browser. The only network requests are loading the app itself and
-  the DM Mono font (Google Fonts). NB International Pro is never uploaded: the site shows it on computers that have it
-  installed and falls back to Helvetica elsewhere (see the README's Fonts note).
+  the Public Sans and DM Mono fonts (Google Fonts).
 - **The site is public but harmless.** Anyone with the address can load the app, but without a 2026 Playbook folder
   of their own it can't do anything, and it never sees yours. Add a password (step 8) if you'd rather it stayed
   private.

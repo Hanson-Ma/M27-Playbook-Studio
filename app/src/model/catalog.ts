@@ -219,6 +219,8 @@ function buildNewSteps(
 }
 
 const LEAF_RE = /^[A-Za-z0-9_]+$/;
+/** Authored assignment names may sit in subfolders of Assignments/PBS/ ("FUSION/R_ab12…"): the builder takes any path. */
+const AUTHORED_NAME_RE = /^[A-Za-z0-9_]+(?:\/[A-Za-z0-9_]+)*$/;
 
 // ───────────────────────────── shared play-spec resolution (clones + custom plays) ─────────────────────────────
 
@@ -329,7 +331,7 @@ function applyPlaySpec(
         problems.push(`${where}: "${pspec.new}" is first defined by "${maddenName(first.play)}" (${first.file}); that definition is used`);
       }
       const resolved = first ?? mine;
-      if (!LEAF_RE.test(pspec.new)) problems.push(`${where}: authored name "${pspec.new}" must be [A-Za-z0-9_]`);
+      if (!AUTHORED_NAME_RE.test(pspec.new)) problems.push(`${where}: authored name "${pspec.new}" must be [A-Za-z0-9_] (folders separated by /)`);
       slots[n] = {
         steps: resolved.steps,
         authored: pspec.new,

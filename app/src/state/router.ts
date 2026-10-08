@@ -2,15 +2,16 @@
 //   #/playbook                      playbook picker     #/playbook/<encodeURIComponent(path)>         builder (default view)
 //   #/library                       library grid        #/library/play/<encodeURIComponent(PlayKey)>  play detail
 //   #/playcall                      play-call preview   #/playcall/<encodeURIComponent(path)>         (no top tab: PLAYBOOK)
+//   #/overview                      whole-playbook wall #/overview/<encodeURIComponent(path)>[?flip=1] (no top tab: PLAYBOOK)
 //   #/designer                      plays files/list    #/designer/<encodeURIComponent(file)>/<index> edit a custom play
 //                                                       #/designer/new?set=<SetAsset>&base=<PlayAsset>&file=<path>
 //   #/formations                    sets files/list     #/formations/<encodeURIComponent(file)>/<index>
 //   #/concepts (no top tab: LIBRARY)   #/export   #/settings[/editor|/data]   #/help[/<section>][?h=<heading id>]
 import { useSyncExternalStore } from "react";
 
-export type ViewId = "library" | "playbook" | "playcall" | "designer" | "formations" | "concepts" | "export" | "settings" | "help";
+export type ViewId = "library" | "playbook" | "playcall" | "overview" | "designer" | "formations" | "concepts" | "export" | "settings" | "help";
 
-export const VIEW_IDS: ViewId[] = ["library", "playbook", "playcall", "designer", "formations", "concepts", "export", "settings", "help"];
+export const VIEW_IDS: ViewId[] = ["library", "playbook", "playcall", "overview", "designer", "formations", "concepts", "export", "settings", "help"];
 
 /** Where the app opens and where unknown routes land. */
 export const DEFAULT_VIEW: ViewId = "playbook";
@@ -69,7 +70,7 @@ export function useRoute(): Route {
   );
 }
 
-/** Build a hash: href("playbook", "playbooks/studio-test.json") → "#/playbook/playbooks%2Fstudio-test.json". */
+/** Build a hash: href("playbook", "playbooks/FUSION.json") → "#/playbook/playbooks%2FFUSION.json". */
 export function href(view: ViewId, ...parts: (string | number)[]): string {
   const p = parts.map((x) => encodeURIComponent(String(x))).join("/");
   return `#/${view}${p ? "/" + p : ""}`;

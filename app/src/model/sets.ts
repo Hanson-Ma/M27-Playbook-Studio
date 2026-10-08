@@ -1233,7 +1233,7 @@ function cloneOverrideIssues(c: CloneSpec, n: number, stock: LibraryIndex, p: (l
           const path = spec.replace(/^\/+/, "");
           if (!stock.assignment(path) && !/^(football\/Gameplay\/playbooks\/PlayLibrary\/Assignments\/)?PBS\//.test(path)) p("error", "set-play-assignment", `slot ${key}: assignment not found (${spec})`);
         } else if (isObj(spec) && typeof spec.new === "string") {
-          if (!ASSET_RE.test(spec.new)) p("error", "set-play-new", `slot ${key}: authored name "${spec.new}" must be [A-Za-z0-9_]`);
+          if (!/^[A-Za-z0-9_]+(?:\/[A-Za-z0-9_]+)*$/.test(spec.new)) p("error", "set-play-new", `slot ${key}: authored name "${spec.new}" must be [A-Za-z0-9_] (folders separated by /)`);
           if (!Array.isArray(spec.steps)) p("error", "set-play-new", `slot ${key}: "steps" must be an array`);
         } else p("error", "set-play-players", `slot ${key}: expected an assignment path or { "new": … }`);
       }

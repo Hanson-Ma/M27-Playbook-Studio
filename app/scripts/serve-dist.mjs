@@ -69,11 +69,11 @@ function check() {
   // The site must never contain game data or your playbooks.
   const leaked = files.filter((f) => /^(data|playbooks|app-data|tools|mods)\//.test(f) || /(^|\/)(plays|assignments|sets|formations|enums)\.json$/.test(f));
   if (leaked.length) problems.push(`dist/ contains files that belong in your 2026 Playbook folder, not on a website: ${leaked.slice(0, 5).join(", ")}`);
-  // NB International Pro is licensed for desktop/print only: the site names it, it must never carry the font itself.
+  // The site loads its fonts (Public Sans, DM Mono) from Google Fonts; dist/ should carry no font files of its own.
   const fontFiles = files.filter((f) => /\.(otf|ttf|woff2?|eot)$/i.test(f) && /nb.?international/i.test(f));
   const fontData = files.filter((f) => /\.(css|js|html)$/i.test(f) && /data:(font\/|application\/(x-)?font)/i.test(readFileSync(path.join(DIST, f), "utf8")));
   if (fontFiles.length || fontData.length)
-    problems.push(`dist/ carries font files or embedded font data (${[...fontFiles, ...fontData].slice(0, 5).join(", ")}): NB International Pro may not be uploaded — reference it by name only.`);
+    problems.push(`dist/ carries font files or embedded font data (${[...fontFiles, ...fontData].slice(0, 5).join(", ")}): load fonts from Google Fonts instead of uploading them.`);
 
   const total = files.reduce((n, f) => n + statSync(path.join(DIST, f)).size, 0);
   const top = [...new Set(files.map((f) => (f.includes("/") ? `${f.split("/")[0]}/` : f)))].sort();

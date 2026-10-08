@@ -4,8 +4,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const L = f => JSON.parse(readFileSync("data/library/" + f, "utf8"));
 const sets = L("sets.json"), plays = L("plays.json"), A = L("assignments.json");
-const spec = JSON.parse(readFileSync("playbooks/fusion/sets.json", "utf8"));
-const book = JSON.parse(readFileSync("playbooks/fusion/FUSION.json", "utf8"));
+const spec = JSON.parse(readFileSync("playbooks/sets/fusion-sets.json", "utf8"));
+const book = JSON.parse(readFileSync("playbooks/FUSION.json", "utf8"));
 const AROOT = "football/Gameplay/playbooks/PlayLibrary/Assignments/";
 const playByAsset = new Map(plays.map(p => [p.asset, p]));
 const setByAsset = new Map(sets.map(s => [s.asset, s]));

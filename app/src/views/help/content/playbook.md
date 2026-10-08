@@ -1,8 +1,8 @@
 # Build a Playbook
 
 A playbook is a list of **formations**, each formation holds **sets**, and each set holds **plays**, just like the
-formation screen in Madden. One playbook file becomes one custom playbook in the game: `studio-test.json` with the
-name STUDIO becomes the save `PBOOKOFF-STUDIO`, and you pick it in the game as STUDIO.
+formation screen in Madden. One playbook file becomes one custom playbook in the game: `FUSION.json` with the
+name FUSION becomes the save `PBOOKOFF-FUSION`, and you pick it in the game as FUSION.
 
 The **Playbook** tab works in three steps, left to right: **1 Pick a Set**, **2 Add & Order Plays**, **3 Audibles &
 CPU**.
@@ -11,12 +11,12 @@ CPU**.
 
 ## Open, Create and Rename Playbooks
 
-The playbook menu at the top left (it shows the playbook's name, for example **STUDIO**) lists every playbook in your
+The playbook menu at the top left (it shows the playbook's name, for example **FUSION**) lists every playbook in your
 folder.
 
 ![The playbook menu: open a playbook, start a new one, duplicate, rename or delete.](/guide/playbook-picker.png)
 
-- **Click a playbook** to open it. STUDIO (`playbooks/studio-test.json`) opens the first time; after that the app
+- **Click a playbook** to open it. FUSION (`playbooks/FUSION.json`) opens the first time; after that the app
   reopens the one you used last.
 - **New Playbook…** starts an empty offense playbook with goal line and special teams already in it. Give it a name
   (letters A–Z and digits only; it becomes the in-game name).
@@ -26,7 +26,7 @@ folder.
 - **Rename This Playbook…** changes the in-game name and the file name together.
 - **Delete This Playbook…** moves the file to `app-data/.trash/`; nothing is lost for good.
 
-Next to the menu you see the save name the game will use (`PBOOKOFF-STUDIO`) and the file (`studio-test.json`).
+Next to the menu you see the save name the game will use (`PBOOKOFF-FUSION`) and the file (`FUSION.json`).
 
 ## Step 1: Pick a Set
 
@@ -123,7 +123,7 @@ The bar under the playbook name counts what the game allows in one playbook:
 
 The counts include the template sections. On the right:
 
-- **Need the Mod** counts your own plays and the stock plays the game hides from custom playbooks. Both work once the
+- **Plays Need the Mod** counts your own plays and the stock plays the game hides from custom playbooks. Both work once the
   Playbook Studio mod is applied; see [Needs Mod](#/help/library).
 - **Ready to Export** (or the number of problems) opens the list of checks. Click a problem to jump to it.
 
@@ -143,5 +143,5 @@ follow the file. Your order is still saved; it's what the preview and the file s
 
 ## Notes and Side
 
-Click the playbook's name at the top of the tree (STUDIO) to see its overview: formations, sets and play counts, a
+Click the playbook's name at the top of the tree (FUSION) to see its overview: formations, sets and play counts, a
 **Notes** box for yourself, and under **Advanced** whether it's an offense or defense playbook.

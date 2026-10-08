@@ -115,14 +115,16 @@ describe("formatJson", () => {
 });
 
 describe("serializeDoc on the repo's example files", () => {
-  const files = walkJson(path.join(REPO, "playbooks"));
+  // The real playbook (FUSION) plus the example specs the tests use (app/test-fixtures/, shown under playbooks/).
+  const FIXTURES = path.join(REPO, "app/test-fixtures");
+  const files = [...walkJson(path.join(REPO, "playbooks")), ...walkJson(FIXTURES)];
 
   it("finds the examples", () => {
     expect(files.length).toBeGreaterThanOrEqual(4);
   });
 
   for (const file of files) {
-    const rel = path.relative(REPO, file).split(path.sep).join("/");
+    const rel = (file.startsWith(FIXTURES) ? "playbooks/" + path.relative(FIXTURES, file) : path.relative(REPO, file)).split(path.sep).join("/");
     it(`round-trips ${rel}`, () => {
       const original = parseJson(readFileSync(file, "utf8"));
       const kind = kindOf(rel);

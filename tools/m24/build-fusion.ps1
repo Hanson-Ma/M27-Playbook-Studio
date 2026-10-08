@@ -1,7 +1,7 @@
 # Builds the Madden 27 port of the FUSION playbook (Madden 24 mod) as its own mod + custom playbook save.
-#   ../MAMA9 (M24 mod: mama9.DB, customplaybooks.DB, release/PBOOKOFF-FUSION) -> playbooks/fusion/*.json (convert)
-#   playbooks/fusion/sets.json  -> mods/fusion.fbproject + mods/fusion.fbmod
-#   playbooks/fusion/FUSION.json -> build/fusion/PBOOKOFF-FUSION
+#   ../MAMA9 (M24 mod: mama9.DB, customplaybooks.DB, release/PBOOKOFF-FUSION) -> playbooks/FUSION.json + playbooks/sets/fusion-sets.json (convert)
+#   playbooks/sets/fusion-sets.json  -> mods/fusion.fbproject + mods/fusion.fbmod
+#   playbooks/FUSION.json -> build/fusion/PBOOKOFF-FUSION
 # -Install copies the save into Documents\Madden NFL 27\saves and the mod + save + readme/report/preview into release\fusion (tracked in git).
 # FUSION's mod edits GlobalPlaySheet like mods/pbstudio.fbmod does, so enable only one of the two in MMC Mod Manager.
 param(
@@ -23,14 +23,14 @@ if (-not $SkipConvert) {
     if ($LASTEXITCODE -ne 0) { throw "convert-fusion failed" }
 }
 
-$book = "playbooks\fusion\FUSION.json"
+$book = "playbooks/FUSION.json"
 $save = "$out\PBOOKOFF-FUSION"
 Remove-Item "$out\pull-plays.json" -ErrorAction SilentlyContinue
 node tools\pbook-build.mjs --collect --index $out $book $Template $save
 if ($LASTEXITCODE -ne 0) { throw "pbook-build (collect) failed" }
 
 if (-not $SkipPlays) {
-    & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\fusion.fbproject mods\fusion.fbmod playbooks\fusion\mod.json playbooks\fusion\sets.json --out-index $out
+    & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\fusion.fbproject mods\fusion.fbmod playbooks/mod.json playbooks/sets/fusion-sets.json --out-index $out
     if ($LASTEXITCODE -ne 0) { throw "buildplays failed" }
 }
 

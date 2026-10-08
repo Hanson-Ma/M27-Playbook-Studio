@@ -241,8 +241,8 @@ function LoadedBuilder({ path, spec, catalog }: { path: string; spec: PlaybookSp
       <MenuOpener.Provider value={openMenu}>
         <DragHandlersContext.Provider value={dragHandlers}>
           <div className={s.builder}>
-            <BuilderHeader />
             <ValidationStrip />
+            <BuilderHeader />
             <div className={s.body}>
               <SplitPane initial={treeWidth()} min={240} max={560} storageKey="pbstudio.split.playbook.tree2" className={s.split}>
                 <LeftPane />
@@ -267,7 +267,7 @@ function LoadedBuilder({ path, spec, catalog }: { path: string; spec: PlaybookSp
 }
 
 /**
- * Default tree width (until the user drags the divider): room for long names in NB International next to their
+ * Default tree width (until the user drags the divider): room for long names in Public Sans next to their
  * tags, counts and audible glyphs — "Y TRIPS TIGHT WK" + CUSTOM, "PBS REVERSE QB LEAD" + C · 1 — while a 1280 px
  * window keeps three card columns in the middle pane. (The key's "2": widths saved for the old 300 px default reset.)
  */

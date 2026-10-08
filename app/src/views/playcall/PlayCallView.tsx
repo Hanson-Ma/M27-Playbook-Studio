@@ -4,10 +4,13 @@
 // level, "Back to Playbook" returns to the builder. Picking a play opens the full-screen pre-snap view. Arrow keys
 // page while the stage has focus. View state lives in the URL query (tab, at, pg, play, flip) — see playcallModel.ts.
 // "sets": "template" sections open read-only once the template save is read (state/template.ts).
-import { useEffect, useMemo, useState, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode, type WheelEvent } from "react";
+import { foreignOverlayOpen, padIsActive, usePadHandler, type PadPress } from "../../input/gamepad";
+import { FOCUSABLE, focusEl } from "../../input/padNav";
+import { PadHints, type PadHint } from "../../input/PadHints";
 import type { Catalog } from "../../model/catalog";
 import { CONCEPTS_PATH } from "../../model/conceptsDoc";
-import { resolvePlaybook, type BookCounts } from "../../model/resolveBook";
+import type { BookCounts } from "../../model/resolveBook";
 import type { ConceptsDoc, PlaybookSpec, ResolvedPlay } from "../../model/types";
 import { useCatalog, useLibrary } from "../../state/library";
 import { getRoute, href, navigate, useRoute } from "../../state/router";
@@ -18,11 +21,11 @@ import { Button, EmptyState, Icon, SearchSelect, Select, Spinner, TabBar, Tag, c
 import { AudibleDiamond } from "./AudibleDiamond";
 import { FormationTile, GroupTile, PlaySlot, SetTile, missingTemplateText } from "./CallTiles";
 import { bookSummary } from "./bookSummary";
+import { useCallBook } from "./useCallBook";
 import { PreSnap } from "./PreSnap";
 import {
   PAGE_SIZE,
   PLAYCALL_TABS,
-  buildCallBook,
   canOpenFormation,
   clampPage,
   conceptGroups,
@@ -36,7 +39,6 @@ import {
   presnapList,
   resolveLevel,
   typeGroups,
-  type CallBook,
   type CallContext,
   type CallFormation,
   type CallGroup,
@@ -45,13 +47,12 @@ import {
   type CallPlay,
   type CallSet,
   type PlayCallTab,
-  type TemplateSource,
 } from "./playcallModel";
 import s from "./PlayCall.module.css";
 
 const MAX_DOTS = 18;
 /** The default playbook (settings.lastPlaybook falls back to it): STUDIO. */
-const DEFAULT_BOOK = "playbooks/studio-test.json";
+const DEFAULT_BOOK = "playbooks/FUSION.json";
 
 const TAB_ITEMS: TabItem<PlayCallTab>[] = PLAYCALL_TABS.map((t) => ({ id: t.id, label: t.label }));
 
@@ -172,21 +173,6 @@ interface ScreenProps {
   doc: DocEntry<PlaybookSpec>;
   docs: DocEntry<PlaybookSpec>[];
   catalog: Catalog;
-}
-
-function useCallBook(spec: PlaybookSpec | undefined, catalog: Catalog): { book?: CallBook; counts?: BookCounts; error?: string } {
-  // Template sections fill in once the template save is read (it loads once per library).
-  const contents = useTemplate().contents;
-  return useMemo(() => {
-    if (!spec) return {};
-    try {
-      const resolved = resolvePlaybook(spec, catalog, { template: contents });
-      const template: TemplateSource | undefined = contents ? { contents, lib: catalog.lib } : undefined;
-      return { book: buildCallBook(resolved, template), counts: resolved.counts };
-    } catch (e) {
-      return { error: e instanceof Error ? e.message : String(e) };
-    }
-  }, [spec, catalog, contents]);
 }
 
 function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
@@ -360,6 +346,100 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     }
   };
 
+  // ── controller ──
+  // D-pad / stick: ← → walk the cards and flip pages at the ends; ↑ ↓ fall through to the app-wide focus movement.
+  // A opens the focused card, B goes up a level (then back to the builder), LB / RB switch tabs, LT / RT page,
+  // X flips the plays, Y favorites the focused play. The pre-snap view registers above this and owns the pad.
+  const stageRef = useRef<HTMLDivElement>(null);
+  const pendingFocus = useRef<"first" | "last" | undefined>(undefined);
+  const rowCards = (): HTMLElement[] => {
+    const row = stageRef.current?.querySelector("[data-pad-row]");
+    if (!row) return [];
+    return Array.from(row.children).flatMap((c) => {
+      const el = c instanceof HTMLElement ? (c.matches(FOCUSABLE) ? c : c.querySelector<HTMLElement>(FOCUSABLE)) : null;
+      return el ? [el] : [];
+    });
+  };
+  const padPage = (to: number, land: "first" | "last") => {
+    if (pages < 2) return;
+    pendingFocus.current = land;
+    goPage(to);
+  };
+  const padPress = (p: PadPress): boolean => {
+    if (nav.open || !level) return false;
+    const tabIds = PLAYCALL_TABS.map((t) => t.id);
+    const tabAt = tabIds.indexOf(nav.tab);
+    switch (p.button) {
+      case "LB":
+      case "RB": {
+        const next = tabIds[(tabAt + (p.button === "RB" ? 1 : -1) + tabIds.length) % tabIds.length];
+        pendingFocus.current = "first";
+        setTab(next);
+        return true;
+      }
+      case "LT":
+        padPage(page - 1, "first");
+        return true;
+      case "RT":
+        padPage(page + 1, "first");
+        return true;
+      case "B":
+        if (level.at.length) back();
+        else navigate(href("playbook", path));
+        return true;
+      case "X":
+        toggleFlip();
+        return true;
+      case "Y": {
+        const id = document.activeElement?.closest("[data-call-id]")?.getAttribute("data-call-id");
+        const item = id ? book?.byId.get(id) : undefined;
+        if (item) toggleFavorite(item);
+        return true;
+      }
+      case "A": {
+        // Nothing focused yet: land on the cards instead of clicking the page.
+        const a = document.activeElement;
+        if (!a || a === document.body || !a.matches(FOCUSABLE)) {
+          const cards = rowCards();
+          if (cards.length) {
+            focusEl(cards.find((c) => c.matches("[data-selected]") || c.querySelector("[data-selected]")) ?? cards[0]);
+            return true;
+          }
+        }
+        return false;
+      }
+      case "LEFT":
+      case "RIGHT": {
+        const cards = rowCards();
+        const at = cards.findIndex((c) => c === document.activeElement || c.contains(document.activeElement));
+        if (!cards.length) return false;
+        if (at < 0) {
+          focusEl(p.button === "LEFT" ? cards[cards.length - 1] : cards[0]);
+          return true;
+        }
+        const to = at + (p.button === "RIGHT" ? 1 : -1);
+        if (to >= 0 && to < cards.length) focusEl(cards[to]);
+        else padPage(page + (p.button === "RIGHT" ? 1 : -1), p.button === "RIGHT" ? "first" : "last");
+        return true;
+      }
+      default:
+        return false;
+    }
+  };
+  usePadHandler({ press: padPress }, { priority: 10 });
+
+  // After a page, tab or level change (and when the pre-snap closes) put the controller focus on a card.
+  useEffect(() => {
+    const want = pendingFocus.current;
+    pendingFocus.current = undefined;
+    if (nav.open || !padIsActive() || foreignOverlayOpen()) return;
+    const cards = rowCards();
+    if (!cards.length) return;
+    const selected = cards.find((c) => c.matches("[data-selected]") || c.querySelector("[data-selected]"));
+    focusEl(want === "last" ? cards[cards.length - 1] : (want === "first" ? undefined : selected) ?? cards[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [levelKey, page, nav.open]);
+
   // ── render ──
   const bookName = spec?.name || basename(doc.path);
 
@@ -418,9 +498,9 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
               update((n) => ({ ...n, page: p }));
             }}
           />
-          <div className={s.stage} data-kind={level.kind} onWheel={onWheel} onKeyDown={onStageKey}>
+          <div ref={stageRef} className={s.stage} data-kind={level.kind} onWheel={onWheel} onKeyDown={onStageKey}>
             {pages > 1 && (
-              <button type="button" className={cx(s.arrow, s.arrowLeft)} onMouseDown={(e) => e.preventDefault()} onClick={() => goPage(page - 1)} aria-label="Previous page">
+              <button type="button" data-pad-skip className={cx(s.arrow, s.arrowLeft)} onMouseDown={(e) => e.preventDefault()} onClick={() => goPage(page - 1)} aria-label="Previous page">
                 <Icon name="chevronLeft" size={30} />
               </button>
             )}
@@ -449,7 +529,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
               <Dots page={page} pages={pages} onPage={goPage} />
             </div>
             {pages > 1 && (
-              <button type="button" className={cx(s.arrow, s.arrowRight)} onMouseDown={(e) => e.preventDefault()} onClick={() => goPage(page + 1)} aria-label="Next page">
+              <button type="button" data-pad-skip className={cx(s.arrow, s.arrowRight)} onMouseDown={(e) => e.preventDefault()} onClick={() => goPage(page + 1)} aria-label="Next page">
                 <Icon name="chevronRight" size={30} />
               </button>
             )}
@@ -670,12 +750,22 @@ function Dots({ page, pages, onPage }: { page: number; pages: number; onPage(p: 
   );
 }
 
+const PAD_HINTS: PadHint[] = [
+  { buttons: ["A"], label: "Select" },
+  { buttons: ["B"], label: "Back" },
+  { buttons: ["LB", "RB"], label: "Tabs" },
+  { buttons: ["LT", "RT"], label: "Pages" },
+  { buttons: ["X"], label: "Flip" },
+  { buttons: ["Y"], label: "Favorite" },
+];
+
 function Footer({ counts }: { counts?: BookCounts }) {
   return (
     <footer className={s.foot}>
       <span className={s.caveat}>
         <Icon name="info" size={13} /> The game sorts formations by usage; this preview uses your file order.
       </span>
+      <PadHints hints={PAD_HINTS} className={s.padHints} />
       {counts && (
         <span className={s.footChips}>
           {counts.custom > 0 && (
@@ -742,7 +832,7 @@ function LevelContent(p: LevelContentProps) {
   if (!level.items.length) return <EmptyLevel level={level} tab={p.tab} bookPath={p.bookPath} />;
 
   return (
-    <div className={s.row}>
+    <div className={s.row} data-pad-row>
       {pageItems.map((it, i) => {
         switch (level.kind) {
           case "formations": {

@@ -53,7 +53,7 @@ import type { PlayEntry, PlaybookSpec, SetEntry } from "./types";
 
 const lib = buildLibraryIndex(loadLibraryData());
 const cat = buildCatalog(lib, [loadPlaysDoc("art-test.json"), loadPlaysDoc("pbs-ytrips-v1.json")]);
-const text = (name: string) => readFileSync(new URL(`../../../playbooks/${name}`, import.meta.url), "utf8");
+const text = (name: string) => readFileSync(new URL(`../../test-fixtures/${name}`, import.meta.url), "utf8");
 const book = (name: string): PlaybookSpec => parseJson<PlaybookSpec>(text(name));
 const templateBytes = new Uint8Array(readFileSync(new URL("../../../playbooks/templates/PBOOKOFF-TEMPLATE", import.meta.url)));
 
@@ -439,13 +439,13 @@ describe("bookIds on hand-edited JSON", () => {
 });
 
 describe("builder home (v2)", () => {
-  it("opens the last playbook, else STUDIO, else the first one", () => {
-    const paths = ["playbooks/studio-lib.json", "playbooks/studio-test.json", "playbooks/aaa.json"];
-    expect(DEFAULT_PLAYBOOK_PATH).toBe("playbooks/studio-test.json");
-    expect(defaultPlaybookPath(undefined, paths)).toBe("playbooks/studio-test.json");
+  it("opens the last playbook, else FUSION, else the first one", () => {
+    const paths = ["playbooks/studio-lib.json", "playbooks/FUSION.json", "playbooks/aaa.json"];
+    expect(DEFAULT_PLAYBOOK_PATH).toBe("playbooks/FUSION.json");
+    expect(defaultPlaybookPath(undefined, paths)).toBe("playbooks/FUSION.json");
     expect(defaultPlaybookPath("playbooks/studio-lib.json", paths)).toBe("playbooks/studio-lib.json");
-    // A deleted last playbook falls back to STUDIO; letter case follows the existing file.
-    expect(defaultPlaybookPath("playbooks/gone.json", paths)).toBe("playbooks/studio-test.json");
+    // A deleted last playbook falls back to FUSION; letter case follows the existing file.
+    expect(defaultPlaybookPath("playbooks/gone.json", paths)).toBe("playbooks/FUSION.json");
     expect(defaultPlaybookPath("playbooks/AAA.json", paths)).toBe("playbooks/aaa.json");
     expect(defaultPlaybookPath(undefined, ["playbooks/b.json", "playbooks/a.json"])).toBe("playbooks/a.json");
     expect(defaultPlaybookPath("playbooks/x.json", [])).toBeUndefined();

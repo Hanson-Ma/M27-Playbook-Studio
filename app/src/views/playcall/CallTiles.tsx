@@ -358,7 +358,7 @@ export const PlaySlot = memo(function PlaySlot({ item, glyph, selected, flip, fa
     );
   }
   return (
-    <div className={s.playSlot}>
+    <div className={s.playSlot} data-call-id={item.id}>
       <PlayCard
         play={play}
         size={size}

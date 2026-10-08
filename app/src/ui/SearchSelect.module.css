@@ -47,7 +47,7 @@
 .placeholder {
   color: var(--text-3);
 }
-/* variant="chrome": display type (NB International), like the tabs/headers/trees around it. Text as written (Title
+/* variant="chrome": display type (Public Sans), like the tabs/headers/trees around it. Text as written (Title
    Case chrome); the `caps` prop uppercases it for Madden names (formations, sets, plays). */
 .chrome .value {
   font-family: var(--font-display);

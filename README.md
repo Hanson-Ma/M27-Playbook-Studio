@@ -27,7 +27,8 @@ the game side can build them.
 
 ## 1. Playbook Studio (`app/`)
 
-A React + TypeScript (Vite) app. Its own README covers it in full: **[`app/README.md`](app/README.md)**. Module
+A React + TypeScript (Vite) app. The default playbook is FUSION (`playbooks/FUSION.json`), and a connected Xbox or
+PlayStation controller drives every screen. Its own README covers it in full: **[`app/README.md`](app/README.md)**. Module
 contracts are in [`app/ARCHITECTURE.md`](app/ARCHITECTURE.md).
 
 What it does:
@@ -36,7 +37,8 @@ What it does:
 - **Playbook builder**: Formation → Set → Play tree with drag-and-drop, audibles, CPU weights and a validation strip.
 - **Play designer**: draw routes, blocks, motions and reads on a to-scale field; it writes assignment step chains.
 - **Formations / sets**: custom alignments and pre-snap motion presets.
-- **Play Call**: a preview of the in-game play-call screen, driven by keyboard or controller.
+- **Play Call**: a preview of the in-game play-call screen, driven by mouse, keyboard or controller.
+- **Overview**: the whole playbook on one pan-and-zoom wall (a column per formation, a card per play).
 - **Export**: checks for problems, then writes the playbook, play and set JSON (or a downloadable bundle when hosted).
 
 ```sh

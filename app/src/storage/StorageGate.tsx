@@ -26,7 +26,6 @@ function StartScreen({ state }: { state: Exclude<StoragePhase, { phase: "ready" 
 
   return (
     <div className={s.screen}>
-      <div className={s.stadium} aria-hidden />
       {state.phase === "detecting" ? (
         slow && (
           <div className={s.center}>

@@ -12,7 +12,7 @@ import type { FormationEntry, PlayEntry, PlaybookSpec, SetEntry } from "./types"
 const lib = buildLibraryIndex(loadLibraryData());
 const cat = buildCatalog(lib, [loadPlaysDoc("art-test.json"), loadPlaysDoc("pbs-ytrips-v1.json")]);
 const book = (name: string): PlaybookSpec =>
-  parseJson<PlaybookSpec>(readFileSync(new URL(`../../../playbooks/${name}`, import.meta.url), "utf8"));
+  parseJson<PlaybookSpec>(readFileSync(new URL(`../../test-fixtures/${name}`, import.meta.url), "utf8"));
 const sets = (spec: PlaybookSpec, f = 0) => spec.formations[f].sets as SetEntry[];
 const names = (se: SetEntry) => se.plays.map((p) => p.play);
 

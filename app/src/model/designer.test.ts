@@ -567,7 +567,8 @@ describe("My Routes on a slot", () => {
 
   it("the slot's routeType is what Save route stores", () => {
     const st = stateFromSpec(artA.spec, catalog, artA.file, artA.index);
-    expect(slotRouteType(st, 2)).toBe("AssignRouteType_RR_In_Deep");
+    // The art-test fixture is frozen (app/test-fixtures/): slot 2 keeps the base play's own assignment.
+    expect(slotRouteType(st, 2)).toBe("AssignRouteType_RR_Post_Middle");
     expect(slotRouteType(applySavedRoute(st, 2, deepOver, { prefix: "PBS_" }), 2)).toBe("AssignRouteType_RR_Cross");
   });
 });

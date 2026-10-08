@@ -1,6 +1,6 @@
 // Ports the Madden 24 FUSION playbook mod to Madden 27 specs for our builders.
 //   in:  build/m24/fusion-m24.json (tools/m24/fusion-analyze.mjs), ../MAMA9/mama9.DB (set alignments + motion presets), data/library/*
-//   out: playbooks/fusion/sets.json (custom sets + their plays -> mod), playbooks/fusion/FUSION.json (playbook spec),
+//   out: playbooks/sets/fusion-sets.json (custom sets + their plays -> mod), playbooks/FUSION.json (playbook spec),
 //        build/m24/fusion-report.md (what mapped to what, every approximation, and a terminology audit)
 // usage: node tools/m24/convert-fusion.mjs
 //
@@ -885,9 +885,9 @@ log(`\n## Special teams\nKickoff, punt, field goal, kneel and spike come from th
 log(`\n## Terminology audit\nRZ red zone · FM/FME/FMH/FMO force motion (you motion pre-snap with the set's presets) · PM pre-motioned · BM burst · RM return · EM exit · YEM Y exit · YM Y motion · M max protect · JB/JW/JF/JR jet block/wheel/flat/return · P pull blocking. Checked: motion on J/YM/EM/BM/RM/HBM plays, a shift on PM plays, a pulling lineman on P plays, a rolling QB on boots, and the M24 handoff animation on PA/RPO/runs.\n\n| formation | set | play | kind | motion slots | check |\n|---|---|---|---|---|---|\n${audit.join("\n")}\n`);
 log(`\n## Totals\n- ${stats.sets} custom sets, ${stats.plays} plays (${stats.passes} passes rebuilt, ${stats.runs} runs/options)\n- handoff animation matched on ${stats.animMatched} of ${stats.animMatched + stats.animMissed} PA/RPO/run plays\n- ${stats.assignments.size} new assignments\n- ${stats.warnings} warnings (inline above)\n`);
 
-mkdirSync("playbooks/fusion", { recursive: true });
-writeFileSync("playbooks/fusion/sets.json", JSON.stringify(setsSpec, null, 1));
-writeFileSync("playbooks/fusion/FUSION.json", JSON.stringify(book, null, 2));
+mkdirSync("playbooks/sets", { recursive: true });
+writeFileSync("playbooks/sets/fusion-sets.json", JSON.stringify(setsSpec, null, 1));
+writeFileSync("playbooks/FUSION.json", JSON.stringify(book, null, 2));
 writeFileSync("build/m24/fusion-report.md", report.join("\n") + "\n");
 const flagged = audit.filter(l => !l.endsWith("| ok |")).length;
 console.log(`${stats.sets} sets, ${stats.plays} plays (${stats.passes} passes, ${stats.runs} runs); handoff anim matched ${stats.animMatched}/${stats.animMatched + stats.animMissed}; ${stats.assignments.size} new assignments; ${stats.warnings} warnings; audit flags ${flagged}`);

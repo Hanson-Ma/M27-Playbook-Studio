@@ -96,7 +96,7 @@ export function ValidationStrip() {
             onClick={(e) => toggle("mod", e.currentTarget)}
           >
             <Icon name="info" size={14} />
-            {groups.mod.length} Need{groups.mod.length === 1 ? "s" : ""} the Mod
+            {groups.mod.length} Play{groups.mod.length === 1 ? "" : "s"} Need{groups.mod.length === 1 ? "s" : ""} the Mod
           </button>
         )}
         <button

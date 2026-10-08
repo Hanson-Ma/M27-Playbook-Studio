@@ -1,42 +1,9 @@
-/* Start screen before the app boots (hosted / folder mode): same stadium + wordmark as the app's loading screen,
+/* Start screen before the app boots (hosted / folder mode): same wordmark as the app's loading screen,
    with one near-black card for the folder step. */
 .screen {
   position: relative;
   height: 100%;
   overflow: auto;
-}
-
-/* Out-of-focus stadium: colored light wash + blurred floodlights (mirrors App.module.css .stadium). */
-.stadium {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.stadium::before {
-  content: "";
-  position: absolute;
-  inset: -10%;
-  background:
-    radial-gradient(38% 30% at 18% 2%, color-mix(in srgb, var(--blue) 20%, transparent), transparent 70%),
-    radial-gradient(34% 26% at 84% 0%, color-mix(in srgb, var(--red) 15%, transparent), transparent 70%),
-    radial-gradient(70% 45% at 50% 112%, color-mix(in srgb, var(--field-bg-2) 80%, transparent), transparent 72%),
-    radial-gradient(120% 90% at 50% 40%, transparent 55%, color-mix(in srgb, var(--bg-0) 70%, transparent));
-  filter: blur(28px);
-}
-.stadium::after {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 4%;
-  right: 4%;
-  height: 40px;
-  background: radial-gradient(circle, color-mix(in srgb, var(--text) 55%, transparent) 0 2.5px, transparent 4px) 0 50% / 34px 40px repeat-x;
-  -webkit-mask-image: linear-gradient(to right, transparent 0, var(--text) 6%, var(--text) 28%, transparent 36%, transparent 64%, var(--text) 72%, var(--text) 94%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0, var(--text) 6%, var(--text) 28%, transparent 36%, transparent 64%, var(--text) 72%, var(--text) 94%, transparent 100%);
-  filter: blur(3px);
-  opacity: 0.1;
 }
 
 .center {

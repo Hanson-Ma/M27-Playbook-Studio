@@ -14,12 +14,7 @@ body,
 }
 
 body {
-  background:
-    radial-gradient(1100px 620px at 12% -12%, rgba(38, 62, 120, 0.32), transparent 60%),
-    radial-gradient(900px 520px at 92% -6%, rgba(130, 22, 36, 0.24), transparent 62%),
-    radial-gradient(1200px 700px at 50% 120%, rgba(30, 34, 40, 0.5), transparent 70%),
-    var(--bg-0);
-  background-attachment: fixed;
+  background: var(--bg-0);
   color: var(--text);
   font-family: var(--font-body);
   font-size: var(--fs-md);
@@ -83,6 +78,14 @@ a {
   outline: none;
   box-shadow: var(--focus);
   border-radius: var(--r-sm);
+}
+
+/* Driving the app with a controller (src/input/gamepad.ts sets data-input="pad"): whatever has focus gets a clear ring,
+   including cards and tiles that only style :focus-visible on an inner part. The mouse takes it back. */
+html[data-input="pad"] :focus:not([tabindex="-1"]):not(input):not(textarea):not(select) {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+  border-radius: var(--r-md);
 }
 
 /* scrollbars */

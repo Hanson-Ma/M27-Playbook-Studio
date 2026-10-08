@@ -191,7 +191,7 @@ function SearchPopover({ anchor, opts, byValue, value, onChoose, onClose, allowC
   };
 
   return (
-    <Floating anchor={anchor} placement="bottom-start" matchWidth onDismiss={() => onClose(false)} className={s.menu} style={{ width: "max-content", maxWidth: 520 }}>
+    <Floating anchor={anchor} placement="bottom-start" matchWidth role="listbox" onDismiss={() => onClose(false)} className={s.menu} style={{ width: "max-content", maxWidth: 520 }}>
       <ActionLayer token={token}>
         <div style={{ minWidth: menuWidth }}>
           <div className={s.search}>

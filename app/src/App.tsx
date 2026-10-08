@@ -3,6 +3,8 @@
 // the only global keys are ⌘/Ctrl+Z undo, ⇧⌘Z / Ctrl+Y redo, ⌘/Ctrl+S save and ⇧⌘S save all.
 import { Suspense, lazy, useEffect, useRef, useState, type ComponentType } from "react";
 import { useActions, type ActionDef } from "./input/actions";
+import { installGamepad } from "./input/gamepad";
+import { installPadNav } from "./input/padNav";
 import { comboLabel } from "./input/keys";
 import { useLibrary } from "./state/library";
 import { href, lastMainHash, navigate, rememberRoute, rememberedHash, rewriteRememberedPath, useRoute, type Route, type ViewId } from "./state/router";
@@ -21,6 +23,7 @@ const ExportView = lazy(() => import("./views/export/ExportView").then((m) => ({
 const FormationsView = lazy(() => import("./views/formations/FormationsView").then((m) => ({ default: m.FormationsView })));
 const HelpView = lazy(() => import("./views/help/HelpView").then((m) => ({ default: m.HelpView })));
 const LibraryView = lazy(() => import("./views/library/LibraryView").then((m) => ({ default: m.LibraryView })));
+const OverviewView = lazy(() => import("./views/overview/OverviewView").then((m) => ({ default: m.OverviewView })));
 const PlaybookView = lazy(() => import("./views/playbook/PlaybookView").then((m) => ({ default: m.PlaybookView })));
 const PlayCallView = lazy(() => import("./views/playcall/PlayCallView").then((m) => ({ default: m.PlayCallView })));
 const SettingsView = lazy(() => import("./views/settings/SettingsView").then((m) => ({ default: m.SettingsView })));
@@ -40,6 +43,7 @@ const MAIN_TABS: TabItem<TabView>[] = [
 const TAB_OF: Partial<Record<ViewId, TabView>> = {
   playbook: "playbook",
   playcall: "playbook",
+  overview: "playbook",
   library: "library",
   concepts: "playbook",
   designer: "designer",
@@ -54,6 +58,7 @@ const TAB_OF: Partial<Record<ViewId, TabView>> = {
 const HELP_OF: Record<ViewId, string> = {
   playbook: "playbook",
   playcall: "preview",
+  overview: "preview",
   library: "library",
   concepts: "concepts",
   designer: "designer",
@@ -67,6 +72,7 @@ const VIEWS: Record<ViewId, ComponentType> = {
   library: LibraryView,
   playbook: PlaybookView,
   playcall: PlayCallView,
+  overview: OverviewView,
   designer: DesignerView,
   formations: FormationsView,
   concepts: ConceptsView,
@@ -79,6 +85,7 @@ const VIEW_NAMES: Record<ViewId, string> = {
   library: "Library",
   playbook: "Playbook",
   playcall: "Play Call",
+  overview: "Overview",
   designer: "Designer",
   formations: "Formations",
   concepts: "Gameplan",
@@ -148,11 +155,15 @@ export function App() {
 
   // The unsaved-changes prompt on close is registered by state/workspace.ts.
   useEffect(boot, []);
+  // Controller: the poller, and the fallback that lets the pad drive any screen (input/padNav.ts).
+  useEffect(() => {
+    installGamepad();
+    installPadNav();
+  }, []);
   useEffect(followWorkspacePaths, []);
 
   return (
     <>
-      <div className={s.stadium} aria-hidden />
       {status === "ready" || skipped ? <Shell /> : <LoadingScreen onSkip={() => setSkipped(true)} />}
       {status === "ready" && <AddToPlaybookHost />}
       {(status === "ready" || skipped) && <ConflictHost />}
@@ -247,7 +258,7 @@ function LoadingScreen({ onSkip }: { onSkip(): void }) {
  */
 function tabTarget(id: TabView, current: Route): string {
   if (current.view === id) return `#/${id}`;
-  if (id === "playbook" && current.view === "playcall" && current.parts[0]) return href("playbook", current.parts[0]);
+  if (id === "playbook" && (current.view === "playcall" || current.view === "overview") && current.parts[0]) return href("playbook", current.parts[0]);
   return rememberedHash(id) ?? `#/${id}`;
 }
 

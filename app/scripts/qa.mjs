@@ -1,5 +1,5 @@
 // Headless-Chrome QA driver for Playbook Studio (dev tool; needs Google Chrome + a running dev server).
-//   node scripts/qa.mjs <steps.json> [--port 9340] [--base http://localhost:5178] [--local-fonts]
+//   node scripts/qa.mjs <steps.json> [--port 9340] [--base http://localhost:5178] 
 // steps.json = { "steps": [ … ] }, each step one of:
 //   { "size": [w, h] }                 viewport
 //   { "nav": "#/library", "wait": ms }  navigate (relative hashes use --base); waits for the app, then `wait` ms (default 1500)
@@ -14,15 +14,6 @@
 //   { "padType": "ps" }                switch the virtual controller to a DualSense id
 //   { "shot": "file.png" }             screenshot (absolute path or relative to cwd)
 //   { "text": true }                   print document.body.innerText (first 4000 chars)
-//   { "localFonts": true }             show NB International Pro in THIS test browser (see below); --local-fonts = the
-//                                      whole run (registered before the first step)
-// Local fonts (test browser only): NB International Pro is a licensed desktop font the app never ships — it names the
-// family and renders it only where it is installed. This headless Chrome has no installed copy, so for screenshots
-// the step reads the .otf files from $NB_FONT_DIR (default: ~/Desktop/Joby Identity/Fonts/NB International Pro) and
-// registers them as FontFaces (family "NB International Pro": 300 Light, 350 Book, 400 Regular, 500 Medium, 700 Bold
-// + italics) via Page.addScriptToEvaluateOnNewDocument, so they survive navigations and reloads for this run (the
-// registration ends with the CDP session). The font data lives only in this process and the browser's memory: it is
-// never written to disk, the app, public/ or dist/ — never copy those files anywhere else either.
 // Console errors/warnings and page exceptions are printed at the end.
 // Gotcha: dialogs are only accepted while a run is connected. If Vite does a full reload between runs while a file
 // has unsaved changes, the page waits on a "Leave site?" (beforeunload) prompt nobody answers and every later run
@@ -42,38 +33,6 @@ const port = Number(opt("--port", "9340"));
 const base = opt("--base", "http://localhost:5178");
 const script = JSON.parse(readFileSync(args[0], "utf8"));
 const CHROME = process.env.CHROME ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const NB_FONT_DIR = process.env.NB_FONT_DIR ?? path.join(os.homedir(), "Desktop/Joby Identity/Fonts/NB International Pro");
-/** NB International Pro files → FontFace descriptors (Book is weight 400 inside the file, like Regular: map it to 350). */
-const NB_FACES = [
-  ["Lig", 300, "normal"], ["LigIta", 300, "italic"],
-  ["Boo", 350, "normal"], ["BooIta", 350, "italic"],
-  ["Reg", 400, "normal"], ["Ita", 400, "italic"],
-  ["Med", 500, "normal"], ["MedIta", 500, "italic"],
-  ["Bol", 700, "normal"], ["BolIta", 700, "italic"],
-];
-/** A script that adds the local NB International Pro files to document.fonts (runs before any page script). */
-function localFontsScript() {
-  const faces = [];
-  for (const [suffix, weight, style] of NB_FACES) {
-    const file = path.join(NB_FONT_DIR, `NBInternationalPro${suffix}.otf`);
-    if (!existsSync(file)) {
-      if (suffix === "Reg") throw new Error(`--local-fonts: ${file} not found (set NB_FONT_DIR)`);
-      continue; // optional face (Book, italics): skip when the folder doesn't have it
-    }
-    faces.push({ weight: String(weight), style, b64: readFileSync(file).toString("base64") });
-  }
-  return `(() => {
-    if (window.__qaLocalFonts || !document.fonts) return;
-    window.__qaLocalFonts = true;
-    for (const f of ${JSON.stringify(faces)}) {
-      const bin = atob(f.b64), buf = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
-      const face = new FontFace("NB International Pro", buf, { weight: f.weight, style: f.style });
-      document.fonts.add(face);
-      face.loaded.catch((e) => console.error("qa local font", f.weight, f.style, String(e)));
-    }
-  })();`;
-}
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function ensureChrome() {
@@ -135,17 +94,6 @@ ws.addEventListener("message", (m) => {
   if (d.method === "Page.javascriptDialogOpening") send("Page.handleJavaScriptDialog", { accept: true });
 });
 
-let localFontsOn = false;
-async function enableLocalFonts() {
-  if (localFontsOn) return;
-  localFontsOn = true;
-  const source = localFontsScript();
-  await send("Page.addScriptToEvaluateOnNewDocument", { source });
-  await evaluate(source + "; 1"); // the page that is already open
-  console.log(`local fonts: NB International Pro from ${NB_FONT_DIR} (test browser only)`);
-}
-if (args.includes("--local-fonts")) await enableLocalFonts();
-
 const PAD_INDEX = { A: 0, B: 1, X: 2, Y: 3, LB: 4, RB: 5, LT: 6, RT: 7, VIEW: 8, MENU: 9, LS: 10, RS: 11, UP: 12, DOWN: 13, LEFT: 14, RIGHT: 15 };
 const PAD_IDS = {
   xbox: "Xbox Wireless Controller (STANDARD GAMEPAD Vendor: 045e Product: 0b13)",
@@ -177,7 +125,6 @@ const modBits = (m = "") => {
 const mouse = async (type, x, y, button = "left", clickCount = 1) => send("Input.dispatchMouseEvent", { type, x, y, button, clickCount });
 
 for (const s of script.steps) {
-  if (s.localFonts) await enableLocalFonts();
   if (s.size) await send("Emulation.setDeviceMetricsOverride", { width: s.size[0], height: s.size[1], deviceScaleFactor: 1, mobile: false });
   if (s.nav) {
     const url = s.nav.startsWith("#") ? base + "/" + s.nav : s.nav;

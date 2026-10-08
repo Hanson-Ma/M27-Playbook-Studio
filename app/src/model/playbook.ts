@@ -548,11 +548,11 @@ export const BOOK_KEYS = ["name", "side", "notes", "formations"] as const;
 
 // ───────────────────────────── builder home + CPU editor rows (v2) ─────────────────────────────
 
-/** The book #/playbook opens when nothing was opened before: STUDIO (not studio-lib). */
-export const DEFAULT_PLAYBOOK_PATH = "playbooks/studio-test.json";
+/** The book #/playbook opens when nothing was opened before: FUSION. */
+export const DEFAULT_PLAYBOOK_PATH = "playbooks/FUSION.json";
 
 /**
- * Which playbook `#/playbook` opens: the last opened one if it still exists, else STUDIO, else the first playbook
+ * Which playbook `#/playbook` opens: the last opened one if it still exists, else FUSION, else the first playbook
  * (paths sorted), else undefined (no playbooks at all). Paths compare case-insensitively (the server refuses names that
  * differ only in case); the returned path is the existing one's spelling.
  */

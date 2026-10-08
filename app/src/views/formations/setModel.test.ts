@@ -23,7 +23,7 @@ const lib = buildLibraryIndex(loadLibraryData());
 const ROOT = "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/";
 const Y_TRIPS = `${ROOT}Shotgun/Y_Trips_Wk/Y_Trips_Wk`;
 const base = lib.setByAsset.get(Y_TRIPS)!;
-const sample = JSON.parse(readFileSync(new URL("../../../../playbooks/sets/pbs-sets-v1.json", import.meta.url), "utf8")) as SetsFile;
+const sample = JSON.parse(readFileSync(new URL("../../../test-fixtures/sets/pbs-sets-v1.json", import.meta.url), "utf8")) as SetsFile;
 const [tight, open] = sample.sets;
 
 describe("formation references and asset paths", () => {

@@ -13,10 +13,10 @@ const lib = buildLibraryIndex(loadLibraryData());
 const playsDocs = [loadPlaysDoc("art-test.json"), loadPlaysDoc("pbs-ytrips-v1.json")];
 const cat = buildCatalog(lib, playsDocs);
 const book = (name: string): PlaybookSpec =>
-  JSON.parse(readFileSync(new URL(`../../../playbooks/${name}`, import.meta.url), "utf8"));
+  JSON.parse(readFileSync(new URL(`../../test-fixtures/${name}`, import.meta.url), "utf8"));
 const setsDoc = (name: string): { path: string; data: SetsFile } => ({
   path: `playbooks/sets/${name}`,
-  data: JSON.parse(readFileSync(new URL(`../../../playbooks/sets/${name}`, import.meta.url), "utf8")),
+  data: JSON.parse(readFileSync(new URL(`../../test-fixtures/sets/${name}`, import.meta.url), "utf8")),
 });
 
 const SET = "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/";

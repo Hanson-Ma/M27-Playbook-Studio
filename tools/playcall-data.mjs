@@ -3,8 +3,8 @@
 // Play art is approximated from the assignment steps, like tools/m24/preview-fusion.mjs.
 import { readFileSync, writeFileSync } from "node:fs";
 
-const bookFile = process.argv[2] ?? "playbooks/fusion/FUSION.json";
-const specFile = process.argv[3] ?? "playbooks/fusion/sets.json";
+const bookFile = process.argv[2] ?? "playbooks/FUSION.json";
+const specFile = process.argv[3] ?? "playbooks/sets/fusion-sets.json";
 const L = f => JSON.parse(readFileSync("data/library/" + f, "utf8"));
 const sets = L("sets.json"), plays = L("plays.json"), A = L("assignments.json");
 const book = JSON.parse(readFileSync(bookFile, "utf8"));

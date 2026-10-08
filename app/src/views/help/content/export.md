@@ -63,7 +63,7 @@ It builds:
 
 - **One mod**, `mods\pbstudio.fbmod`, with all your custom plays, custom formations and sets, copied plays, and the
   stock plays the game normally hides (**Needs Mod**).
-- **One save per playbook**, `PBOOKOFF-<NAME>` (for example `PBOOKOFF-STUDIO`). `-Install` copies them into
+- **One save per playbook**, `PBOOKOFF-<NAME>` (for example `PBOOKOFF-FUSION`). `-Install` copies them into
   `Documents\Madden NFL 27\saves`; the copy that was there before is backed up to `backups\`.
 
 ## 5. Apply the Mod
@@ -75,7 +75,7 @@ It builds:
 
 ## 6. Pick Your Playbook in the Game
 
-In an **offline** mode, open the playbook choice and pick your custom playbook (STUDIO shows up as STUDIO). The
+In an **offline** mode, open the playbook choice and pick your custom playbook (FUSION shows up as FUSION). The
 special-teams and goal-line sections come from the stock playbook, so kicking works as usual.
 
 :::warning Offline Only

@@ -38,7 +38,7 @@ const cat = buildCatalog(lib, [loadPlaysDoc("art-test.json"), loadPlaysDoc("pbs-
 const spec = (name: string): PlaybookSpec =>
   name === "studio-test.json"
     ? studioV1()
-    : JSON.parse(readFileSync(new URL(`../../../../playbooks/${name}`, import.meta.url), "utf8"));
+    : JSON.parse(readFileSync(new URL(`../../../test-fixtures/${name}`, import.meta.url), "utf8"));
 const callBook = (s: PlaybookSpec) => buildCallBook(resolvePlaybook(s, cat));
 const templateBytes = new Uint8Array(readFileSync(new URL("../../../../playbooks/templates/PBOOKOFF-TEMPLATE", import.meta.url)));
 const template = { contents: templateContents(templateBytes, lib), lib };

@@ -55,7 +55,7 @@ export interface LibraryIndex {
    * (the builder's old behaviour; "Special" then picks the defensive one).
    */
   formationByName(name: string, side?: Side, opts?: FormationByNameOptions): FormationDef | undefined;
-  /** pbook-build rule: first set inside the formation's asset folder whose name matches (norm); stock before custom. */
+  /** pbook-build rule: first set inside the formation's asset folder whose name matches (norm); a custom set wins over a stock set of the same name (FUSION's "Tight Doubles"). */
   setByName(formation: FormationDef, name: string): SetDef | undefined;
   formationSide(f: FormationDef): Side | "special";
   /** Minigames, skills trainers, tutorials, drills and pass skeletons — never in a real playbook. */
@@ -208,7 +208,8 @@ function makeIndex(data: LibraryData, shared: Shared | undefined, stock: Library
 
     setByName(formation, name) {
       const key = norm(String(name ?? ""));
-      return setsInFolderOf(formation).find((s) => norm(s.name) === key);
+      const named = setsInFolderOf(formation).filter((s) => norm(s.name) === key);
+      return named.find((s) => custom.has(s.asset)) ?? named[0];
     },
 
     formationSide,

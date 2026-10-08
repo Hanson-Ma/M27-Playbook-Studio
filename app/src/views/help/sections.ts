@@ -28,7 +28,7 @@ export const HELP_SECTIONS: readonly HelpSection[] = [
   { id: "getting-started", title: "Getting Started", blurb: "What the app does, the round trip to the game, saving" },
   { id: "playbook", title: "Build a Playbook", blurb: "Formations, sets and plays; special teams; limits" },
   { id: "audibles", title: "Audibles & CPU Calls", blurb: "The four audible buttons, Xbox / PS5 glyphs, CPU weights" },
-  { id: "preview", title: "Preview in Game", blurb: "See the playbook like Madden's play-call screen" },
+  { id: "preview", title: "Preview in Game", blurb: "The play-call screen, the whole-playbook overview, and the controller" },
   { id: "library", title: "Find Plays", blurb: "Search and filter the library, Needs Mod, add to a playbook" },
   { id: "concepts", title: "Gameplan: Concepts & Tags", blurb: "Tag plays, run / pass matrices, situations" },
   { id: "designer", title: "Design a Play", blurb: "Base play, players, blocks, motion, the red route" },

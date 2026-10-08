@@ -736,6 +736,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.padHints {
+  flex: none;
+  margin-left: auto;
+}
 .footChips {
   display: flex;
   align-items: center;

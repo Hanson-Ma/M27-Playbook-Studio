@@ -1,9 +1,14 @@
 /// <reference types="vitest/config" />
+import os from "node:os";
+import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { pbstudioApi } from "./server/plugin.ts";
 
 export default defineConfig({
+  // The dep cache lives outside the project: this folder is synced by Dropbox, which locks node_modules/.vite while Vite
+  // renames it (EBUSY, then a blank page of "504 Outdated Optimize Dep").
+  cacheDir: path.join(os.tmpdir(), "pbstudio-vite"),
   // Relative asset URLs: the built dist/ works from any path — the site root, a /playbook/ sub-folder of an existing
   // website, or `npm start` (docs/HOSTING.md). The app uses hash routes, so no server rewrites are needed.
   base: "./",

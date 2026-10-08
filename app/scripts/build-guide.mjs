@@ -13,12 +13,8 @@
 // Needs Chrome 131 or newer.
 // Chrome: $CHROME, else the usual install paths on macOS / Windows / Linux. It runs headless with a throwaway profile
 // on a free port and is closed when the script ends.
-// Fonts: NB International Pro (text) + DM Mono (code, numbers; Google Fonts). NB International Pro is a licensed desktop
-// font with the "Print & preview" embedding flag: the printed PDF may embed subsets of it, but its files must never be
-// copied, converted or written anywhere. So guide.html only NAMES the family; while printing, the .otf files from
-// $NB_FONT_DIR (default: ~/Desktop/Joby Identity/Fonts/NB International Pro) are handed to the headless browser in
-// memory (FontFace objects registered with Page.addScriptToEvaluateOnNewDocument) and Chrome embeds the subsets it
-// uses in the PDF. Without that folder the guide prints in Helvetica (a warning says so).
+// Fonts: Public Sans (text) + DM Mono (code, numbers), both free (OFL) from Google Fonts, so printing needs a network
+// connection (the script waits for the fonts before it prints).
 import { spawn } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
@@ -194,9 +190,9 @@ function blocks(list, ctx) {
 
 // ───────────────────────────── the document ─────────────────────────────
 
-// DM Mono (OFL) from Google Fonts. NB International Pro is never linked or embedded here: see "Fonts" at the top.
-const FONTS = "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap";
-const SANS = `"NB International Pro", "NB International", "Helvetica Neue", Helvetica, Arial, sans-serif`;
+// Public Sans + DM Mono (OFL) from Google Fonts: see "Fonts" at the top.
+const FONTS = "https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap";
+const SANS = `"Public Sans", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
 const MONO = `"DM Mono", ui-monospace, Menlo, Consolas, monospace`;
 
 const CSS = /* css */ `
@@ -400,38 +396,6 @@ function findChrome() {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const NB_FONT_DIR = process.env.NB_FONT_DIR ?? path.join(os.homedir(), "Desktop/Joby Identity/Fonts/NB International Pro");
-/** NB International Pro files → FontFace descriptors (Book is weight 400 inside the file, like Regular: map it to 350). */
-const NB_FACES = [
-  ["Lig", 300, "normal"], ["LigIta", 300, "italic"],
-  ["Boo", 350, "normal"], ["BooIta", 350, "italic"],
-  ["Reg", 400, "normal"], ["Ita", 400, "italic"],
-  ["Med", 500, "normal"], ["MedIta", 500, "italic"],
-  ["Bol", 700, "normal"], ["BolIta", 700, "italic"],
-];
-
-/**
- * A page script that registers the locally installed NB International Pro files as FontFaces (print page only: the
- * bytes go from this process straight into the headless browser's memory; nothing is written to disk). Returns
- * undefined when the folder has no NBInternationalProReg.otf.
- */
-function nbFontsScript() {
-  const faces = [];
-  for (const [suffix, weight, style] of NB_FACES) {
-    const file = path.join(NB_FONT_DIR, `NBInternationalPro${suffix}.otf`);
-    if (existsSync(file)) faces.push({ weight: String(weight), style, b64: readFileSync(file).toString("base64") });
-  }
-  if (!faces.some((f) => f.weight === "400" && f.style === "normal")) return undefined;
-  return `(() => {
-    if (!document.fonts) return;
-    for (const f of ${JSON.stringify(faces)}) {
-      const bin = atob(f.b64), buf = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
-      document.fonts.add(new FontFace("NB International Pro", buf, { weight: f.weight, style: f.style }));
-    }
-  })();`;
-}
-
 async function startChrome() {
   const profile = mkdtempSync(path.join(os.tmpdir(), "pbstudio-guide-"));
   const proc = spawn(findChrome(), ["--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check", "--remote-debugging-port=0", `--user-data-dir=${profile}`, "about:blank"], {
@@ -475,9 +439,6 @@ async function startChrome() {
   };
   await send("Page.enable");
   await send("Runtime.enable");
-  const fonts = nbFontsScript();
-  if (fonts) await send("Page.addScriptToEvaluateOnNewDocument", { source: fonts });
-  else console.warn(`  ! NB International Pro not found in ${NB_FONT_DIR} (set NB_FONT_DIR): the PDF falls back to Helvetica`);
   return { send, close, on: (fn) => listeners.add(fn) };
 }
 

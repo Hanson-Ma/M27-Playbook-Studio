@@ -8,7 +8,7 @@ const db = readTdbBE(readFileSync("../MAMA9/mama9.DB")).byName;
 const A = makeSetReader(db);
 const names = new Map(); for (const r of db.SGFF.rows) { if (!names.has(r.SETL)) names.set(r.SETL, []); names.get(r.SETL).push(r.name); }
 const F = JSON.parse(readFileSync("build/m24/fusion-m24.json", "utf8"));
-const spec = JSON.parse(readFileSync("playbooks/fusion/sets.json", "utf8"));
+const spec = JSON.parse(readFileSync("playbooks/sets/fusion-sets.json", "utf8"));
 const report = readFileSync("build/m24/fusion-report.md", "utf8");
 const D = "build/fusion/added/", files = readdirSync(D);
 const eq = (a, b) => Math.abs(a - b) < 0.01;

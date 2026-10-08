@@ -35,6 +35,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Big, like the Playbooks button next to the name (books.module.css .menuBtn): these get pressed all the time. */
+.actions > button {
+  --h: 38px;
+  font-size: 15px;
+}
 .actions {
   margin-left: auto;
   display: flex;

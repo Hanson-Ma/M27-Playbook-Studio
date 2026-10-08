@@ -1,10 +1,13 @@
 // Full-screen pre-snap view of a picked play: big field with labeled art (flip mirrors it), the play's name, type,
 // audible slot, CPU weights and read progression, with buttons for Flip · Favorite · Open in library · Edit in
 // playbook and ‹ › to step through the current list. Esc (or Back) closes it; ← → step while it's open.
+// Controller: ◀ ▶ (or LB / RB) step, B closes, X flips, Y favorites, ▲ ▼ and the right stick scroll the panel.
 import { useEffect, useMemo, useRef, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { Field, PlayArtLayer } from "../../field";
 import { ActionLayer, useActions } from "../../input/actions";
+import { usePadHandler, type PadFrame, type PadPress } from "../../input/gamepad";
+import { PadHints, type PadHint } from "../../input/PadHints";
 import { AudibleGlyph } from "../../input/glyphs";
 import { AUDIBLE_CATEGORY } from "../../model/audibles";
 import { artForPlay } from "../../model/art";
@@ -38,6 +41,14 @@ function presnapViewport(b: ArtBounds, defense: boolean): ArtBounds {
   if (defense) return { minX: -HALF_WIDTH, maxX: HALF_WIDTH, minY: Math.min(-6, b.minY - 2), maxY: Math.max(24, Math.min(b.maxY + 3, 45)) };
   return { minX: -HALF_WIDTH, maxX: HALF_WIDTH, minY: Math.min(-11, b.minY - 2.5), maxY: Math.max(18, Math.min(b.maxY + 3, 48)) };
 }
+
+const PAD_HINTS: PadHint[] = [
+  { buttons: ["LEFT", "RIGHT"], label: "Previous / Next" },
+  { buttons: ["B"], label: "Back" },
+  { buttons: ["X"], label: "Flip" },
+  { buttons: ["Y"], label: "Favorite" },
+  { buttons: ["UP", "DOWN"], label: "Scroll" },
+];
 
 const pct = (n: unknown) => (typeof n === "number" && Number.isFinite(n) ? `${Math.round(n * 100)}%` : "—");
 
@@ -85,6 +96,50 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
     { modal: true },
   );
 
+  // The pre-snap view owns the controller while it's open (it's a pad-owning overlay, see input/gamepad.ts).
+  const scrollPanel = (dy: number) => {
+    const aside = root.current?.querySelector("aside");
+    if (aside) aside.scrollTop += dy;
+  };
+  usePadHandler(
+    {
+      press: (p: PadPress) => {
+        switch (p.button) {
+          case "B":
+            onClose();
+            break;
+          case "LEFT":
+          case "LB":
+            if (prev) onStep(prev);
+            break;
+          case "RIGHT":
+          case "RB":
+            if (next) onStep(next);
+            break;
+          case "X":
+            if (play.canFlip) onFlip();
+            break;
+          case "Y":
+            toggleFavorite();
+            break;
+          case "UP":
+            scrollPanel(-160);
+            break;
+          case "DOWN":
+            scrollPanel(160);
+            break;
+        }
+        return true; // nothing leaks to the screens underneath
+      },
+      analog: (f: PadFrame) => {
+        if (!f.ry) return false;
+        scrollPanel(f.ry * 900 * f.dt);
+        return true;
+      },
+    },
+    { priority: 20, overlays: "own" },
+  );
+
   // Take focus so Enter can't click whatever was focused behind the overlay. Focus isn't handed back to the card on
   // close: the white glow marks it.
   const root = useRef<HTMLDivElement>(null);
@@ -101,7 +156,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
 
   return (
     <ActionLayer token={token}>
-      <div ref={root} className={s.overlay} role="dialog" aria-modal="true" aria-label={`${play.name} pre-snap`} tabIndex={-1}>
+      <div ref={root} className={s.overlay} role="dialog" aria-modal="true" data-pad-own aria-label={`${play.name} pre-snap`} tabIndex={-1}>
         <div className={s.fieldCol}>
           <div className={s.fieldBox} key={`${item.id}|${flipped}`}>
             <Field
@@ -121,6 +176,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
               Back
             </Button>
             <span className={s.hint}>Scroll to zoom · drag to pan · double-click to reset</span>
+            <PadHints hints={PAD_HINTS} className={s.hint} />
           </div>
           {list.length > 1 && (
             <div className={s.stepper}>

@@ -26,6 +26,38 @@ order can differ.
 
 ![A play opened from the preview: the pre-snap view with its details on the right.](/guide/preview-presnap.png)
 
+## Use a Controller
+
+Plug in (or pair) an Xbox or PlayStation controller and press any button; the app picks it up and shows a button
+legend. It works on every screen, not just the preview:
+
+| Button | What it does |
+|:--|:--|
+| **D-pad** or **left stick** | Moves between cards and controls. On the play-call screen ← → walk the cards and turn the page at the ends |
+| **A** (✕) | Opens the card or presses the button that has the highlight |
+| **B** (○) | Goes back up one level, closes a menu or dialog |
+| **LB / RB** | Switch tabs: the play-call tabs here, the top bar's tabs everywhere else |
+| **LT / RT** | Turn the page |
+| **X** (□) | Flip plays |
+| **Y** (△) | Favorite the highlighted play |
+| **Right stick** | Scroll a list; in a play's pre-snap view it scrolls the details |
+
+In a play's pre-snap view, ◀ ▶ step to the previous and next play and **B** goes back to the cards.
+
+## See the Whole Playbook
+
+The **Overview** button next to **Preview in Game** lays the entire playbook out on one wall: a column for every
+formation, a block for every set and a card for every play.
+
+- **Drag** to move around, **scroll** to zoom in and out, or use **−**, **+** and **Fit** at the bottom right.
+  Far out the cards turn into flat tiles and then into colored blocks (blue pass, red run, purple play action); zoom in
+  and the real play art comes back.
+- The formation names across the top jump straight to a column.
+- **Click a play** to open its pre-snap view; **Flip Plays** mirrors the whole wall.
+- Keyboard: the arrow keys move the selection and **Enter** opens it, **Home** fits everything, **Esc** goes back.
+- Controller: D-pad or left stick moves the selection, **A** opens it, **LB / RB** jump between formations, the
+  **right stick** pans, **LT / RT** zoom, **X** flips and **Y** fits everything.
+
 ## The Tabs
 
 | Tab | Shows |

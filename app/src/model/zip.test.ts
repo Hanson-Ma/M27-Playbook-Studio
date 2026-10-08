@@ -6,7 +6,7 @@ import type { DocKind } from "./types";
 import type { ExportSummary, SaveSummary } from "./exportSummary";
 import { buildExportZip, bundleEntries, bundleFileName, bundleReadme, isBundlePath, type BundleDoc } from "./zip";
 
-const read = (rel: string) => readFileSync(new URL(`../../../${rel}`, import.meta.url), "utf8");
+const read = (rel: string) => readFileSync(new URL(`../../test-fixtures/${rel.replace("playbooks/", "")}`, import.meta.url), "utf8");
 const doc = (path: string, kind: DocKind, extra: Partial<BundleDoc> = {}): BundleDoc => ({ path, kind, data: parseJson(read(path)), ...extra });
 
 describe("export bundle zip", () => {

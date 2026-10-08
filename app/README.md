@@ -48,17 +48,9 @@ loopback name or IP address. (To use the app from another computer, host `dist/`
 
 ## Fonts
 
-The app's text face is **NB International Pro** (Neubau); numbers and code use **DM Mono** (free, loaded from Google
-Fonts). NB International Pro is a licensed desktop font, so the app doesn't include it: it asks for the font by name.
-**Install NB International Pro on each computer where you want to see it** (double-click the .otf files → Install,
-or Font Book / Windows Fonts) and restart the browser; anywhere it isn't installed the app falls back to Helvetica
-(Arial on Windows) and works the same. The font files are licensed and **must not be committed or uploaded** — never
-copy them into this repo, `app/public/`, `app/dist/` or your website, and don't convert them to webfonts.
-Developer tools that need the real face read it from your local font folder only (`NB_FONT_DIR`, default
-`~/Desktop/Joby Identity/Fonts/NB International Pro`): `node scripts/qa.mjs <steps.json> --local-fonts` loads it into
-the headless test browser for screenshots, and `npm run guide` lets the print page embed the subsets the PDF guide
-uses (allowed by the font's "Print & preview" embedding flag). Details: [`ARCHITECTURE.md`](ARCHITECTURE.md) →
-Visual language.
+Text is set in **Public Sans** and numbers and code in **DM Mono**. Both are free (SIL Open Font License) and load from
+Google Fonts, so the app needs a network connection the first time it runs; offline it falls back to the system UI
+font and monospace and works the same. `npm run guide` also loads them from Google Fonts when it prints the PDF.
 
 ## What it reads and writes
 

@@ -10,7 +10,7 @@ import type { ConceptsDoc, PlaybookSpec, PlaysFile } from "./types";
 const SET = "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk";
 const lib = buildLibraryIndex(loadLibraryData());
 const plays = loadPlaysDoc("pbs-ytrips-v1.json");
-const book: PlaybookSpec = JSON.parse(readFileSync(new URL("../../../playbooks/studio-test.json", import.meta.url), "utf8"));
+const book: PlaybookSpec = JSON.parse(readFileSync(new URL("../../test-fixtures/studio-test.json", import.meta.url), "utf8"));
 const old = { set: SET, name: "PBS PA Yankee", asset: "PBS_PA_Yankee" };
 
 /** The catalog after renaming the Yankee play (name + asset, like the designer's AUTO asset). */

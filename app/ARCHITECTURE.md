@@ -107,19 +107,13 @@ white player marks; under each card a colored controller glyph + the PLAY NAME i
 the FORMATION/SET in uppercase gray; a blue `PASS` tag bottom-left of the art and a dark stat chip
 bottom-right (`0 CALLS | 0.0 AVG YDS`); a translucent bottom legend bar listing glyph + action pairs
 (`□ ✕ △ [DOUBLE TAP] ADD/REMOVE FAVORITE   R2 FLIP PLAY   L3 SUPER SIM`).
-- Fonts (2026-10-04): **NB International Pro** is the one text family (`--font-sans`; `--font-display` and
-  `--font-body` both point at it — keep using whichever fits the role) and **DM Mono** sets numbers and code
-  (`--font-num`; `--font-mono` is the same face). Fallbacks: Helvetica Neue → Helvetica → Arial; ui-monospace → Menlo.
-  - **License rule (hard):** NB International Pro is a commercial Neubau font under a print/desktop license. The app
-    only NAMES it — it renders on computers where it is installed. Never put the .otf files, a webfont conversion or
-    a data-URL copy in the repo, `public/`, `dist/`, a CSS file or anything uploaded. tokens.css maps each weight with
-    `@font-face { src: local(...) }` rules (family "NB International Pro Local") that point at the installed copy only
-    (they hold no font data; Book is weight 400 inside its file like Regular, so it maps to 350). The PDF guide may
-    embed subsets (the font's embedding flag is "Print & preview"): `scripts/build-guide.mjs` hands the local files to
-    the headless print page in memory. For screenshots, `scripts/qa.mjs --local-fonts` (or the `{ "localFonts": true }`
-    step) loads them into the headless test browser only. DM Mono (OFL) comes from Google Fonts (`index.html`).
-  - Weights: NB has 300 / 350 (Book) / 400 / 500 / 700 — use 500 (Medium) for small labels, tabs, buttons and 700
-    (Bold) for names, titles, active tabs; never 600/800 (they'd snap to 700). DM Mono: 400/500.
+- Fonts (2026-10-07): **Public Sans** is the one text family (`--font-sans`; `--font-display` and `--font-body` both point
+  at it — keep using whichever fits the role) and **DM Mono** sets numbers and code (`--font-num`; `--font-mono` is the
+  same face). Both are open-license fonts loaded from Google Fonts in `index.html` (Public Sans as a variable font,
+  weights 100–900). Fallbacks: system-ui → Segoe UI → Roboto → Helvetica Neue → Arial; ui-monospace → Menlo. It replaced
+  NB International Pro, a licensed desktop font the app could only name.
+  - Weights: use 500 (Medium) for small labels, tabs, buttons and 700 (Bold) for names, titles, active tabs. DM Mono:
+    400/500.
   - **Casing (2026-10-04):** ALL CAPS only for what shows in Madden — formation and set names, play names, play types
     (keep `text-transform: uppercase` on those rules, or the global `caps` class; `Tag`/`Chip`/`TabItem` take a `caps`
     prop, `SearchSelect` takes `caps` (value + menu options) or `caps="options"`, and `SearchOption.chrome` opts an
@@ -606,3 +600,30 @@ feature folder and list the gap in your final report.
   CustomPlaySpec), `sets.ts` (custom sets), `concepts.ts` (categories, tags, suggestions, gameplan queries),
   `validate.ts` + `exportSummary.ts` + `zip.ts` (Export). `views/playcall/playcallModel.ts` holds the play-call paging/
   grouping model. Read each file's header comment for its API.
+
+## Controller input, the overview wall and FUSION as the default book (2026-10-07)
+
+- **Controller** (`src/input/gamepad.ts`, `padNav.ts`, `PadHints.tsx`): one poller (rAF with a 50 ms timer fallback)
+  reads the first connected pad (standard mapping, Xbox names; PlayStation shows ✕ ○ □ △) and turns it into presses
+  (D-pad + left stick, with auto-repeat) and analog frames. Handlers register with `usePadHandler(…, { priority,
+  overlays })`; higher priority runs first, returning `true` claims the button. The app-wide fallback in `padNav.ts`
+  (priority −100) moves focus spatially (`moveFocus`), clicks on A, sends Esc on B, cycles the top tabs on LB / RB and
+  scrolls with the right stick; inside a menu, picker (`role="listbox"`) or filter box it sends arrow / Enter keys
+  instead. Menus and dialogs own the pad while open (handlers default to `overlays: "yield"`; the pre-snap view
+  marks itself `data-pad-own` and registers with `overlays: "own"`). `html[data-input="pad"]` (set on any pad input,
+  cleared by the mouse) turns on the white focus ring in `base.css`. The play call (`PlayCallView`), pre-snap
+  (`PreSnap`) and overview (`OverviewView`) register their own handlers. Test with a mocked `navigator.getGamepads`
+  (see `scripts/qa.mjs` `padType` / pad steps, or override it in the console).
+- **Overview** (`#/overview/<book>[?flip=1]`, `src/views/overview/`): `overviewModel.ts` is the pure layout + camera
+  math (formation columns of set blocks of play cards; a formation taller than `LANE_TARGET_H` flows into up to
+  `MAX_LANES` lanes; `View` = world → screen, `zoomAt`, `fitView`, `neighbor` for keys / pad). `OverviewView.tsx` keeps
+  the camera in a ref and writes the CSS transform directly (no React render per pan frame), commits the view to state
+  every 90 ms for culling and level of detail (`detailAt`: full `PlayCard` ≥ 45 %, flat tile ≥ 14 %, colored block
+  below), and reuses `PreSnap` for a clicked play. `useCallBook` (`views/playcall/useCallBook.ts`) is shared with the
+  play call.
+- **Default playbook** is FUSION (`playbooks/FUSION.json`, its sets in `playbooks/sets/fusion-sets.json`, mod settings
+  in `playbooks/mod.json`), so `tools/export.ps1` builds it into `mods/pbstudio.fbmod` + `PBOOKOFF-FUSION`;
+  `tools/m24/build-fusion.ps1` still builds the standalone `fusion.fbmod` from the same files. The example specs the
+  tests use (STUDIO, PBS plays and sets) live in `app/test-fixtures/` (`libFixture.ts`).
+- Authored assignment names may sit in subfolders of `Assignments/PBS/` (`FUSION/R_ab12…`); a custom set wins a
+  same-name clash with a stock set in the same formation (`LibraryIndex.setByName`, like `tools/pbook-build.mjs`).

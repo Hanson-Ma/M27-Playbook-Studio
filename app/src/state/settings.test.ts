@@ -18,7 +18,7 @@ describe("migrateSettings v1 → v2", () => {
 
   it("opens STUDIO by default instead of STUDIOLIB, but keeps another remembered book", () => {
     expect(migrateSettings({}, 1).lastPlaybook).toBe(DEFAULT_PLAYBOOK);
-    expect(migrateSettings({ lastPlaybook: "playbooks/studio-lib.json" }, 1).lastPlaybook).toBe("playbooks/studio-test.json");
+    expect(migrateSettings({ lastPlaybook: "playbooks/studio-lib.json" }, 1).lastPlaybook).toBe("playbooks/FUSION.json");
     expect(migrateSettings({ lastPlaybook: "playbooks/my-book.json" }, 1).lastPlaybook).toBe("playbooks/my-book.json");
   });
 

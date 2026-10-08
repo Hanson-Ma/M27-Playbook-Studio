@@ -6,6 +6,9 @@ const REPO = new URL("../../../", import.meta.url);
 
 const readJson = <T>(rel: string): T => JSON.parse(readFileSync(new URL(rel, REPO), "utf8").replace(/^﻿/, "")) as T;
 
+/** Example specs for tests (app/test-fixtures/); the repo's playbooks/ holds the real playbook (FUSION). */
+const readFixture = <T>(rel: string): T => readJson<T>(`app/test-fixtures/${rel}`);
+
 let cached: LibraryData | undefined;
 
 /** data/library/*.json, parsed once per test file (the plays file is 18 MB). */
@@ -22,18 +25,18 @@ export function loadLibraryData(): LibraryData {
 /** A playbooks/plays/*.json example as a catalog input. */
 export function loadPlaysDoc(name: string): { path: string; data: PlaysFile } {
   const path = `playbooks/plays/${name}`;
-  return { path, data: readJson<PlaysFile>(path) };
+  return { path, data: readFixture<PlaysFile>(`plays/${name}`) };
 }
 
 /** A playbooks/sets/*.json file as a catalog / validation input. */
 export function loadSetsDoc(name: string): { path: string; data: SetsFile } {
   const path = `playbooks/sets/${name}`;
-  return { path, data: readJson<SetsFile>(path) };
+  return { path, data: readFixture<SetsFile>(`sets/${name}`) };
 }
 
 /** A playbooks/*.json playbook spec. */
 export function loadPlaybook(name: string): PlaybookSpec {
-  return readJson<PlaybookSpec>(`playbooks/${name}`);
+  return readFixture<PlaybookSpec>(name);
 }
 
 /** Rows of a research/index/*.tsv file (game-side build manifests) as objects; [] when the file doesn't exist. */

@@ -11,8 +11,8 @@ import type { AudibleSlot, PlayKey } from "../model/types";
 export type AudibleStyle = "xbox" | "ps" | "keyboard";
 export type BallSpot = "left" | "middle" | "right";
 
-/** The playbook the app opens by default (STUDIO). */
-export const DEFAULT_PLAYBOOK = "playbooks/studio-test.json";
+/** The playbook the app opens by default (FUSION). */
+export const DEFAULT_PLAYBOOK = "playbooks/FUSION.json";
 
 export interface SettingsState {
   audibleStyle: AudibleStyle;
@@ -54,7 +54,7 @@ export function migrateSettings(persisted: unknown, version: number): Record<str
     delete st.inputMode;
     if (st.audibleStyle !== "xbox" && st.audibleStyle !== "ps" && st.audibleStyle !== "keyboard")
       st.audibleStyle = mode === "ps" ? "ps" : mode === "keyboard" ? "keyboard" : "xbox";
-    if (st.lastPlaybook === undefined || st.lastPlaybook === null || st.lastPlaybook === "playbooks/studio-lib.json") st.lastPlaybook = DEFAULT_PLAYBOOK;
+    if (st.lastPlaybook === undefined || st.lastPlaybook === null || st.lastPlaybook === "playbooks/studio-lib.json" || st.lastPlaybook === "playbooks/studio-test.json") st.lastPlaybook = DEFAULT_PLAYBOOK;
   }
   return st;
 }

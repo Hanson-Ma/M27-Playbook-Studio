@@ -125,7 +125,7 @@ export function useGameplanBook(): BookOption | undefined {
 }
 
 /** The default playbook (STUDIO) when nothing was chosen or opened yet. */
-export const DEFAULT_BOOK = "playbooks/studio-test.json";
+export const DEFAULT_BOOK = "playbooks/FUSION.json";
 
 export function pickBook(books: BookOption[], chosen?: string, last?: string): BookOption | undefined {
   const ok = books.filter((b) => b.spec);

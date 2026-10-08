@@ -1,5 +1,5 @@
 // Playbook builder (app/docs/features/playbook.md, v2): the app's home screen. #/playbook opens the last / default
-// playbook (STUDIO = playbooks/studio-test.json) straight away; #/playbook/<path>[?f=&s=&p=] is the builder.
+// playbook (FUSION = playbooks/FUSION.json) straight away; #/playbook/<path>[?f=&s=&p=] is the builder.
 // Other playbooks open from the "Playbooks" menu in the builder header (there is no separate picker page).
 import { useEffect, useMemo } from "react";
 import { defaultPlaybookPath } from "../../model/playbook";
@@ -18,7 +18,7 @@ export function PlaybookView() {
   return path ? <Builder key={path} path={path} /> : <OpenDefaultBook />;
 }
 
-/** #/playbook: jump to the last opened playbook (else STUDIO, else the first one); offer to create one when none exist. */
+/** #/playbook: jump to the last opened playbook (else FUSION, else the first one); offer to create one when none exist. */
 function OpenDefaultBook() {
   const ready = useWorkspace((st) => st.ready);
   const docs = useDocsOfKind<PlaybookSpec>("playbook");
