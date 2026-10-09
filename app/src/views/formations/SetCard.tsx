@@ -1,7 +1,7 @@
 // Alignment-only card for a set (library or custom): flat dark field with the eleven player marks, then the
 // set name (caps) and the formation / base line underneath — the play-call card look without routes.
 import { memo, type MouseEvent, type ReactNode } from "react";
-import { Field, PlayArtLayer } from "../../field";
+import { Field, PlayArtLayer, useFieldTransform } from "../../field";
 import { HALF_WIDTH } from "../../model/geometry";
 import type { ArtBounds, PlayArt } from "../../model/types";
 import { useSettings } from "../../state/settings";
@@ -14,7 +14,11 @@ import s from "./SetCard.module.css";
  * with the eleven sitting in the middle of the art.
  */
 export const SET_CARD_ASPECT = 2.5;
-const EMPTY_VIEWPORT: ArtBounds = { minX: -HALF_WIDTH, maxX: HALF_WIDTH, minY: -10, maxY: 3 };
+/** The window reaches this far to each side: the line-up fills the card, so the player marks can be bigger. */
+const HALF_VIEW = 22;
+/** Player marks are drawn this much larger than on a play card (they're the whole point of a set card). */
+const MARK_SCALE = 1.5;
+const EMPTY_VIEWPORT: ArtBounds = { minX: -HALF_VIEW, maxX: HALF_VIEW, minY: -10, maxY: 3 };
 const viewports = new WeakMap<PlayArt, ArtBounds>();
 function viewportFor(art: PlayArt): ArtBounds {
   let vp = viewports.get(art);
@@ -22,7 +26,7 @@ function viewportFor(art: PlayArt): ArtBounds {
     if (!art.players.length) return EMPTY_VIEWPORT;
     const ys = art.players.map((p) => p.at.y);
     const mid = (Math.min(...ys) + Math.max(...ys)) / 2;
-    vp = { minX: -HALF_WIDTH, maxX: HALF_WIDTH, minY: mid - 5, maxY: mid + 5 };
+    vp = { minX: -Math.min(HALF_WIDTH, HALF_VIEW), maxX: Math.min(HALF_WIDTH, HALF_VIEW), minY: mid - 5, maxY: mid + 5 };
     viewports.set(art, vp);
   }
   return vp;
@@ -55,6 +59,21 @@ export interface SetCardProps {
   className?: string;
 }
 
+/** Slot number and position (3 SL1) under each player mark; hidden on small cards (SetCard.module.css). */
+function Captions({ art }: { art: PlayArt }) {
+  const { pxPerYard } = useFieldTransform();
+  const ppy = Math.max(pxPerYard, 0.5);
+  return (
+    <g className={s.captions} aria-hidden>
+      {art.players.filter((p) => p.glyph !== "ol" && p.glyph !== "center").map((p) => (
+        <text key={p.slot} className={s.caption} transform={`translate(${p.at.x} ${-p.at.y}) scale(${1 / ppy}) translate(0 17)`} textAnchor="middle">
+          {p.slot}·{p.label}
+        </text>
+      ))}
+    </g>
+  );
+}
+
 export const SetCard = memo(function SetCard({ art, name, subtitle, personnel, selected, badges, tag, stat, corner, muted, fill, aspect, onClick, onDoubleClick, onContextMenu, className }: SetCardProps) {
   const ballSpot = useSettings((st) => st.ballSpot);
   return (
@@ -73,7 +92,8 @@ export const SetCard = memo(function SetCard({ art, name, subtitle, personnel, s
     >
       <div className={s.art} style={aspect ? { aspectRatio: String(aspect) } : undefined}>
         <Field viewport={viewportFor(art)} ballSpot={ballSpot} className={s.field} label={`${name} alignment`}>
-          <PlayArtLayer art={art} compact />
+          <PlayArtLayer art={art} compact markScale={MARK_SCALE} />
+          <Captions art={art} />
         </Field>
         {tag && <span className={s.tag}>{tag}</span>}
         {stat && <span className={s.stat}>{stat}</span>}

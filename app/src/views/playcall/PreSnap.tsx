@@ -98,7 +98,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
   // Per motion man: the preset that sends him left / right (as the set stores them, before any flip). A preset is the
   // game's own motion: its `motionMan` entry is the player who goes, any others in it slide over to make room.
   const moves = useMemo(() => {
-    const out = new Map<number, { left?: string; right?: string }>();
+    const out = new Map<number, { left?: string; right?: string; explicit?: boolean }>();
     const set = catalog?.lib.setByAsset.get(play.set);
     const normal = set?.movements?.Normal;
     if (!set || !normal || play.side === "defense") return out;
@@ -114,6 +114,8 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
         const e = out.get(slot) ?? {};
         const dir = named ?? (dx < 0 ? "left" : "right");
         if (!e[dir]) e[dir] = key;
+        // presets with their own flipped spot (ported sets) keep the side they name when the play is flipped
+        if (typeof pre.fx === "number") e.explicit = true;
         out.set(slot, e);
       });
     }
@@ -144,8 +146,9 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
   const motion = (dir: "left" | "right") => {
     const mv = sel === undefined ? undefined : moves.get(sel);
     if (!mv) return;
-    const L = flipped ? mv.right : mv.left;
-    const R = flipped ? mv.left : mv.right;
+    const swap = flipped && !mv.explicit;
+    const L = swap ? mv.right : mv.left;
+    const R = swap ? mv.left : mv.right;
     setPreset((cur) => (dir === "right" ? (cur === L ? undefined : (R ?? cur)) : cur === R ? undefined : (L ?? cur)));
   };
   const selLabel = sel === undefined ? undefined : art.players.find((p) => p.slot === sel)?.label;

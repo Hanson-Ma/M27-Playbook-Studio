@@ -56,6 +56,9 @@ export interface AlignmentPos {
   motionMan: boolean;
   /** Custom sets: the player keeps his own spot when the play is flipped (only his route mirrors). */
   stayOnFlip?: boolean;
+  /** Ported motion presets: the spot when the play is flipped (the plain mirror when absent). */
+  fx?: number;
+  fy?: number;
 }
 
 export interface SetDef {

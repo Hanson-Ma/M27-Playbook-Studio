@@ -59,11 +59,11 @@ describe("playback", () => {
     expect(boot.end).toBeCloseTo(6 / 5.5, 6);
   });
 
-  it("makes a back wait for the handoff but not a QB keeper", () => {
+  it("sends a back on a run at the snap, with no wait for the handoff", () => {
     const hb = player(2, 0, -6);
     const run = buildTracks(art([hb], [path(2, "run", [[0, -6], [0, 4]])]))[0];
-    expect(positionAt(run, HANDOFF_DELAY * 0.5)).toEqual({ x: 0, y: -6 });
-    expect(positionAt(run, HANDOFF_DELAY + 1).y).toBeCloseTo(-6 + 7.5, 6);
+    expect(HANDOFF_DELAY).toBe(0);
+    expect(positionAt(run, 1).y).toBeCloseTo(-6 + 7.5, 6);
     const qb = { ...player(1, 0, -6), glyph: "qb" } as ArtPlayer;
     const keep = buildTracks(art([qb], [path(1, "run", [[0, -6], [0, 4]])]))[0];
     expect(keep.tcum[0]).toBe(0);

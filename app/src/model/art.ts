@@ -847,7 +847,10 @@ export function computeArt(set: SetDef, slots: Step[][], opts: ArtOptions = {}):
   if (!Array.isArray(normal) || !normal.length) return emptyArt(!!opts.flip);
 
   const presetList = opts.preset && opts.preset !== "Normal" ? set.movements[opts.preset] : undefined;
-  const presets = matchPreset(normal, presetList);
+  const presets = matchPreset(normal, presetList).map((pr) =>
+    // drawn mirrored at the end, so the flipped spot (fx, fy) goes in as its mirror image
+    opts.flip && pr && typeof pr.fx === "number" && typeof pr.fy === "number" ? { ...pr, x: -pr.fx, y: pr.fy } : pr,
+  );
   const glyphs = normal.map((a) => glyphFor(a));
   const side: Side = opts.side ?? (glyphs.filter((g) => g === "def").length * 2 > normal.length ? "defense" : "offense");
   const defense = side === "defense";

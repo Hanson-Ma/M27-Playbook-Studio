@@ -40,6 +40,8 @@ export interface PlayArtLayerProps {
   dimOthers?: boolean;
   /** Card sizing: thinner strokes, smaller marks, no OL pass-pro marks. */
   compact?: boolean;
+  /** Multiplies the size of the player marks (alignment cards draw them larger than a play card's). */
+  markScale?: number;
   /** Default true. */
   showPlayers?: boolean;
   /** Default true. */
@@ -201,6 +203,7 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
     showSlots: showSlotsProp,
     dimOthers = false,
     compact = false,
+    markScale = 1,
     showPlayers = true,
     showZones = true,
     cutStyles = true,
@@ -209,7 +212,10 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
   const { pxPerYard, depth, viewBox } = useFieldTransform();
   const art = projectArt(rawArt, depth);
   const ppy = Math.max(pxPerYard, 0.5);
-  const m = useMemo(() => artMetrics(compact, ppy), [compact, ppy]);
+  const m = useMemo(() => {
+    const base = artMetrics(compact, ppy);
+    return markScale === 1 ? base : { ...base, radius: base.radius * markScale, ring: base.ring * Math.max(1, markScale * 0.8), iconScale: base.iconScale * markScale };
+  }, [compact, ppy, markScale]);
   const focus = dimOthers ? (selectedSlot ?? highlightSlot) : undefined;
   const dimmed = (slot: number) => focus !== undefined && slot !== focus;
 

@@ -463,6 +463,32 @@ export function presetAlignment(base: SetDef, spec: Pick<CustomSetSpec, "positio
 /** The movements of the built set: effective Normal + every base preset (overridden targets applied). */
 export function effectiveMovements(base: SetDef, spec: Pick<CustomSetSpec, "positions" | "movements">): Record<string, AlignmentPos[]> {
   const movements: Record<string, AlignmentPos[]> = { [NORMAL]: effectiveNormal(base, spec) };
+  // "presets" (ported sets, FORMATS.md §5): the set's own motion presets replace the base set's altogether. Each entry is
+  // the motion man's target spot ({ slot, x, y, motionMan, stance?, fx?, fy? }), exactly what the builder writes.
+  const own = (spec as { presets?: unknown }).presets;
+  if (own && typeof own === "object" && !Array.isArray(own)) {
+    const normal = movements[NORMAL];
+    for (const [key, list] of Object.entries(own as Record<string, unknown>)) {
+      if (key === NORMAL || !Array.isArray(list)) continue;
+      const out: AlignmentPos[] = [];
+      for (const e of list as Record<string, unknown>[]) {
+        const slot = e?.slot;
+        if (typeof slot !== "number" || !normal[slot] || typeof e.x !== "number" || typeof e.y !== "number") continue;
+        const a = normal[slot];
+        out.push({
+          ...a,
+          slot,
+          x: e.x,
+          y: e.y,
+          motionMan: e.motionMan === true,
+          ...(typeof e.stance === "string" ? { stance: e.stance } : undefined),
+          ...(typeof e.fx === "number" && typeof e.fy === "number" ? { fx: e.fx, fy: e.fy } : undefined),
+        });
+      }
+      movements[key] = out;
+    }
+    return movements;
+  }
   for (const key of basePresetKeys(base)) {
     movements[key] = Array.isArray(spec?.movements?.[key])
       ? effectivePreset(base, spec, key).filter((a): a is AlignmentPos => !!a)

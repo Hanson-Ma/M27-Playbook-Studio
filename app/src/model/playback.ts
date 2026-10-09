@@ -9,8 +9,8 @@ import type { ArtKind, ArtPath, PlayArt, Vec } from "./types";
 export const RUN_SPEED = 8;
 /** Never take longer than this to finish: longer plays are sped up to fit (see playSpeedup). */
 export const MAX_SECONDS = 7;
-/** A back / receiver who takes the ball from the QB starts this long after the snap (the mesh). */
-export const HANDOFF_DELAY = 0.6;
+/** A back who takes the ball from the QB starts right at the snap (the mesh is the QB's animation, not a wait). */
+export const HANDOFF_DELAY = 0;
 
 /** Yards per second by what the path is. */
 const SPEED: Partial<Record<ArtKind, number>> = {

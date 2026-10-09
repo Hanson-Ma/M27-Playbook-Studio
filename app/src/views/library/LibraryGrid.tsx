@@ -4,7 +4,10 @@
 // the selection while the grid has focus; Enter opens.
 import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { PlayCard, cardSubtitle } from "../../field";
+import { computeArt, emptyArt } from "../../model/art";
 import { displayFromLeaf, leaf } from "../../model/names";
+import { normalOf, personnelOf } from "../../model/sets";
+import { SetCard } from "../formations/SetCard";
 import { familyColor, familyLabel, playTypeInfo } from "../../model/playtypes";
 import { activeFilterCount, groupResults, type PlayFilters, type ResultSection, type SearchEntry, type SearchIndex } from "../../model/search";
 import type { ConceptsDoc } from "../../model/types";
@@ -225,21 +228,18 @@ export function LibraryGrid() {
               </button>
             ))}
           </nav>
-          <div className={s.browseMain}>
-            {curF && (
-              <div className={s.setTabs} role="tablist" aria-label="Sets">
-                <button type="button" role="tab" aria-selected={!curS} className={cx(s.setTab, !curS && s.setTabOn)} onClick={() => setSSel(undefined)}>
-                  All Sets <span>{fmt(curF.count)}</span>
-                </button>
-                {[...curF.sets.values()].map((st) => (
-                  <button key={st.asset} type="button" role="tab" aria-selected={curS === st} className={cx(s.setTab, curS === st && s.setTabOn)} onClick={() => setSSel(st.asset)}>
-                    <span className="caps">{st.name}</span> <span>{fmt(st.count)}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-            <div className={s.browseGrid}>{grid}</div>
-          </div>
+          {curF && (
+            <nav className={s.setList} aria-label="Sets">
+              <button type="button" aria-current={!curS} className={cx(s.allSets, !curS && s.allSetsOn)} onClick={() => setSSel(undefined)}>
+                <span>All Sets</span>
+                <span className={s.formCount}>{fmt(curF.count)}</span>
+              </button>
+              {[...curF.sets.values()].map((st) => (
+                <SetThumb key={st.asset} asset={st.asset} name={st.name} count={st.count} selected={curS === st} onClick={() => setSSel(st.asset)} />
+              ))}
+            </nav>
+          )}
+          <div className={s.browseGrid}>{grid}</div>
         </div>
       ) : (
         grid
@@ -516,6 +516,31 @@ function SelectionActions({ entry, favorite, onOpen }: { entry: SearchEntry; fav
         {favorite ? "Favorited" : "Favorite"}
       </Button>
     </div>
+  );
+}
+
+/** A set in the Browse tab's second column: the set's own alignment, its name and how many plays it has. */
+function SetThumb({ asset, name, count, selected, onClick }: { asset: string; name: string; count: number; selected: boolean; onClick(): void }) {
+  const catalog = useCatalog();
+  const set = catalog?.lib.setByAsset.get(asset);
+  const art = useMemo(() => {
+    if (!set) return emptyArt();
+    try {
+      return computeArt(set, []);
+    } catch {
+      return emptyArt();
+    }
+  }, [set]);
+  return (
+    <SetCard
+      art={art}
+      aspect={2.2}
+      name={name}
+      personnel={set ? personnelOf(normalOf(set)) : undefined}
+      subtitle={`${fmt(count)} ${count === 1 ? "play" : "plays"}`}
+      selected={selected}
+      onClick={onClick}
+    />
   );
 }
 

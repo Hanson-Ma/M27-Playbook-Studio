@@ -55,19 +55,35 @@ export function useArtTween(art: PlayArt, key: string, motionKey = ""): PlayArt 
   // Elapsed time is read while rendering, so the very first frame after a change already starts from the old spots.
   const now = performance.now() - t0.current;
   const running = from.current.size > 0 && [...dur.current.values()].some((d) => now < d);
-  const out: PlayArt = !running
-    ? art
-    : {
-        ...art,
-        players: art.players.map((p) => {
-          const a = from.current.get(p.slot);
-          const d = dur.current.get(p.slot) ?? MS;
-          if (!a) return p;
-          const k = Math.min(1, now / d);
-          const f = linear.current ? k : ease(k);
-          return { ...p, at: { x: a.x + (p.at.x - a.x) * f, y: a.y + (p.at.y - a.y) * f } };
+  let out: PlayArt = art;
+  if (running) {
+    // Where each player is drawn now, and how far that is from his final spot (his route sticks with him).
+    const off = new Map<number, Vec>();
+    const players = art.players.map((p) => {
+      const a = from.current.get(p.slot);
+      const d = dur.current.get(p.slot) ?? MS;
+      if (!a) return p;
+      const k = Math.min(1, now / d);
+      const f = linear.current ? k : ease(k);
+      const at = { x: a.x + (p.at.x - a.x) * f, y: a.y + (p.at.y - a.y) * f };
+      if (linear.current && k < 1) off.set(p.slot, { x: at.x - p.at.x, y: at.y - p.at.y });
+      return { ...p, at };
+    });
+    out = { ...art, players };
+    if (off.size)
+      out = {
+        ...out,
+        // the pre-snap shift arrow stays where it is; everything the player runs rides along
+        paths: art.paths.map((pa) => {
+          const o = off.get(pa.slot);
+          return o && pa.kind !== "preset" ? { ...pa, points: pa.points.map((v) => ({ x: v.x + o.x, y: v.y + o.y })) } : pa;
+        }),
+        zones: art.zones.map((z) => {
+          const o = off.get(z.slot);
+          return o ? { ...z, center: { x: z.center.x + o.x, y: z.center.y + o.y } } : z;
         }),
       };
+  }
   shown.current = out;
   return out;
 }
