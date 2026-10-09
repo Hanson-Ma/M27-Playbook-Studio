@@ -1,0 +1,23 @@
+.guides {
+  pointer-events: none;
+}
+.guides line {
+  stroke: var(--amber);
+  stroke-linecap: round;
+  fill: none;
+}
+.guides line.los {
+  stroke: var(--text-2);
+}
+.tag rect {
+  fill: rgba(10, 12, 16, 0.88);
+  stroke: var(--amber);
+  stroke-width: 1;
+}
+.tag text {
+  fill: var(--text);
+  font-family: var(--font-num);
+  font-size: 11px;
+  font-weight: 600;
+  text-anchor: middle;
+}

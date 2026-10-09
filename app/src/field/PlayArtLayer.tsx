@@ -2,7 +2,7 @@
 // Geometry is in yards; everything that should look the same at every zoom (stroke widths, arrowheads, T caps,
 // player marks, labels) is drawn in screen pixels: strokes via vector-effect, marks inside a scale(1/pxPerYard) group.
 // - The art is drawn through the field's depth scale (projectArt): play cards compress depth, detail fields don't.
-// - Detail metrics grow with the field's px/yd (k = clamp(ppy / 14, 1, 1.9)) so players stay in proportion to the
+// - Detail metrics grow with the field's px/yd (k = clamp(ppy / 14, 1, 1.9); player marks keep growing to 6×) so players stay in proportion to the
 //   painted numbers on big screens; compact (card) metrics shrink a little on the smallest cards.
 // - Compact art leaves out OL pass-pro stubs (Madden doesn't draw them) and narrows OL block caps so five linemen
 //   don't merge into one gray hatch.
@@ -61,14 +61,18 @@ export interface ArtMetrics {
   label: number;
   /** Size factor applied to the base metrics (selection rings, path labels and hit areas follow it). */
   scale: number;
+  /** Size factor of the player marks: they keep growing with the field's zoom (lines and arrows stop at `scale`). */
+  iconScale: number;
 }
 
-const COMPACT: ArtMetrics = { stroke: 2.4, radius: 4.6, ring: 1.6, arrowLen: 8.5, arrowHalf: 4.4, tHalf: 4.8, dot: 2.6, label: 8.5, scale: 1 };
-const DETAIL: ArtMetrics = { stroke: 3, radius: 6.5, ring: 1.9, arrowLen: 11, arrowHalf: 5.6, tHalf: 6.5, dot: 3.3, label: 9.5, scale: 1 };
+const COMPACT: ArtMetrics = { stroke: 2.4, radius: 4.6, ring: 1.6, arrowLen: 8.5, arrowHalf: 4.4, tHalf: 4.8, dot: 2.6, label: 8.5, scale: 1, iconScale: 1 };
+const DETAIL: ArtMetrics = { stroke: 3, radius: 6.5, ring: 1.9, arrowLen: 11, arrowHalf: 5.6, tHalf: 6.5, dot: 3.3, label: 9.5, scale: 1, iconScale: 1 };
 
 /** px/yd at which the detail metrics are 1×, and their largest factor. */
 const DETAIL_BASE_PPY = 14;
 const DETAIL_MAX_SCALE = 1.9;
+/** Player marks follow the zoom much further (a mark is the same share of the field however far you zoom in). */
+const ICON_MAX_SCALE = 6;
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
@@ -79,18 +83,20 @@ const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v
 export function artMetrics(compact: boolean, ppy: number): ArtMetrics {
   if (!compact) {
     const k = clamp(ppy / DETAIL_BASE_PPY, 1, DETAIL_MAX_SCALE);
-    if (k === 1) return DETAIL;
+    const ki = clamp(ppy / DETAIL_BASE_PPY, 1, ICON_MAX_SCALE);
+    if (ki === 1) return DETAIL;
     const d = DETAIL;
     return {
       stroke: d.stroke * k,
-      radius: d.radius * k,
-      ring: d.ring * k,
+      radius: d.radius * ki,
+      ring: d.ring * ki,
       arrowLen: d.arrowLen * k,
       arrowHalf: d.arrowHalf * k,
       tHalf: d.tHalf * k,
       dot: d.dot * k,
       label: d.label * k,
       scale: k,
+      iconScale: ki,
     };
   }
   const k = Math.min(1, Math.max(0.75, ppy / 5.6));
@@ -106,6 +112,7 @@ export function artMetrics(compact: boolean, ppy: number): ArtMetrics {
     dot: c.dot * k,
     label: c.label,
     scale: 1,
+    iconScale: 1,
   };
 }
 
@@ -227,6 +234,8 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
     return { paths: list, drawn: list.map((x) => x.p), olSlots: ol };
   }, [art, compact, m.radius, ppy]);
 
+  // Players who run a pass route (cards draw them as an ×, like the game).
+  const runners = new Set(art.paths.filter((p) => p.kind === "route" || p.kind === "primary" || (p.kind === "option" && !p.dashed)).map((p) => p.slot));
   const zoneKindBySlot = new Map<number, ZoneKind>();
   for (const z of art.zones) if (!zoneKindBySlot.has(z.slot)) zoneKindBySlot.set(z.slot, z.kind);
 
@@ -295,6 +304,7 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
               m={m}
               selected={pl.slot === selectedSlot}
               highlighted={pl.slot === highlightSlot}
+              cardMark={compact ? (runners.has(pl.slot) && pl.glyph === "skill" ? "x" : pl.glyph === "def" ? undefined : "dot") : undefined}
               dim={dimmed(pl.slot)}
               onPointerDown={onPlayerPointerDown}
               onHover={onPlayerHover}
@@ -386,7 +396,9 @@ export function PathShape({
   const drawing = corners?.length || smooth
     ? drawCutPath(line, corners ?? [], cutSizes(m, ppy, compact), { lastVertexIndex: maxVertexIndex(path), smooth })
     : undefined;
-  const cls = [styles.path, colorClass ?? KIND_CLASS[path.kind], dim && styles.dim].filter(Boolean).join(" ");
+  // A tone (block and release) recolors routes like the game does; the primary route stays red.
+  const toneClass = path.tone && path.kind !== "primary" ? styles.toneRelease : undefined;
+  const cls = [styles.path, colorClass ?? toneClass ?? KIND_CLASS[path.kind], dim && styles.dim].filter(Boolean).join(" ");
   const capTransform = `translate(${r3(tip.x)} ${r3(-tip.y)}) rotate(${r3(angle)}) ${pxScale(ppy)}`;
 
   let cap: ReactElement | null = null;
@@ -469,11 +481,13 @@ interface PlayerMarkProps {
   dim: boolean;
   onPointerDown?: (slot: number, e: ReactPointerEvent<SVGGElement>) => void;
   onHover?: (slot: number | undefined) => void;
+  /** Card mark instead of the position glyph: "x" = route runner, "dot" = everyone else. */
+  cardMark?: "x" | "dot";
 }
 
-function PlayerMark({ player: p, ppy, m, selected, highlighted, dim, onPointerDown, onHover }: PlayerMarkProps) {
+function PlayerMark({ player: p, ppy, m, selected, highlighted, dim, onPointerDown, onHover, cardMark }: PlayerMarkProps) {
   const R = m.radius;
-  const k = m.scale;
+  const k = m.iconScale;
   const interactive = !!(onPointerDown || onHover);
   return (
     <g
@@ -498,7 +512,13 @@ function PlayerMark({ player: p, ppy, m, selected, highlighted, dim, onPointerDo
         </>
       )}
       {highlighted && !selected && <circle className={styles.hiRing} r={r3(R + 3.5 * k)} strokeWidth={r3(1.25 * k)} />}
-      <Glyph glyph={p.glyph} R={R} ring={m.ring} square={Math.min(R * 0.9, ppy * 0.6)} />
+      {cardMark === "x" ? (
+        <path className={styles.mark} d={`M${r3(-R * 0.8)} ${r3(-R * 0.8)}L${r3(R * 0.8)} ${r3(R * 0.8)}M${r3(-R * 0.8)} ${r3(R * 0.8)}L${r3(R * 0.8)} ${r3(-R * 0.8)}`} strokeWidth={r3(m.ring * 1.6)} />
+      ) : cardMark === "dot" ? (
+        <circle className={styles.solid} r={r3(R * 0.78)} />
+      ) : (
+        <Glyph glyph={p.glyph} R={R} ring={m.ring} square={Math.min(R * 0.9, ppy * 0.6)} />
+      )}
       {interactive && <circle className={styles.hit} r={r3(Math.max(R + 6 * k, 11))} />}
     </g>
   );

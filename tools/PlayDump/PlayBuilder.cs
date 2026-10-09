@@ -210,8 +210,10 @@ namespace PlayDump
                 {
                     dynamic wp = TypeLibrary.CreateObject("AutomotionWaypoint");
                     dynamic pos = wp.position;
-                    pos.x = (float)w["x"];
-                    pos.y = (float)w["y"];
+                    // Flat { x, y } (spec format) or nested { position: { x, y } } (what the web app's designer writes).
+                    JObject at = w["position"] as JObject ?? w;
+                    pos.x = (float)at["x"];
+                    pos.y = (float)at["y"];
                     wp.position = pos;
                     wp.speed = (float?)w["speed"] ?? 100f;
                     wp.facingAngle = (float?)w["facingAngle"] ?? 0f;

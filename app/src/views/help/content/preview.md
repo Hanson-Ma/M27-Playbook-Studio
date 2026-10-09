@@ -1,8 +1,8 @@
 # Preview in Game
 
-**Preview in Game** shows a playbook on Madden 27's own play-select screen, with the same layout and the same flow:
-the tabs across the middle, the formation list on the left, the set bar with the formation under it, and the plays as
-a column of cards on the right. Use it to see how your playbook will feel to call from, before you export.
+**Preview in Game** shows a playbook on Madden 27's own play-select screen, with the same two screens and the same flow:
+first the formation list with the set bar and the formation's players under it, then the plays of a set, three to a
+row, with that formation's sets as the tabs. Use it to see how your playbook will feel to call from, before you export.
 
 ## Open the Preview
 
@@ -19,14 +19,33 @@ order can differ.
 
 - **↑ ↓** pick a formation in the list. **← →** (or the arrows on the set bar) cycle through its sets; after the last
   set it wraps back to the first, like the game.
-- **Enter** (or a click on the set bar or the formation) opens the set's plays as a column of cards. **↑ ↓** (or the
-  mouse wheel) scroll down it one card at a time, **← →** switch to the previous or next set. **Esc** goes back to the
-  set bar.
+- **Enter** (or a click on the set bar or the formation) opens the plays screen: the formation's sets become the tabs
+  (**PgUp / PgDn** or **LB / RB** switch them) and the plays sit three to a row. **← →** move along a row, **↑ ↓** (or the
+  mouse wheel) scroll a row at a time. **Esc** goes back to the formation list.
+- The **Concept**, **Play Type** and **Personnel Group** tabs work the same way: pick a group on the left, **Enter**
+  opens its plays.
 - **Enter** on a card (or a second click) calls the play and opens its pre-snap view. The play
   **only runs when you ask**: click the field, press **A** on a controller, **Enter**, or hit **Run Play** and the players
-  run their routes (the QB drops back, a back takes the handoff) and freeze at the end; run it again the same way.
-- **PgUp / PgDn** (or the tab names) switch tabs. The big field at the top always shows the play or set you have
-  selected.
+  run: a motion man goes first, then the ball is snapped and everyone runs their routes (the QB drops back, a back takes the handoff) and freezes at the end; run it again the same way.
+- **PgUp / PgDn** (or the tab names) switch tabs on the formation list.
+- The pre-snap view uses the game's camera, tilted behind the offense; **Flat View** switches to a top-down field you
+  can zoom and pan. Stepping to the next play slides the players to their new spots.
+
+### How the play art reads
+
+The cards and the pre-snap view draw plays the way the game does:
+
+| Color | Means |
+|:--|:--|
+| Red | The primary receiver (or the ball carrier on a run) |
+| Yellow | Other pass routes, including the route a motion man runs after the snap |
+| Light blue | Pre-snap motion |
+| Dark blue | A route that starts with a block (block and release) |
+| Orange | The quarterback's drop, boot, rollout or option keep |
+| White | Blocks |
+
+An **option route** shows every branch the receiver can choose from the end of its stem; he runs the first one unless
+the coverage tells him otherwise.
 
 ![The plays of Y TRIPS WK. Each card shows its audible button and how many CPU weights it has.](/guide/preview-plays.png)
 

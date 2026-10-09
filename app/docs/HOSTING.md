@@ -7,8 +7,7 @@ keeping the Mac and PC in sync, and fixing problems.
 
 ## How it works (the short version)
 
-- The website is **only the app**: about 1.5 MB of HTML, JavaScript and CSS, plus the user guide (its screenshots and
-  the PDF, about 10 MB in `guide/`). There is no server program, no database and no account, and **your playbooks
+- The website is **only the app**: about 1.5 MB of HTML, JavaScript and CSS, plus the user guide (its screenshots in `guide/`). There is no server program, no database and no account, and **your playbooks
   and the game data are never uploaded** anywhere.
 - When you open the site, it asks you to **open your "2026 Playbook" folder**: the repo folder with `data`,
   `playbooks` and `tools` inside, on the computer you're using. Chrome or Edge then lets that page read and write

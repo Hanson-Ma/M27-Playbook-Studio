@@ -24,6 +24,8 @@ export interface SettingsState {
   ballSpot: BallSpot;
   /** Play cards per row in the builder's set view (3 / 6 / 9; 3 per row = one page of the in-game play-call screen). */
   cardColumns: 3 | 6 | 9;
+  /** Designer: drawing / dragging a route point picks the cut for the turn (22 / 45 / 67 / 90…) automatically. */
+  cutDetection: boolean;
   /** Draw OL pass protection in detail views. */
   showPassPro: boolean;
   /** Hide minigame / tutorial / skills-trainer formations (MG_, ST_, NST_, skeleton drills) in pickers. */
@@ -71,6 +73,7 @@ export const useSettings = create<SettingsState>()(
       assetPrefix: "PBS_",
       ballSpot: "middle",
       cardColumns: 3,
+      cutDetection: true,
       showPassPro: true,
       hideMinigames: true,
       favorites: [],

@@ -52,6 +52,9 @@
 .field {
   position: absolute;
   inset: 0;
+  /* the game's play-call card field: black, no bands */
+  --field-bg: #0a0b0d;
+  --field-bg-2: #0a0b0d;
 }
 
 .card[data-clickable]:hover {

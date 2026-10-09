@@ -10,7 +10,8 @@ import { playTypeInfo } from "../../model/playtypes";
 import { bookFormation } from "../../model/resolveBook";
 import { templatePlayProblem } from "../../model/tdb";
 import { useSettings } from "../../state/settings";
-import { Icon, SearchSelect, Tooltip, cx, type SearchOption } from "../../ui";
+import { Icon, PersonnelTag, SearchSelect, Tooltip, cx, type SearchOption } from "../../ui";
+import { normalOf, personnelOf } from "../../model/sets";
 import { CategoryDots, playCategories, useConcepts } from "./categories";
 import { tplayIds, tsetId, useBuilder, useDragHandlers, useOpenMenu, type BookNode, type BuilderData } from "./context";
 import { beginDrag, type DragPayload } from "./dnd";
@@ -91,7 +92,7 @@ function buildRows(data: BuilderData, expanded: Record<string, boolean>): TreeRo
         const pNode = data.nodes.get(pid);
         if (pNode) rows.push({ kind: "node", id: pid, node: pNode, depth: 3, expandable: false, expanded: false, sig: rowSig(data, pNode) });
       });
-      if (!sIds.plays.length) rows.push({ kind: "note", id: `${sIds.id}/empty`, depth: 3, text: "No plays yet — select the set, then tick plays in step 2", tone: "info" });
+      if (!sIds.plays.length) rows.push({ kind: "note", id: `${sIds.id}/empty`, depth: 3, text: "No plays yet — select the set, then tick plays", tone: "info" });
     });
     if (rf.formation && Array.isArray(rf.entry.sets)) rows.push({ kind: "add-set", id: `${fIds.id}/+set`, f });
   });
@@ -116,7 +117,7 @@ function rowSig(data: BuilderData, n: BookNode): string | undefined {
   if (n.level === "set" && n.rs) {
     const rs = n.rs;
     const slots = rs.plays.map((p) => p.entry.audible ?? "").join("");
-    return [rs.entry.set, rs.problem, rs.malformed, rs.plays.length, slots, rs.plays.filter((p) => p.problem).length, data.custom.set(rs.set?.asset)].join("|");
+    return [rs.entry.set, rs.problem, rs.malformed, rs.plays.length, slots, rs.plays.filter((p) => p.problem).length, data.custom.set(rs.set?.asset), rs.set ? personnelOf(normalOf(rs.set)) : ""].join("|");
   }
   return undefined;
 }
@@ -509,6 +510,7 @@ function SetRow({ node }: { node: BookNode }) {
         <span className={s.name}>{String(rs.entry.set)}</span>
         {(rs.malformed ?? rs.problem) && <span className={s.problem}>{rs.malformed ?? rs.problem}</span>}
       </span>
+      <PersonnelTag code={rs.set ? personnelOf(normalOf(rs.set)) : undefined} bare />
       {custom && (
         <span className={s.customTag} title="Custom set (built by Playbook Studio)">
           Custom

@@ -68,7 +68,7 @@ export function activeScopes(scopes: readonly Scope[]): readonly Scope[] {
  * `button` (A → Enter, B → Escape, d-pad → arrows; none for chords or other buttons); `keys: []` → none.
  */
 export function effectiveKeys(a: ActionDef): string[] {
-  if (a.keys) return a.keys.filter(isUniversalCombo);
+  if (a.keys) return a.bareKeys ? a.keys : a.keys.filter(isUniversalCombo);
   if (!a.button || a.hold) return [];
   const k = BUTTON_FALLBACK_KEYS[a.button];
   return k ? [k] : [];

@@ -1,4 +1,4 @@
-// Step 3 — audibles & CPU: for a set or one of its plays, the audible diamond (with the Xbox / PS5 / Keyboard switch);
+// The right pane — audibles & CPU: for a set or one of its plays, the audible diamond (with the Xbox / PS5 / Keyboard switch);
 // for a play also its card, the CPU-weights editor (common situations; "Show all situations" for the rest) and its
 // actions. Formations, template entries and the book get a short explanation and their actions. Raw details (asset
 // paths, unknown keys) sit behind "Advanced".
@@ -19,7 +19,6 @@ import { AudiblePanel } from "./AudiblePanel";
 import { useBuilder, type BookNode, type BuilderData } from "./context";
 import { Advanced } from "./MiddlePane";
 import { clearWeights, convertTemplate, copySelection, copyWeights, duplicateSelection, openInLibrary, pasteWeights, removeSelection } from "./ops";
-import { StepHeader } from "./parts";
 import { BOOK_ID, parentOf, useBuilderUi } from "./store";
 import s from "./Inspector.module.css";
 
@@ -28,15 +27,8 @@ export function Inspector() {
   const cursor = useBuilderUi((st) => st.cursor);
   const node = data.nodes.get(cursor) ?? data.nodes.get(BOOK_ID)!;
   const setNode = node.level === "set" ? node : node.level === "play" ? data.nodes.get(parentOf(node.id)) : undefined;
-  const hint =
-    node.level === "play"
-      ? "Its audible button and when the CPU calls it"
-      : node.level === "set"
-        ? "Select a play to set its CPU weights"
-        : "Pick a set in step 1 first";
   return (
     <div className={s.pane}>
-      <StepHeader step={3} title="Audibles & CPU" hint={hint} />
       <div className={s.scroll} data-autoscroll>
         <div className={s.inner}>
           {setNode?.rs && <AudiblePanel setNode={setNode} />}
@@ -255,7 +247,7 @@ function SetInspector({ node }: { node: BookNode }) {
         <div className={s.callout}>
           <Icon name="info" size={16} />
           <div>
-            Select a play — click its card in step 2 — to give it an audible button and set when the CPU calls it.
+            Select a play — click its card — to give it an audible button and set when the CPU calls it.
             {firstPlay && (
               <div className={s.calloutAction}>
                 <Button size="sm" onClick={() => useBuilderUi.getState().select(firstPlay)}>
@@ -266,7 +258,7 @@ function SetInspector({ node }: { node: BookNode }) {
           </div>
         </div>
       ) : (
-        <EmptyState compact icon="playcall" title="No Plays in This Set Yet" body="Add plays in step 2 first." />
+        <EmptyState compact icon="playcall" title="No Plays in This Set Yet" body="Add plays to the set first." />
       )}
       <EntryButtons data={data} />
       <Advanced open={advanced} onToggle={setAdvanced}>
@@ -301,7 +293,7 @@ function FormationInspector({ node }: { node: BookNode }) {
       <p className={s.hint}>
         {rf.template
           ? "Its audibles and CPU weights come from the game's template playbook. Convert it to editable sets to change them."
-          : "Audibles and CPU weights are set per set and play. Pick one of this formation's sets in step 1."}
+          : "Audibles and CPU weights are set per set and play. Pick one of this formation's sets in the tree."}
       </p>
       {(rf.malformed ?? rf.problem) && <div className={s.problem}>{rf.malformed ?? rf.problem}</div>}
       {rf.template && node.tf && node.tf.sets.length > 0 && (

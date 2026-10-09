@@ -1,11 +1,10 @@
-// Step 1 — pick a set: the Formation → Set → Play tree, a toolbar for the selection (copy, paste, duplicate, move,
+// The left pane — pick a set: the Formation → Set → Play tree, a toolbar for the selection (copy, paste, duplicate, move,
 // remove — the same commands as the right-click menu) and the collapsible clipboard.
 import { useStore } from "zustand";
 import { clipboardStore, type ClipItem } from "../../model/clipboard";
 import { Icon, IconButton, cx } from "../../ui";
 import { useBuilder, type BookNode } from "./context";
 import { clipCount, copySelection, duplicateSelection, labelOf, nudgeSelection, pasteAtSelection, removeSelection } from "./ops";
-import { StepHeader } from "./parts";
 import { useBuilderUi } from "./store";
 import { Tree } from "./Tree";
 import s from "./LeftPane.module.css";
@@ -13,7 +12,6 @@ import s from "./LeftPane.module.css";
 export function LeftPane() {
   return (
     <div className={s.pane}>
-      <StepHeader step={1} title="Pick a Set" hint="Formations hold sets; sets hold plays" />
       <SelectionBar />
       <Tree />
       <ClipboardPanel />

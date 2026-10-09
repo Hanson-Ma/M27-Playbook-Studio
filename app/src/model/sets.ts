@@ -57,9 +57,9 @@ export const OFF_LINE_MAX = -2;
 export const SAME_SPOT_YD = 0.5;
 /** SetBuilder's OL spots for slots 6–10 (LT LG C RG RT) and the tolerance before it warns. */
 export const OL_SPOTS = [-3.333, -1.666, 0, 1.666, 3.333] as const;
-export const OL_SPOT_TOLERANCE = 0.25;
+export const OL_SPOT_TOLERANCE = 0.6;
 /** OL depth changes up to this much aren't reported (the "move onto the line" fix nudges −1.5 → −1.4). */
-export const OL_DEPTH_TOLERANCE = 0.15;
+export const OL_DEPTH_TOLERANCE = 0.5;
 /** Coordinates are written rounded to this many decimals (the library uses up to 3: 3.333, 7.375). */
 export const COORD_DECIMALS = 3;
 const EPS = 0.0005;
@@ -94,7 +94,7 @@ export const OFFENSE_FORMATIONS_ROOT = PLAYLIBRARY_ROOT + "Formations/Offense/";
 
 const ASSET_RE = /^[A-Za-z0-9_]+$/;
 /** Fields a `positions` entry may change (SetBuilder applies exactly these). */
-export const POSITION_FIELDS = ["x", "y", "stance", "facing", "flipAssign", "motionMan"] as const;
+export const POSITION_FIELDS = ["x", "y", "stance", "facing", "flipAssign", "motionMan", "pos", "depth", "stayOnFlip"] as const;
 export type PositionField = (typeof POSITION_FIELDS)[number];
 /** Fields of a motion-preset target the builder reads (both required). */
 export const PRESET_FIELDS = ["x", "y"] as const;
@@ -102,6 +102,56 @@ export const PRESET_FIELDS = ["x", "y"] as const;
 export type SlotPatch = Partial<Pick<AlignmentPos, PositionField>>;
 
 export type SetsInput = { path: string; data: SetsFile | null | undefined };
+
+// ───────────────────────────── positions / personnel ─────────────────────────────
+
+/**
+ * Positions a skill slot can be changed to (SetBuilder writes depthPosition + depth). Linemen and the QB stay put: the
+ * game needs 5 OL and one QB in their slots.
+ */
+export const SKILL_POSITIONS = [
+  { code: "WR", pos: "POSITION_WR", label: "Wide Receiver" },
+  { code: "SL", pos: "POSITION_SLWR", label: "Slot Receiver" },
+  { code: "TE", pos: "POSITION_TE", label: "Tight End" },
+  { code: "HB", pos: "POSITION_HB", label: "Halfback" },
+  { code: "FB", pos: "POSITION_FB", label: "Fullback" },
+] as const;
+
+/** Whether a slot's position can be changed (an eligible skill player, not the QB / a lineman). */
+export function canChangePosition(a: Pick<AlignmentPos, "pos" | "group">): boolean {
+  return isEligible(a) && SKILL_POSITIONS.some((x) => x.code === positionCode(a.pos));
+}
+
+/**
+ * Offensive personnel ("11" = 1 back, 1 tight end; "10", "12", "21"…): backs (HB, FB and the HB variants) then tight
+ * ends. Undefined for defenses / special teams (anything without exactly one QB and five linemen).
+ */
+export function personnelOf(normal: readonly Pick<AlignmentPos, "pos" | "group">[]): string | undefined {
+  let qb = 0;
+  let ol = 0;
+  let backs = 0;
+  let tes = 0;
+  for (const a of normal) {
+    const c = positionCode(a.pos);
+    if (c === "QB") qb++;
+    else if (/^(LT|LG|C|RG|RT)$/.test(c)) ol++;
+    else if (c === "HB" || c === "FB") backs++;
+    else if (c === "TE") tes++;
+    else if (c !== "WR" && c !== "SL") return undefined;
+  }
+  if (qb !== 1 || ol !== 5 || normal.length !== PLAYER_COUNT || backs > 9 || tes > 9) return undefined;
+  return `${backs}${tes}`;
+}
+
+/** A slot's new position as a patch: the enum plus the next free depth for it (a third TE becomes TE3). */
+export function positionPatch(alignment: readonly AlignmentPos[], slot: number, code: string): SlotPatch | undefined {
+  const choice = SKILL_POSITIONS.find((x) => x.code === code);
+  const cur = alignment[slot];
+  if (!choice || !cur) return undefined;
+  if (positionCode(cur.pos) === code) return { pos: cur.pos, depth: cur.depth };
+  const depth = 1 + alignment.reduce((m, a, i) => (i !== slot && positionCode(a.pos) === code ? Math.max(m, a.depth || 0) : m), 0);
+  return { pos: choice.pos, depth };
+}
 
 // ───────────────────────────── small helpers ─────────────────────────────
 
@@ -116,7 +166,9 @@ export const roundCoord = (n: number): number => {
 const sameNum = (a: number, b: number) => Math.abs(a - b) < EPS;
 const fieldEq = (f: PositionField, a: unknown, b: unknown): boolean => {
   if (f === "x" || f === "y" || f === "facing") return isNum(a) && isNum(b) && sameNum(a, b);
-  if (f === "motionMan") return !!a === !!b;
+  if (f === "motionMan" || f === "stayOnFlip") return !!a === !!b;
+  // Aliased enum names (POSITION_LASTKEYOFFENSE is POSITION_TE) are the same position.
+  if (f === "pos") return typeof a === "string" && typeof b === "string" && positionCode(a) === positionCode(b);
   return a === b;
 };
 const fmt = (n: number) => (Math.round(n * 100) / 100).toString();
@@ -272,6 +324,9 @@ function applyEntry(a: AlignmentPos, e: SlotPosition | undefined, n: number): Al
   if (isNum(e.facing)) out.facing = e.facing;
   if (isSlot(e.flipAssign, n)) out.flipAssign = e.flipAssign;
   if (typeof e.motionMan === "boolean") out.motionMan = e.motionMan;
+  if (typeof e.pos === "string" && SKILL_POSITIONS.some((x) => x.pos === e.pos)) out.pos = e.pos;
+  if (Number.isInteger(e.depth) && (e.depth as number) >= 1) out.depth = e.depth as number;
+  if (typeof e.stayOnFlip === "boolean") out.stayOnFlip = e.stayOnFlip;
   return out;
 }
 
@@ -303,9 +358,37 @@ export function flipPartner(alignment: readonly AlignmentPos[], slot: number): n
  */
 export function flippedAlignment(alignment: readonly AlignmentPos[]): AlignmentPos[] {
   return alignment.map((a, slot) => {
+    if (a.stayOnFlip) return { ...a }; // keeps his own spot, facing and stance
     const p = alignment[flipPartner(alignment, slot)];
     return { ...a, x: neg(p.x), y: p.y, facing: mod360(180 - (isNum(p.facing) ? p.facing : 90)), stance: p.stance };
   });
+}
+
+/**
+ * "Stays put when flipped" for one player (draft). On: he becomes his own flip partner and keeps his spot; whoever had
+ * him as partner takes his old partner instead, so the partners stay a permutation (a WR1 ⇄ WR2 pair becomes WR1
+ * staying and WR2 mirroring himself). Off: back to mirroring his own spot (pick a partner again if needed).
+ */
+export function setStayOnFlip(spec: CustomSetSpec, base: SetDef, slot: number, on: boolean): void {
+  const eff = effectiveNormal(base, spec);
+  if (!eff[slot]) return;
+  if (!on) {
+    patchPosition(spec, base, slot, { stayOnFlip: false });
+    return;
+  }
+  const oldPartner = flipPartner(eff, slot);
+  const pointing = eff.findIndex((_, i) => i !== slot && flipPartner(eff, i) === slot);
+  patchPosition(spec, base, slot, { stayOnFlip: true, flipAssign: slot });
+  if (pointing >= 0 && oldPartner !== slot) patchPosition(spec, base, pointing, { flipAssign: oldPartner });
+}
+
+/** Pairs of players that land on the same spot when the play is flipped (a staying player in someone's mirror spot). */
+export function flippedCollisions(alignment: readonly AlignmentPos[]): [number, number][] {
+  const f = flippedAlignment(alignment);
+  const out: [number, number][] = [];
+  for (let i = 0; i < f.length; i++)
+    for (let j = i + 1; j < f.length; j++) if (Math.hypot(f[i].x - f[j].x, f[i].y - f[j].y) < SAME_SPOT_YD) out.push([i, j]);
+  return out;
 }
 
 // ───────────────────────────── motion presets ─────────────────────────────
@@ -453,6 +536,9 @@ function cleanPatch(patch: SlotPatch): SlotPatch {
   if (isNum(patch.facing)) out.facing = mod360(Math.round(patch.facing));
   if (Number.isInteger(patch.flipAssign)) out.flipAssign = patch.flipAssign;
   if (typeof patch.motionMan === "boolean") out.motionMan = patch.motionMan;
+  if (typeof patch.pos === "string" && patch.pos) out.pos = patch.pos;
+  if (Number.isInteger(patch.depth) && (patch.depth as number) >= 1) out.depth = patch.depth;
+  if (typeof patch.stayOnFlip === "boolean") out.stayOnFlip = patch.stayOnFlip;
   return out;
 }
 
@@ -1389,12 +1475,28 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
           if (isNum(e.facing) && (e.facing < 0 || e.facing >= 360)) p("warning", "set-facing", `Positions slot ${e.slot}: facing should be 0–359°`, ew);
           if (e.flipAssign !== undefined && !isSlot(e.flipAssign, n)) p("error", "set-flip-assign", `Positions slot ${e.slot}: flipAssign must be a slot (${range})`, ew);
           if (e.motionMan !== undefined && typeof e.motionMan !== "boolean") p("error", "set-motion-man", `Positions slot ${e.slot}: motionMan must be true or false`, ew);
+          if (e.pos !== undefined) {
+            if (typeof e.pos !== "string" || !SKILL_POSITIONS.some((x) => x.pos === e.pos)) p("error", "set-position", `Positions slot ${e.slot}: pos must be one of ${SKILL_POSITIONS.map((x) => x.pos).join(", ")}`, ew);
+            else if (!canChangePosition(normalOf(base)[e.slot] ?? { pos: "", group: "" })) p("error", "set-position", `Positions slot ${e.slot}: only receivers, tight ends and backs can change position`, ew);
+          }
+          if (e.depth !== undefined && !(Number.isInteger(e.depth) && (e.depth as number) >= 1 && (e.depth as number) <= 9)) p("error", "set-position", `Positions slot ${e.slot}: depth must be a whole number 1–9`, ew);
         });
       }
     }
 
     const normal = effectiveNormal(base, spec);
     for (const issue of alignmentIssues(normal, base, { file, where })) out.push({ ...issue, message: `${label}: ${issue.message}` });
+    // A player who stays put when flipped must not land on someone's mirrored spot.
+    if (normal.some((a) => a.stayOnFlip))
+      for (const [i, j] of flippedCollisions(normal))
+        p("warning", "set-flip-collision", `${label}: when the play is flipped, ${playerLabel(normal[i])} and ${playerLabel(normal[j])} land on the same spot — let both stay put, or give them other flip partners`, `${where}/positions`);
+    // Two players on the same depth-chart spot (two TE2s) would both be filled by the same player in the game.
+    const spots = new Map<string, number>();
+    normal.forEach((a, slot) => {
+      const key = slotLabel(a.pos, a.depth);
+      if (spots.has(key) && canChangePosition(a)) p("warning", "set-position-duplicate", `${label}: slots ${spots.get(key)} and ${slot} are both ${key} — give one of them another depth`, `${where}/positions`);
+      else spots.set(key, slot);
+    });
 
     // Motion presets: only the base set's presets, only the slots each one moves, x and y both.
     const mw = `${where}/movements`;

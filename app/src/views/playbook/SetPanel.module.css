@@ -17,31 +17,64 @@
   padding: var(--s3) var(--s4);
   border-bottom: 1px solid var(--line);
 }
-.formShort {
+.back {
   flex: none;
-  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 10px 4px 4px;
+  border: 1px solid var(--line-2);
   border-radius: var(--r-sm);
-  background: var(--pill-bg);
-  color: var(--pill-fg);
+  background: var(--bg-2);
+  color: var(--text-2);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--fd-md);
   letter-spacing: 0.03em;
   line-height: 1.1;
+  cursor: pointer;
+  transition:
+    background var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+.back:hover {
+  background: var(--bg-3);
+  color: var(--text);
+}
+.back:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
 }
 .titles {
   flex: 1 1 150px;
   min-width: 0;
 }
+.titleLine {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  min-width: 0;
+}
 .title {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
   font-size: var(--fd-2xl);
   line-height: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
+.titleName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .sub {
-  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: 5px;
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
@@ -68,10 +101,8 @@
   margin-left: auto;
 }
 .customTag {
-  display: inline-block;
-  margin-left: var(--s2);
+  flex: none;
   padding: 1px 6px;
-  vertical-align: middle;
   border-radius: var(--r-xs);
   background: color-mix(in srgb, var(--blue-2) 22%, transparent);
   border: 1px solid color-mix(in srgb, var(--blue-2) 55%, transparent);
@@ -224,7 +255,6 @@
 }
 .sectionHint {
   min-width: 0;
-  margin-left: auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -341,3 +371,4 @@
     border-top: 1px solid var(--line);
   }
 }
+

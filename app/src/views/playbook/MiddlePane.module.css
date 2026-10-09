@@ -15,54 +15,21 @@
   max-width: 980px;
   padding: var(--s5) var(--s5) var(--s8);
 }
+.innerWide {
+  max-width: none;
+}
+.formHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
 .titleRow {
   display: flex;
   align-items: flex-end;
   gap: var(--s3);
   flex-wrap: wrap;
-}
-
-/* three-step guide (book overview) */
-.guide {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--s2);
-  margin: var(--s5) 0 0;
-  padding: 0;
-  list-style: none;
-}
-.guideStep {
-  display: flex;
-  gap: var(--s3);
-  padding: var(--s3);
-  border-radius: var(--r-md);
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-}
-.guideStep p {
-  margin: 3px 0 0;
-  font-size: var(--fs-sm);
-  line-height: 1.45;
-  color: var(--text-2);
-}
-.guideNum {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--pill-bg);
-  color: var(--pill-fg);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 13px;
-}
-.guideTitle {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fd-lg);
-  letter-spacing: 0;
 }
 
 .tplTag,
@@ -435,6 +402,15 @@
 .readOnly {
   background: color-mix(in srgb, var(--bg-2) 60%, transparent);
   border-style: dashed;
+}
+/* set cards in a formation: the alignment card itself, no frame */
+.setCard {
+  min-width: 0;
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  outline: none;
 }
 .setTileHead {
   display: flex;

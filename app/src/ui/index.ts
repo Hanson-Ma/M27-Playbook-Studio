@@ -42,3 +42,4 @@ export { SplitPane, type SplitPaneProps } from "./SplitPane";
 export { EmptyState, Spinner, ProgressBar, type EmptyStateProps, type ProgressBarProps } from "./Feedback";
 export { ErrorBoundary } from "./ErrorBoundary";
 export { HelpLink, helpHref, useHelpTopic, useScreenHelpTopic, type HelpLinkProps, type HelpTopic } from "./HelpLink";
+export { PersonnelTag, personnelHint } from "./PersonnelTag";

@@ -20,3 +20,6 @@ mods/pbstudio.*
 mods/fusion.*
 mods/tweaks.fbmod
 mods/tweaks.fbproject
+
+# licensed fonts: local copies only
+release/builder/fonts/

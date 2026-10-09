@@ -75,3 +75,38 @@ describe("playback", () => {
     expect(playSpeedup(tracks)).toBe(1);
   });
 });
+
+describe("pre-snap motion", () => {
+  const motionPlay = () =>
+    buildTracks(
+      art(
+        [player(2, 10, -1), player(3, -8, -1)],
+        [path(2, "motion", [[10, -1], [2, -1]]), path(2, "route", [[2, -1], [2, 10]]), path(3, "route", [[-8, -1], [-8, 7]])],
+      ),
+    );
+
+  it("moves the motion man before the snap while everyone else stands", () => {
+    const [m, other] = motionPlay();
+    const motionTime = 8 / 4.5;
+    expect(m.snap).toBeCloseTo(motionTime, 6);
+    expect(other.snap).toBe(m.snap);
+    // Halfway through the motion he has moved along the motion line; the other receiver hasn't left.
+    expect(positionAt(m, motionTime / 2).x).toBeCloseTo(6, 6);
+    expect(positionAt(m, motionTime / 2).y).toBeCloseTo(-1, 6);
+    expect(positionAt(other, motionTime / 2)).toEqual({ x: -8, y: -1 });
+    // He is where the motion ends at the snap with no pause, and the other receiver leaves at the snap.
+    expect(positionAt(m, m.snap)).toEqual({ x: 2, y: -1 });
+    expect(positionAt(other, m.snap - 0.01)).toEqual({ x: -8, y: -1 });
+    expect(positionAt(other, m.snap + 0.5).y).toBeCloseTo(-1 + RUN_SPEED * 0.5, 6);
+  });
+
+  it("runs the motion man's route from the snap at full speed", () => {
+    const [m] = motionPlay();
+    expect(positionAt(m, m.snap + 0.5).y).toBeCloseTo(-1 + RUN_SPEED * 0.5, 6);
+    expect(m.end).toBeCloseTo(m.snap + 11 / RUN_SPEED, 6);
+  });
+
+  it("has no snap delay when nothing moves before the snap", () => {
+    expect(buildTracks(art([player(3, -8, -1)], [path(3, "route", [[-8, -1], [-8, 7]])]))[0].snap).toBe(0);
+  });
+});

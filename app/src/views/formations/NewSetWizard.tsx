@@ -19,6 +19,8 @@ import {
   setsFilePath,
   suggestAsset,
   suggestSetName,
+  normalOf,
+  personnelOf,
 } from "../../model/sets";
 import type { CustomFormationSpec, FormationDef, SetDef, SetsFile } from "../../model/types";
 import { useSettings } from "../../state/settings";
@@ -209,6 +211,7 @@ function PickStep({ lib, initial, onPick, onCancel }: { lib: LibraryIndex; initi
                   fill
                   art={setArt(set)}
                   name={set.name}
+                  personnel={personnelOf(normalOf(set))}
                   subtitle={
                     <>
                       <span className="caps">{formation ? formationShort(formation.name) : ""}</span> · {plays} plays
@@ -361,6 +364,7 @@ function DetailsStep({ lib, docs, base, defaultFile, onBack, onDone }: { lib: Li
           <SetCard
             art={setArt(base)}
             name={base.name}
+            personnel={personnelOf(normalOf(base))}
             subtitle={
               <>
                 <span className="caps">{formationShort(baseFormName)}</span> · {plays} plays

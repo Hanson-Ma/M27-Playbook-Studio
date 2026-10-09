@@ -86,12 +86,13 @@
   --field-first-down: #d98a3a; /* muted orange: reads as a field marking, not a yellow route */
   --field-sideline: #5a6069;
 
-  --art-route: #d8d063;
-  --art-primary: #d22e44;
-  --art-run: #d22e44;
+  --art-route: #c9c25c;
+  --art-primary: #d0293f;
+  --art-run: #d0293f;
   --art-block: #8d949d;
   --art-motion: #9fd6f2;
-  --art-qb: #ffffff;
+  --art-release: #3d6be0;
+  --art-qb: #f08a1c;
   --art-option: #e8e8e8;
   --art-rush: #e2475b;
   --art-zone-deep: #3c82f6;

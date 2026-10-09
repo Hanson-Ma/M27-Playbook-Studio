@@ -54,6 +54,8 @@ export interface AlignmentPos {
   stance: string; // StanceType enum
   group: string; // setGroupType enum, e.g. "Set_Group_Type_MotionMan2"
   motionMan: boolean;
+  /** Custom sets: the player keeps his own spot when the play is flipped (only his route mirrors). */
+  stayOnFlip?: boolean;
 }
 
 export interface SetDef {
@@ -268,6 +270,12 @@ export interface SlotPosition {
   flipAssign?: number;
   /** positions only: primaryMotionMan. */
   motionMan?: boolean;
+  /** positions only: the player's position (Position enum, e.g. "POSITION_TE"): who the game puts in this slot. */
+  pos?: string;
+  /** positions only: depth-chart index for `pos` (1 = TE1, 2 = TE2…). */
+  depth?: number;
+  /** positions only: keep this spot when the play is flipped (the builder writes it as the flipped spot). */
+  stayOnFlip?: boolean;
   [key: string]: unknown;
 }
 
@@ -425,8 +433,12 @@ export interface ArtPath {
   vertices?: ArtVertex[];
   /** Short label drawn near the end (e.g. "SIT", "BLOCK", "PULL"). */
   label?: string;
-  /** One branch of an option route (the receiver picks it from the coverage): drawn dashed, never run in playback. */
+  /** One branch of an option route the receiver doesn't run by default (the coverage picks it): never run in playback. */
   alt?: boolean;
+  /** Color family the game uses instead of the kind's: "release" = a route that starts with a block (block and release: dark blue). */
+  tone?: "release";
+  /** Option-route branch this path draws (its OptionRoutes leaf). */
+  option?: string;
 }
 
 export type ZoneKind = "deep" | "hook" | "flat" | "curlflat" | "spy";
@@ -490,6 +502,8 @@ export interface ArtOptions {
   side?: Side;
   /** AssignRouteType per slot: option routes draw their branches from its name (RR_Option_Hitch_Fade → hitch, fade). */
   routeTypes?: (string | undefined)[];
+  /** Steps of an option-route branch by its OptionRoutes leaf ("CurlRight", "InOutLeft"…), from the library. */
+  optionRoute?: (leaf: string) => Step[] | undefined;
 }
 
 // ───────────────────────────── Workspace / documents ─────────────────────────────

@@ -36,17 +36,6 @@ export function ancestorsOf(id: string): string[] {
   return out;
 }
 
-/** The builder's three steps: 1 pick a set (tree), 2 add & order plays (middle), 3 audibles & CPU (right). */
-export type BuilderStep = 1 | 2 | 3;
-
-/** Which step the selection is in: a set → 2, a play → 3, anything else → 1. */
-export function stepOf(id: string): BuilderStep {
-  const level = levelOf(id);
-  if (level === "set" || level === "tset") return 2;
-  if (level === "play" || level === "tplay") return 3;
-  return 1;
-}
-
 /** Same-level check for multi-select (template rows never multi-select). */
 const sameLevel = (a: string, b: string) => levelOf(a) === levelOf(b) && !levelOf(a).startsWith("t") && a !== BOOK_ID;
 

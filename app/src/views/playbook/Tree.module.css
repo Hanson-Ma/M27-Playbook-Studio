@@ -379,7 +379,7 @@
 /* "+ Formation" / "+ Set": a dashed pill button (it opens a searchable list). */
 .addRow .addSelect {
   max-width: 220px;
-  height: 24px;
+  height: 26px;
   padding: 0 8px 0 7px;
   border-radius: var(--r-pill);
   border: 1px dashed var(--line-3);
@@ -396,10 +396,11 @@
 .addLabel {
   display: inline-flex;
   align-items: center;
+  min-height: 18px;
   gap: 4px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fd-sm);
+  font-size: 12px;
   letter-spacing: 0;
 }
 

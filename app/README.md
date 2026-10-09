@@ -50,7 +50,7 @@ loopback name or IP address. (To use the app from another computer, host `dist/`
 
 Text is set in **Public Sans** and numbers and code in **DM Mono**. Both are free (SIL Open Font License) and load from
 Google Fonts, so the app needs a network connection the first time it runs; offline it falls back to the system UI
-font and monospace and works the same. `npm run guide` also loads them from Google Fonts when it prints the PDF.
+font and monospace and works the same.
 
 ## What it reads and writes
 

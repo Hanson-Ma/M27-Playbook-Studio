@@ -51,6 +51,12 @@ export interface EditorUi {
   presets: Record<number, PresetMemo>;
   /** "Move this player for this play only" is on for this slot: the field shows a draggable start handle. */
   moveStart?: number;
+  /** Selected route segment (leg index) of the selected player: the segment panel edits it. */
+  segment?: number;
+  /** The first-steps fan (release / QB drop picker) is open. */
+  fan?: boolean;
+  /** Where a moved player lands: this play only (OverrideFormPos) or the whole custom set (its positions). */
+  moveScope?: "play" | "set";
 }
 
 export interface DesignerCtxValue {

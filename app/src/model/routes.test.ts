@@ -38,6 +38,12 @@ import {
   stemDepth,
   toEditableRoute,
   type EditableRoute,
+  setLegFacing,
+  legFacing,
+  branchFrom,
+  qbDropsFor,
+  qbDropOf,
+  setQbDrop,
 } from "./routes";
 import type { NewAssignmentSpec, Step, Vec } from "./types";
 
@@ -480,5 +486,35 @@ describe("route end", () => {
     expect(routeEnd(none)).toBe("none");
     expect(fromEditableRoute(none).map((s) => s.type)).toEqual(["RunRoute", "None"]);
     expect(fromEditableRoute(setRouteEnd(none, "getopen", start))).toEqual(fromEditableRoute(r));
+  });
+});
+
+describe("designer segment / branch / QB drop helpers", () => {
+  const steps: Step[] = [
+    { type: "RunRoute", distance: 5, direction: 90, speed: 100 },
+    { type: "ReceiverCut", direction: "RECEIVER_CUT_DIR_LEFT", cutType: "RECEIVER_CUT_ANGLE_90" },
+    { type: "RunRoute", distance: 8, direction: 180, speed: 100 },
+    { type: "GetOpen" },
+    { type: "None" },
+  ];
+  it("sets and reads a leg's facing", () => {
+    const r = setLegFacing(toEditableRoute(steps), 1, "backpedal");
+    expect(legFacing(r, 1)).toBe("backpedal");
+    expect(legFacing(r, 0)).toBe("forward");
+    const out = fromEditableRoute(r);
+    expect(out[2]).toMatchObject({ overrideFacingDirection: true, facingDirectionOverride: 0 });
+    expect(legFacing(setLegFacing(r, 1, "forward"), 1)).toBe("forward");
+  });
+  it("branches a route from a point: legs after it go, the end stays", () => {
+    const out = fromEditableRoute(branchFrom(toEditableRoute(steps), 0));
+    expect(out.map((s) => s.type)).toEqual(["RunRoute", "GetOpen", "None"]);
+  });
+  it("lists drops by QB depth and sets the drop on the last QBScramble", () => {
+    expect(qbDropsFor(-1.4).some((d) => d.drop.endsWith("7_STEP_V1"))).toBe(true);
+    expect(qbDropsFor(-6).some((d) => d.drop.endsWith("SHOTGUN_5_STEP"))).toBe(true);
+    const qb: Step[] = [{ type: "QBScramble", dropBackType: "DROP_TYPEENUM_QBDROP_SG_3_STEP", distance: 0, direction: 0 }, { type: "None" }];
+    expect(qbDropOf(qb)).toBe("DROP_TYPEENUM_QBDROP_SG_3_STEP");
+    expect(qbDropOf(setQbDrop(qb, "DROP_TYPEENUM_QBDROP_SG_ROLLOUT_RT"))).toBe("DROP_TYPEENUM_QBDROP_SG_ROLLOUT_RT");
+    expect(setQbDrop([{ type: "None" }], "X")).toEqual([{ type: "None" }]);
   });
 });

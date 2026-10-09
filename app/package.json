@@ -9,7 +9,6 @@
     "build": "tsc --noEmit && vite build",
     "build:site": "npm run build && node scripts/serve-dist.mjs --check",
     "preview:site": "node scripts/serve-dist.mjs",
-    "guide": "node scripts/build-guide.mjs",
     "start": "node server/serve.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -21,6 +21,7 @@ import {
   normalOf,
   onLine,
   patchPosition,
+  setStayOnFlip,
   patchPreset,
   playerLabel,
   presetAlignment,
@@ -516,6 +517,18 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
               onPatch={(patch, label, coalesceMs) => applyPatch(sel, patch, label, coalesceMs)}
               onReset={() => resetSlot(sel)}
               onDone={() => setSelected(undefined)}
+              onStayOnFlip={
+                mode === NORMAL
+                  ? (on) =>
+                      update(
+                        (d) => {
+                          setStayOnFlip(d, base, sel, on);
+                          tidy(d);
+                        },
+                        on ? "Stay put when flipped" : "Mirror when flipped",
+                      )
+                  : undefined
+              }
             />
           ) : (
             <SetPanel

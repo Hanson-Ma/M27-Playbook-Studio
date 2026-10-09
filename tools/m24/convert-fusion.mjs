@@ -537,7 +537,7 @@ const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
 //  noJetFake: plain HB fake (no jet double fake); anim: the QB/HB handoff to use instead of the M24 one (46/50 zone left,
 //  50/46 zone right); hbBlock: the back blocks after the fake; motion: snap `earlier` yd sooner along the motion
 //  (negative = later), `y` motion depth, `flat` straight-across legs after it; line: take the linemen from that stock
-//  play; ltEdge: the LT pass sets (takes the edge rusher) instead of run-action blocking; stem: yd added to the red route's stem.
+//  play; qb: the QB's assignment (e.g. no drop step); ltEdge: the LT pass sets (takes the edge rusher) instead of run-action blocking; stem: yd added to the red route's stem.
 const EDITS = {
   "Singleback/Tight Doubles/JW PA Boot": { noJetFake: true },
   "Singleback/Tight Doubles/JW PA Curl": { hbBlock: true },
@@ -552,6 +552,21 @@ const EDITS = {
   // the Bunch TE precan it got (223/226) times the mesh for a jet from 10.75 yd out; ours starts at 5, so the QB never
   // met him and just ran forward. EA's own Deuce Close jet sweep starts at 5 (its jet is a TE in slot 2; ours, slot 3)
   "Singleback/Deuce Close/Jet Sweep": { donor: ["Jet Sweep", "Deuce Close"] },
+  // 2026-10-07 round: cut = swap the curl cut for that cut; fbBlock = the FB steps out and blocks the DE on that side;
+  // screenBlock = those slots go out toward the red route's side and block; deeper = slot: yd added to the leg before the comeback cut;
+  // hbRoute = the back's own steps ([yd, direction, speed], or [seconds, null] for a delay); cpu = replaces the situational weights
+  "I Form/Close Y-Off/PA P Deep Curls": { fbBlock: "right", cut: "RECEIVER_CUT_ANGLE_HITCH_COMEBACK" },
+  "I Form/Empty Flex/BM Verticals Return": { motion: { earlier: 2 } },
+  "I Form/Close/JW PA Curl": { noJetFake: true, anim: "46/50" },
+  "I Form/Close/PA Double Post": { fbBlock: "left" },
+  "I Form/Close/RZ FM PA Mesh": { cpu: { GoalLinePass: 85, GoalLine: 70 } },
+  "Pistol/Trey Row/RPO Bubble": { screenBlock: [2, 5] },
+  // 2026-10-09 round: the Bunch TE bubble's other two WRs go out and block for it; Slants Return in the empty set: the QB takes no drop step
+  "Singleback/Bunch TE/RPO Bubble": { screenBlock: [2, 5] },
+  "I Form/Empty Flex/Slants Return": { qb: "Quarterback/Drop_SG_NoStep_SetUp" },
+  "Pistol/Trey Row/JR PA Boot": { motion: { earlier: 1, returnShort: 0.5, routeSpeed: 75 } },
+  "Pistol/Wing Slot/FMO PA Comebacks": { deeper: { 3: -5 } },
+  "Pistol/Strong Close/HB Slip Screen": { hbRoute: [[0.1, null], [2.5, 135, 41], [0.1, null], [6, 155, 30]] },
 };
 // a named stock play with its players matched to ours by spot (handoffs go by handoff order, not slot)
 function donorBase([pn, sn], custom) {
@@ -569,12 +584,19 @@ function retime(players, custom, o) {
   for (const [j, a] of Object.entries(players)) {
     const mi = typeof a === "object" ? a.steps?.findIndex(s => s.type === "AutoMotion") ?? -1 : -1;
     if (mi < 0) continue;
-    const w = a.steps[mi].waypoints[0], from = custom[+j], d = dist(from, w), t = o.earlier ?? 0;
+    const wps = a.steps[mi].waypoints, w = wps[0], from = custom[+j], d = dist(from, w), t = o.earlier ?? 0;
+    const w0 = { x: w.x, y: w.y };
     w.x = r2(w.x - (w.x - from.x) / d * t); w.y = r2(w.y - (w.y - from.y) / d * t);
     if (o.y != null) w.y = o.y;
-    const leg = a.steps.slice(mi + 1).find(s => /RunRoute|MoveDirection/.test(s.type));
-    if (leg) leg.distance = r2(Math.max(0.5, leg.distance + t));
+    if (wps.length > 1) {
+      // bursts and returns: the snap point moves, the later waypoints keep their spots (returnShort: that share of the return hop is cut)
+      if (o.returnShort) for (const q of wps.slice(1)) { q.x = r2(w.x + (q.x - w0.x) * (1 - o.returnShort)); q.y = r2(w.y + (q.y - w0.y) * (1 - o.returnShort)); }
+    } else {
+      const leg = a.steps.slice(mi + 1).find(s => /RunRoute|MoveDirection/.test(s.type));
+      if (leg) leg.distance = r2(Math.max(0.5, leg.distance + t));
+    }
     if (o.flat) for (const s of a.steps.slice(mi + 1)) if (/RunRoute|MoveDirection/.test(s.type)) s.direction = Math.cos(s.direction * Math.PI / 180) < 0 ? 180 : 0;
+    if (o.routeSpeed) for (const s of a.steps.slice(mi + 1)) if (/RunRoute|MoveDirection/.test(s.type)) s.speed = o.routeSpeed;
     rebuild(a, from.x);
   }
 }
@@ -593,34 +615,72 @@ function passDepth(entry, custom) {
   for (const s of a.steps) { if (s.type === "AutoMotion") y = s.waypoints.at(-1).y; if (/RunRoute|MoveDirection/.test(s.type)) y += Math.min(s.distance, 30) * Math.sin(s.direction * Math.PI / 180); }
   return y < 7 ? "quick" : y > 15 ? "deep" : "mid";
 }
+const DD = ["FirstDown", "2ndAndShort", "2ndAndMedium", "2ndAndLong", "3rdAndShort", "3rdAndMedium", "3rdAndLong", "3RDExtraLong", "4thAndShort", "4thAndMedium", "4thAndLong", "4THExtraLong"];
+const catOf = kind => kind === "run" || kind === "option" || kind === "touch" ? "run" : kind === "rpo" ? "rpo" : kind === "screen" ? "screen" : "pass";
+// Full (uncapped) weights per play; finalizeCpu() later keeps a balanced mix of runs and passes in every down and distance.
 function situational(kind, name, form, depth, entry) {
+  if (edit.cpu) return { fixed: edit.cpu };
   const toks = tokensOf(name);
   const w = {};
   const add = o => { for (const [k, v] of Object.entries(o)) w[k] = Math.max(w[k] ?? 0, v); };
+  const cat = catOf(kind);
   if (/tush push|sneak/i.test(name)) add({ "3rdAndShort": 80, "4thAndShort": 85, GoalLine: 60, Insidefive: 50, GoFor2: 25 });
-  else if (kind === "run") add({ FirstDown: 35, "2ndAndShort": 45, "3rdAndShort": 35, "4thAndShort": 30, ConserveTime: 45, WasteTime: 40, RedZone: 20, Insidefive: 25, GoalLine: 25 });
-  else if (kind === "option") add({ FirstDown: 30, "2ndAndShort": 35, "2ndAndMedium": 25, "3rdAndShort": 30, RedZone: 25, ConserveTime: 25 });
-  else if (kind === "touch") add({ FirstDown: 30, "2ndAndShort": 30, "2ndAndMedium": 25 });
-  else if (kind === "screen") add({ "2ndAndLong": 40, "3rdAndLong": 35, "3RDExtraLong": 40, FirstDown: 15 });
-  else if (kind === "rpo") add({ FirstDown: 40, "2ndAndMedium": 40, "2ndAndShort": 30, "3rdAndShort": 25 });
-  else {
+  else if (cat === "run") {
+    add({ FirstDown: 35, "2ndAndShort": 45, "2ndAndMedium": 30, "2ndAndLong": 20, "3rdAndShort": 35, "3rdAndMedium": 25, "3rdAndLong": 15, "3RDExtraLong": 10, "4thAndShort": 30, "4thAndMedium": 20, "4thAndLong": 10, "4THExtraLong": 5, ConserveTime: 45, WasteTime: 40, Insidefive: 25, GoalLine: 25 });
+    // every run but the counter is a red zone call (user, 2026-10-07)
+    if (!/counter/i.test(name)) add({ RedZone: 35, RedZone_16_to_20: 30, RedZone_11_to_15: 30, RedZone_6_to_10: 35, RedZone_3_to_5: 40 });
+  }
+  else if (cat === "screen") add({ FirstDown: 15, "2ndAndMedium": 20, "2ndAndLong": 40, "3rdAndMedium": 25, "3rdAndLong": 35, "3RDExtraLong": 40, "4thAndLong": 25, RedZone_16_to_20: 25, RedZone_11_to_15: 25 });
+  else if (cat === "rpo") {
+    add({ FirstDown: 40, "2ndAndShort": 30, "2ndAndMedium": 40, "2ndAndLong": 15, "3rdAndShort": 25, "3rdAndMedium": 20, "4thAndShort": 20, RedZone: 30, RedZone_16_to_20: 30, RedZone_11_to_15: 30, RedZone_6_to_10: 30 });
+    // stick/flat RPOs are the red zone short yardage calls
+    if (/(stick|flat)/i.test(name)) add({ RedZone: 45, RedZone_3_to_5: 60, Insidefive: 55, GoalLine: 50 });
+    if (/stick/i.test(name)) add({ "3rdAndShort": 60, "4thAndShort": 60, "2ndAndShort": 50, GoalLine: 55, Insidefive: 55, GoFor2: 45 });
+  } else {
     if (kind === "pa") add({ FirstDown: 35, "2ndAndShort": 40, Playaction: 70 });
-    if (depth === "quick") add({ "2ndAndMedium": 30, "3rdAndShort": 35, "3rdAndMedium": 40, "4thAndShort": 30, "4thAndMedium": 30 });
-    if (depth === "mid") add({ "2ndAndLong": 30, "3rdAndMedium": 40, "3rdAndLong": 40, "4thAndMedium": 35, "4thAndLong": 25 });
-    if (depth === "deep") add({ "2ndAndShort": 30, FirstDown: 15, "3rdAndLong": 35, "3RDExtraLong": 30, "4thAndLong": 40, "4THExtraLong": 45, SuddenChange: 50 });
+    add({ FirstDown: 20, "2ndAndShort": 20, "2ndAndMedium": 20, "2ndAndLong": 20, "3rdAndShort": 20, "3rdAndMedium": 20, "3rdAndLong": 20, "4thAndShort": 15, "4thAndMedium": 15 });
+    if (depth === "quick") add({ "2ndAndMedium": 30, "3rdAndShort": 35, "3rdAndMedium": 40, "4thAndShort": 30, "4thAndMedium": 30, RedZone: 45, RedZone_16_to_20: 40, RedZone_11_to_15: 45, RedZone_6_to_10: 50 });
+    if (depth === "mid") add({ "2ndAndLong": 30, "3rdAndMedium": 40, "3rdAndLong": 40, "4thAndMedium": 35, "4thAndLong": 25, RedZone: 40, RedZone_16_to_20: 45, RedZone_11_to_15: 45, RedZone_6_to_10: 35 });
+    if (depth === "deep") add({ "2ndAndShort": 30, FirstDown: 15, "3rdAndLong": 35, "3RDExtraLong": 30, "4thAndLong": 40, "4THExtraLong": 45, SuddenChange: 50, RedZone_16_to_20: 40, RedZone_11_to_15: 25 });
     const vip = entry.players?.[entry.vip];
     if (vip && typeof vip === "object" && /Out|Corner|Comeback|Flat/.test(vip.routeType)) add({ StopClock: 40 });
     if (toks.includes("M")) add({ SuddenChange: 45, "3rdAndLong": 40 });
   }
-  if (kind === "rpo" && /stick/i.test(name)) add({ "3rdAndShort": 60, "4thAndShort": 60, "2ndAndShort": 50, GoalLine: 55, Insidefive: 55, GoFor2: 45 });
+  if (cat === "run" && kind !== "run") add({ FirstDown: 30, "2ndAndShort": 35, "2ndAndMedium": 25, "3rdAndShort": 30, ConserveTime: 25 });
   if (toks.includes("RZ")) {
-    for (const k of ["SuddenChange", "3RDExtraLong", "4THExtraLong", "2ndAndLong", "3rdAndLong"]) delete w[k];
-    add({ RedZone: 70, RedZone_16_to_20: 50, RedZone_11_to_15: 60, RedZone_6_to_10: 70, RedZone_3_to_5: 60, Insidefive: 50, GoalLinePass: 50, GoFor2: 50, RedZoneFringe: 40 });
+    // RZ plays are 5 yards or less: nothing at the 20-10 yd lines, nothing outside the goal-to-go calls (user, 2026-10-07)
+    for (const k of Object.keys(w)) delete w[k];
+    add(cat === "run" ? { RedZone_3_to_5: 70, Insidefive: 60, GoalLine: 50, GoFor2: 40 } : { RedZone_3_to_5: 70, Insidefive: 60, GoalLinePass: 60, GoFor2: 50 });
   }
-  if (form === "Goal Line Offense") add(kind === "run" || kind === "option" ? { GoalLine: 60, Insidefive: 60, GoFor2: 30 } : { GoalLinePass: 60, Insidefive: 45, GoFor2: 45 });
+  // Goal line offense is only suggested at the goal line (1-2 yd): no down-and-distance, red zone or inside-the-five calls (user, 2026-10-09)
+  if (form === "Goal Line Offense") {
+    for (const k of Object.keys(w)) delete w[k];
+    add(cat === "run" ? { GoalLine: 70, GoFor2: 40 } : { GoalLinePass: 70, GoFor2: 45 });
+  }
   if (form === "Hail Mary") { for (const k of Object.keys(w)) delete w[k]; add({ Hailmary: 100, LastPlay: 100 }); }
-  // the save holds 2200 weight rows (template special teams included): keep each play's 6 strongest situations
-  return Object.fromEntries(Object.entries(w).sort((x, y) => y[1] - x[1]).slice(0, 6));
+  return { cat, w };
+}
+// Balanced suggestions: in each down and distance keep the strongest plays of EACH kind (passes, runs, RPOs, screens) and scale every
+// kind to the same top rating, so no situation lists only runs. Audible plays get no ratings (explicit 0s in the down and distances,
+// in case the game treats unrated plays as suggestable). 2200 weight rows fit in the save (template special teams included).
+function finalizeCpu(all) {
+  const CAP = { pass: 14, run: 10, rpo: 5, screen: 4 }, RZ_CAP = { pass: 20, run: 99, rpo: 8, screen: 4 }, SCALE = { pass: 85, run: 80, rpo: 75, screen: 70 };
+  const bySit = new Map();
+  for (const c of all) {
+    if (c.bp.audible) { c.bp.cpu = Object.fromEntries(DD.slice(0, 7).concat("4thAndShort", "4thAndMedium").map(k => [k, 0])); continue; }
+    if (c.fixed) { c.bp.cpu = c.fixed; continue; }
+    c.bp.cpu = {};
+    for (const [k, v] of Object.entries(c.w)) { if (!bySit.has(k)) bySit.set(k, []); bySit.get(k).push({ c, v }); }
+  }
+  for (const [k, list] of bySit) {
+    const rz = ["RedZone", "RedZone_16_to_20", "RedZone_11_to_15", "RedZone_6_to_10"].includes(k);
+    if (!DD.includes(k) && !rz) { for (const { c, v } of list) c.bp.cpu[k] = v; continue; }
+    for (const cat of Object.keys(CAP)) {
+      const own = list.filter(x => x.c.cat === cat).sort((x, y) => y.v - x.v).slice(0, (rz ? RZ_CAP : CAP)[cat]);
+      if (!own.length) continue;
+      for (const { c, v } of own) c.bp.cpu[k] = Math.max(15, Math.round(SCALE[cat] * v / own[0].v));
+    }
+  }
 }
 
 // M24 stance codes (SETG anm/fanm): 1 two-point, 2 three-point, 3 two-point (flex/wing look)
@@ -667,7 +727,7 @@ const book = { name: "FUSION", side: "offense", notes: "FUSION offense, ported f
 const stats = { sets: 0, plays: 0, passes: 0, runs: 0, animMatched: 0, animMissed: 0, assignments: new Set(), warnings: 0 };
 log(`# FUSION → Madden 27 port report\n\nGenerated by \`tools/m24/convert-fusion.mjs\`. Each FUSION set is a custom M27 set (closest stock set, re-aligned to the M24 mod alignment, with the M24 motion presets). QB/HB mechanics come from an M27 play with the same handoff animation as the M24 play; receivers get the M24 routes, blocks and motions.\n`);
 
-const byForm = new Map(), usedEdits = new Set();
+const byForm = new Map(), usedEdits = new Set(), cpuAll = [];
 for (const f of F) {
   const target = FORM_MAP[f.formation];
   if (!target) continue;
@@ -799,12 +859,29 @@ for (const f of F) {
       // RPO receivers who block: EA's run block from the snap (a protect-receiver pass block froze them until the throw)
       if (kind === "rpo") for (const [j, a] of Object.entries(players)) if (typeof a === "object" && a.steps?.some(x => x.type === "PassBlock" && /ProtectReceiver/.test(x.flags)) && !a.steps.some(x => /RunRoute|OptionRoute|AutoMotion|OverrideFormPos/.test(x.type))) players[j] = RPO_BLOCK;
       if (edit.motion) retime(players, custom, edit.motion);
+      if (edit.cut) for (const [j, a] of Object.entries(players)) if (typeof a === "object" && a.steps?.some(x => x.type === "ReceiverCut" && /CURL/.test(x.cutType))) { for (const x of a.steps) if (x.type === "ReceiverCut" && /CURL/.test(x.cutType)) x.cutType = edit.cut; rebuild(a, custom[+j].x); }
+      if (edit.fbBlock) {
+        const fb = [2, 3, 4, 5].find(j => typeOf27(custom[j].pos) === "B"), dir = edit.fbBlock === "right" ? 40 : 140;
+        if (fb) players[fb] = newAssignment([{ type: "InitialAnim", optionalInitalDirection: -1, anim: "MOVETYPE_FB_LEADBLOCK", direction: dir }, { type: "MoveDirection", distance: 2.5, direction: dir, speed: 100 }, PASS_BLOCK], custom[fb].x, { routeType: "AssignRouteType_Block_Pass" });
+        else warn("fbBlock: no FB");
+      }
+      if (edit.screenBlock) {
+        const v = p.vpos && slotOf[p.vpos], dir = v && custom[v].x < 0 ? 162 : 18;
+        for (const j of edit.screenBlock) players[j] = newAssignment([{ type: "MoveDirection", distance: 5, direction: dir, speed: 100 }, RUNBLOCK], custom[j].x, { routeType: "AssignRouteType_Block_Run" });
+      }
+      if (edit.deeper) for (const [j, dy] of Object.entries(edit.deeper)) {
+        const a = players[j], ci = typeof a === "object" ? a.steps.findLastIndex(x => x.type === "ReceiverCut" && /COMEBACK/.test(x.cutType)) : -1;
+        const leg = ci > 0 ? a.steps.slice(0, ci).findLast(x => x.type === "RunRoute") : null;
+        if (leg) { leg.distance = r2(Math.max(1, leg.distance + dy)); rebuild(a, custom[+j].x); } else warn(`deeper: slot ${j} has no comeback leg`);
+      }
+      if (edit.hbRoute) players[1] = newAssignment(edit.hbRoute.map(([v, dir, speed]) => dir == null ? { type: "Delay", time: v } : { type: "RunRoute", distance: v, direction: dir, speed }).concat({ type: "GetOpen" }), custom[1].x);
       if (edit.line) {
         const [pn, sn] = edit.line, q = plays.find(q => q.name === pn && setByAsset.get(q.set)?.name === sn);
         if (q) for (let k = 6; k <= 10; k++) players[k] = q.assignments[k].replace(AROOT, "");
         else warn(`line donor "${pn}" (${sn}) not found`);
       }
       if (edit.ltEdge) players[6] = "Blocking/ALL_PABlock";
+      if (edit.qb) players[0] = edit.qb;
       if (edit.stem) {
         const v = p.vpos && slotOf[p.vpos], a = v && players[v], leg = typeof a === "object" ? a.steps.find(s => s.type === "RunRoute") : null;
         if (leg) { leg.distance = r2(Math.max(1, leg.distance + edit.stem)); rebuild(a, custom[v].x); } else warn("stem edit: red route not rebuilt");
@@ -866,7 +943,7 @@ for (const f of F) {
       const bp = { play: name };
       const slot = { 2: 1, 4: 2, 16: 3, 8: 4 }[p.flag];
       if (slot) bp.audible = slot;
-      bp.cpu = situational(kind, name, target, depth, entry);
+      cpuAll.push({ bp, ...situational(kind, name, target, depth, entry) });
       bookSet.plays.push(bp);
     }
     const seen = new Set(); for (const bp of bookSet.plays) if (bp.audible) { if (seen.has(bp.audible)) { log(`    - ${bp.play}: duplicate audible slot ${bp.audible} dropped`); delete bp.audible; } else seen.add(bp.audible); }
@@ -877,6 +954,7 @@ for (const f of F) {
   }
 }
 edit = {};
+finalizeCpu(cpuAll);
 for (const k of Object.keys(EDITS)) if (!usedEdits.has(k)) { stats.warnings++; console.log(`EDITS: no play "${k}"`); }
 for (const name of MENU_ORDER) if (byForm.get(name)?.sets.length) book.formations.push(byForm.get(name));
 for (const t of TEMPLATE_FORMS) book.formations.push({ formation: t, sets: "template" });

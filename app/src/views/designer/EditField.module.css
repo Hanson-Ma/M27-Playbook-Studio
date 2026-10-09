@@ -58,13 +58,26 @@
   align-items: center;
   gap: 5px;
 }
-.hint {
+/* the bottom row: the play controls and the hint, side by side */
+.bottomRow {
   position: absolute;
   left: var(--s3);
+  right: var(--s3);
   bottom: var(--s3);
-  max-width: calc(100% - 200px);
-  padding: 5px 12px;
-  border-radius: var(--r-pill);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  pointer-events: none;
+}
+.bottomRow > * {
+  pointer-events: auto;
+}
+.hint {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 7px 12px;
+  border-radius: var(--r-md);
   background: var(--glass);
   border: 1px solid var(--line);
   color: var(--text-2);
@@ -72,11 +85,7 @@
   line-height: 1.35;
   pointer-events: none;
 }
-.hintCenter {
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  font-size: var(--fs-md);
+.hintEmpty {
   color: var(--text);
 }
 
@@ -165,10 +174,12 @@
     fill var(--t-fast) var(--ease),
     stroke var(--t-fast) var(--ease);
 }
-.vertex:hover circle {
+.vertex:hover circle,
+.vertex:hover rect {
   fill: var(--text);
 }
-.vertex.hasCut circle {
+.vertex.hasCut circle,
+.vertex.hasCut rect {
   stroke: var(--art-route);
 }
 .vertex.selected circle,

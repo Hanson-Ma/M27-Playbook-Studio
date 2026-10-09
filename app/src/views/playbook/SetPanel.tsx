@@ -1,5 +1,5 @@
-// Step 2 for a set: its plays in playbook order as play cards (drag to reorder; right-click or "⋯" for options) and
-// the list of every play available in the set (tick to add / untick to remove). Audibles live in step 3 (Inspector).
+// The middle pane for a set: its plays in playbook order as play cards (drag to reorder; right-click or "⋯" for options) and
+// the list of every play available in the set (tick to add / untick to remove). Audibles live in the Inspector.
 import { memo, useCallback, useMemo, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent } from "react";
 import { AudibleGlyph } from "../../input/glyphs";
 import { formationShort } from "../../model/names";
@@ -10,9 +10,11 @@ import type { AudibleSlot, ConceptCategory, ResolvedPlay } from "../../model/typ
 import { PlayCard } from "../../field";
 import { navigate } from "../../state/router";
 import { useSettings } from "../../state/settings";
-import { Button, Checkbox, Chip, EmptyState, Icon, Segmented, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
+import { Button, Checkbox, Chip, EmptyState, Icon, PersonnelTag, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
+import { normalOf, personnelOf } from "../../model/sets";
 import { CategoryChips, CategoryDots, playCategories, useCategoryFilter, useConcepts } from "./categories";
 import { useBuilder, useDragHandlers, useOpenMenu, type BookNode } from "./context";
+import { CardColumnsPicker } from "./CardColumns";
 import { beginDrag } from "./dnd";
 import { editPlay } from "./editPlay";
 import { LazyMount } from "./LazyMount";
@@ -25,38 +27,38 @@ export function SetPanel({ setNode }: { setNode: BookNode }) {
   const rs = setNode.rs!;
   const rf = setNode.rf!;
   const audibles = rs.plays.filter((p) => p.entry.audible).length;
-  const cardColumns = useSettings((st) => st.cardColumns);
   const custom = data.custom.set(rs.set?.asset);
   const editHref = data.custom.editHref(rs.set?.asset);
   return (
     <div className={s.panel}>
       <header className={s.head}>
-        <span className={s.formShort} title={String(rf.entry.formation)}>
-          {formationShort(String(rf.formation?.name ?? rf.entry.formation))}
-        </span>
         <div className={s.titles}>
-          <h2 className={s.title}>
-            <span className="caps">{String(rs.entry.set)}</span>
-            {custom && <span className={s.customTag}>Custom Set</span>}
-          </h2>
+          <div className={s.titleLine}>
+            <button
+              type="button"
+              className={s.back}
+              title={`Back to ${String(rf.entry.formation)}`}
+              aria-label={`Back to the ${String(rf.entry.formation)} formation`}
+              onClick={() => useBuilderUi.getState().select(parentOf(setNode.id))}
+            >
+              <Icon name="chevronLeft" size={16} />
+              <span>{formationShort(String(rf.formation?.name ?? rf.entry.formation))}</span>
+            </button>
+            <h2 className={s.title}>
+              <span className={cx("caps", s.titleName)}>{String(rs.entry.set)}</span>
+            </h2>
+          </div>
           <div className={s.sub}>
-            <span className="caps">{String(rf.entry.formation)}</span> · {rs.plays.length} play{rs.plays.length === 1 ? "" : "s"} · {audibles}/4 audibles
+            <span>
+              <span className="caps">{String(rf.entry.formation)}</span> · {rs.plays.length} play{rs.plays.length === 1 ? "" : "s"} · {audibles}/4 audibles
+            </span>
+            {custom && <span className={s.customTag}>Custom Set</span>}
+            <PersonnelTag code={rs.set ? personnelOf(normalOf(rs.set)) : undefined} spell />
           </div>
           {(rs.malformed ?? rs.problem) && <div className={s.problem}>{rs.malformed ?? rs.problem}</div>}
         </div>
         <div className={s.headActions}>
-          <Segmented
-            size="sm"
-            className={s.colPicker}
-            aria-label="Cards per row"
-            value={String(cardColumns)}
-            options={[
-              { value: "3", label: "3", title: "3 cards per row: one page of the in-game play-call screen" },
-              { value: "6", label: "6", title: "6 cards per row" },
-              { value: "9", label: "9", title: "9 cards per row" },
-            ]}
-            onChange={(v) => useSettings.getState().set({ cardColumns: Number(v) as 3 | 6 | 9 })}
-          />
+          <CardColumnsPicker className={s.colPicker} />
           {editHref && (
             <Button size="sm" icon="field" onClick={() => navigate(editHref)} title="Change player spots and motions in the Formations editor">
               Edit Set
@@ -170,7 +172,6 @@ function CardsGrid({ setNode }: { setNode: BookNode }) {
   return (
     <div className={s.cardsScroll} data-autoscroll>
       <div className={s.sectionTitle}>
-        In This Playbook
         <span className={s.sectionHint} title="Drag cards to reorder · double-click a card to edit the play · shift / ⌘-click to select several · right-click (or ⋯) for options">
           Drag to reorder · double-click to edit · right-click for options
         </span>

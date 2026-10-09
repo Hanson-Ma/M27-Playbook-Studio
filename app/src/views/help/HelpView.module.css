@@ -107,11 +107,6 @@
   color: var(--text-3);
   font-size: var(--fs-sm);
 }
-.navFoot {
-  padding-top: var(--s2);
-  border-top: 1px solid var(--line);
-}
-
 /* ─────────────── right: reading column ─────────────── */
 .reader {
   min-height: 0;

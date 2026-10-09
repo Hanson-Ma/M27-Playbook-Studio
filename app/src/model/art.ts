@@ -103,6 +103,14 @@ export const CUT_STYLE_INFO: Record<CutStyle, { label: string; hint: string }> =
 const QB_SPOT: Vec = { x: 0, y: -6 };
 /** Lateral centre of each gap at the LOS (A = C–G, B = G–T, C = outside T, D = outside TE, E, OUTSIDE). */
 export const GAP_X: Record<string, number> = { A: 0.85, B: 2.5, C: 4.2, D: 5.9, E: 7.6, OUTSIDE: 10 };
+/** Where the OptionRoutes branch assignments live ("CurlRight", "InOutLeft"…). */
+export const OPTION_ROUTE_ROOT = "football/Gameplay/playbooks/PlayLibrary/Assignments/OptionRoute/";
+
+/** Where option-route branches come from when a caller doesn't pass `optionRoute` (set once the library loads). */
+let defaultOptionRoute: ((leaf: string) => Step[] | undefined) | undefined;
+export function setOptionRouteSource(fn: ((leaf: string) => Step[] | undefined) | undefined): void {
+  defaultOptionRoute = fn;
+}
 const HOOK_TURNS = [60, 120, 170];
 const HOOK_SEG = 0.5;
 const RUN_EXTEND = 5;
@@ -312,6 +320,7 @@ interface Shared {
   qbRef?: Vec;
   /** Side the QB meshes toward on a read option: +1 right, −1 left (where the back runs). */
   meshSide: 1 | -1;
+  optionRoute?: (leaf: string) => Step[] | undefined;
 }
 
 interface Pen {
@@ -331,6 +340,8 @@ class SlotWalker {
   private cur: Vec;
   private heading: number;
   private pull = false;
+  /** The player blocks first and releases into his route (block and release): the route gets the release tone. */
+  private released = false;
   /** A block already finished this slot's main path (a trailing RunBlock adds nothing). */
   private blocked = false;
   private readonly firstOut: number;
@@ -342,10 +353,11 @@ class SlotWalker {
     start: Vec,
     private readonly sh: Shared,
     private readonly routeType?: string,
+    heading?: number,
   ) {
     this.cur = start;
     this.forward = role.defense ? 270 : 90;
-    this.heading = this.forward;
+    this.heading = heading ?? this.forward;
     this.firstOut = sh.paths.length;
   }
 
@@ -369,6 +381,7 @@ class SlotWalker {
     const path: ArtPath = { slot: this.role.slot, kind, points: pn.points, cap };
     if (pn.vertices.length) path.vertices = pn.vertices;
     if (pn.label) path.label = pn.label;
+    if (this.released && (kind === "route" || kind === "option")) path.tone = "release";
     this.sh.paths.push(Object.assign(path, extra));
   }
 
@@ -387,7 +400,10 @@ class SlotWalker {
   /** End the pending path as a route / run / QB path; curls get their hook. */
   private finishRoute(): void {
     const pn = this.pen;
-    if (!pn || pn.points.length < 2) {
+    // A route that is only a turn-back cut (an option branch like CurlRight: the receiver sits where the stem ended)
+    // still gets its hook.
+    const hookOnly = !!pn?.endCut && isTurnBackCut(pn.endCut.cut) && cutStyle(pn.endCut.cut) !== "settle";
+    if (!pn || (pn.points.length < 2 && !hookOnly)) {
       this.pen = null;
       return;
     }
@@ -420,7 +436,9 @@ class SlotWalker {
   private motion(stepIndex: number, waypoints: unknown): void {
     const pts: Vec[] = [];
     for (const w of Array.isArray(waypoints) ? waypoints : []) {
-      const p = (w as { position?: { x?: unknown; y?: unknown } } | null)?.position;
+      // Library waypoints nest the spot ({ position: { x, y } }); authored ones may be flat ({ x, y }).
+      const ww = w as { position?: { x?: unknown; y?: unknown }; x?: unknown; y?: unknown } | null;
+      const p = ww?.position ?? ww;
       if (p && isNum(p.x) && isNum(p.y)) pts.push({ x: p.x, y: p.y });
     }
     if (!pts.length) return;
@@ -482,6 +500,45 @@ class SlotWalker {
     this.emit("coverage", "none");
   }
 
+  /**
+   * Option-route branches from the stem end. Authored routes name them ("options": [{ route: "CurlRight" }…], the
+   * OptionRoutes assets the builder references): each is walked from here like the rest of the route, as the game's
+   * cards draw them. The first (OptionRouteCoverage_Default) is the one the player runs; the others are `alt`.
+   * Library option routes lost those references in the export, so they fall back to the branches the route type
+   * names (dashed).
+   */
+  private optionRoute(s: Step): void {
+    const at = this.cur;
+    const h = this.heading;
+    const last = this.sh.paths[this.sh.paths.length - 1];
+    const stem = last && last.slot === this.role.slot && last.points.length > 1 && last.points[last.points.length - 1] === at ? last : undefined;
+    const leaves = (Array.isArray(s.options) ? s.options : [])
+      .map((o) => (o && typeof o === "object" ? String((o as { route?: unknown }).route ?? "") : ""))
+      .filter(Boolean);
+    let drawn = 0;
+    leaves.forEach((leaf, k) => {
+      const steps = this.sh.optionRoute?.(leaf);
+      if (!steps) return;
+      const before = this.sh.paths.length;
+      const w = new SlotWalker(this.role, at, this.sh, undefined, h);
+      w.released = this.released;
+      w.run(steps);
+      for (let i = before; i < this.sh.paths.length; i++) {
+        this.sh.paths[i].option = leaf;
+        if (k > 0) this.sh.paths[i].alt = true;
+      }
+      if (this.sh.paths.length > before) drawn++;
+    });
+    if (drawn) {
+      // The branches carry the arrows; the stem just leads into them.
+      if (stem) stem.cap = "none";
+      return;
+    }
+    optionBranches(this.routeType, at, h).forEach((alt, k) => {
+      this.sh.paths.push({ slot: this.role.slot, kind: "option", points: [at, ...alt], cap: "arrow", dashed: true, alt: true, ...(k === 0 ? { label: "OPT" } : undefined) });
+    });
+  }
+
   run(rawSteps: Step[]): void {
     const steps = rawSteps.filter((s) => s && typeof s.type === "string");
     const legsAfter = (i: number) => steps.slice(i + 1).some((s) => LEG_TYPES.has(s.type));
@@ -526,9 +583,7 @@ class SlotWalker {
         case "OptionRoute":
           // The stem is the common part; the game picks a branch by coverage. Show every one.
           this.finishRoute();
-          optionBranches(this.routeType, this.cur, this.heading).forEach((alt, k) => {
-            this.sh.paths.push({ slot: this.role.slot, kind: "option", points: [this.cur, ...alt], cap: "arrow", dashed: true, alt: true, ...(k === 0 ? { label: "OPT" } : undefined) });
-          });
+          this.optionRoute(s);
           break;
         case "GetOpen":
         case "ChaseBall":
@@ -558,7 +613,10 @@ class SlotWalker {
         case "OptionRun": {
           const rt = String(s.runType ?? "");
           this.lineTo(add(this.cur, polar(/LEFT/.test(rt) ? 165 : /RIGHT/.test(rt) ? 15 : this.heading, 4)), i);
-          if (this.role.isQB) this.sh.qbRef = this.cur;
+          if (this.role.isQB) {
+            this.sh.qbRef = this.cur;
+            this.emit("qb", "arrow"); // the QB's option run: his own color, not the ballcarrier's
+          }
           break;
         }
         case "OptionHandoff": {
@@ -570,7 +628,7 @@ class SlotWalker {
             if (steps.slice(i + 1).some((x) => x.type === "RunEndZone")) {
               this.lineTo(add(this.cur, polar(90 + side * KEEP_SPREAD, KEEP_LEN)), i);
               this.sh.qbRef = this.cur;
-              this.emit("option", "arrow", { dashed: true, label: "KEEP" });
+              this.emit("qb", "arrow", { label: "KEEP" });
             }
           } else this.pen = null;
           break;
@@ -580,11 +638,12 @@ class SlotWalker {
           const ref = this.sh.qbRef;
           if (ref && isNum(s.offsetX) && isNum(s.offsetY)) {
             this.lineTo({ x: ref.x + s.offsetX, y: ref.y + s.offsetY }, i);
-            this.emit("option", "arrow", { dashed: true });
+            this.emit("run", "arrow"); // the pitch man: the ballcarrier's color
           }
           break;
         }
         case "PassBlock":
+          if (legsAfter(i) && !this.hasPath()) this.released = true;
           if (num(s.time, 0) > 0 && legsAfter(i)) break; // block, then release into a route drawn from here
           if (this.hasPath()) this.finishBlock();
           else if (/ProtectReceiver/.test(String(s.flags ?? ""))) this.stub(this.forward, 0.6); // screen convoy: T in front
@@ -799,7 +858,7 @@ export function computeArt(set: SetDef, slots: Step[][], opts: ArtOptions = {}):
   const carriers = findBallcarriers(normal.map((_, i) => stepsOf(i)));
   const olRunDir = carriers.size && runHole > 0 ? (runHole % 2 === 1 ? 110 : 70) : 90;
 
-  const sh: Shared = { paths: [], zones: [], runHole, showPassPro: !!opts.showPassPro, olRunDir, meshSide: meshSideOf(normal, carriers, stepsOf) };
+  const sh: Shared = { paths: [], zones: [], runHole, showPassPro: !!opts.showPassPro, olRunDir, meshSide: meshSideOf(normal, carriers, stepsOf), optionRoute: opts.optionRoute ?? defaultOptionRoute };
   const players: ArtPlayer[] = [];
 
   normal.forEach((a, slot) => {
@@ -843,8 +902,19 @@ export function computeArt(set: SetDef, slots: Step[][], opts: ArtOptions = {}):
     new SlotWalker(role, at, sh, opts.routeTypes?.[slot]).run(steps);
   });
 
+  // Pre-snap (the motion) is light blue; the route after the snap keeps its own color (yellow, red for the primary).
   const art: PlayArt = { players, paths: sh.paths, zones: sh.zones, bounds: computeBounds(players, sh.paths, sh.zones), flipped: false };
-  return opts.flip ? mirrorArt(art) : art;
+  if (!opts.flip) return art;
+  const m = mirrorArt(art);
+  // Players who stay put when flipped (custom sets): back to their own spot; their route stays mirrored.
+  const stay = new Set(normal.flatMap((a, slot) => (a?.stayOnFlip ? [slot] : [])));
+  if (!stay.size) return m;
+  const dx = new Map(m.players.filter((pl) => stay.has(pl.slot)).map((pl) => [pl.slot, -2 * pl.base.x]));
+  const shift = (v: Vec, d: number): Vec => ({ x: v.x + d, y: v.y });
+  const players2 = m.players.map((pl) => (dx.has(pl.slot) ? { ...pl, base: shift(pl.base, dx.get(pl.slot)!), at: shift(pl.at, dx.get(pl.slot)!), snap: shift(pl.snap, dx.get(pl.slot)!) } : pl));
+  const paths2 = m.paths.map((pa) => (dx.has(pa.slot) ? { ...pa, points: pa.points.map((v) => shift(v, dx.get(pa.slot)!)) } : pa));
+  const zones2 = m.zones.map((z) => (dx.has(z.slot) ? { ...z, center: shift(z.center, dx.get(z.slot)!) } : z));
+  return { ...m, players: players2, paths: paths2, zones: zones2, bounds: computeBounds(players2, paths2, zones2) };
 }
 
 // ───────────────────────────── memoized art for catalog plays ─────────────────────────────
@@ -880,6 +950,7 @@ export function artForPlay(catalog: Catalog, play: ResolvedPlay, opts: ArtOption
     showPassPro: !!opts.showPassPro,
     side: opts.side ?? artSideForPlay(catalog, play),
     routeTypes: play.slots.map((sl) => sl.routeType),
+    optionRoute: (leaf) => catalog.lib.assignment(OPTION_ROUTE_ROOT + leaf)?.steps,
   };
   const key = [
     play.source === "library" ? "L" : `C${catalog.version}`,

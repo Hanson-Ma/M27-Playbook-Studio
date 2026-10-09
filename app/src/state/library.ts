@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { create } from "zustand";
 import { fetchLibraryFile } from "../api/client";
 import { buildCatalog, type Catalog } from "../model/catalog";
+import { OPTION_ROUTE_ROOT, setOptionRouteSource } from "../model/art";
 import { buildLibraryIndex, type LibraryIndex } from "../model/library";
 import type { AssignmentDef, EnumsFile, FormationDef, LibraryData, PlayDef, PlaysFile, SetDef, SetsFile } from "../model/types";
 import { selectDocsOfKind, useDocsOfKind, useWorkspace, type DocEntry } from "./workspace";
@@ -73,6 +74,8 @@ export const useLibrary = create<LibraryState>()((set, get) => ({
         await new Promise((r) => setTimeout(r, 0));
         const data: LibraryData = { formations, sets, plays, assignments, enums };
         const lib = buildLibraryIndex(data);
+        // Option-route branches (CurlRight, InOutLeft…) for every view that draws art, the designer included.
+        setOptionRouteSource((leaf) => lib.assignment(OPTION_ROUTE_ROOT + leaf)?.steps);
         set({ status: "ready", lib, progress: { ...get().progress, label: "Ready" } });
       } catch (err) {
         loadSeq++; // silence the other fetches of this attempt

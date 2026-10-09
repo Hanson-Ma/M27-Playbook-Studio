@@ -46,8 +46,7 @@ The user reviewed v1 and asked for a **simpler, purely keyboard-and-mouse web ap
   changes, then a **Save** button or "✓ Saved". View headers don't draw their own status, Save or undo/redo buttons
   (lists of files may still mark which files are unsaved).
 - **Help** (`#/help[/<section>][?h=<heading>]`): the in-app user guide (`src/views/help/content/*.md`, one file per
-  section in `HELP_SECTIONS`); "Open the PDF guide" opens the printable guide built from the same Markdown
-  (`npm run guide` → `public/guide/Playbook-Studio-Guide.pdf`, screenshots in `public/guide/`).
+  section in `HELP_SECTIONS`); the guide is a web page only (screenshots in `public/guide/`).
 - **Game side caught up (commit ac54574):** tools/pbook-build.mjs resolves formation names BY SIDE (defense types =
   FormationType_Defense/KickReturn/Safety_KickReturn; preferring a formation the template contains, then the folder
   leaf, then the first) and includes custom formations/sets. "Special" is fine now — remove every "formation-ambiguous"

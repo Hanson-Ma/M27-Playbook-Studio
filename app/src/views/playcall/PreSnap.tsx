@@ -2,10 +2,11 @@
 // audible slot, CPU weights and read progression, with buttons for Flip · Favorite · Open in library · Edit in
 // playbook and ‹ › to step through the current list. Esc (or Back) closes it; ← → step while it's open.
 // Controller: ◀ ▶ (or LB / RB) step, B closes, X flips, Y favorites, ▲ ▼ and the right stick scroll the panel.
-import { useEffect, useMemo, useRef, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { Field, PlayArtLayer } from "../../field";
 import { usePlayback } from "../../field/usePlayback";
+import { useArtTween } from "../../field/useArtTween";
 import { ActionLayer, useActions } from "../../input/actions";
 import { usePadHandler, type PadFrame, type PadPress } from "../../input/gamepad";
 import { PadHints, type PadHint } from "../../input/PadHints";
@@ -15,7 +16,7 @@ import { artForPlay } from "../../model/art";
 import { HALF_WIDTH } from "../../model/geometry";
 import { leaf } from "../../model/names";
 import { playTypeInfo } from "../../model/playtypes";
-import type { ArtBounds, PlayArt, ResolvedPlay } from "../../model/types";
+import type { ArtBounds, AudibleSlot, PlayArt, ResolvedPlay } from "../../model/types";
 import { useCatalog } from "../../state/library";
 import { href, navigate } from "../../state/router";
 import { useSettings } from "../../state/settings";
@@ -33,6 +34,8 @@ export interface PreSnapProps {
   onFlip(): void;
   onStep(item: CallPlay): void;
   onClose(): void;
+  /** The set's audibles (slot order): B opens the audible menu, the slot's button picks one. */
+  audibles?: { slot: AudibleSlot; item: CallPlay }[];
 }
 
 const EMPTY_ART: PlayArt = { players: [], paths: [], zones: [], bounds: { minX: -10, maxX: 10, minY: -8, maxY: 12 }, flipped: false };
@@ -46,10 +49,10 @@ function presnapViewport(b: ArtBounds, defense: boolean): ArtBounds {
 const PAD_HINTS: PadHint[] = [
   { buttons: ["LEFT", "RIGHT"], label: "Previous / Next" },
   { buttons: ["A"], label: "Run Play" },
-  { buttons: ["B"], label: "Back" },
-  { buttons: ["X"], label: "Flip" },
+  { buttons: ["B"], label: "Audibles" },
+  { buttons: ["RT"], label: "Flip" },
   { buttons: ["Y"], label: "Favorite" },
-  { buttons: ["UP", "DOWN"], label: "Scroll" },
+  { buttons: ["VIEW"], label: "Back" },
 ];
 
 const pct = (n: unknown) => (typeof n === "number" && Number.isFinite(n) ? `${Math.round(n * 100)}%` : "—");
@@ -58,7 +61,14 @@ export function PreSnap(props: PreSnapProps) {
   return createPortal(<PreSnapInner {...props} />, document.body);
 }
 
-function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: PreSnapProps) {
+function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, audibles = [] }: PreSnapProps) {
+  const audibleButtons = useSettings((st) => st.audibleButtons);
+  // The audible menu (B): the set's audibles on their buttons, like calling an audible at the line.
+  const [audMenu, setAudMenu] = useState(false);
+  const pickAudible = (it: CallPlay) => {
+    setAudMenu(false);
+    if (it.id !== item.id) onStep(it);
+  };
   const catalog = useCatalog();
   const play = item.play;
   const showPassPro = useSettings((st) => st.showPassPro);
@@ -77,6 +87,10 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
   // The play only runs when asked (click the field, A on the controller, Enter or the Run button): players run their
   // routes and freeze at the end. Opening a play or stepping to the next one starts at the pre-snap look.
   const playback = usePlayback(art, `${item.id}|${flipped}`, false);
+  // Stepping to another play (or flipping) slides the players to their new spots, like the game; nothing fades.
+  const tweened = useArtTween(art, `${item.id}|${flipped}`);
+  // The game's camera: behind the offense, tilted. Flat view allows zoom / pan.
+  const [tilt, setTilt] = useState(true);
   const press = useRef<{ x: number; y: number } | undefined>(undefined);
   const defense = art.players[0]?.side === "defense" || play.side === "defense";
   const { minX, maxX, minY, maxY } = presnapViewport(art.bounds, defense);
@@ -98,7 +112,12 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
       { id: "prev", label: "Previous play", keys: ["ArrowLeft"], repeat: true, enabled: !!prev, run: () => prev && onStep(prev) },
       { id: "next", label: "Next play", keys: ["ArrowRight"], repeat: true, enabled: !!next, run: () => next && onStep(next) },
       { id: "replay", label: "Run the play", keys: ["Enter"], run: () => playback.run() },
-      { id: "back", label: "Back", keys: ["Escape"], run: onClose },
+      { id: "back", label: "Back", keys: ["Escape"], run: () => (audMenu ? setAudMenu(false) : onClose()) },
+      { bareKeys: true, id: "audibles", label: "Audibles", keys: ["a"], enabled: audibles.length > 0, run: () => setAudMenu((v) => !v) },
+      { bareKeys: true, id: "aud1", label: "Audible 1", keys: ["1"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 1) && pickAudible(audibles.find((a) => a.slot === 1)!.item) },
+      { bareKeys: true, id: "aud2", label: "Audible 2", keys: ["2"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 2) && pickAudible(audibles.find((a) => a.slot === 2)!.item) },
+      { bareKeys: true, id: "aud3", label: "Audible 3", keys: ["3"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 3) && pickAudible(audibles.find((a) => a.slot === 3)!.item) },
+      { bareKeys: true, id: "aud4", label: "Audible 4", keys: ["4"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 4) && pickAudible(audibles.find((a) => a.slot === 4)!.item) },
     ],
     { modal: true },
   );
@@ -111,9 +130,22 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
   usePadHandler(
     {
       press: (p: PadPress) => {
+        if (audMenu) {
+          // Audible menu: each slot's button picks it; B (when it isn't an audible button) or VIEW closes the menu.
+          const hit = audibles.find((a) => audibleButtons[a.slot] === p.button);
+          if (hit) pickAudible(hit.item);
+          else if (p.button === "B" || p.button === "VIEW") setAudMenu(false);
+          return true;
+        }
         switch (p.button) {
           case "B":
+            if (audibles.length) setAudMenu(true);
+            break;
+          case "VIEW":
             onClose();
+            break;
+          case "RT":
+            if (play.canFlip) onFlip();
             break;
           case "LEFT":
           case "LB":
@@ -169,8 +201,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
       <div ref={root} className={s.overlay} role="dialog" aria-modal="true" data-pad-own aria-label={`${play.name} pre-snap`} tabIndex={-1}>
         <div className={s.fieldCol}>
           <div
-            className={s.fieldBox}
-            key={`${item.id}|${flipped}`}
+            className={cx(s.fieldBox, tilt && s.tilted)}
             onPointerDown={(e) => (press.current = { x: e.clientX, y: e.clientY })}
             onPointerUp={(e) => {
               const p = press.current;
@@ -180,7 +211,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
             }}
           >
             <Field
-              interactive
+              interactive={!tilt}
               viewport={viewport}
               padding={0.5}
               ballSpot={ballSpot}
@@ -188,7 +219,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
               label={`${play.name} on the field`}
               className={s.field}
             >
-              <PlayArtLayer art={playback.art} showLabels={!playback.running} />
+              <PlayArtLayer art={playback.started ? playback.art : tweened} showLabels={!playback.running} />
             </Field>
           </div>
           <div className={s.fieldTop}>
@@ -198,9 +229,31 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose }: P
             <Button variant="secondary" icon="refresh" disabled={!playback.canRun} onClick={playback.run} title="Run the play (Enter, A, or click the field)">
               {playback.started ? "Replay" : "Run Play"}
             </Button>
-            <span className={s.hint}>Click the field to run the play · Scroll to zoom · drag to pan</span>
+            {audibles.length > 0 && (
+              <Button variant="secondary" active={audMenu} onClick={() => setAudMenu((v) => !v)} title="The set's audibles (B on a controller, A on the keyboard)">
+                Audibles
+              </Button>
+            )}
+            <Button variant="secondary" icon={tilt ? "grid" : "field"} onClick={() => setTilt((v) => !v)} title={tilt ? "Flat top-down view (zoom and pan)" : "The game's tilted camera"}>
+              {tilt ? "Flat View" : "Game View"}
+            </Button>
+            <span className={s.hint}>{tilt ? "Click the field to run the play" : "Click the field to run the play · Scroll to zoom · drag to pan"}</span>
             <PadHints hints={PAD_HINTS} className={s.hint} />
           </div>
+          {audMenu && (
+            <div className={s.audMenu} role="menu" aria-label="Audibles">
+              <div className={s.audMenuTitle}>Audibles</div>
+              {audibles.map((a) => (
+                <button key={a.slot} type="button" role="menuitem" className={cx(s.audItem, a.item.id === item.id && s.audItemOn)} onClick={() => pickAudible(a.item)}>
+                  <AudibleGlyph slot={a.slot} size="md" />
+                  <span>
+                    <b className="caps">{a.item.name}</b>
+                    <i>{AUDIBLE_CATEGORY[a.slot]}</i>
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
           {list.length > 1 && (
             <div className={s.stepper}>
               <IconButton icon="chevronLeft" title="Previous play" disabled={!prev} onClick={() => prev && onStep(prev)} />

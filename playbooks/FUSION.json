@@ -13,103 +13,165 @@
               "play": "HB Stretch",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW PA Curl",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_16_to_20": 76,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "HB Trap",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "J PA WR Screen",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
                 "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35
+                "StopClock": 40
               }
             },
             {
               "play": "JW PA Boot",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Dig Zig",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Jet Dive",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "Jet Sweep",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "Jet Counter Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "WasteTime": 40
               }
             }
           ]
@@ -120,135 +182,197 @@
             {
               "play": "PA Boot Wk",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "PA Dagger Zig",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "HB Zone Split",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Boot Zig",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JF PA Sprint Flat",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "PA P Deep Curls",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA P Double Post",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Jet Sweep Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "JW PA Shallow Cross",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "HB Zone Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "JW PA CW",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "JW RPO PW",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -259,135 +383,192 @@
             {
               "play": "HB Zone Split Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "JW PA Y Cross",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA P Y Curl",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "Jet Sweep",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Dagger Zig",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Curl Y Wheel",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "RPO Bubble",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "FM PA CW",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
                 "StopClock": 40
               }
             },
             {
               "play": "HB Zone Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "PA Boot",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RZ JF Boot",
               "cpu": {
-                "Playaction": 70,
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "Jet Dive Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             }
           ]
@@ -398,159 +579,184 @@
             {
               "play": "PA Deep Curls",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA P Cross Mesh",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "PA PW Dig",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "JW PA P Shallow",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "PA Boot",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Jet Sweep",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "PA Backside Poco",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "JW PA P CW",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "HB Zone Split",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "HB Zone Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "HB Stretch",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Cross",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Trap",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Fk Cross",
               "cpu": {
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "RedZone_11_to_15": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85,
                 "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "StopClock": 40,
-                "FirstDown": 35
+                "StopClock": 40
               }
             }
           ]
@@ -562,90 +768,116 @@
               "play": "HB Stretch",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Zone Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "JF PA PW Ziggo",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "Jet Sweep",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "PA Dagger",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Zone Split",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW PA Boot Wk",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RPO Bubble",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 75,
+                "2ndAndShort": 45,
+                "2ndAndMedium": 75,
+                "2ndAndLong": 75,
+                "3rdAndShort": 31,
+                "3rdAndMedium": 75,
+                "4thAndShort": 25,
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75
               }
             }
           ]
@@ -661,11 +893,19 @@
             {
               "play": "YM RPO Stick",
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
+                "FirstDown": 75,
+                "2ndAndShort": 75,
+                "2ndAndMedium": 75,
+                "2ndAndLong": 75,
+                "3rdAndShort": 75,
+                "3rdAndMedium": 75,
+                "4thAndShort": 75,
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75,
                 "GoalLine": 55,
                 "Insidefive": 55,
-                "2ndAndShort": 50,
                 "GoFor2": 45
               }
             },
@@ -673,92 +913,131 @@
               "play": "PA Boot Leak",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Stretch",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "PA Flat Shallow",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndMedium": 85,
+                "2ndAndLong": 57,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_16_to_20": 76,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "4thAndMedium": 73,
+                "Playaction": 70
               }
             },
             {
               "play": "YM PA Curl Wheel",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndLong": 57,
+                "RedZone_16_to_20": 76,
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "HB Toss",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA P Deep Curls",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "RedZone_16_to_20": 76,
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA CW",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Zone Split",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -769,67 +1048,88 @@
             {
               "play": "Sluggo Zigs",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_16_to_20": 76,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "4thAndMedium": 73
               }
             },
             {
               "play": "Verticals In",
               "audible": 3,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Slants Return",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Drive Shot",
               "audible": 4,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "BM Verticals Return",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "2ndAndMedium": 85,
+                "3rdAndShort": 85,
+                "3rdAndMedium": 85,
+                "4thAndShort": 85,
+                "RedZone": 85,
+                "RedZone_16_to_20": 76,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85
               }
             },
             {
               "play": "Y Shallow Cross",
               "audible": 2,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -840,104 +1140,134 @@
             {
               "play": "PA Cross",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "RedZone_16_to_20": 76,
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA Boot",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Deep Over",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Iso",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW PA Curl",
               "audible": 1,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Double Post",
               "cpu": {
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "RedZone_16_to_20": 76,
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "EM PA Dagger",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 85,
+                "2ndAndShort": 85,
+                "2ndAndLong": 85,
+                "3rdAndMedium": 85,
+                "RedZone_16_to_20": 85,
+                "RedZone_11_to_15": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "HB Power",
               "cpu": {
-                "2ndAndShort": 45,
+                "FirstDown": 80,
+                "2ndAndShort": 80,
+                "2ndAndMedium": 80,
+                "2ndAndLong": 80,
+                "3rdAndShort": 80,
+                "3rdAndMedium": 80,
+                "4thAndShort": 80,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "3rdAndLong": 80,
+                "3RDExtraLong": 80,
+                "4thAndMedium": 80,
+                "4thAndLong": 80,
+                "4THExtraLong": 80,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "RZ FM PA Mesh",
               "cpu": {
-                "Playaction": 70,
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50
+                "GoalLinePass": 85,
+                "GoalLine": 70
               }
             }
           ]
@@ -954,69 +1284,79 @@
               "play": "RPO Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
-                "GoalLine": 55,
-                "Insidefive": 55,
-                "2ndAndShort": 50,
-                "GoFor2": 45
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Boot Wheel",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Zone Split",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA P Double Post",
               "cpu": {
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "Shallow Cross",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Counter",
               "cpu": {
-                "2ndAndShort": 45,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "WasteTime": 40
               }
             }
           ]
@@ -1027,100 +1367,126 @@
             {
               "play": "HB Slip Screen",
               "cpu": {
-                "2ndAndLong": 40,
-                "3RDExtraLong": 40,
-                "3rdAndLong": 35,
-                "FirstDown": 15
+                "FirstDown": 70,
+                "2ndAndMedium": 70,
+                "2ndAndLong": 70,
+                "3rdAndMedium": 70,
+                "RedZone_16_to_20": 70,
+                "RedZone_11_to_15": 70,
+                "3rdAndLong": 70,
+                "3RDExtraLong": 70,
+                "4thAndLong": 70
               }
             },
             {
               "play": "RPO Flat",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Verticals",
               "audible": 4,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Power Option",
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "HB Zone Split",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "PA Boot",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Counter Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "WasteTime": 40
               }
             },
             {
               "play": "Lead Read Option",
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "HB Stretch",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -1132,68 +1498,83 @@
               "play": "RPO Bubble",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JF Drive Sail",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "3RDExtraLong": 85,
+                "4thAndLong": 85,
+                "4THExtraLong": 85,
+                "SuddenChange": 50
               }
             },
             {
               "play": "JR PA Boot",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW PA Drive",
               "audible": 4,
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Stretch",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
-                "GoalLine": 55,
-                "Insidefive": 55,
-                "2ndAndShort": 50,
-                "GoFor2": 45
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -1205,64 +1586,87 @@
               "play": "FMO PA Comebacks",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Zone Wk",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "FMO RPO Flat",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Verticals Return",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JF RPO Slant",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 75,
+                "2ndAndMedium": 75,
+                "2ndAndLong": 75,
+                "3rdAndMedium": 75,
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75
               }
             },
             {
               "play": "Slant Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -1279,132 +1683,135 @@
               "play": "FME Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "SD Corner",
               "audible": 3,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RPO Flat",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Speed Option",
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "PM Read Option",
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "FM Dagger Return",
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85,
+                "StopClock": 40
               }
             },
             {
               "play": "Cross Dagger",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "M Corner Shot",
               "cpu": {
+                "3rdAndLong": 85,
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "3rdAndLong": 40,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "FM Stick Salem",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85
               }
             },
             {
               "play": "SC Dig",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "RZ JF RPO Bullet",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "Mesh",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -1416,155 +1823,138 @@
               "play": "JF SC Dig",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Jet Touch Pass",
               "audible": 2,
               "cpu": {
-                "FirstDown": 30,
-                "2ndAndShort": 30,
-                "2ndAndMedium": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "SC DZ",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85
               }
             },
             {
               "play": "JB RPO Bubble",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 75,
+                "2ndAndMedium": 75,
+                "2ndAndLong": 75,
+                "3rdAndMedium": 75,
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75
               }
             },
             {
               "play": "Stick Dig",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "RedZone": 85,
+                "RedZone_11_to_15": 85,
+                "RedZone_6_to_10": 85
               }
             },
             {
               "play": "PW Return",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "RedZone": 85,
+                "RedZone_6_to_10": 85
               }
             },
             {
               "play": "FM Dagger Zig",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "RedZone": 85,
+                "RedZone_6_to_10": 85
               }
             },
             {
               "play": "Dagger Option",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Shallow Mills",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "PA Jet Verticals",
               "cpu": {
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA Y Cross",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Mesh Wheels",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Shallow Cross PW",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
-                "GoalLine": 55,
-                "Insidefive": 55,
-                "2ndAndShort": 50,
-                "GoFor2": 45
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Drive PW",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85
               }
             }
           ]
@@ -1575,11 +1965,19 @@
             {
               "play": "JF RPO Stick",
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
+                "FirstDown": 75,
+                "2ndAndShort": 75,
+                "2ndAndMedium": 75,
+                "2ndAndLong": 75,
+                "3rdAndShort": 75,
+                "3rdAndMedium": 75,
+                "4thAndShort": 75,
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75,
                 "GoalLine": 55,
                 "Insidefive": 55,
-                "2ndAndShort": 50,
                 "GoFor2": 45
               }
             },
@@ -1587,181 +1985,141 @@
               "play": "PA Y Cross",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Slant Snag",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Options Ziggo",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "RPO Bubble Out",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75
               }
             },
             {
               "play": "Dagger Return",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Drive Sail",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "RZ Follow Return",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "FME Drive Shot",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA Y Zig Option",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30
+                "Playaction": 70
               }
             },
             {
               "play": "Shallow Cross",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "PM Read Option",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "CC Salem",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Bench Angle",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "RPO Post",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75
               }
             },
             {
               "play": "Dagger Shallow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "JW PA Verticals",
               "cpu": {
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "PW Cross",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             }
           ]
@@ -1773,96 +2131,90 @@
               "play": "RPO Flat",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "FMO Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "FM Hoss Slant",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "PA Y Cross Wheel",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Verticals",
               "audible": 4,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Dagger",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "BM Mesh Dig",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Salem Options",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "BM Power",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             }
           ]
@@ -1872,98 +2224,97 @@
           "plays": [
             {
               "play": "BM Angle Return",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Read Option",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Dagger Comeback",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "BM Shallow Mills",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "BM Verticals Return",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Y Cross",
               "audible": 3,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "BM HB Slip Screen",
               "cpu": {
-                "2ndAndLong": 40,
-                "3RDExtraLong": 40,
-                "3rdAndLong": 35,
-                "FirstDown": 15
+                "FirstDown": 70,
+                "2ndAndMedium": 70,
+                "2ndAndLong": 70,
+                "3rdAndMedium": 70,
+                "RedZone_16_to_20": 70,
+                "RedZone_11_to_15": 70,
+                "3rdAndLong": 70,
+                "3RDExtraLong": 70,
+                "4thAndLong": 70
               }
             },
             {
               "play": "BM CC Salem",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "BM RPO Corndog",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -1975,192 +2326,172 @@
               "play": "FM Dagger Drive",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JF Dragon",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Read Option",
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "M Comebacks",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "3rdAndLong": 40,
-                "4thAndLong": 40,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "3rdAndLong": 85,
+                "SuddenChange": 50
               }
             },
             {
               "play": "PM Switch Zone",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "Scissors",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Hank",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "PA Y Cross",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Angle Follow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Smash Seam",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "RPO Flat",
               "audible": 2,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Stick Y Zig",
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Shallow Cross",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Cross",
               "cpu": {
                 "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "SuddenChange": 50
               }
             },
             {
               "play": "BM M Cross Mesh",
               "cpu": {
-                "SuddenChange": 45,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30
+                "3rdAndLong": 85,
+                "SuddenChange": 45
               }
             },
             {
               "play": "BM Mesh PW",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "HB Trap",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "HB Slip Screen",
               "cpu": {
-                "2ndAndLong": 40,
-                "3RDExtraLong": 40,
-                "3rdAndLong": 35,
-                "FirstDown": 15
+                "FirstDown": 70,
+                "2ndAndMedium": 70,
+                "2ndAndLong": 70,
+                "3rdAndMedium": 70,
+                "RedZone_16_to_20": 70,
+                "RedZone_11_to_15": 70,
+                "3rdAndLong": 70,
+                "3RDExtraLong": 70,
+                "4thAndLong": 70
               }
             }
           ]
@@ -2172,93 +2503,90 @@
               "play": "JF Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Slot Follow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "PW Shallow Cross",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "SD Return",
               "audible": 3,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "SC Shallow",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Dagger Options",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "JF Y Iso",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85
               }
             },
             {
               "play": "Jet Touch Pass",
               "audible": 2,
               "cpu": {
-                "FirstDown": 30,
-                "2ndAndShort": 30,
-                "2ndAndMedium": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RZ CZ Out",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             }
           ]
@@ -2270,128 +2598,113 @@
               "play": "Dragon",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW RPO Switch",
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "RedZone": 75,
+                "RedZone_16_to_20": 75,
+                "RedZone_11_to_15": 75,
+                "RedZone_6_to_10": 75
               }
             },
             {
               "play": "Y Dig Fade",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Lead Read Option",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW PW Salem Option",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85
               }
             },
             {
               "play": "JF RPO Stick",
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
+                "2ndAndShort": 75,
+                "3rdAndShort": 75,
+                "4thAndShort": 75,
                 "GoalLine": 55,
                 "Insidefive": 55,
-                "2ndAndShort": 50,
                 "GoFor2": 45
               }
             },
             {
               "play": "Dagger Corner",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "PW Salem Follow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "PW Shallow",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW Salem Return",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Y Mesh Dagger",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "SC Drive Wheel",
               "audible": 3,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -2403,163 +2716,149 @@
               "play": "Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "M Slot Cross",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "3rdAndLong": 40,
-                "4thAndLong": 40,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "3rdAndLong": 85,
+                "SuddenChange": 50
               }
             },
             {
               "play": "SD Bench",
               "audible": 2,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "SD Dig",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Jet Touch Pass",
               "cpu": {
-                "FirstDown": 30,
-                "2ndAndShort": 30,
-                "2ndAndMedium": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "RZ Corner",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "M Deep Curls",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "3rdAndLong": 40,
-                "4thAndLong": 40,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "3rdAndLong": 85,
+                "SuddenChange": 50
               }
             },
             {
               "play": "M Cross Shot",
               "audible": 4,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "3rdAndLong": 40,
-                "4thAndLong": 40,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "M Drive Wheel",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "3rdAndLong": 40,
-                "4thAndLong": 40,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "3rdAndLong": 85,
+                "SuddenChange": 50
               }
             },
             {
               "play": "Mesh Wheel",
               "audible": 3,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "M Dagger Out",
               "cpu": {
-                "SuddenChange": 45,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85,
+                "SuddenChange": 45
               }
             },
             {
               "play": "CC DZ",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "RZ SC Angle",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "Drive Shot",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "RZ EM Quick Out",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             }
           ]
@@ -2570,131 +2869,125 @@
             {
               "play": "JF RPO Stick",
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
+                "2ndAndShort": 75,
+                "3rdAndShort": 75,
+                "4thAndShort": 75,
                 "GoalLine": 55,
                 "Insidefive": 55,
-                "2ndAndShort": 50,
                 "GoFor2": 45
               }
             },
             {
               "play": "PA Y Dig",
               "cpu": {
-                "Playaction": 70,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "FirstDown": 35,
-                "4thAndMedium": 35
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85,
+                "Playaction": 70
               }
             },
             {
               "play": "Read Option",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "BM CC Salem",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Jet Touch Pass",
               "cpu": {
-                "FirstDown": 30,
-                "2ndAndShort": 30,
-                "2ndAndMedium": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "Inside PW",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Y Cross",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Y Shallow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Post Return",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Angle Verticals",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "BM Drive Wheel",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "PA Cross Y Wheel",
               "audible": 3,
               "cpu": {
-                "Playaction": 70,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "2ndAndShort": 40,
-                "4thAndLong": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -2706,125 +2999,119 @@
               "play": "Salem Options",
               "audible": 3,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Read Option",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "FM Hoss Angle",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Dragon",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "FM Nod Return",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "JF RPO Slant",
-              "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
-              }
+              "cpu": {}
             },
             {
               "play": "HB Slip Screen",
               "cpu": {
-                "2ndAndLong": 40,
-                "3RDExtraLong": 40,
-                "3rdAndLong": 35,
-                "FirstDown": 15
+                "FirstDown": 70,
+                "2ndAndMedium": 70,
+                "2ndAndLong": 70,
+                "3rdAndMedium": 70,
+                "RedZone_16_to_20": 70,
+                "RedZone_11_to_15": 70,
+                "3rdAndLong": 70,
+                "3RDExtraLong": 70,
+                "4thAndLong": 70
               }
             },
             {
               "play": "Inside Wheel",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "PM Read Option",
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
+                "ConserveTime": 45,
+                "WasteTime": 40,
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "Drive Shot",
               "audible": 4,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Inside Dagger",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "3rdAndLong": 85,
+                "4thAndMedium": 85
               }
             },
             {
               "play": "RPO Slant Flat",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -2834,196 +3121,157 @@
           "plays": [
             {
               "play": "Bullet Stick Nod",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Read Option",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Switch Cross",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Inside Dagger",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "4thAndMedium": 85
               }
             },
             {
               "play": "PM Switch Zone",
               "cpu": {
-                "2ndAndShort": 45,
+                "RedZone": 80,
+                "RedZone_16_to_20": 80,
+                "RedZone_11_to_15": 80,
+                "RedZone_6_to_10": 80,
+                "GoalLine": 25,
+                "Insidefive": 25,
                 "ConserveTime": 45,
                 "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "RedZone_3_to_5": 40
               }
             },
             {
               "play": "SD Corner",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Angle Smash",
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Salem SP",
               "audible": 3,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RPO Flat",
               "audible": 1,
               "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "FMH Drive CF",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RZ Bullet Fades",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "FME Verticals",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "FME Follow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "FME DZ",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "FMH Flood Smash",
               "cpu": {
                 "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "StopClock": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30
+                "StopClock": 40
               }
             },
             {
               "play": "RZ EM Cross Sled",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "FMH Dbl Post CF",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Slot Fade",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             }
           ]
@@ -3035,128 +3283,101 @@
               "play": "Slant Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Jordan Love",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "4thAndMedium": 85
               }
             },
             {
               "play": "Smoke Curls",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Shallow Cross",
               "audible": 3,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Salem Option",
               "audible": 2,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Sluggo",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Hoss Y Juke",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Verticals",
               "audible": 4,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "JW Verticals",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "BM Mesh Fade",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "JF Bullet",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "BM Verticals Return",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             }
           ]
         },
@@ -3166,129 +3387,103 @@
             {
               "play": "Smash Return",
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "StopClock": 40
               }
             },
             {
               "play": "Bench Option",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Shallow Cross",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "RPO Bubble Stick",
               "audible": 2,
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
-                "GoalLine": 55,
-                "Insidefive": 55,
-                "2ndAndShort": 50,
-                "GoFor2": 45
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Cross Salem",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Read Option Lead",
               "audible": 1,
               "cpu": {
-                "2ndAndShort": 35,
-                "FirstDown": 30,
-                "3rdAndShort": 30,
-                "2ndAndMedium": 25,
-                "RedZone": 25,
-                "ConserveTime": 25
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "HB Slip Screen",
-              "cpu": {
-                "2ndAndLong": 40,
-                "3RDExtraLong": 40,
-                "3rdAndLong": 35,
-                "FirstDown": 15
-              }
+              "cpu": {}
             },
             {
               "play": "HBM Bench",
               "cpu": {
-                "3rdAndMedium": 40,
-                "StopClock": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "StopClock": 40
               }
             },
             {
               "play": "SC Salem",
               "audible": 3,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "YEM SD",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Drive PW",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Dagger Out",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "4thAndMedium": 85
               }
             }
           ]
@@ -3300,130 +3495,110 @@
               "play": "FMO Inside Zone",
               "audible": 2,
               "cpu": {
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35,
-                "3rdAndShort": 35,
-                "4thAndShort": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RZ RM RPO Corndog",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "JW Verticals",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "Mesh PW",
               "audible": 4,
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "RPO Bubble Flat",
-              "cpu": {
-                "FirstDown": 40,
-                "2ndAndMedium": 40,
-                "2ndAndShort": 30,
-                "3rdAndShort": 25
-              }
+              "cpu": {}
             },
             {
               "play": "Dagger Sled",
               "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndLong": 40,
-                "4thAndMedium": 35,
-                "2ndAndLong": 30,
-                "4thAndLong": 25
+                "2ndAndLong": 85,
+                "RedZone_16_to_20": 85,
+                "4thAndMedium": 85
               }
             },
             {
               "play": "RZ FM Mesh Dig",
               "cpu": {
-                "RedZone": 70,
-                "RedZone_6_to_10": 70,
-                "RedZone_11_to_15": 60,
-                "RedZone_3_to_5": 60,
-                "RedZone_16_to_20": 50,
-                "Insidefive": 50
+                "Insidefive": 60,
+                "GoFor2": 50,
+                "RedZone_3_to_5": 70,
+                "GoalLinePass": 60
               }
             },
             {
               "play": "Shallow Follow",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "JF Dagger Return",
-              "cpu": {
-                "3rdAndMedium": 40,
-                "3rdAndShort": 35,
-                "2ndAndMedium": 30,
-                "4thAndShort": 30,
-                "4thAndMedium": 30
-              }
+              "cpu": {}
             },
             {
               "play": "Double Post Sled",
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "SuddenChange": 50
               }
             },
             {
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
-                "GoalLine": 55,
-                "Insidefive": 55,
-                "2ndAndShort": 50,
-                "GoFor2": 45
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "Flood Verticals",
               "audible": 3,
               "cpu": {
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "4thAndLong": 40,
-                "3rdAndLong": 35,
-                "2ndAndShort": 30,
-                "3RDExtraLong": 30
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             }
           ]
@@ -3440,135 +3615,116 @@
               "play": "HB Dive",
               "audible": 4,
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "YM RPO Stick",
               "cpu": {
-                "3rdAndShort": 60,
-                "4thAndShort": 60,
-                "GoalLinePass": 60,
-                "GoalLine": 55,
-                "Insidefive": 55,
-                "2ndAndShort": 50
+                "GoFor2": 45,
+                "GoalLinePass": 70
               }
             },
             {
               "play": "Tush Push",
               "cpu": {
-                "4thAndShort": 85,
-                "3rdAndShort": 80,
-                "GoalLine": 60,
-                "Insidefive": 60,
-                "GoFor2": 30
+                "GoalLine": 70,
+                "GoFor2": 40
               }
             },
             {
               "play": "HB Power",
               "audible": 1,
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Corner",
               "audible": 2,
               "cpu": {
-                "Playaction": 70,
-                "GoalLinePass": 60,
-                "SuddenChange": 50,
-                "4THExtraLong": 45,
-                "Insidefive": 45,
-                "GoFor2": 45
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "FB Dive",
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "GoalLine": 70,
+                "GoFor2": 40
               }
             },
             {
               "play": "HB Split",
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "GoalLine": 70,
+                "GoFor2": 40
               }
             },
             {
               "play": "PA Sprint Flat",
               "cpu": {
-                "Playaction": 70,
-                "GoalLinePass": 60,
-                "Insidefive": 45,
                 "GoFor2": 45,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40
+                "GoalLinePass": 70
               }
             },
             {
               "play": "HB Counter Wk",
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "GoalLine": 70,
+                "GoFor2": 40
               }
             },
             {
               "play": "YM HB Zone Wk",
               "audible": 3,
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
               }
             },
             {
               "play": "PA Mesh",
               "cpu": {
-                "Playaction": 70,
-                "GoalLinePass": 60,
-                "Insidefive": 45,
                 "GoFor2": 45,
-                "2ndAndShort": 40,
-                "3rdAndMedium": 40
+                "GoalLinePass": 70
               }
             },
             {
               "play": "HB Stretch",
               "cpu": {
-                "Insidefive": 60,
-                "GoalLine": 60,
-                "2ndAndShort": 45,
-                "ConserveTime": 45,
-                "WasteTime": 40,
-                "FirstDown": 35
+                "GoalLine": 70,
+                "GoFor2": 40
               }
             }
           ]

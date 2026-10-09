@@ -3,7 +3,7 @@
 // a time. Mouse, keyboard (↑ ↓ ← → Enter Esc, PgUp / PgDn for tabs) and controller all work. Picking a play opens the
 // pre-snap view, where the play runs. View state that other places link to lives in the URL: tab, play (the open
 // pre-snap play) and flip. "sets": "template" sections open read-only once the template save is read (state/template.ts).
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useActions } from "../../input/actions";
 import { usePadHandler, type PadPress } from "../../input/gamepad";
 import type { PlaybookSpec, ResolvedPlay } from "../../model/types";
@@ -16,15 +16,19 @@ import type { ConceptsDoc } from "../../model/types";
 import { Button, EmptyState, SearchSelect, Spinner, toast, useHelpTopic, type SearchOption } from "../../ui";
 import { GameScreen, type HintItem } from "./GameScreen";
 import {
+  VISIBLE,
+  cardRow,
   cardsFocused,
   describe,
   initialState,
   openCards,
   closeCards,
   randomPlay,
+  selectGroup,
   selectRow,
   setTab as withTab,
   step,
+  stepGroup,
   stepSet,
   type Ctx,
   type Dir,
@@ -32,7 +36,7 @@ import {
 } from "./gameScreenModel";
 import { bookSummary } from "./bookSummary";
 import { PreSnap } from "./PreSnap";
-import { PLAYCALL_TABS, conceptGroups, navQuery, parseNav, playsForKeys, typeGroups, type CallNav, type CallPlay, type PlayCallTab } from "./playcallModel";
+import { PLAYCALL_TABS, conceptGroups, navQuery, parseNav, personnelGroups, playsForKeys, typeGroups, type CallNav, type CallPlay, type PlayCallTab } from "./playcallModel";
 import { useCallBook } from "./useCallBook";
 import s from "./PlayCall.module.css";
 
@@ -168,6 +172,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
       book,
       concepts: conceptGroups(book, conceptsDoc),
       types: typeGroups(book),
+      personnel: personnelGroups(book),
       favorites: playsForKeys(book, favKeys),
       recents: playsForKeys(book, recentKeys),
     };
@@ -196,6 +201,12 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
   const stepTab = (d: 1 | -1) => {
     const ids = PLAYCALL_TABS.map((t) => t.id);
     goTab(ids[(ids.indexOf(st.tab) + d + ids.length) % ids.length]);
+  };
+  // LB / RB: on the plays screen they switch its tabs (the formation's sets, the list's groups), like the game;
+  // on the browse screen (and favorites / recent) the main tabs.
+  const shoulder = (d: 1 | -1) => {
+    if (ctx && view && view.showCards && view.groups.length) setSt((cur) => stepGroup(ctx, cur, d));
+    else stepTab(d);
   };
 
   const cardsActive = !!view && view.showCards && cardsFocused(st);
@@ -251,11 +262,46 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
   const presnapList = useMemo(() => (view ? view.cards.filter((c) => c.play) : []), [view]);
   const stepList = openItem ? (presnapList.some((x) => x.id === openItem.id) ? presnapList : [openItem]) : [];
   const closePresnap = () => update((n) => ({ ...n, open: undefined }));
+  // The open play's set audibles (the pre-snap audible menu), in slot order.
+  const presnapAudibles = useMemo(() => {
+    if (!book || !openItem) return [];
+    const set = book.sets.find((x) => x.plays.some((q) => q.id === openItem.id));
+    if (!set) return [];
+    return ([1, 2, 3, 4] as const).flatMap((slot) => (set.audibles[slot]?.play ? [{ slot, item: set.audibles[slot]! }] : []));
+  }, [book, openItem]);
   const stepPresnap = (item: CallPlay) => {
     const i = view?.cards.findIndex((c) => c.id === item.id) ?? -1;
     if (i >= 0) setSt((cur) => ({ ...cur, play: i }));
     update((n) => ({ ...n, open: item.id }));
   };
+
+  // ── the game's column buttons on the plays screen: X / A / Y (keys W / Space / Q) call the left / middle / right
+  // play of the row in view; a double tap adds / removes it from the favorites instead ──
+  const columnTap = useRef<{ col: number; at: number; timer: number } | undefined>(undefined);
+  const callColumn = (col: number) => {
+    if (!view || !view.showCards) return false;
+    const i = cardRow(st.play) * VISIBLE + col;
+    const item = view.cards[i];
+    if (!item) return true;
+    const prev = columnTap.current;
+    const now = performance.now();
+    if (prev && prev.col === col && now - prev.at < 320) {
+      window.clearTimeout(prev.timer);
+      columnTap.current = undefined;
+      toggleFavorite(item);
+      return true;
+    }
+    if (prev) window.clearTimeout(prev.timer);
+    setSt((cur) => ({ ...cur, play: i }));
+    const timer = window.setTimeout(() => {
+      columnTap.current = undefined;
+      openPlay(item);
+    }, 260);
+    columnTap.current = { col, at: now, timer };
+    return true;
+  };
+  useEffect(() => () => window.clearTimeout(columnTap.current?.timer), []);
+  const toggleAudiblesTab = () => goTab(st.tab === "audibles" ? "formation" : "audibles");
 
   // ── keys ──
   const browsing = !nav.open;
@@ -266,11 +312,17 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     { id: "down", label: "Down", keys: ["ArrowDown"], repeat: true, enabled: browsing, run: () => move("DOWN") },
     { id: "choose", label: "Select", keys: ["Enter"], enabled: browsing, run: choose },
     { id: "back", label: "Back", keys: ["Escape"], enabled: browsing, run: back },
-    { id: "tab-prev", label: "Previous tab", keys: ["PageUp"], enabled: browsing, run: () => stepTab(-1) },
-    { id: "tab-next", label: "Next tab", keys: ["PageDown"], enabled: browsing, run: () => stepTab(1) },
+    { id: "tab-prev", label: "Previous tab", keys: ["PageUp"], enabled: browsing, run: () => shoulder(-1) },
+    { id: "tab-next", label: "Next tab", keys: ["PageDown"], enabled: browsing, run: () => shoulder(1) },
+    { bareKeys: true, id: "col-left", label: "Call the left play", keys: ["w"], enabled: browsing && !!view?.showCards, run: () => void callColumn(0) },
+    { bareKeys: true, id: "col-mid", label: "Call the middle play", keys: [" "], enabled: browsing && !!view?.showCards, run: () => void callColumn(1) },
+    { bareKeys: true, id: "col-right", label: "Call the right play", keys: ["q"], enabled: browsing && !!view?.showCards, run: () => void callColumn(2) },
+    { bareKeys: true, id: "flip", label: "Flip plays", keys: ["f"], enabled: browsing, run: toggleFlip },
   ]);
 
-  // ── controller: the d-pad / left stick move, A selects, B backs out, LB / RB tabs, X flips, Y a random play ──
+  // ── controller, like the game: d-pad / left stick move, B backs out, LB / RB tabs (sets on the plays screen), RT flips,
+  // LT audibles. Plays screen: X / A / Y call the left / middle / right play of the row (double tap = favorite).
+  // Formation list: A opens the set, Y a random play. ──
   usePadHandler(
     {
       press: (p: PadPress) => {
@@ -282,24 +334,28 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
           case "RIGHT":
             move(p.button);
             return true;
+          case "X":
           case "A":
-            choose();
+          case "Y":
+            if (view?.showCards) return callColumn(p.button === "X" ? 0 : p.button === "A" ? 1 : 2);
+            if (p.button === "A") choose();
+            else if (p.button === "Y") random();
+            else toggleFlip();
             return true;
           case "B":
             back();
             return true;
-          case "LB":
-            stepTab(-1);
-            return true;
-          case "RB":
-            stepTab(1);
-            return true;
-          case "X":
+          case "RT":
             toggleFlip();
             return true;
-          case "Y":
-            if (selectedCard) toggleFavorite(selectedCard);
-            else random();
+          case "LT":
+            toggleAudiblesTab();
+            return true;
+          case "LB":
+            shoulder(-1);
+            return true;
+          case "RB":
+            shoulder(1);
             return true;
           default:
             return false;
@@ -311,17 +367,20 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
 
   const hints: HintItem[] = [
     ...(st.inPlays ? [{ id: "back", label: "Back", pad: ["B" as const], key: "Esc", onClick: back }] : []),
-    { id: "select", label: cardsActive ? "Call Play" : "Select", pad: ["A"], key: "Enter", onClick: choose },
-    { id: "flip", label: nav.flip ? "Unflip Plays" : "Flip Plays", pad: ["X"], onClick: toggleFlip },
-    { id: "random", label: "Random Play", pad: ["Y"], onClick: random },
-    { id: "tabs", label: "Tabs", pad: ["LB", "RB"], key: "PgUp", onClick: () => stepTab(1) },
+    ...(view?.showCards
+      ? [{ id: "fav", label: "[Double Tap] Add / Remove Favorite", pad: ["X" as const, "A" as const, "Y" as const], key: "W ␣ Q", onClick: () => selectedCard && toggleFavorite(selectedCard) }]
+      : [{ id: "select", label: "Select", pad: ["A" as const], key: "Enter", onClick: choose }]),
+    { id: "audibles", label: "Audibles", pad: ["LT"], onClick: toggleAudiblesTab },
+    { id: "flip", label: nav.flip ? "Unflip Play" : "Flip Play", pad: ["RT"], key: "F", onClick: toggleFlip },
+    ...(view?.showCards ? [] : [{ id: "random", label: "Random Play", pad: ["Y" as const], onClick: random }]),
+    { id: "tabs", label: view?.showCards && view.groups.length ? (st.tab === "formation" || st.tab === "audibles" ? "Sets" : "Groups") : "Tabs", pad: ["LB", "RB"], key: "PgUp", onClick: () => shoulder(1) },
   ];
 
   // The wheel scrolls whatever it is over: the formation list, the card column (up and down), else the sets.
   const wheel = (d: 1 | -1, zone: "list" | "cards" | "other") => {
     if (!ctx || !view) return;
     if (zone === "list") return setSt((cur) => selectRow(cur, (view.row + d + Math.max(1, view.rows.length)) % Math.max(1, view.rows.length)));
-    if (zone === "cards" && view.showCards) return setSt((cur) => step(ctx, cur.tab === "favorites" || cur.tab === "recent" ? cur : { ...cur, inPlays: true }, d === 1 ? "DOWN" : "UP"));
+    if (view.showCards) return setSt((cur) => step(ctx, cur, d === 1 ? "DOWN" : "UP"));
     if (st.tab === "formation" || st.tab === "audibles") setSt((cur) => stepSet(ctx, cur, d));
   };
 
@@ -375,6 +434,8 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
           onTab={goTab}
           onRow={(i) => setSt((cur) => selectRow(cur, i))}
           onSetStep={(d) => setSt((cur) => stepSet(ctx, cur, d))}
+          onGroup={(i) => setSt((cur) => selectGroup(cur, i))}
+          onBack={back}
           onOpenSet={choose}
           onCard={clickCard}
           onToggleFavorite={toggleFavorite}
@@ -391,6 +452,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
           onFlip={toggleFlip}
           onStep={stepPresnap}
           onClose={closePresnap}
+          audibles={presnapAudibles}
         />
       )}
     </div>

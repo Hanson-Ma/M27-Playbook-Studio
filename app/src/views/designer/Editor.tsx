@@ -34,7 +34,7 @@ import { removeVertex, editRoute, setWaypoints } from "../../model/routes";
 import { isEligible, isOffensiveLine } from "../../model/positions";
 import type { AutoMotionWaypoint, CustomPlaySpec, PlaysFile } from "../../model/types";
 import { getCatalog, useCatalog } from "../../state/library";
-import { href, navigate } from "../../state/router";
+import { href, navigate, useRoute } from "../../state/router";
 import { useSettings } from "../../state/settings";
 import { selectDocsOfKind, useDoc, useWorkspace } from "../../state/workspace";
 import { Button, EmptyState, IconButton, Menu, PlayTypeTag, Tag, Tooltip, promptDialog, toast, type MenuItem } from "../../ui";
@@ -100,10 +100,19 @@ function locate(plays: readonly unknown[], t: Tracked): number {
   return plays.length === t.count && isPlay(here) ? t.index : -1;
 }
 
+/** Where Back goes: the screen that opened this play (the playbook's Edit, via ?back=), else the plays list. */
+function useBackLink(): { hash: string; label: string; query: string } {
+  const back = useRoute().query.get("back");
+  return back && back.startsWith("#/")
+    ? { hash: back, label: "Back to Playbook", query: `?back=${encodeURIComponent(back)}` }
+    : { hash: "#/designer", label: "Back to Plays", query: "" };
+}
+
 export function Editor({ file, index }: { file: string; index: number }) {
   const doc = useDoc<PlaysFile>(file);
   const catalog = useCatalog();
   const exists = !!doc && !doc.error && !!doc.data;
+  const backLink = useBackLink();
 
   useEffect(() => {
     if (!exists) return;
@@ -139,10 +148,10 @@ export function Editor({ file, index }: { file: string; index: number }) {
 
   // The play moved (undo/redo of an insert or delete before it): follow it.
   useEffect(() => {
-    if (at >= 0 && at !== index) navigate(href("designer", file, at), { replace: true });
-  }, [at, index, file]);
+    if (at >= 0 && at !== index) navigate(href("designer", file, at) + backLink.query, { replace: true });
+  }, [at, index, file, backLink.query]);
 
-  const back = <Button onClick={() => navigate("#/designer")}>Back to Plays</Button>;
+  const back = <Button onClick={() => navigate(backLink.hash)}>{backLink.label}</Button>;
   if (!catalog) return null;
   if (!doc) return <Centered title="Plays File Not Found" body={file} action={back} />;
   if (doc.error || !doc.data) return <Centered title="This Plays File Can't Be Edited" body={doc.error ?? "Empty file"} action={back} />;
@@ -155,6 +164,7 @@ export function Editor({ file, index }: { file: string; index: number }) {
 
 /** The open play is gone from its file (undo of "New play" / "Duplicate", redo of a delete…). */
 function Removed({ file }: { file: string }) {
+  const backLink = useBackLink();
   const canUndo = useWorkspace((st) => (st.docs[file]?.past.length ?? 0) > 0);
   const canRedo = useWorkspace((st) => (st.docs[file]?.future.length ?? 0) > 0);
   const undo = () => useWorkspace.getState().undo(file);
@@ -168,7 +178,7 @@ function Removed({ file }: { file: string }) {
       <EmptyState
         icon="warning"
         title="This Play Was Removed"
-        body="Undo brings it back, or go back to the plays list."
+        body="Undo brings it back, or go back."
         action={
           <div className={s.centeredActions}>
             <Button icon="undo" disabled={!canUndo} onClick={undo}>
@@ -177,8 +187,8 @@ function Removed({ file }: { file: string }) {
             <Button icon="redo" disabled={!canRedo} onClick={redo}>
               Redo
             </Button>
-            <Button variant="ghost" onClick={() => navigate("#/designer")}>
-              Back to Plays
+            <Button variant="ghost" onClick={() => navigate(backLink.hash)}>
+              {backLink.label}
             </Button>
           </div>
         }
@@ -213,6 +223,7 @@ function Centered({ title, body, action }: { title: string; body: string; action
 const INITIAL_UI: EditorUi = { tab: "route", flip: false, free: false, drawing: false, unlocked: {}, presets: {} };
 
 function EditorInner({ file, index, playId }: { file: string; index: number; playId: number }) {
+  const backLink = useBackLink();
   const catalog = useCatalog()!;
   const doc = useDoc<PlaysFile>(file)!;
   const spec = doc.data.plays[index];
@@ -384,6 +395,8 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
 
   const escape = () => {
     // While drawing, every new point is the selected one: one Esc stops drawing (and drops that selection).
+    if (ui.fan) return setUi({ fan: false });
+    if (ui.segment !== undefined) return setUi({ segment: undefined });
     if (ui.drawing) return setUi({ drawing: false, vertex: undefined });
     if (ui.vertex) return setUi({ vertex: undefined });
     if (ui.moveStart !== undefined) return setUi({ moveStart: undefined });
@@ -395,7 +408,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
     { id: "redo", label: "Redo", keys: ["shift+mod+z", "mod+y"], run: () => useWorkspace.getState().redo(file) },
     // ⌘S saves the plays file being edited, whatever the shell's active doc is.
     { id: "save", label: "Save", keys: ["mod+s"], allowInInput: true, run: () => void savePlays(file) },
-    { id: "deselect", label: "Deselect", keys: ["Escape"], enabled: !!ui.vertex || ui.drawing || selSlot !== undefined || ui.moveStart !== undefined, run: escape },
+    { id: "deselect", label: "Deselect", keys: ["Escape"], enabled: !!ui.vertex || ui.drawing || !!ui.fan || ui.segment !== undefined || selSlot !== undefined || ui.moveStart !== undefined, run: escape },
     { id: "delete", label: "Delete Point", keys: ["Delete", "Backspace"], enabled: vertexSelected, run: deleteSelected },
   ];
   useActions("designer.editor", actions);
@@ -405,7 +418,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
       <Centered
         title="The Base Play Isn't in the Library"
         body={`${spec.name}: base ${String(spec.base)} wasn't found. Edit the plays file or pick another base from the plays list.`}
-        action={<Button onClick={() => navigate("#/designer")}>Back to Plays</Button>}
+        action={<Button onClick={() => navigate(backLink.hash)}>{backLink.label}</Button>}
       />
     );
   }
@@ -487,13 +500,14 @@ function PlayerMenu({ slot, at, onClose }: { slot: number; at: { x: number; y: n
 
 /** Title, problems and view toggles. Undo / redo and Save are the top bar's (one of each per screen). */
 function EditorHeader() {
+  const backLink = useBackLink();
   const { state, catalog, file, index, ui, setUi } = useDesigner();
   const play = catalog.custom.find((p) => p.file === file && p.index === index);
   const problems = play?.problems ?? [];
   const playType = effectiveField<string>(state, "playType");
   return (
     <header className={s.header}>
-      <IconButton icon="chevronLeft" title="Back to the plays list" onClick={() => navigate("#/designer")} />
+      <IconButton icon="chevronLeft" title={backLink.hash === "#/designer" ? "Back to the plays list" : backLink.label} aria-label={backLink.label} onClick={() => navigate(backLink.hash)} />
       <div className={s.titles}>
         {/* Formation › set and the base play are Madden names (caps); "Base" is chrome. */}
         <div className={s.eyebrow}>

@@ -28,7 +28,7 @@ folder.
 
 Next to the menu you see the save name the game will use (`PBOOKOFF-FUSION`) and the file (`FUSION.json`).
 
-## Step 1: Pick a Set
+## Pick a Set
 
 The tree on the left shows the playbook: formations (SHOTGUN, GUN PBS…), and under each one its sets. The dots next to
 a set show how many audibles it has; the number is its play count.
@@ -42,11 +42,11 @@ a set show how many audibles it has; the number is its play count.
 Drag formations and sets up and down the tree to reorder them. Your own sets (made in
 [Formations](#/help/formations)) show a **Custom** tag and appear in the **+ Set** list like any other set.
 
-## Step 2: Add and Order Plays
+## Add and Order Plays
 
 With a set selected, the middle column shows two lists:
 
-- **In This Playbook**: the set's plays as cards, in your order.
+- The set's plays as cards, in your order.
 - **All Plays in This Set**: every play the game (and you) have for this set, with a tick box each.
 
 To add plays:

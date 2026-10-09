@@ -2,7 +2,7 @@
 // "New set" wizard and "New sets file". Click a card to open it; ⋯ / right-click for Duplicate and Delete.
 import { useEffect, useMemo, useState, type MouseEvent } from "react";
 import type { LibraryIndex } from "../../model/library";
-import { changedSlots, customSetAssets, librarySetLeaves, setNamesInFormation, setsFilePath, suggestAsset, suggestSetName } from "../../model/sets";
+import { changedSlots, customSetAssets, effectiveNormal, personnelOf, librarySetLeaves, setNamesInFormation, setsFilePath, suggestAsset, suggestSetName } from "../../model/sets";
 import { emptyArt } from "../../model/art";
 import type { CustomSetSpec, SetDef, SetsFile, ValidationIssue } from "../../model/types";
 import { useLibrary } from "../../state/library";
@@ -320,12 +320,14 @@ function SetItemCard({ item, lib, selected, showFile, onOpen, onMenu }: { item: 
   const plays = Array.isArray(spec.plays) ? spec.plays.length : 0;
   const moved = useMemo(() => (base ? changedSlots(base, spec).length : 0), [base, spec]);
   const sub = base ? customSubtitle(lib, spec, item.formations) : undefined;
+  const personnel = useMemo(() => (base ? personnelOf(effectiveNormal(base, spec)) : undefined), [base, spec]);
   return (
     <div data-set-key={item.key} className={s.cardWrap}>
       <SetCard
         fill
         art={art}
         name={spec.name || "(unnamed)"}
+        personnel={personnel}
         subtitle={
           <>
             {sub ? (

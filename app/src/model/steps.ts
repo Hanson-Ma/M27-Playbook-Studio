@@ -141,3 +141,21 @@ export function templateKept(
   const keep = asked < 0 ? real : Math.max(0, asked);
   return { kept: chain.slice(0, keep).filter((s) => s.type !== "None"), real, keep };
 }
+
+/**
+ * Authored motion waypoints may be flat ({ x, y, speed… }, the game-side builder's spec format and the FUSION port's)
+ * or nested ({ position: { x, y }, … }, the library export's). The app works with the nested form; this returns a step
+ * with nested waypoints (the same object when nothing changes).
+ */
+export function normalizeWaypoints(step: Step): Step {
+  if (step?.type !== "AutoMotion" || !Array.isArray(step.waypoints)) return step;
+  let changed = false;
+  const wps = (step.waypoints as Record<string, unknown>[]).map((w) => {
+    if (!w || typeof w !== "object" || (w.position && typeof w.position === "object")) return w;
+    if (typeof w.x !== "number" || typeof w.y !== "number") return w;
+    changed = true;
+    const { x, y, ...rest } = w;
+    return { ...rest, position: { x, y } };
+  });
+  return changed ? { ...step, waypoints: wps } : step;
+}

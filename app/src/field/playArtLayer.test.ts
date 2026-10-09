@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { artMetrics, cutSizes, labelTextWidth } from "./PlayArtLayer";
 
 describe("artMetrics", () => {
-  it("scales detail marks with px/yd: 1× up to 14 px/yd, then ppy/14, capped at 1.9×", () => {
+  it("scales detail marks with px/yd: 1× up to 14 px/yd, then ppy/14; lines cap at 1.9×, player marks keep growing to 6×", () => {
     const base = artMetrics(false, 10);
     expect(base.scale).toBe(1);
     expect(artMetrics(false, 14)).toBe(base);
@@ -12,7 +12,10 @@ describe("artMetrics", () => {
       expect(big[k]).toBeCloseTo(base[k] * 1.5, 9);
     }
     expect(artMetrics(false, 60).scale).toBe(1.9);
-    expect(artMetrics(false, 60).radius).toBeCloseTo(base.radius * 1.9, 9);
+    expect(artMetrics(false, 60).stroke).toBeCloseTo(base.stroke * 1.9, 9);
+    // Players stay the same share of the field as you zoom in: 60 px/yd is ppy/14 times the base mark.
+    expect(artMetrics(false, 56).radius).toBeCloseTo(base.radius * 4, 9);
+    expect(artMetrics(false, 400).radius).toBeCloseTo(base.radius * 6, 9);
   });
 
   it("keeps compact (card) metrics fixed, shrinking a little on the smallest cards", () => {

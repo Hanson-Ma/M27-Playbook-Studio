@@ -1,5 +1,4 @@
-// The in-app guide's sections (#/help/<id>), in reading order. Content lives in ./content/<id>.md; the same files, in
-// this order, make the PDF guide (npm run guide → app/docs/guide/, copied to public/guide/Playbook-Studio-Guide.pdf).
+// The in-app guide's sections (#/help/<id>), in reading order. Content lives in ./content/<id>.md (a web page only).
 // The top bar's "?" opens the section for the screen you're on (App.tsx HELP_OF, or a view's useHelpTopic()).
 
 export type HelpSectionId =
@@ -12,6 +11,7 @@ export type HelpSectionId =
   | "designer"
   | "routes"
   | "formations"
+  | "situations"
   | "export"
   | "hosting"
   | "faq";
@@ -34,6 +34,7 @@ export const HELP_SECTIONS: readonly HelpSection[] = [
   { id: "designer", title: "Design a Play", blurb: "Base play, players, blocks, motion, the red route" },
   { id: "routes", title: "Routes, Cuts & My Routes", blurb: "Presets, drawing, cut styles, saved routes" },
   { id: "formations", title: "Formations & Custom Sets", blurb: "Move players, motion presets, copy plays in" },
+  { id: "situations", title: "Situations", blurb: "What the CPU calls on each down and field position; edit the weights" },
   { id: "export", title: "Export to the Game", blurb: "Check, export, run the command, apply the mod" },
   { id: "hosting", title: "Use It on Your Website", blurb: "Upload by FTP, open your folder, the Madden PC" },
   { id: "faq", title: "FAQ & Troubleshooting", blurb: "Common questions and fixes" },

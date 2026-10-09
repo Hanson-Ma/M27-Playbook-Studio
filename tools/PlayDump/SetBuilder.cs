@@ -89,6 +89,19 @@ namespace PlayDump
                 if (p["stance"] != null) PlayBuilder.SetEnum(sp, "anim", (string)p["stance"]);
                 if (p["flipAssign"] != null) sp.flipAssign = (int)p["flipAssign"];
                 if (p["motionMan"] != null) sp.primaryMotionMan = (bool)p["motionMan"];
+                // A new position (WR → TE…): who the game puts in this slot, by depth chart. The base set's motion presets
+                // list the same slot (posOrder) with its old position, so they follow.
+                if (p["pos"] != null || p["depth"] != null)
+                {
+                    int slot = (int)p["slot"];
+                    var same = movements.SelectMany(m => ((List<PointerRef>)m.PlayerPosition).Select(x => (dynamic)x.Internal))
+                        .Where(x => (int)x.posOrder == slot);
+                    foreach (dynamic t in same)
+                    {
+                        if (p["pos"] != null) PlayBuilder.SetEnum(t, "depthPosition", (string)p["pos"]);
+                        if (p["depth"] != null) t.depth = (int)p["depth"];
+                    }
+                }
             }
             // A flipped play mirrors each player onto his flip partner's spot (verified on stock sets).
             var list = spots.Select(x => (dynamic)x.Internal).ToList();
@@ -99,6 +112,17 @@ namespace PlayDump
                 sp.flippedYPos = (float)partner.YPos;
                 sp.flippedFacing = (180 - (int)partner.facing + 360) % 360;
                 PlayBuilder.SetEnum(sp, "flippedAnim", ((object)partner.anim).ToString());
+            }
+            // "stayOnFlip": the player keeps his own spot when the play is flipped (he is his own flip partner; only his
+            // assignment mirrors).
+            foreach (JObject p in s["positions"] ?? new JArray())
+            {
+                if ((bool?)p["stayOnFlip"] != true) continue;
+                dynamic sp = spots[(int)p["slot"]].Internal;
+                sp.flippedXPos = (float)sp.XPos;
+                sp.flippedYPos = (float)sp.YPos;
+                sp.flippedFacing = (int)sp.facing;
+                PlayBuilder.SetEnum(sp, "flippedAnim", ((object)sp.anim).ToString());
             }
             // Explicit flipped spots ("fx", "fy", "fstance") win over the partner mirror (ported sets carry their own).
             foreach (JObject p in s["positions"] ?? new JArray())

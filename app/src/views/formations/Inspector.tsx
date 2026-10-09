@@ -5,8 +5,11 @@
 import { useMemo, useState, type ReactNode } from "react";
 import type { LibraryIndex } from "../../model/library";
 import { formationShort, leaf, norm } from "../../model/names";
-import { positionName } from "../../model/positions";
+import { positionCode, positionName } from "../../model/positions";
 import {
+  SKILL_POSITIONS,
+  canChangePosition,
+  positionPatch,
   DEPTH_PRESET_LABEL,
   NORMAL,
   SPLIT_PRESET_HINT,
@@ -66,6 +69,8 @@ export interface PlayerPanelProps {
   onPatch(patch: SlotPatch, label: string, coalesceMs?: number): void;
   onReset(): void;
   onDone(): void;
+  /** "Stays put when flipped" on / off (rewires the flip partners). */
+  onStayOnFlip?(on: boolean): void;
 }
 
 export function PlayerPanel(p: PlayerPanelProps) {
@@ -107,6 +112,30 @@ export function PlayerPanel(p: PlayerPanelProps) {
           </Tag>
         )}
       </div>
+
+      {canChangePosition(a) && (
+        <Section title="Position">
+          <div className={s.chips}>
+            {SKILL_POSITIONS.map((x) => {
+              const on = positionCode(a.pos) === x.code;
+              return (
+                <button
+                  key={x.code}
+                  type="button"
+                  className={cx(s.chip, on && s.chipOn)}
+                  title={on ? `${playerLabel(a)} is a ${x.label.toLowerCase()}` : `Make this player a ${x.label.toLowerCase()} (the game fills the slot from that spot on the depth chart)`}
+                  onClick={() => {
+                    const patch = on ? undefined : positionPatch(normal, slot, x.code);
+                    if (patch) p.onPatch(patch, `pos:${slot}`, 0);
+                  }}
+                >
+                  {x.code}
+                </button>
+              );
+            })}
+          </div>
+        </Section>
+      )}
 
       <Section title="Where He Lines Up">
         <div className={s.xy}>
@@ -197,7 +226,7 @@ export function PlayerPanel(p: PlayerPanelProps) {
         </Section>
       )}
 
-      <Advanced id="player" hint="Stance, facing, flip partner, motion man">
+      <Advanced id="player" hint="Stance, facing, flip partner, stay put when flipped, motion man">
         <FormRow label="Stance">
           <SearchSelect value={a.stance} onChange={(v) => p.onPatch({ stance: v }, `stance:${slot}`, 0)} options={stanceOptions} size="sm" aria-label="Stance" renderValue={(o, v) => (o ? o.label : v ? stanceLabel(v) : "—")} />
         </FormRow>
@@ -205,8 +234,13 @@ export function PlayerPanel(p: PlayerPanelProps) {
           <NumberField value={a.facing} step={1} precision={0} min={0} max={359} suffix="°" size="sm" width={110} onChange={(facing) => p.onPatch({ facing }, `facing:${slot}`)} aria-label="Facing" />
         </FormRow>
         <FormRow label="Flip Partner" hint={`When the play is flipped, ${playerLabel(a)} takes ${partner === slot ? "his own spot, mirrored" : `${playerLabel(normal[partner])}'s spot, mirrored`}: ${fmtXY(flippedSpot)}.`}>
-          <Select size="sm" value={String(partner)} onChange={(v) => p.onPatch({ flipAssign: Number(v) }, `flip:${slot}`, 0)} options={slotOptions(normal)} aria-label="Flip partner" />
+          <Select size="sm" value={String(partner)} disabled={!!a.stayOnFlip} onChange={(v) => p.onPatch({ flipAssign: Number(v) }, `flip:${slot}`, 0)} options={slotOptions(normal)} aria-label="Flip partner" />
         </FormRow>
+        {p.onStayOnFlip && (
+          <FormRow label="Stay Put When Flipped" hint="He keeps this spot when the play is flipped and only his route mirrors. In a mirrored formation, turn it on for both players of a pair so neither moves.">
+            <Toggle size="sm" checked={!!a.stayOnFlip} onChange={(v) => p.onStayOnFlip?.(v)} label={a.stayOnFlip ? "Yes" : "No"} />
+          </FormRow>
+        )}
         <FormRow label="Motion Man" hint="The game's primary motion man flag for this player in this set.">
           <Toggle size="sm" checked={!!a.motionMan} onChange={(v) => p.onPatch({ motionMan: v }, `motionman:${slot}`, 0)} label={a.motionMan ? "Yes" : "No"} />
         </FormRow>

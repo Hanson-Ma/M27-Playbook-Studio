@@ -45,6 +45,19 @@ playbook on custom sets.
 
 ![A player's panel: exact spot, depth and split buttons.](/guide/formations-player.png)
 
+## Change a Player's Position
+
+Pick a receiver, tight end or back, then choose **WR**, **SL**, **TE**, **HB** or **FB** under **Position**. The player
+gets the next free spot on that position's depth chart (a third tight end becomes TE3), and the game fills the slot from
+your team's depth chart at that spot. The QB and the linemen can't change position.
+
+Every set shows its **personnel** next to its name: backs, then tight ends. **11** is one back and one tight end (three
+receivers), **12** is one back and two tight ends, **10** is one back and no tight end. It updates as you change
+positions.
+
+Plays copied into the set keep their assignments by slot, so a route written for a receiver is run by whoever is in that
+slot now. The editor warns you about every copied play that changes hands like that.
+
 ## The Game's Checks
 
 The chips under the field (**Game Checks**) check what the game needs to build your set. Green is fine; red must be
@@ -78,6 +91,13 @@ WR1 and WR2 trade places). Turn on **Show Flipped** to see the mirrored alignmen
 click a player to see or change his **Flip Partner**. Moving a player also moves his flipped spot.
 
 ![Show Flipped: the mirrored alignment, with each player's flip partner.](/guide/formations-flipped.png)
+
+### Stay Put When Flipped
+
+Under **Advanced**, **Stay Put When Flipped** keeps a player on his spot when the play is flipped; only his route
+mirrors. He becomes his own flip partner, and whoever had him as a partner mirrors his own spot instead. In a mirrored
+(symmetric) formation, turn it on for both players of a pair so neither moves: a flipped play then keeps the
+formation as it is and just mirrors the routes. The editor warns you when a flipped player would land on someone else.
 
 ## Motion Presets
 

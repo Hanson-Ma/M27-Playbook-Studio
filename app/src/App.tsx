@@ -26,16 +26,18 @@ const LibraryView = lazy(() => import("./views/library/LibraryView").then((m) =>
 const OverviewView = lazy(() => import("./views/overview/OverviewView").then((m) => ({ default: m.OverviewView })));
 const PlaybookView = lazy(() => import("./views/playbook/PlaybookView").then((m) => ({ default: m.PlaybookView })));
 const PlayCallView = lazy(() => import("./views/playcall/PlayCallView").then((m) => ({ default: m.PlayCallView })));
+const SituationsView = lazy(() => import("./views/situations/SituationsView").then((m) => ({ default: m.SituationsView })));
 const SettingsView = lazy(() => import("./views/settings/SettingsView").then((m) => ({ default: m.SettingsView })));
 
 /** Views with a top tab, in workflow order. Play Call lives under Playbook, Concepts under Library. */
-type TabView = "playbook" | "library" | "designer" | "formations" | "export";
+type TabView = "playbook" | "library" | "designer" | "formations" | "situations" | "export";
 
 const MAIN_TABS: TabItem<TabView>[] = [
   { id: "playbook", label: "Playbook", title: "Build a playbook: formations, sets, plays and audibles" },
   { id: "library", label: "Library", title: "Every play in the game, plus your custom plays" },
   { id: "designer", label: "Designer", title: "Draw custom plays: routes, blocks and motion" },
   { id: "formations", label: "Formations", title: "Custom formations and sets: move players, motion presets" },
+  { id: "situations", label: "Situations", title: "What the CPU calls on each down, distance and field position: add plays, edit weights" },
   { id: "export", label: "Export", title: "Check everything and send it to the game PC" },
 ];
 
@@ -48,6 +50,7 @@ const TAB_OF: Partial<Record<ViewId, TabView>> = {
   concepts: "playbook",
   designer: "designer",
   formations: "formations",
+  situations: "situations",
   export: "export",
 };
 
@@ -63,6 +66,7 @@ const HELP_OF: Record<ViewId, string> = {
   concepts: "concepts",
   designer: "designer",
   formations: "formations",
+  situations: "situations",
   export: "export",
   settings: "audibles",
   help: "getting-started",
@@ -75,6 +79,7 @@ const VIEWS: Record<ViewId, ComponentType> = {
   overview: OverviewView,
   designer: DesignerView,
   formations: FormationsView,
+  situations: SituationsView,
   concepts: ConceptsView,
   export: ExportView,
   settings: SettingsView,
@@ -88,6 +93,7 @@ const VIEW_NAMES: Record<ViewId, string> = {
   overview: "Overview",
   designer: "Designer",
   formations: "Formations",
+  situations: "Situations",
   concepts: "Gameplan",
   export: "Export",
   settings: "Settings",

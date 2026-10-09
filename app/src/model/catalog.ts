@@ -15,7 +15,7 @@
 import { overlayLibraryIndex, type LibraryIndex } from "./library";
 import { folder, leaf, maddenName, norm } from "./names";
 import { cloneAsset, customDefs, normalOf, type CustomDefs, type CustomSetDef, type SetsInput } from "./sets";
-import { hasMechanics, stepsEqual, templateKept, withNone } from "./steps";
+import { hasMechanics, normalizeWaypoints, stepsEqual, templateKept, withNone } from "./steps";
 import {
   ASSIGNMENT_ROOT,
   AUTHORED_FOLDER,
@@ -208,7 +208,7 @@ function buildNewSteps(
   } else if (keep > 0 && !source) {
     problems.push(`${where}: keep ${keep} needs a template or a base slot`);
   }
-  const authoredSteps = Array.isArray(spec.steps) ? spec.steps.filter(isObj).map((s) => s as Step) : [];
+  const authoredSteps = Array.isArray(spec.steps) ? spec.steps.filter(isObj).map((s) => normalizeWaypoints(s as Step)) : [];
   const prependSteps = Array.isArray(spec.prepend) ? spec.prepend.filter(isObj).map((s) => s as Step) : [];
   if (!Array.isArray(spec.steps)) problems.push(`${where}: "steps" must be an array`);
   return {

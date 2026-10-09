@@ -1332,9 +1332,15 @@ export function mirrorStep(step: Step): Step {
         s.waypoints = (s.waypoints as AutoMotionWaypoint[]).map((w) => {
           const o = { ...w } as AutoMotionWaypoint;
           if (w?.position && isNum(w.position.x)) o.position = { ...w.position, x: -w.position.x + 0 };
+          else if (isNum(w?.x)) o.x = -(w.x as number) + 0; // flat spec waypoint
           if (isNum(w?.facingAngle) && !w.shouldFaceEndPoint) o.facingAngle = mirrorDirection(w.facingAngle);
           return o;
         });
+      return s;
+    case "OptionRoute":
+      // Branches are named for their side (CurlRight, InOutLeft, SlantLt…): the mirror runs the other side's branch.
+      if (Array.isArray(s.options))
+        s.options = (s.options as Record<string, unknown>[]).map((o) => (o && typeof o.route === "string" ? { ...o, route: mirrorOptionLeaf(o.route) } : o));
       return s;
     case "QBScramble":
     case "FaceDirection":
@@ -1349,6 +1355,12 @@ export function mirrorStep(step: Step): Step {
       }
       return s;
   }
+}
+
+/** An OptionRoutes leaf for the other side: CurlRight ⇄ CurlLeft, SlantLt ⇄ SlantRt, ComebackLT ⇄ ComebackRT. */
+export function mirrorOptionLeaf(leaf: string): string {
+  const SWAP: Record<string, string> = { Right: "Left", Left: "Right", Rt: "Lt", Lt: "Rt", RT: "LT", LT: "RT" };
+  return leaf.replace(/Right|Left|(?:Rt|Lt|RT|LT)(?=$|_)/g, (m) => SWAP[m] ?? m);
 }
 
 export function mirrorSteps(steps: readonly Step[]): Step[] {
@@ -1460,4 +1472,113 @@ export function cutLabel(cutType: string): string {
   const m = /^(\d+)( .*)?$/.exec(s);
   if (m) return `${m[1]}°${m[2] ?? ""}`;
   return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+// ───────────────────────────── segment controls (designer) ─────────────────────────────
+
+/** How a player faces while running a leg: forward (the default), backpedaling, or shuffling sideways. */
+export type LegFacing = "forward" | "backpedal" | "shuffleLeft" | "shuffleRight";
+
+/** Facing of leg k from its facingDirectionOverride (relative to the leg's direction). */
+export function legFacing(route: EditableRoute, k: number): LegFacing {
+  const leg = route.legs[k];
+  const src = leg?.source;
+  if (!leg || !src || src.overrideFacingDirection !== true || typeof src.facingDirectionOverride !== "number") return "forward";
+  const rel = (((src.facingDirectionOverride - leg.direction) % 360) + 360) % 360;
+  if (rel > 135 && rel < 225) return "backpedal";
+  if (rel >= 45 && rel <= 135) return "shuffleLeft";
+  if (rel >= 225 && rel <= 315) return "shuffleRight";
+  return "forward";
+}
+
+/** Set how the player faces on leg k (writes overrideFacingDirection / facingDirectionOverride on the leg's step). */
+export function setLegFacing(route: EditableRoute, k: number, facing: LegFacing): EditableRoute {
+  const leg = route.legs[k];
+  if (!leg) return route;
+  const base: Step = { ...(leg.source ?? legToStep(leg)) };
+  if (facing === "forward") {
+    base.overrideFacingDirection = false;
+    base.facingDirectionOverride = 0;
+  } else {
+    const rel = facing === "backpedal" ? 180 : facing === "shuffleLeft" ? 90 : 270;
+    base.overrideFacingDirection = true;
+    base.facingDirectionOverride = r2((((leg.direction + rel) % 360) + 360) % 360);
+  }
+  const legs = route.legs.slice();
+  legs[k] = { ...leg, source: base };
+  return { ...route, legs };
+}
+
+/**
+ * "Start a new route from this point": keep the legs up to vertex k (and their cuts), drop everything after it,
+ * so the next drawn points continue from vertex k. The end steps (Get open, blocks…) stay.
+ */
+export function branchFrom(route: EditableRoute, k: number): EditableRoute {
+  if (k < 0 || k >= route.legs.length) return route;
+  return clearLegsFrom(route, k + 1);
+}
+
+// ───────────────────────────── QB drops (designer "first steps") ─────────────────────────────
+
+export interface QbDropDef {
+  id: string;
+  label: string;
+  /** DROP_TYPEENUM_* value. */
+  drop: string;
+}
+
+const D = (id: string, label: string, t: string): QbDropDef => ({ id, label, drop: `DROP_TYPEENUM_QBDROP_${t}` });
+
+/** Drops a QB can take, by where he lines up (under center, pistol, shotgun). */
+export function qbDropsFor(qbY: number): QbDropDef[] {
+  if (qbY > -2.5)
+    return [
+      D("1", "1 Step Drop", "1_STEP_QUICK"),
+      D("3", "3 Step Drop", "3_STEP_QUICK"),
+      D("3b", "3 Step Drop (Big)", "3_STEP_BIG"),
+      D("5", "5 Step Drop", "5_STEP_BIG"),
+      D("7", "7 Step Drop", "7_STEP_V1"),
+      D("rl", "Rollout Left", "UC_ROLLOUT_LT"),
+      D("rr", "Rollout Right", "UC_ROLLOUT_RT"),
+      D("pl", "Speed Play Action Left", "UC_SPEED_PA_LT"),
+      D("pr", "Speed Play Action Right", "UC_SPEED_PA_RT"),
+    ];
+  if (qbY > -5)
+    return [
+      D("3", "3 Step Drop (Pistol)", "3_STEP_PISTOL"),
+      D("5", "5 Step Drop (Pistol)", "5_STEP_PISTOL"),
+      D("rl", "Rollout Left", "SG_ROLLOUT_LT"),
+      D("rr", "Rollout Right", "SG_ROLLOUT_RT"),
+      D("dl", "Sprint Out Left", "DASH_GUN_LT"),
+      D("dr", "Sprint Out Right", "DASH_GUN_RT"),
+    ];
+  return [
+    D("0", "Catch and Throw", "SG_0_STEP"),
+    D("1", "1 Step Drop", "SG_1_STEP"),
+    D("3", "3 Step Drop", "SG_3_STEP"),
+    D("5", "5 Step Drop", "SHOTGUN_5_STEP"),
+    D("rl", "Rollout Left", "SG_ROLLOUT_LT"),
+    D("rr", "Rollout Right", "SG_ROLLOUT_RT"),
+    D("dl", "Sprint Out Left", "DASH_GUN_LT"),
+    D("dr", "Sprint Out Right", "DASH_GUN_RT"),
+  ];
+}
+
+/** The QB's drop (the last QBScramble's dropBackType), if he has one. */
+export function qbDropOf(steps: readonly Step[]): string | undefined {
+  for (let i = steps.length - 1; i >= 0; i--) if (steps[i].type === "QBScramble") return String(steps[i].dropBackType ?? "");
+  return undefined;
+}
+
+/** Set the QB's drop (his last QBScramble: the drop type, no explicit distance). Returns the same steps without one. */
+export function setQbDrop(steps: readonly Step[], drop: string): Step[] {
+  let i = -1;
+  for (let j = steps.length - 1; j >= 0; j--) if (steps[j].type === "QBScramble") {
+    i = j;
+    break;
+  }
+  if (i < 0) return steps.slice();
+  const out = steps.slice();
+  out[i] = { ...steps[i], dropBackType: drop, distance: 0, direction: 0 };
+  return out;
 }

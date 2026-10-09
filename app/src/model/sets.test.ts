@@ -55,6 +55,11 @@ import {
   setNamesInFormation,
   validateSetsFile,
   validateSetsFiles,
+  canChangePosition,
+  flippedCollisions,
+  setStayOnFlip,
+  personnelOf,
+  positionPatch,
 } from "./sets";
 import { PLAYLIBRARY_ROOT, type CustomSetSpec, type SetDef, type SetsFile } from "./types";
 
@@ -359,11 +364,12 @@ describe("validation (FORMATS.md §5, mirrors SetBuilder)", () => {
     expect(errors(check([[3, { y: -2.2 }], [2, { y: -0.8 }]]))).toEqual([]); // swap: still 7
     expect(errors(check([[5, { y: -1.5 }]]))).toEqual(["set-line-count"]); // −1.5 is OFF the line for the builder
     expect(errors(check([[5, { y: -1.49 }]]))).toEqual([]);
-    // OL: SetBuilder's spots (±0.25) are warnings.
-    expect(check([[7, { x: -2 }]]).map((i) => [i.rule, i.level])).toEqual([["set-ol-spacing", "warning"]]);
-    expect(check([[7, { x: -1.8 }]])).toEqual([]); // within 0.25 of −1.666
-    expect(warnings(check([[8, { x: 0.5 }]]))).toContain("set-ol-spacing");
-    expect(check([[7, { y: -1.2 }]]).some((i) => i.rule === "set-ol-depth" && i.level === "warning")).toBe(true);
+    // OL: SetBuilder's spots are forgiving (±0.6) and a bit of depth is fine; further off is a warning.
+    expect(check([[7, { x: -2.6 }]]).map((i) => [i.rule, i.level])).toEqual([["set-ol-spacing", "warning"]]);
+    expect(check([[7, { x: -2.1 }]])).toEqual([]); // within 0.6 of −1.666
+    expect(warnings(check([[8, { x: 0.9 }]]))).toContain("set-ol-spacing");
+    expect(check([[7, { y: -1.2 }]])).toEqual([]);
+    expect(check([[7, { y: 0 }]]).some((i) => i.rule === "set-ol-depth" && i.level === "warning")).toBe(true);
     // QB / HB depth class: warnings.
     expect(warnings(check([[0, { y: -1.4 }], [1, { y: -7 }]]))).toEqual(["set-qb-depth", "set-back-depth"]);
     expect(errors(check([[0, { y: -1.4 }], [1, { y: -7 }]]))).toEqual([]);
@@ -601,5 +607,63 @@ describe("names, clones and dependencies", () => {
     // PBS T Inside Zone / PBS O HB Draw only lead-block with moved receivers (FORMATS.md §5: safe); Mtn Mesh realigns.
     expect(warn.map((i) => i.where)).toEqual(["/sets/1/plays/1"]);
     expect(warn[0].message).toMatch(/Play PBS O MTN MESH: depends on moved WR1, WR2: has a fixed starting spot/);
+  });
+});
+
+describe("personnel and position changes", () => {
+  const pos = (p: string, depth = 1) => ({ pos: p, depth, group: "", x: 0, y: 0, facing: 90, stance: "", motionMan: false });
+  const ol = ["POSITION_LT", "POSITION_LG", "POSITION_C", "POSITION_RG", "POSITION_RT"].map((p) => pos(p));
+  const eleven = [pos("POSITION_QB"), pos("POSITION_HB"), pos("POSITION_WR"), pos("POSITION_WR", 2), pos("POSITION_SLWR"), pos("POSITION_LASTKEYOFFENSE"), ...ol];
+
+  it("counts backs then tight ends, and only for an offense", () => {
+    expect(personnelOf(eleven)).toBe("11");
+    const twelve = eleven.map((a, i) => (i === 4 ? pos("POSITION_TE", 2) : a));
+    expect(personnelOf(twelve)).toBe("12");
+    expect(personnelOf(eleven.map((a, i) => (i === 4 ? pos("POSITION_FB") : a)))).toBe("21");
+    expect(personnelOf(eleven.map((a, i) => (i === 0 ? pos("POSITION_CB") : a)))).toBeUndefined();
+  });
+
+  it("gives a new position the next free depth and only offers it to skill players", () => {
+    expect(positionPatch(eleven, 4, "TE")).toEqual({ pos: "POSITION_TE", depth: 2 });
+    expect(positionPatch(eleven, 2, "WR")).toEqual({ pos: "POSITION_WR", depth: 1 }); // already a WR: unchanged
+    expect(positionPatch(eleven, 1, "WR")).toEqual({ pos: "POSITION_WR", depth: 3 });
+    expect(canChangePosition(eleven[0])).toBe(false); // QB
+    expect(canChangePosition(eleven[6])).toBe(false); // LT
+    expect(canChangePosition(eleven[5])).toBe(true); // TE (aliased enum)
+  });
+});
+
+describe("stay put when flipped", () => {
+  const pos = (p: string, x: number, y: number, flipAssign: number, depth = 1) => ({ pos: p, depth, flipAssign, group: "", x, y, facing: 90, stance: "S", motionMan: false });
+  // WR1 (slot 2) ⇄ WR2 (slot 3) are flip partners.
+  const normal = [pos("POSITION_QB", 0, -1.4, 0), pos("POSITION_HB", 0, -7, 1), pos("POSITION_WR", -10, -0.8, 3), pos("POSITION_WR", 10, -0.8, 2, 2)];
+  const base = { setId: 1, name: "T", asset: "A", formation: "F", classification: "", setType: "", canFlip: true, movements: { Normal: normal } } as unknown as SetDef;
+
+  it("makes the player his own partner and rewires whoever pointed at him", () => {
+    const spec = { name: "T", asset: "T", base: "A" } as unknown as CustomSetSpec;
+    setStayOnFlip(spec, base, 2, true);
+    const eff = effectiveNormal(base, spec);
+    expect(eff[2]).toMatchObject({ stayOnFlip: true, flipAssign: 2 });
+    expect(eff[3].flipAssign).toBe(3); // WR2 now mirrors himself
+    const flipped = flippedAlignment(eff);
+    expect(flipped[2]).toMatchObject({ x: -10, y: -0.8 }); // stays
+    expect(flipped[3]).toMatchObject({ x: -10 }); // ...and WR2's mirror lands on him
+    expect(flippedCollisions(eff)).toEqual([[2, 3]]);
+    setStayOnFlip(spec, base, 3, true);
+    expect(flippedCollisions(effectiveNormal(base, spec))).toEqual([]);
+    setStayOnFlip(spec, base, 2, false);
+    expect(effectiveNormal(base, spec)[2].stayOnFlip).toBeFalsy();
+  });
+
+  it("keeps a staying player on his side in flipped art, his route mirrored", () => {
+    const stayNormal = normal.map((a, i) => (i === 2 || i === 3 ? { ...a, stayOnFlip: true, flipAssign: i } : a));
+    const set = { ...base, movements: { Normal: stayNormal } } as SetDef;
+    const slots = [[], [], [{ type: "RunRoute", distance: 5, direction: 45 }, { type: "None" }], []];
+    const art = computeArt(set, slots, { flip: true });
+    const wr1 = art.players.find((p) => p.slot === 2)!;
+    expect(wr1.at.x).toBeCloseTo(-10, 6);
+    const route = art.paths.find((p) => p.slot === 2)!;
+    const end = route.points[route.points.length - 1];
+    expect(end.x).toBeLessThan(-10); // 45° mirrored → toward the left, from his own spot
   });
 });

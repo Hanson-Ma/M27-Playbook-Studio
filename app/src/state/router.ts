@@ -6,12 +6,13 @@
 //   #/designer                      plays files/list    #/designer/<encodeURIComponent(file)>/<index> edit a custom play
 //                                                       #/designer/new?set=<SetAsset>&base=<PlayAsset>&file=<path>
 //   #/formations                    sets files/list     #/formations/<encodeURIComponent(file)>/<index>
+//   #/situations[/<encodeURIComponent(path)>][?s=<situation>]  CPU play-call situations of a playbook
 //   #/concepts (no top tab: LIBRARY)   #/export   #/settings[/editor|/data]   #/help[/<section>][?h=<heading id>]
 import { useSyncExternalStore } from "react";
 
-export type ViewId = "library" | "playbook" | "playcall" | "overview" | "designer" | "formations" | "concepts" | "export" | "settings" | "help";
+export type ViewId = "library" | "playbook" | "playcall" | "overview" | "designer" | "formations" | "situations" | "concepts" | "export" | "settings" | "help";
 
-export const VIEW_IDS: ViewId[] = ["library", "playbook", "playcall", "overview", "designer", "formations", "concepts", "export", "settings", "help"];
+export const VIEW_IDS: ViewId[] = ["library", "playbook", "playcall", "overview", "designer", "formations", "situations", "concepts", "export", "settings", "help"];
 
 /** Where the app opens and where unknown routes land. */
 export const DEFAULT_VIEW: ViewId = "playbook";
@@ -169,6 +170,7 @@ const VIEW_LABELS: Record<ViewId, string> = {
   overview: "Overview",
   designer: "Designer",
   formations: "Formations",
+  situations: "Situations",
   concepts: "Concepts",
   export: "Export",
   settings: "Settings",

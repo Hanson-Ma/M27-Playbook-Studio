@@ -1,5 +1,5 @@
-// Step 2 — add & order plays: the selected set (SetPanel), a formation's sets, a template section's read-only
-// contents, or (book selected) the playbook overview with the three-step guide.
+// The middle pane — add & order plays: the selected set (SetPanel), a formation's sets, a template section's read-only
+// contents, or (book selected) the playbook overview.
 import { memo, useMemo, useState, type PointerEvent, type ReactNode } from "react";
 import { AudibleGlyph } from "../../input/glyphs";
 import { AUDIBLE_SLOTS } from "../../model/audibles";
@@ -8,17 +8,20 @@ import { formationShort } from "../../model/names";
 import { BOOK_KEYS, FORMATION_ENTRY_KEYS, unknownKeys } from "../../model/playbook";
 import { templateFormationCounts, templateFormationToEntry, templatePlayProblem } from "../../model/tdb";
 import type { PlaybookSpec, Side } from "../../model/types";
-import { PlayCard } from "../../field";
+import { CARD_ASPECT, PlayCard } from "../../field";
+import { useSettings } from "../../state/settings";
+import { computeArt, emptyArt } from "../../model/art";
+import { normalOf, personnelOf } from "../../model/sets";
+import { SetCard } from "../formations/SetCard";
 import { navigate } from "../../state/router";
 import { useDoc } from "../../state/workspace";
 import { Button, EmptyState, Icon, Segmented, TextArea, cx } from "../../ui";
 import { renamePlaybook } from "./books";
+import { CardColumnsPicker } from "./CardColumns";
 import { tplayIds, tsetId, useBuilder, useDragHandlers, type BookNode, type BuilderData } from "./context";
 import { beginDrag } from "./dnd";
 import { LazyMount } from "./LazyMount";
-import { CategoryDots, playCategories, useConcepts } from "./categories";
 import { convertTemplate, labelOf } from "./ops";
-import { StepHeader } from "./parts";
 import { SetPanel } from "./SetPanel";
 import { SkippedList } from "./skipped";
 import { BOOK_ID, levelOf, parentOf, useBuilderUi } from "./store";
@@ -30,25 +33,21 @@ export function MiddlePane() {
   const cursor = useBuilderUi((st) => st.cursor);
   const node = data.nodes.get(cursor) ?? data.nodes.get(BOOK_ID)!;
   let body;
-  let hint = "Select a set in step 1 to see and add its plays";
   switch (node.level) {
     case "play":
     case "set": {
       const setNode = node.level === "set" ? node : data.nodes.get(parentOf(node.id));
       body = setNode ? <SetPanel setNode={setNode} /> : null;
-      hint = "Tick plays to add them · drag cards to reorder";
       break;
     }
     case "formation":
       body = node.rf?.template ? <TemplateFormationView node={node} /> : <FormationOverview node={node} />;
-      if (!node.rf?.template) hint = "Pick one of its sets — or add a set with “+ Set” in step 1";
       break;
     case "tset":
     case "tplay": {
       const sid = node.level === "tset" ? node.id : parentOf(node.id);
       const setNode = data.nodes.get(sid);
       body = setNode ? <TemplateSetView setNode={setNode} /> : null;
-      hint = "Template sections are copied as-is — convert to edit";
       break;
     }
     default:
@@ -56,7 +55,6 @@ export function MiddlePane() {
   }
   return (
     <div className={s.pane}>
-      <StepHeader step={2} title="Add & Order Plays" hint={hint} />
       {body}
     </div>
   );
@@ -77,7 +75,6 @@ function BookOverview() {
   const extra = unknownKeys(data.spec, BOOK_KEYS);
   const [advanced, setAdvanced] = useState(false);
   const firstSet = data.ids.formations.find((f) => f.sets.length)?.sets[0]?.id;
-  const explicit = data.book.formations.filter((rf) => !rf.template).length;
   const tiles: { label: string; value: number | string; tone?: "danger" | "amber" }[] = [
     { label: "Formations", value: c.formations + c.templateFormations },
     { label: "Sets", value: c.sets },
@@ -98,31 +95,6 @@ function BookOverview() {
           )}
         </div>
 
-        <ol className={s.guide}>
-          <li className={s.guideStep}>
-            <span className={s.guideNum}>1</span>
-            <div>
-              <div className={s.guideTitle}>Pick a Set</div>
-              <p>
-                In the tree, add a formation (“+ Formation”), then one of its sets (“+ Set”). {explicit ? "Click a set to open it." : ""}
-              </p>
-            </div>
-          </li>
-          <li className={s.guideStep}>
-            <span className={s.guideNum}>2</span>
-            <div>
-              <div className={s.guideTitle}>Add & Order Plays</div>
-              <p>Tick plays in the set's list, or use Add Plays to search the library. Drag cards to set the order.</p>
-            </div>
-          </li>
-          <li className={s.guideStep}>
-            <span className={s.guideNum}>3</span>
-            <div>
-              <div className={s.guideTitle}>Audibles & CPU</div>
-              <p>Give up to four plays per set an audible button, and tell the CPU when to call each play.</p>
-            </div>
-          </li>
-        </ol>
         <div className={s.actions}>
           {firstSet && (
             <Button variant="primary" icon="chevronRight" onClick={() => useBuilderUi.getState().select(firstSet)}>
@@ -253,18 +225,24 @@ function FormationOverview({ node }: { node: BookNode }) {
   const [advanced, setAdvanced] = useState(false);
   const extra = unknownKeys(rf.entry, FORMATION_ENTRY_KEYS);
   const custom = data.custom.formation(rf.formation?.asset);
+  const cardColumns = useSettings((st) => st.cardColumns);
   return (
     <div className={s.scroll} data-autoscroll>
-      <div className={s.inner}>
-        <div className={s.eyebrow}>
-          Formation {custom && <span className={s.customTag}>Custom Formation</span>}
+      <div className={cx(s.inner, s.innerWide)}>
+        <div className={s.formHead}>
+          <div>
+            <div className={s.eyebrow}>
+              Formation {custom && <span className={s.customTag}>Custom Formation</span>}
+            </div>
+            <h1 className={cx(s.bigTitle, "caps")}>{String(rf.entry.formation)}</h1>
+          </div>
+          <CardColumnsPicker />
         </div>
-        <h1 className={cx(s.bigTitle, "caps")}>{String(rf.entry.formation)}</h1>
         {(rf.malformed ?? rf.problem) && <div className={s.problem}>{rf.malformed ?? rf.problem}</div>}
         {rf.sets.length === 0 ? (
           <EmptyState compact icon="grid" title="No Sets Yet" body="Add one with “+ Set” under this formation in the tree." />
         ) : (
-          <div className={s.setGrid}>
+          <div className={s.setGrid} style={{ gridTemplateColumns: `repeat(${cardColumns}, minmax(0, 1fr))` }}>
             {rf.sets.map((rs, i) => {
               const id = fIds?.sets[i]?.id;
               if (!id) return null;
@@ -317,19 +295,29 @@ function FormationOverview({ node }: { node: BookNode }) {
   );
 }
 
+/** A set as a play-style card: the formation's alignment (no routes), centered, with the set's name and counts. */
 const SetTile = memo(function SetTile({ id, data, onPointerDown }: { id: string; data: BuilderData; onPointerDown(e: PointerEvent): void }) {
   const selected = useBuilderUi((st) => st.selected.includes(id));
-  const concepts = useConcepts();
   const n = data.nodes.get(id);
   const rs = n?.rs;
+  const set = rs?.set;
+  const art = useMemo(() => {
+    if (!set) return emptyArt();
+    try {
+      return computeArt(set, []);
+    } catch {
+      return emptyArt();
+    }
+  }, [set]);
   if (!rs) return null;
   const used = new Map(rs.plays.filter((p) => p.entry.audible).map((p) => [p.entry.audible!, p.entry.play]));
   const mods = rs.plays.filter((p) => p.play && !p.play.global).length;
   const bad = rs.plays.filter((p) => p.problem).length;
-  const custom = data.custom.set(rs.set?.asset);
+  const custom = data.custom.set(set?.asset);
+  const problem = rs.malformed ?? rs.problem;
   return (
     <div
-      className={cx(s.setTile, selected && s.setTileSelected, rs.problem && s.bad)}
+      className={s.setCard}
       role="button"
       tabIndex={0}
       data-drop="set-card"
@@ -341,35 +329,35 @@ const SetTile = memo(function SetTile({ id, data, onPointerDown }: { id: string;
         if (e.key === "Enter") useBuilderUi.getState().select(id);
       }}
     >
-      <div className={s.setTileHead}>
-        <span className={s.setTileName}>{String(rs.entry.set)}</span>
-        <span className={s.setTileCount}>{rs.plays.length}</span>
-      </div>
-      {custom && <span className={cx(s.customTag, s.tileTag)}>Custom Set</span>}
-      {(rs.malformed ?? rs.problem) && <div className={s.problem}>{rs.malformed ?? rs.problem}</div>}
-      <div className={s.setTileAud}>
-        {AUDIBLE_SLOTS.map((sl) => (
-          <span key={sl} className={cx(s.audChip, used.has(sl) && s.audChipOn)} title={used.get(sl) ? String(used.get(sl)) : "No audible"}>
-            <AudibleGlyph slot={sl} size="sm" />
-          </span>
-        ))}
-      </div>
-      <div className={s.setTilePlays}>
-        {rs.plays.slice(0, 6).map((p, i) => (
-          <span key={i} className={cx(s.setTilePlay, p.problem && s.badText)}>
-            <span className={s.setTilePlayName}>{String(p.entry.play)}</span>
-            <CategoryDots cats={playCategories(concepts, p.play?.key)} max={2} />
-          </span>
-        ))}
-        {rs.plays.length > 6 && <span className={s.dim}>+{rs.plays.length - 6} more</span>}
-        {rs.plays.length === 0 && <span className={s.dim}>No plays yet</span>}
-      </div>
-      {(mods > 0 || bad > 0) && (
-        <div className={s.setTileFoot}>
-          {mods > 0 && <span className={s.modText}>{mods} need the mod</span>}
-          {bad > 0 && <span className={s.badText}>{bad} can't be found</span>}
-        </div>
-      )}
+      <SetCard
+        art={art}
+        aspect={CARD_ASPECT}
+        name={String(rs.entry.set)}
+        personnel={set ? personnelOf(normalOf(set)) : undefined}
+        selected={selected}
+        tag={custom ? "Custom Set" : undefined}
+        stat={`${rs.plays.length} play${rs.plays.length === 1 ? "" : "s"}`}
+        badges={
+          used.size > 0
+            ? AUDIBLE_SLOTS.filter((sl) => used.has(sl)).map((sl) => (
+                <span key={sl} title={String(used.get(sl))}>
+                  <AudibleGlyph slot={sl} size="sm" />
+                </span>
+              ))
+            : undefined
+        }
+        subtitle={
+          problem ? (
+            <span className={s.badText}>{problem}</span>
+          ) : mods > 0 || bad > 0 ? (
+            <>
+              {mods > 0 && <span className={s.modText}>{mods} need the mod</span>}
+              {mods > 0 && bad > 0 && " · "}
+              {bad > 0 && <span className={s.badText}>{bad} can't be found</span>}
+            </>
+          ) : undefined
+        }
+      />
     </div>
   );
 });

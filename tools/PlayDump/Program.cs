@@ -32,10 +32,19 @@ namespace PlayDump
         static int Main(string[] args)
         {
             editorDir = Environment.GetEnvironmentVariable("MMC_EDITOR_DIR") ?? FindEditorDir();
-            string gameDir = Environment.GetEnvironmentVariable("MADDEN27_DIR") ?? DefaultGameDir;
+            string gameDir = Environment.GetEnvironmentVariable("MADDEN27_DIR") ?? GamePaths.FindGame() ?? DefaultGameDir;
             AppDomain.CurrentDomain.AssemblyResolve += ResolveFromEditor;
             // Boot() switches the working directory to the editor, so pin caller-relative paths first.
-            repoDir = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".."));
+            // PLAYDUMP_REPO: the playbook folder when run by Playbook Builder (the tool then sits outside the repo).
+            repoDir = Environment.GetEnvironmentVariable("PLAYDUMP_REPO") ?? Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", ".."));
+            if (args.Length > 0 && args[0] == "keycheck")
+            {
+                // keycheck: can the profile key be read from this MMC Editor? (no game load)
+                byte[] k = KeyFinder.Find(editorDir, null);
+                string local = LocalKeyFile;
+                Console.WriteLine(File.Exists(local) ? (File.ReadAllBytes(local).SequenceEqual(k) ? "ok (matches key1.local.bin)" : "MISMATCH with key1.local.bin") : "ok");
+                return 0;
+            }
             if (args.Length > 1 && (args[0] == "dump" || args[0] == "oracle" || args[0] == "index" || args[0] == "library")) args[1] = Path.GetFullPath(args[1]);
             if (args[0] == "buildplays" || args[0] == "tweaks")
                 for (int i = 1; i < args.Length; i++)
@@ -94,14 +103,16 @@ namespace PlayDump
             }
         }
 
+        static string LocalKeyFile => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "key1.local.bin");
+
         static string FindEditorDir()
         {
             Version V(string dir) => Version.TryParse(Path.GetFileName(dir).Split('_').Last().TrimStart('v'), out Version v) ? v : new Version(0, 0);
-            string dir = Directory.GetDirectories(ModdingRoot, "MMC_Modding_Tools_v*")
+            string dir = Directory.Exists(ModdingRoot) ? Directory.GetDirectories(ModdingRoot, "MMC_Modding_Tools_v*")
                 .SelectMany(t => Directory.GetDirectories(t, "MMC_Editor_v*"))
                 .Where(d => File.Exists(Path.Combine(d, "MMCEditor.exe")))
-                .OrderByDescending(V).FirstOrDefault();
-            return dir ?? throw new DirectoryNotFoundException("no MMC_Editor_v* found under " + ModdingRoot + "; set MMC_EDITOR_DIR");
+                .OrderByDescending(V).FirstOrDefault() : null;
+            return dir ?? GamePaths.FindEditor() ?? throw new DirectoryNotFoundException("MMC Editor not found; set MMC_EDITOR_DIR");
         }
 
         static readonly Dictionary<string, Assembly> resolved = new Dictionary<string, Assembly>();
@@ -143,11 +154,9 @@ namespace PlayDump
             byte[] key1 = null;
             if (ProfilesLibrary.RequiresKey)
             {
-                // Same Key1 that Frosty.Core.Windows.FrostyProfileTaskWindow hardcodes; kept in a gitignored local file.
-                string keyFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "key1.local.bin");
-                if (!File.Exists(keyFile))
-                    throw new FileNotFoundException("Profile requires Key1; expected it at " + Path.GetFullPath(keyFile));
-                key1 = File.ReadAllBytes(keyFile);
+                // Same Key1 that Frosty.Core.Windows.FrostyProfileTaskWindow hardcodes: read from this MMC install
+                // (or a gitignored key1.local.bin, when present).
+                key1 = KeyFinder.Find(editorDir, LocalKeyFile);
                 KeyManager.Instance.AddKey("Key1", key1);
             }
 

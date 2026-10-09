@@ -1,9 +1,8 @@
 // Help (#/help[/<section>][?h=<heading id>]): the in-app user guide. Left: search + section list; right: the section
-// as a reading column with "On This Page" links and previous/next. "Open the PDF Guide" opens the printable guide built
-// from the same Markdown (npm run guide → public/guide/Playbook-Studio-Guide.pdf, shipped with the site).
+// as a reading column with "On This Page" links and previous/next.
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { href, navigate, useRoute } from "../../state/router";
-import { Button, Icon, TextInput, cx } from "../../ui";
+import { Icon, TextInput, cx } from "../../ui";
 import { helpSource } from "./content";
 import { Markdown } from "./Markdown";
 import { inlineText, markdownText, parseMarkdown, type Block, type ParsedDoc } from "./markdownAst";
@@ -31,9 +30,6 @@ function splitParts(doc: ParsedDoc): LoadedSection["parts"] {
 }
 
 const MISSING = "# Coming soon\n\nThis part of the guide hasn't been written yet.";
-
-/** The PDF guide (scripts/build-guide.mjs copies it into public/guide/, so it ships with every build). */
-const PDF_URL = `${import.meta.env.BASE_URL ?? "/"}guide/Playbook-Studio-Guide.pdf`;
 
 let cache: LoadedSection[] | undefined;
 function loadSections(): LoadedSection[] {
@@ -126,17 +122,6 @@ export function HelpView() {
             );
           })}
         </nav>
-        <div className={s.navFoot}>
-          <Button
-            variant="secondary"
-            icon="download"
-            block
-            onClick={() => window.open(PDF_URL, "_blank", "noopener")}
-            title="The whole guide as one PDF, with screenshots (opens in a new tab, where you can print or save it)"
-          >
-            Open the PDF Guide
-          </Button>
-        </div>
       </aside>
 
       <div className={s.reader} ref={reader}>

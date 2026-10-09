@@ -218,7 +218,7 @@ export function AddPlaysDrawer() {
       <ActionLayer token={token}>
         <header className={s.head}>
           <div className={s.titles}>
-            <div className={s.eyebrow}>Step 2 · From the Library</div>
+            <div className={s.eyebrow}>From the Library</div>
             <h2 className={s.title}>Add Plays</h2>
           </div>
           <Segmented<Scope>

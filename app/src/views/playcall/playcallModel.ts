@@ -13,6 +13,7 @@ import { SITUATION_LABELS, SITUATION_ORDER, isSituationKey } from "../../model/s
 import { AUDIBLE_CATEGORY, BUTTON_DIAMOND, type PadButton } from "../../model/audibles";
 import { templateFormationFor, type TemplateContents, type TemplateFormation } from "../../model/tdb";
 import type { AudibleSlot, ConceptsDoc, FormationDef, PlayEntry, PlayKey, ResolvedPlay, SetDef, SetEntry } from "../../model/types";
+import { normalOf, personnelOf } from "../../model/sets";
 
 // ───────────────────────────── book structure ─────────────────────────────
 
@@ -359,6 +360,23 @@ const DEFENSE_GROUPS: { id: string; label: string; test: RegExp }[] = [
 ];
 
 /** PLAY TYPE tab: PASS / RUN / PLAY ACTION / SCREEN / RPO / OPTION / SPECIAL / OTHER (defense: BLITZ / MAN / ZONE / SPECIAL). */
+/** Plays grouped by their set's offensive personnel ("11 Personnel", "12 Personnel"…), fewest backs / TEs first. */
+export function personnelGroups(book: CallBook): CallGroup[] {
+  const groups = new Map<string, CallGroup>();
+  for (const set of book.sets) {
+    const code = set.set ? personnelOf(normalOf(set.set)) : undefined;
+    if (!code || !set.plays.length) continue;
+    let g = groups.get(code);
+    if (!g) {
+      const backs = Number(code[0]);
+      const tes = Number(code[1]);
+      groups.set(code, (g = { id: `pers:${code}`, label: `${code} Personnel`, eyebrow: `${backs} RB · ${tes} TE · ${5 - backs - tes} WR`, items: [] }));
+    }
+    g.items.push(...set.plays);
+  }
+  return [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0])).map((e) => e[1]);
+}
+
 export function typeGroups(book: CallBook): CallGroup[] {
   const groups = new Map<string, CallGroup>();
   const order: string[] = [];
@@ -413,12 +431,13 @@ export function pageSlice<T>(items: readonly T[], page: number, size = PAGE_SIZE
 
 // ───────────────────────────── view state (URL) ─────────────────────────────
 
-export type PlayCallTab = "formation" | "concept" | "type" | "audibles" | "favorites" | "recent";
+export type PlayCallTab = "formation" | "concept" | "type" | "personnel" | "audibles" | "favorites" | "recent";
 
 export const PLAYCALL_TABS: { id: PlayCallTab; label: string }[] = [
   { id: "formation", label: "Formation" },
   { id: "concept", label: "Concept" },
   { id: "type", label: "Play Type" },
+  { id: "personnel", label: "Personnel Group" },
   { id: "audibles", label: "Audibles" },
   { id: "favorites", label: "Favorites" },
   { id: "recent", label: "Recent" },
@@ -468,6 +487,7 @@ export interface CallContext {
   book: CallBook;
   concepts: ConceptGrouping;
   types: CallGroup[];
+  personnel?: CallGroup[];
   favorites: CallPlay[];
   recents: CallPlay[];
 }
@@ -500,6 +520,7 @@ const TAB_TITLE: Record<PlayCallTab, string> = {
   formation: "Formations",
   concept: "Concepts",
   type: "Play Types",
+  personnel: "Personnel Groups",
   audibles: "Audibles",
   favorites: "Favorites",
   recent: "Recent",
@@ -547,8 +568,9 @@ export function resolveLevel(ctx: CallContext, tab: PlayCallTab, at: readonly st
       };
     }
     case "concept":
-    case "type": {
-      const groups = tab === "concept" ? ctx.concepts.groups : ctx.types;
+    case "type":
+    case "personnel": {
+      const groups = tab === "concept" ? ctx.concepts.groups : tab === "type" ? ctx.types : (ctx.personnel ?? []);
       const g = at.length ? groups.find((x) => x.id === at[0]) : undefined;
       if (!g) {
         return {
@@ -594,7 +616,7 @@ function childIndex(ctx: CallContext, tab: PlayCallTab, at: readonly string[]): 
     }
     return ctx.book.formations.findIndex((x) => x.id === at[0]);
   }
-  const groups = tab === "concept" ? ctx.concepts.groups : tab === "type" ? ctx.types : [];
+  const groups = tab === "concept" ? ctx.concepts.groups : tab === "type" ? ctx.types : tab === "personnel" ? (ctx.personnel ?? []) : [];
   return groups.findIndex((g) => g.id === at[0]);
 }
 

@@ -22,7 +22,7 @@
   align-items: center;
   gap: 6px;
   flex: none;
-  height: 36px;
+  height: 38px;
   padding: 0 14px;
   border: 0;
   border-radius: var(--r-pill);
@@ -90,7 +90,7 @@
 }
 @media (max-width: 1600px) {
   .lg .tab {
-    height: 34px;
+    height: 32px;
     padding: 0 11px;
     font-size: 15px;
   }
@@ -111,7 +111,7 @@
   gap: var(--s2);
 }
 .sm .tab {
-  height: 28px;
+  height: 26px;
   padding: 0 11px;
   font-size: var(--fd-lg);
 }

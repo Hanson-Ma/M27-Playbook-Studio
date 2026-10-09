@@ -6,7 +6,7 @@
 import { suggestAsset, suggestPlayName, newPlaySpec } from "../../model/designer";
 import { slugify } from "../../model/concepts";
 import type { PlaybookSpec, PlaysFile } from "../../model/types";
-import { href, navigate } from "../../state/router";
+import { getRoute, href, navigate } from "../../state/router";
 import { useSettings } from "../../state/settings";
 import { useWorkspace } from "../../state/workspace";
 import { toast } from "../../ui";
@@ -15,6 +15,9 @@ import type { BookNode, BuilderData } from "./context";
 export function canEditPlay(node: BookNode): boolean {
   return node.level === "play" && !!node.rp?.play && !node.rf?.template;
 }
+
+/** The designer's hash for a play, remembering the builder it was opened from (its Back button returns there). */
+const designerHref = (file: string, index: number) => href("designer", file, index) + `?back=${encodeURIComponent(getRoute().hash)}`;
 
 export function editPlay(data: BuilderData, node: BookNode): void {
   const play = node.rp?.play;
@@ -25,7 +28,7 @@ export function editPlay(data: BuilderData, node: BookNode): void {
   }
   // Already a custom play in a plays file: open it.
   if (play.source === "custom" && play.file?.startsWith("playbooks/plays/") && play.index !== undefined) {
-    navigate(href("designer", play.file, play.index));
+    navigate(designerHref(play.file, play.index));
     return;
   }
   const ws = useWorkspace.getState();
@@ -54,5 +57,5 @@ export function editPlay(data: BuilderData, node: BookNode): void {
     return;
   }
   toast.success("Editable Copy Made", { detail: `${name} in ${file}. The playbook now uses the copy.`, duration: 4000 });
-  navigate(href("designer", file, index));
+  navigate(designerHref(file, index));
 }

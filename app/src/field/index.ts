@@ -18,3 +18,4 @@ export type { CutCorner, CutDrawing, CutSizes } from "./cutGeometry";
 export { ArtGallery } from "./ArtGallery";
 export { lightSlotArt } from "./lightArt";
 export * from "./fieldMath";
+export { ProximityGuides, type ProximityGuidesProps } from "./ProximityGuides";

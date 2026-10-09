@@ -1,0 +1,28 @@
+.tag {
+  flex: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--line-2, var(--line));
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: var(--text);
+  font-family: var(--font-num);
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.tag[data-size="md"] {
+  padding: 2px 7px;
+  font-size: 13px;
+}
+.unit {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.78em;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+}

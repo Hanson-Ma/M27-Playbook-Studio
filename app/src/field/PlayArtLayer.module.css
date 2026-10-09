@@ -57,6 +57,15 @@
 .option {
   color: var(--art-option);
 }
+.toneRelease {
+  color: var(--art-release);
+}
+/* Cards: route runners are an ×, everyone else a white dot (the game's play-call card marks). */
+.mark {
+  stroke: var(--art-player);
+  stroke-linecap: round;
+  fill: none;
+}
 .rush {
   color: var(--art-rush);
 }

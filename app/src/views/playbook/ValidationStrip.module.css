@@ -87,7 +87,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 28px;
+  height: 32px;
   padding: 0 10px;
   border-radius: var(--r-pill);
   border: 1px solid var(--line-2);

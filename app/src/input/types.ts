@@ -24,6 +24,11 @@ export interface ActionDef {
   repeat?: boolean;
   /** Also fire while a text field has focus (e.g. mod+s, Escape). Printable keys never fire in text fields. */
   allowInInput?: boolean;
+  /**
+   * Opt in to bare printable keys ("w", " ", "1") for this action: game-style screens (the play-call preview) that
+   * mirror the game's own keyboard layout. Never fires while a text field has focus.
+   */
+  bareKeys?: boolean;
 
   /** @deprecated v1 controller binding. Ignored, except as the fallback key source described on `keys`. */
   button?: PadButton;

@@ -108,6 +108,10 @@ head for the sideline, so the cuts and the depth stay as you drew them. **Export
 
 ## My Routes
 
+My Routes starts with every custom route from the FUSION playbook that differs from a stock game route (crosses, shot
+cross / posts, option routes, jet wheels, motion flats, speed outs, snags, flat screens…), named by their shape and
+tagged **FUSION**. Rename or delete any of them like your own.
+
 **My Routes** is your own route library. Save a route once and put it on any player in any play.
 
 ### Save a Route

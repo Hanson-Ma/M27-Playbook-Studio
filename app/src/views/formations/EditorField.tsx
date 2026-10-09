@@ -3,9 +3,9 @@
 // free; Alt flips the snap mode, Shift locks the axis). While the field has keyboard focus, the arrow keys nudge the
 // selected player (Shift = 0.1 yd) and Esc clears the selection.
 import { memo, useRef, useState, type KeyboardEvent } from "react";
-import { Field, PlayArtLayer, useFieldTransform, type FieldPointerEvent } from "../../field";
+import { Field, PlayArtLayer, ProximityGuides, useFieldTransform, type FieldPointerEvent } from "../../field";
 import { HALF_WIDTH, clamp } from "../../model/geometry";
-import { DEPTHS, LINE_Y, SPLITS, roundCoord } from "../../model/sets";
+import { DEPTHS, LINE_Y, OL_SPOTS, SPLITS, roundCoord } from "../../model/sets";
 import type { ArtBounds, PlayArt, Vec } from "../../model/types";
 import { useSettings } from "../../state/settings";
 import { cx } from "../../ui";
@@ -53,19 +53,29 @@ let dragSeq = 0;
 const DEPTH_MAGNETS = [DEPTHS.onLine, DEPTHS.tightEnd, DEPTHS.underCenter, DEPTHS.offLine, DEPTHS.pistol, -4.75, DEPTHS.shotgun, DEPTHS.tailback];
 const SPLIT_MAGNETS = [0, SPLITS.tackle + SPLITS.olStep, 2 * SPLITS.tackle, SPLITS.slot, SPLITS.numbers, SPLITS.wide].flatMap((x) => (x ? [x, -x] : [0]));
 const MAGNET = 0.3;
+/** How far (yd) a dragged lineman may be from his spot / the line and still be pulled onto it. */
+const OL_PULL = 0.6;
 const GRID = 0.5;
 
 /**
  * Grid snap for drags: moves in 0.5 yd steps from where the player started (so a receiver at −0.8 stays at −0.8 when
  * dragged sideways and 3.333-based splits keep their offset), and sticks to the standard depths and splits nearby.
  */
-function snapDrag(start: Vec, raw: Vec): Vec {
+function snapDrag(start: Vec, raw: Vec, slot: number): Vec {
   const step = (from: number, v: number) => roundCoord(from + Math.round((v - from) / GRID) * GRID);
   const magnet = (v: number, raw: number, list: number[]) => {
     const hit = list.find((m) => Math.abs(raw - m) <= MAGNET);
     return hit !== undefined ? hit : v;
   };
-  return { x: magnet(step(start.x, raw.x), raw.x, SPLIT_MAGNETS), y: magnet(step(start.y, raw.y), raw.y, DEPTH_MAGNETS) };
+  const to = { x: magnet(step(start.x, raw.x), raw.x, SPLIT_MAGNETS), y: magnet(step(start.y, raw.y), raw.y, DEPTH_MAGNETS) };
+  // The five linemen (slots 6–10) are forgiving: a little off their spot or the line pulls back onto it, so the
+  // line stays seven strong and the blocking keeps its spots.
+  const k = slot - 6;
+  if (k >= 0 && k < OL_SPOTS.length) {
+    if (Math.abs(raw.x - OL_SPOTS[k]) <= OL_PULL) to.x = OL_SPOTS[k];
+    if (raw.y > LINE_Y - OL_PULL && raw.y <= 0) to.y = clamp(to.y, LINE_Y + 0.1, 0);
+  }
+  return to;
 }
 
 interface Drag {
@@ -105,7 +115,7 @@ export const EditorField = memo(function EditorField(p: EditorFieldProps) {
         if (!d?.offset) return;
         let to = { x: e.field.x + d.offset.x, y: e.field.y + d.offset.y };
         const grid = p.snap !== e.raw.altKey;
-        to = grid ? snapDrag(d.start, to) : { x: roundCoord(Math.round(to.x * 100) / 100), y: roundCoord(Math.round(to.y * 100) / 100) };
+        to = grid ? snapDrag(d.start, to, d.slot) : { x: roundCoord(Math.round(to.x * 100) / 100), y: roundCoord(Math.round(to.y * 100) / 100) };
         // Shift locks the dominant axis and keeps the other coordinate exactly where it started.
         if (e.raw.shiftKey) to = Math.abs(to.x - d.start.x) >= Math.abs(to.y - d.start.y) ? { x: to.x, y: d.start.y } : { x: d.start.x, y: to.y };
         to = { x: clamp(to.x, region.minX, region.maxX), y: clamp(to.y, region.minY, region.maxY) };
@@ -164,6 +174,9 @@ export const EditorField = memo(function EditorField(p: EditorFieldProps) {
           }}
         />
         <ChangedMarkers art={p.art} changed={p.changed} />
+        {dragging !== undefined && p.art.players.some((pl) => pl.slot === dragging) && (
+          <ProximityGuides at={p.art.players.find((pl) => pl.slot === dragging)!.at} others={p.art.players.filter((pl) => pl.slot !== dragging).map((pl) => pl.at)} />
+        )}
       </Field>
     </div>
   );

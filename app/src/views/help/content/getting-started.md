@@ -50,11 +50,11 @@ At the top right you'll also find:
 
 1. Click **Playbook**. The FUSION playbook (`playbooks/FUSION.json`) opens. To practise on a fresh one instead,
    open the playbook menu at the top left (it shows **FUSION**) and choose **New Playbook…**.
-2. In step 1 on the left, click a set, for example **Y TRIPS WK** under SHOTGUN. In a new playbook, first click
+2. In the tree on the left, click a set, for example **Y TRIPS WK** under SHOTGUN. In a new playbook, first click
    **+ Formation** (type "shotgun", press Enter), then **+ Set** under it (type "y trips wk", press Enter).
-3. In step 2 in the middle, tick a few plays in **All Plays in This Set**. They appear as cards in **In This
-   Playbook**. Drag the cards to put them in order.
-4. In step 3 on the right, click a play card, then click one of the four buttons in the audible diamond to make it
+3. In the middle, tick a few plays in **All Plays in This Set**. They appear as cards on the left. Drag the cards to
+   put them in order.
+4. On the right, click a play card, then click one of the four buttons in the audible diamond to make it
    an audible.
 5. Press **⌘S / Ctrl+S** to save (or click **Save** at the top right).
 6. Click the **Export** tab. If it says **Ready to Export**, click the **Export** button, then run the command it
@@ -114,7 +114,7 @@ keyboard buttons. See [Audibles & CPU Calls](#/help/audibles).
 ## Getting Help
 
 The **?** at the top right opens this guide at the section for the screen you're on. Use the search box above the
-section list to find a word anywhere in the guide, and **Open the PDF Guide** at the bottom for the printable version.
+section list to find a word anywhere in the guide.
 
 ![The guide inside the app: sections on the left, the page in the middle, its topics on the right.](/guide/help-view.png)
 

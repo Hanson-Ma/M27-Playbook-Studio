@@ -124,5 +124,3 @@ The app reads the game's play library from `data/library/` in your 2026 Playbook
 there (sync the folder, or regenerate them on the Madden PC after a game patch with `PlayDump library data/library`),
 then reload. **Settings → Files & Data → Play Library** shows what it found.
 
-### Where's the PDF Version of This Guide?
-Click **Open the PDF Guide** at the bottom of the guide's section list. It has the same content, ready to print.

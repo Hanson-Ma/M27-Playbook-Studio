@@ -6,7 +6,13 @@
 // shows a start handle that writes an OverrideFormPos for this play; motion points are clamped to the region real
 // plays use (model/motionLimits.ts), which is shaded while the MOTION tab is open.
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
-import { Field, MotionBounds, PlayArtLayer, artMetrics, useFieldTransform, type FieldPointerEvent } from "../../field";
+import { Field, MotionBounds, PlayArtLayer, ProximityGuides, artMetrics, useFieldTransform, type FieldPointerEvent } from "../../field";
+import { usePlayback } from "../../field/usePlayback";
+import { patchPosition } from "../../model/sets";
+import { navigate } from "../../state/router";
+import { useWorkspace } from "../../state/workspace";
+import type { SetsFile } from "../../model/types";
+import { FirstStepsFan, FirstStepsPanel, PlaybackBar, SegmentLayer, SegmentPanel, firstStepOptions } from "./FieldExtras";
 import { computeArt } from "../../model/art";
 import { clearStartOverride, isSlotChanged, isSlotLocked, setStartOverride, startLock, startOverride, unbuildableSteps } from "../../model/designer";
 import { HALF_WIDTH, add, polar } from "../../model/geometry";
@@ -14,6 +20,7 @@ import { MOTION_LIMITS, canMotion, clampMotionPoint, motionPathLength } from "..
 import { isEligible, isOffensiveLine } from "../../model/positions";
 import {
   appendVertex,
+  branchFrom,
   clearLegsFrom,
   cutAt,
   editRoute,
@@ -47,6 +54,7 @@ export function EditField() {
   const d = useDesigner();
   const { state, set, ui, setUi } = d;
   const showPassPro = useSettings((st) => st.showPassPro);
+  const cutDetection = useSettings((st) => st.cutDetection);
   const ballSpot = useSettings((st) => st.ballSpot);
   const [draft, setDraft] = useState<{ slot: number; steps: Step[] } | null>(null);
   const draftRef = useRef(draft);
@@ -60,6 +68,9 @@ export function EditField() {
     () => computeArt(set, slotsSteps, { vip: d.vip, runHole: d.runHole, flip: ui.flip, showPassPro, side: "offense" }),
     [set, slotsSteps, d.vip, d.runHole, ui.flip, showPassPro],
   );
+  // Run / scrub the play on the field (the timeline bar); while it shows a moment of the play, that's what is drawn.
+  const playback = usePlayback(art, "designer", false);
+  const shownArt = playback.started && !draft ? playback.art : art;
   const sel = ui.slot;
   const lock = sel !== undefined ? lockOf(state, ui, sel) : null;
   const geom = useMemo(() => (sel !== undefined ? slotGeometry(set, sel, slotsSteps[sel], lock ?? 0) : undefined), [set, sel, slotsSteps, lock]);
@@ -120,7 +131,7 @@ export function EditField() {
       if (g.kind === "leg") {
         const from = g.geom.points[g.k];
         const target = freeFor(ev.raw) ? { x: r2(p.x), y: r2(p.y) } : snapFrom(from, p);
-        const steps = editRoute(g.steps, (r) => moveVertex(r, g.geom.start, g.k, target));
+        const steps = editRoute(g.steps, (r) => moveVertex(r, g.geom.start, g.k, target, { retuneCuts: cutDetection }));
         g.moved = true;
         setDraftBoth({ slot: g.slot, steps });
         const v = legBetween(from, target);
@@ -150,7 +161,8 @@ export function EditField() {
       if (ev.type === "up" && g.moved && dr) {
         if (g.kind === "start") {
           const target = g.target;
-          if (target) d.edit((st) => setStartOverride(st, g.slot, target), "Move start spot");
+          if (target && ui.moveScope === "set" && setOrigin) moveInSet(g.slot, target);
+          else if (target) d.edit((st) => setStartOverride(st, g.slot, target), "Move start spot");
           setUi({ moveStart: undefined });
         } else d.commitSlot(g.slot, dr.steps, g.kind === "leg" ? "Move point" : "Move motion point");
       }
@@ -170,15 +182,42 @@ export function EditField() {
       const target = freeFor(ev.raw) ? { x: r2(p.x), y: r2(p.y) } : snapFrom(from, p);
       const last = geom.route.legs[geom.route.legs.length - 1];
       const type = last?.type ?? (isEligible(normal[sel]) ? "RunRoute" : "MoveDirection");
-      const steps = editRoute(state.slots[sel].steps, (r) => appendVertex(r, geom.start, target, { type }));
+      const steps = editRoute(state.slots[sel].steps, (r) => appendVertex(r, geom.start, target, { type, autoCut: cutDetection }));
       if (steps.length !== state.slots[sel].steps.length) {
         d.commitSlot(sel, steps, "Add point");
         setUi({ vertex: { kind: "leg", k: geom.route.legs.length } });
       }
       return;
     }
-    setUi({ slot: undefined, vertex: undefined, drawing: false, moveStart: undefined });
+    setUi({ slot: undefined, vertex: undefined, drawing: false, moveStart: undefined, segment: undefined, fan: false });
   };
+
+  // ── Go Army–style tools ──
+  // Click a route point while drawing (or double-click it) to start a new route from there: the rest is replaced.
+  const branchAt = (k: number) => {
+    if (sel === undefined || !editable || !geom || k < geom.firstEditableLeg) return;
+    d.commitSlot(sel, editRoute(state.slots[sel].steps, (r) => branchFrom(r, k)), "New route from this point");
+    setUi({ vertex: { kind: "leg", k }, drawing: true, segment: undefined });
+  };
+  // The custom set this play is in (moves can go to the whole set, "Edit Set" opens it).
+  const origin = d.catalog.customOrigin.get(set.asset);
+  const setOrigin = origin?.kind === "set" ? origin : undefined;
+  const moveInSet = (slot: number, target: Vec) => {
+    if (!setOrigin) return;
+    useWorkspace.getState().update<SetsFile>(
+      setOrigin.file,
+      (doc) => {
+        const spec = doc.sets?.[setOrigin.index];
+        const base = spec && (d.lib.stock ?? d.lib).setByAsset.get(spec.base);
+        if (spec && base) patchPosition(spec, base, slot, { x: r2(target.x), y: r2(target.y) });
+      },
+      { label: "Move player in the set" },
+    );
+  };
+  const fanOptions = useMemo(
+    () => (sel !== undefined && geom && editable ? firstStepOptions(slotsSteps[sel], geom, normal[sel]?.pos === "POSITION_QB") : []),
+    [sel, geom, editable, slotsSteps, normal],
+  );
 
   const waypointsOf = (steps: Step[]) => {
     const mi = motionIndex(steps);
@@ -256,7 +295,7 @@ export function EditField() {
     const eligible = isEligible(normal[slot]);
     // Linemen land on BLOCK, receivers leave BLOCK for ROUTE.
     const tab = !eligible && ui.tab === "route" ? "block" : eligible && ui.tab === "block" && !isOffensiveLine(normal[slot].pos) ? "route" : ui.tab;
-    setUi({ slot, vertex: undefined, moveStart: undefined, drawing: false, tab });
+    setUi({ slot, vertex: undefined, moveStart: undefined, drawing: false, tab, segment: undefined, fan: false });
   };
 
   // Pointer leaving mid-drag (window blur) → drop the draft.
@@ -325,7 +364,7 @@ export function EditField() {
       >
         {motionTab && motionAllowed && editable && sel !== undefined && <MotionArea steps={slotsSteps[sel]} start={startSpot ?? alignmentOf(set, sel)} flip={ui.flip} />}
         <PlayArtLayer
-          art={art}
+          art={shownArt}
           selectedSlot={sel}
           highlightSlot={hover}
           showLabels
@@ -335,6 +374,13 @@ export function EditField() {
           onPlayerHover={setHover}
         />
         <SlotMarks art={art.players} locked={locked} changed={changed} unbuildable={unbuildable} />
+        {geom && sel !== undefined && editable && !motionTab && !ui.drawing && !ui.fan && (
+          <SegmentLayer geom={geom} flip={ui.flip} selected={ui.segment} onSelect={(k) => setUi({ segment: k, vertex: undefined })} />
+        )}
+        {ui.fan && fanOptions.length > 0 && <FirstStepsFan options={fanOptions} flip={ui.flip} onPick={(o) => sel !== undefined && (d.commitSlot(sel, o.apply(state.slots[sel].steps), o.label), setUi({ fan: false }))} />}
+        {dragInfo && sel !== undefined && (
+          <ProximityGuides at={viewPoint(dragInfo.p, ui.flip)} others={art.players.filter((p) => p.slot !== sel).map((p) => p.at)} />
+        )}
         {geom && sel !== undefined && (
           <Handles
             geom={geom}
@@ -346,6 +392,8 @@ export function EditField() {
             dragInfo={dragInfo}
             onStart={startDrag}
             onInsert={insertAt}
+            drawing={ui.drawing}
+            onBranch={branchAt}
             onContext={(k, e) => {
               e.preventDefault();
               setUi({ vertex: { kind: "leg", k } });
@@ -368,8 +416,22 @@ export function EditField() {
         {sel !== undefined && <span className={s.hudSlot}>{playerName(set, sel)}</span>}
         {sel !== undefined && editable && !motionTab && ui.moveStart !== sel && (
           <>
-            <Button size="sm" variant="ghost" icon="route" active={ui.drawing} onClick={() => setUi({ drawing: !ui.drawing, vertex: undefined })} title="When on, clicking the field adds a route point">
+            <Button size="sm" variant="ghost" icon="route" active={ui.drawing} onClick={() => setUi({ drawing: !ui.drawing, vertex: undefined, segment: undefined })} title="When on, clicking the field adds a route point; clicking a route point starts a new route from it">
               {ui.drawing ? "Drawing On" : "Draw Route"}
+            </Button>
+            {fanOptions.length > 0 && (
+              <Button size="sm" variant="ghost" active={ui.fan} onClick={() => setUi({ fan: !ui.fan, segment: undefined, drawing: false })} title={normal[sel]?.pos === "POSITION_QB" ? "Pick the QB's drop" : "Pick the release (his first steps)"}>
+                First Steps
+              </Button>
+            )}
+            <Button
+              size="sm"
+              variant="ghost"
+              active={cutDetection}
+              onClick={() => useSettings.getState().set({ cutDetection: !cutDetection })}
+              title="Cut detection: new and moved route points get the cut that fits the turn (22° / 45° / 67° / 90° …)"
+            >
+              {compactTools ? "Cuts" : cutDetection ? "Cut Detection On" : "Cut Detection Off"}
             </Button>
             <Button size="sm" variant="ghost" icon="plus" onClick={addPoint} title="Add point: a point 5 yd past the end of the route" aria-label="Add point">
               {compactTools ? undefined : "Add Point"}
@@ -430,6 +492,19 @@ export function EditField() {
         )}
         {sel !== undefined && ui.moveStart === sel && (
           <>
+            <Button size="sm" variant="ghost" active={ui.moveScope !== "set"} onClick={() => setUi({ moveScope: "play" })} title="Move him in this play only (the set stays as it is)">
+              This Play
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              active={ui.moveScope === "set"}
+              disabled={!setOrigin}
+              onClick={() => setUi({ moveScope: "set" })}
+              title={setOrigin ? "Move him in the custom set: every play in the set follows" : "Only custom sets can be changed (make one in Formations)"}
+            >
+              Whole Set
+            </Button>
             <Button size="sm" variant="ghost" onClick={() => setUi({ moveStart: undefined })}>
               Done
             </Button>
@@ -440,8 +515,35 @@ export function EditField() {
             )}
           </>
         )}
+        {setOrigin && (
+          <Button size="sm" variant="ghost" icon="field" onClick={() => navigate(`#/formations/${encodeURIComponent(setOrigin.file)}/${setOrigin.index}`)} title="Edit this custom set in the Formations editor (every play in it changes)">
+            Edit Set
+          </Button>
+        )}
       </div>
-      <div className={cx(s.hint, sel === undefined && s.hintCenter)}>{hint}</div>
+      {ui.segment !== undefined && geom && sel !== undefined && (
+        <SegmentPanel
+          steps={state.slots[sel].steps}
+          geom={geom}
+          k={ui.segment}
+          editable={editable}
+          onChange={(steps, label) => d.commitSlot(sel, steps, label)}
+          onPickCut={(v, at) => d.openCutMenu(v, at)}
+          onClose={() => setUi({ segment: undefined })}
+        />
+      )}
+      {ui.fan && fanOptions.length > 0 && sel !== undefined && (
+        <FirstStepsPanel
+          options={fanOptions}
+          title={normal[sel]?.pos === "POSITION_QB" ? "First Steps · QB Drop" : "First Steps · Release"}
+          onPick={(o) => (d.commitSlot(sel, o.apply(state.slots[sel].steps), o.label), setUi({ fan: false }))}
+          onClose={() => setUi({ fan: false })}
+        />
+      )}
+      <div className={s.bottomRow}>
+        <PlaybackBar playback={playback} />
+        <div className={cx(s.hint, sel === undefined && s.hintEmpty)}>{hint}</div>
+      </div>
     </div>
   );
 }
@@ -533,9 +635,12 @@ interface HandlesProps {
   onStart(sel: VertexSel, e: ReactPointerEvent): void;
   onInsert(legIndex: number, e: ReactPointerEvent): void;
   onContext(k: number, e: React.MouseEvent): void;
+  /** Drawing is on: clicking a point starts a new route from it. */
+  drawing?: boolean;
+  onBranch?(k: number): void;
 }
 
-function Handles({ geom, steps, flip, lock, vertex, motionTab, dragInfo, onStart, onInsert, onContext }: HandlesProps) {
+function Handles({ geom, steps, flip, lock, vertex, motionTab, dragInfo, onStart, onInsert, onContext, drawing, onBranch }: HandlesProps) {
   const { pxPerYard } = useFieldTransform();
   const d = useDesigner();
   const k = +(1 / Math.max(pxPerYard, 0.5)).toPrecision(5);
@@ -622,12 +727,23 @@ function Handles({ geom, steps, flip, lock, vertex, motionTab, dragInfo, onStart
                 // Right / middle press: no drag, and keep the field from capturing the pointer — a captured pointer
                 // sends the contextmenu event to the field instead of this point, so the cut picker never opened.
                 if (e.button !== 0) return void e.stopPropagation();
+                if (drawing && onBranch && !lockedV) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  return onBranch(i);
+                }
                 onStart({ kind: "leg", k: i }, e);
+              }}
+              onDoubleClick={(e) => {
+                if (lockedV || !onBranch) return;
+                e.preventDefault();
+                e.stopPropagation();
+                onBranch(i);
               }}
               onContextMenu={(e) => onContext(i, e)}
             >
-              <title>{`Point ${i + 1}${cut ? ` · ${cutName(String(cut.cutType))}` : ""} — right-click for the cut`}</title>
-              {lockedV ? <rect x={-4.5} y={-4.5} width={9} height={9} rx={1.5} /> : <circle r={6.5} />}
+              <title>{`Point ${i + 1}${cut ? ` · ${cutName(String(cut.cutType))}` : ""} — right-click for the cut · double-click to start a new route from here`}</title>
+              {lockedV ? <rect x={-4.5} y={-4.5} width={9} height={9} rx={1.5} /> : <rect x={-6} y={-6} width={12} height={12} rx={1.5} />}
               {cut && (
                 <text className={s.cutText} x={10} y={-8}>
                   {cutName(String(cut.cutType))}

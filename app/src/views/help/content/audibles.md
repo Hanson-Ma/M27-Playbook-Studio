@@ -21,16 +21,16 @@ slot 4), so it's a good habit.
 
 ## Give a Play an Audible Button
 
-1. In **Playbook**, click a set in step 1 (for example **Y TRIPS WK**).
-2. In step 2, **click the play's card**.
-3. In step 3, **click one of the four buttons** in the audible diamond. The play's mini diagram and name appear on
+1. In **Playbook**, click a set in the tree (for example **Y TRIPS WK**).
+2. In the middle, **click the play's card**.
+3. On the right, **click one of the four buttons** in the audible diamond. The play's mini diagram and name appear on
    the button.
 
 ![The audible diamond for Y TRIPS WK: SLANTS on X, PBS GT COUNTER on A, PBS BUBBLE GO on Y, PBS PA YANKEE on B.](/guide/audibles-panel.png)
 
 Other ways to do the same:
 
-- **Drag a card** from step 2 onto a button.
+- **Drag a card** from the middle onto a button.
 - **Right-click a card → Audible →** pick a slot (for example **1 · Quick Pass**).
 
 To **move** a play to another button, select it and click the other button. To **clear** a button, click the small
@@ -73,7 +73,7 @@ situation empty to keep the game's default.
 
 ![CPU weights for PBS GT COUNTER: 1st Down 40, 2nd & Short 50, 3rd & Short 30.](/guide/cpu-weights.png)
 
-1. Select a play in step 2.
+1. Select a play in the middle.
 2. Drag a slider, or type a number. The **×** next to a row clears it.
 3. The common situations (down and distance, red zone, goal line) are shown first. **Show All Situations** lists the
    rest (two-minute, kneel, fake punt, go for 2…).
