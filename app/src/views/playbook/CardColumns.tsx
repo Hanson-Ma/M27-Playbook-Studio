@@ -2,8 +2,9 @@
 import { useSettings } from "../../state/settings";
 import { Segmented } from "../../ui";
 
-export function CardColumnsPicker({ className }: { className?: string }) {
-  const cardColumns = useSettings((st) => st.cardColumns);
+export function CardColumnsPicker({ className, value, onChange }: { className?: string; value?: 3 | 6 | 9; onChange?(v: 3 | 6 | 9): void }) {
+  const setting = useSettings((st) => st.cardColumns);
+  const cardColumns = value ?? setting;
   return (
     <Segmented
       size="sm"
@@ -15,7 +16,7 @@ export function CardColumnsPicker({ className }: { className?: string }) {
         { value: "6", label: "6", title: "6 cards per row" },
         { value: "9", label: "9", title: "9 cards per row" },
       ]}
-      onChange={(v) => useSettings.getState().set({ cardColumns: Number(v) as 3 | 6 | 9 })}
+      onChange={(v) => (onChange ? onChange(Number(v) as 3 | 6 | 9) : useSettings.getState().set({ cardColumns: Number(v) as 3 | 6 | 9 }))}
     />
   );
 }

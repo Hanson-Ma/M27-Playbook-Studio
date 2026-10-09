@@ -16,7 +16,7 @@ import { useCatalog } from "../../state/library";
 import { href, navigate, useRoute } from "../../state/router";
 import { useSettings } from "../../state/settings";
 import { useDoc, useWorkspace } from "../../state/workspace";
-import { Button, EmptyState, IconButton, NumberField, Segmented, Spinner, TextInput, cx } from "../../ui";
+import { Button, EmptyState, IconButton, NumberField, Segmented, Slider, Spinner, TextInput, cx } from "../../ui";
 import { CardColumnsPicker } from "../playbook/CardColumns";
 import { LazyMount } from "../playbook/LazyMount";
 import { pickBook, resolvedBook, useBookOptions } from "../concepts/store";
@@ -25,6 +25,17 @@ import s from "./SituationsView.module.css";
 const DEFAULT_SITUATION: SituationKey = "FirstDown";
 /** A play added to a situation starts here (the Playbook tab's weights run 0–100). */
 const START_WEIGHT = 50;
+/** Situations show play art nine to a row unless you pick another (it's a wall of plays, like the Overview). */
+const COLUMNS_KEY = "pbstudio.situations.columns";
+function readColumns(): 3 | 6 | 9 {
+  try {
+    const v = Number(localStorage.getItem(COLUMNS_KEY));
+    if (v === 3 || v === 6 || v === 9) return v;
+  } catch {
+    /* no storage */
+  }
+  return 9;
+}
 
 export function SituationsView() {
   const route = useRoute();
@@ -63,7 +74,7 @@ function Situations({ path, spec, situation }: { path: string; spec: PlaybookSpe
   const rb = useMemo(() => resolvedBook(spec, catalog), [spec, catalog]);
   const refs = useMemo(() => bookPlayRefs(rb), [rb]);
   const counts = useMemo(() => situationCounts(rb), [rb]);
-  const cardColumns = useSettings((st) => st.cardColumns);
+  const [cardColumns, setColumns] = useState<3 | 6 | 9>(readColumns);
   const [show, setShow] = useState<"rated" | "all">("rated");
   const [sort, setSort] = useState<"formation" | "weight">("formation");
   const [query, setQuery] = useState("");
@@ -158,7 +169,17 @@ function Situations({ path, spec, situation }: { path: string; spec: PlaybookSpe
                 ]}
                 aria-label="Order"
               />
-              <CardColumnsPicker />
+              <CardColumnsPicker
+                value={cardColumns}
+                onChange={(v) => {
+                  setColumns(v);
+                  try {
+                    localStorage.setItem(COLUMNS_KEY, String(v));
+                  } catch {
+                    /* private window: the choice just isn't remembered */
+                  }
+                }}
+              />
             </div>
           </header>
           <div className={s.stats}>
@@ -239,7 +260,7 @@ function CardGrid({ rows, columns, grouped, ...handlers }: GridProps & { rows: R
       );
     }
     lastKey = key;
-    out.push(<PlayCell key={`${r.ref.f}/${r.ref.s}/${r.ref.p}`} row={r} size={columns === 3 ? "md" : "sm"} {...handlers} />);
+    out.push(<PlayCell key={`${r.ref.f}/${r.ref.s}/${r.ref.p}`} row={r} size={columns === 3 ? "md" : "sm"} wide={columns < 9} {...handlers} />);
   }
   return (
     <div className={s.grid} style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}>
@@ -248,7 +269,7 @@ function CardGrid({ rows, columns, grouped, ...handlers }: GridProps & { rows: R
   );
 }
 
-const PlayCell = memo(function PlayCell({ row, size, onWeight, onRemove, onAdd }: GridProps & { row: Row; size: "sm" | "md" }) {
+const PlayCell = memo(function PlayCell({ row, size, wide, onWeight, onRemove, onAdd }: GridProps & { row: Row; size: "sm" | "md"; wide: boolean }) {
   const { ref, weight } = row;
   const slot = ref.entry.audible && [1, 2, 3, 4].includes(ref.entry.audible) ? ref.entry.audible : undefined;
   return (
@@ -260,7 +281,8 @@ const PlayCell = memo(function PlayCell({ row, size, onWeight, onRemove, onAdd }
           autoBadges={false}
           muted={weight === undefined}
           leading={slot ? <AudibleGlyph slot={slot} size="md" /> : undefined}
-          stat={slot ? `Audible · ${AUDIBLE_CATEGORY[slot]}` : undefined}
+          // nine to a row there's only room for the audible button beside the name
+          stat={slot && wide ? `Audible · ${AUDIBLE_CATEGORY[slot]}` : undefined}
         />
       </LazyMount>
       <div className={s.ctl} style={{ "--w": `${clampWeight(weight ?? 0)}%`, "--c": familyColor(row.family) } as CSSProperties}>
@@ -270,11 +292,11 @@ const PlayCell = memo(function PlayCell({ row, size, onWeight, onRemove, onAdd }
           </Button>
         ) : (
           <>
-            <NumberField size="sm" value={weight} min={0} max={100} step={1} suffix="%" width={88} onChange={(v) => onWeight(ref, v)} aria-label={`${ref.play.name} weight`} />
-            <span className={s.wbar} aria-hidden>
-              <span />
-            </span>
-            <IconButton icon="close" size="sm" title={`Take ${ref.play.name} out of this situation`} aria-label={`Remove ${ref.play.name}`} onClick={() => onRemove(ref)} />
+            <Slider className={s.slider} value={weight} min={0} max={100} step={1} suffix="%" onChange={(v) => onWeight(ref, v)} aria-label={`${ref.play.name} weight`} />
+            <div className={s.ctlRow}>
+              <NumberField size="sm" value={weight} min={0} max={100} step={1} suffix="%" width="100%" onChange={(v) => onWeight(ref, v)} aria-label={`${ref.play.name} weight (number)`} />
+              <IconButton icon="close" size="sm" title={`Take ${ref.play.name} out of this situation`} aria-label={`Remove ${ref.play.name}`} onClick={() => onRemove(ref)} />
+            </div>
           </>
         )}
       </div>

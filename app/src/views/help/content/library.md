@@ -19,8 +19,8 @@ of your own play.
    - **Source**: stock plays or your own (custom) plays.
 3. The active filters show as chips above the results. Click a chip's **×** to drop it, or **Clear All**.
 
-The tabs at the top left browse the library a different way: **All**, by **Formation**, **Concept** or **Play
-Type**, your **Favorites** (star a play to add it) and **Recent** plays. **Flip Plays** mirrors every diagram, and
+The tabs at the top left browse the library a different way: **All**, **Browse** (pick a formation in the list, then
+one of its sets or **All Sets**, the way the game's formation screen works), **Concept** or **Play Type**, your **Favorites** (star a play to add it) and **Recent** plays. **Flip Plays** mirrors every diagram, and
 **Gameplan** at the top right opens your [concepts and tags](#/help/concepts).
 
 :::tip Hide the Drills

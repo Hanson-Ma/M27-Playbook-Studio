@@ -95,7 +95,8 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
       return EMPTY_ART;
     }
   }, [catalog, play, flipped, showPassPro, preset]);
-  // Per player: the preset that moves him left / right (as the set stores them, before any flip).
+  // Per motion man: the preset that sends him left / right (as the set stores them, before any flip). A preset is the
+  // game's own motion: its `motionMan` entry is the player who goes, any others in it slide over to make room.
   const moves = useMemo(() => {
     const out = new Map<number, { left?: string; right?: string }>();
     const set = catalog?.lib.setByAsset.get(play.set);
@@ -105,11 +106,13 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
       if (key === "Normal" || !Array.isArray(list)) continue;
       matchPreset(normal, list).forEach((pre, slot) => {
         const n = normal[slot];
-        if (!pre || !n || typeof pre.x !== "number" || typeof n.x !== "number") return;
+        if (!pre || !pre.motionMan || !n || typeof pre.x !== "number" || typeof n.x !== "number") return;
         const dx = pre.x - n.x;
-        if (Math.abs(dx) < 0.3) return;
+        // The key names the side ("M1left"); a key without one goes by where he ends up.
+        const named = /left$/i.test(key) ? "left" : /right$/i.test(key) ? "right" : undefined;
+        if (!named && Math.abs(dx) < 0.3) return;
         const e = out.get(slot) ?? {};
-        const dir = dx < 0 ? "left" : "right";
+        const dir = named ?? (dx < 0 ? "left" : "right");
         if (!e[dir]) e[dir] = key;
         out.set(slot, e);
       });
@@ -150,7 +153,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
   // routes and freeze at the end. Opening a play or stepping to the next one starts at the pre-snap look.
   const playback = usePlayback(art, `${item.id}|${flipped}|${preset ?? ""}`, false);
   // Stepping to another play (or flipping) slides the players to their new spots, like the game; nothing fades.
-  const tweened = useArtTween(art, `${item.id}|${flipped}|${preset ?? ""}`);
+  const tweened = useArtTween(art, `${item.id}|${flipped}`, preset ?? "");
   const padOn = usePadConnected();
   // The game's camera: behind the offense, tilted. Flat view allows zoom / pan.
   const [tilt, setTilt] = useState(true);

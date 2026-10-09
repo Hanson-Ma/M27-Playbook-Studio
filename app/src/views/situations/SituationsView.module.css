@@ -200,33 +200,35 @@
   min-width: 0;
 }
 .cellUnrated .ctl {
-  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
-.placeholder {
-  aspect-ratio: 2.15 / 1;
-  border-radius: var(--r-md);
-  background: var(--bg-1);
-}
-.ctl {
+.ctlRow {
   display: flex;
   align-items: center;
   gap: var(--s2);
-  min-height: 26px;
+  min-width: 0;
 }
-.wbar {
-  position: relative;
+.ctlRow > :first-child {
   flex: 1;
-  min-width: 24px;
-  height: 6px;
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--text) 10%, transparent);
-  overflow: hidden;
+  min-width: 0;
 }
-.wbar > span {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--w);
-  background: var(--c, var(--text-2));
+/* the weight slider: a thick, colored bar under the card (the colour is the kind of play) */
+.slider {
+  width: 100%;
+  height: 30px;
+}
+.slider input[type="range"] {
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(to right, var(--c, var(--pill-bg)) calc(var(--p) * 100%), var(--bg-4) calc(var(--p) * 100%));
+}
+.slider input[type="range"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--text);
 }
 .note {
   font-size: var(--fd-sm);

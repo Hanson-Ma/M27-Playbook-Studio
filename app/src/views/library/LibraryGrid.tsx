@@ -2,11 +2,11 @@
 // virtualized grid of play cards grouped per tab. Mouse first: click selects, double-click opens, right-click menu;
 // the action bar (Open · Add to playbook · Clone in designer · Favorite) acts on the selected card. Arrow keys move
 // the selection while the grid has focus; Enter opens.
-import { memo, useCallback, useEffect, useMemo, useRef, type CSSProperties, type ReactNode } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { PlayCard, cardSubtitle } from "../../field";
-import { leaf } from "../../model/names";
+import { displayFromLeaf, leaf } from "../../model/names";
 import { familyColor, familyLabel, playTypeInfo } from "../../model/playtypes";
-import { activeFilterCount, type PlayFilters, type ResultSection, type SearchEntry, type SearchIndex } from "../../model/search";
+import { activeFilterCount, groupResults, type PlayFilters, type ResultSection, type SearchEntry, type SearchIndex } from "../../model/search";
 import type { ConceptsDoc } from "../../model/types";
 import { useCatalog, useLibrary } from "../../state/library";
 import { useSettings } from "../../state/settings";
@@ -22,7 +22,7 @@ import s from "./LibraryGrid.module.css";
 
 const TAB_LABELS: Record<LibTab, string> = {
   all: "All",
-  formation: "Formation",
+  formation: "Browse",
   concept: "Concept",
   type: "Play Type",
   favorites: "Favorites",
@@ -54,9 +54,38 @@ export function LibraryGrid() {
   const menu = useContextMenu();
   const personal = PERSONAL_TABS.has(tab);
 
+  // Browse (the "formation" tab): pick a formation in the list, then one of its sets (or all of them), like the game's
+  // formation screen. Counts follow the search and filters.
+  const [fSel, setFSel] = useState<string | undefined>();
+  const [sSel, setSSel] = useState<string | undefined>();
+  const browse = useMemo(() => {
+    if (tab !== "formation") return [];
+    const lib = catalog?.lib;
+    const out = new Map<string, BrowseFormation>();
+    for (const e of entries) {
+      const fa = e.play.formation;
+      const sa = e.play.set;
+      let f = out.get(fa);
+      if (!f) out.set(fa, (f = { asset: fa, name: lib?.formationByAsset.get(fa)?.name ?? displayFromLeaf(leaf(fa)), count: 0, sets: new Map() }));
+      f.count++;
+      let st = f.sets.get(sa);
+      if (!st) f.sets.set(sa, (st = { asset: sa, name: lib?.setByAsset.get(sa)?.name ?? displayFromLeaf(leaf(sa)), count: 0 }));
+      st.count++;
+    }
+    return [...out.values()];
+  }, [tab, entries, catalog]);
+  const curF = browse.find((f) => f.asset === fSel) ?? browse[0];
+  const curS = curF && sSel ? curF.sets.get(sSel) : undefined;
+  const view = useMemo(() => {
+    if (tab !== "formation") return sections;
+    if (!curF) return [];
+    const list = entries.filter((e) => e.play.formation === curF.asset && (!curS || e.play.set === curS.asset));
+    return groupResults(list, "formation", { lib: catalog?.lib });
+  }, [tab, sections, entries, curF, curS, catalog]);
+
   // Flat display order (concept tab can list a play in several sections).
-  const flat = useMemo(() => sections.flatMap((x) => x.entries), [sections]);
-  const gridSections = useMemo<GridSection<SearchEntry>[]>(() => sections.map((x) => ({ key: x.key, items: x.entries })), [sections]);
+  const flat = useMemo(() => view.flatMap((x) => x.entries), [view]);
+  const gridSections = useMemo<GridSection<SearchEntry>[]>(() => view.map((x) => ({ key: x.key, items: x.entries })), [view]);
   const hint = useRef(-1);
   const selected = useMemo(() => {
     if (!selectedId) return -1;
@@ -127,7 +156,7 @@ export function LibraryGrid() {
     ),
     [flip, ballSpot, favorites, baseLib, catalog],
   );
-  const renderHeader = useCallback((sec: GridSection<SearchEntry>, i: number) => <SectionHeader section={sections[i]} key={sec.key} />, [sections]);
+  const renderHeader = useCallback((sec: GridSection<SearchEntry>, i: number) => <SectionHeader section={view[i]} key={sec.key} />, [view]);
 
   const total = index?.entries.length ?? 0;
   const count = new Set(flat.map((e) => e.id)).size;
@@ -141,10 +170,10 @@ export function LibraryGrid() {
         <EmptyState icon={<Spinner size={26} />} title="Loading the Play Library" body="11,055 plays, 808 sets and 5,402 assignments…" />
       );
   } else {
-    body = (
+    const grid = (
       <SectionGrid
         ref={gridRef}
-        key={tab}
+        key={tab === "formation" ? `browse:${curF?.asset}:${curS?.asset}` : tab}
         sections={gridSections}
         renderHeader={tab === "all" || personal ? undefined : renderHeader}
         renderCell={renderCell}
@@ -175,6 +204,46 @@ export function LibraryGrid() {
         className={cx(s.grid, stale && s.stale)}
       />
     );
+    body =
+      tab === "formation" && browse.length > 0 ? (
+        <div className={s.browse}>
+          <nav className={s.formList} aria-label="Formations">
+            {browse.map((f) => (
+              <button
+                key={f.asset}
+                type="button"
+                aria-current={f === curF}
+                className={cx(s.formItem, f === curF && s.formItemOn)}
+                onClick={() => {
+                  setFSel(f.asset);
+                  setSSel(undefined);
+                  gridScroll.top = 0;
+                }}
+              >
+                <span className={cx(s.formName, "caps")}>{f.name}</span>
+                <span className={s.formCount}>{fmt(f.count)}</span>
+              </button>
+            ))}
+          </nav>
+          <div className={s.browseMain}>
+            {curF && (
+              <div className={s.setTabs} role="tablist" aria-label="Sets">
+                <button type="button" role="tab" aria-selected={!curS} className={cx(s.setTab, !curS && s.setTabOn)} onClick={() => setSSel(undefined)}>
+                  All Sets <span>{fmt(curF.count)}</span>
+                </button>
+                {[...curF.sets.values()].map((st) => (
+                  <button key={st.asset} type="button" role="tab" aria-selected={curS === st} className={cx(s.setTab, curS === st && s.setTabOn)} onClick={() => setSSel(st.asset)}>
+                    <span className="caps">{st.name}</span> <span>{fmt(st.count)}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+            <div className={s.browseGrid}>{grid}</div>
+          </div>
+        </div>
+      ) : (
+        grid
+      );
   }
 
   const main = (
@@ -448,4 +517,12 @@ function SelectionActions({ entry, favorite, onOpen }: { entry: SearchEntry; fav
       </Button>
     </div>
   );
+}
+
+/** A formation in the Browse tab: its sets with the number of plays that match the search and filters. */
+interface BrowseFormation {
+  asset: string;
+  name: string;
+  count: number;
+  sets: Map<string, { asset: string; name: string; count: number }>;
 }
