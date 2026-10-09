@@ -119,6 +119,11 @@ interface HeldState {
 }
 
 const held = new Map<PadName, HeldState>();
+
+/** True while a pad button is held down (e.g. B held while the stick picks a player). */
+export function isPadHeld(name: PadName): boolean {
+  return !!held.get(name)?.down;
+}
 let raf = 0;
 let timer = 0;
 let scheduled = false;

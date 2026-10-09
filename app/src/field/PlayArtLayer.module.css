@@ -126,6 +126,10 @@
   stroke-linejoin: round;
 }
 
+/* the other branches of an option route (the coverage picks them): half strength, only the default is full */
+.alt {
+  opacity: 0.5;
+}
 .dim {
   opacity: 0.18;
 }

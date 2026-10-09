@@ -5,7 +5,6 @@
 // ⌘/Ctrl+C / V / D copy, paste, duplicate, Esc drops a multi-selection.
 import { memo, useCallback, useEffect, useMemo, useRef, type KeyboardEvent, type MouseEvent, type PointerEvent } from "react";
 import { AudibleGlyph } from "../../input/glyphs";
-import { AUDIBLE_SLOTS } from "../../model/audibles";
 import { playTypeInfo } from "../../model/playtypes";
 import { bookFormation } from "../../model/resolveBook";
 import { templatePlayProblem } from "../../model/tdb";
@@ -501,7 +500,6 @@ function FormationRow({ node }: { node: BookNode }) {
 function SetRow({ node }: { node: BookNode }) {
   const data = useBuilder();
   const rs = node.rs!;
-  const used = new Set(rs.plays.map((p) => p.entry.audible));
   const bad = rs.plays.filter((p) => p.problem).length;
   const custom = data.custom.set(rs.set?.asset);
   return (
@@ -517,11 +515,6 @@ function SetRow({ node }: { node: BookNode }) {
         </span>
       )}
       <span className={s.meta}>
-        <span className={s.audDots} title={`${used.size - (used.has(undefined) ? 1 : 0)} of 4 audibles set`}>
-          {AUDIBLE_SLOTS.map((sl) => (
-            <span key={sl} className={cx(s.audDot, used.has(sl) && s.audOn)} />
-          ))}
-        </span>
         {bad > 0 && (
           <span className={s.badCount} title={`${bad} play${bad === 1 ? "" : "s"} can't be found`}>
             {bad}

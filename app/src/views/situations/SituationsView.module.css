@@ -12,24 +12,7 @@
   padding: 0 var(--s6);
 }
 
-/* top bar: the playbook */
-.bar {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-  flex: none;
-  min-height: 40px;
-  padding-bottom: var(--s3);
-}
-.barBook {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--s2);
-  min-width: 0;
-}
-.kicker,
-.meta {
+.kicker {
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--fd-sm);
@@ -180,51 +163,60 @@
   border-radius: 2px;
 }
 
-/* plays */
+/* plays: cards, with the weight under each */
 .list {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  padding: var(--s2) 0 var(--s6);
+  padding: var(--s3) 0 var(--s6);
+}
+.grid {
+  display: grid;
+  gap: var(--s4) var(--s3);
+  align-content: start;
 }
 .setHead {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   gap: var(--s2);
-  margin-top: var(--s4);
-  padding: 0 var(--s2) var(--s1);
+  padding: var(--s2) 0 0;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fd-md);
+  font-size: var(--fd-lg);
   letter-spacing: 0.01em;
   color: var(--text-2);
 }
-.rowWrap:first-child .setHead {
-  margin-top: 0;
+.setHead:first-child {
+  padding-top: 0;
 }
 .sep {
   color: var(--text-4);
 }
-.row {
+.cell {
   display: flex;
-  align-items: center;
-  gap: var(--s3);
-  min-height: 38px;
-  padding: 3px var(--s2);
-  border-radius: var(--r-sm);
+  flex-direction: column;
+  gap: var(--s2);
+  min-width: 0;
 }
-.row:hover {
-  background: var(--bg-2);
+.cellUnrated .ctl {
+  justify-content: flex-start;
 }
-.weight {
-  flex: none;
+.placeholder {
+  aspect-ratio: 2.15 / 1;
+  border-radius: var(--r-md);
+  background: var(--bg-1);
+}
+.ctl {
   display: flex;
   align-items: center;
   gap: var(--s2);
+  min-height: 26px;
 }
 .wbar {
   position: relative;
-  width: 90px;
+  flex: 1;
+  min-width: 24px;
   height: 6px;
   border-radius: 3px;
   background: color-mix(in srgb, var(--text) 10%, transparent);
@@ -236,80 +228,11 @@
   width: var(--w);
   background: var(--c, var(--text-2));
 }
-.name {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fd-lg);
-  letter-spacing: 0.01em;
-}
-.where {
-  flex: none;
-  max-width: 40%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: var(--font-display);
-  font-weight: 500;
+.note {
   font-size: var(--fd-sm);
-  color: var(--text-3);
+  color: var(--text-4);
 }
-
-/* add plays */
-.addPanel {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  margin: var(--s3) 0 0;
-  padding: var(--s3);
-  border-radius: var(--r-lg);
-  border: 1px solid var(--line-2);
-  background: var(--bg-1);
-}
-.addTools {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-}
-.addTools > :first-child {
-  flex: 1;
-  min-width: 0;
-}
-.startWeight {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s2);
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: var(--fd-sm);
-  color: var(--text-3);
-  white-space: nowrap;
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s1);
-}
-.addList {
-  height: 238px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--line);
-}
-.addRow {
-  display: flex;
-  align-items: center;
-  gap: var(--s3);
-  height: 34px;
-  padding: 0 var(--s2);
-}
-.addEmpty {
-  padding: var(--s4);
-  text-align: center;
-  color: var(--text-3);
-  font-size: var(--fs-sm);
+.filter {
+  margin-left: auto;
+  width: 240px;
 }

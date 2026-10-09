@@ -1,18 +1,20 @@
 // Full-screen pre-snap view of a picked play: big field with labeled art (flip mirrors it), the play's name, type,
 // audible slot, CPU weights and read progression, with buttons for Flip · Favorite · Open in library · Edit in
 // playbook and ‹ › to step through the current list. Esc (or Back) closes it; ← → step while it's open.
-// Controller: ◀ ▶ (or LB / RB) step, B closes, X flips, Y favorites, ▲ ▼ and the right stick scroll the panel.
+// The play starts paused: A (Enter, click) starts it, again pauses / resumes. Controller: ◀ ▶ (or LB / RB) step, X audibles,
+// B selects a player (B again cycles; hold B and flick the left stick to pick the player to the left / right) and ◀ ▶ then
+// motion that player to his spot on that side, RT flips, Y favorites, VIEW closes, ▲ ▼ and the right stick scroll the panel.
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { Field, PlayArtLayer } from "../../field";
 import { usePlayback } from "../../field/usePlayback";
 import { useArtTween } from "../../field/useArtTween";
 import { ActionLayer, useActions } from "../../input/actions";
-import { usePadHandler, type PadFrame, type PadPress } from "../../input/gamepad";
+import { isPadHeld, usePadConnected, usePadHandler, type PadFrame, type PadPress } from "../../input/gamepad";
 import { PadHints, type PadHint } from "../../input/PadHints";
 import { AudibleGlyph } from "../../input/glyphs";
 import { AUDIBLE_CATEGORY } from "../../model/audibles";
-import { artForPlay } from "../../model/art";
+import { artForPlay, matchPreset } from "../../model/art";
 import { HALF_WIDTH } from "../../model/geometry";
 import { leaf } from "../../model/names";
 import { playTypeInfo } from "../../model/playtypes";
@@ -34,7 +36,7 @@ export interface PreSnapProps {
   onFlip(): void;
   onStep(item: CallPlay): void;
   onClose(): void;
-  /** The set's audibles (slot order): B opens the audible menu, the slot's button picks one. */
+  /** The set's audibles (slot order): X opens the audible menu, the slot's button picks one. */
   audibles?: { slot: AudibleSlot; item: CallPlay }[];
 }
 
@@ -48,8 +50,9 @@ function presnapViewport(b: ArtBounds, defense: boolean): ArtBounds {
 
 const PAD_HINTS: PadHint[] = [
   { buttons: ["LEFT", "RIGHT"], label: "Previous / Next" },
-  { buttons: ["A"], label: "Run Play" },
-  { buttons: ["B"], label: "Audibles" },
+  { buttons: ["A"], label: "Start / Pause" },
+  { buttons: ["X"], label: "Audibles" },
+  { buttons: ["B"], label: "Select Player" },
   { buttons: ["RT"], label: "Flip" },
   { buttons: ["Y"], label: "Favorite" },
   { buttons: ["VIEW"], label: "Back" },
@@ -76,19 +79,79 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
   const favorite = useSettings((st) => st.favorites.includes(play.key));
   const flipped = flip && play.canFlip;
 
+  // Select a player (B) and motion him left or right (◀ ▶) to the spots the set gives him: its pre-snap motion presets.
+  const [sel, setSel] = useState<number | undefined>(undefined);
+  const [preset, setPreset] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    setSel(undefined);
+    setPreset(undefined);
+  }, [item.id, flipped]);
+
   const art = useMemo(() => {
     if (!catalog) return EMPTY_ART;
     try {
-      return artForPlay(catalog, play, { flip: flipped, showPassPro });
+      return artForPlay(catalog, play, { flip: flipped, showPassPro, preset });
     } catch {
       return EMPTY_ART;
     }
-  }, [catalog, play, flipped, showPassPro]);
+  }, [catalog, play, flipped, showPassPro, preset]);
+  // Per player: the preset that moves him left / right (as the set stores them, before any flip).
+  const moves = useMemo(() => {
+    const out = new Map<number, { left?: string; right?: string }>();
+    const set = catalog?.lib.setByAsset.get(play.set);
+    const normal = set?.movements?.Normal;
+    if (!set || !normal || play.side === "defense") return out;
+    for (const [key, list] of Object.entries(set.movements)) {
+      if (key === "Normal" || !Array.isArray(list)) continue;
+      matchPreset(normal, list).forEach((pre, slot) => {
+        const n = normal[slot];
+        if (!pre || !n || typeof pre.x !== "number" || typeof n.x !== "number") return;
+        const dx = pre.x - n.x;
+        if (Math.abs(dx) < 0.3) return;
+        const e = out.get(slot) ?? {};
+        const dir = dx < 0 ? "left" : "right";
+        if (!e[dir]) e[dir] = key;
+        out.set(slot, e);
+      });
+    }
+    return out;
+  }, [catalog, play]);
+  // Players who can be selected, left to right as drawn.
+  const order = useMemo(() => art.players.filter((p) => moves.has(p.slot)).sort((a, b) => a.at.x - b.at.x).map((p) => p.slot), [art, moves]);
+  const cycleSel = () =>
+    setSel((cur) => {
+      if (!order.length) return undefined;
+      const i = cur === undefined ? 0 : order.indexOf(cur) + 1;
+      return i >= order.length ? undefined : order[i];
+    });
+  const stepSel = (d: 1 | -1) =>
+    setSel((cur) => {
+      if (!order.length) return undefined;
+      if (cur === undefined) return order[d > 0 ? 0 : order.length - 1];
+      return order[Math.max(0, Math.min(order.length - 1, order.indexOf(cur) + d))];
+    });
+  // A new selection drops the previous player's motion (one motion at a time).
+  useEffect(() => {
+    setPreset((cur) => {
+      if (cur === undefined || sel === undefined) return sel === undefined ? undefined : cur;
+      const mv = moves.get(sel);
+      return mv && (mv.left === cur || mv.right === cur) ? cur : undefined;
+    });
+  }, [sel, moves]);
+  const motion = (dir: "left" | "right") => {
+    const mv = sel === undefined ? undefined : moves.get(sel);
+    if (!mv) return;
+    const L = flipped ? mv.right : mv.left;
+    const R = flipped ? mv.left : mv.right;
+    setPreset((cur) => (dir === "right" ? (cur === L ? undefined : (R ?? cur)) : cur === R ? undefined : (L ?? cur)));
+  };
+  const selLabel = sel === undefined ? undefined : art.players.find((p) => p.slot === sel)?.label;
   // The play only runs when asked (click the field, A on the controller, Enter or the Run button): players run their
   // routes and freeze at the end. Opening a play or stepping to the next one starts at the pre-snap look.
-  const playback = usePlayback(art, `${item.id}|${flipped}`, false);
+  const playback = usePlayback(art, `${item.id}|${flipped}|${preset ?? ""}`, false);
   // Stepping to another play (or flipping) slides the players to their new spots, like the game; nothing fades.
-  const tweened = useArtTween(art, `${item.id}|${flipped}`);
+  const tweened = useArtTween(art, `${item.id}|${flipped}|${preset ?? ""}`);
+  const padOn = usePadConnected();
   // The game's camera: behind the offense, tilted. Flat view allows zoom / pan.
   const [tilt, setTilt] = useState(true);
   const press = useRef<{ x: number; y: number } | undefined>(undefined);
@@ -109,11 +172,13 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
   const token = useActions(
     "playcall.presnap",
     [
-      { id: "prev", label: "Previous play", keys: ["ArrowLeft"], repeat: true, enabled: !!prev, run: () => prev && onStep(prev) },
-      { id: "next", label: "Next play", keys: ["ArrowRight"], repeat: true, enabled: !!next, run: () => next && onStep(next) },
-      { id: "replay", label: "Run the play", keys: ["Enter"], run: () => playback.run() },
-      { id: "back", label: "Back", keys: ["Escape"], run: () => (audMenu ? setAudMenu(false) : onClose()) },
-      { bareKeys: true, id: "audibles", label: "Audibles", keys: ["a"], enabled: audibles.length > 0, run: () => setAudMenu((v) => !v) },
+      { id: "prev", label: sel !== undefined ? "Motion left" : "Previous play", keys: ["ArrowLeft"], repeat: true, enabled: sel !== undefined || !!prev, run: () => (sel !== undefined ? motion("left") : prev && onStep(prev)) },
+      { id: "next", label: sel !== undefined ? "Motion right" : "Next play", keys: ["ArrowRight"], repeat: true, enabled: sel !== undefined || !!next, run: () => (sel !== undefined ? motion("right") : next && onStep(next)) },
+      { id: "replay", label: "Start / pause the play", keys: ["Enter"], run: () => playback.toggle() },
+      { id: "back", label: "Back", keys: ["Escape"], run: () => (audMenu ? setAudMenu(false) : sel !== undefined ? setSel(undefined) : onClose()) },
+      { bareKeys: true, id: "run", label: "Start / pause the play", keys: ["a"], enabled: !audMenu, run: () => playback.toggle() },
+      { bareKeys: true, id: "audibles", label: "Audibles", keys: ["x"], enabled: audibles.length > 0, run: () => setAudMenu((v) => !v) },
+      { bareKeys: true, id: "selectPlayer", label: "Select a player to motion", keys: ["b"], enabled: !audMenu && order.length > 0, run: cycleSel },
       { bareKeys: true, id: "aud1", label: "Audible 1", keys: ["1"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 1) && pickAudible(audibles.find((a) => a.slot === 1)!.item) },
       { bareKeys: true, id: "aud2", label: "Audible 2", keys: ["2"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 2) && pickAudible(audibles.find((a) => a.slot === 2)!.item) },
       { bareKeys: true, id: "aud3", label: "Audible 3", keys: ["3"], enabled: audMenu, run: () => audibles.find((a) => a.slot === 3) && pickAudible(audibles.find((a) => a.slot === 3)!.item) },
@@ -138,8 +203,11 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
           return true;
         }
         switch (p.button) {
-          case "B":
+          case "X":
             if (audibles.length) setAudMenu(true);
+            break;
+          case "B":
+            cycleSel();
             break;
           case "VIEW":
             onClose();
@@ -148,21 +216,27 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
             if (play.canFlip) onFlip();
             break;
           case "LEFT":
+            // B held: pick the player to the left; a player selected: motion him left; otherwise the previous play.
+            if (isPadHeld("B")) stepSel(-1);
+            else if (sel !== undefined) motion("left");
+            else if (prev) onStep(prev);
+            break;
+          case "RIGHT":
+            if (isPadHeld("B")) stepSel(1);
+            else if (sel !== undefined) motion("right");
+            else if (next) onStep(next);
+            break;
           case "LB":
             if (prev) onStep(prev);
             break;
-          case "RIGHT":
           case "RB":
             if (next) onStep(next);
-            break;
-          case "X":
-            if (play.canFlip) onFlip();
             break;
           case "Y":
             toggleFavorite();
             break;
           case "A":
-            playback.run();
+            playback.toggle();
             break;
           case "UP":
             scrollPanel(-160);
@@ -207,7 +281,7 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
               const p = press.current;
               press.current = undefined;
               // A click (not a drag to pan) runs the play.
-              if (p && Math.hypot(e.clientX - p.x, e.clientY - p.y) < 5) playback.run();
+              if (p && Math.hypot(e.clientX - p.x, e.clientY - p.y) < 5) playback.toggle();
             }}
           >
             <Field
@@ -219,27 +293,45 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
               label={`${play.name} on the field`}
               className={s.field}
             >
-              <PlayArtLayer art={playback.started ? playback.art : tweened} showLabels={!playback.running} />
+              <PlayArtLayer art={playback.started ? playback.art : tweened} showLabels={!playback.running} selectedSlot={sel} />
             </Field>
           </div>
           <div className={s.fieldTop}>
             <Button variant="secondary" icon="chevronLeft" onClick={onClose} title="Back to the play call (Esc)">
               Back
             </Button>
-            <Button variant="secondary" icon="refresh" disabled={!playback.canRun} onClick={playback.run} title="Run the play (Enter, A, or click the field)">
-              {playback.started ? "Replay" : "Run Play"}
+            <Button
+              variant="secondary"
+              icon={playback.running ? "pause" : "play"}
+              disabled={!playback.canRun}
+              onClick={playback.toggle}
+              title="Start or pause the play (A, Enter, or click the field)"
+            >
+              {playback.running ? "Pause" : !playback.started ? "Run Play" : (playback.time ?? 0) < playback.duration ? "Resume" : "Replay"}
             </Button>
+            {playback.started && <IconButton icon="refresh" title="Back to the pre-snap look" aria-label="Reset the play" onClick={() => playback.seek(undefined)} />}
             {audibles.length > 0 && (
-              <Button variant="secondary" active={audMenu} onClick={() => setAudMenu((v) => !v)} title="The set's audibles (B on a controller, A on the keyboard)">
+              <Button variant="secondary" active={audMenu} onClick={() => setAudMenu((v) => !v)} title="The set's audibles (X)">
                 Audibles
               </Button>
             )}
             <Button variant="secondary" icon={tilt ? "grid" : "field"} onClick={() => setTilt((v) => !v)} title={tilt ? "Flat top-down view (zoom and pan)" : "The game's tilted camera"}>
               {tilt ? "Flat View" : "Game View"}
             </Button>
-            <span className={s.hint}>{tilt ? "Click the field to run the play" : "Click the field to run the play · Scroll to zoom · drag to pan"}</span>
+            <span className={s.hint}>
+              {selLabel
+                ? `${selLabel} selected · ◀ ▶ motion · B next player · Esc to deselect`
+                : tilt
+                  ? "Click the field to start the play"
+                  : "Click the field to start the play · Scroll to zoom · drag to pan"}
+            </span>
             <PadHints hints={PAD_HINTS} className={s.hint} />
           </div>
+          {!playback.started && playback.canRun && !audMenu && (
+            <div className={s.paused} aria-live="polite">
+              <Icon name="pause" size={18} /> Paused · press {padOn ? "A" : "Enter"} to start
+            </div>
+          )}
           {audMenu && (
             <div className={s.audMenu} role="menu" aria-label="Audibles">
               <div className={s.audMenuTitle}>Audibles</div>

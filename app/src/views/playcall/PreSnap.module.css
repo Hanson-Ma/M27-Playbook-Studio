@@ -141,6 +141,28 @@
   letter-spacing: 0.03em;
   backdrop-filter: blur(6px);
 }
+/* the play starts paused */
+.paused {
+  position: absolute;
+  left: 50%;
+  bottom: 70px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: var(--r-md);
+  background: var(--scrim);
+  border: 1px solid var(--line-2);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-md);
+  letter-spacing: 0.02em;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
 .stepper {
   position: absolute;
   bottom: 14px;

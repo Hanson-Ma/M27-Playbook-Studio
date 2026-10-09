@@ -213,19 +213,6 @@
   color: var(--warning);
 }
 
-.audDots {
-  display: inline-flex;
-  gap: 2px;
-}
-.audDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--line-2);
-}
-.audOn {
-  background: var(--text-2);
-}
 .badCount {
   font-family: var(--font-num);
   letter-spacing: 0;

@@ -25,8 +25,12 @@ order can differ.
 - The **Concept**, **Play Type** and **Personnel Group** tabs work the same way: pick a group on the left, **Enter**
   opens its plays.
 - **Enter** on a card (or a second click) calls the play and opens its pre-snap view. The play
-  **only runs when you ask**: click the field, press **A** on a controller, **Enter**, or hit **Run Play** and the players
-  run: a motion man goes first, then the ball is snapped and everyone runs their routes (the QB drops back, a back takes the handoff) and freezes at the end; run it again the same way.
+  starts **paused**: click the field, press **A** on a controller, **Enter**, or hit **Run Play** to start it, and again to
+  pause or resume. A motion man goes first, then the ball is snapped and everyone runs their routes (the QB drops back, a back takes the handoff) and freezes at the end.
+- **Motion a player before the snap:** press **B** (**B** on the keyboard) to select a player who can motion; press it again to
+  go to the next one, and hold **B** while you flick the left stick to pick the player to the left or right. With a player
+  selected, ◀ ▶ send him to his spot on that side (the set's motion spots); the same arrow again sends him back.
+  **Esc** deselects.
 - **PgUp / PgDn** (or the tab names) switch tabs on the formation list.
 - The pre-snap view uses the game's camera, tilted behind the offense; **Flat View** switches to a top-down field you
   can zoom and pan. Stepping to the next play slides the players to their new spots.
@@ -67,7 +71,7 @@ legend. It works on every screen, not just the preview:
 | **Y** (△) | Favorite the highlighted play |
 | **Right stick** | Scroll a list; in a play's pre-snap view it scrolls the details |
 
-In a play's pre-snap view, ◀ ▶ step to the previous and next play and **B** goes back to the cards.
+In a play's pre-snap view, **A** starts or pauses the play, **X** opens the audibles, **B** selects a player to motion, ◀ ▶ step to the previous and next play (or motion the selected player), and **VIEW** goes back to the cards.
 
 ## See the Whole Playbook
 

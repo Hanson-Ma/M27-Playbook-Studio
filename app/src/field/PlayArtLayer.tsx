@@ -398,7 +398,7 @@ export function PathShape({
     : undefined;
   // A tone (block and release) recolors routes like the game does; the primary route stays red.
   const toneClass = path.tone && path.kind !== "primary" ? styles.toneRelease : undefined;
-  const cls = [styles.path, colorClass ?? toneClass ?? KIND_CLASS[path.kind], dim && styles.dim].filter(Boolean).join(" ");
+  const cls = [styles.path, colorClass ?? toneClass ?? KIND_CLASS[path.kind], path.alt && styles.alt, dim && styles.dim].filter(Boolean).join(" ");
   const capTransform = `translate(${r3(tip.x)} ${r3(-tip.y)}) rotate(${r3(angle)}) ${pxScale(ppy)}`;
 
   let cap: ReactElement | null = null;

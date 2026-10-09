@@ -51,10 +51,11 @@
   overflow: hidden;
   scroll-behavior: smooth;
 }
-.tab {
+/* ".stage button" resets padding, so the tabs need the stage in their selector to keep theirs */
+.stage .tab {
   flex: none;
   height: 46px;
-  padding: 0 26px;
+  padding: 0 30px;
   margin-right: 16px;
   display: flex;
   align-items: center;
@@ -66,7 +67,7 @@
   opacity: 0.85;
   border-radius: 8px;
 }
-.tab:hover {
+.stage .tab:hover {
   opacity: 1;
 }
 .tabOn {
@@ -335,17 +336,18 @@
 /* plays: three cards to a row, one row in view */
 .cards {
   position: absolute;
-  left: 80px;
+  /* 6 px of room on the left so the first card's selection outline isn't clipped */
+  left: 74px;
   top: 592px;
-  width: 1850px;
+  width: 1856px;
   height: 352px;
   overflow: hidden;
 }
 .cardsInner {
   position: absolute;
-  left: 0;
+  left: 6px;
   top: 0;
-  width: 100%;
+  width: calc(100% - 6px);
   transition: transform 0.2s ease-out;
 }
 .card {
