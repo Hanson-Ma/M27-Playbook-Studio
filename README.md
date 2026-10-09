@@ -3,6 +3,8 @@
 Design Madden NFL 27 playbooks, formations and custom plays outside the game, then ship them to the game as a Frosty
 mod and a custom playbook save. Offline use only: MMC rules forbid mods in online modes.
 
+**Try it online: [playbook.hansonma.org](https://playbook.hansonma.org)**
+
 The project has two parts:
 
 1. **[Playbook Studio](app/)**, the web app in `app/`. This is the main thing: the editor where you build playbooks,
