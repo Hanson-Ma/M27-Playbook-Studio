@@ -98,11 +98,17 @@ export interface DepthScale {
   readonly markScale?: number;
 }
 
+/**
+ * In game the painted yard lines sit closer together than the routes run: measured on Smoke Curls (7.5 yd stems end on
+ * the 20-yard line, 10 yd from the ball), so every Studio field draws its markings at 0.65 of the route scale.
+ */
+export const GAME_MARK_SCALE = 0.65;
+
 const markDepths = new WeakMap<DepthScale, DepthScale>();
 
 /** The scale the field markings use: `depth` itself, or `depth` with the yard lines pulled in by its markScale. */
 export function markingDepth(depth: DepthScale): DepthScale {
-  const k = depth.markScale;
+  const k = depth.markScale ?? GAME_MARK_SCALE;
   if (!k || k === 1) return depth;
   let m = markDepths.get(depth);
   if (!m) {
