@@ -537,9 +537,9 @@ const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
 const DROP_KEYS = new Set(["Shotgun/Stack/Shallow Cross PW"]);
 // 2026-10-09: depth-chart positions ("target/set" -> slot -> position + depth): the game fills the slot from that spot on the depth chart
 const POS_EDITS = {
-  "Shotgun/Doubles Tight": { 4: ["POSITION_SLWR", 2] }, // right side WR is a slot WR
+  "Shotgun/Doubles Tight": { 2: ["POSITION_SLWR", 2], 4: ["POSITION_SLWR", 1] }, // left slot = 2nd string slot, right side = 1st string slot
   "Shotgun/Trio TE": { 3: ["POSITION_SLWR", 1], 2: ["POSITION_WR", 3] }, // inside WR = slot, the middle on-line WR = third string
-  "Shotgun/Doubles Wk": { 2: ["POSITION_WR", 2], 4: ["POSITION_WR", 3] }, // slot = 2nd string, outside right = 3rd string
+  "Shotgun/Doubles Wk": { 3: ["POSITION_WR", 1], 2: ["POSITION_WR", 2], 4: ["POSITION_WR", 3] }, // far left WR1, slot WR2, far right WR3
 };
 // 2026-10-09: an audible slot moves from one play to another ("target/set" -> [from, to])
 const AUDIBLE_MOVE = { "Shotgun/Trio TE": ["Verticals", "Dagger"] };
@@ -554,8 +554,6 @@ const EDITS = {
   // seam; noStem = drop the tiny first leg (the release hitch) of those slots; motionBlock = the motion man stalk blocks upfield after the snap;
   // cpuForce = situational weights added on top (even to an audible)
   "Shotgun/Stack/PA Jet Verticals": { touchFake: true },
-  "Shotgun/Stack/PA Y Cross": { noStem: [3] },
-  "Shotgun/Bunch TE/M Corner Shot": { noStem: [2] },
   "Shotgun/Trio TE/BM Power": { motionBlock: true },
   "Shotgun/Spread Flex Wk/BM Angle Return": { cpuForce: { RedZone_6_to_10: 75, RedZone_3_to_5: 75 } },
   "Shotgun/Spread Flex Wk/BM RPO Corndog": { cpuForce: { RedZone_3_to_5: 75, Insidefive: 65 } },
@@ -897,17 +895,20 @@ for (const f of F) {
       if (edit.motionBlock) {
         const j = [1, 2, 3, 4, 5].find(k => typeof players[k] === "object" && players[k].steps?.some(x => x.type === "AutoMotion"));
         const a = j && players[j], mi = a ? a.steps.findIndex(x => x.type === "AutoMotion") : -1;
-        if (mi >= 0) { a.steps = [...a.steps.slice(0, mi + 1), { type: "RunRoute", distance: 5, direction: 90, speed: 100 }, { type: "LeadBlock", blockingTechnique: "BLOCKINGTECHNIQUE_STALK_BLOCK", blockingGap: "RUN_HOLE" }, RUNBLOCK]; a.routeType = "AssignRouteType_Block_Run"; rebuild(a, custom[j].x); }
+        if (mi >= 0) { // crack block: he goes at the nearest defender inside (DL, first LB or CB) at an angle
+          a.steps = [...a.steps.slice(0, mi + 1), { type: "LeadBlock", blockingTechnique: "BLOCKINGTECHNIQUE_CRACK_BLOCK", blockingGap: "RUN_HOLE" }, { ...RUNBLOCK, receiverBlockType: "RECEIVERBLOCKTYPE_NORMAL" }]; a.routeType = "AssignRouteType_Block_Run"; rebuild(a, custom[j].x); }
         else warn("motionBlock: no motion man");
       }
       if (edit.touchFake) {
         const j = [1, 2, 3, 4, 5].find(k => typeof players[k] === "object" && players[k].steps?.some(x => x.type === "AutoMotion"));
         const QBT = "Quarterback/00_ShotgunSpreadFlex_TouchPass_M2_JetSweep_Precan_224_225", JETT = "WideReciever/4WRSpread_SlotJetSweep_TouchPass_JetSweep";
         if (j) {
-          const route = [{ type: "RunRoute", distance: 25, direction: 90, speed: 100 }, { type: "GetOpen" }];
+          const seam = [{ type: "RunRoute", distance: 25, direction: 90, speed: 100 }, { type: "GetOpen" }];
+          // the jet keeps his M24 flat across after the fake
+          const flat = [{ type: "RunRoute", distance: 14, direction: 0, speed: 100 }, { type: "RunRoute", distance: 6, direction: 2.81, speed: 100 }, { type: "GetOpen" }];
           players[0] = newAssignment([], 0, { routeType: "AssignRouteType_Block_Pass", template: QBT, keep: 1, drop: ["OverrideFormPos"], prepend: [] });
-          players[j] = newAssignment(route, custom[j].x, { template: JETT, keep: 2, drop: ["OverrideFormPos"], prepend: [] });
-          players[1] = newAssignment(route.slice(), custom[1].x, { routeType: "AssignRouteType_RR_Streak" });
+          players[j] = newAssignment(flat, custom[j].x, { template: JETT, keep: 2, drop: ["OverrideFormPos"], prepend: [] });
+          players[1] = newAssignment(seam, custom[1].x, { routeType: "AssignRouteType_RR_Streak" });
           for (let k = 6; k <= 10; k++) players[k] = "Blocking/ALL_PABlock";
         } else warn("touchFake: no jet");
       }

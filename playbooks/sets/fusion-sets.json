@@ -16787,9 +16787,15 @@
        ]
       },
       "2": {
-       "new": "FUSION/R_ccc014c867",
+       "new": "FUSION/R_f6e505ad41",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
+        {
+         "type": "RunRoute",
+         "distance": 0.13,
+         "direction": 90,
+         "speed": 100
+        },
         {
          "type": "RunRoute",
          "distance": 11.25,
@@ -19227,8 +19233,8 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_9131108d3f",
-       "routeType": "AssignRouteType_RR_Streak",
+       "new": "FUSION/R_e6785ed294",
+       "routeType": "AssignRouteType_RR_Drag",
        "template": "WideReciever/4WRSpread_SlotJetSweep_TouchPass_JetSweep",
        "keep": 2,
        "drop": [
@@ -19238,8 +19244,14 @@
        "steps": [
         {
          "type": "RunRoute",
-         "distance": 25,
-         "direction": 90,
+         "distance": 14,
+         "direction": 0,
+         "speed": 100
+        },
+        {
+         "type": "RunRoute",
+         "distance": 6,
+         "direction": 2.81,
          "speed": 100
         },
         {
@@ -19400,9 +19412,15 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_97586b9f3f",
+       "new": "FUSION/R_3df351aebe",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
+        {
+         "type": "RunRoute",
+         "distance": 0.13,
+         "direction": 90,
+         "speed": 100
+        },
         {
          "type": "RunRoute",
          "distance": 1.88,
@@ -20066,7 +20084,9 @@
      "fx": 11,
      "fy": -2.2,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_SLWR",
+     "depth": 2
     },
     {
      "slot": 3,
@@ -20088,7 +20108,7 @@
      "stance": "StanceType_2pt",
      "fstance": "StanceType_2pt",
      "pos": "POSITION_SLWR",
-     "depth": 2
+     "depth": 1
     },
     {
      "slot": 5,
@@ -24765,7 +24785,7 @@
       "3": "Blocking/RunBlock_All",
       "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_945b0c4ed9",
+       "new": "FUSION/R_abd49efcc9",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -24798,14 +24818,8 @@
          "shouldStopAtTarget": false
         },
         {
-         "type": "RunRoute",
-         "distance": 5,
-         "direction": 90,
-         "speed": 100
-        },
-        {
          "type": "LeadBlock",
-         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_CRACK_BLOCK",
          "blockingGap": "RUN_HOLE"
         },
         {
@@ -24814,7 +24828,7 @@
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_STALK"
+         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
         }
        ]
       }
@@ -26545,7 +26559,9 @@
      "fx": -18,
      "fy": -2.2,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_WR",
+     "depth": 1
     },
     {
      "slot": 4,
