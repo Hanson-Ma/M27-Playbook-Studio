@@ -660,6 +660,8 @@ export const PRESET_BY_ID: Record<RoutePresetId, RoutePresetDef> = Object.fromEn
 
 export interface PresetContext {
   side: RouteSide;
+  /** Field y the route starts from (the player's spot). With it, a depth route's "Depth" is yards past the line of scrimmage. */
+  startY?: number;
 }
 
 const lr = (side: RouteSide, toward: "in" | "out") => ((side === "right") === (toward === "out") ? "Rt" : "Lt");
@@ -740,8 +742,16 @@ export function presetSteps(id: RoutePresetId, ctx: PresetContext, params: Parti
   const { side } = ctx;
   const out: Step[] = releaseSteps(p.release, side);
   const H = (toward: "in" | "out", a: number) => sideHeading(side, toward, a);
+  // Depth routes (out, in, curl, hitch, comeback…): "Depth" is how far past the line of scrimmage the stem ends, so a
+  // 5-yard hitch stops at 5 yards even though the player lines up about a yard behind the ball and his release already
+  // gained some. Everything else keeps the stem as the length of the first leg.
+  const stemLeg = (): number => {
+    if (!def.depthInName || ctx.startY === undefined) return p.stem;
+    const rise = out.reduce((y, s) => (s.type === "RunRoute" ? y + Math.sin((Number(s.direction) * Math.PI) / 180) * Number(s.distance) : y), 0);
+    return Math.max(0.5, r2(p.stem - ctx.startY - rise));
+  };
   const legPair = (stemDir: number, breakDir: number) => {
-    out.push(runLeg(p.stem, stemDir, p.stemSpeed));
+    out.push(runLeg(stemLeg(), stemDir, p.stemSpeed));
     const cut = cutFor(stemDir, breakDir);
     if (cut) out.push(cut);
     if (p.breakLength > 0) out.push(runLeg(p.breakLength, breakDir, p.breakSpeed));
@@ -767,7 +777,7 @@ export function presetSteps(id: RoutePresetId, ctx: PresetContext, params: Parti
     }
     case "curl":
     case "hitch": {
-      out.push(runLeg(p.stem, 90, p.stemSpeed));
+      out.push(runLeg(stemLeg(), 90, p.stemSpeed));
       const dir = p.breakDir === "in" ? insideTurn(side) : outsideTurn(side);
       const cut = id === "curl" ? "RECEIVER_CUT_ANGLE_CURL" : "RECEIVER_CUT_ANGLE_SMASH_QUICK";
       if (p.end === "none") out.push(receiverCut(cut, dir));
@@ -775,7 +785,7 @@ export function presetSteps(id: RoutePresetId, ctx: PresetContext, params: Parti
       break;
     }
     case "comeback": {
-      out.push(runLeg(p.stem, 90, p.stemSpeed));
+      out.push(runLeg(stemLeg(), 90, p.stemSpeed));
       out.push(receiverCut("RECEIVER_CUT_ANGLE_HITCH_COMEBACK", p.breakDir === "out" ? outsideTurn(side) : insideTurn(side)));
       if (p.breakLength > 0) out.push(runLeg(p.breakLength, breakHeading, p.breakSpeed));
       out.push(...endSteps(p.end, breakHeading, side));

@@ -453,8 +453,10 @@ describe("helpers", () => {
     expect(assetProblem(catalog, SET, "bad name")).toBeDefined();
     expect(suggestAsset(catalog, SET, "PBS Snag", "PBS_")).toBe("PBS_Snag_2");
     expect(suggestAsset(catalog, SET, "Smash Seam", "PBS_")).toBe("PBS_Smash_Seam");
-    expect(suggestPlayName(catalog, SET, "Snag", "PBS_")).toBe("PBS Snag 2");
-    expect(suggestPlayName(catalog, SET, "Mesh", "PBS_")).toBe("PBS Mesh");
+    // no prefix on the in-game name: a free name stays as it is, a taken one (library or custom) gets a number
+    expect(suggestPlayName(catalog, SET, "Mesh")).toBe("Mesh");
+    expect(suggestPlayName(catalog, SET, "Curls")).toBe("Curls 2");
+    expect(suggestPlayName(catalog, SET, "PBS Snag")).toBe("PBS Snag 2");
   });
 
   it("builds a new play spec, optionally with a slot assignment", () => {
@@ -630,8 +632,8 @@ describe("clone bases (custom sets)", () => {
     expect(basePlayOf(catalog, "nope").def).toBeUndefined();
   });
 
-  it("doesn't prefix a clone's name twice", () => {
-    expect(suggestPlayName(catalog, SET, "PBS O Four Verticals", "PBS_")).toBe("PBS O Four Verticals");
-    expect(suggestPlayName(catalog, SET, "Four Verticals", "PBS_")).toBe("PBS Four Verticals");
+  it("doesn't add a prefix to a clone's name", () => {
+    expect(suggestPlayName(catalog, SET, "PBS O Four Verticals")).toBe("PBS O Four Verticals");
+    expect(suggestPlayName(catalog, SET, "Four Verticals")).toBe("Four Verticals 2"); // the library play keeps its name
   });
 });

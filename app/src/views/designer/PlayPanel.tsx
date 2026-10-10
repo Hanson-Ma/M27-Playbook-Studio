@@ -20,6 +20,7 @@ import {
   swapBase,
   swapBaseLosses,
 } from "../../model/designer";
+import { backfieldChanged, resetBackfield } from "../../model/backfield";
 import { CONCEPTS_PATH } from "../../model/conceptsDoc";
 import { parseJson } from "../../model/json";
 import { folder, leaf } from "../../model/names";
@@ -34,6 +35,7 @@ import { useSettings } from "../../state/settings";
 import { useDoc, useDocsOfKind, useWorkspace } from "../../state/workspace";
 import { Button, FormRow, IconButton, SearchSelect, TextInput, confirmDialog, cx, toast } from "../../ui";
 import { openAddToPlaybook } from "../library/AddToPlaybook";
+import { BackfieldModal } from "./BackfieldModal";
 import { Disclosure } from "./Disclosure";
 import { HolePicker } from "./GapDiagram";
 import { ReadsEditor } from "./ReadsEditor";
@@ -44,6 +46,7 @@ import s from "./PlayPanel.module.css";
 export function PlayPanel() {
   const d = useDesigner();
   const { state, catalog, set, file, index, prefix, lib } = d;
+  const [pickBackfield, setPickBackfield] = useState(false);
   const self = catalog.custom.find((p) => p.file === file && p.index === index);
   const selfKey = self?.key;
 
@@ -168,6 +171,23 @@ export function PlayPanel() {
       </section>
 
       <section className={s.section}>
+        <div className={s.eyebrow}>Backfield Action</div>
+        <FormRow label="Handoff, Fake or Dropback" hint="What the QB, the backs and the line do at the snap. Pick any play in the game with the same QB and back spots — a left zone fake, a jet fake, a dropback.">
+          <div className={s.inline}>
+            <Button size="sm" variant="secondary" icon="route" onClick={() => setPickBackfield(true)}>
+              Change Action…
+            </Button>
+            {backfieldChanged(state) && (
+              <Button size="sm" variant="ghost" icon="undo" onClick={() => d.edit((st) => resetBackfield(st), "Base backfield")} title="Use the base play's QB, backs, line, type and blocking again">
+                Use Base
+              </Button>
+            )}
+          </div>
+        </FormRow>
+        {pickBackfield && <BackfieldModal onClose={() => setPickBackfield(false)} />}
+      </section>
+
+      <section className={s.section}>
         <div className={s.eyebrow}>Play Call</div>
         <FormRow
           label={<span className={s.labelRow}><span className={s.redDot} aria-hidden /> Primary Receiver (Red Route)</span>}
@@ -187,7 +207,14 @@ export function PlayPanel() {
         >
           <SearchSelect size="sm" value={String(vip)} options={vipOptions} onChange={(v) => d.edit((st) => setPlayField(st, "vip", Number(v)), "Primary receiver")} width="100%" />
         </FormRow>
-        <FormRow label="Play Type">
+        <FormRow
+          label="Play Type"
+          hint={
+            playTypeInfo(effectiveField<string>(state, "playType")).family !== playTypeInfo(basePlayType).family
+              ? "This only changes how the play is labelled and called. What the QB and backs do comes from Backfield Action above."
+              : undefined
+          }
+        >
           <SearchSelect
             size="sm"
             value={typeof state.play.playType === "string" ? state.play.playType : ""}

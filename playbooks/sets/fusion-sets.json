@@ -5027,22 +5027,31 @@
     {
      "name": "JW PA Curl",
      "asset": "FUS_JW_PA_Curl",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_X_Nasty/PA_Jet_Sweep",
+     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Deep_Over",
      "players": {
       "1": {
-       "new": "FUSION/R_c94720cc1a",
-       "routeType": "AssignRouteType_Block_Pass",
-       "template": "RunRoute/HB_SB_H4_PA_FlatsRt_Fake_FlySweep_(24)",
+       "new": "FUSION/R_480dc8da25",
+       "routeType": "AssignRouteType_RR_Flat_Lt",
        "keep": 3,
+       "template": "RunRoute/HB_SB_H3_PA_FlatsLt_Precan_46_50",
        "drop": [
         "OverrideFormPos"
        ],
        "prepend": [],
        "steps": [
         {
-         "type": "PassBlock",
-         "time": 0,
-         "flags": "PassBlockFlags_None"
+         "type": "ReceiverCut",
+         "direction": "RECEIVER_CUT_DIR_LEFT",
+         "cutType": "RECEIVER_CUT_ANGLE_22"
+        },
+        {
+         "type": "RunRoute",
+         "distance": 12,
+         "direction": 168.75,
+         "speed": 100
+        },
+        {
+         "type": "GetOpen"
         }
        ]
       },
@@ -5150,26 +5159,29 @@
        ]
       },
       "5": {
-       "new": "FUSION/R_32bf23e116",
+       "new": "FUSION/R_5fb8cc2c78",
        "routeType": "AssignRouteType_RR_Post_Deep",
-       "template": "WideReciever/Doubles_JetSweep_SwingLt_24",
-       "keep": 2,
-       "drop": [
-        "OverrideFormPos"
-       ],
-       "prepend": [],
        "steps": [
         {
-         "type": "RunRoute",
-         "distance": 6,
-         "direction": 180,
-         "speed": 65
-        },
-        {
-         "type": "RunRoute",
-         "distance": 3.53,
-         "direction": 172,
-         "speed": 65
+         "type": "AutoMotion",
+         "waypoints": [
+          {
+           "x": -1.25,
+           "y": -2.75,
+           "speed": 100,
+           "facingAngle": 0,
+           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+           "shouldFaceEndPoint": true
+          }
+         ],
+         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+         "startDelay": 0,
+         "endDelay": 0,
+         "automotionOrderTransitID": 1,
+         "automotionOrderPlayer": 0,
+         "stanceAtTarget": "StanceType_None",
+         "useLegacyLocoPathing": false,
+         "shouldStopAtTarget": false
         },
         {
          "type": "RunRoute",
@@ -5193,12 +5205,7 @@
          "type": "GetOpen"
         }
        ]
-      },
-      "6": "Blocking/ALL_PABlock",
-      "7": "Blocking/ALL_PABlock",
-      "8": "Blocking/ALL_PABlock",
-      "9": "Blocking/ALL_PABlock",
-      "10": "Blocking/ALL_PABlock"
+      }
      },
      "vip": 2,
      "reads": [

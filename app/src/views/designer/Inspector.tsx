@@ -6,6 +6,7 @@ import {
   isSlotChanged,
   isSlotLocked,
   libraryStepTypes,
+  precanChain,
   precanLength,
   resetSlot,
   setSlotSteps,
@@ -263,15 +264,15 @@ function BuildError({ slot, types }: { slot: number; types: string[] }) {
 
 function LockPanel({ slot, lock }: { slot: number; lock: number | null }) {
   const d = useDesigner();
-  const base = d.state.baseSlots[slot] ?? [];
-  const n = precanLength(base);
-  const precan = base.slice(0, n).map(stepSummary).join(" → ");
+  const chain = precanChain(d.state, slot);
+  const n = precanLength(chain);
+  const precan = chain.slice(0, n).map(stepSummary).join(" → ");
   return (
     <div className={cx(s.lockPanel, lock !== null && s.lockOpen)}>
       <div className={s.lockTitle}>{lock === null ? "Handoff Player — Locked" : "Editing After the Handoff"}</div>
       <p className={s.note}>
         This player's first steps ({precan || "the handoff"}) are paired with the QB — a handoff, fake, option or pitch — so they always come from the base play, and so
-        does where they line up. To change the handoff itself, pick another base play on the left.
+        does where they line up. To change the handoff itself, pick another base play or use Backfield Action on the left.
         {lock === null ? " You can still change what this player does after it." : " What happens after it is yours to change."}
       </p>
       {lock === null ? (

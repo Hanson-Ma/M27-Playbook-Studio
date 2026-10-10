@@ -724,9 +724,20 @@ export function isSlotChanged(state: DesignerState, i: number): boolean {
   return !!s && !stepsEqual(s.steps, state.baseSlots[i] ?? [NONE]);
 }
 
-/** The base slot carries handoff/fake/option/pitch mechanics (the designer locks it). */
+/** The slot carries handoff/fake/option/pitch mechanics — from the base play or from a backfield action (the designer locks it). */
 export function isSlotLocked(state: DesignerState, i: number): boolean {
-  return (state.baseSlots[i] ?? []).some(isMechanics);
+  return (state.baseSlots[i] ?? []).some(isMechanics) || (state.slots[i]?.steps ?? []).some(isMechanics);
+}
+
+/**
+ * The chain whose leading steps are the slot's handoff precan: the base play's while the slot still starts with it,
+ * else the slot's own (a backfield action brought a different one).
+ */
+export function precanChain(state: DesignerState, i: number): Step[] {
+  const base = state.baseSlots[i] ?? [];
+  const cur = state.slots[i]?.steps ?? [];
+  const n = precanLength(base);
+  return n > 0 && commonPrefix(cur, base) >= n ? base : cur;
 }
 
 /**
@@ -850,8 +861,8 @@ export function playNameProblem(catalog: Catalog, set: Asset, name: string, self
   const n = norm(name);
   if (!n) return "Name is required";
   if ((catalog.lib.playsBySet.get(set) ?? []).some((p) => norm(p.name) === n)) return "A library play in this set has this name";
-  const other = catalog.custom.find((rp) => rp.set === set && norm(rp.name) === n && rp.key !== selfKey);
-  if (other) return `Already used by "${maddenName(other.name)}" (${other.file})`;
+  const other = [...catalog.clones, ...catalog.custom].find((rp) => rp.set === set && norm(rp.name) === n && rp.key !== selfKey);
+  if (other) return `Already used by "${maddenName(other.name)}"${other.file ? ` (${other.file})` : " (a play copied into this set)"}`;
   return undefined;
 }
 
@@ -885,13 +896,12 @@ export function suggestAsset(catalog: Catalog, set: Asset, name: string, prefix:
   return uniqueName(base, takenLeaves(catalog, set, selfKey));
 }
 
-/** "PBS <base name>", unique in the set ("PBS Curls 2"). */
-export function suggestPlayName(catalog: Catalog, set: Asset, baseName: string, prefix: string): string {
-  const word = prefix.replace(/_+$/, "").trim();
-  // A base that already carries the prefix (a clone "PBS O Four Verticals") isn't prefixed twice.
-  const start = word && !norm(baseName).startsWith(`${norm(word)} `) ? `${word} ${baseName}` : baseName;
+/** The base name, made unique in the set ("Curls 2"). The in-game name carries no prefix (only the asset leaf does). */
+export function suggestPlayName(catalog: Catalog, set: Asset, baseName: string): string {
+  const start = baseName;
   const taken = new Set<string>([
     ...(catalog.lib.playsBySet.get(set) ?? []).map((p) => norm(p.name)),
+    ...catalog.clones.filter((rp) => rp.set === set).map((rp) => norm(rp.name)),
     ...catalog.custom.filter((rp) => rp.set === set).map((rp) => norm(rp.name)),
   ]);
   if (!taken.has(norm(start))) return start;

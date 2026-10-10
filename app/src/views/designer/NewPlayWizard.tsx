@@ -67,7 +67,7 @@ export function NewPlayWizard({ prefill, onClose }: { prefill?: WizardPrefill; o
   const [newFilePath, setNewFilePath] = useState<string>(prefillNewFile ? prefill!.file! : "playbooks/plays/my-plays.json");
   const defaults = (setA: Asset | undefined, b: Asset | undefined) => {
     if (!b || !setA) return { name: "", asset: "" };
-    const n = suggestPlayName(catalog, setA, basePlayOf(catalog, b).def?.name ?? "Play", prefix);
+    const n = suggestPlayName(catalog, setA, basePlayOf(catalog, b).def?.name ?? "Play");
     return { name: n, asset: suggestAsset(catalog, setA, n, prefix) };
   };
   const [name, setName] = useState(() => defaults(setAsset, base).name);

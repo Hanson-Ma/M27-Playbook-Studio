@@ -352,6 +352,26 @@ describe("presets reproduce the in-game-verified example routes", () => {
   });
 });
 
+describe("depth routes count their depth from the line of scrimmage", () => {
+  const stemEndY = (id: Parameters<typeof presetSteps>[0], startY: number | undefined, release: "none" | "inside", depth: number) => {
+    const steps = presetSteps(id, { side: "right", startY }, { stem: depth, release }).steps;
+    const legs = steps.filter((s) => s.type === "RunRoute");
+    // the stem ends after the release and the first (vertical) leg
+    const upTo = release === "none" ? 1 : 2;
+    return (startY ?? 0) + legs.slice(0, upTo).reduce((y, s) => y + Math.sin((Number(s.direction) * Math.PI) / 180) * Number(s.distance), 0);
+  };
+  it("a 5-yard hitch from a spot 0.8 yd behind the ball stops 5 yd past it", () => {
+    expect(stemEndY("hitch", -0.8, "none", 5)).toBeCloseTo(5, 1);
+    expect(stemEndY("curl", -0.8, "inside", 12)).toBeCloseTo(12, 1);
+  });
+  it("without a start spot the stem is the leg length, as before", () => {
+    expect(presetSteps("hitch", { side: "right" }, { stem: 5, release: "none" }).steps[0]).toMatchObject({ type: "RunRoute", distance: 5 });
+  });
+  it("routes that aren't depth routes keep their stem", () => {
+    expect(presetSteps("slant", { side: "right", startY: -0.8 }, { stem: 2, release: "none" }).steps[0]).toMatchObject({ distance: 2 });
+  });
+});
+
 describe("releases and double moves", () => {
   it("inside means toward the ball", () => {
     expect(sideHeading("right", "in", 15)).toBe(105);

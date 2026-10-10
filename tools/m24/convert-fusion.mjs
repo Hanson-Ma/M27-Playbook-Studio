@@ -540,7 +540,7 @@ const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
 //  play; qb: the QB's assignment (e.g. no drop step); ltEdge: the LT pass sets (takes the edge rusher) instead of run-action blocking; stem: yd added to the red route's stem.
 const EDITS = {
   "Singleback/Tight Doubles/JW PA Boot": { noJetFake: true },
-  "Singleback/Tight Doubles/JW PA Curl": { hbBlock: true },
+  "Singleback/Tight Doubles/JW PA Curl": { noJetFake: true, anim: "46/50" }, // 2026-10-09: plain left-zone fake (no jet fake, no HB block), the jet wheels like JW PA Boot
   "Singleback/Tight Doubles/J PA WR Screen": { motion: { earlier: 0.75 }, line: ["Stretch WR Screen", "Wing Pair"] },
   "Singleback/Tight Doubles/Jet Counter Wk": { motion: { earlier: -1.25 } },
   "Singleback/Tight Doubles/Jet Dive": { motion: { earlier: 1, y: -2.9, flat: true } },

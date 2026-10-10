@@ -5,6 +5,7 @@ import type { Catalog } from "../../model/catalog";
 import {
   isSlotChanged,
   isSlotLocked,
+  precanChain,
   precanLength,
   commonPrefix,
   type DesignerState,
@@ -149,7 +150,7 @@ export function lockOf(state: DesignerState, ui: EditorUi, slot: number): number
   if (ui.unlocked[slot] !== undefined) return ui.unlocked[slot];
   // A slot already edited after its precan (e.g. "keep": 2) opens unlocked.
   const base = state.baseSlots[slot] ?? [];
-  const n = precanLength(base);
+  const n = precanLength(precanChain(state, slot));
   if (isSlotChanged(state, slot) && commonPrefix(state.slots[slot].steps, base) >= n) return n;
   return null;
 }

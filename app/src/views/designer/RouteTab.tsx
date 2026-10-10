@@ -49,15 +49,18 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   const side = slotSide(state, slot);
   const [library, setLibrary] = useState(false);
   const keep = lock > 0 ? lock : undefined;
+  // Depth routes count their depth from the line of scrimmage, so they need to know where the player starts.
+  const geom = slotGeometry(set, slot, steps, lock);
+  const startY = geom.start.y;
 
   const tiles = useMemo(
     () =>
       ROUTE_PRESETS.map((def) => {
-        const built = presetSteps(def.id, { side });
+        const built = presetSteps(def.id, { side, startY });
         const next = replaceBody(steps, built.steps, keep);
         return { def, steps: next, routeType: built.routeType, off: tileOffField({ set }, slot, next) };
       }),
-    [steps, side, keep, set, slot],
+    [steps, side, keep, set, slot, startY],
   );
   const doubles = useMemo(
     () =>
@@ -73,7 +76,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   const activePreset = memo && stepsEqual(memo.steps, steps) ? memo : undefined;
 
   const applyPreset = (id: RoutePresetId, params: Partial<RouteParams>, label: string, coalesceMs?: number) => {
-    const built = presetSteps(id, { side }, params);
+    const built = presetSteps(id, { side, startY }, params);
     const next = replaceBody(steps, built.steps, keep);
     d.commitSlot(slot, next, label, { routeType: built.routeType, family: PRESET_BY_ID[id].family }, coalesceMs);
     setUi((u) => ({ presets: { ...u.presets, [slot]: { id, params, steps: next } }, vertex: undefined }));
@@ -91,7 +94,6 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
     });
   };
 
-  const geom = slotGeometry(set, slot, steps, lock);
   const hasLegs = geom.route.legs.length > 0;
   const end = routeEnd(geom.route);
   const setEnd = (e: RouteEnd) => d.commitSlot(slot, editRoute(steps, (r) => setRouteEnd(r, e, geom.start)), "Route end");

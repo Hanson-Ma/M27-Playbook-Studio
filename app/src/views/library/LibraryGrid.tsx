@@ -2,7 +2,7 @@
 // virtualized grid of play cards grouped per tab. Mouse first: click selects, double-click opens, right-click menu;
 // the action bar (Open · Add to playbook · Clone in designer · Favorite) acts on the selected card. Arrow keys move
 // the selection while the grid has focus; Enter opens.
-import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Fragment, memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { PlayCard, cardSubtitle } from "../../field";
 import { computeArt, emptyArt } from "../../model/art";
 import { displayFromLeaf, leaf } from "../../model/names";
@@ -59,7 +59,6 @@ export function LibraryGrid() {
 
   // Browse (the "formation" tab): pick a formation in the list, then one of its sets (or all of them), like the game's
   // formation screen. Counts follow the search and filters.
-  const [fSel, setFSel] = useState<string | undefined>();
   const [sSel, setSSel] = useState<string | undefined>();
   const browse = useMemo(() => {
     if (tab !== "formation") return [];
@@ -77,14 +76,13 @@ export function LibraryGrid() {
     }
     return [...out.values()];
   }, [tab, entries, catalog]);
-  const curF = browse.find((f) => f.asset === fSel) ?? browse[0];
-  const curS = curF && sSel ? curF.sets.get(sSel) : undefined;
+  // The formation filter on the left rail already narrows the formations, so the set list spans whatever is left.
+  const curS = sSel ? browse.map((f) => f.sets.get(sSel)).find(Boolean) : undefined;
   const view = useMemo(() => {
     if (tab !== "formation") return sections;
-    if (!curF) return [];
-    const list = entries.filter((e) => e.play.formation === curF.asset && (!curS || e.play.set === curS.asset));
+    const list = curS ? entries.filter((e) => e.play.set === curS.asset) : entries;
     return groupResults(list, "formation", { lib: catalog?.lib });
-  }, [tab, sections, entries, curF, curS, catalog]);
+  }, [tab, sections, entries, curS, catalog]);
 
   // Flat display order (concept tab can list a play in several sections).
   const flat = useMemo(() => view.flatMap((x) => x.entries), [view]);
@@ -176,7 +174,7 @@ export function LibraryGrid() {
     const grid = (
       <SectionGrid
         ref={gridRef}
-        key={tab === "formation" ? `browse:${curF?.asset}:${curS?.asset}` : tab}
+        key={tab === "formation" ? `browse:${curS?.asset}` : tab}
         sections={gridSections}
         renderHeader={tab === "all" || personal ? undefined : renderHeader}
         renderCell={renderCell}
@@ -210,35 +208,20 @@ export function LibraryGrid() {
     body =
       tab === "formation" && browse.length > 0 ? (
         <div className={s.browse}>
-          <nav className={s.formList} aria-label="Formations">
+          <nav className={s.setList} aria-label="Sets">
+            <button type="button" aria-current={!curS} className={cx(s.allSets, !curS && s.allSetsOn)} onClick={() => setSSel(undefined)}>
+              <span>All Sets</span>
+              <span className={s.formCount}>{fmt(browse.reduce((n, f) => n + f.count, 0))}</span>
+            </button>
             {browse.map((f) => (
-              <button
-                key={f.asset}
-                type="button"
-                aria-current={f === curF}
-                className={cx(s.formItem, f === curF && s.formItemOn)}
-                onClick={() => {
-                  setFSel(f.asset);
-                  setSSel(undefined);
-                  gridScroll.top = 0;
-                }}
-              >
-                <span className={cx(s.formName, "caps")}>{f.name}</span>
-                <span className={s.formCount}>{fmt(f.count)}</span>
-              </button>
+              <Fragment key={f.asset}>
+                {browse.length > 1 && <div className={cx(s.setGroup, "caps")}>{f.name}</div>}
+                {[...f.sets.values()].map((st) => (
+                  <SetThumb key={st.asset} asset={st.asset} name={st.name} count={st.count} selected={curS === st} onClick={() => setSSel(st.asset)} />
+                ))}
+              </Fragment>
             ))}
           </nav>
-          {curF && (
-            <nav className={s.setList} aria-label="Sets">
-              <button type="button" aria-current={!curS} className={cx(s.allSets, !curS && s.allSetsOn)} onClick={() => setSSel(undefined)}>
-                <span>All Sets</span>
-                <span className={s.formCount}>{fmt(curF.count)}</span>
-              </button>
-              {[...curF.sets.values()].map((st) => (
-                <SetThumb key={st.asset} asset={st.asset} name={st.name} count={st.count} selected={curS === st} onClick={() => setSSel(st.asset)} />
-              ))}
-            </nav>
-          )}
           <div className={s.browseGrid}>{grid}</div>
         </div>
       ) : (

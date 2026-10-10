@@ -33,7 +33,7 @@ export function editPlay(data: BuilderData, node: BookNode): void {
   }
   const ws = useWorkspace.getState();
   const prefix = useSettings.getState().assetPrefix;
-  const name = suggestPlayName(data.catalog, play.set, play.name, prefix);
+  const name = suggestPlayName(data.catalog, play.set, play.name);
   const asset = suggestAsset(data.catalog, play.set, name, prefix);
   const file = `playbooks/plays/${slugify(String(data.spec.name || "playbook"))}-edits.json`;
   const spec = newPlaySpec({ name, asset, base: play.asset });
