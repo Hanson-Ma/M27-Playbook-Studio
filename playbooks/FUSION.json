@@ -3761,7 +3761,111 @@
     },
     {
       "formation": "Kickoff",
-      "sets": "template"
+      "sets": [
+        {
+          "set": "Landing Zone NFL Kickoff",
+          "plays": [
+            {
+              "play": "Kickoff Left",
+              "cpu": {
+                "Kickoff": 40
+              }
+            },
+            {
+              "play": "Kickoff Middle",
+              "cpu": {
+                "Kickoff": 40
+              }
+            },
+            {
+              "play": "Kickoff Right",
+              "cpu": {
+                "Kickoff": 40
+              }
+            }
+          ]
+        },
+        {
+          "set": "Heavy Landing Zone NFL Kickoff",
+          "plays": [
+            {
+              "play": "Heavy Kickoff Left",
+              "cpu": {
+                "Kickoff": 40
+              }
+            },
+            {
+              "play": "Heavy Kickoff Middle",
+              "cpu": {
+                "Kickoff": 40
+              }
+            },
+            {
+              "play": "Heavy Kickoff Right",
+              "cpu": {
+                "Kickoff": 40
+              }
+            }
+          ]
+        },
+        {
+          "set": "NFL Kickoff",
+          "plays": [
+            {
+              "play": "Kickoff Deep Left",
+              "cpu": {
+                "Kickoff": 10
+              }
+            },
+            {
+              "play": "Kickoff Deep Middle",
+              "cpu": {
+                "Kickoff": 10,
+                "Squib": 10
+              }
+            },
+            {
+              "play": "Kickoff Deep Right",
+              "cpu": {
+                "Kickoff": 10
+              }
+            }
+          ]
+        },
+        {
+          "set": "NFL Onside Kick 3",
+          "plays": [
+            {
+              "play": "Strong Onside",
+              "cpu": {
+                "KickoffOnside": 10
+              }
+            }
+          ]
+        },
+        {
+          "set": "NFL Onside Kick 2",
+          "plays": [
+            {
+              "play": "Speed Onside",
+              "cpu": {
+                "KickoffOnside": 10
+              }
+            }
+          ]
+        },
+        {
+          "set": "NFL Onside Kick",
+          "plays": [
+            {
+              "play": "Onside Kick",
+              "cpu": {
+                "KickoffOnside": 10
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "formation": "Safety Kickoff",
