@@ -18,8 +18,11 @@ const CARD_HEIGHT = (2 * HALF_WIDTH) / CARD_ASPECT;
 /** Paths are cut this far inside the card's side edges (room for the arrowhead). */
 const CARD_X_LIMIT = HALF_WIDTH - 0.6;
 
-const OFFENSE_DEPTH = compressedDepth({ knee: 8, reach: 7.6, backKnee: -5.5, backReach: 2.5, xLimit: CARD_X_LIMIT });
-const DEFENSE_DEPTH = compressedDepth({ knee: 8, reach: 13, backKnee: -2.5, backReach: 2.5, xLimit: CARD_X_LIMIT });
+/** In game a 6.5 yd route reaches the 10-yard mark on a card: the yard lines sit at 0.65 of their true spacing. */
+const MARK_SCALE = 0.65;
+
+const OFFENSE_DEPTH = compressedDepth({ knee: 8, reach: 7.6, backKnee: -5.5, backReach: 2.5, xLimit: CARD_X_LIMIT, markScale: MARK_SCALE });
+const DEFENSE_DEPTH = compressedDepth({ knee: 8, reach: 13, backKnee: -2.5, backReach: 2.5, xLimit: CARD_X_LIMIT, markScale: MARK_SCALE });
 
 /** Sideline to sideline, in drawn (compressed) yards; carries its depth scale for <Field>. */
 const makeViewport = (minY: number, depth: DepthScale): FieldViewport =>

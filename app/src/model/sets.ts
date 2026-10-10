@@ -19,7 +19,7 @@
 //   builder's FNV-1a ids (gameId), so they match research/index/custom-*.tsv.
 import type { LibraryIndex } from "./library";
 import { folder, leaf, maddenName, norm, sanitizeAssetLeaf, uniqueName } from "./names";
-import { glyphFor, isEligible, positionCode, positionName, slotLabel } from "./positions";
+import { glyphFor, isEligible, isOffensiveLine, positionCode, positionKey, positionName, slotLabel } from "./positions";
 import { isMechanics } from "./steps";
 import {
   PLAYLIBRARY_ROOT,
@@ -109,17 +109,47 @@ export type SetsInput = { path: string; data: SetsFile | null | undefined };
  * Positions a skill slot can be changed to (SetBuilder writes depthPosition + depth). Linemen and the QB stay put: the
  * game needs 5 OL and one QB in their slots.
  */
-export const SKILL_POSITIONS = [
-  { code: "WR", pos: "POSITION_WR", label: "Wide Receiver" },
-  { code: "SL", pos: "POSITION_SLWR", label: "Slot Receiver" },
-  { code: "TE", pos: "POSITION_TE", label: "Tight End" },
-  { code: "HB", pos: "POSITION_HB", label: "Halfback" },
-  { code: "FB", pos: "POSITION_FB", label: "Fullback" },
+export const POSITION_CHOICES = [
+  { group: "Offense", pos: "POSITION_QB", code: "QB", label: "Quarterback" },
+  { group: "Offense", pos: "POSITION_HB", code: "HB", label: "Halfback" },
+  { group: "Offense", pos: "POSITION_3DRB", code: "3DRB", label: "Third Down Back" },
+  { group: "Offense", pos: "POSITION_PWHB", code: "PWHB", label: "Power Back" },
+  { group: "Offense", pos: "POSITION_FB", code: "FB", label: "Fullback" },
+  { group: "Offense", pos: "POSITION_WR", code: "WR", label: "Wide Receiver" },
+  { group: "Offense", pos: "POSITION_SLWR", code: "SL", label: "Slot Receiver" },
+  { group: "Offense", pos: "POSITION_TE", code: "TE", label: "Tight End" },
+  { group: "Offense", pos: "POSITION_LT", code: "LT", label: "Left Tackle" },
+  { group: "Offense", pos: "POSITION_LG", code: "LG", label: "Left Guard" },
+  { group: "Offense", pos: "POSITION_C", code: "C", label: "Center" },
+  { group: "Offense", pos: "POSITION_RG", code: "RG", label: "Right Guard" },
+  { group: "Offense", pos: "POSITION_RT", code: "RT", label: "Right Tackle" },
+  { group: "Defense", pos: "POSITION_LE", code: "LE", label: "Left Defensive End" },
+  { group: "Defense", pos: "POSITION_RE", code: "RE", label: "Right Defensive End" },
+  { group: "Defense", pos: "POSITION_DT", code: "DT", label: "Defensive Tackle" },
+  { group: "Defense", pos: "POSITION_NT", code: "NT", label: "Nose Tackle" },
+  { group: "Defense", pos: "POSITION_LOLB", code: "LOLB", label: "Left Outside Linebacker" },
+  { group: "Defense", pos: "POSITION_MLB", code: "MLB", label: "Middle Linebacker" },
+  { group: "Defense", pos: "POSITION_ROLB", code: "ROLB", label: "Right Outside Linebacker" },
+  { group: "Defense", pos: "POSITION_SLB", code: "SLB", label: "Linebacker" },
+  { group: "Defense", pos: "POSITION_CB", code: "CB", label: "Cornerback" },
+  { group: "Defense", pos: "POSITION_SLCB", code: "NB", label: "Nickel Cornerback" },
+  { group: "Defense", pos: "POSITION_FS", code: "FS", label: "Free Safety" },
+  { group: "Defense", pos: "POSITION_SS", code: "SS", label: "Strong Safety" },
+  { group: "Special Teams", pos: "POSITION_K", code: "K", label: "Kicker" },
+  { group: "Special Teams", pos: "POSITION_P", code: "P", label: "Punter" },
+  { group: "Special Teams", pos: "POSITION_LS", code: "LS", label: "Long Snapper" },
+  { group: "Special Teams", pos: "POSITION_KR", code: "KR", label: "Kick Returner" },
+  { group: "Special Teams", pos: "POSITION_PR", code: "PR", label: "Punt Returner" },
 ] as const;
 
-/** Whether a slot's position can be changed (an eligible skill player, not the QB / a lineman). */
+/** Kept for older callers: the receivers and backs. */
+export const SKILL_POSITIONS = POSITION_CHOICES.filter((x) => ["HB", "3DRB", "PWHB", "FB", "WR", "SL", "TE"].includes(x.code));
+
+const knownPos = (pos: string) => POSITION_CHOICES.some((x) => x.pos === pos);
+
+/** Every player can change position (the game fills the slot from that spot on the depth chart). */
 export function canChangePosition(a: Pick<AlignmentPos, "pos" | "group">): boolean {
-  return isEligible(a) && SKILL_POSITIONS.some((x) => x.code === positionCode(a.pos));
+  return knownPos(a.pos) || POSITION_CHOICES.some((x) => x.code === positionCode(a.pos));
 }
 
 /**
@@ -144,13 +174,36 @@ export function personnelOf(normal: readonly Pick<AlignmentPos, "pos" | "group">
 }
 
 /** A slot's new position as a patch: the enum plus the next free depth for it (a third TE becomes TE3). */
-export function positionPatch(alignment: readonly AlignmentPos[], slot: number, code: string): SlotPatch | undefined {
-  const choice = SKILL_POSITIONS.find((x) => x.code === code);
+export function positionPatch(alignment: readonly AlignmentPos[], slot: number, codeOrPos: string): SlotPatch | undefined {
+  const choice = POSITION_CHOICES.find((x) => x.pos === codeOrPos) ?? POSITION_CHOICES.find((x) => x.code === codeOrPos);
   const cur = alignment[slot];
   if (!choice || !cur) return undefined;
-  if (positionCode(cur.pos) === code) return { pos: cur.pos, depth: cur.depth };
-  const depth = 1 + alignment.reduce((m, a, i) => (i !== slot && positionCode(a.pos) === code ? Math.max(m, a.depth || 0) : m), 0);
+  if (positionKey(cur.pos) === positionKey(choice.pos)) return { pos: cur.pos, depth: cur.depth };
+  const depth = 1 + alignment.reduce((m, a, i) => (i !== slot && positionKey(a.pos) === positionKey(choice.pos) ? Math.max(m, a.depth || 0) : m), 0);
   return { pos: choice.pos, depth };
+}
+
+let stanceCache: WeakMap<object, Map<string, string>> | undefined;
+
+/** The stance the game library uses most for a position ("POSITION_WR" gives the receiver stance). */
+export function typicalStance(sets: readonly SetDef[], pos: string): string | undefined {
+  stanceCache ??= new WeakMap();
+  let byPos = stanceCache.get(sets);
+  if (!byPos) {
+    const counts = new Map<string, Map<string, number>>();
+    for (const st of sets) {
+      for (const a of st.movements?.Normal ?? []) {
+        const k = positionKey(a.pos);
+        const m = counts.get(k) ?? new Map<string, number>();
+        m.set(a.stance, (m.get(a.stance) ?? 0) + 1);
+        counts.set(k, m);
+      }
+    }
+    byPos = new Map();
+    for (const [k, m] of counts) byPos.set(k, [...m.entries()].sort((a, b) => b[1] - a[1])[0][0]);
+    stanceCache.set(sets, byPos);
+  }
+  return byPos.get(positionKey(pos));
 }
 
 // ───────────────────────────── small helpers ─────────────────────────────
@@ -168,7 +221,7 @@ const fieldEq = (f: PositionField, a: unknown, b: unknown): boolean => {
   if (f === "x" || f === "y" || f === "facing") return isNum(a) && isNum(b) && sameNum(a, b);
   if (f === "motionMan" || f === "stayOnFlip") return !!a === !!b;
   // Aliased enum names (POSITION_LASTKEYOFFENSE is POSITION_TE) are the same position.
-  if (f === "pos") return typeof a === "string" && typeof b === "string" && positionCode(a) === positionCode(b);
+  if (f === "pos") return typeof a === "string" && typeof b === "string" && positionKey(a) === positionKey(b);
   return a === b;
 };
 const fmt = (n: number) => (Math.round(n * 100) / 100).toString();
@@ -324,7 +377,7 @@ function applyEntry(a: AlignmentPos, e: SlotPosition | undefined, n: number): Al
   if (isNum(e.facing)) out.facing = e.facing;
   if (isSlot(e.flipAssign, n)) out.flipAssign = e.flipAssign;
   if (typeof e.motionMan === "boolean") out.motionMan = e.motionMan;
-  if (typeof e.pos === "string" && SKILL_POSITIONS.some((x) => x.pos === e.pos)) out.pos = e.pos;
+  if (typeof e.pos === "string" && knownPos(e.pos)) out.pos = e.pos;
   if (Number.isInteger(e.depth) && (e.depth as number) >= 1) out.depth = e.depth as number;
   if (typeof e.stayOnFlip === "boolean") out.stayOnFlip = e.stayOnFlip;
   return out;
@@ -1199,6 +1252,12 @@ export function alignmentIssues(normal: AlignmentPos[], base: SetDef, ctx: Align
     push("error", "set-line-count", msg);
   }
 
+  // Positions can be changed on any player: an offense still needs one QB and five linemen to run its plays.
+  const had = (list: readonly AlignmentPos[], code: string) => list.filter((a) => positionCode(a.pos) === code).length;
+  if (had(baseNormal, "QB") === 1 && had(normal, "QB") !== 1) push("warning", "set-personnel", `The set has ${had(normal, "QB")} quarterbacks — plays hand the ball off and drop back from exactly one`);
+  const olCount = (list: readonly AlignmentPos[]) => list.filter((a) => isOffensiveLine(a.pos)).length;
+  if (olCount(baseNormal) === 5 && olCount(normal) !== 5) push("warning", "set-personnel", `The set has ${olCount(normal)} offensive linemen — the blocking schemes are built for five`);
+
   // SetBuilder warns when slots 6–10 leave the standard OL spots; the base's own (wider) splits aren't reported.
   for (let k = 0; k < OL_SPOTS.length; k++) {
     const i = 6 + k;
@@ -1502,8 +1561,7 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
           if (e.flipAssign !== undefined && !isSlot(e.flipAssign, n)) p("error", "set-flip-assign", `Positions slot ${e.slot}: flipAssign must be a slot (${range})`, ew);
           if (e.motionMan !== undefined && typeof e.motionMan !== "boolean") p("error", "set-motion-man", `Positions slot ${e.slot}: motionMan must be true or false`, ew);
           if (e.pos !== undefined) {
-            if (typeof e.pos !== "string" || !SKILL_POSITIONS.some((x) => x.pos === e.pos)) p("error", "set-position", `Positions slot ${e.slot}: pos must be one of ${SKILL_POSITIONS.map((x) => x.pos).join(", ")}`, ew);
-            else if (!canChangePosition(normalOf(base)[e.slot] ?? { pos: "", group: "" })) p("error", "set-position", `Positions slot ${e.slot}: only receivers, tight ends and backs can change position`, ew);
+            if (typeof e.pos !== "string" || !knownPos(e.pos)) p("error", "set-position", `Positions slot ${e.slot}: pos must be one of ${POSITION_CHOICES.map((x) => x.pos).join(", ")}`, ew);
           }
           if (e.depth !== undefined && !(Number.isInteger(e.depth) && (e.depth as number) >= 1 && (e.depth as number) <= 9)) p("error", "set-position", `Positions slot ${e.slot}: depth must be a whole number 1–9`, ew);
         });

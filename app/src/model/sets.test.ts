@@ -627,8 +627,8 @@ describe("personnel and position changes", () => {
     expect(positionPatch(eleven, 4, "TE")).toEqual({ pos: "POSITION_TE", depth: 2 });
     expect(positionPatch(eleven, 2, "WR")).toEqual({ pos: "POSITION_WR", depth: 1 }); // already a WR: unchanged
     expect(positionPatch(eleven, 1, "WR")).toEqual({ pos: "POSITION_WR", depth: 3 });
-    expect(canChangePosition(eleven[0])).toBe(false); // QB
-    expect(canChangePosition(eleven[6])).toBe(false); // LT
+    expect(canChangePosition(eleven[0])).toBe(true); // QB
+    expect(canChangePosition(eleven[6])).toBe(true); // LT
     expect(canChangePosition(eleven[5])).toBe(true); // TE (aliased enum)
   });
 });

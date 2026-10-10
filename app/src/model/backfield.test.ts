@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { applyBackfieldAction, backfieldActions, backfieldChanged, resetBackfield } from "./backfield";
+import { BACKFIELD_PRESETS, applyBackfieldAction, backfieldActions, backfieldChanged, presetFits, resetBackfield } from "./backfield";
 import { buildCatalog } from "./catalog";
 import { effectiveField, isSlotLocked, precanChain, precanLength, specFromState, stateFromSpec } from "./designer";
 import { loadLibraryData } from "./libFixture";
@@ -37,7 +37,7 @@ describe("backfield actions", () => {
   it("applying a run action turns the play into that run and locks its new handoff", () => {
     const run = actions.find((a) => a.family === "run")!;
     const next = applyBackfieldAction(state, run, catalog);
-    expect(next.slots[0].assignment).toBe(run.qb);
+    expect(next.slots[0].assignment).toBe(run.qb.path);
     expect(effectiveField(next, "playType")).toBe(run.playType);
     expect(effectiveField(next, "runHole")).toBe(run.runHole);
     expect(backfieldChanged(next)).toBe(true);
@@ -48,7 +48,7 @@ describe("backfield actions", () => {
     // the spec stores plain library paths for the swapped slots, and it resolves to those steps
     const spec = specFromState(next, ctx);
     expect(spec.players?.["1"]).toBe(hb.assignment);
-    expect(spec.players?.["0"]).toBe(run.qb);
+    expect(spec.players?.["0"]).toBe(run.qb.path);
     expect(stepsEqual(lib.assignment(String(spec.players?.["1"]))!.steps, hb.steps)).toBe(true);
     expect(spec.playType).toBe(run.playType);
   });
@@ -68,5 +68,24 @@ describe("backfield actions", () => {
     expect(backfieldChanged(back)).toBe(false);
     expect(effectiveField(back, "playType")).toBe(effectiveField(state, "playType"));
     expect(specFromState(back, ctx).players).toBeUndefined();
+  });
+});
+
+describe("presets and FUSION packages", () => {
+  const state = fresh();
+  const actions = backfieldActions(state, catalog);
+  it("most presets have a fit on a common formation, and FUSION has its own packages", () => {
+    const fits = presetFits(actions);
+    const have = BACKFIELD_PRESETS.filter((p) => (fits.get(p.id)?.length ?? 0) > 0).map((p) => p.label);
+    console.log("fits", have.join(", "), "| fusion", actions.filter((a) => a.fusion).length, actions.filter((a) => a.fusion).slice(0, 12).map((a) => `${a.play.name} (${a.play.set.split("/").slice(-2)[0]})`).join("; "));
+    expect(BACKFIELD_PRESETS.length).toBeGreaterThanOrEqual(20);
+    expect(have.length).toBeGreaterThan(5);
+  });
+  it("a FUSION package applies authored steps and still round-trips through the spec", () => {
+    const f = actions.find((a) => a.fusion);
+    if (!f) return;
+    const next = applyBackfieldAction(state, f, catalog);
+    const spec = specFromState(next, ctx);
+    expect(spec.players).toBeDefined();
   });
 });

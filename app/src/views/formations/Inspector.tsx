@@ -5,11 +5,11 @@
 import { useMemo, useState, type ReactNode } from "react";
 import type { LibraryIndex } from "../../model/library";
 import { formationShort, leaf, norm } from "../../model/names";
-import { positionCode, positionName } from "../../model/positions";
+import { playerFullName, positionKey, positionName } from "../../model/positions";
 import {
-  SKILL_POSITIONS,
-  canChangePosition,
+  POSITION_CHOICES,
   positionPatch,
+  typicalStance,
   DEPTH_PRESET_LABEL,
   NORMAL,
   SPLIT_PRESET_HINT,
@@ -44,8 +44,24 @@ const SPLITS: SplitPreset[] = ["tight", "wing", "outsideTe", "slot", "numbers", 
 const fmt = (n: number) => String(Math.round(n * 100) / 100);
 const fmtXY = (v: { x: number; y: number }) => `${fmt(v.x)}, ${fmt(v.y)}`;
 
+const STANCE_NAMES: Record<string, string> = {
+  StanceType_2pt: "Two-Point",
+  StanceType_2pt_UpRight: "Upright",
+  StanceType_2pt_Lowered: "Lowered",
+  StanceType_3pt: "Three-Point",
+  StanceType_4pt: "Four-Point",
+  StanceType_2pt_Rec: "Receiver",
+  StanceType_2pt_HB: "Halfback",
+  StanceType_QB_Under_Center: "QB Under Center",
+  StanceType_QB_Shotgun: "QB Shotgun",
+  StanceType_Center: "Center",
+  StanceType_3pt_LongSnap: "Long Snap",
+};
+/** The stances worth a button (the rest stay in the Advanced list). */
+const COMMON_STANCES = ["StanceType_2pt_Rec", "StanceType_2pt", "StanceType_2pt_UpRight", "StanceType_2pt_Lowered", "StanceType_2pt_HB", "StanceType_3pt", "StanceType_4pt", "StanceType_QB_Under_Center", "StanceType_QB_Shotgun", "StanceType_Center"];
+
 export function stanceLabel(v: string): string {
-  return v.replace(/^StanceType_/, "").replace(/_/g, " ");
+  return STANCE_NAMES[v] ?? v.replace(/^StanceType_/, "").replace(/_/g, " ");
 }
 
 function slotOptions(normal: AlignmentPos[]) {
@@ -81,6 +97,8 @@ export function PlayerPanel(p: PlayerPanelProps) {
     [lib],
   );
   const flippedSpot = useMemo(() => flippedAlignment(normal)[slot], [normal, slot]);
+  const libSets = useMemo(() => [...(lib.stock ?? lib).setByAsset.values()], [lib]);
+  const positionOptions = useMemo(() => POSITION_CHOICES.map((x) => ({ value: x.pos, label: x.label, hint: x.code, group: x.group })), []);
   if (!a) return null;
   const qb = isQB(a);
   const ol = isLineman(a);
@@ -113,29 +131,35 @@ export function PlayerPanel(p: PlayerPanelProps) {
         )}
       </div>
 
-      {canChangePosition(a) && (
-        <Section title="Position">
-          <div className={s.chips}>
-            {SKILL_POSITIONS.map((x) => {
-              const on = positionCode(a.pos) === x.code;
-              return (
-                <button
-                  key={x.code}
-                  type="button"
-                  className={cx(s.chip, on && s.chipOn)}
-                  title={on ? `${playerLabel(a)} is a ${x.label.toLowerCase()}` : `Make this player a ${x.label.toLowerCase()} (the game fills the slot from that spot on the depth chart)`}
-                  onClick={() => {
-                    const patch = on ? undefined : positionPatch(normal, slot, x.code);
-                    if (patch) p.onPatch(patch, `pos:${slot}`, 0);
-                  }}
-                >
-                  {x.code}
-                </button>
-              );
-            })}
-          </div>
-        </Section>
-      )}
+      <Section title="Position">
+        <SearchSelect
+          size="sm"
+          value={POSITION_CHOICES.find((x) => positionKey(x.pos) === positionKey(a.pos))?.pos}
+          options={positionOptions}
+          aria-label="Position"
+          width="100%"
+          onChange={(v) => {
+            const patch = positionPatch(normal, slot, v);
+            if (!patch || positionKey(v) === positionKey(a.pos)) return;
+            // The new position takes the stance the game gives it most often (a receiver's, a back's, a lineman's…).
+            const stance = typicalStance(libSets, v);
+            p.onPatch(stance ? { ...patch, stance } : patch, `pos:${slot}`, 0);
+          }}
+        />
+        <div className={s.refLine}>
+          <span>The game fills the slot from that spot on the depth chart.</span>
+        </div>
+      </Section>
+
+      <Section title="Stance">
+        <div className={s.chips}>
+          {[...new Set([...COMMON_STANCES, a.stance])].filter((v) => v && stanceOptions.some((o) => o.value === v)).map((v) => (
+            <button key={v} type="button" className={cx(s.chip, a.stance === v && s.chipOn)} title={v.replace(/^StanceType_/, "")} onClick={() => a.stance !== v && p.onPatch({ stance: v }, `stance:${slot}`, 0)}>
+              {stanceLabel(v)}
+            </button>
+          ))}
+        </div>
+      </Section>
 
       <Section title="Where He Lines Up">
         <div className={s.xy}>
@@ -226,7 +250,7 @@ export function PlayerPanel(p: PlayerPanelProps) {
         </Section>
       )}
 
-      <Advanced id="player" hint="Stance, facing, flip partner, stay put when flipped, motion man">
+      <Advanced id="player" hint="All stances, facing, flip partner, stay put when flipped, motion man">
         <FormRow label="Stance">
           <SearchSelect value={a.stance} onChange={(v) => p.onPatch({ stance: v }, `stance:${slot}`, 0)} options={stanceOptions} size="sm" aria-label="Stance" renderValue={(o, v) => (o ? o.label : v ? stanceLabel(v) : "—")} />
         </FormRow>
@@ -546,7 +570,10 @@ export function SetPanel(p: SetPanelProps) {
               onPointerEnter={() => p.onHover(slot)}
               onPointerLeave={() => p.onHover(undefined)}
             >
-              <span className={s.playerRowLabel}>{playerLabel(a)}</span>
+              <span className={s.playerRowName}>
+                {playerFullName(a, p.shown)}
+                <span className={s.playerRowCode}>{playerLabel(a)}</span>
+              </span>
               <span className={s.playerRowXY}>{fmtXY(a)}</span>
               {p.changed.has(slot) ? <span className={s.dot} aria-label="Changed" /> : <span className={s.dotOff} />}
             </button>

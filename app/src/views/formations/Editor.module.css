@@ -773,7 +773,7 @@
 
 .players {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 4px;
 }
 
@@ -814,7 +814,7 @@
 
 .playerRowXY {
   font-family: var(--font-num);
-  flex: 1;
+  flex: none;
   min-width: 0;
   font-size: 11px;
   letter-spacing: 0;
@@ -842,3 +842,24 @@
 }
 
 
+
+.playerRowName {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: var(--fd-md);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playerRowCode {
+  font-size: var(--fd-sm);
+  font-weight: 500;
+  color: var(--text-3);
+}

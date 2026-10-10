@@ -36,6 +36,7 @@ import {
   sy,
   toSvg,
   TRUE_DEPTH,
+  markingDepth,
   viewBoxAttr,
   viewBoxFor,
   zoomAt,
@@ -449,13 +450,14 @@ export const Field = memo(function Field(props: FieldProps) {
   // Interactive fields paint the whole field once so panning never rebuilds markings. Otherwise the visible (drawn)
   // range is taken back to field yards; past a compressed curve's limit that is the end of the field.
   const fullRange = fieldYRange(losYardLine);
+  const markDepth = markingDepth(depth);
   const paintRange = interactive
     ? fullRange
     : {
-        minY: Math.max(fullRange.minY, depth.unmap(sy(vb.y + vb.height)) - 5),
-        maxY: Math.min(fullRange.maxY, depth.unmap(sy(vb.y)) + 5),
+        minY: Math.max(fullRange.minY, markDepth.unmap(sy(vb.y + vb.height)) - 5),
+        maxY: Math.min(fullRange.maxY, markDepth.unmap(sy(vb.y)) + 5),
       };
-  const marks = fieldMarkings({ minY: paintRange.minY, maxY: paintRange.maxY, ballSpot, los: losYardLine, mode: markings, depth });
+  const marks = fieldMarkings({ minY: paintRange.minY, maxY: paintRange.maxY, ballSpot, los: losYardLine, mode: markings, depth: markDepth });
   const [sl, sr] = sidelineXs(ballSpot);
 
   const pointerHandlers =
@@ -487,7 +489,7 @@ export const Field = memo(function Field(props: FieldProps) {
       >
         {marks}
         {firstDown !== undefined && (
-          <path className={styles.firstDown} d={`M${r3(sl)} ${r3(sy(depth.map(firstDown)))}H${r3(sr)}`} />
+          <path className={styles.firstDown} d={`M${r3(sl)} ${r3(sy(markDepth.map(firstDown)))}H${r3(sr)}`} />
         )}
         <FieldContext.Provider value={transform}>{children}</FieldContext.Provider>
       </svg>

@@ -65,6 +65,14 @@ const ALIAS: Record<string, string> = {
   POSITION_GAD: "GAD",
 };
 
+/** Names for the enum values the aliases fold together (a Third Down Back is not just "Halfback"). */
+const RAW_NAMES: Record<string, string> = {
+  POSITION_3DRB: "Third Down Back",
+  POSITION_PWHB: "Power Back",
+  POSITION_SLWR: "Slot Receiver",
+  POSITION_SLCB: "Nickel Cornerback",
+};
+
 const NAMES: Record<string, string> = {
   QB: "Quarterback",
   HB: "Halfback",
@@ -77,16 +85,16 @@ const NAMES: Record<string, string> = {
   C: "Center",
   RG: "Right Guard",
   RT: "Right Tackle",
-  LE: "Left End",
-  RE: "Right End",
+  LE: "Left Defensive End",
+  RE: "Right Defensive End",
   DT: "Defensive Tackle",
   NT: "Nose Tackle",
-  LOLB: "Left Outside LB",
-  MLB: "Middle LB",
-  ROLB: "Right Outside LB",
+  LOLB: "Left Outside Linebacker",
+  MLB: "Middle Linebacker",
+  ROLB: "Right Outside Linebacker",
   SLB: "Linebacker",
   CB: "Cornerback",
-  NB: "Nickel Back",
+  NB: "Nickel Cornerback",
   FS: "Free Safety",
   SS: "Strong Safety",
   K: "Kicker",
@@ -115,7 +123,23 @@ export function slotLabel(pos: string, depth: number): string {
 
 export function positionName(pos: string): string {
   const code = positionCode(pos);
-  return NAMES[code] ?? code;
+  return RAW_NAMES[pos] ?? NAMES[code] ?? code;
+}
+
+/**
+ * Identity of a position for "did it change": aliased enum names are the same position (POSITION_LASTKEYOFFENSE is a
+ * TE), but the Third Down Back and Power Back are their own positions even though both draw as a halfback.
+ */
+export function positionKey(pos: string): string {
+  return pos === "POSITION_3DRB" || pos === "POSITION_PWHB" ? pos : positionCode(pos);
+}
+
+/** "Wide Receiver 2" for a player: the spelled-out position, numbered when the set has several of it. */
+export function playerFullName(a: { pos: string; depth: number }, normal?: readonly { pos: string; depth: number }[]): string {
+  const name = positionName(a.pos);
+  if (!NUMBERED.has(positionCode(a.pos)) || a.depth <= 0) return name;
+  const same = normal ? normal.filter((p) => positionKey(p.pos) === positionKey(a.pos)).length : 2;
+  return same > 1 ? `${name} ${a.depth}` : name;
 }
 
 export function isOffensiveLine(pos: string): boolean {

@@ -91,6 +91,33 @@ export interface DepthScale {
   readonly hi: number;
   /** Cards: projectArt cuts paths where they cross |x| = xLimit (just inside the sidelines), keeping their cap. */
   readonly xLimit?: number;
+  /**
+   * Cards only: the game paints its yard lines closer together than the routes run (a 6.5 yd route reaches the 10-yard
+   * mark), so markings and the first-down line are drawn at y × markScale while players and routes keep their yards.
+   */
+  readonly markScale?: number;
+}
+
+const markDepths = new WeakMap<DepthScale, DepthScale>();
+
+/** The scale the field markings use: `depth` itself, or `depth` with the yard lines pulled in by its markScale. */
+export function markingDepth(depth: DepthScale): DepthScale {
+  const k = depth.markScale;
+  if (!k || k === 1) return depth;
+  let m = markDepths.get(depth);
+  if (!m) {
+    m = Object.freeze({
+      id: `${depth.id}|mark${k}`,
+      map: (y: number) => depth.map(y * k),
+      unmap: (y: number) => depth.unmap(y) / k,
+      slope: (y: number) => depth.slope(y * k) * k,
+      lo: depth.lo,
+      hi: depth.hi,
+      xLimit: depth.xLimit,
+    });
+    markDepths.set(depth, m);
+  }
+  return m;
 }
 
 export const TRUE_DEPTH: DepthScale = Object.freeze({
@@ -112,6 +139,8 @@ export interface DepthCurve {
   backReach?: number;
   /** Optional lateral cut for projectArt (see DepthScale.xLimit). */
   xLimit?: number;
+  /** See DepthScale.markScale. */
+  markScale?: number;
 }
 
 /** A Field viewport (drawn yards) that may carry the depth scale it was designed for (card viewports do). */
@@ -137,6 +166,7 @@ export function compressedDepth(c: DepthCurve): DepthScale {
     lo: back ? bk - br : -Infinity,
     hi: knee + reach,
     xLimit,
+    markScale: c.markScale,
   });
 }
 
