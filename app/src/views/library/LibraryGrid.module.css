@@ -454,3 +454,11 @@
   font-size: var(--fd-sm);
   font-weight: 700;
 }
+.mainRow {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  gap: var(--s4);
+}

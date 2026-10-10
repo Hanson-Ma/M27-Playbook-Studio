@@ -163,6 +163,7 @@ export function LibraryGrid() {
   const count = new Set(flat.map((e) => e.id)).size;
 
   let body: ReactNode;
+  let setColumn: ReactNode = null;
   if (status !== "ready" || !index) {
     body =
       status === "error" ? (
@@ -205,9 +206,10 @@ export function LibraryGrid() {
         className={cx(s.grid, stale && s.stale)}
       />
     );
-    body =
+    body = grid;
+    // The sets are their own column, right of the filter rail (whose Formation list is the formation browse).
+    setColumn =
       tab === "formation" && browse.length > 0 ? (
-        <div className={s.browse}>
           <nav className={s.setList} aria-label="Sets">
             <button type="button" aria-current={!curS} className={cx(s.allSets, !curS && s.allSetsOn)} onClick={() => setSSel(undefined)}>
               <span>All Sets</span>
@@ -222,20 +224,19 @@ export function LibraryGrid() {
               </Fragment>
             ))}
           </nav>
-          <div className={s.browseGrid}>{grid}</div>
-        </div>
-      ) : (
-        grid
-      );
+      ) : null;
   }
 
   const main = (
-    <div className={s.main}>
-      <div className={s.bar}>
-        <ActiveFilters index={index} filters={filters} query={query} personal={personal} concepts={concepts} />
-        {selectedEntry && <SelectionActions entry={selectedEntry} favorite={favorites.includes(selectedEntry.key)} onOpen={() => open(selected)} />}
+    <div className={s.mainRow}>
+      {setColumn}
+      <div className={s.main}>
+        <div className={s.bar}>
+          <ActiveFilters index={index} filters={filters} query={query} personal={personal} concepts={concepts} />
+          {selectedEntry && <SelectionActions entry={selectedEntry} favorite={favorites.includes(selectedEntry.key)} onOpen={() => open(selected)} />}
+        </div>
+        {body}
       </div>
-      {body}
     </div>
   );
 

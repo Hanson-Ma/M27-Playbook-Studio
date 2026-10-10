@@ -507,7 +507,7 @@ function resolveClone(
     runHole: r.runHole,
     vip: r.vip,
     reads: r.reads,
-    canFlip: base?.canFlip ?? true,
+    canFlip: typeof c.canFlip === "boolean" ? c.canFlip : (base?.canFlip ?? true),
     allowHotRoutes: base?.allowHotRoutes ?? true,
     global: false,
     slots: r.slots,

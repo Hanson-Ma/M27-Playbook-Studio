@@ -111,6 +111,7 @@ namespace PlayDump
             if (p["playType"] != null) SetEnum(root, "offensePlayType", (string)p["playType"]);
             if (p["runHole"] != null) root.runHole = (int)p["runHole"];
             if (p["vip"] != null) root.VIPPosition = (int)p["vip"]; // primary receiver slot: drawn as the red route
+            if (p["canFlip"] != null) root.canFlip = (bool)p["canFlip"]; // false: the game never mirrors the play (FM plays: a motioned player keeps his side of the route)
             if (p["blocking"] != null) root.BlockingSchemeDefine = Ref(play, Need("football/Gameplay/playbooks/PlayLibrary/Blocking/" + (string)p["blocking"]));
 
             List<PointerRef> pads = root.positionAssignmentDefines;

@@ -3801,6 +3801,7 @@
      "name": "RZ FM PA Mesh",
      "asset": "FUS_RZ_FM_PA_Mesh",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Ace_Overload/PA_TE_Seam",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_c18f3375f6",
@@ -8805,6 +8806,7 @@
      "name": "FM PA CW",
      "asset": "FUS_FM_PA_CW",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Mtn_PA_Deep_Over",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_480dc8da25",
@@ -14958,6 +14960,7 @@
      "name": "FMO PA Comebacks",
      "asset": "FUS_FMO_PA_Comebacks",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Ace/PA_Deep_In",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_e6b4125259",
@@ -15136,6 +15139,7 @@
      "name": "FMO RPO Flat",
      "asset": "FUS_FMO_RPO_Flat",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Slot/Zone_Alert_Bubble",
+     "canFlip": false,
      "players": {
       "2": {
        "new": "FUSION/R_a470706886",
@@ -15891,6 +15895,7 @@
      "name": "FME Stick",
      "asset": "FUS_FME_Stick",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_TE/Boomerang_Mesh_Traffic",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_2a6272c511",
@@ -16348,6 +16353,7 @@
      "name": "FM Dagger Return",
      "asset": "FUS_FM_Dagger_Return",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_TE/Boomerang_Mesh_Traffic",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_359cc1775f",
@@ -16923,6 +16929,7 @@
      "name": "FM Stick Salem",
      "asset": "FUS_FM_Stick_Salem",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_TE/Boomerang_Mesh_Traffic",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_7046bf7b9a",
@@ -18600,6 +18607,7 @@
      "name": "FM Dagger Zig",
      "asset": "FUS_FM_Dagger_Zig",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Tight_Open/Bench",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_2629562362",
@@ -21815,6 +21823,7 @@
      "name": "FME Drive Shot",
      "asset": "FUS_FME_Drive_Shot",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Normal_Y_Off_Close/Cheat_Flat_X_Post",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_dcf3b9f3dd",
@@ -23677,6 +23686,7 @@
      "name": "FMO Stick",
      "asset": "FUS_FMO_Stick",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/All_Curl",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_2629562362",
@@ -23842,6 +23852,7 @@
      "name": "FM Hoss Slant",
      "asset": "FUS_FM_Hoss_Slant",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/All_Curl",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_2629562362",
@@ -26898,6 +26909,7 @@
      "name": "FM Dagger Drive",
      "asset": "FUS_FM_Dagger_Drive",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles_HB_Wk/Bears_Under",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_43e0b1aa8c",
@@ -38718,6 +38730,7 @@
      "name": "FM Hoss Angle",
      "asset": "FUS_FM_Hoss_Angle",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Open/Bunch_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_77ff90839a",
@@ -39066,6 +39079,7 @@
      "name": "FM Nod Return",
      "asset": "FUS_FM_Nod_Return",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Open/Bunch_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_ea24f4ecaa",
@@ -41631,6 +41645,7 @@
      "name": "FMH Drive CF",
      "asset": "FUS_FMH_Drive_CF",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_07db32c670",
@@ -41957,6 +41972,7 @@
      "name": "FME Verticals",
      "asset": "FUS_FME_Verticals",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_92bcbb2920",
@@ -42108,6 +42124,7 @@
      "name": "FME Follow",
      "asset": "FUS_FME_Follow",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_5a84537cc8",
@@ -42308,6 +42325,7 @@
      "name": "FME DZ",
      "asset": "FUS_FME_DZ",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_5a84537cc8",
@@ -42490,6 +42508,7 @@
      "name": "FMH Flood Smash",
      "asset": "FUS_FMH_Flood_Smash",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_07db32c670",
@@ -42798,6 +42817,7 @@
      "name": "FMH Dbl Post CF",
      "asset": "FUS_FMH_Dbl_Post_CF",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Cheat_Flood",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_07db32c670",
@@ -47825,6 +47845,7 @@
      "name": "FMO Inside Zone",
      "asset": "FUS_FMO_Inside_Zone",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Inside_Zone",
+     "canFlip": false,
      "players": {
       "2": "Blocking/RunBlock_All",
       "3": "RunRoute/WR_Run90for30_RunBlock_WRClearout_StalkBlock",
@@ -48608,6 +48629,7 @@
      "name": "RZ FM Mesh Dig",
      "asset": "FUS_RZ_FM_Mesh_Dig",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Bunch_Smash",
+     "canFlip": false,
      "players": {
       "1": {
        "new": "FUSION/R_3bdc5c1256",

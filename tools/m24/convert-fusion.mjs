@@ -794,6 +794,8 @@ for (const f of F) {
       let src = setByAsset.get(base.set);
       const srcN = src.movements.Normal;
       const entry = { name, asset: leaf, from: base.asset };
+      // FM / FME / FMH / FMO = force motion: the user motions a player across by hand and he runs his route from his new spot; the game must not mirror the play when he crosses
+      if (tokensOf(name).some(t => /^FM[EHO]?$/.test(t))) entry.canFlip = false;
       const players = {};
       const runPlay = kind === "run" || kind === "option" || kind === "touch";
 
@@ -957,9 +959,23 @@ edit = {};
 finalizeCpu(cpuAll);
 for (const k of Object.keys(EDITS)) if (!usedEdits.has(k)) { stats.warnings++; console.log(`EDITS: no play "${k}"`); }
 for (const name of MENU_ORDER) if (byForm.get(name)?.sets.length) book.formations.push(byForm.get(name));
-for (const t of TEMPLATE_FORMS) book.formations.push({ formation: t, sets: "template" });
+// Kickoffs are Madden 27's own (the template's kickoff sets carried the M24-era onside setup, from before the rule change):
+// every set as the game ships it, each onside kick in its own set, with the stock Seahawks CPU weights.
+const KICK = w => ({ Kickoff: w });
+const STOCK_KICKOFF = [
+  ["Landing Zone NFL Kickoff", [["Kickoff Left", KICK(40)], ["Kickoff Middle", KICK(40)], ["Kickoff Right", KICK(40)]]],
+  ["Heavy Landing Zone NFL Kickoff", [["Heavy Kickoff Left", KICK(40)], ["Heavy Kickoff Middle", KICK(40)], ["Heavy Kickoff Right", KICK(40)]]],
+  ["NFL Kickoff", [["Kickoff Deep Left", KICK(10)], ["Kickoff Deep Middle", { Kickoff: 10, Squib: 10 }], ["Kickoff Deep Right", KICK(10)]]],
+  ["NFL Onside Kick 3", [["Strong Onside", { KickoffOnside: 10 }]]],
+  ["NFL Onside Kick 2", [["Speed Onside", { KickoffOnside: 10 }]]],
+  ["NFL Onside Kick", [["Onside Kick", { KickoffOnside: 10 }]]],
+];
+for (const t of TEMPLATE_FORMS) {
+  if (t === "Kickoff") book.formations.push({ formation: t, sets: STOCK_KICKOFF.map(([set, plays]) => ({ set, plays: plays.map(([play, cpu]) => ({ play, cpu })) })) });
+  else book.formations.push({ formation: t, sets: "template" });
+}
 
-log(`\n## Special teams\nKickoff, punt, field goal, kneel and spike come from the stock Madden 27 template (Special, Kickoff, Safety Kickoff).\n`);
+log(`\n## Special teams\nPunt, field goal, kneel and spike come from the stock Madden 27 template (Special, Safety Kickoff); the Kickoff sets (incl. each onside kick in its own set) are written out as the game ships them.\n`);
 log(`\n## Terminology audit\nRZ red zone · FM/FME/FMH/FMO force motion (you motion pre-snap with the set's presets) · PM pre-motioned · BM burst · RM return · EM exit · YEM Y exit · YM Y motion · M max protect · JB/JW/JF/JR jet block/wheel/flat/return · P pull blocking. Checked: motion on J/YM/EM/BM/RM/HBM plays, a shift on PM plays, a pulling lineman on P plays, a rolling QB on boots, and the M24 handoff animation on PA/RPO/runs.\n\n| formation | set | play | kind | motion slots | check |\n|---|---|---|---|---|---|\n${audit.join("\n")}\n`);
 log(`\n## Totals\n- ${stats.sets} custom sets, ${stats.plays} plays (${stats.passes} passes rebuilt, ${stats.runs} runs/options)\n- handoff animation matched on ${stats.animMatched} of ${stats.animMatched + stats.animMissed} PA/RPO/run plays\n- ${stats.assignments.size} new assignments\n- ${stats.warnings} warnings (inline above)\n`);
 

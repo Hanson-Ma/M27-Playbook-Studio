@@ -100,7 +100,7 @@ __WHAT CARRIED OVER__
 - Runs and options: the closest Madden 27 play (HB Stretch, Inside Zone Split, Power O, Read Option, Jet Sweep, ...),
   cloned into your set. M24 motion fakes on runs were kept where the M27 play had none.
 - Audibles (125) and situational play calling.
-- Special teams, kickoffs and safety kicks are the stock Madden 27 ones.
+- Special teams, kickoffs (each onside kick in its own set) and safety kicks are the stock Madden 27 ones.
 
 
 __KNOWN LIMITS__
