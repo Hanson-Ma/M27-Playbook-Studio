@@ -24,7 +24,6 @@ import { PERSONAL_TABS, useConceptsDoc, useLibraryResults } from "./useLibraryRe
 import s from "./LibraryGrid.module.css";
 
 const TAB_LABELS: Record<LibTab, string> = {
-  all: "All",
   formation: "Browse",
   concept: "Concept",
   type: "Play Type",
@@ -177,7 +176,7 @@ export function LibraryGrid() {
         ref={gridRef}
         key={tab === "formation" ? `browse:${curS?.asset}` : tab}
         sections={gridSections}
-        renderHeader={tab === "all" || personal ? undefined : renderHeader}
+        renderHeader={personal ? undefined : renderHeader}
         renderCell={renderCell}
         getKey={(e, i) => (tab === "concept" ? `${e.id}@${i}` : e.id)}
         minCellWidth={300}

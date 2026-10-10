@@ -101,7 +101,6 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
     return q ? formations.filter((f) => `${f.name} ${f.folder}`.toLowerCase().includes(q)) : formations;
   }, [formations, formationQuery]);
 
-  const formation = filters.formation ? index.formations.get(filters.formation) : undefined;
   const families = personal ? PLAY_FAMILIES : side === "offense" ? OFFENSE_FAMILIES : side === "defense" ? DEFENSE_FAMILIES : SPECIAL_FAMILIES;
   const famSet = new Set(filters.families ?? []);
 
@@ -219,30 +218,7 @@ export const FilterRail = memo(function FilterRail({ index, counts, filters, set
         </div>
       </Section>
 
-      {formation && (
-        <Section title={<>Set · <span className="caps">{formation.name}</span></>} dim={personal} aside={filters.set ? <ClearLink onClick={() => setFilters({ set: undefined })} /> : <span className={s.count}>{formation.sets.length}</span>}>
-          <div className={cx(s.list, s.listTall)} role="listbox" aria-label="Sets">
-            {formation.sets.map((st) => {
-              const n = counts?.set.get(st.asset) ?? 0;
-              const on = filters.set === st.asset;
-              return (
-                <button
-                  key={st.asset}
-                  type="button"
-                  role="option"
-                  aria-selected={on}
-                  className={cx(s.item, on && s.itemOn, !n && !on && s.itemEmpty)}
-                  onClick={() => setFilters({ set: on ? undefined : st.asset })}
-                  title={st.asset}
-                >
-                  <span className={cx(s.itemName, "caps")}>{st.name}</span>
-                  <span className={s.itemCount}>{fmt(n)}</span>
-                </button>
-              );
-            })}
-          </div>
-        </Section>
-      )}
+
 
       <Section title="Play Type" aside={filters.families?.length || filters.playType ? <ClearLink onClick={() => setFilters({ families: undefined, playType: undefined })} /> : undefined}>
         <div className={s.chips}>

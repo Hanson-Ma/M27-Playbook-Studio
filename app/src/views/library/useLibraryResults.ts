@@ -10,7 +10,6 @@ import { useDoc } from "../../state/workspace";
 import { useLibraryUi, type LibTab } from "./libraryStore";
 
 export const TAB_GROUP: Record<LibTab, GroupMode> = {
-  all: "none",
   formation: "formation",
   concept: "concept",
   type: "family",

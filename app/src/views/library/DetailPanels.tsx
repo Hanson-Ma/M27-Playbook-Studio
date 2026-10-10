@@ -55,7 +55,7 @@ export function OverviewPanel({ play, catalog }: { play: ResolvedPlay; catalog: 
 
   const browseSet = () => {
     useLibraryUi.getState().setFilters({ side: play.side, formation: play.formation, set: play.set });
-    useLibraryUi.getState().set({ tab: "all", query: "" });
+    useLibraryUi.getState().set({ tab: "formation", query: "" });
     navigate("#/library");
   };
 

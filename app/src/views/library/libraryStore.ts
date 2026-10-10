@@ -7,9 +7,9 @@ import type { PlayKey } from "../../model/types";
 
 export type DetailTab = "overview" | "players" | "reads" | "routes";
 
-export type LibTab = "all" | "formation" | "concept" | "type" | "favorites" | "recent";
+export type LibTab = "formation" | "concept" | "type" | "favorites" | "recent";
 
-export const LIB_TABS: LibTab[] = ["all", "formation", "concept", "type", "favorites", "recent"];
+export const LIB_TABS: LibTab[] = ["formation", "concept", "type", "favorites", "recent"];
 
 /** The grid's filters: always one side (Favorites / Recent ignore it). */
 export type LibFilters = Omit<PlayFilters, "side" | "hideMinigames"> & { side: SideFacet };
@@ -37,7 +37,7 @@ export const DEFAULT_FILTERS: LibraryUiState["filters"] = { side: "offense" };
 export const useLibraryUi = create<LibraryUiState>()(
   persist(
     (set) => ({
-      tab: "all",
+      tab: "formation",
       query: "",
       filters: DEFAULT_FILTERS,
       selectedId: undefined,
@@ -51,7 +51,8 @@ export const useLibraryUi = create<LibraryUiState>()(
     }),
     {
       name: "pbstudio.library",
-      version: 1,
+      version: 2,
+      migrate: (state) => ({ ...(state as object), tab: (state as { tab?: string }).tab === "all" ? "formation" : (state as { tab?: string }).tab }) as never,
       partialize: (s) => ({ tab: s.tab, filters: s.filters, flip: s.flip, railOpen: s.railOpen, detailTab: s.detailTab }),
     },
   ),
