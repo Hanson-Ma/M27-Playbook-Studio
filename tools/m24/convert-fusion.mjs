@@ -533,6 +533,16 @@ const zoneSplitTE = x => newAssignment([{ type: "InitialAnim", optionalInitalDir
 // User edits on top of the M24 design (2026-10-06): plays removed, renamed
 const DROP_PLAYS = /^(HB|YM) Wham$/i;
 const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
+// 2026-10-09: plays removed by "target/set/play"
+const DROP_KEYS = new Set(["Shotgun/Stack/Shallow Cross PW"]);
+// 2026-10-09: depth-chart positions ("target/set" -> slot -> position + depth): the game fills the slot from that spot on the depth chart
+const POS_EDITS = {
+  "Shotgun/Doubles Tight": { 4: ["POSITION_SLWR", 2] }, // right side WR is a slot WR
+  "Shotgun/Trio TE": { 3: ["POSITION_SLWR", 1], 2: ["POSITION_WR", 3] }, // inside WR = slot, the middle on-line WR = third string
+  "Shotgun/Doubles Wk": { 2: ["POSITION_WR", 2], 4: ["POSITION_WR", 3] }, // slot = 2nd string, outside right = 3rd string
+};
+// 2026-10-09: an audible slot moves from one play to another ("target/set" -> [from, to])
+const AUDIBLE_MOVE = { "Shotgun/Trio TE": ["Verticals", "Dagger"] };
 // Per-play edits from playtesting (2026-10-06), keyed "formation/set/play":
 //  noJetFake: plain HB fake (no jet double fake); anim: the QB/HB handoff to use instead of the M24 one (46/50 zone left,
 //  50/46 zone right); hbBlock: the back blocks after the fake; motion: snap `earlier` yd sooner along the motion
@@ -540,6 +550,15 @@ const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
 //  play; qb: the QB's assignment (e.g. no drop step); ltEdge: the LT pass sets (takes the edge rusher) instead of run-action blocking; stem: yd added to the red route's stem.
 const EDITS = {
   "Singleback/Tight Doubles/JW PA Boot": { noJetFake: true },
+  // 2026-10-09 round: touchFake = the QB fakes the jet touch pass (stock touch pass precan, the jet keeps its mesh, no catch) and the back runs the
+  // seam; noStem = drop the tiny first leg (the release hitch) of those slots; motionBlock = the motion man stalk blocks upfield after the snap;
+  // cpuForce = situational weights added on top (even to an audible)
+  "Shotgun/Stack/PA Jet Verticals": { touchFake: true },
+  "Shotgun/Stack/PA Y Cross": { noStem: [3] },
+  "Shotgun/Bunch TE/M Corner Shot": { noStem: [2] },
+  "Shotgun/Trio TE/BM Power": { motionBlock: true },
+  "Shotgun/Spread Flex Wk/BM Angle Return": { cpuForce: { RedZone_6_to_10: 75, RedZone_3_to_5: 75 } },
+  "Shotgun/Spread Flex Wk/BM RPO Corndog": { cpuForce: { RedZone_3_to_5: 75, Insidefive: 65 } },
   "Singleback/Tight Doubles/JW PA Curl": { noJetFake: true, anim: "46/50" }, // 2026-10-09: plain left-zone fake (no jet fake, no HB block), the jet wheels like JW PA Boot
   "Singleback/Tight Doubles/J PA WR Screen": { motion: { earlier: 0.75 }, line: ["Stretch WR Screen", "Wing Pair"] },
   "Singleback/Tight Doubles/Jet Counter Wk": { motion: { earlier: -1.25 } },
@@ -756,6 +775,10 @@ for (const f of F) {
       custom[j] = { ...b, x: src.x, y: src.y };
       positions.push(pos);
     }
+    for (const [slot, [pos, depth]] of Object.entries(POS_EDITS[`${target}/${setName}`] ?? {})) {
+      const e = positions.find(p => p.slot === +slot);
+      if (e) Object.assign(e, { pos, depth }); else positions.push({ slot: +slot, pos, depth });
+    }
     const presets = portPresets(s.setl, m24, slotOf, custom);
     const setLeaf = "FUS_" + leafOf(setName);
     const sspec = { name: setName, asset: setLeaf, base: baseSet.asset, formation: form27.asset, positions, presets, plays: [] };
@@ -769,7 +792,7 @@ for (const f of F) {
       const kind = kindOf(p);
       let name = clean(p.modName);
       if (kind === "special") { log(`    - ${name}: special-teams play in an offense set, skipped`); continue; }
-      if (DROP_PLAYS.test(name)) { log(`    - ${name}: removed (user request)`); continue; }
+      if (DROP_PLAYS.test(name) || DROP_KEYS.has(`${target}/${setName}/${name}`)) { log(`    - ${name}: removed (user request)`); continue; }
       const renamed = RENAME[name];
       if (renamed) { log(`    - ${name}: renamed ${renamed} (user request)`); name = renamed; }
       for (let k = 2; usedNames.has(norm(name)); k++) name = (renamed ?? clean(p.modName)) + " " + k;
@@ -867,6 +890,27 @@ for (const f of F) {
         if (fb) players[fb] = newAssignment([{ type: "InitialAnim", optionalInitalDirection: -1, anim: "MOVETYPE_FB_LEADBLOCK", direction: dir }, { type: "MoveDirection", distance: 2.5, direction: dir, speed: 100 }, PASS_BLOCK], custom[fb].x, { routeType: "AssignRouteType_Block_Pass" });
         else warn("fbBlock: no FB");
       }
+      if (edit.noStem) for (const j of edit.noStem) {
+        const a = players[j];
+        if (typeof a === "object" && a.steps?.[0]?.type === "RunRoute" && a.steps[0].distance < 0.2) { a.steps.shift(); rebuild(a, custom[j].x); } else warn(`noStem: slot ${j} has no tiny first leg`);
+      }
+      if (edit.motionBlock) {
+        const j = [1, 2, 3, 4, 5].find(k => typeof players[k] === "object" && players[k].steps?.some(x => x.type === "AutoMotion"));
+        const a = j && players[j], mi = a ? a.steps.findIndex(x => x.type === "AutoMotion") : -1;
+        if (mi >= 0) { a.steps = [...a.steps.slice(0, mi + 1), { type: "RunRoute", distance: 5, direction: 90, speed: 100 }, { type: "LeadBlock", blockingTechnique: "BLOCKINGTECHNIQUE_STALK_BLOCK", blockingGap: "RUN_HOLE" }, RUNBLOCK]; a.routeType = "AssignRouteType_Block_Run"; rebuild(a, custom[j].x); }
+        else warn("motionBlock: no motion man");
+      }
+      if (edit.touchFake) {
+        const j = [1, 2, 3, 4, 5].find(k => typeof players[k] === "object" && players[k].steps?.some(x => x.type === "AutoMotion"));
+        const QBT = "Quarterback/00_ShotgunSpreadFlex_TouchPass_M2_JetSweep_Precan_224_225", JETT = "WideReciever/4WRSpread_SlotJetSweep_TouchPass_JetSweep";
+        if (j) {
+          const route = [{ type: "RunRoute", distance: 25, direction: 90, speed: 100 }, { type: "GetOpen" }];
+          players[0] = newAssignment([], 0, { routeType: "AssignRouteType_Block_Pass", template: QBT, keep: 1, drop: ["OverrideFormPos"], prepend: [] });
+          players[j] = newAssignment(route, custom[j].x, { template: JETT, keep: 2, drop: ["OverrideFormPos"], prepend: [] });
+          players[1] = newAssignment(route.slice(), custom[1].x, { routeType: "AssignRouteType_RR_Streak" });
+          for (let k = 6; k <= 10; k++) players[k] = "Blocking/ALL_PABlock";
+        } else warn("touchFake: no jet");
+      }
       if (edit.screenBlock) {
         const v = p.vpos && slotOf[p.vpos], dir = v && custom[v].x < 0 ? 162 : 18;
         for (const j of edit.screenBlock) players[j] = newAssignment([{ type: "MoveDirection", distance: 5, direction: dir, speed: 100 }, RUNBLOCK], custom[j].x, { routeType: "AssignRouteType_Block_Run" });
@@ -945,9 +989,11 @@ for (const f of F) {
       const bp = { play: name };
       const slot = { 2: 1, 4: 2, 16: 3, 8: 4 }[p.flag];
       if (slot) bp.audible = slot;
-      cpuAll.push({ bp, ...situational(kind, name, target, depth, entry) });
+      cpuAll.push({ bp, force: edit.cpuForce, ...situational(kind, name, target, depth, entry) });
       bookSet.plays.push(bp);
     }
+    const mv = AUDIBLE_MOVE[`${target}/${setName}`];
+    if (mv) { const f = bookSet.plays.find(b => b.play === mv[0]), t = bookSet.plays.find(b => b.play === mv[1]); if (f?.audible && t) { t.audible = f.audible; delete f.audible; } else console.log(`AUDIBLE_MOVE: ${target}/${setName} ${mv.join(" -> ")} not applicable`); }
     const seen = new Set(); for (const bp of bookSet.plays) if (bp.audible) { if (seen.has(bp.audible)) { log(`    - ${bp.play}: duplicate audible slot ${bp.audible} dropped`); delete bp.audible; } else seen.add(bp.audible); }
     if (!sspec.plays.length) continue;
     setsSpec.sets.push(sspec);
@@ -957,6 +1003,7 @@ for (const f of F) {
 }
 edit = {};
 finalizeCpu(cpuAll);
+for (const c of cpuAll) if (c.force) Object.assign(c.bp.cpu, c.force);
 for (const k of Object.keys(EDITS)) if (!usedEdits.has(k)) { stats.warnings++; console.log(`EDITS: no play "${k}"`); }
 for (const name of MENU_ORDER) if (byForm.get(name)?.sets.length) book.formations.push(byForm.get(name));
 // Kickoffs are Madden 27's own (the template's kickoff sets carried the M24-era onside setup, from before the rule change):

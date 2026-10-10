@@ -16787,15 +16787,9 @@
        ]
       },
       "2": {
-       "new": "FUSION/R_f6e505ad41",
+       "new": "FUSION/R_ccc014c867",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 0.13,
-         "direction": 90,
-         "speed": 100
-        },
         {
          "type": "RunRoute",
          "distance": 11.25,
@@ -19180,28 +19174,21 @@
      "asset": "FUS_PA_Jet_Verticals",
      "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Tight_Open/Mtn_PA_Cross",
      "players": {
-      "1": {
-       "new": "FUSION/R_31f2ee0181",
-       "routeType": "AssignRouteType_RR_Streak",
-       "keep": 3,
-       "template": "Halfback/SG_HB_EvenRt_Hand_PA_HBFlatLt_26_32",
+      "0": {
+       "new": "FUSION/R_60861ad624",
+       "routeType": "AssignRouteType_Block_Pass",
+       "template": "Quarterback/00_ShotgunSpreadFlex_TouchPass_M2_JetSweep_Precan_224_225",
+       "keep": 1,
        "drop": [
         "OverrideFormPos"
        ],
        "prepend": [],
+       "steps": []
+      },
+      "1": {
+       "new": "FUSION/R_4642068112",
+       "routeType": "AssignRouteType_RR_Streak",
        "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 7.5,
-         "direction": 47.81,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 7.5,
-         "direction": 73.13,
-         "speed": 100
-        },
         {
          "type": "RunRoute",
          "distance": 25,
@@ -19240,40 +19227,19 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_4519462ed9",
-       "routeType": "AssignRouteType_RR_Drag",
+       "new": "FUSION/R_9131108d3f",
+       "routeType": "AssignRouteType_RR_Streak",
+       "template": "WideReciever/4WRSpread_SlotJetSweep_TouchPass_JetSweep",
+       "keep": 2,
+       "drop": [
+        "OverrideFormPos"
+       ],
+       "prepend": [],
        "steps": [
         {
-         "type": "AutoMotion",
-         "waypoints": [
-          {
-           "x": -7.75,
-           "y": -4.5,
-           "speed": 65,
-           "facingAngle": 0,
-           "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
-           "shouldFaceEndPoint": true
-          }
-         ],
-         "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
-         "startDelay": 0,
-         "endDelay": 0,
-         "automotionOrderTransitID": 1,
-         "automotionOrderPlayer": 0,
-         "stanceAtTarget": "StanceType_None",
-         "useLegacyLocoPathing": false,
-         "shouldStopAtTarget": false
-        },
-        {
          "type": "RunRoute",
-         "distance": 14,
-         "direction": 0,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 6,
-         "direction": 2.8100000000000023,
+         "distance": 25,
+         "direction": 90,
          "speed": 100
         },
         {
@@ -19340,7 +19306,12 @@
          "type": "GetOpen"
         }
        ]
-      }
+      },
+      "6": "Blocking/ALL_PABlock",
+      "7": "Blocking/ALL_PABlock",
+      "8": "Blocking/ALL_PABlock",
+      "9": "Blocking/ALL_PABlock",
+      "10": "Blocking/ALL_PABlock"
      },
      "vip": 1,
      "reads": [
@@ -19429,15 +19400,9 @@
        ]
       },
       "3": {
-       "new": "FUSION/R_3df351aebe",
+       "new": "FUSION/R_97586b9f3f",
        "routeType": "AssignRouteType_RR_Post_Deep",
        "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 0.13,
-         "direction": 90,
-         "speed": 100
-        },
         {
          "type": "RunRoute",
          "distance": 1.88,
@@ -19767,195 +19732,6 @@
        "pos": 1,
        "pct": 0.05,
        "combo": 0,
-       "concept": "Concept_Invalid"
-      }
-     ]
-    },
-    {
-     "name": "Shallow Cross PW",
-     "asset": "FUS_Shallow_Cross_PW",
-     "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Tight_Open/Bench",
-     "players": {
-      "1": {
-       "new": "FUSION/R_da6540c12a",
-       "routeType": "AssignRouteType_RR_Streak",
-       "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 0.13,
-         "direction": 90,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 7.5,
-         "direction": 42.19,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 7.5,
-         "direction": 61.879999999999995,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 25,
-         "direction": 78.75,
-         "speed": 100
-        },
-        {
-         "type": "GetOpen"
-        }
-       ]
-      },
-      "2": {
-       "new": "FUSION/R_a4272ce272",
-       "routeType": "AssignRouteType_RR_Flat_Lt",
-       "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 0.13,
-         "direction": 90,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 1.88,
-         "direction": 101.25,
-         "speed": 100
-        },
-        {
-         "type": "ReceiverCut",
-         "direction": "RECEIVER_CUT_DIR_LEFT",
-         "cutType": "RECEIVER_CUT_ANGLE_45"
-        },
-        {
-         "type": "RunRoute",
-         "distance": 18.75,
-         "direction": 177.19000000000005,
-         "speed": 100
-        },
-        {
-         "type": "GetOpen"
-        }
-       ]
-      },
-      "3": {
-       "new": "FUSION/R_c0b14944c5",
-       "routeType": "AssignRouteType_RR_Drag",
-       "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 3.75,
-         "direction": 28.129999999999995,
-         "speed": 100
-        },
-        {
-         "type": "RunRoute",
-         "distance": 25,
-         "direction": 2.8100000000000023,
-         "speed": 100
-        },
-        {
-         "type": "GetOpen"
-        }
-       ]
-      },
-      "4": {
-       "new": "FUSION/R_53011743a8",
-       "routeType": "AssignRouteType_RR_Post_Deep",
-       "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 8.5,
-         "direction": 90,
-         "speed": 100
-        },
-        {
-         "type": "ReceiverCut",
-         "direction": "RECEIVER_CUT_DIR_LEFT",
-         "cutType": "RECEIVER_CUT_ANGLE_22"
-        },
-        {
-         "type": "RunRoute",
-         "distance": 30,
-         "direction": 118.13,
-         "speed": 100
-        },
-        {
-         "type": "GetOpen"
-        }
-       ]
-      },
-      "5": {
-       "new": "FUSION/R_ce9d8c88bb",
-       "routeType": "AssignRouteType_RR_In_Middle",
-       "steps": [
-        {
-         "type": "RunRoute",
-         "distance": 5.63,
-         "direction": 90,
-         "speed": 100
-        },
-        {
-         "type": "ReceiverCut",
-         "direction": "RECEIVER_CUT_DIR_LEFT",
-         "cutType": "RECEIVER_CUT_ANGLE_45"
-        },
-        {
-         "type": "RunRoute",
-         "distance": 0.5,
-         "direction": 135,
-         "speed": 100
-        },
-        {
-         "type": "ReceiverCut",
-         "direction": "RECEIVER_CUT_DIR_LEFT",
-         "cutType": "RECEIVER_CUT_ANGLE_45"
-        },
-        {
-         "type": "RunRoute",
-         "distance": 20,
-         "direction": 177.19000000000005,
-         "speed": 100
-        },
-        {
-         "type": "GetOpen"
-        }
-       ]
-      }
-     },
-     "vip": 5,
-     "reads": [
-      {
-       "pos": 2,
-       "pct": 0.05,
-       "combo": 1,
-       "concept": "Concept_Invalid"
-      },
-      {
-       "pos": 5,
-       "pct": 0.62,
-       "combo": 2,
-       "concept": "Concept_Invalid"
-      },
-      {
-       "pos": 4,
-       "pct": 0.05,
-       "combo": 0,
-       "concept": "Concept_Invalid"
-      },
-      {
-       "pos": 3,
-       "pct": 0.55,
-       "combo": 1,
-       "concept": "Concept_Invalid"
-      },
-      {
-       "pos": 1,
-       "pct": 0.57,
-       "combo": 2,
        "concept": "Concept_Invalid"
       }
      ]
@@ -20310,7 +20086,9 @@
      "fx": 18,
      "fy": -0.8,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_SLWR",
+     "depth": 2
     },
     {
      "slot": 5,
@@ -23468,7 +23246,9 @@
      "fx": 8,
      "fy": -2.2,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_WR",
+     "depth": 3
     },
     {
      "slot": 3,
@@ -23478,7 +23258,9 @@
      "fx": 14,
      "fy": -0.8,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_SLWR",
+     "depth": 1
     },
     {
      "slot": 4,
@@ -24983,7 +24765,7 @@
       "3": "Blocking/RunBlock_All",
       "4": "Blocking/RunBlock_All",
       "5": {
-       "new": "FUSION/R_77d865ccf8",
+       "new": "FUSION/R_945b0c4ed9",
        "routeType": "AssignRouteType_Block_Run",
        "steps": [
         {
@@ -25016,10 +24798,15 @@
          "shouldStopAtTarget": false
         },
         {
-         "type": "MoveDirection",
-         "distance": 9.38,
-         "direction": 14.060000000000002,
-         "speed": 59
+         "type": "RunRoute",
+         "distance": 5,
+         "direction": 90,
+         "speed": 100
+        },
+        {
+         "type": "LeadBlock",
+         "blockingTechnique": "BLOCKINGTECHNIQUE_STALK_BLOCK",
+         "blockingGap": "RUN_HOLE"
         },
         {
          "type": "RunBlock",
@@ -25027,10 +24814,7 @@
          "slamDuration": 0,
          "time": 0,
          "flags": "RunBlockFlags_None",
-         "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
-        },
-        {
-         "type": "GetOpen"
+         "receiverBlockType": "RECEIVERBLOCKTYPE_STALK"
         }
        ]
       }
@@ -26749,7 +26533,9 @@
      "fx": 10,
      "fy": -2.2,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_WR",
+     "depth": 2
     },
     {
      "slot": 3,
@@ -26769,7 +26555,9 @@
      "fx": 18,
      "fy": -0.8,
      "stance": "StanceType_2pt",
-     "fstance": "StanceType_2pt"
+     "fstance": "StanceType_2pt",
+     "pos": "POSITION_WR",
+     "depth": 3
     },
     {
      "slot": 5,

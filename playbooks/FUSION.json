@@ -1930,10 +1930,6 @@
               }
             },
             {
-              "play": "Shallow Cross PW",
-              "cpu": {}
-            },
-            {
               "play": "JF RPO Stick",
               "audible": 1,
               "cpu": {
@@ -2178,6 +2174,12 @@
             },
             {
               "play": "Verticals",
+              "cpu": {
+                "SuddenChange": 50
+              }
+            },
+            {
+              "play": "Dagger",
               "audible": 4,
               "cpu": {
                 "FirstDown": 0,
@@ -2190,10 +2192,6 @@
                 "4thAndShort": 0,
                 "4thAndMedium": 0
               }
-            },
-            {
-              "play": "Dagger",
-              "cpu": {}
             },
             {
               "play": "BM Mesh Dig",
@@ -2224,7 +2222,10 @@
           "plays": [
             {
               "play": "BM Angle Return",
-              "cpu": {}
+              "cpu": {
+                "RedZone_6_to_10": 75,
+                "RedZone_3_to_5": 75
+              }
             },
             {
               "play": "Read Option",
@@ -2314,7 +2315,9 @@
                 "3rdAndMedium": 0,
                 "3rdAndLong": 0,
                 "4thAndShort": 0,
-                "4thAndMedium": 0
+                "4thAndMedium": 0,
+                "RedZone_3_to_5": 75,
+                "Insidefive": 65
               }
             }
           ]
