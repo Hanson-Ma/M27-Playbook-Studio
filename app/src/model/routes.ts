@@ -585,7 +585,15 @@ export type RoutePresetId =
   | "arrow"
   | "angle"
   | "swing"
-  | "bubble";
+  | "bubble"
+  | "stick"
+  | "option"
+  | "cross"
+  | "crossflat"
+  | "skinnypost"
+  | "dagger"
+  | "spot"
+  | "bootflat";
 
 export type ReleaseKind = "none" | "vertical" | "inside" | "outside";
 export type RouteEnd = "getopen" | "sit" | "none";
@@ -650,6 +658,17 @@ export const ROUTE_PRESETS: RoutePresetDef[] = [
   { id: "arrow", label: "Arrow", family: "Arrow", depthInName: false, defaults: P({ stem: 1, breakAngle: 55, breakDir: "out", breakLength: 8 }), edit: ALL_EDIT },
   { id: "angle", label: "Angle", family: "Angle", depthInName: false, defaults: P({ stem: 5.5, breakAngle: 55, breakDir: "in", breakLength: 15 }), edit: ALL_EDIT },
   { id: "swing", label: "Swing", family: "Swing", depthInName: false, defaults: P({ stem: 3, breakLength: 14, stemSpeed: 65, breakSpeed: 65 }), edit: ["stem", "breakLength", "stemSpeed", "breakSpeed", "end"] },
+  // Option routes: a short stem, then the game picks the branch by coverage (the OptionRoutes assets, see art.ts).
+  { id: "stick", label: "Stick (Option)", family: "Stick", depthInName: false, defaults: P({ stem: 1.5, breakDir: "out", end: "getopen" }), edit: ["breakDir", "release", "stemSpeed"] },
+  { id: "option", label: "Option (Curl / Out)", family: "Option", depthInName: true, defaults: P({ stem: 8, breakDir: "out", end: "getopen" }), edit: ["stem", "breakDir", "release", "stemSpeed"] },
+  // Crossers: rise across the field, about 12 yd deep at the far hash (the library's RR_Cross shape, a little shallower).
+  { id: "cross", label: "Cross (Over)", family: "Cross", depthInName: false, defaults: P({ stem: 1, breakAngle: 70, breakDir: "in", breakLength: 25 }), edit: ["stem", "breakAngle", "breakLength", "release", "stemSpeed", "breakSpeed", "end"] },
+  { id: "crossflat", label: "Cross Flat", family: "CrossFlat", depthInName: false, defaults: P({ stem: 0.5, breakAngle: 84, breakDir: "in", breakLength: 28, stemSpeed: 90, breakSpeed: 90 }), edit: ALL_EDIT },
+  { id: "skinnypost", label: "Skinny Post", family: "SkinnyPost", depthInName: true, defaults: P({ stem: 11, breakAngle: 18, breakDir: "in", breakLength: 25 }), edit: ALL_EDIT },
+  { id: "dagger", label: "Dagger", family: "Dagger", depthInName: true, defaults: P({ stem: 14, breakAngle: 90, breakDir: "in", breakLength: 16 }), edit: ALL_EDIT },
+  { id: "spot", label: "Spot", family: "Spot", depthInName: true, defaults: P({ stem: 5, breakAngle: 45, breakDir: "in", breakLength: 3, end: "sit" }), edit: ["stem", "breakAngle", "breakDir", "breakLength", "release", "stemSpeed"] },
+  // The boot-side flat: across the formation just behind the line (a hair backward), then upfield into the flat on the far side.
+  { id: "bootflat", label: "Boot Flat (Across)", family: "BootFlat", depthInName: false, defaults: P({ stem: 16, breakAngle: 70, breakDir: "in", breakLength: 6, stemSpeed: 90, breakSpeed: 90 }), edit: ALL_EDIT },
   { id: "bubble", label: "Bubble", family: "Bubble", depthInName: false, defaults: P({ stem: 2.5, breakAngle: 126, breakDir: "out", breakLength: 0 }), edit: ["stem", "breakAngle", "stemSpeed", "end"] },
 ];
 
@@ -709,6 +728,21 @@ export function presetRouteType(id: RoutePresetId, side: RouteSide, p: RoutePara
       return `AssignRouteType_RR_Swing_${lr(side, "out")}`;
     case "bubble":
       return "AssignRouteType_RR_WR_Screen";
+    case "stick":
+      return "AssignRouteType_RR_Option_Hitch_Out";
+    case "option":
+      return "AssignRouteType_RR_Option_Route";
+    case "cross":
+    case "crossflat":
+      return "AssignRouteType_RR_Cross";
+    case "skinnypost":
+      return "AssignRouteType_RR_Post_Deep";
+    case "dagger":
+      return "AssignRouteType_RR_In_Deep";
+    case "spot":
+      return "AssignRouteType_RR_Slant_Hook";
+    case "bootflat":
+      return `AssignRouteType_RR_Flat_${lr(side, "in")}`;
   }
 }
 
@@ -860,6 +894,63 @@ export function presetSteps(id: RoutePresetId, ctx: PresetContext, params: Parti
       const h = H("out", p.breakAngle);
       out.push(runLeg(p.stem, h, p.stemSpeed));
       out.push(...endSteps(p.end, h, side));
+      break;
+    }
+    case "stick":
+    case "option": {
+      // Stem, then the branches: the default (a hitch / curl that sits) and a 90° turn the other way (an out or in),
+      // named for the turn's side (HitchRight, InOutLeft…) like the game's OptionRoutes assets.
+      out.push(runLeg(id === "stick" ? p.stem : stemLeg(), 90, p.stemSpeed));
+      const turnLeaf = (base: string) => base + (p.breakDir === "out" ? (side === "right" ? "Right" : "Left") : side === "right" ? "Left" : "Right");
+      const first = id === "stick" ? "Hitch" : "Curl";
+      out.push({ type: "OptionRoute", options: [
+        { route: turnLeaf(first), coverage: "OptionRouteCoverage_Default" },
+        { route: turnLeaf("InOut"), coverage: "15" },
+      ] });
+      out.push(GET_OPEN);
+      break;
+    }
+    case "cross": {
+      // Climb a little, flatten across, then rise again toward the far side (the library's RR_Cross shape).
+      out.push(runLeg(p.stem, 90, p.stemSpeed));
+      const mid = H(p.breakDir, 45);
+      const c1 = cutFor(90, mid);
+      if (c1) out.push(c1);
+      out.push(runLeg(5, mid, p.stemSpeed));
+      const c2 = cutFor(mid, breakHeading);
+      if (c2) out.push(c2);
+      out.push(runLeg(p.breakLength, breakHeading, p.breakSpeed));
+      out.push(...endSteps(p.end, breakHeading, side));
+      break;
+    }
+    case "crossflat": {
+      // Off the line and straight across the formation at shallow depth (a drag that never settles).
+      const stemDir = H(p.breakDir, 30);
+      legPair(stemDir, breakHeading);
+      out.push(...endSteps(p.end, breakHeading, side));
+      break;
+    }
+    case "skinnypost":
+    case "dagger":
+      legPair(90, breakHeading);
+      out.push(...endSteps(p.end, breakHeading, side));
+      break;
+    case "spot": {
+      out.push(runLeg(stemLeg(), 90, p.stemSpeed));
+      const c = cutFor(90, breakHeading);
+      if (c) out.push(c);
+      if (p.breakLength > 0) out.push(runLeg(p.breakLength, breakHeading, p.breakSpeed));
+      out.push(...endSteps(p.end, breakHeading, side));
+      break;
+    }
+    case "bootflat": {
+      // 5° backward off flat so he stays behind the linemen, then rises into the flat on the far side.
+      const across = H("in", 95);
+      out.push(runLeg(p.stem, across, p.stemSpeed));
+      const c = cutFor(across, breakHeading);
+      if (c) out.push(c);
+      if (p.breakLength > 0) out.push(runLeg(p.breakLength, breakHeading, p.breakSpeed));
+      out.push(...endSteps(p.end, breakHeading, side));
       break;
     }
   }
