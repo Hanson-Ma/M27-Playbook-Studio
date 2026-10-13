@@ -5,13 +5,14 @@ import { MiniRoute } from "../../field";
 import { applySavedRoute, slotSide } from "../../model/designer";
 import { applySavedRouteSteps, isSavedRouteApplied } from "../../model/routeLibrary";
 import type { SavedRoute } from "../../model/types";
+import { Disclosure } from "./Disclosure";
 import { HelpLink, IconButton, confirmDialog, cx, promptDialog, toast, useContextMenu, type MenuItem } from "../../ui";
 import { tileOffField, warnIfOffField } from "./OffField";
 import { deleteMyRoute, moveMyRoute, renameMyRoute, useMyRoutes } from "./routesStore";
 import { useDesigner } from "./shared";
 import s from "./Inspector.module.css";
 
-export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) {
+export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock: number; query?: string }) {
   const d = useDesigner();
   const { state, set, lib, ui, setUi } = d;
   const { routes, error } = useMyRoutes();
@@ -73,12 +74,18 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
     { label: "Delete…", icon: "trash", danger: true, onSelect: () => void remove(r) },
   ];
 
+  const q = query.trim().toLowerCase();
+  // Searching hides the section when none of the saved routes match (the empty-state help isn't a search result).
+  if (q && !routes.some((r) => r.name.toLowerCase().includes(q))) return null;
   return (
-    <section className={s.section}>
-      <div className={s.sectionHead}>
-        <span className={s.sectionTitle}>My Routes</span>
-        <HelpLink section="routes" heading="my-routes" label="How It Works" title="Help: My Routes" className={s.helpLink} />
-      </div>
+    <Disclosure
+      id="route.mine"
+      title="My Routes"
+      hint={routes.length ? String(routes.length) : undefined}
+      defaultOpen={false}
+      forceOpen={!!q}
+      right={<HelpLink section="routes" heading="my-routes" label="How It Works" title="Help: My Routes" className={s.helpLink} />}
+    >
       {error ? (
         <div className={s.emptyBox}>My Routes couldn't be read ({error}). Fix or remove app-data/routes.json.</div>
       ) : routes.length === 0 ? (
@@ -88,7 +95,8 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
         </div>
       ) : (
         <div className={s.tiles}>
-          {tiles.map((t, i) => (
+          {tiles.map((t, i) =>
+            q && !t.r.name.toLowerCase().includes(q) ? null : (
             <div key={t.r.id} className={s.myTile}>
               <button
                 type="button"
@@ -114,10 +122,11 @@ export function MyRoutesSection({ slot, lock }: { slot: number; lock: number }) 
                 />
               </span>
             </div>
-          ))}
+            ),
+          )}
         </div>
       )}
       {ui.slot === slot && cm.node}
-    </section>
+    </Disclosure>
   );
 }

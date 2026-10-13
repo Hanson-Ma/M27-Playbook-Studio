@@ -1,0 +1,83 @@
+/* Option route editor (ROUTE tab): one card per branch — preview, route, direction and the coverages it's for. */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.card {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: var(--s2);
+  padding: var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cardTop > :first-child {
+  flex: 1;
+  min-width: 0;
+}
+.label {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.quick {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.summary {
+  font-size: 12px;
+  opacity: 0.75;
+}
+.problems {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+.error {
+  color: var(--danger, #e5484d);
+}
+.warning {
+  color: var(--warning, #f0a020);
+}
+.actions {
+  display: flex;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+
+/* The option route block inside the Route Points section */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  margin-top: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}
+.blockHead {
+  display: flex;
+  gap: var(--s2);
+  align-items: baseline;
+  font-weight: 600;
+}

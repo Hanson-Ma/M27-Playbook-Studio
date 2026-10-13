@@ -593,7 +593,9 @@ export type RoutePresetId =
   | "skinnypost"
   | "dagger"
   | "spot"
-  | "bootflat";
+  | "bootflat"
+  | "zigin"
+  | "zigout";
 
 export type ReleaseKind = "none" | "vertical" | "inside" | "outside";
 export type RouteEnd = "getopen" | "sit" | "none";
@@ -669,6 +671,9 @@ export const ROUTE_PRESETS: RoutePresetDef[] = [
   { id: "spot", label: "Spot", family: "Spot", depthInName: true, defaults: P({ stem: 5, breakAngle: 45, breakDir: "in", breakLength: 3, end: "sit" }), edit: ["stem", "breakAngle", "breakDir", "breakLength", "release", "stemSpeed"] },
   // The boot-side flat: across the formation just behind the line (a hair backward), then upfield into the flat on the far side.
   { id: "bootflat", label: "Boot Flat (Across)", family: "BootFlat", depthInName: false, defaults: P({ stem: 16, breakAngle: 70, breakDir: "in", breakLength: 6, stemSpeed: 90, breakSpeed: 90 }), edit: ALL_EDIT },
+  // The game's Zig (HotRoute/Zig, the Automotion ZigIn / ZigOut): a short stem, a hinge-comeback, then flat across (RR_Whip).
+  { id: "zigin", label: "Zig In", family: "ZigIn", depthInName: false, defaults: P({ stem: 3, breakAngle: 85, breakDir: "in", breakLength: 12 }), edit: ["stem", "breakAngle", "breakLength", "release", "stemSpeed", "breakSpeed", "end"] },
+  { id: "zigout", label: "Zig Out", family: "ZigOut", depthInName: false, defaults: P({ stem: 3, breakAngle: 85, breakDir: "out", breakLength: 12 }), edit: ["stem", "breakAngle", "breakLength", "release", "stemSpeed", "breakSpeed", "end"] },
   { id: "bubble", label: "Bubble", family: "Bubble", depthInName: false, defaults: P({ stem: 2.5, breakAngle: 126, breakDir: "out", breakLength: 0 }), edit: ["stem", "breakAngle", "stemSpeed", "end"] },
 ];
 
@@ -743,6 +748,10 @@ export function presetRouteType(id: RoutePresetId, side: RouteSide, p: RoutePara
       return "AssignRouteType_RR_Slant_Hook";
     case "bootflat":
       return `AssignRouteType_RR_Flat_${lr(side, "in")}`;
+    case "zigin":
+      return "AssignRouteType_RR_Whip_In";
+    case "zigout":
+      return "AssignRouteType_RR_Whip_Out";
   }
 }
 
@@ -939,6 +948,15 @@ export function presetSteps(id: RoutePresetId, ctx: PresetContext, params: Parti
       out.push(runLeg(stemLeg(), 90, p.stemSpeed));
       const c = cutFor(90, breakHeading);
       if (c) out.push(c);
+      if (p.breakLength > 0) out.push(runLeg(p.breakLength, breakHeading, p.breakSpeed));
+      out.push(...endSteps(p.end, breakHeading, side));
+      break;
+    }
+    case "zigin":
+    case "zigout": {
+      // Up the field a few yards, hinge back toward the break side, then a long flat leg (library Zig: R3@90, HINGECOMEBACK, R12@180).
+      out.push(runLeg(p.stem, 90, p.stemSpeed));
+      out.push(receiverCut("RECEIVER_CUT_ANGLE_HINGECOMEBACK", p.breakDir === "in" ? insideTurn(side) : outsideTurn(side)));
       if (p.breakLength > 0) out.push(runLeg(p.breakLength, breakHeading, p.breakSpeed));
       out.push(...endSteps(p.end, breakHeading, side));
       break;

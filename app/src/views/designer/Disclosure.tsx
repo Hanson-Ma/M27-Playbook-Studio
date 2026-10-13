@@ -14,6 +14,7 @@ export function Disclosure({
   right,
   children,
   className,
+  forceOpen,
 }: {
   id: string;
   title: ReactNode;
@@ -23,11 +24,14 @@ export function Disclosure({
   right?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Open regardless of the remembered state (a search that has results in here). */
+  forceOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(() => remembered.get(id) ?? defaultOpen);
+  const [openState, setOpen] = useState(() => remembered.get(id) ?? defaultOpen);
+  const open = openState || !!forceOpen;
   const toggle = () => {
-    remembered.set(id, !open);
-    setOpen(!open);
+    remembered.set(id, !openState);
+    setOpen(!openState);
   };
   return (
     <section className={cx(s.section, s.disclosure, open && s.disclosureOpen, className)}>

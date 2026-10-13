@@ -19,10 +19,11 @@ import {
   type RoutePresetId,
 } from "../../model/routes";
 import { stepsEqual } from "../../model/steps";
-import { Button, NumberField, Segmented, cx } from "../../ui";
+import { Button, NumberField, Segmented, TextInput, cx } from "../../ui";
 import { Disclosure } from "./Disclosure";
 import { LegTable } from "./LegTable";
 import { MyRoutesSection } from "./MyRoutesSection";
+import { OptionBranches } from "./OptionBranches";
 import { OffFieldNotice, tileOffField, warnIfOffField } from "./OffField";
 import { RouteLibrary } from "./RouteLibrary";
 import { slotGeometry, useDesigner } from "./shared";
@@ -42,12 +43,31 @@ const END_OPTS = [
   { value: "none", label: "None" },
 ] as const;
 
+/** Extra words each route answers to in the search box ("over" finds Cross, "leak" finds Boot Flat). */
+const ALIASES: Record<string, string> = {
+  stick: "option hitch",
+  option: "choice read curl out",
+  cross: "over mesh deep over",
+  crossflat: "shallow drag across",
+  bootflat: "pa boot leak across flat behind line",
+  zigin: "zig zag whip",
+  zigout: "zig zag whip",
+  zig: "zig zag whip",
+  drag: "shallow cross",
+  in: "dig",
+  skinnypost: "post",
+  curl: "hook",
+};
+const matches = (q: string, ...hay: string[]) => !q || q.split(/s+/).every((w) => hay.some((h) => h.toLowerCase().includes(w)));
+
 export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   const d = useDesigner();
   const { state, set, ui, setUi } = d;
   const steps = state.slots[slot].steps;
   const side = slotSide(state, slot);
   const [library, setLibrary] = useState(false);
+  const [query, setQuery] = useState("");
+  const q = query.trim().toLowerCase();
   const keep = lock > 0 ? lock : undefined;
   // Depth routes count their depth from the line of scrimmage, so they need to know where the player starts.
   const geom = slotGeometry(set, slot, steps, lock);
@@ -94,6 +114,8 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
     });
   };
 
+  const shownTiles = tiles.filter((t) => matches(q, t.def.label, t.def.family, ALIASES[t.def.id] ?? ""));
+  const shownDoubles = doubles.filter((t) => matches(q, t.dm.label, t.dm.family, ALIASES[t.dm.id] ?? ""));
   const hasLegs = geom.route.legs.length > 0;
   const end = routeEnd(geom.route);
   const setEnd = (e: RouteEnd) => d.commitSlot(slot, editRoute(steps, (r) => setRouteEnd(r, e, geom.start)), "Route end");
@@ -102,13 +124,10 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   return (
     <>
       <OffFieldNotice slot={slot} lock={lock} />
-      <section className={s.section}>
-        <div className={s.sectionHead}>
-          <span className={s.sectionTitle}>Pick a Route</span>
-          <span className={s.muted}>{side === "left" ? "Left side" : "Right side"} · "out" = toward the sideline</span>
-        </div>
+      <TextInput size="sm" icon="search" value={query} onChange={setQuery} placeholder="Search routes (stick, cross, zig, boot flat…)" clearable onClear={() => setQuery("")} aria-label="Search routes" />
+      <Disclosure id="route.pick" title="Pick a Route" hint={`${side === "left" ? "Left side" : "Right side"} · "out" = toward the sideline`} defaultOpen={false} forceOpen={!!q}>
         <div className={s.tiles}>
-          {tiles.map((t) => (
+          {shownTiles.map((t) => (
             <button
               key={t.def.id}
               type="button"
@@ -122,15 +141,17 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
             </button>
           ))}
         </div>
-      </section>
+        {q && !shownTiles.length && <div className={s.emptyBox}>No ready-made route matches "{query.trim()}".</div>}
+      </Disclosure>
 
       {activePreset && <PresetParams preset={activePreset.id} params={activePreset.params} onChange={(p) => applyPreset(activePreset.id, p, "Route settings", 700)} />}
 
-      <MyRoutesSection slot={slot} lock={lock} />
+      <MyRoutesSection slot={slot} lock={lock} query={query} />
 
-      <Disclosure id="route.double" title="Double Moves" hint="Fake, then go" defaultOpen={!!activeDouble}>
+      {(!q || shownDoubles.length > 0) && (
+      <Disclosure id="route.double" title="Double Moves" hint="Fake, then go" defaultOpen={!!activeDouble} forceOpen={!!q && shownDoubles.length > 0}>
         <div className={s.tiles}>
-          {doubles.map((t) => (
+          {shownDoubles.map((t) => (
             <button
               key={t.dm.id}
               type="button"
@@ -145,6 +166,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
           ))}
         </div>
       </Disclosure>
+      )}
 
       <section className={s.section}>
         <div className={s.sectionHead}>
@@ -152,6 +174,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
           {hasLegs && <Segmented size="sm" options={[...END_OPTS]} value={end} onChange={(v) => setEnd(v as RouteEnd)} aria-label="At the end of the route" />}
         </div>
         <LegTable slot={slot} lock={lock} />
+        <OptionBranches slot={slot} lock={lock} />
       </section>
 
       <section className={s.section}>
