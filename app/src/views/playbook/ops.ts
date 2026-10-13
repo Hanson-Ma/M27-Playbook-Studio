@@ -3,6 +3,7 @@
 import { createElement, type KeyboardEvent } from "react";
 import { IS_MAC, comboLabel } from "../../input/keys";
 import { clipboardStore, clipLabel, pasteInto, pasteSummary, type ClipEntry, type ClipItem, type ClipKind, type PasteResult } from "../../model/clipboard";
+import { copyPlaySpec } from "../../model/designer";
 import { maddenName } from "../../model/names";
 import { addPlayProblem, addPlayToSpec, nameAddressProblem } from "../../model/playbookOps";
 import {
@@ -27,8 +28,9 @@ import {
   type EntryRef,
 } from "../../model/playbook";
 import { templatePlayProblem, templateFormationToEntry, type TemplateSkip } from "../../model/tdb";
-import type { AudibleSlot, FormationEntry, PlayEntry, PlayKey, PlaybookSpec, SetEntry } from "../../model/types";
+import type { AudibleSlot, CustomPlaySpec, FormationEntry, PlayEntry, PlayKey, PlaybookSpec, PlaysFile, SetEntry } from "../../model/types";
 import { navigate } from "../../state/router";
+import { useSettings } from "../../state/settings";
 import { useWorkspace } from "../../state/workspace";
 import { confirmDialog, toast } from "../../ui";
 import type { BookNode, BuilderData } from "./context";
@@ -266,19 +268,69 @@ export function nudgeSelection(data: BuilderData, dir: -1 | 1): void {
   moveEntries(data, refs, t, dir < 0 ? "before" : "after");
 }
 
+/**
+ * A playbook entry only names a play, so a duplicated entry points at the SAME play: editing one changes both. For a
+ * custom play (not a stock play or a copy made in a set) the duplicate is a real copy — "<name> copy" in the same plays
+ * file, with its own asset and the same routes — and the new entry points at it. Returns source ref → the copy's name.
+ */
+function copyCustomPlays(data: BuilderData, refs: EntryRef[]): Map<string, string> {
+  const ws = useWorkspace.getState();
+  const prefix = useSettings.getState().assetPrefix;
+  const made = new Map<string, string>();
+  const jobs: { ref: EntryRef; file: string; index: number; set: string; src: CustomPlaySpec }[] = [];
+  for (const r of refs) {
+    if (r.p === undefined || r.s === undefined) continue;
+    const play = data.book.formations[r.f]?.sets[r.s]?.plays[r.p]?.play;
+    if (!play || play.source !== "custom" || play.clone || play.file === undefined || play.index === undefined) continue;
+    const doc = ws.docs[play.file];
+    const src = doc && !doc.error ? (doc.data as PlaysFile).plays?.[play.index] : undefined;
+    if (src) jobs.push({ ref: r, file: play.file, index: play.index, set: play.set, src });
+  }
+  // Later plays first, so inserting a copy never moves a play still to be copied.
+  jobs.sort((a, b) => (a.file === b.file ? b.index - a.index : a.file < b.file ? -1 : 1));
+  const names: string[] = [];
+  for (const j of jobs) {
+    const copy = copyPlaySpec(data.catalog, j.src, j.set, prefix, names);
+    names.push(copy.name);
+    ws.update<PlaysFile>(j.file, (d) => void d.plays.splice(j.index + 1, 0, copy), { label: "Duplicate play" });
+    made.set(`${j.ref.f}/${j.ref.s}/${j.ref.p}`, copy.name);
+  }
+  return made;
+}
+
 export function duplicateSelection(data: BuilderData): void {
   const refs = selectedRefs(data);
   if (!refs.length) return;
+  const playLevel = refs.every((r) => r.p !== undefined);
+  const copies = playLevel ? copyCustomPlays(data, refs) : new Map<string, string>();
   let out: EntryRef[] = [];
   data.edit("Duplicate", (d) => {
     out = duplicateRefs(d, refs);
+    if (!copies.size) return;
+    // The clones of one set come out in the order of their sources: point each at its copied play.
+    const sets = new Set(refs.map((r) => `${r.f}/${r.s}`));
+    for (const key of sets) {
+      const [f, s] = key.split("/").map(Number);
+      const srcs = refs.filter((r) => r.f === f && r.s === s).sort((a, b) => a.p! - b.p!);
+      const outs = out.filter((o) => o.f === f && o.s === s).sort((a, b) => a.p! - b.p!);
+      const se = getSet(d, f, s);
+      srcs.forEach((src, i) => {
+        const name = copies.get(`${f}/${s}/${src.p}`);
+        const entry = se?.plays?.[outs[i]?.p ?? -1];
+        if (name && entry) entry.play = name;
+      });
+    }
   });
   if (out.length) {
     selectRefs(data.path, out);
     const lvl = levelOf(useBuilderUi.getState().cursor);
     toast.info(`Duplicated ${plural(out.length, lvl === "play" ? "play" : lvl)}`, {
-      detail: lvl === "play" ? "Copies drop the audible slot. A play listed twice in a set is a validation warning." : undefined,
-      duration: 3000,
+      detail: copies.size
+        ? `Custom plays were copied too (${[...copies.values()].join(", ")}): edit the copy and the original stays as it is. Save the plays file as well.`
+        : lvl === "play"
+          ? "Copies drop the audible slot. A play listed twice in a set is a validation warning."
+          : undefined,
+      duration: copies.size ? 6000 : 3000,
     });
   }
 }

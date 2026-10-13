@@ -903,6 +903,22 @@ export function suggestAsset(catalog: Catalog, set: Asset, name: string, prefix:
   return uniqueName(base, takenLeaves(catalog, set, selfKey));
 }
 
+/**
+ * A copy of a custom play spec for "Duplicate": "<name> copy" (unique in its set, also against `alsoTaken` names of copies
+ * made in the same pass) with its own asset. Everything else, authored assignments included, is copied as is.
+ */
+export function copyPlaySpec(catalog: Catalog, src: CustomPlaySpec, set: Asset, prefix: string, alsoTaken: Iterable<string> = []): CustomPlaySpec {
+  const taken = new Set<string>([
+    ...(catalog.lib.playsBySet.get(set) ?? []).map((p) => p.name.toLowerCase()),
+    ...catalog.clones.filter((rp) => rp.set === set).map((rp) => rp.name.toLowerCase()),
+    ...catalog.custom.filter((rp) => rp.set === set).map((rp) => rp.name.toLowerCase()),
+    ...[...alsoTaken].map((n) => n.toLowerCase()),
+  ]);
+  let name = `${src.name} copy`;
+  for (let i = 2; taken.has(name.toLowerCase()); i++) name = `${src.name} copy ${i}`;
+  return { ...JSON.parse(JSON.stringify(src)), name, asset: suggestAsset(catalog, set, name, prefix) } as CustomPlaySpec;
+}
+
 /** The base name, made unique in the set ("Curls 2"). The in-game name carries no prefix (only the asset leaf does). */
 export function suggestPlayName(catalog: Catalog, set: Asset, baseName: string): string {
   const start = baseName;

@@ -16,6 +16,7 @@ import {
   setPlayField,
   setPlayName,
   slotRoleLabel,
+  copyPlaySpec,
   suggestAsset,
   swapBase,
   swapBaseLosses,
@@ -267,11 +268,7 @@ function FilePlays() {
   const duplicate = () => {
     const src = plays[index];
     if (!src) return;
-    const taken = new Set(catalog.custom.filter((p) => p.set === set.asset).map((p) => p.name.toLowerCase()));
-    for (const p of catalog.lib.playsBySet.get(set.asset) ?? []) taken.add(p.name.toLowerCase());
-    let nm = `${src.name} copy`;
-    for (let i = 2; taken.has(nm.toLowerCase()); i++) nm = `${src.name} copy ${i}`;
-    const copy = { ...JSON.parse(JSON.stringify(src)), name: nm, asset: suggestAsset(catalog, set.asset, nm, prefix) };
+    const copy = copyPlaySpec(catalog, src, set.asset, prefix);
     useWorkspace.getState().update<PlaysFile>(file, (draft) => void draft.plays.splice(index + 1, 0, copy), { label: "Duplicate play" });
     navigate(href("designer", file, index + 1));
   };
