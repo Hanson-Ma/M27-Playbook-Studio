@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "categories": [
+    { "id": "1st-down", "name": "1st Down", "group": "other", "color": "#8eebac" },
+    { "id": "outside-zone", "name": "Outside Zone", "group": "run", "color": "#6179e5" },
+    { "id": "rpo", "name": "RPO", "group": "other", "color": "#a08eeb" },
+    { "id": "smash", "name": "Smash", "group": "pass", "color": "#cce561" },
+    { "id": "dagger", "name": "Dagger", "group": "pass", "color": "#61dce5" },
+    { "id": "stick", "name": "Stick", "group": "pass", "color": "#de61e5" },
+    { "id": "play-action", "name": "Play Action", "group": "pass", "color": "#e5cd61" },
+    { "id": "power", "name": "Power", "group": "run", "color": "#e5618a" },
+    { "id": "drive", "name": "Drive", "group": "pass", "color": "#61e5bd" },
+    { "id": "boot", "name": "Boot", "group": "pass", "color": "#ac61e5", "parent": "play-action" },
+    { "id": "screen", "name": "Screen", "group": "pass", "color": "#e59b61" },
+    { "id": "scat", "name": "Scat", "group": "pass", "color": "#61e58b", "parent": "screen" },
+    { "id": "swing-screen", "name": "Swing Screen", "group": "pass", "color": "#7a61e5", "parent": "screen" },
+    { "id": "alert", "name": "Alert", "group": "other", "color": "#eb948e", "parent": "rpo" },
+    { "id": "read", "name": "Read", "group": "other", "color": "#94eb8e", "parent": "rpo" },
+    { "id": "zone", "name": "Zone", "group": "run", "color": "#61abe5" },
+    { "id": "inside-zone", "name": "Inside Zone", "group": "run", "color": "#9ae561", "parent": "zone" },
+    { "id": "iso", "name": "Iso", "group": "run", "color": "#e561bb" },
+    { "id": "dive", "name": "Dive", "group": "run", "color": "#e56a61", "parent": "iso" },
+    { "id": "bubble", "name": "Bubble", "group": "pass", "color": "#ebb78e", "parent": "screen" },
+    { "id": "slip", "name": "Slip", "group": "pass", "color": "#ebda8e", "parent": "screen" },
+    { "id": "rns", "name": "RNS", "group": "pass", "color": "#d9eb8e" },
+    { "id": "mesh", "name": "Mesh", "group": "pass", "color": "#b7eb8e" },
+    { "id": "mills", "name": "Mills", "group": "pass", "color": "#8eebce" },
+    { "id": "option", "name": "Option", "group": "run", "color": "#8ee5eb" },
+    { "id": "speed", "name": "Speed Option", "group": "run", "color": "#8ec2eb", "parent": "option" },
+    { "id": "power-option", "name": "Power Option", "group": "run", "color": "#8e9feb", "parent": "option" },
+    {
+      "id": "triple-option",
+      "name": "Triple Option",
+      "group": "run",
+      "color": "#c38eeb",
+      "parent": "option"
+    },
+    { "id": "read-option", "name": "Read Option", "group": "run", "color": "#69e561", "parent": "option" }
+  ],
+  "tags": {
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_F_Lead_Read_Option": [
+      "read-option"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_HB_Dive": [
+      "dive",
+      "1st-down"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_HB_Stretch_Alert_Dragon": [
+      "outside-zone",
+      "rpo",
+      "alert"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_Mills": [
+      "mills"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_PA_Deep_In": [
+      "dagger",
+      "play-action"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_Strong_Power": [
+      "power"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_WR_Smash": [
+      "smash"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bellcow_Option": [
+      "option",
+      "power-option"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Cheat_High_Low": [
+      "smash",
+      "dagger",
+      "stick"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Mesh_2": ["mesh"],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_SB_Cross_Screen": [
+      "screen",
+      "slip"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_SB_Off_Tackle": [
+      "outside-zone"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_TE_Option_2": [
+      "rns"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_WB_Bubble": [
+      "screen",
+      "bubble"
+    ]
+  },
+  "notes": {},
+  "dismissed": {
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_F_Lead_Read_Option": [
+      "read"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bellcow_Option": [
+      "speed"
+    ],
+    "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_TE_Option_2": [
+      "option"
+    ]
+  }
+}

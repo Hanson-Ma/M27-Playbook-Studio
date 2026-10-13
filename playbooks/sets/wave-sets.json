@@ -11,6 +11,13 @@
         { "slot": 3, "stance": "StanceType_3pt", "pos": "POSITION_TE", "depth": 2 },
         { "slot": 4, "x": -6.666, "y": -4.75, "pos": "POSITION_GAD", "depth": 1 }
       ],
+      "movements": {
+        "M1left": [{ "slot": 1, "x": -5, "y": -2.2 }],
+        "M1right": [{ "slot": 1, "x": 6.666, "y": -2.7 }],
+        "M3left": [{ "slot": 3, "x": -22.75, "y": -1.9 }, { "slot": 4, "x": -8, "y": -0.8 }],
+        "M4left": [{ "slot": 4, "x": -21, "y": -2.7 }],
+        "M4right": [{ "slot": 4, "x": 17.5, "y": -2.7 }]
+      },
       "plays": [
         {
           "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/HB_Dive",
@@ -46,6 +53,71 @@
           "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/F_Lead_Read_Option",
           "name": "F Lead Read Option",
           "asset": "PBS_Bas_F_Lead_Read_Option"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Bunch/TE_Angle",
+          "name": "TE Angle",
+          "asset": "PBS_Bas_TE_Angle"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Doubles_Y_Off_Stack/PA_Boot_Slide",
+          "name": "PA Boot Slide",
+          "asset": "PBS_Bas_PA_Boot_Slide"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Doubles_Y_Off_Stack/PA_Post_Shot",
+          "name": "PA Post Shot",
+          "asset": "PBS_Bas_PA_Post_Shot"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/East_Tight/TE_Option",
+          "name": "TE Option",
+          "asset": "PBS_Bas_TE_Option"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/HB_Off_Tackle",
+          "name": "HB Off Tackle",
+          "asset": "PBS_Bas_HB_Off_Tackle"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/Power_Option",
+          "name": "Power Option",
+          "asset": "PBS_Bas_Power_Option"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong/Tr_Opt_Switch",
+          "name": "Tr Opt Switch",
+          "asset": "PBS_Bas_Tr_Opt_Switch"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot/Double_Flares",
+          "name": "Double Flares",
+          "asset": "PBS_Bas_Double_Flares"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Open/FB__Belly",
+          "name": "FB Belly",
+          "asset": "PBS_Bas_FB_Belly"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Open/FB_Cross_Screen",
+          "name": "FB Cross Screen",
+          "asset": "PBS_Bas_FB_Cross_Screen"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Open/Mesh",
+          "name": "Mesh",
+          "asset": "PBS_Bas_Mesh"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Open/PA_Flood",
+          "name": "PA Flood",
+          "asset": "PBS_Bas_PA_Flood"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Trips/Bubble_Screen",
+          "name": "Bubble Screen",
+          "asset": "PBS_Bas_Bubble_Screen"
         }
       ]
     }

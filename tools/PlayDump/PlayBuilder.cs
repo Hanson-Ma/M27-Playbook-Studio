@@ -193,7 +193,11 @@ namespace PlayDump
             {
                 // "options": [{ "route": "<OptionRoutes/ leaf>", "coverage": "OptionRouteCoverage_* or flag sum" }]
                 special.Add("options");
-                foreach (JObject o in step["options"])
+                special.Add("optionRouteInfo");
+                var opts = (JArray)step["options"];
+                if (opts == null)
+                    throw new InvalidOperationException($"OptionRoute in step requires an 'options' array: {step.ToString(Newtonsoft.Json.Formatting.None)}");
+                foreach (JObject o in opts)
                 {
                     EbxAssetEntry def = Need("football/Gameplay/playbooks/PlayLibrary/OptionRoutes/" + (string)o["route"]);
                     dynamic data = TypeLibrary.CreateObject("OptionRouteData");

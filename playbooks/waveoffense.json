@@ -9,13 +9,21 @@
         {
           "set": "Base",
           "plays": [
-            { "play": "Dive", "audible": 2 },
-            { "play": "Stretch Alert Dragon" },
-            { "play": "Mills", "audible": 3 },
-            { "play": "PA Deep In", "audible": 4 },
+            { "play": "Dive", "audible": 2, "cpu": { "FirstDown": 77 } },
+            { "play": "Stretch Alert Dragon", "cpu": { "FirstDown": 50 } },
+            { "play": "Mills", "audible": 3, "cpu": { "3rdAndLong": 50 } },
+            { "play": "PA Deep In", "audible": 4, "cpu": { "2ndAndShort": 50, "3rdAndShort": 50 } },
             { "play": "Gadget Smash", "audible": 1 },
-            { "play": "Strong Power" },
-            { "play": "F Lead Read Option" }
+            { "play": "Strong Power", "cpu": { "FirstDown": 50, "2ndAndMedium": 50 } },
+            { "play": "F Lead Read Option", "cpu": { "FirstDown": 62 } },
+            { "play": "Tr Opt Switch" },
+            { "play": "SB Off Tackle" },
+            { "play": "SB Cross Screen", "cpu": { "2ndAndLong": 34 } },
+            { "play": "WB Bubble", "cpu": { "2ndAndLong": 38 } },
+            { "play": "TE Option 2", "cpu": { "3rdAndMedium": 50, "3rdAndLong": 50 } },
+            { "play": "Mesh 2", "cpu": { "3rdAndMedium": 50 } },
+            { "play": "Bellcow Option" },
+            { "play": "Cheat High Low" }
           ]
         }
       ]

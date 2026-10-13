@@ -1,0 +1,302 @@
+{
+  "plays": [
+    {
+      "name": "SB Off Tackle",
+      "asset": "PBS_SB_Off_Tackle",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_HB_Off_Tackle",
+      "players": {
+        "4": {
+          "new": "PBS_GAD_Kickout",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [
+            {
+              "type": "LeadBlock",
+              "blockingTechnique": "BLOCKINGTECHNIQUE_KICKOUT",
+              "blockingGap": "OUTSIDE_GAP_Left"
+            },
+            { "type": "RunBlock" }
+          ]
+        },
+        "5": {
+          "new": "PBS_TE2_Pull",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [
+            { "type": "InitialAnim", "anim": "MOVETYPE_TRUCK_PULL", "direction": 0 },
+            {
+              "type": "LeadBlock",
+              "blockingTechnique": "BLOCKINGTECHNIQUE_PULL_INSIDE",
+              "blockingGap": "RUN_HOLE"
+            },
+            { "type": "RunBlock" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "SB Cross Screen",
+      "asset": "PBS_SB_Cross_Screen",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_FB_Cross_Screen",
+      "reads": [
+        { "pos": 3, "pct": 0.01, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 5, "pct": 0.01, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 4, "pct": 0.01, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 1, "pct": 0.01, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 2, "pct": 0.99, "concept": "Concept_HB_Slip_Screen", "combo": 0 }
+      ]
+    },
+    {
+      "name": "WB Bubble",
+      "asset": "PBS_WB_Bubble",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_Bubble_Screen",
+      "players": {
+        "1": "Blocking/ALL_PABlock",
+        "2": {
+          "new": "PBS_3RB_Swing",
+          "routeType": "AssignRouteType_RR_Swing_Rt",
+          "steps": [
+            { "type": "RunRoute", "distance": 3, "direction": 340, "speed": 65 },
+            { "type": "RunRoute", "distance": 2, "direction": 0, "speed": 65 },
+            { "type": "RunRoute", "distance": 6.3, "direction": 10, "speed": 65 },
+            { "type": "RunRoute", "distance": 5.6, "direction": 20, "speed": 65 },
+            { "type": "RunRoute", "distance": 2.1, "direction": 50, "speed": 65 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Y_Pull",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [
+            { "type": "InitialAnim", "anim": "MOVETYPE_SCREEN_PULL", "direction": 0 },
+            {
+              "type": "LeadBlock",
+              "blockingTechnique": "BLOCKINGTECHNIQUE_WR_SCREEN_OUTSIDE",
+              "blockingGap": "RUN_HOLE"
+            },
+            { "type": "RunBlock" }
+          ]
+        },
+        "4": {
+          "new": "PBS_GAD_Bubble",
+          "routeType": "AssignRouteType_RR_WR_Screen",
+          "keep": 0,
+          "steps": [
+            { "type": "RunRoute", "distance": 2.5, "direction": 216, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "6": {
+          "new": "PBS_LT_ScreenBlock",
+          "routeType": "AssignRouteType_Block_Pass",
+          "steps": [
+            { "type": "InitialAnim", "anim": "MOVETYPE_SCREEN_PULL", "direction": 170 },
+            { "type": "PassBlock", "time": 1, "flags": "PassBlockFlags_None" },
+            { "type": "MoveDirection", "distance": 5, "direction": 170, "speed": 100 },
+            { "type": "PassBlock", "time": 0, "flags": "PassBlockFlags_ProtectReceiver" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 5, "pct": 0, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 4, "pct": 0.99, "concept": "Concept_Bubble_Screen", "combo": 0 },
+        { "pos": 2, "pct": 0.04, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 1, "pct": 0, "concept": "Concept_Invalid", "combo": 0 }
+      ]
+    },
+    {
+      "name": "Tr Option",
+      "asset": "PBS_Tr_Option",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_Tr_Opt_Switch",
+      "runHole": 0
+    },
+    {
+      "name": "TE Option 2",
+      "asset": "PBS_TE_Option_2",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_TE_Option",
+      "reads": [
+        { "pos": 3, "pct": 0.45, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 5, "pct": 0.65, "concept": "Concept_Choice", "combo": 0 },
+        { "pos": 2, "pct": 0.02, "concept": "Concept_Invalid", "combo": 1 },
+        { "pos": 4, "pct": 0.25, "concept": "Concept_Invalid", "combo": 1 },
+        { "pos": 1, "pct": 0.05, "concept": "Concept_Invalid", "combo": 0 }
+      ]
+    },
+    {
+      "name": "Mesh 2",
+      "asset": "PBS_Mesh_2",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_Mesh",
+      "reads": [
+        { "pos": 3, "pct": 0.88, "concept": "Concept_Mesh", "combo": 0 },
+        { "pos": 5, "pct": 0.6, "concept": "Concept_Mesh", "combo": 0 },
+        { "pos": 2, "pct": 0.1, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 4, "pct": 0.75, "concept": "Concept_Invalid", "combo": 0 },
+        { "pos": 1, "pct": 0.05, "concept": "Concept_Invalid", "combo": 0 }
+      ]
+    },
+    {
+      "name": "Bellcow Option",
+      "asset": "PBS_Bellcow_Option",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_Power_Option"
+    },
+    {
+      "name": "Cheat High Low",
+      "asset": "PBS_Cheat_High_Low",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave_Base/PBS_Bas_TE_Angle",
+      "players": {
+        "1": {
+          "new": "PBS_PRB_Go",
+          "routeType": "AssignRouteType_RR_Streak",
+          "steps": [
+            {
+              "type": "AutoMotion",
+              "waypoints": [
+                {
+                  "position": { "x": 10, "y": -3 },
+                  "transitID": 0,
+                  "speed": 60,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                }
+              ],
+              "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+              "endDelay": 0,
+              "automotionOrderTransitID": 1,
+              "startDelay": 0,
+              "stanceAtTarget": "StanceType_None",
+              "automotionOrderPlayer": 0,
+              "useLegacyLocoPathing": false,
+              "shouldStopAtTarget": true
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 2.5,
+              "direction": 102,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 1,
+              "direction": 90,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "CurlRight", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutRight", "coverage": "12" },
+                { "route": "InOutLeft", "coverage": "131" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "2": {
+          "new": "PBS_3RB_Dagger",
+          "routeType": "AssignRouteType_RR_In_Deep",
+          "steps": [
+            {
+              "type": "AutoMotion",
+              "waypoints": [
+                {
+                  "position": { "x": 12, "y": -7.5 },
+                  "transitID": 0,
+                  "speed": 60,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                },
+                {
+                  "position": { "x": 15, "y": -5.5 },
+                  "transitID": 0,
+                  "speed": 100,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                },
+                {
+                  "position": { "x": 15.5, "y": -2.5 },
+                  "transitID": 0,
+                  "speed": 100,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                }
+              ],
+              "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+              "endDelay": 0,
+              "automotionOrderTransitID": 1,
+              "startDelay": 0,
+              "stanceAtTarget": "StanceType_None",
+              "automotionOrderPlayer": 0,
+              "useLegacyLocoPathing": false,
+              "shouldStopAtTarget": false
+            },
+            { "type": "RunRoute", "distance": 16.5, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_90"
+            },
+            { "type": "RunRoute", "distance": 16, "direction": 180, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": "RunRoute/Option_WR_Run90for10_CurlRtOutRt",
+        "4": {
+          "new": "PBS_GAD_Dig7",
+          "routeType": "AssignRouteType_RR_In_Short",
+          "steps": [
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 6.5,
+              "direction": 90,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 25.83,
+              "direction": 14.57,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_TE2_Corner11",
+          "routeType": "AssignRouteType_RR_Corner_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 11.2, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 20, "direction": 45, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0.25, "concept": "Concept_Choice", "combo": 0 },
+        { "pos": 5, "pct": 0.75, "concept": "Concept_Smash", "combo": 1 },
+        { "pos": 2, "pct": 0.65, "concept": "Concept_Dagger", "combo": 1 },
+        { "pos": 4, "pct": 0.25, "concept": "Concept_Stick", "combo": 0 },
+        { "pos": 1, "pct": 0.15, "concept": "Concept_Smash", "combo": 0 }
+      ]
+    }
+  ]
+}

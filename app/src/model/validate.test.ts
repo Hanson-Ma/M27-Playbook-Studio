@@ -269,6 +269,34 @@ describe("steps", () => {
     expect(rules).toEqual(expect.arrayContaining(["motion-waypoints", "step-enum"]));
   });
 
+  it("validates OptionRoute options (branches and coverages)", () => {
+    expect(
+      stepIssues(
+        {
+          type: "OptionRoute",
+          options: [
+            { route: "CurlRight", coverage: "OptionRouteCoverage_Default" },
+            { route: "InOutRight", coverage: "12" },
+            { route: "InOutLeft", coverage: "131" },
+          ],
+        },
+        lib,
+        "/s",
+      ),
+    ).toEqual([]);
+    expect(stepIssues({ type: "OptionRoute", options: [] }, lib, "/s").map((i) => i.rule)).toEqual(["option-branches"]);
+    expect(stepIssues({ type: "OptionRoute" }, lib, "/s", "playbooks/plays/a.json").map((i) => i.rule)).toEqual(["option-branches"]);
+    const bad = stepIssues(
+      { type: "OptionRoute", options: [{ route: "NotARoute", coverage: "OptionRouteCoverage_Bogus" }] },
+      lib,
+      "/s",
+    );
+    expect(bad.map((i) => [i.rule, i.where])).toEqual([
+      ["option-branches", "/s/options/0"],
+      ["step-enum", "/s/options/0"],
+    ]);
+  });
+
   it("makes fields PlayBuilder rejects errors (it throws, so the export stops)", () => {
     const typo = stepIssues({ type: "RunRoute", distnace: 3, distance: 3, direction: 90, speed: 100 }, lib, "/s");
     expect(typo.map((i) => [i.level, i.rule])).toEqual([["error", "step-field"]]);

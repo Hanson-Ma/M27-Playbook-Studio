@@ -7,6 +7,7 @@
 //  - app-data/concepts.json   tags pointing at unknown categories / plays
 //  - app-data/routes.json     "My Routes" shape, duplicate ids/names (editor-only: warnings at most)
 // Every issue carries `file`, a JSON-pointer-ish `where` and a `rule` id so the UI can group it and jump to the editor.
+import { OPTION_ROUTE_ROOT } from "./art";
 import { classifyPlayProblem, type Catalog } from "./catalog";
 import type { LibraryIndex } from "./library";
 import { folder, leaf, maddenName, norm } from "./names";
@@ -149,6 +150,9 @@ export function stepVocabulary(index: LibraryIndex): StepVocabulary {
       }
     }
   }
+  // PlayBuilder.NewStep builds OptionRouteAssignment.optionRouteInfo from step.options (OptionRouteData refs + coverages).
+  addField("OptionRoute", "options");
+  fieldKinds.set("OptionRoute.options", "array");
   const blockingLeaves = new Set<string>();
   const playAssetsLower = new Set<string>();
   for (const p of lib.data.plays ?? []) {
@@ -247,6 +251,25 @@ export function stepIssues(step: unknown, lib: LibraryIndex, where: string, file
             push("error", "step-enum", `Waypoint ${k + 1} locoStyle ${q(wp.locoStyle)} is not a ${en} value`, ww);
         }
       });
+  }
+  if (type === "OptionRoute" && (step.options !== undefined || file !== undefined || !Array.isArray(step.optionRouteInfo))) {
+    const opts = step.options;
+    if (!Array.isArray(opts) || opts.length === 0) push("error", "option-branches", "OptionRoute needs at least one option branch");
+    else {
+      const en = lib.enumForField("OptionRouteData", "optionRouteCoverage") ?? "OptionRouteCoverage";
+      const values = lib.enumValues(en);
+      opts.forEach((opt, k) => {
+        const ow = `${where}/options/${k}`;
+        if (!isObj(opt)) return push("error", "option-branches", `Option branch ${k + 1} must be an object`, ow);
+        if (typeof opt.route !== "string" || !opt.route) push("error", "option-branches", `Option branch ${k + 1} needs a route leaf`, ow);
+        else if (!lib.assignment(OPTION_ROUTE_ROOT + opt.route))
+          push("error", "option-branches", `Option branch ${k + 1} route ${q(opt.route)} is not an OptionRoutes asset`, ow);
+        if (opt.coverage !== undefined) {
+          const legal = typeof opt.coverage === "string" && (values.length === 0 || values.includes(opt.coverage) || /^\d+$/.test(opt.coverage));
+          if (!legal) push("error", "step-enum", `Option branch ${k + 1} coverage ${q(opt.coverage)} is not an ${en} value`, ow);
+        }
+      });
+    }
   }
   return out;
 }
@@ -896,6 +919,7 @@ export function describeWhere(data: unknown, where: string | undefined): string 
       else if (prevKey === "steps") parts.push(`step ${Number(seg) + 1}${typeof node.type === "string" ? ` ${node.type}` : ""}`);
       else if (prevKey === "reads") parts.push(`read ${Number(seg) + 1}`);
       else if (prevKey === "waypoints") parts.push(`waypoint ${Number(seg) + 1}`);
+      else if (prevKey === "options") parts.push(`branch ${Number(seg) + 1}`);
       else if (prevKey === "positions" && isNum(node.slot)) parts.push(`slot ${node.slot}`);
       else parts.push(`#${Number(seg) + 1}`);
     } else if (prevKey === "players") parts.push(`slot ${seg}`);
