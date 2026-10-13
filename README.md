@@ -77,7 +77,8 @@ in code and writes both a `.fbproject` (to open and inspect in MMC Editor) and a
 1. **Collect** (`tools/pbook-build.mjs --collect`): finds library plays the playbooks use that aren't in the game's
    global play sheet. Custom playbooks silently drop those plays, so the mod has to register them.
 2. **Build the mod** (`PlayDump buildplays`): every file in `playbooks/sets/` and `playbooks/plays/` goes into **one**
-   mod, `mods/pbstudio.fbmod`, because every play mod edits the shared `GlobalPlaySheet`.
+   mod, because every play mod edits the shared `GlobalPlaySheet`. `tools/export.ps1` names it `mods/pbstudio.fbmod`; the
+     Playbook Builder app builds the playbook you pick and names the mod after it (FUSION makes `fusion.fbmod`).
    - **Sets** (`SetBuilder.cs`): clones a base Formation and Set, rewrites the 11-player alignment and motion presets,
      and clones plays into the new set.
    - **Plays** (`PlayBuilder.cs`): clones a base Play from the same set, which keeps the handoff, blocking and

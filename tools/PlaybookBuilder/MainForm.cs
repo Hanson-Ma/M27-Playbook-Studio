@@ -129,10 +129,10 @@ namespace PlaybookBuilder
             for (int i = 0; i < stepRows.Length; i++) stepRows[i].Set(RowState.Pending, "");
             if (state == "running")
             {
-                stepRows[0].Set(RowState.Done, "2 playbooks"); stepRows[1].Set(RowState.Running, "Reading the game…"); bar.Value = 0.35f;
+                stepRows[0].Set(RowState.Done, "FUSION"); stepRows[1].Set(RowState.Running, "Reading the game…"); bar.Value = 0.35f;
                 running = true; Relayout(); running = false; return;
             }
-            stepRows[0].Set(RowState.Done, "2 playbooks");
+            stepRows[0].Set(RowState.Done, "FUSION");
             if (state == "error")
             {
                 stepRows[1].Set(RowState.Failed, ""); bar.Value = 0.35f; bar.Error = true;
@@ -140,8 +140,8 @@ namespace PlaybookBuilder
             }
             else
             {
-                stepRows[1].Set(RowState.Done, "pbstudio.fbmod"); stepRows[2].Set(RowState.Done, "2"); stepRows[3].Set(RowState.Done, "old copies backed up"); bar.Value = 1;
-                notice.Error = false; notice.Title = "Installed STUDIO, STUDIOLIB"; notice.Body = "Next, in MMC Mod Manager: add or refresh pbstudio.fbmod, Apply, then Launch.";
+                stepRows[1].Set(RowState.Done, "fusion.fbmod"); stepRows[2].Set(RowState.Done, "1"); stepRows[3].Set(RowState.Done, "old copies backed up"); bar.Value = 1;
+                notice.Error = false; notice.Title = "Installed FUSION"; notice.Body = "Next, in MMC Mod Manager: add or refresh fusion.fbmod, Apply, then Launch.";
             }
             showNotice = true;
             Relayout();
@@ -214,9 +214,31 @@ namespace PlaybookBuilder
             bookRows.Clear();
             var books = BuildRunner.Playbooks(settings.PlaybookDir);
             if (books.Count == 0) bookRows.Add(new StatusRow { Label = "No playbooks yet", State = RowState.Pending, Value = "" });
-            foreach (var b in books) bookRows.Add(new StatusRow { Label = b.Name, Value = b.Plays + (b.Plays == 1 ? " play" : " plays"), State = RowState.Item });
+            // Several playbooks: pick the one to build (remembered); one playbook: just list it.
+            var chosen = BuildRunner.Pick(books, settings.Playbook);
+            foreach (var b in books)
+            {
+                var row = new StatusRow { Label = b.Name, Value = b.Plays + (b.Plays == 1 ? " play" : " plays"), State = RowState.Item, Selectable = books.Count > 1, Selected = b == chosen, Tag = b };
+                row.Picked += (s, e) =>
+                {
+                    settings.Playbook = ((PlaybookInfo)((StatusRow)s).Tag).FileName; settings.Save();
+                    foreach (var r in bookRows) { r.Selected = r.Tag == ((StatusRow)s).Tag; r.Invalidate(); }
+                    UpdateBuildLabel();
+                };
+                bookRows.Add(row);
+            }
             Controls.AddRange(bookRows.ToArray());
+            UpdateBuildLabel();
             Relayout();
+        }
+
+        void UpdateBuildLabel()
+        {
+            var books = BuildRunner.Playbooks(settings.PlaybookDir);
+            buildLabel.Text = books.Count > 1 ? "Playbook to build" : "Will build";
+            var b = BuildRunner.Pick(books, settings.Playbook);
+            build.Text = b != null && books.Count > 1 ? "Build and install " + b.Name : "Build and install";
+            build.Invalidate();
         }
 
         // ---------- build ----------
@@ -236,7 +258,7 @@ namespace PlaybookBuilder
             foreach (var r in stepRows) r.Set(RowState.Pending, "");
             bar.Value = 0; bar.Error = false; showNotice = false;
             Relayout();
-            var cfg = new BuildConfig { EditorDir = settings.EditorDir, GameDir = settings.GameDir, PlaybookDir = settings.PlaybookDir, OutputDir = settings.OutputDir };
+            var cfg = new BuildConfig { EditorDir = settings.EditorDir, GameDir = settings.GameDir, PlaybookDir = settings.PlaybookDir, OutputDir = settings.OutputDir, PlaybookFile = settings.Playbook };
             void Report(int i, StepState st, string detail) => BeginInvoke((Action)(() =>
             {
                 var row = stepRows[i];
@@ -250,7 +272,8 @@ namespace PlaybookBuilder
                 lastResult = await Task.Run(() => new BuildRunner().Run(cfg, Report));
                 notice.Error = false;
                 notice.Title = "Installed " + string.Join(", ", lastResult.Installed);
-                notice.Body = "Next, in MMC Mod Manager: add or refresh pbstudio.fbmod, Apply, then Launch.";
+                notice.Body = "Next, in MMC Mod Manager: add or refresh " + lastResult.ModName + ".fbmod, Apply, then Launch."
+                    + (lastResult.OldPbstudio ? " Untick the old pbstudio.fbmod there: playbook mods edit the same game files, so only one can be on." : "");
                 showFiles.Text = "Show files";
             }
             catch (Exception ex)

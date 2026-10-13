@@ -97,6 +97,7 @@ namespace PlaybookBuilder
         public string GameDir { get; set; }
         public string PlaybookDir { get; set; }
         public string OutputDir { get; set; }
+        public string Playbook { get; set; } // file name of the playbook picked in the window, e.g. FUSION.json
 
         static string File_ => Path.Combine(BuildRunner.DataDir, "settings.json");
 

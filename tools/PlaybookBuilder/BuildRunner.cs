@@ -11,6 +11,8 @@ namespace PlaybookBuilder
     public sealed class BuildConfig
     {
         public string EditorDir, GameDir, PlaybookDir, OutputDir;
+        // File name (inside playbooks) of the playbook to build, e.g. FUSION.json. Empty = the first one.
+        public string PlaybookFile;
     }
 
     public enum StepState { Pending, Running, Done, Failed }
@@ -19,10 +21,23 @@ namespace PlaybookBuilder
     {
         public string File, Name, SaveName;
         public int Plays;
+        // The mod / project file name for this playbook: FUSION -> fusion (fusion.fbmod, fusion.fbproject).
+        public string ModName
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                foreach (char ch in (Name ?? "").ToLowerInvariant()) sb.Append(char.IsLetterOrDigit(ch) || ch == '-' || ch == '_' ? ch : '-');
+                string s = sb.ToString().Trim('-');
+                return s.Length == 0 ? "playbook" : s;
+            }
+        }
+        public string FileName => Path.GetFileName(File);
     }
 
-    // The same four steps as tools/export.ps1 -Install: collect hidden library plays, build the mod (PlayDump),
-    // write one save per playbook, copy the saves into Madden's saves folder (old copies go to backups\).
+    // The same four steps as tools/export.ps1 -Install, for ONE playbook (the one picked in the window): collect hidden
+    // library plays, build the mod (PlayDump) named after the playbook (FUSION -> fusion.fbmod and fusion.fbproject),
+    // write its save, copy the save into Madden's saves folder (the old copy goes to backups\).
     public sealed class BuildRunner
     {
         public static readonly string[] Steps = { "Read your playbooks", "Build the mod", "Write playbook saves", "Copy to Madden saves" };
@@ -43,6 +58,10 @@ namespace PlaybookBuilder
                 if (IsPlaybookDir(d)) return d;
             return null;
         }
+
+        // The playbook a build uses: the chosen file, else the first one.
+        public static PlaybookInfo Pick(List<PlaybookInfo> books, string file) =>
+            books.FirstOrDefault(b => string.Equals(b.FileName, file, StringComparison.OrdinalIgnoreCase)) ?? books.FirstOrDefault();
 
         public static List<PlaybookInfo> Playbooks(string dir)
         {
@@ -95,7 +114,7 @@ namespace PlaybookBuilder
             }
         }
 
-        public sealed class Result { public List<string> Installed = new List<string>(); public string ModFile; }
+        public sealed class Result { public List<string> Installed = new List<string>(); public string ModFile; public string ModName; public bool OldPbstudio; }
 
         public Result Run(BuildConfig c, Action<int, StepState, string> report)
         {
@@ -110,6 +129,8 @@ namespace PlaybookBuilder
                         throw new InvalidOperationException("Madden is running. Close it, then build again.");
                     var books = Playbooks(c.PlaybookDir);
                     if (books.Count == 0) throw new InvalidOperationException("No playbooks found in " + Path.Combine(c.PlaybookDir, "playbooks"));
+                    var book = Pick(books, c.PlaybookFile);
+                    var chosen = new List<PlaybookInfo> { book };
                     string build = Path.Combine(c.PlaybookDir, "build"), backups = Path.Combine(c.PlaybookDir, "backups");
                     Directory.CreateDirectory(build); Directory.CreateDirectory(backups); Directory.CreateDirectory(c.OutputDir);
                     string index = Path.Combine(c.PlaybookDir, "research", "index"), pull = Path.Combine(build, "pull-plays.json");
@@ -118,12 +139,12 @@ namespace PlaybookBuilder
 
                     Begin(0);
                     var collector = new PbookWriter(index);
-                    foreach (var b in books) collector.Build(b.File, template, null, pull, true, Log);
-                    report(0, StepState.Done, books.Count + (books.Count == 1 ? " playbook" : " playbooks"));
+                    foreach (var b in chosen) collector.Build(b.File, template, null, pull, true, Log);
+                    report(0, StepState.Done, book.Name);
 
                     Begin(1);
-                    string modFile = Path.Combine(c.OutputDir, "pbstudio.fbmod");
-                    var args = new List<string> { "buildplays", Path.Combine(c.OutputDir, "pbstudio.fbproject"), modFile, Path.Combine(c.PlaybookDir, "playbooks", "mod.json") };
+                    string modFile = Path.Combine(c.OutputDir, book.ModName + ".fbmod");
+                    var args = new List<string> { "buildplays", Path.Combine(c.OutputDir, book.ModName + ".fbproject"), modFile, Path.Combine(c.PlaybookDir, "playbooks", "mod.json") };
                     foreach (string sub in new[] { "sets", "plays" })
                     {
                         string d = Path.Combine(c.PlaybookDir, "playbooks", sub);
@@ -137,7 +158,7 @@ namespace PlaybookBuilder
                     Begin(2);
                     var writer = new PbookWriter(index);
                     var outs = new List<(PlaybookInfo, string)>();
-                    foreach (var b in books)
+                    foreach (var b in chosen)
                     {
                         string outFile = Path.Combine(build, b.SaveName);
                         Log(b.SaveName + ": " + writer.Build(b.File, template, outFile, pull, false, Log));
@@ -147,7 +168,8 @@ namespace PlaybookBuilder
 
                     Begin(3);
                     Directory.CreateDirectory(SavesDir);
-                    var result = new Result { ModFile = modFile };
+                    // An earlier build named everything pbstudio: if that mod is still around, say so (they edit the same files).
+                    var result = new Result { ModFile = modFile, ModName = book.ModName, OldPbstudio = book.ModName != "pbstudio" && File.Exists(Path.Combine(c.OutputDir, "pbstudio.fbmod")) };
                     bool backedUp = false;
                     foreach (var (b, outFile) in outs)
                     {

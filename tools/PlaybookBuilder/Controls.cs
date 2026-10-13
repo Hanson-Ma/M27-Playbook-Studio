@@ -58,13 +58,21 @@ namespace PlaybookBuilder
         public string Label, Value, Link;
         public Font ValueFont;
         public event EventHandler LinkClicked;
+        // A pickable row (a playbook to build): a radio dot instead of the list icon; clicking anywhere on it picks it.
+        public bool Selectable, Selected;
+        public event EventHandler Picked;
         RectangleF linkRect;
         float spin;
         readonly Timer timer = new Timer { Interval = 40 };
         public StatusRow() { timer.Tick += (s, e) => { spin = (spin + 18) % 360; Invalidate(); }; }
         public void Set(RowState st, string value = null) { State = st; if (value != null) Value = value; timer.Enabled = st == RowState.Checking || st == RowState.Running; Invalidate(); }
-        protected override void OnMouseMove(MouseEventArgs e) { Cursor = Link != null && linkRect.Contains(e.Location) ? Cursors.Hand : Cursors.Default; base.OnMouseMove(e); }
-        protected override void OnMouseClick(MouseEventArgs e) { if (Link != null && linkRect.Contains(e.Location)) LinkClicked?.Invoke(this, EventArgs.Empty); base.OnMouseClick(e); }
+        protected override void OnMouseMove(MouseEventArgs e) { Cursor = Selectable || (Link != null && linkRect.Contains(e.Location)) ? Cursors.Hand : Cursors.Default; base.OnMouseMove(e); }
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            if (Link != null && linkRect.Contains(e.Location)) LinkClicked?.Invoke(this, EventArgs.Empty);
+            else if (Selectable) Picked?.Invoke(this, EventArgs.Empty);
+            base.OnMouseClick(e);
+        }
         protected override void Dispose(bool disposing) { if (disposing) timer.Dispose(); base.Dispose(disposing); }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -103,6 +111,10 @@ namespace PlaybookBuilder
                         float k = r.Width * .3f;
                         g.DrawLine(p, r.X + k, r.Y + k, r.Right - k, r.Bottom - k); g.DrawLine(p, r.Right - k, r.Y + k, r.X + k, r.Bottom - k);
                     }
+                    break;
+                case RowState.Item when Selectable:
+                    using (var p = new Pen(Selected ? Theme.Accent : Theme.Muted, 1.6f * S)) g.DrawEllipse(p, r.X + S, r.Y + S, r.Width - 2 * S, r.Height - 2 * S);
+                    if (Selected) using (var b = new SolidBrush(Theme.Accent)) g.FillEllipse(b, r.X + r.Width * .3f, r.Y + r.Height * .3f, r.Width * .4f, r.Height * .4f);
                     break;
                 case RowState.Item:
                     using (var b = new SolidBrush(Theme.Surface)) using (var path = Theme.Round(new RectangleF(r.X + S, r.Y + S, r.Width - 2 * S, r.Height - 2 * S), 3 * S)) { g.FillPath(b, path); using (var p = new Pen(Theme.Muted, 1.2f * S)) g.DrawPath(p, path); }
