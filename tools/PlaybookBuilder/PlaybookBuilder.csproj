@@ -19,6 +19,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Extensions" />
     <Compile Include="..\PlayDump\GamePaths.cs" Link="GamePaths.cs" />
+    <EmbeddedResource Include="fonts\*.ttf" />
   </ItemGroup>
 
 </Project>

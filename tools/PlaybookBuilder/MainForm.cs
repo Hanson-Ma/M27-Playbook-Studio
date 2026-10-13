@@ -33,6 +33,8 @@ namespace PlaybookBuilder
         bool running, runView, showNotice, keyOk, editorOk, gameOk, cacheOk;
         BuildRunner.Result lastResult;
 
+        protected override void OnHandleCreated(EventArgs e) { base.OnHandleCreated(e); Theme.DarkTitleBar(Handle); }
+
         public MainForm()
         {
             Text = "Playbook Builder";

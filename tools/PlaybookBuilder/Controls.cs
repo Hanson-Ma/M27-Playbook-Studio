@@ -38,7 +38,7 @@ namespace PlaybookBuilder
             using (var path = Theme.Round(r, 7 * S))
             {
                 if (Primary)
-                    using (var b = new SolidBrush(down ? Theme.AccentHover : hover ? Color.FromArgb(37, 88, 228) : Theme.Accent)) g.FillPath(b, path);
+                    using (var b = new SolidBrush(down ? Theme.AccentHover : hover ? Theme.AccentLight : Theme.Accent)) g.FillPath(b, path);
                 else
                 {
                     using (var b = new SolidBrush(down ? Theme.Line : hover ? Theme.Surface : Theme.Bg)) g.FillPath(b, path);
@@ -76,7 +76,7 @@ namespace PlaybookBuilder
             {
                 SizeF ls = g.MeasureString(Link, Font);
                 linkRect = new RectangleF(right - ls.Width, 0, ls.Width, Height);
-                Text_(g, Link, Font, Theme.Accent, linkRect, StringAlignment.Far);
+                Text_(g, Link, Font, Theme.Link, linkRect, StringAlignment.Far);
                 right -= ls.Width + 10 * S;
             }
             SizeF lab = g.MeasureString(Label, Font);
