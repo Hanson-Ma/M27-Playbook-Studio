@@ -35,6 +35,7 @@ import { isEligible, isOffensiveLine } from "../../model/positions";
 import type { AutoMotionWaypoint, CustomPlaySpec, PlaysFile } from "../../model/types";
 import { getCatalog, useCatalog } from "../../state/library";
 import { href, navigate, useRoute } from "../../state/router";
+import { toastSaved } from "../../state/saveWarnings";
 import { useSettings } from "../../state/settings";
 import { selectDocsOfKind, useDoc, useWorkspace } from "../../state/workspace";
 import { Button, EmptyState, IconButton, Menu, PlayTypeTag, Tag, Tooltip, promptDialog, toast, type MenuItem } from "../../ui";
@@ -206,7 +207,7 @@ async function savePlays(file: string): Promise<void> {
   }
   try {
     await ws.save(file);
-    toast.success("Saved", { detail: file });
+    toastSaved(file);
   } catch (e) {
     toast.error("Save Failed", { detail: e instanceof Error ? e.message : String(e) });
   }

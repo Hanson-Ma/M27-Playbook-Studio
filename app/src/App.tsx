@@ -8,6 +8,7 @@ import { installPadNav } from "./input/padNav";
 import { comboLabel } from "./input/keys";
 import { useLibrary } from "./state/library";
 import { href, lastMainHash, navigate, rememberRoute, rememberedHash, rewriteRememberedPath, useRoute, type Route, type ViewId } from "./state/router";
+import { toastSaved } from "./state/saveWarnings";
 import { useWorkspace } from "./state/workspace";
 import { Button, DialogHost, ErrorBoundary, cx, helpHref, Icon, IconButton, ProgressBar, TabBar, Toaster, toast, useScreenHelpTopic, type TabItem } from "./ui";
 import { HELP_SECTIONS } from "./views/help/sections";
@@ -110,7 +111,7 @@ async function saveDoc(path: string): Promise<void> {
     await useWorkspace.getState().save(path);
     const err = useWorkspace.getState().docs[path]?.error;
     if (err) toast.error("Save Failed", { detail: `${path}: ${err}` });
-    else toast.success("Saved", { detail: path });
+    else toastSaved(path);
   } catch (e) {
     toast.error("Save Failed", { detail: `${path}: ${errMsg(e)}` });
   }
@@ -413,6 +414,11 @@ function DocChip({ dirtyCount }: { dirtyCount: number }) {
         <span className={s.docSaved}>
           <Icon name="check" size={13} /> Saved
         </span>
+      )}
+      {others > 0 && (
+        <Button size="sm" variant="secondary" icon="save" onClick={() => void saveAll()} title={`${others} other file${others > 1 ? "s are" : " is"} unsaved: ${comboLabel("shift+mod+s")}`}>
+          Save All ({dirtyCount})
+        </Button>
       )}
     </div>
   );
