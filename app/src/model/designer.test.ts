@@ -166,6 +166,23 @@ describe("editing slots", () => {
     for (const k of ["3", "4", "5"]) expect(out.players![k]).toEqual(snag.spec.players![k]);
   });
 
+  it("a route whose name belongs to a set clone gets its own name when it changes (it used to snap back, looking locked)", () => {
+    const old = "FUSION/R_clone0test";
+    const slot2 = snag.spec.players!["2"] as NewAssignmentSpec;
+    // A play whose slot 2 uses a hand-picked name that a set clone defined first (the converter's FUSION/R_… names).
+    const spec = { ...snag.spec, players: { ...snag.spec.players, "2": { ...slot2, new: old } } } as CustomPlaySpec;
+    const resolved = resolveCustomPlay(lib, spec, snag.file, snag.index, catalog.authored).slots[2].steps;
+    const cat = { ...catalog, authored: new Map(catalog.authored).set(old, { steps: resolved, file: "playbooks/sets/x.json", play: "Clone", index: 0, setIndex: 0 }) } as Catalog;
+    const state = stateFromSpec(spec, cat, snag.file, snag.index);
+    const post = presetSteps("post", { side: "right" }, { stem: 8 });
+    const out = specFromState(setSlotSteps(state, 2, post.steps), ctxFor(snag.file, snag.index, DOCS, cat));
+    const made = out.players!["2"] as NewAssignmentSpec;
+    expect(made.new).not.toBe(old);
+    expect(made.steps).toEqual(post.steps);
+    // Untouched, it is written back as it was.
+    expect(specFromState(state, ctxFor(snag.file, snag.index, DOCS, cat)).players!["2"]).toEqual(spec.players!["2"]);
+  });
+
   it("a slot set back to the base assignment disappears from players", () => {
     const state = stateFromSpec(snag.spec, catalog, snag.file, snag.index);
     const out = specFromState(resetSlot(state, 3), ctxFor(snag.file, snag.index));

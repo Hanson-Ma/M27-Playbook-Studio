@@ -186,7 +186,8 @@ export function AddPlaysDrawer() {
     setPicked((cur) => (cur.includes(p.key) ? cur.filter((k) => k !== p.key) : [...cur, p.key]));
   };
   const add = () => {
-    if (!picked.length) return;
+    // A copy is still joining the playbook: wait for it, or a second click would copy the same play again.
+    if (!picked.length || pending.length) return;
     const stock = picked.filter(isCandidate);
     const own = picked.filter((k) => !isCandidate(k));
     const n = own.length ? addPlays(data, own) : 0;

@@ -1,7 +1,7 @@
 // Left pane: the play itself — name (live uniqueness check), base play (swap within the set), primary receiver
 // (red route), play type, run settings for runs; under "Advanced": the asset name, blocking / run hole for passes and
 // the reads (percentages). Then the file's other plays and "Add to playbook…".
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   assetProblem,
   baseFieldValue,
@@ -355,18 +355,19 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
         : undefined,
     [orig, p.set, p.name, p.asset, p.catalog, books, conceptsData, favorites, recents],
   );
-  if (!refs || refs.total === 0) return null;
-
   const newKey = playKeyFor({ set: p.set, asset: p.asset });
   const oldKey = playKeyFor(orig);
-  const parts = [
-    ...refs.playbooks.map((b) => `${leaf(b.path)}${b.entries > 1 ? ` (${b.entries} entries)` : ""}`),
-    refs.concepts ? `${refs.concepts} concepts entr${refs.concepts === 1 ? "y" : "ies"} (tags / notes)` : "",
-    refs.favorite ? "favorites" : "",
-    refs.recent ? "recents" : "",
-  ].filter(Boolean);
+  const parts = refs
+    ? [
+        ...refs.playbooks.map((b) => `${leaf(b.path)}${b.entries > 1 ? ` (${b.entries} entries)` : ""}`),
+        refs.concepts ? `${refs.concepts} concepts entr${refs.concepts === 1 ? "y" : "ies"} (tags / notes)` : "",
+        refs.favorite ? "favorites" : "",
+        refs.recent ? "recents" : "",
+      ].filter(Boolean)
+    : [];
 
-  const updateAll = () => {
+  const updateAll = (auto = false) => {
+    if (!refs || refs.total === 0) return;
     const ws = useWorkspace.getState();
     const touched: string[] = [];
     for (const b of refs.playbooks) {
@@ -383,17 +384,31 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
       touched.push("favorites");
     }
     setOrig({ set: p.set, name: p.name, asset: p.asset });
-    toast.success(`Updated "${orig.name}" → "${p.name}"`, {
+    toast[auto ? "info" : "success"](`${auto ? "Renamed everywhere: " : "Updated "}"${orig.name}" → "${p.name}"`, {
       detail: `${touched.join(", ")}${touched.some((t) => t.endsWith(".json")) ? ` — unsaved until you save all (${comboLabel("shift+mod+s")})` : ""}`,
     });
   };
+
+  // Playbooks list a play by its name, so a rename that leaves them behind breaks them ("Unknown play"). Keep them in step
+  // on its own: once the name settles, and right away if the designer is left first. (The banner below stays as a fallback
+  // for a blocked name.)
+  const flush = useRef<() => void>(undefined);
+  flush.current = !refs || refs.total === 0 || p.blocked ? undefined : () => updateAll(true);
+  useEffect(() => {
+    if (!flush.current) return;
+    const timer = window.setTimeout(() => flush.current?.(), 700);
+    return () => window.clearTimeout(timer);
+  }, [refs, p.blocked]);
+  useEffect(() => () => flush.current?.(), []);
+
+  if (!refs || refs.total === 0) return null;
 
   return (
     <div className={s.refs} role="status">
       <p className={s.refsText}>
         <strong>Still uses “{orig.name}”:</strong> {parts.join(" · ")}. Those references won't resolve until they're updated too.
       </p>
-      <Button size="sm" variant="secondary" disabled={p.blocked} onClick={updateAll} title={p.blocked ? "Fix the name / asset first" : undefined}>
+      <Button size="sm" variant="secondary" disabled={p.blocked} onClick={() => updateAll()} title={p.blocked ? "Fix the name / asset first" : undefined}>
         Update Everywhere
       </Button>
     </div>

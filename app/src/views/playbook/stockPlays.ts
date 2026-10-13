@@ -77,25 +77,33 @@ export function cloneIntoSets(catalog: Catalog, keys: string[], prefix: string):
   for (const [into, stockKeys] of bySet) {
     const loc = locate(catalog, into);
     if (!loc) continue;
-    const defs = stockKeys.flatMap((k) => {
+    const defs = [...new Map(stockKeys.flatMap((k) => {
       const p = catalog.get(k);
-      return p ? [{ asset: p.asset, name: p.name }] : [];
-    });
+      return p ? [[p.asset, { asset: p.asset, name: p.name }] as const] : [];
+    })).values()];
     if (!defs.length) continue;
-    let entries: { asset: string }[] = [];
+    // Clone leaves of every picked play, new or already there: a second Add on the same play (double click, a stale
+    // picker) must reuse its clone, not make "Name 2" next to it.
+    let leaves: string[] = [];
     useWorkspace.getState().update<SetsFile>(
       loc.file,
       (d) => {
         const st = d.sets[loc.index];
-        entries = cloneEntries(defs, st, prefix);
+        const have = new Map((st.plays ?? []).map((e) => [e?.from, e] as const));
+        const fresh = cloneEntries(defs.filter((p) => !have.has(p.asset)), st, prefix);
         // kept: tools/m24/convert-fusion.mjs carries these over when it regenerates the file
-        for (const e of entries) (e as { kept?: boolean }).kept = true;
-        (st.plays ??= []).push(...(entries as never[]));
+        for (const e of fresh) (e as { kept?: boolean }).kept = true;
+        (st.plays ??= []).push(...(fresh as never[]));
+        const byFrom = new Map(fresh.map((e) => [e.from, e] as const));
+        leaves = defs.flatMap((p) => {
+          const e = have.get(p.asset) ?? byFrom.get(p.asset);
+          return e?.asset ? [e.asset] : [];
+        });
       },
       { label: "Copy stock plays into set" },
     );
-    for (const e of entries) {
-      const k = cloneKey(loc.spec, e.asset, loc.doc.formations);
+    for (const leaf of leaves) {
+      const k = cloneKey(loc.spec, leaf, loc.doc.formations);
       if (k) made.push(k);
     }
   }

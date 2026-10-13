@@ -418,7 +418,14 @@ export function specFromState(state: DesignerState, ctx: SpecContext): CustomPla
   const emitted = new Map<string, string>();
   const players: Record<string, PlayerSpec> = {};
   const isThisPlay = (u: AuthoredUse) => u.file === ctx.file && u.index === ctx.index;
-  const sharedElsewhere = (name: string) => (uses.get(name) ?? []).some((u) => !isThisPlay(u));
+  // A name whose first definition is a clone in a sets file, or another play, is another play's assignment: the resolver
+  // gives every later use the FIRST definition's steps, so rewriting its steps here would silently change nothing (the
+  // route would look locked). Such a name can be kept only while the steps still match; otherwise the slot gets its own.
+  const definedElsewhere = (name: string) => {
+    const a = ctx.catalog.authored.get(name);
+    return !!a && (a.setIndex !== undefined || a.file !== ctx.file || a.index !== ctx.index);
+  };
+  const sharedElsewhere = (name: string) => (uses.get(name) ?? []).some((u) => !isThisPlay(u)) || definedElsewhere(name);
   const canClaim = (name: string, key: string) => !emitted.has(name) || emitted.get(name) === key;
 
   // Pass 1: slots whose loaded spec still holds are written verbatim (and claim their names).
