@@ -55,6 +55,12 @@ export function PlayPanel() {
   const asset = String(state.play.asset ?? "");
   const autoAsset = asset === suggestAsset(catalog, set.asset, name, prefix, selfKey);
   const nameErr = playNameProblem(catalog, set.asset, name, selfKey);
+  // A name another play in the set already has (or an empty one) is shown with its problem but NOT written to the play:
+  // two plays with one name make every playbook entry for it ambiguous ("Unknown play"). The draft is dropped when you
+  // switch plays, and a free name goes through as before.
+  const [draft, setDraft] = useState<string | undefined>();
+  useEffect(() => setDraft(undefined), [file, index]);
+  const draftErr = draft !== undefined ? playNameProblem(catalog, set.asset, draft, selfKey) : undefined;
   const assetErr = assetProblem(catalog, set.asset, asset, selfKey);
 
   const baseOptions = useMemo(
@@ -154,8 +160,19 @@ export function PlayPanel() {
     <div className={s.panel}>
       <section className={s.section}>
         <div className={s.eyebrow}>Play</div>
-        <FormRow label="Name" error={nameErr}>
-          <TextInput size="sm" value={name} invalid={!!nameErr} onChange={rename} />
+        <FormRow label="Name" error={draftErr ? `${draftErr}. Not applied: the play keeps "${name}" until you pick a free name.` : nameErr}>
+          <TextInput
+            size="sm"
+            value={draft ?? name}
+            invalid={!!(draftErr ?? nameErr)}
+            onChange={(v) => {
+              if (playNameProblem(catalog, set.asset, v, selfKey)) setDraft(v);
+              else {
+                setDraft(undefined);
+                rename(v);
+              }
+            }}
+          />
         </FormRow>
         <RenameRefs catalog={catalog} file={file} index={index} set={set.asset} name={name} asset={asset} blocked={!!nameErr || !!assetErr} />
         <FormRow label="Base Play" hint="The play this one starts from: same formation and set, handoffs and protection.">

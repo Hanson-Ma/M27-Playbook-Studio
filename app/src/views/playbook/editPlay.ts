@@ -4,6 +4,7 @@
 // playbooks/plays/<playbook>-edits.json, swapped into the playbook at the same spot (audible and CPU weights stay),
 // and opened in the designer.
 import { suggestAsset, suggestPlayName, newPlaySpec } from "../../model/designer";
+import { norm } from "../../model/names";
 import { slugify } from "../../model/concepts";
 import type { PlaybookSpec, PlaysFile } from "../../model/types";
 import { getRoute, href, navigate } from "../../state/router";
@@ -49,7 +50,11 @@ export function editPlay(data: BuilderData, node: BookNode): void {
     // Swap the copy into the playbook where the original was.
     data.edit(`Use edited copy of ${play.name}`, (d: PlaybookSpec) => {
       const set = d.formations?.[ref.f]?.sets?.[ref.s!];
-      const entry = (typeof set === "object" ? set.plays?.[ref.p!] : undefined) as { play?: string } | undefined;
+      const plays = (typeof set === "object" ? set.plays : undefined) as { play?: string }[] | undefined;
+      // Swap the entry that still names the original play: the one at this spot, else the first one in the set. Never
+      // overwrite an entry for another play because the spot moved.
+      const same = (e?: { play?: string }) => !!e && norm(String(e.play ?? "")) === norm(play.name);
+      const entry = same(plays?.[ref.p!]) ? plays![ref.p!] : plays?.find(same);
       if (entry) entry.play = name;
     });
   } catch (e) {
