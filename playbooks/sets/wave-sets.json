@@ -1,0 +1,60 @@
+{
+  "sets": [
+    {
+      "name": "Base",
+      "asset": "PBS_Wave_Base",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/Strong_Slot_Close",
+      "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/PBS_Wave/PBS_Wave",
+      "positions": [
+        { "slot": 1, "pos": "POSITION_PWHB" },
+        { "slot": 2, "pos": "POSITION_3DRB" },
+        { "slot": 3, "stance": "StanceType_3pt", "pos": "POSITION_TE", "depth": 2 },
+        { "slot": 4, "x": -6.666, "y": -4.75, "pos": "POSITION_GAD", "depth": 1 }
+      ],
+      "plays": [
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/HB_Dive",
+          "name": "Dive",
+          "asset": "PBS_Bas_HB_Dive"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/HB_Stretch_Alert_Dragon",
+          "name": "Stretch Alert Dragon",
+          "asset": "PBS_Bas_HB_Stretch_Alert_Dragon"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/Mills",
+          "name": "Mills",
+          "asset": "PBS_Bas_Mills"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/PA_Deep_In",
+          "name": "PA Deep In",
+          "asset": "PBS_Bas_PA_Deep_In"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/WR_Smash",
+          "name": "Gadget Smash",
+          "asset": "PBS_Bas_WR_Smash"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/Strong_Power",
+          "name": "Strong Power",
+          "asset": "PBS_Bas_Strong_Power"
+        },
+        {
+          "from": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Strong_Slot_Close/F_Lead_Read_Option",
+          "name": "F Lead Read Option",
+          "asset": "PBS_Bas_F_Lead_Read_Option"
+        }
+      ]
+    }
+  ],
+  "formations": [
+    {
+      "name": "Wave",
+      "asset": "PBS_Wave",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Pistol"
+    }
+  ]
+}

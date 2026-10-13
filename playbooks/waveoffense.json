@@ -1,0 +1,28 @@
+{
+  "name": "WAVEOFFENSE",
+  "side": "offense",
+  "notes": "The Wave Offense focuses on spreading the defense and then blocking them with bigger bodies. Personnel are as follows:\n\nThe Bellcow: Fullback is the primary runner again, as intended.\nThe Scatback: The Running Back meant to get the ball out wide behind blockers and make plays\nThe Wideback: The Slot Receiver that can run crisp routes, but also act as a screen runner\nThe Wide End: The primary Medium-Deep receiver that can double as a Tight End and Wide Receiver",
+  "formations": [
+    {
+      "formation": "Wave",
+      "sets": [
+        {
+          "set": "Base",
+          "plays": [
+            { "play": "Dive", "audible": 2 },
+            { "play": "Stretch Alert Dragon" },
+            { "play": "Mills", "audible": 3 },
+            { "play": "PA Deep In", "audible": 4 },
+            { "play": "Gadget Smash", "audible": 1 },
+            { "play": "Strong Power" },
+            { "play": "F Lead Read Option" }
+          ]
+        }
+      ]
+    },
+    { "formation": "Goal Line Offense", "sets": "template" },
+    { "formation": "Special", "sets": "template" },
+    { "formation": "Kickoff", "sets": "template" },
+    { "formation": "Safety Kickoff", "sets": "template" }
+  ]
+}

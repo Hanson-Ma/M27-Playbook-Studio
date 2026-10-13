@@ -114,6 +114,7 @@ export const POSITION_CHOICES = [
   { group: "Offense", pos: "POSITION_HB", code: "HB", label: "Halfback" },
   { group: "Offense", pos: "POSITION_3DRB", code: "3DRB", label: "Third Down Back" },
   { group: "Offense", pos: "POSITION_PWHB", code: "PWHB", label: "Power Back" },
+  { group: "Offense", pos: "POSITION_GAD", code: "GAD", label: "Gadget" },
   { group: "Offense", pos: "POSITION_FB", code: "FB", label: "Fullback" },
   { group: "Offense", pos: "POSITION_WR", code: "WR", label: "Wide Receiver" },
   { group: "Offense", pos: "POSITION_SLWR", code: "SL", label: "Slot Receiver" },
