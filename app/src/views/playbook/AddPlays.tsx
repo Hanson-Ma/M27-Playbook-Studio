@@ -17,6 +17,7 @@ import { useBuilder, useDragHandlers } from "./context";
 import { beginDrag } from "./dnd";
 import { addPlays } from "./ops";
 import { levelOf, parentOf, useBuilderUi } from "./store";
+import { cloneIntoSets, isCandidate, realKey, stockCandidates } from "./stockPlays";
 import s from "./AddPlays.module.css";
 
 type Scope = "set" | "book" | "library";
@@ -109,6 +110,8 @@ export function AddPlaysDrawer() {
   const [hideIn, setHideIn] = useState(false);
   const concepts = useConcepts();
   const [picked, setPicked] = useState<PlayKey[]>([]);
+  const [pending, setPending] = useState<PlayKey[]>([]);
+  const assetPrefix = useSettings((st) => st.assetPrefix);
   const [focus, setFocus] = useState(-1);
   const anchor = useRef<number | undefined>(undefined);
   const [sizeRef, cellW, cellH] = useCellSize();
@@ -122,11 +125,16 @@ export function AddPlaysDrawer() {
   const terms = useMemo(() => query.trim().toLowerCase().split(/\s+/).filter(Boolean), [query]);
   const libraryWaiting = scope === "library" && query.trim().length < LIBRARY_MIN_QUERY;
   const source = useMemo<ResolvedPlay[]>(() => {
-    if (scope === "set") return setAsset ? data.catalog.playsInSet(setAsset) : [];
+    // Custom sets (FUSION's) also offer the stock plays they haven't cloned yet; adding one copies it into the set.
+    if (scope === "set") return setAsset ? [...data.catalog.playsInSet(setAsset), ...stockCandidates(data.catalog, setAsset)] : [];
     const list = scope === "book" ? formations.inBook : [...formations.inBook, ...formations.rest];
     if (scope === "library" && libraryWaiting) return [];
     const out: ResolvedPlay[] = [];
-    for (const f of list) for (const set of data.lib.setsByFormation.get(f.asset) ?? []) out.push(...data.catalog.playsInSet(set.asset));
+    for (const f of list)
+      for (const set of data.lib.setsByFormation.get(f.asset) ?? []) {
+        out.push(...data.catalog.playsInSet(set.asset));
+        if (scope === "book") out.push(...stockCandidates(data.catalog, set.asset));
+      }
     return out;
   }, [scope, setAsset, formations, data.catalog, data.lib, libraryWaiting]);
   // Text search + "hide added" first; the family / concept chips count what's left, then filter it.
@@ -146,16 +154,17 @@ export function AddPlaysDrawer() {
     }
     return m;
   }, [searched]);
-  const searchedKeys = useMemo(() => searched.map((p) => p.key), [searched]);
+  const searchedKeys = useMemo(() => searched.map((p) => realKey(p.key)), [searched]);
   const catFilter = useCategoryFilter(concepts, searchedKeys, cats);
   const plays = useMemo(
-    () => searched.filter((p) => (!families.length || families.includes(playTypeInfo(p.playType).family)) && catFilter.test(p.key)),
+    () => searched.filter((p) => (!families.length || families.includes(playTypeInfo(p.playType).family)) && catFilter.test(realKey(p.key))),
     [searched, families, catFilter],
   );
 
   // Per-render-input cache (a fresh map whenever the book, catalog or side changes — never a stale answer).
   const problemCache = useMemo(() => new Map<PlayKey, string | undefined>(), [data.catalog, data.side, data.spec, data.template.contents]);
   const problemOf = (key: PlayKey) => {
+    if (isCandidate(key)) return undefined; // it's cloned into its custom set first, so the clone's own name rule applies
     // addPlayProblem = the name rule plus "its formation is a template section of this book" (what addPlays enforces).
     if (!problemCache.has(key)) problemCache.set(key, addPlayProblem(data.spec, data.catalog, key, { template: data.template.contents }));
     return problemCache.get(key);
@@ -178,9 +187,21 @@ export function AddPlaysDrawer() {
   };
   const add = () => {
     if (!picked.length) return;
-    const n = addPlays(data, picked);
-    if (n) setPicked([]);
+    const stock = picked.filter(isCandidate);
+    const own = picked.filter((k) => !isCandidate(k));
+    const n = own.length ? addPlays(data, own) : 0;
+    if (stock.length) {
+      // Clone into the custom sets now; the clones join the catalog on the next render, then land in the playbook.
+      const made = cloneIntoSets(data.catalog, stock, assetPrefix);
+      if (made.length) setPending((cur) => [...cur, ...made]);
+    }
+    if (n || stock.length) setPicked([]);
   };
+  useEffect(() => {
+    if (!pending.length || !pending.every((k) => data.catalog.get(k))) return;
+    setPending([]);
+    addPlays(data, pending);
+  }, [pending, data]);
   const selectAll = () => setPicked((cur) => [...new Set([...cur, ...plays.filter(pickable).map((p) => p.key)])]);
 
   const token = useActions(
@@ -199,7 +220,7 @@ export function AddPlaysDrawer() {
       e,
       () => {
         const keys = pickedSet.has(p.key) ? picked : [p.key];
-        const ok = keys.filter((k) => !inBook.has(k) && !problemOf(k));
+        const ok = keys.filter((k) => !isCandidate(k) && !inBook.has(k) && !problemOf(k));
         if (!ok.length) return undefined;
         return { kind: "library", refs: [], keys: ok, label: ok.length === 1 ? (data.catalog.get(ok[0])?.name ?? "Play") : `${ok.length} plays`, count: ok.length };
       },
@@ -289,18 +310,20 @@ export function AddPlaysDrawer() {
                 const isIn = inBook.has(p.key);
                 const pc = playCategories(concepts, p.key);
                 const customSet = scope !== "set" && data.custom.set(p.set);
+                const stock = isCandidate(p.key);
                 return (
-                  <div className={s.cell} onPointerDown={(e) => onPointerDown(p, e)} title={problem ?? (isIn ? "Already in this playbook" : "Click to select · drag onto a set in the tree")}>
+                  <div className={s.cell} onPointerDown={(e) => onPointerDown(p, e)} title={problem ?? (isIn ? "Already in this playbook" : stock ? "A stock play: copied into the custom set when added" : "Click to select · drag onto a set in the tree")}>
                     <PlayCard
                       play={p}
                       size="sm"
                       selected={pickedSet.has(p.key)}
                       muted={isIn || !!problem}
                       badges={
-                        pc.length || isIn || problem || customSet ? (
+                        pc.length || isIn || problem || customSet || stock ? (
                           <>
                             <CategoryDots cats={pc} className={s.cardDots} />
                             {customSet && <span className={s.customBadge}>Custom Set</span>}
+                            {stock && <span className={s.customBadge}>Stock Play</span>}
                             {isIn ? <span className={s.inBook}>Added</span> : problem ? <span className={s.blocked}>Can't Add</span> : null}
                           </>
                         ) : undefined

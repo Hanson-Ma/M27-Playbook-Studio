@@ -739,6 +739,7 @@ function portPresets(setl, norm24, slotOf, custom) {
 }
 
 // ---------- main ----------
+const pairs = []; // [custom set spec, its playbook set entry] per generated set, for carryOverCopied
 const setsSpec = { notes: "FUSION (Madden 24 mod) ported to Madden 27 by tools/m24/convert-fusion.mjs. Regenerate rather than hand-edit.", formations: [], sets: [] };
 const book = { name: "FUSION", side: "offense", notes: "FUSION offense, ported from the Madden 24 mod (hansonma.org/projects/fusion).", formations: [] };
 const stats = { sets: 0, plays: 0, passes: 0, runs: 0, animMatched: 0, animMissed: 0, assignments: new Set(), warnings: 0 };
@@ -779,7 +780,7 @@ for (const f of F) {
     }
     const presets = portPresets(s.setl, m24, slotOf, custom);
     const setLeaf = "FUS_" + leafOf(setName);
-    const sspec = { name: setName, asset: setLeaf, base: baseSet.asset, formation: form27.asset, positions, presets, plays: [] };
+    const sspec = { name: setName, asset: setLeaf, was: `${s.stockForm} / ${s.stockName}`, base: baseSet.asset, formation: form27.asset, positions, presets, plays: [] };
     log(`### ${setName}  (M24 "${s.stockForm} / ${s.stockName}" mod)\n- base: **${formByAsset.get(baseSet.formation).name} / ${baseSet.name}**, fit ${r2(best.cost)} yd${best.mism ? `, ${best.mism} position-type mismatch(es)` : ""}${dist(n[0], m24[0]) > 0.05 ? `, QB at (${n[0].x},${n[0].y}) vs M24 (${m24[0].x},${m24[0].y})` : ""}`);
     log(`- slots: ` + [1, 2, 3, 4, 5].map(i => `M24 ${i}→${slotOf[i]} ${n[slotOf[i]].pos.replace("POSITION_", "")} (${m24[i].x},${m24[i].y})`).join(", "));
     log(`- motion presets: ${Object.keys(presets).join(" ") || "none"}`);
@@ -999,6 +1000,7 @@ for (const f of F) {
     if (!sspec.plays.length) continue;
     setsSpec.sets.push(sspec);
     fspec.sets.push(bookSet);
+    pairs.push([sspec, bookSet]);
     stats.sets++;
   }
 }
@@ -1027,6 +1029,33 @@ log(`\n## Special teams\nPunt, field goal, kneel and spike come from the stock M
 log(`\n## Terminology audit\nRZ red zone · FM/FME/FMH/FMO force motion (you motion pre-snap with the set's presets) · PM pre-motioned · BM burst · RM return · EM exit · YEM Y exit · YM Y motion · M max protect · JB/JW/JF/JR jet block/wheel/flat/return · P pull blocking. Checked: motion on J/YM/EM/BM/RM/HBM plays, a shift on PM plays, a pulling lineman on P plays, a rolling QB on boots, and the M24 handoff animation on PA/RPO/runs.\n\n| formation | set | play | kind | motion slots | check |\n|---|---|---|---|---|---|\n${audit.join("\n")}\n`);
 log(`\n## Totals\n- ${stats.sets} custom sets, ${stats.plays} plays (${stats.passes} passes rebuilt, ${stats.runs} runs/options)\n- handoff animation matched on ${stats.animMatched} of ${stats.animMatched + stats.animMissed} PA/RPO/run plays\n- ${stats.assignments.size} new assignments\n- ${stats.warnings} warnings (inline above)\n`);
 
+// Stock plays copied into a set from the Studio (Add Plays; marked kept: true in the sets file) survive a rebuild:
+// the clone goes back into its set and, if the old playbook listed it, its playbook entry (audible, CPU weights) too.
+// Plays this script generates are regenerated as before, so removing one here (DROP_PLAYS...) still removes it.
+{
+  const readOld = f => { try { return JSON.parse(readFileSync(f, "utf8")); } catch { return null; } };
+  const oldSets = readOld("playbooks/sets/fusion-sets.json"), oldBook = readOld("playbooks/FUSION.json");
+  let carried = 0;
+  for (const [ss, bs] of pairs) {
+    const old = oldSets?.sets?.find(x => x.asset === ss.asset);
+    const lc = s => String(s).toLowerCase();
+    for (const e of old?.plays ?? []) {
+      if (!e?.kept || ss.plays.some(p => p.asset === e.asset || lc(p.name) === lc(e.name))) continue;
+      ss.plays.push(e);
+      carried++;
+      const oldSet = oldBook?.formations?.flatMap(f => Array.isArray(f.sets) ? f.sets : []).find(x => x.set === bs.set && x.plays?.some(p => p.play === e.name));
+      const bp = oldSet?.plays.find(p => p.play === e.name);
+      if (!bp) continue;
+      const entry = structuredClone(bp);
+      if (entry.audible && bs.plays.some(p => p.audible === entry.audible)) delete entry.audible;
+      bs.plays.push(entry);
+    }
+  }
+  if (carried) { log(`
+## Copied plays kept
+${carried} stock plays copied into sets from the Studio (kept: true in fusion-sets.json) were carried over.
+`); console.log(`kept ${carried} Studio-copied plays`); }
+}
 mkdirSync("playbooks/sets", { recursive: true });
 writeFileSync("playbooks/sets/fusion-sets.json", JSON.stringify(setsSpec, null, 1));
 writeFileSync("playbooks/FUSION.json", JSON.stringify(book, null, 2));

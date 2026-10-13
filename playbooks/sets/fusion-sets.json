@@ -5,6 +5,7 @@
   {
    "name": "Close Y-Off",
    "asset": "FUS_Close_Y_Off",
+   "was": "I Form / Y Off Close",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Y_Off_Close/Y_Off_Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/I_Form",
    "positions": [
@@ -1244,6 +1245,7 @@
   {
    "name": "Empty Flex",
    "asset": "FUS_Empty_Flex",
+   "was": "I Form / Pro",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Split_Close_Pro/Split_Close_Pro",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/I_Form",
    "positions": [
@@ -2494,6 +2496,7 @@
   {
    "name": "Close",
    "asset": "FUS_Close",
+   "was": "I Form / Close",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/Close/Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/I_Form/I_Form",
    "positions": [
@@ -3972,6 +3975,7 @@
   {
    "name": "SB: Goal Line",
    "asset": "FUS_SB_Goal_Line",
+   "was": "Goal Line / Goalline",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Normal/Normal",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Goal_Line_Offense/Goal_Line_Offense",
    "positions": [
@@ -4861,6 +4865,7 @@
   {
    "name": "Tight Doubles",
    "asset": "FUS_Tight_Doubles",
+   "was": "Singleback / Dice Slot",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Doubles/Tight_Doubles",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Singleback",
    "positions": [
@@ -5914,6 +5919,7 @@
   {
    "name": "Bunch Close",
    "asset": "FUS_Bunch_Close",
+   "was": "Singleback / Bunch X Nasty",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Y_Off_Trio_Close/Y_Off_Trio_Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Singleback",
    "positions": [
@@ -7713,6 +7719,7 @@
   {
    "name": "Bunch TE",
    "asset": "FUS_Bunch_TE",
+   "was": "Singleback / Trips",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Bunch_TE/Bunch_TE",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Singleback",
    "positions": [
@@ -9431,6 +9438,7 @@
   {
    "name": "Deuce Close",
    "asset": "FUS_Deuce_Close",
+   "was": "Singleback / Deuce Close",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Tight_Y_Off/Tight_Y_Off",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Singleback",
    "positions": [
@@ -11219,6 +11227,7 @@
   {
    "name": "Stack Y-Off",
    "asset": "FUS_Stack_Y_Off",
+   "was": "Singleback / Doubles Y Off Close",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Doubles_Y_Off_Flex/Doubles_Y_Off_Flex",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/Singleback",
    "positions": [
@@ -12134,6 +12143,7 @@
   {
    "name": "Deuce Close",
    "asset": "FUS_Deuce_Close",
+   "was": "Pistol / Deuce Close",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Deuce_Close/Deuce_Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Pistol",
    "positions": [
@@ -12953,6 +12963,7 @@
   {
    "name": "Strong Close",
    "asset": "FUS_Strong_Close",
+   "was": "Pistol / Strong",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Close/Wing_Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Pistol",
    "positions": [
@@ -13785,6 +13796,7 @@
   {
    "name": "Trey Row",
    "asset": "FUS_Trey_Row",
+   "was": "Pistol / Y Trips",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Bunch_X_Nasty/Bunch_X_Nasty",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Pistol",
    "positions": [
@@ -14779,6 +14791,7 @@
   {
    "name": "Wing Slot",
    "asset": "FUS_Wing_Slot",
+   "was": "Pistol / Wing Slot",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Wing_Slot/Wing_Slot",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/Pistol",
    "positions": [
@@ -15714,6 +15727,7 @@
   {
    "name": "Bunch TE",
    "asset": "FUS_Bunch_TE",
+   "was": "Gun / Tight Flex",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_TE/Bunch_TE",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -17604,6 +17618,7 @@
   {
    "name": "Stack",
    "asset": "FUS_Stack",
+   "was": "Gun / Doubles",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Tight_Open/Tight_Open",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -20063,6 +20078,7 @@
   {
    "name": "Doubles Tight",
    "asset": "FUS_Doubles_Tight",
+   "was": "Gun / Doubles Offset",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Normal_Y_Off_Close/Normal_Y_Off_Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -23235,6 +23251,7 @@
   {
    "name": "Trio TE",
    "asset": "FUS_Trio_TE",
+   "was": "Gun / Snugs Flip",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Trips_TE/Trips_TE",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -24839,6 +24856,7 @@
   {
    "name": "Spread Flex Wk",
    "asset": "FUS_Spread_Flex_Wk",
+   "was": "Gun / Spread Dbl Flex Wk",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex_Wk/Spread_Y-Flex_Wk",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -26526,6 +26544,7 @@
   {
    "name": "Doubles Wk",
    "asset": "FUS_Doubles_Wk",
+   "was": "Gun / Doubles HB Wk",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Doubles_HB_Wk/Doubles_HB_Wk",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -29429,6 +29448,7 @@
   {
    "name": "Empty Bunch Y-Out",
    "asset": "FUS_Empty_Bunch_Y_Out",
+   "was": "Gun / Normal Y Off Wk",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Flanker_Close/Flanker_Close",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -31102,6 +31122,7 @@
   {
    "name": "Bunch Wk",
    "asset": "FUS_Bunch_Wk",
+   "was": "Gun / Y Off Trips Wk",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_X_Nasty/Bunch_X_Nasty",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -33295,6 +33316,7 @@
   {
    "name": "Empty Bunch Tight",
    "asset": "FUS_Empty_Bunch_Tight",
+   "was": "Gun / Y Off Trips",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_X_Nasty/Bunch_X_Nasty",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -36109,6 +36131,7 @@
   {
    "name": "Spread Y-Flex",
    "asset": "FUS_Spread_Y_Flex",
+   "was": "Gun / Spread Y-Flex",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Spread_Y-Flex/Spread_Y-Flex",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -38149,6 +38172,7 @@
   {
    "name": "Trips Y-Out Wk",
    "asset": "FUS_Trips_Y_Out_Wk",
+   "was": "Gun / Normal Y Off",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Open/Bunch_Open",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -40071,6 +40095,7 @@
   {
    "name": "Trey Stack Wk",
    "asset": "FUS_Trey_Stack_Wk",
+   "was": "Gun / Trey Open",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Spread_Nasty/Bunch_Spread_Nasty",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -42981,6 +43006,7 @@
   {
    "name": "Empty Trio Flex",
    "asset": "FUS_Empty_Trio_Flex",
+   "was": "Gun / Spread Dbl Flex",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Empty_Base_Trio/Empty_Base_Trio",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -45336,6 +45362,7 @@
   {
    "name": "Stack Y-Off Wk",
    "asset": "FUS_Stack_Y_Off_Wk",
+   "was": "Gun / Tight Y Off Wk",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Tight_Slots_HB_Wk/Tight_Slots_HB_Wk",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -47492,6 +47519,7 @@
   {
    "name": "Bunch",
    "asset": "FUS_Bunch",
+   "was": "Gun / Normal Y Off Close",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Str_Nasty/Bunch_Str_Nasty",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Shotgun",
    "positions": [
@@ -49555,6 +49583,7 @@
   {
    "name": "Empty Bunch Quads",
    "asset": "FUS_Empty_Bunch_Quads",
+   "was": "Hail Mary / Trio",
    "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Bunch_Quads/Bunch_Quads",
    "formation": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Hail_Mary/Hail_Mary",
    "positions": [

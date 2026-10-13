@@ -331,6 +331,12 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
             {form.custom && "My Formation"}
             {cls && <span className={s.sep}>·</span>}
             {cls && titleCase(DEPTH_CLASS_LABEL[cls])}
+            {typeof spec.was === "string" && spec.was && (
+              <>
+                <span className={s.sep}>·</span>
+                <span title="What this set was called in the Madden 24 mod">was {spec.was}</span>
+              </>
+            )}
           </div>
         </div>
         <span className={s.grow} />
