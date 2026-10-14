@@ -30,7 +30,9 @@ import {
   ROUTE_PRESETS,
   ROUTE_TYPE_FAMILIES,
   familyFromRouteType,
+  flipRouteSteps,
   inferRouteType,
+  mirrorRouteType,
   routeStart,
   sideOfX,
   stemDepth,
@@ -609,6 +611,8 @@ export function resetSlot(state: DesignerState, i: number): DesignerState {
 // ───────────────────────────── My Routes ─────────────────────────────
 
 export interface ApplySavedRouteOptions {
+  /** Apply the mirror image (the tile's Flip toggle). */
+  flip?: boolean;
   /** settings.assetPrefix: the authored name becomes prefix + route name ("PBS_Deep_Over"). */
   prefix: string;
   /** Leading steps kept as a precan (the view's lockOf); default = the slot's motion / realignment / mechanics. */
@@ -625,7 +629,8 @@ export interface ApplySavedRouteOptions {
 export function applySavedRoute(state: DesignerState, i: number, route: SavedRoute, opts: ApplySavedRouteOptions): DesignerState {
   const cur = state.slots[i];
   if (!cur) return state;
-  const side = slotSide(state, i);
+  const base = Array.isArray(route.motion) && route.motion.length ? alignmentSide(state, i) : slotSide(state, i);
+  const side = opts.flip ? (base === "left" ? "right" : "left") : base;
   const r = applySavedRouteSteps(cur.steps, route, side, opts.keep, opts.routeTypes);
   const nameBase = savedRouteNameBase(opts.prefix, route.name, r.mirrored ? side : undefined);
   const next: SlotDesign = {
@@ -640,6 +645,21 @@ export function applySavedRoute(state: DesignerState, i: number, route: SavedRou
     assignment: undefined,
   };
   return withSlot(state, i, next);
+}
+
+/** Which side of the formation the player lines up on (before any motion or shift): the side a motion route is drawn for. */
+export function alignmentSide(state: DesignerState, i: number): "left" | "right" {
+  const a = state.set?.movements?.Normal?.[i];
+  return a ? sideOfX(a.x) : "right";
+}
+
+/** The slot's route flipped (his motion and kept precan stay); option routes take the other side's branches. */
+export function flipSlotRoute(state: DesignerState, i: number, keep: number | undefined, validRouteTypes?: ReadonlySet<string>): DesignerState {
+  const cur = state.slots[i];
+  if (!cur || !toEditableRoute(cur.steps).legs.length) return state;
+  const rt = slotRouteType(state, i);
+  const flipped = mirrorRouteType(rt, validRouteTypes) ?? rt;
+  return setSlotSteps(state, i, flipRouteSteps(cur.steps, keep), { routeType: flipped, family: cur.family });
 }
 
 /** The routeType a slot's authored steps carry (picked, loaded or inferred) — what "Save route" stores. */

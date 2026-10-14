@@ -33,6 +33,7 @@ import {
   motionStep,
   presetSteps,
   routePoints,
+  routeStart,
   toEditableRoute,
 } from "./routes";
 import type { RoutesDoc, SavedRoute, Step } from "./types";
@@ -142,11 +143,12 @@ describe("saving a route", () => {
 describe("applying a saved route", () => {
   const saved: SavedRoute = { id: "c", name: "Corner", side: "right", steps: corner, routeType: "AssignRouteType_RR_Corner_Deep" };
 
-  it("same side: replaces the route part and keeps the motion / realignment in front", () => {
+  it("same side: a new route starts from the beginning (his old motion isn't carried); a kept precan stays in front", () => {
     const slot: Step[] = [ofp, motion, { type: "RunRoute", distance: 5, direction: 90, speed: 100 }, { type: "None" }];
     const out = applySavedRouteSteps(slot, saved, "right");
     expect(out.mirrored).toBe(false);
-    expect(out.steps).toEqual([ofp, motion, ...corner, { type: "None" }]);
+    expect(out.steps).toEqual([...corner, { type: "None" }]);
+    expect(applySavedRouteSteps(slot, saved, "right", 2).steps).toEqual([ofp, motion, ...corner, { type: "None" }]);
     expect(isSavedRouteApplied(out.steps, saved, "right")).toBe(true);
     expect(isSavedRouteApplied(out.steps, saved, "left")).toBe(false);
   });
@@ -234,7 +236,7 @@ describe("motion routes", () => {
     expect(() => makeSavedRoute({ name: "x", side: "right", steps: [...wheel], withMotion: true })).toThrow();
   });
 
-  it("applying a motion route replaces the player's motion; a plain route keeps it", () => {
+  it("applying a motion route brings its own motion; a plain route brings none", () => {
     const route = makeSavedRoute({ name: "Jet Wheel", side: "right", steps: chain, withMotion: true });
     const other = motionStep(motionPresetWaypoints("short", { x: 12, y: -2.2 }));
     const onPlayer: Step[] = [other, { type: "RunRoute", distance: 5, direction: 90, speed: 100 }, { type: "None" }];
@@ -244,7 +246,7 @@ describe("motion routes", () => {
     expect(isSavedRouteApplied(applied, route, "right")).toBe(true);
     expect(isSavedRouteApplied(onPlayer, route, "right")).toBe(false);
     const plain = makeSavedRoute({ name: "Wheel", side: "right", steps: chain });
-    expect(applySavedRouteSteps(onPlayer, plain, "right").steps[0]).toEqual(other);
+    expect(applySavedRouteSteps(onPlayer, plain, "right").steps.some((s) => s.type === "AutoMotion")).toBe(false); // a plain route starts fresh too
   });
 
   it("flips the motion for the other side, to the same spots mirrored", () => {
@@ -255,5 +257,20 @@ describe("motion routes", () => {
     // a handoff precan on the player means no motion route
     const locked: Step[] = [{ type: "CannedHandoff" } as Step, { type: "RunRoute", distance: 3, direction: 90, speed: 100 }, { type: "None" }];
     expect(applySavedRouteSteps(locked, route, "right").steps.some((s) => s.type === "AutoMotion")).toBe(false);
+  });
+});
+
+describe("saved motion with flat waypoints", () => {
+  it("reads {x, y} waypoints in the library's nested form, so the route starts where the motion ends", () => {
+    const flat: SavedRoute = {
+      id: "t",
+      name: "Flat Jet",
+      side: "right",
+      motion: [{ type: "AutoMotion", waypoints: [{ x: -6, y: -2.5, speed: 100 }] }],
+      steps: [{ type: "RunRoute", distance: 6, direction: 120, speed: 100 }, { type: "GetOpen" }],
+    } as SavedRoute;
+    const out = applySavedRouteSteps([{ type: "None" }], flat, "right").steps;
+    const start = routeStart({ x: 10, y: -1 }, toEditableRoute(out).prefix, out);
+    expect(start).toEqual({ x: -6, y: -2.5 });
   });
 });

@@ -14,7 +14,7 @@ import { useWorkspace } from "../../state/workspace";
 import type { SetsFile } from "../../model/types";
 import { FirstStepsFan, FirstStepsPanel, PlaybackBar, SegmentLayer, SegmentPanel, firstStepOptions } from "./FieldExtras";
 import { computeArt } from "../../model/art";
-import { clearStartOverride, isSlotChanged, isSlotLocked, setStartOverride, startLock, startOverride, unbuildableSteps } from "../../model/designer";
+import { clearStartOverride, flipSlotRoute, isSlotChanged, isSlotLocked, setStartOverride, startLock, startOverride, unbuildableSteps } from "../../model/designer";
 import { HALF_WIDTH, add, polar } from "../../model/geometry";
 import { MOTION_LIMITS, canMotion, clampMotionPoint, motionPathLength } from "../../model/motionLimits";
 import { isEligible, isOffensiveLine } from "../../model/positions";
@@ -422,7 +422,18 @@ export function EditField() {
             </Button>
             {fanOptions.length > 0 && (
               <Button size="sm" variant="ghost" active={ui.fan} onClick={() => setUi({ fan: !ui.fan, segment: undefined, drawing: false })} title={normal[sel]?.pos === "POSITION_QB" ? "Pick the QB's drop" : "Pick the release (his first steps)"}>
-                First Steps
+                {fanOptions.find((o) => o.on)?.label ?? "First Steps"}
+              </Button>
+            )}
+            {geom && geom.route.legs.length > 0 && (
+              <Button
+                size="sm"
+                variant="ghost"
+                icon="flip"
+                onClick={() => d.edit((st) => flipSlotRoute(st, sel, lock || undefined, new Set(d.lib.enumValues("AssignRouteType"))), "Flip route")}
+                title="Flip route: the route goes the other way (an out becomes an in, option routes take the opposite branches). His motion stays."
+              >
+                {compactTools ? undefined : "Flip Route"}
               </Button>
             )}
             <Button

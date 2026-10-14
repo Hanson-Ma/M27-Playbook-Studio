@@ -23,6 +23,8 @@ import {
 } from "../../model/routes";
 import { stepsEqual } from "../../model/steps";
 import { Button, NumberField, Segmented, TextInput, cx } from "../../ui";
+import { mirrorRouteType, mirrorSteps } from "../../model/routes";
+import type { Step } from "../../model/types";
 import { Disclosure } from "./Disclosure";
 import { LegTable } from "./LegTable";
 import { MyRoutesSection } from "./MyRoutesSection";
@@ -66,7 +68,7 @@ const ALIASES: Record<string, string> = {
   lead_out: "screen block lead pull",
   lead_in: "screen block lead pull",
 };
-const matches = (q: string, ...hay: string[]) => !q || q.split(/s+/).every((w) => hay.some((h) => h.toLowerCase().includes(w)));
+const matches = (q: string, ...hay: string[]) => !q || q.split(/\s+/).every((w) => hay.some((h) => h.toLowerCase().includes(w)));
 
 export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   const d = useDesigner();
@@ -76,6 +78,10 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   const [library, setLibrary] = useState(false);
   const [query, setQuery] = useState("");
   const q = query.trim().toLowerCase();
+  // Flip: every tile shows (and puts on the player) the mirror image of the route.
+  const [flipped, setFlipped] = useState(false);
+  const routeTypes = useMemo(() => new Set(d.lib.enumValues("AssignRouteType")), [d.lib]);
+  const fl = <T extends { steps: Step[]; routeType: string }>(b: T): T => (flipped ? { ...b, steps: mirrorSteps(b.steps), routeType: mirrorRouteType(b.routeType, routeTypes) ?? b.routeType } : b);
   const keep = lock > 0 ? lock : undefined;
   // Depth routes count their depth from the line of scrimmage, so they need to know where the player starts.
   const geom = slotGeometry(set, slot, steps, lock);
@@ -84,37 +90,37 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   const tiles = useMemo(
     () =>
       ROUTE_PRESETS.map((def) => {
-        const built = presetSteps(def.id, { side, startY });
+        const built = fl(presetSteps(def.id, { side, startY }));
         const next = replaceBody(steps, built.steps, keep);
         return { def, steps: next, routeType: built.routeType, off: tileOffField({ set }, slot, next) };
       }),
-    [steps, side, keep, set, slot, startY],
+    [steps, side, keep, set, slot, startY, flipped, routeTypes], // eslint-disable-line react-hooks/exhaustive-deps
   );
   const doubles = useMemo(
     () =>
       DOUBLE_MOVES.map((dm) => {
-        const built = doubleMoveSteps(dm.id, side);
+        const built = fl(doubleMoveSteps(dm.id, side));
         const next = replaceBody(steps, built.steps, keep);
         return { dm, steps: next, routeType: built.routeType, off: tileOffField({ set }, slot, next) };
       }),
-    [steps, side, keep, set, slot],
+    [steps, side, keep, set, slot, flipped, routeTypes], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const screens = useMemo(
     () =>
       SCREEN_BLOCKS.map((sb) => {
-        const built = screenBlockSteps(sb.id, side);
+        const built = fl(screenBlockSteps(sb.id, side));
         const next = replaceBody(steps, built.steps, keep);
         return { sb, steps: next, routeType: built.routeType, off: tileOffField({ set }, slot, next) };
       }),
-    [steps, side, keep, set, slot],
+    [steps, side, keep, set, slot, flipped, routeTypes], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const memo = ui.presets[slot];
   const activePreset = memo && stepsEqual(memo.steps, steps) ? memo : undefined;
 
   const applyPreset = (id: RoutePresetId, params: Partial<RouteParams>, label: string, coalesceMs?: number) => {
-    const built = presetSteps(id, { side, startY }, params);
+    const built = fl(presetSteps(id, { side, startY }, params));
     const next = replaceBody(steps, built.steps, keep);
     d.commitSlot(slot, next, label, { routeType: built.routeType, family: PRESET_BY_ID[id].family }, coalesceMs);
     setUi((u) => ({ presets: { ...u.presets, [slot]: { id, params, steps: next } }, vertex: undefined }));
@@ -153,7 +159,14 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
   return (
     <>
       <OffFieldNotice slot={slot} lock={lock} />
-      <TextInput size="sm" icon="search" value={query} onChange={setQuery} placeholder="Search routes (stick, cross, zig, boot flat…)" clearable onClear={() => setQuery("")} aria-label="Search routes" />
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <TextInput size="sm" icon="search" value={query} onChange={setQuery} placeholder="Search routes (stick, cross, zig, boot flat…)" clearable onClear={() => setQuery("")} aria-label="Search routes" />
+        </div>
+        <Button size="sm" variant="ghost" icon="flip" active={flipped} onClick={() => setFlipped((v) => !v)} title="Flip: every route below is shown, and put on the player, as its mirror image (an out becomes an in, a wheel goes the other way)">
+          Flip
+        </Button>
+      </div>
       <Disclosure id="route.pick" title="Pick a Route" hint={`${side === "left" ? "Left side" : "Right side"} · "out" = toward the sideline`} defaultOpen={false} forceOpen={!!q}>
         <div className={s.tiles}>
           {shownTiles.map((t) => (
@@ -175,7 +188,7 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
 
       {activePreset && <PresetParams preset={activePreset.id} params={activePreset.params} onChange={(p) => applyPreset(activePreset.id, p, "Route settings", 700)} />}
 
-      <MyRoutesSection slot={slot} lock={lock} query={query} />
+      <MyRoutesSection slot={slot} lock={lock} query={query} flip={flipped} />
 
       {(!q || shownDoubles.length > 0) && (
       <Disclosure id="route.double" title="Double Moves" hint="Fake, then go" defaultOpen={!!activeDouble} forceOpen={!!q && shownDoubles.length > 0}>

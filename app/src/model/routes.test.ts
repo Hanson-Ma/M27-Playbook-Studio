@@ -25,6 +25,7 @@ import {
   presetSteps,
   r2,
   removeVertex,
+  flipRouteSteps,
   replaceBody,
   ROUTE_PRESETS,
   routePoints,
@@ -466,10 +467,23 @@ describe("blocks and motion", () => {
     expect(Object.keys(jet[0])).toEqual(Object.keys((lib1.waypoints as object[])[0]));
   });
 
-  it("replaceBody keeps motion and precans in front", () => {
+  it("replaceBody starts from the beginning (no motion carried); a kept precan or keepMotion keeps the prefix; flipRouteSteps mirrors only the route", () => {
     const chain: Step[] = [{ type: "OverrideFormPos", offsetX: 1, offsetY: -1 }, { type: "AutoMotion", waypoints: [] }, { type: "InitialAnim", anim: "MOVETYPE_WRSTART" }, { type: "RunRoute", distance: 3, direction: 90, speed: 100 }, { type: "None" }];
-    expect(replaceBody(chain, [{ type: "GetOpen" }]).map((s) => s.type)).toEqual(["OverrideFormPos", "AutoMotion", "GetOpen", "None"]);
+    expect(replaceBody(chain, [{ type: "GetOpen" }]).map((s) => s.type)).toEqual(["GetOpen", "None"]);
+    expect(replaceBody(chain, [{ type: "GetOpen" }], undefined, { keepMotion: true }).map((s) => s.type)).toEqual(["OverrideFormPos", "AutoMotion", "GetOpen", "None"]);
+    expect(replaceBody(chain, [{ type: "GetOpen" }], 2).map((s) => s.type)).toEqual(["OverrideFormPos", "AutoMotion", "GetOpen", "None"]);
     expect(replaceBody(chain, [{ type: "GetOpen" }], 0).map((s) => s.type)).toEqual(["GetOpen", "None"]);
+    const withOption: Step[] = [
+      { type: "AutoMotion", waypoints: [] },
+      { type: "RunRoute", distance: 3, direction: 70, speed: 100 },
+      { type: "OptionRoute", options: [{ route: "HitchRight", coverage: "OptionRouteCoverage_Default" }, { route: "InOutRight", coverage: "15" }] },
+      { type: "None" },
+    ];
+    const flipped = flipRouteSteps(withOption);
+    expect(flipped[0]).toEqual(withOption[0]); // his motion stays
+    expect(flipped[1]).toMatchObject({ direction: 110 });
+    expect(flipped[2]).toMatchObject({ options: [{ route: "HitchLeft" }, { route: "InOutLeft" }] });
+    expect(flipRouteSteps(flipRouteSteps(withOption))).toEqual(withOption);
   });
 });
 

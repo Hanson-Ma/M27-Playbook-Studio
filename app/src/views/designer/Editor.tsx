@@ -18,6 +18,7 @@ import {
   resetSlot,
   setPrimaryReceiver,
   setSlotSteps,
+  alignmentSide,
   slotRouteType,
   slotSide,
   specFromState,
@@ -332,7 +333,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
       const play = catalog.custom.find((p) => p.file === file && p.index === index);
       const route = makeSavedRoute({
         name: name.trim(),
-        side: slotSide(st, slot),
+        side: withMotion ? alignmentSide(st, slot) : slotSide(st, slot),
         steps,
         keepLeading: keep,
         withMotion,

@@ -7,6 +7,7 @@
 // Doc edits (addRoute / renameRoute / removeRoute / setRouteTags) mutate a draft in place (workspace.update recipes).
 import { sanitizeAssetLeaf } from "./names";
 import { hasMechanics, hasMotion, keptPrefixLength, mirrorRouteType, mirrorSteps, motionPart, replaceBody, routeBody, toEditableRoute, type RouteSide } from "./routes";
+import { normalizeWaypoints } from "./steps";
 import type { PlayKey, RoutesDoc, SavedRoute, Step } from "./types";
 
 /** Where My Routes live (app-data = editor-only; the game never reads it). */
@@ -123,8 +124,9 @@ export interface RouteForSide {
 
 /** The saved route as it runs for a player on `side`: mirrored when the route was drawn for the other side. */
 export function savedRouteFor(route: SavedRoute, side: RouteSide, validRouteTypes?: ReadonlySet<string>): RouteForSide {
-  const steps = route.steps.filter((s) => s.type !== "None");
-  const motion = isMotionRoute(route) ? route.motion!.filter((s) => s.type !== "None") : undefined;
+  // Waypoints written flat ({x, y}, as the FUSION specs have them) are read in the library's nested form.
+  const steps = route.steps.filter((s) => s.type !== "None").map((s) => normalizeWaypoints(s));
+  const motion = isMotionRoute(route) ? route.motion!.filter((s) => s.type !== "None").map((s) => normalizeWaypoints(s)) : undefined;
   if (route.side === side) return { steps: steps.map((s) => ({ ...s })), motion: motion?.map((s) => ({ ...s })), routeType: route.routeType, mirrored: false };
   return { steps: mirrorSteps(steps), motion: motion ? mirrorSteps(motion) : undefined, routeType: mirrorRouteType(route.routeType, validRouteTypes), mirrored: true };
 }

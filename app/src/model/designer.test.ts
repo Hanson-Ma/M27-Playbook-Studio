@@ -582,9 +582,9 @@ describe("My Routes on a slot", () => {
     const sb = stateFromSpec(artB.spec, a.catalog, artB.file, artB.index);
     const b = write(applySavedRoute(sb, 4, deepOver, { prefix: "PBS_", routeTypes }), artB.file, artB.index, a.docs);
     expect((b.spec.players!["4"] as NewAssignmentSpec).new).toBe("PBS_Deep_Over");
-    // With a motion in front the chain differs → its own name.
+    // With a motion kept in front (a kept precan) the chain differs → its own name.
     const withMotion = setSlotSteps(sb, 4, [motionStep(motionPresetWaypoints("short", { x: 12, y: -0.8 })), { type: "None" }]);
-    const c = write(applySavedRoute(withMotion, 4, deepOver, { prefix: "PBS_", routeTypes }), artB.file, artB.index, a.docs);
+    const c = write(applySavedRoute(withMotion, 4, deepOver, { prefix: "PBS_", routeTypes, keep: 1 }), artB.file, artB.index, a.docs);
     const z = c.spec.players!["4"] as NewAssignmentSpec;
     expect(z.new).toBe("PBS_Deep_Over_2");
     expect(z.steps[0].type).toBe("AutoMotion");

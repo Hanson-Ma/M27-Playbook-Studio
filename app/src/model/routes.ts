@@ -1392,12 +1392,24 @@ export function setWaypoints(steps: readonly Step[], waypoints: AutoMotionWaypoi
 // ───────────────────────────── applying a body to a slot ─────────────────────────────
 
 /**
- * Keep the slot's motion/alignment/precan prefix (AutoMotion, AutoMotionSnap, OverrideFormPos, handoff mechanics)
- * and replace everything else with `body` + None. Used by presets, double moves and block tools.
+ * Replace the route part with `body` + None. A new route starts from the beginning: the slot's old motion and
+ * pre-snap shift are dropped (handoff mechanics stay), unless `keepLeading` (a kept precan) or `keepMotion` says to
+ * keep the prefix. Used by presets, double moves, block tools and saved routes.
  */
-export function replaceBody(steps: readonly Step[], body: Step[], keepLeading?: number): Step[] {
+export function replaceBody(steps: readonly Step[], body: Step[], keepLeading?: number, opts: { keepMotion?: boolean } = {}): Step[] {
+  if (keepLeading !== undefined || opts.keepMotion) {
+    const n = keptPrefixLength(steps, keepLeading);
+    return [...steps.slice(0, n), ...body, { type: "None" }];
+  }
+  // Picking a new route starts from the beginning: his old motion and pre-snap shift don't come along (a handoff precan would).
+  const n = keptPrefixLength(steps);
+  return [...steps.slice(0, n).filter((s) => MECH.has(s.type)), ...body, { type: "None" }];
+}
+
+/** The chain with its route part mirrored (legs, cuts, option branches…): his motion / precan in front stay as they are. */
+export function flipRouteSteps(steps: readonly Step[], keepLeading?: number): Step[] {
   const n = keptPrefixLength(steps, keepLeading);
-  return [...steps.slice(0, n), ...body, { type: "None" }];
+  return [...steps.slice(0, n), ...mirrorSteps(stripNone(steps.slice(n) as Step[])), { type: "None" }];
 }
 
 /**

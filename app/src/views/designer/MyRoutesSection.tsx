@@ -4,16 +4,16 @@ import { useMemo } from "react";
 import { MiniRoute } from "../../field";
 import { applySavedRoute, slotSide } from "../../model/designer";
 import { applySavedRouteSteps, isMotionRoute, isSavedRouteApplied } from "../../model/routeLibrary";
-import { hasMechanics } from "../../model/routes";
+import { hasMechanics, sideOfX } from "../../model/routes";
 import type { SavedRoute } from "../../model/types";
 import { Disclosure } from "./Disclosure";
 import { HelpLink, IconButton, confirmDialog, cx, promptDialog, toast, useContextMenu, type MenuItem } from "../../ui";
 import { tileOffField, warnIfOffField } from "./OffField";
 import { deleteMyRoute, moveMyRoute, renameMyRoute, useMyRoutes } from "./routesStore";
-import { useDesigner } from "./shared";
+import { alignmentOf, useDesigner } from "./shared";
 import s from "./Inspector.module.css";
 
-export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock: number; query?: string }) {
+export function MyRoutesSection({ slot, lock, query = "", flip = false }: { slot: number; lock: number; query?: string; flip?: boolean }) {
   const d = useDesigner();
   const { state, set, lib, ui, setUi } = d;
   const { routes, error } = useMyRoutes();
@@ -26,18 +26,21 @@ export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock
   const tiles = useMemo(
     () =>
       routes.map((r) => {
-        const applied = applySavedRouteSteps(steps, r, side, keep, routeTypes);
+        // A motion route is drawn for the side the player lines up on (a jet crosses the formation); a plain route for the side its legs start on.
+        const base = isMotionRoute(r) ? sideOfX(alignmentOf(set, slot).x) : side;
+        const eff = flip ? (base === "left" ? "right" : "left") : base;
+        const applied = applySavedRouteSteps(steps, r, eff, keep, routeTypes);
         return {
           r,
           // A motion route replaces his motion: it can't go on a player whose handoff precan is kept.
           blocked: isMotionRoute(r) && (!!keep || hasMechanics(steps)),
           steps: applied.steps,
           mirrored: applied.mirrored,
-          current: isSavedRouteApplied(steps, r, side, keep),
+          current: isSavedRouteApplied(steps, r, eff, keep),
           off: tileOffField({ set }, slot, applied.steps),
         };
       }),
-    [routes, steps, side, keep, routeTypes, set, slot],
+    [routes, steps, side, keep, routeTypes, set, slot, flip],
   );
 
   const apply = (r: SavedRoute) => {
@@ -45,7 +48,7 @@ export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock
       toast.info("Motion Routes Aren't Available Here", { detail: "This player's first steps are a handoff, fake or option; they stay as they are." });
       return;
     }
-    d.edit((st) => applySavedRoute(st, slot, r, { prefix: d.prefix, keep, routeTypes }), `Route: ${r.name}`);
+    d.edit((st) => applySavedRoute(st, slot, r, { prefix: d.prefix, keep, routeTypes, flip }), `Route: ${r.name}`);
     setUi((u) => {
       const presets = { ...u.presets };
       delete presets[slot];

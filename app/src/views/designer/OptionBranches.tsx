@@ -69,7 +69,7 @@ export function OptionBranches({ slot, lock }: { slot: number; lock: number }) {
     const stem = own.some((x) => x.type === "RunRoute") ? own : fresh;
     const bs = defaultBranches(side);
     const chain: Step[] = [...stem, optionStep(bs), { type: "GetOpen" }];
-    d.commitSlot(slot, replaceBody(steps, chain, keep), "Make option route", { routeType: suggestOptionRouteType(bs, side), family: "Option" });
+    d.commitSlot(slot, replaceBody(steps, chain, keep, { keepMotion: true }), "Make option route", { routeType: suggestOptionRouteType(bs, side), family: "Option" });
   };
 
   const addBranch = () => {
