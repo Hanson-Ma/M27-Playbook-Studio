@@ -185,6 +185,14 @@ namespace PlayDump
 
         object NewStep(EbxAsset pad, JObject step)
         {
+            try { return NewStepCore(pad, step); }
+            catch (Exception ex) when (!(ex is StepBuildException)) { throw new StepBuildException("building step " + step.ToString(Newtonsoft.Json.Formatting.None) + ": " + ex.Message, ex); }
+        }
+
+        sealed class StepBuildException : Exception { public StepBuildException(string m, Exception inner) : base(m, inner) { } }
+
+        object NewStepCore(EbxAsset pad, JObject step)
+        {
             string cls = (string)step["type"] + "Assignment";
             dynamic obj = TypeLibrary.CreateObject(cls) ?? throw new InvalidOperationException("unknown assignment type " + cls);
             // Steps whose fields hold objects or asset references get built by hand; scalar/enum fields use the generic path.
