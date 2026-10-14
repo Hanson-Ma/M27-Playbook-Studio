@@ -16,7 +16,7 @@ import {
   isSlotChanged,
   isSlotLocked,
   resetSlot,
-  setPlayField,
+  setPrimaryReceiver,
   setSlotSteps,
   slotRouteType,
   slotSide,
@@ -296,7 +296,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
 
   const makePrimary = useCallback(
     (slot: number) => {
-      edit((st) => setPlayField(st, "vip", slot), "Primary receiver");
+      edit((st) => setPrimaryReceiver(st, slot), "Primary receiver");
       toast.success(`${set ? playerName(set, slot) : `Slot ${slot}`} Is the Primary Receiver`, { detail: "Their route is drawn red — the QB's first look.", duration: 2500 });
     },
     [edit, set],

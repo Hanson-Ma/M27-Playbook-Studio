@@ -369,6 +369,7 @@ export function EditField() {
           highlightSlot={hover}
           showLabels
           showSlots
+          slotInMark
           dimOthers={sel !== undefined}
           onPlayerPointerDown={onPlayerDown}
           onPlayerHover={setHover}

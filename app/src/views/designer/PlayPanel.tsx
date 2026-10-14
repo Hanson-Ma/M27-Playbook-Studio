@@ -17,6 +17,8 @@ import {
   setPlayName,
   slotRoleLabel,
   copyPlaySpec,
+  readsFavorPrimary,
+  setPrimaryReceiver,
   suggestAsset,
   swapBase,
   swapBaseLosses,
@@ -223,8 +225,16 @@ export function PlayPanel() {
             )
           }
         >
-          <SearchSelect size="sm" value={String(vip)} options={vipOptions} onChange={(v) => d.edit((st) => setPlayField(st, "vip", Number(v)), "Primary receiver")} width="100%" />
+          <SearchSelect size="sm" value={String(vip)} options={vipOptions} onChange={(v) => d.edit((st) => setPrimaryReceiver(st, Number(v)), "Primary receiver")} width="100%" />
         </FormRow>
+        {!readsFavorPrimary(state) && (
+          <div className={s.hintRow}>
+            <span>The game draws every route with a read at least as high as the primary's in red. Raise the primary's read above the others.</span>
+            <Button size="sm" variant="secondary" onClick={() => d.edit((st) => setPrimaryReceiver(st, vip), "Primary receiver")}>
+              Only the Primary Red
+            </Button>
+          </div>
+        )}
         <FormRow
           label="Play Type"
           hint={

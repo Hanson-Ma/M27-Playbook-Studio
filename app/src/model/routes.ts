@@ -674,7 +674,8 @@ export const ROUTE_PRESETS: RoutePresetDef[] = [
   // The game's Zig (HotRoute/Zig, the Automotion ZigIn / ZigOut): a short stem, a hinge-comeback, then flat across (RR_Whip).
   { id: "zigin", label: "Zig In", family: "ZigIn", depthInName: false, defaults: P({ stem: 3, breakAngle: 85, breakDir: "in", breakLength: 12 }), edit: ["stem", "breakAngle", "breakLength", "release", "stemSpeed", "breakSpeed", "end"] },
   { id: "zigout", label: "Zig Out", family: "ZigOut", depthInName: false, defaults: P({ stem: 3, breakAngle: 85, breakDir: "out", breakLength: 12 }), edit: ["stem", "breakAngle", "breakLength", "release", "stemSpeed", "breakSpeed", "end"] },
-  { id: "bubble", label: "Bubble", family: "Bubble", depthInName: false, defaults: P({ stem: 2.5, breakAngle: 126, breakDir: "out", breakLength: 0 }), edit: ["stem", "breakAngle", "stemSpeed", "end"] },
+  // The game's bubble screen (library WR_BubbleScreen_Lt: C:BUBBLE_SCREEN, R1@125 at speed 50): the receiver turns back toward the QB, then steps out.
+  { id: "bubble", label: "Bubble", family: "Bubble", depthInName: false, defaults: P({ stem: 1, breakAngle: 35, breakDir: "out", breakLength: 0, stemSpeed: 50 }), edit: ["stem", "breakAngle", "breakDir", "stemSpeed", "end"] },
 ];
 
 export const PRESET_BY_ID: Record<RoutePresetId, RoutePresetDef> = Object.fromEntries(ROUTE_PRESETS.map((p) => [p.id, p])) as Record<
@@ -900,7 +901,8 @@ export function presetSteps(id: RoutePresetId, ctx: PresetContext, params: Parti
       break;
     }
     case "bubble": {
-      const h = H("out", p.breakAngle);
+      const h = H(p.breakDir, p.breakAngle);
+      out.push(receiverCut("RECEIVER_CUT_ANGLE_BUBBLE_SCREEN", p.breakDir === "in" ? insideTurn(side) : outsideTurn(side)));
       out.push(runLeg(p.stem, h, p.stemSpeed));
       out.push(...endSteps(p.end, h, side));
       break;
@@ -1168,6 +1170,25 @@ export const BLOCK_FAMILY: Record<BlockToolId, string> = {
   pull: "Pull",
   screen: "ScreenBlock",
 };
+
+// ───────────────────────────── screen blocks (ready-made) ─────────────────────────────
+
+export type ScreenBlockId = "wr_out" | "wr_in" | "lead_out" | "lead_in";
+
+export const SCREEN_BLOCKS: { id: ScreenBlockId; label: string; hint: string }[] = [
+  { id: "wr_out", label: "WR Block (Out)", hint: "Release toward the sideline and block for the screen: the bubble's outside receiver" },
+  { id: "wr_in", label: "WR Block (In)", hint: "Release toward the ball and block for the screen" },
+  { id: "lead_out", label: "Screen Lead (Out)", hint: "Sell pass pro for a beat, then lead the screen to the sideline (slot / TE / back)" },
+  { id: "lead_in", label: "Screen Lead (In)", hint: "Sell pass pro for a beat, then lead the screen toward the middle" },
+];
+
+/** Steps and routeType for a ready-made screen block, for a player on `side` (the block tool's screen release, aimed in or out). */
+export function screenBlockSteps(id: ScreenBlockId, side: RouteSide): { steps: Step[]; routeType: string } {
+  const direction = sideHeading(side, id.endsWith("_in") ? "in" : "out", 80);
+  return id.startsWith("wr")
+    ? blockSteps("screen", { side, direction, distance: 3, time: 0 })
+    : blockSteps("screen", { side, direction, distance: 6, time: 0.5 });
+}
 
 export const TECHNIQUE_FOR: Partial<Record<BlockToolId, string>> = {
   lead: "BLOCKINGTECHNIQUE_LEAD_THROUGH_HOLE",

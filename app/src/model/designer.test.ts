@@ -6,6 +6,8 @@ import {
   applySpec,
   assetProblem,
   basePlayOf,
+  readsFavorPrimary,
+  setPrimaryReceiver,
   clampStartSpot,
   clearStartOverride,
   isClonePlay,
@@ -181,6 +183,19 @@ describe("editing slots", () => {
     expect(made.steps).toEqual(post.steps);
     // Untouched, it is written back as it was.
     expect(specFromState(state, ctxFor(snag.file, snag.index, DOCS, cat)).players!["2"]).toEqual(spec.players!["2"]);
+  });
+
+  it("making a receiver primary also makes him the top read, so the game doesn't draw other routes red", () => {
+    const state = stateFromSpec(snag.spec, catalog, snag.file, snag.index);
+    const reads = ((state.play as { reads?: { pos: number; pct: number }[] }).reads ?? state.base!.reads) as { pos: number; pct: number }[];
+    const lowest = [...reads].sort((a, b) => a.pct - b.pct)[0].pos;
+    const asVipOnly = { ...state, play: { ...state.play, vip: lowest } };
+    expect(readsFavorPrimary(asVipOnly)).toBe(false); // the old behaviour: only the vip changed
+    const next = setPrimaryReceiver(state, lowest);
+    expect(readsFavorPrimary(next)).toBe(true);
+    const out = (next.play as { reads: { pos: number; pct: number }[] }).reads;
+    const mine = out.find((r) => r.pos === lowest)!;
+    expect(out.filter((r) => r.pos !== lowest).every((r) => r.pct < mine.pct)).toBe(true);
   });
 
   it("a slot set back to the base assignment disappears from players", () => {

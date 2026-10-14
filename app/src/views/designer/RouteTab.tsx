@@ -7,6 +7,8 @@ import {
   DOUBLE_MOVES,
   PRESET_BY_ID,
   ROUTE_PRESETS,
+  SCREEN_BLOCKS,
+  screenBlockSteps,
   doubleMoveSteps,
   editRoute,
   presetSteps,
@@ -14,6 +16,7 @@ import {
   routeEnd,
   setRouteEnd,
   type DoubleMoveId,
+  type ScreenBlockId,
   type RouteEnd,
   type RouteParams,
   type RoutePresetId,
@@ -57,6 +60,11 @@ const ALIASES: Record<string, string> = {
   in: "dig",
   skinnypost: "post",
   curl: "hook",
+  bubble: "screen wr screen",
+  wr_out: "screen block stalk bubble",
+  wr_in: "screen block stalk",
+  lead_out: "screen block lead pull",
+  lead_in: "screen block lead pull",
 };
 const matches = (q: string, ...hay: string[]) => !q || q.split(/s+/).every((w) => hay.some((h) => h.toLowerCase().includes(w)));
 
@@ -92,6 +100,16 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
     [steps, side, keep, set, slot],
   );
 
+  const screens = useMemo(
+    () =>
+      SCREEN_BLOCKS.map((sb) => {
+        const built = screenBlockSteps(sb.id, side);
+        const next = replaceBody(steps, built.steps, keep);
+        return { sb, steps: next, routeType: built.routeType, off: tileOffField({ set }, slot, next) };
+      }),
+    [steps, side, keep, set, slot],
+  );
+
   const memo = ui.presets[slot];
   const activePreset = memo && stepsEqual(memo.steps, steps) ? memo : undefined;
 
@@ -102,6 +120,15 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
     setUi((u) => ({ presets: { ...u.presets, [slot]: { id, params, steps: next } }, vertex: undefined }));
     // Tile clicks only (parameter edits show the notice instead of a toast per keystroke).
     if (coalesceMs === undefined) warnIfOffField(d, slot, next, lock, PRESET_BY_ID[id].label);
+  };
+  const applyScreen = (id: ScreenBlockId) => {
+    const t = screens.find((x) => x.sb.id === id)!;
+    d.commitSlot(slot, t.steps, `Screen block: ${t.sb.label}`, { routeType: t.routeType, family: "ScreenBlock" });
+    setUi((u) => {
+      const presets = { ...u.presets };
+      delete presets[slot];
+      return { presets, vertex: undefined };
+    });
   };
   const applyDouble = (id: DoubleMoveId) => {
     const t = doubles.find((x) => x.dm.id === id)!;
@@ -116,6 +143,8 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
 
   const shownTiles = tiles.filter((t) => matches(q, t.def.label, t.def.family, ALIASES[t.def.id] ?? ""));
   const shownDoubles = doubles.filter((t) => matches(q, t.dm.label, t.dm.family, ALIASES[t.dm.id] ?? ""));
+  const shownScreens = screens.filter((t) => matches(q, t.sb.label, "screen block", ALIASES[t.sb.id] ?? ""));
+  const activeScreen = screens.find((t) => stepsEqual(t.steps, steps))?.sb.id;
   const hasLegs = geom.route.legs.length > 0;
   const end = routeEnd(geom.route);
   const setEnd = (e: RouteEnd) => d.commitSlot(slot, editRoute(steps, (r) => setRouteEnd(r, e, geom.start)), "Route end");
@@ -166,6 +195,26 @@ export function RouteTab({ slot, lock }: { slot: number; lock: number }) {
           ))}
         </div>
       </Disclosure>
+      )}
+
+      {(!q || shownScreens.length > 0) && (
+        <Disclosure id="route.screens" title="Screen Blocks" hint="Block for the screen" defaultOpen={!!activeScreen} forceOpen={!!q && shownScreens.length > 0}>
+          <div className={s.tiles}>
+            {shownScreens.map((t) => (
+              <button
+                key={t.sb.id}
+                type="button"
+                className={cx(s.tile, activeScreen === t.sb.id && s.tileActive)}
+                onClick={() => applyScreen(t.sb.id)}
+                title={t.off ? `${t.sb.label} — runs off the field from this player's spot` : t.sb.hint}
+              >
+                <MiniRoute set={set} slot={slot} steps={t.steps} size={58} primary={slot === d.vip} />
+                <span className={s.tileLabel}>{titleCase(t.sb.label)}</span>
+                {t.off && <span className={s.offTag}>Off Field</span>}
+              </button>
+            ))}
+          </div>
+        </Disclosure>
       )}
 
       <section className={s.section}>

@@ -775,6 +775,40 @@ export function setPlayField(state: DesignerState, key: PlayField, value: unknow
   return { ...state, play: play as CustomPlaySpec };
 }
 
+/**
+ * The game draws a route red when its read percentage is at least the primary receiver's, so a play whose primary
+ * (vip) isn't the strict top read shows several red routes. True when the primary's read beats every other read (or
+ * the play has no reads).
+ */
+export function readsFavorPrimary(state: DesignerState): boolean {
+  const vip = effectiveField<number>(state, "vip");
+  const reads = ((state.play as Obj).reads ?? state.base?.reads ?? []) as ReadDef[];
+  if (!reads.length || typeof vip !== "number") return true;
+  const v = reads.find((r) => r.pos === vip);
+  const top = Math.max(0, ...reads.filter((r) => r.pos !== vip).map((r) => r.pct));
+  return !!v && v.pct > top;
+}
+
+/**
+ * Make `slot` the primary receiver (the red route) AND the top read, as the converter does for the M24 plays:
+ * the red route follows the reads, so changing only the vip leaves the base play's other routes red.
+ */
+export function setPrimaryReceiver(state: DesignerState, slot: number): DesignerState {
+  let next = setPlayField(state, "vip", slot);
+  const reads = ((state.play as Obj).reads ?? state.base?.reads ?? []) as ReadDef[];
+  if (!reads.length) return next;
+  const list = reads.map((r) => ({ ...r }));
+  const top = Math.max(0, ...list.filter((r) => r.pos !== slot).map((r) => r.pct));
+  const v = list.find((r) => r.pos === slot);
+  if (!v) list.unshift({ pos: slot, pct: Math.min(1, Math.round((top + 0.05) * 100) / 100) || 0.9, combo: 0, concept: "Concept_Invalid" } as ReadDef);
+  else if (v.pct <= top) {
+    v.pct = Math.min(1, Math.round((top + 0.05) * 100) / 100);
+    if (v.pct <= top) for (const r of list) if (r.pos !== slot && r.pct >= v.pct) r.pct = Math.round((v.pct - 0.05) * 100) / 100;
+  } else return next;
+  next = setPlayField(next, "reads", normalizeReads(list));
+  return next;
+}
+
 /** The base play's value for a play-level field, in spec form (blocking as a leaf). */
 export function baseFieldValue(state: DesignerState, key: PlayField): unknown {
   const b = state.base;

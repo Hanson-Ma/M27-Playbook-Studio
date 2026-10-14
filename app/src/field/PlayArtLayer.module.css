@@ -231,6 +231,22 @@
   fill: var(--text);
 }
 
+/* the slot number inside a player's mark (designer) */
+.markNum {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.markNumDark {
+  fill: var(--bg-0);
+}
+
+.markNumLight {
+  fill: var(--text);
+}
+
 .slotSep {
   fill: var(--text-3);
 }

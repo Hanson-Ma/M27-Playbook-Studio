@@ -36,6 +36,11 @@ export interface PlayArtLayerProps {
    * Default: true on detail fields, false on compact (card) art.
    */
   showSlots?: boolean;
+  /**
+   * The designer's look: the slot number sits inside the player's mark, and the position tag always sits below it
+   * (no hopping around the player to dodge routes). Overrides showSlots for the tag text.
+   */
+  slotInMark?: boolean;
   /** Fade every other slot when a slot is selected or highlighted. */
   dimOthers?: boolean;
   /** Card sizing: thinner strokes, smaller marks, no OL pass-pro marks. */
@@ -201,6 +206,7 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
     onPlayerHover,
     showLabels = false,
     showSlots: showSlotsProp,
+    slotInMark = false,
     dimOthers = false,
     compact = false,
     markScale = 1,
@@ -311,6 +317,7 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
               selected={pl.slot === selectedSlot}
               highlighted={pl.slot === highlightSlot}
               cardMark={compact ? (runners.has(pl.slot) && pl.glyph === "skill" ? "x" : pl.glyph === "def" ? undefined : "dot") : undefined}
+              slotNumber={slotInMark ? pl.slot : undefined}
               dim={dimmed(pl.slot)}
               onPointerDown={onPlayerPointerDown}
               onHover={onPlayerHover}
@@ -325,7 +332,8 @@ export const PlayArtLayer = memo(function PlayArtLayer(props: PlayArtLayerProps)
           ppy={ppy}
           m={m}
           olCap={olCap}
-          showSlots={showSlots}
+          showSlots={showSlots && !slotInMark}
+          fixedBelow={slotInMark}
           viewBox={viewBox}
           selectedSlot={selectedSlot}
           dimmed={dimmed}
@@ -489,9 +497,11 @@ interface PlayerMarkProps {
   onHover?: (slot: number | undefined) => void;
   /** Card mark instead of the position glyph: "x" = route runner, "dot" = everyone else. */
   cardMark?: "x" | "dot";
+  /** Slot number drawn inside the mark. */
+  slotNumber?: number;
 }
 
-function PlayerMark({ player: p, ppy, m, selected, highlighted, dim, onPointerDown, onHover, cardMark }: PlayerMarkProps) {
+function PlayerMark({ player: p, ppy, m, selected, highlighted, dim, onPointerDown, onHover, cardMark, slotNumber }: PlayerMarkProps) {
   const R = m.radius;
   const k = m.iconScale;
   const interactive = !!(onPointerDown || onHover);
@@ -524,6 +534,16 @@ function PlayerMark({ player: p, ppy, m, selected, highlighted, dim, onPointerDo
         <circle className={styles.solid} r={r3(R * 0.78)} />
       ) : (
         <Glyph glyph={p.glyph} R={R} ring={m.ring} square={Math.min(R * 0.9, ppy * 0.6)} />
+      )}
+      {slotNumber !== undefined && !cardMark && (
+        <text
+          className={[styles.markNum, p.glyph === "qb" || p.glyph === "center" ? styles.markNumDark : styles.markNumLight].join(" ")}
+          y={r3(R * 0.42)}
+          fontSize={r3(R * (slotNumber > 9 ? 1.05 : 1.25))}
+          aria-hidden
+        >
+          {slotNumber}
+        </text>
       )}
       {interactive && <circle className={styles.hit} r={r3(Math.max(R + 6 * k, 11))} />}
     </g>
@@ -591,6 +611,8 @@ interface PlayerLabelsProps {
   m: ArtMetrics;
   olCap?: number;
   showSlots: boolean;
+  /** Every tag directly below its player (no dodging). */
+  fixedBelow?: boolean;
   viewBox: ViewBox;
   selectedSlot?: number;
   dimmed(slot: number): boolean;
@@ -625,7 +647,7 @@ function obstacleSegments(paths: ArtPath[], ppy: number, m: ArtMetrics, olCap: n
   return out;
 }
 
-function PlayerLabels({ art, paths, ppy, m, olCap, showSlots, viewBox, selectedSlot, dimmed }: PlayerLabelsProps) {
+function PlayerLabels({ art, paths, ppy, m, olCap, showSlots, fixedBelow, viewBox, selectedSlot, dimmed }: PlayerLabelsProps) {
   const font = m.label;
   const h = Math.round(font * 1.32 * 10) / 10;
   const padX = font * 0.42;
@@ -647,12 +669,14 @@ function PlayerLabels({ art, paths, ppy, m, olCap, showSlots, viewBox, selectedS
       h,
       prefer: p.glyph === "def" ? "above" : "below",
     }));
+    if (fixedBelow)
+      return requests.map((r) => ({ slot: r.slot, spot: "below" as const, dx: 0, dy: m.radius + gap + r.h / 2, w: r.w, h: r.h }));
     return placeLabels(requests, segments, marks, {
       radius: m.radius,
       gap,
       view: { x0: vx0 * ppy, y0: vy0 * ppy, x1: vx1 * ppy, y1: vy1 * ppy },
     });
-  }, [art, paths, ppy, m, olCap, showSlots, font, h, padX, gap, vx0, vy0, vx1, vy1]);
+  }, [art, paths, ppy, m, olCap, showSlots, fixedBelow, font, h, padX, gap, vx0, vy0, vx1, vy1]);
 
   const bySlot = new Map(art.players.map((p) => [p.slot, p]));
   return (

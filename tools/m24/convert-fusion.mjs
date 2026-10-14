@@ -10,7 +10,7 @@
 //    cloned only from sets whose backfield matches exactly, so the mesh lines up and boots roll the same way.
 //  - Receivers get their M24 routes, blocks and motions. Runs keep M27 receivers, plus M24 motions where M27 has none.
 //  - Cloned assignments lose M27's OverrideFormPos shifts (our alignment stays put); M24 shifts (code 48: PM, Tush Push) are added.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { readTdbBE } from "./tdbbe.mjs";
 import { makeSetReader } from "./sets.mjs";
@@ -531,6 +531,13 @@ function jetFake(players, base, custom, chain1, { hbBlock = false } = {}) {
 // Zone split PA (user): the TE comes across the formation behind the line, away from the fake, and blocks.
 const zoneSplitTE = x => newAssignment([{ type: "InitialAnim", optionalInitalDirection: -1, anim: "MOVETYPE_TRAP_PULL", direction: x > 0 ? 174.38 : 5.62 }, { type: "MoveDirection", distance: 5, direction: x > 0 ? 174.38 : 5.62, speed: 100 }, { type: "PassBlock", time: 0, flags: "PassBlockFlags_None" }], x);
 // User edits on top of the M24 design (2026-10-06): plays removed, renamed
+// M24 QB drop (PSLO code 7, val1) -> M27 Drop_Type. 35 and 5 are the shotgun 3 step and 5 step (stock plays in both games agree: 35 -> 3_STEP_PISTOL, 5 -> 5_STEP_PISTOL).
+const DROP27 = {
+  35: "DROP_TYPEENUM_QBDROP_3_STEP_PISTOL",
+  33: "DROP_TYPEENUM_QBDROP_3_STEP_PISTOL",
+  5: "DROP_TYPEENUM_QBDROP_5_STEP_PISTOL",
+  2: "DROP_TYPEENUM_QBDROP_SG_1_STEP",
+};
 const DROP_PLAYS = /^(HB|YM) Wham$/i;
 const RENAME = { "YM PA Cross Mesh": "PA P Cross Mesh" };
 // 2026-10-09: plays removed by "target/set/play"
@@ -930,6 +937,16 @@ for (const f of F) {
       }
       if (edit.ltEdge) players[6] = "Blocking/ALL_PABlock";
       if (edit.qb) players[0] = edit.qb;
+      // QB drop depth: a dropback keeps the donor play's drop, so the M24 depth has to be put back (M24 PSLO code 7 val1:
+      // 35 = 3 step, 5 = 5 step, 2 = 1 step quick game, 33 = 3 step with a nod; read off stock plays that exist in both games).
+      if (kind === "pass" && !players[0] && !edit.qb) {
+        const want = DROP27[chainOf(0).find(x => x.code === 7)?.val1];
+        const qbA = base.assignments[0], sc = stepsOf(qbA).find(s => s.type === "QBScramble");
+        if (want && sc && sc.dropBackType !== want) {
+          players[0] = newAssignment([{ ...sc, dropBackType: want }], 0, { routeType: A[qbA]?.routeType ?? "AssignRouteType_Block_Pass", template: qbA.replace(AROOT, ""), keep: keepThrough(qbA, s => s.type !== "QBScramble" && s.type !== "None"), drop: ["OverrideFormPos"], prepend: [] });
+          stats.dropsFixed = (stats.dropsFixed ?? 0) + 1;
+        }
+      }
       if (edit.stem) {
         const v = p.vpos && slotOf[p.vpos], a = v && players[v], leg = typeof a === "object" ? a.steps.find(s => s.type === "RunRoute") : null;
         if (leg) { leg.distance = r2(Math.max(1, leg.distance + edit.stem)); rebuild(a, custom[v].x); } else warn("stem edit: red route not rebuilt");
@@ -1000,7 +1017,7 @@ for (const f of F) {
     if (!sspec.plays.length) continue;
     setsSpec.sets.push(sspec);
     fspec.sets.push(bookSet);
-    pairs.push([sspec, bookSet]);
+    pairs.push([sspec, bookSet, target]);
     stats.sets++;
   }
 }
@@ -1036,7 +1053,19 @@ log(`\n## Totals\n- ${stats.sets} custom sets, ${stats.plays} plays (${stats.pas
   const readOld = f => { try { return JSON.parse(readFileSync(f, "utf8")); } catch { return null; } };
   const oldSets = readOld("playbooks/sets/fusion-sets.json"), oldBook = readOld("playbooks/FUSION.json");
   let carried = 0;
-  for (const [ss, bs] of pairs) {
+  const customNames = new Set();
+  try {
+    for (const f of readdirSync("playbooks/plays")) if (f.endsWith(".json")) for (const p of JSON.parse(readFileSync("playbooks/plays/" + f, "utf8")).plays ?? []) customNames.add(String(p.name).toLowerCase());
+  } catch { /* no plays folder */ }
+  for (const [ss, bs, target] of pairs) {
+    const oldSet = oldBook?.formations?.find(f => f.formation === target)?.sets?.find?.(x => x.set === bs.set);
+    for (const pe of oldSet?.plays ?? []) {
+      if (!customNames.has(String(pe.play).toLowerCase()) || bs.plays.some(x => String(x.play).toLowerCase() === String(pe.play).toLowerCase())) continue;
+      const entry = structuredClone(pe);
+      if (entry.audible && bs.plays.some(p => p.audible === entry.audible)) delete entry.audible;
+      bs.plays.push(entry);
+      carried++;
+    }
     const old = oldSets?.sets?.find(x => x.asset === ss.asset);
     const lc = s => String(s).toLowerCase();
     for (const e of old?.plays ?? []) {
