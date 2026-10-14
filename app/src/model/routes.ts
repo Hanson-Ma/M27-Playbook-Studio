@@ -1411,6 +1411,25 @@ export function keptPrefixLength(steps: readonly Step[], keepLeading?: number): 
   return n;
 }
 
+/**
+ * The motion part of a chain: its leading motion / realignment steps (AutoMotion, AutoMotionSnap, OverrideFormPos).
+ * Empty when the chain has none. Stops at the first other step, so a handoff precan after the motion isn't included.
+ */
+export function motionPart(steps: readonly Step[]): Step[] {
+  const out: Step[] = [];
+  for (const s of steps) {
+    if (!MOTION_STEP_TYPES.has(s.type)) break;
+    out.push(s);
+  }
+  return out;
+}
+
+/** The chain has real pre-snap motion (not just a start-spot shift). */
+export const hasMotion = (steps: readonly Step[]): boolean => motionPart(steps).some((s) => s.type === "AutoMotion" || s.type === "AutoMotionSnap");
+
+/** The chain carries handoff / fake / option / pitch mechanics (QB and back action): those never go into a saved route. */
+export const hasMechanics = (steps: readonly Step[]): boolean => steps.some((s) => MECH.has(s.type));
+
 /** The route part of a chain: everything after the kept prefix (see keptPrefixLength), without the trailing None. */
 export function routeBody(steps: readonly Step[], keepLeading?: number): Step[] {
   return stripNone(steps.slice(keptPrefixLength(steps, keepLeading)) as Step[]);

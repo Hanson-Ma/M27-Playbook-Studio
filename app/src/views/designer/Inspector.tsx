@@ -15,7 +15,7 @@ import {
   unbuildableReason,
   unbuildableSteps,
 } from "../../model/designer";
-import { canSaveRoute } from "../../model/routeLibrary";
+import { canSaveMotionRoute, canSaveRoute } from "../../model/routeLibrary";
 import { isEligible, positionName, slotLabel } from "../../model/positions";
 import { stepSummary } from "../../model/steps";
 import { slotRoleLabel } from "../../model/designer";
@@ -137,6 +137,11 @@ function SlotInspector({ slot }: { slot: number }) {
         {canSave && (
           <Button size="sm" variant="secondary" icon="star" onClick={() => d.saveRoute(slot)} title="Keep this route to reuse it on any play and player">
             Save Route to My Routes
+          </Button>
+        )}
+        {lock !== null && canSaveMotionRoute(steps, lock || undefined) && (
+          <Button size="sm" variant="secondary" icon="star" onClick={() => d.saveRoute(slot, true)} title="Keep this route with its pre-snap motion (the same spots from wherever the receiver starts)">
+            Save Motion Route
           </Button>
         )}
         {changed && (

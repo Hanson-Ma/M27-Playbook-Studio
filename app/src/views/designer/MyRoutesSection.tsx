@@ -3,7 +3,8 @@
 import { useMemo } from "react";
 import { MiniRoute } from "../../field";
 import { applySavedRoute, slotSide } from "../../model/designer";
-import { applySavedRouteSteps, isSavedRouteApplied } from "../../model/routeLibrary";
+import { applySavedRouteSteps, isMotionRoute, isSavedRouteApplied } from "../../model/routeLibrary";
+import { hasMechanics } from "../../model/routes";
 import type { SavedRoute } from "../../model/types";
 import { Disclosure } from "./Disclosure";
 import { HelpLink, IconButton, confirmDialog, cx, promptDialog, toast, useContextMenu, type MenuItem } from "../../ui";
@@ -28,6 +29,8 @@ export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock
         const applied = applySavedRouteSteps(steps, r, side, keep, routeTypes);
         return {
           r,
+          // A motion route replaces his motion: it can't go on a player whose handoff precan is kept.
+          blocked: isMotionRoute(r) && (!!keep || hasMechanics(steps)),
           steps: applied.steps,
           mirrored: applied.mirrored,
           current: isSavedRouteApplied(steps, r, side, keep),
@@ -38,6 +41,10 @@ export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock
   );
 
   const apply = (r: SavedRoute) => {
+    if (isMotionRoute(r) && (keep || hasMechanics(steps))) {
+      toast.info("Motion Routes Aren't Available Here", { detail: "This player's first steps are a handoff, fake or option; they stay as they are." });
+      return;
+    }
     d.edit((st) => applySavedRoute(st, slot, r, { prefix: d.prefix, keep, routeTypes }), `Route: ${r.name}`);
     setUi((u) => {
       const presets = { ...u.presets };
@@ -94,37 +101,56 @@ export function MyRoutesSection({ slot, lock, query = "" }: { slot: number; lock
           automatically for the other side of the field).
         </div>
       ) : (
-        <div className={s.tiles}>
-          {tiles.map((t, i) =>
-            q && !t.r.name.toLowerCase().includes(q) ? null : (
-            <div key={t.r.id} className={s.myTile}>
-              <button
-                type="button"
-                className={cx(s.tile, t.current && s.tileActive)}
-                onClick={() => apply(t.r)}
-                onContextMenu={(e) => cm.open(e, menu(t.r, i))}
-                title={`${t.r.name}${t.mirrored ? " — flipped for this side" : ""}${t.off ? " — runs off the field from this player's spot" : ""}\nClick to use · right-click to rename or delete`}
-                style={{ width: "100%" }}
-              >
-                <MiniRoute set={set} slot={slot} steps={t.steps} size={58} primary={slot === d.vip} />
-                <span className={s.tileLabel}>{t.r.name}</span>
-                {t.off ? <span className={s.offTag}>Off Field</span> : t.mirrored && <span className={s.mirrorTag}>Flipped</span>}
-              </button>
-              <span className={s.myMenu}>
-                <IconButton
-                  icon="list"
-                  size="sm"
-                  title="Rename, reorder or delete"
-                  onClick={(e) => {
-                    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
-                    cm.open({ x: r.left, y: r.bottom + 4 }, menu(t.r, i));
-                  }}
-                />
-              </span>
-            </div>
-            ),
-          )}
-        </div>
+        <>
+          {[
+            { id: "plain", title: "Routes", list: tiles.map((x, i) => ({ x, i })).filter(({ x }) => !isMotionRoute(x.r)) },
+            { id: "motion", title: "Motion Routes", list: tiles.map((x, i) => ({ x, i })).filter(({ x }) => isMotionRoute(x.r)) },
+          ].map((g) => {
+            const shown = g.list.filter(({ x }) => !q || x.r.name.toLowerCase().includes(q));
+            if (!shown.length && (q || g.id === "motion")) return null;
+            return (
+              <div key={g.id} className={s.myGroup}>
+                <div className={s.myGroupHead}>
+                  {g.title} <span className={s.muted}>{g.list.length}</span>
+                </div>
+                {shown.length === 0 ? (
+                  <div className={s.emptyBox}>No routes saved without motion yet.</div>
+                ) : (
+                  <div className={s.tiles}>
+                    {shown.map(({ x: t, i }) => (
+                      <div key={t.r.id} className={s.myTile}>
+                        <button
+                          type="button"
+                          className={cx(s.tile, t.current && s.tileActive)}
+                          onClick={() => apply(t.r)}
+                          onContextMenu={(e) => cm.open(e, menu(t.r, i))}
+                          title={`${t.r.name}${t.mirrored ? " — flipped for this side" : ""}${t.off ? " — runs off the field from this player's spot" : ""}${t.blocked ? " — not available while this player's handoff is kept" : ""}
+Click to use · right-click to rename or delete`}
+                          style={{ width: "100%", opacity: t.blocked ? 0.45 : undefined }}
+                        >
+                          <MiniRoute set={set} slot={slot} steps={t.steps} size={58} primary={slot === d.vip} />
+                          <span className={s.tileLabel}>{t.r.name}</span>
+                          {t.off ? <span className={s.offTag}>Off Field</span> : t.mirrored && <span className={s.mirrorTag}>Flipped</span>}
+                        </button>
+                        <span className={s.myMenu}>
+                          <IconButton
+                            icon="list"
+                            size="sm"
+                            title="Rename, reorder or delete"
+                            onClick={(e) => {
+                              const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                              cm.open({ x: r.left, y: r.bottom + 4 }, menu(t.r, i));
+                            }}
+                          />
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </>
       )}
       {ui.slot === slot && cm.node}
     </Disclosure>

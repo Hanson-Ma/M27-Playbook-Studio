@@ -326,6 +326,12 @@ export interface SavedRoute {
   /** Side of the ball the route was drawn for: "left" = x < 0. */
   side: "left" | "right";
   steps: Step[];
+  /**
+   * A motion route also carries the player's pre-snap motion (AutoMotion / AutoMotionSnap waypoints and any
+   * OverrideFormPos shift): absolute field spots, so it runs the same from wherever the receiver starts. Applying it
+   * replaces his motion as well as his route. Routes without it only replace the route and keep his motion.
+   */
+  motion?: Step[];
   routeType?: string;
   /** Free-form tags ("quick", "red zone"…). */
   tags?: string[];

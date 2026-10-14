@@ -88,7 +88,8 @@ export interface DesignerCtxValue {
   /** Make a slot the primary receiver (red route). */
   makePrimary(slot: number): void;
   /** Ask for a name and save the slot's route to My Routes. */
-  saveRoute(slot: number): void;
+  /** `withMotion`: save the player's pre-snap motion with the route (a motion route). */
+  saveRoute(slot: number, withMotion?: boolean): void;
 }
 
 export const DesignerCtx = createContext<DesignerCtxValue | null>(null);

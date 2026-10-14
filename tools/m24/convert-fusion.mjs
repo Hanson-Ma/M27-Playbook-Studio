@@ -557,6 +557,8 @@ const AUDIBLE_MOVE = { "Shotgun/Trio TE": ["Verticals", "Dagger"] };
 //  play; qb: the QB's assignment (e.g. no drop step); ltEdge: the LT pass sets (takes the edge rusher) instead of run-action blocking; stem: yd added to the red route's stem.
 const EDITS = {
   "Singleback/Tight Doubles/JW PA Boot": { noJetFake: true },
+  // 2026-10-13: the jet wheels on his own (no QB / back action in his chain): play action to the right zone, then the QB rolls out left
+  "Singleback/Stack Y-Off/JW PA Boot Wk": { noJetFake: true },
   // 2026-10-09 round: touchFake = the QB fakes the jet touch pass (stock touch pass precan, the jet keeps its mesh, no catch) and the back runs the
   // seam; noStem = drop the tiny first leg (the release hitch) of those slots; motionBlock = the motion man stalk blocks upfield after the snap;
   // cpuForce = situational weights added on top (even to an audible)

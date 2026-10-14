@@ -6,7 +6,7 @@
 //
 // Doc edits (addRoute / renameRoute / removeRoute / setRouteTags) mutate a draft in place (workspace.update recipes).
 import { sanitizeAssetLeaf } from "./names";
-import { keptPrefixLength, mirrorRouteType, mirrorSteps, replaceBody, routeBody, toEditableRoute, type RouteSide } from "./routes";
+import { hasMechanics, hasMotion, keptPrefixLength, mirrorRouteType, mirrorSteps, motionPart, replaceBody, routeBody, toEditableRoute, type RouteSide } from "./routes";
 import type { PlayKey, RoutesDoc, SavedRoute, Step } from "./types";
 
 /** Where My Routes live (app-data = editor-only; the game never reads it). */
@@ -39,6 +39,14 @@ export function routesOf(doc: RoutesDoc | null | undefined): SavedRoute[] {
 export function routePartOf(steps: readonly Step[], keepLeading?: number): Step[] {
   return routeBody(steps, keepLeading);
 }
+
+/** The chain can be saved as a motion route: real motion, a route, and no QB / back action in it. */
+export function canSaveMotionRoute(steps: readonly Step[], keepLeading?: number): boolean {
+  return !keepLeading && hasMotion(steps) && !hasMechanics(steps) && canSaveRoute(steps);
+}
+
+/** A saved route that carries motion. */
+export const isMotionRoute = (r: SavedRoute): boolean => Array.isArray(r.motion) && r.motion.length > 0;
 
 /** A chain can be saved when its route part has at least one leg. */
 export function canSaveRoute(steps: readonly Step[], keepLeading?: number): boolean {
@@ -74,6 +82,8 @@ export interface SaveRouteInput {
   steps: readonly Step[];
   /** Leading steps kept as a precan (lockOf) — they are not part of the route. */
   keepLeading?: number;
+  /** Save the player's pre-snap motion with the route (a "motion route"). Needs motion and no handoff mechanics. */
+  withMotion?: boolean;
   routeType?: string;
   source?: { play?: PlayKey; slot?: number; label?: string };
   /** ISO timestamp (createdAt); omitted when not given (keeps the function pure / testable). */
@@ -86,6 +96,7 @@ export interface SaveRouteInput {
 export function makeSavedRoute(input: SaveRouteInput): SavedRoute {
   const steps = routePartOf(input.steps, input.keepLeading);
   if (!toEditableRoute(steps).legs.length) throw new Error("This player has no route to save yet");
+  if (input.withMotion && !canSaveMotionRoute(input.steps, input.keepLeading)) throw new Error("This player has no motion to save, or his motion comes with QB / back action");
   const existing = input.existing ?? [];
   const name = uniqueRouteName(input.name, existing);
   const r: SavedRoute = {
@@ -94,6 +105,7 @@ export function makeSavedRoute(input: SaveRouteInput): SavedRoute {
     side: input.side,
     steps: JSON.parse(JSON.stringify(steps)) as Step[],
   };
+  if (input.withMotion) r.motion = JSON.parse(JSON.stringify(motionPart(input.steps))) as Step[];
   if (input.routeType) r.routeType = input.routeType;
   if (input.createdAt) r.createdAt = input.createdAt;
   if (input.source && Object.keys(input.source).length) r.source = { ...input.source };
@@ -103,6 +115,8 @@ export function makeSavedRoute(input: SaveRouteInput): SavedRoute {
 export interface RouteForSide {
   /** Route part for the target side (mirrored when the sides differ). */
   steps: Step[];
+  /** The motion part for a motion route (mirrored the same way), else undefined. */
+  motion?: Step[];
   routeType?: string;
   mirrored: boolean;
 }
@@ -110,8 +124,9 @@ export interface RouteForSide {
 /** The saved route as it runs for a player on `side`: mirrored when the route was drawn for the other side. */
 export function savedRouteFor(route: SavedRoute, side: RouteSide, validRouteTypes?: ReadonlySet<string>): RouteForSide {
   const steps = route.steps.filter((s) => s.type !== "None");
-  if (route.side === side) return { steps: steps.map((s) => ({ ...s })), routeType: route.routeType, mirrored: false };
-  return { steps: mirrorSteps(steps), routeType: mirrorRouteType(route.routeType, validRouteTypes), mirrored: true };
+  const motion = isMotionRoute(route) ? route.motion!.filter((s) => s.type !== "None") : undefined;
+  if (route.side === side) return { steps: steps.map((s) => ({ ...s })), motion: motion?.map((s) => ({ ...s })), routeType: route.routeType, mirrored: false };
+  return { steps: mirrorSteps(steps), motion: motion ? mirrorSteps(motion) : undefined, routeType: mirrorRouteType(route.routeType, validRouteTypes), mirrored: true };
 }
 
 /**
@@ -120,14 +135,17 @@ export function savedRouteFor(route: SavedRoute, side: RouteSide, validRouteType
  */
 export function applySavedRouteSteps(slotSteps: readonly Step[], route: SavedRoute, side: RouteSide, keepLeading?: number, validRouteTypes?: ReadonlySet<string>): { steps: Step[]; routeType?: string; mirrored: boolean } {
   const r = savedRouteFor(route, side, validRouteTypes);
+  // A motion route brings his motion too (replacing the old one); it can't go on a player whose handoff precan is kept.
+  if (r.motion && !keepLeading && !hasMechanics(slotSteps)) return { steps: [...r.motion, ...r.steps, { type: "None" }], routeType: r.routeType, mirrored: r.mirrored };
   return { steps: replaceBody(slotSteps, r.steps, keepLeading), routeType: r.routeType, mirrored: r.mirrored };
 }
 
 /** Whether a slot's route part already equals the saved route for its side (the tile shows as current). */
 export function isSavedRouteApplied(slotSteps: readonly Step[], route: SavedRoute, side: RouteSide, keepLeading?: number): boolean {
   const cur = routePartOf(slotSteps, keepLeading);
-  const want = savedRouteFor(route, side).steps;
-  return JSON.stringify(canon(cur)) === JSON.stringify(canon(want));
+  const saved = savedRouteFor(route, side);
+  if (JSON.stringify(canon(cur)) !== JSON.stringify(canon(saved.steps))) return false;
+  return !saved.motion || JSON.stringify(canon(motionPart(slotSteps))) === JSON.stringify(canon(saved.motion));
 }
 
 function canon(v: unknown): unknown {

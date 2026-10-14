@@ -29,7 +29,7 @@ import {
   type SlotMeta,
 } from "../../model/designer";
 import { cardSubtitle } from "../../field";
-import { canSaveRoute, makeSavedRoute, savedRouteNameBase } from "../../model/routeLibrary";
+import { canSaveMotionRoute, canSaveRoute, makeSavedRoute, savedRouteNameBase } from "../../model/routeLibrary";
 import { removeVertex, editRoute, setWaypoints } from "../../model/routes";
 import { isEligible, isOffensiveLine } from "../../model/positions";
 import type { AutoMotionWaypoint, CustomPlaySpec, PlaysFile } from "../../model/types";
@@ -303,7 +303,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
   );
 
   const saveRoute = useCallback(
-    async (slot: number) => {
+    async (slot: number, withMotion = false) => {
       if (!set) return;
       const st = stateFromSpec((useWorkspace.getState().docs[file]?.data as PlaysFile).plays[index], getCatalog()!, file, index);
       const keep = lockOf(st, ui, slot) ?? undefined;
@@ -312,14 +312,20 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
         toast.info("Nothing to Save Yet", { detail: "Draw or pick a route for this player first." });
         return;
       }
+      if (withMotion && !canSaveMotionRoute(steps, keep)) {
+        toast.info("No Motion to Save", { detail: "Give this player motion first (and no QB / back action in his steps), then save it as a motion route." });
+        return;
+      }
       const existing = getMyRoutes();
       const suggestion = suggestRouteName(st, slot);
       const name = await promptDialog({
-        title: "Save Route to My Routes",
+        title: withMotion ? "Save Motion Route to My Routes" : "Save Route to My Routes",
         label: "Route Name",
         initial: suggestion,
-        body: "Saved routes can be put on any player in any play — they flip automatically for the other side of the field.",
-        confirmLabel: "Save Route",
+        body: withMotion
+          ? "A motion route brings the pre-snap motion with the route: the same spots from wherever the receiver starts. It flips for the other side of the field."
+          : "Saved routes can be put on any player in any play — they flip automatically for the other side of the field.",
+        confirmLabel: withMotion ? "Save Motion Route" : "Save Route",
         validate: (v) => (!v.trim() ? "Give the route a name" : undefined),
       });
       if (!name) return;
@@ -329,12 +335,13 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
         side: slotSide(st, slot),
         steps,
         keepLeading: keep,
+        withMotion,
         routeType: slotRouteType(st, slot),
         source: { play: play?.key, slot, label: playerName(set, slot) },
         createdAt: new Date().toISOString(),
         existing,
       });
-      if (await saveToMyRoutes(route)) toast.success(`Saved "${route.name}" to My Routes`, { detail: "Find it in the Route tab under My Routes." });
+      if (await saveToMyRoutes(route)) toast.success(`Saved "${route.name}" to My Routes`, { detail: withMotion ? "Find it in the Route tab under My Routes, in Motion Routes." : "Find it in the Route tab under My Routes." });
     },
     [set, file, index, ui, catalog],
   );
@@ -365,7 +372,7 @@ function EditorInner({ file, index, playId }: { file: string; index: number; pla
       },
       openPlayerMenu: (slot, at) => setPlayerMenu({ slot, at }),
       makePrimary,
-      saveRoute: (slot) => void saveRoute(slot),
+      saveRoute: (slot, withMotion) => void saveRoute(slot, withMotion),
     } as DesignerCtxValue;
   }, [file, index, catalog, state, set, edit, commitSlot, ui, setUi, vip, runHole, prefix, makePrimary, saveRoute]);
 
@@ -486,6 +493,7 @@ function PlayerMenu({ slot, at, onClose }: { slot: number; at: { x: number; y: n
         ]
       : []),
     ...(lock !== null && canSaveRoute(steps, lock || undefined) ? [{ label: "Save Route to My Routes…", icon: "star", onSelect: () => d.saveRoute(slot) } satisfies MenuItem] : []),
+    ...(lock !== null && canSaveMotionRoute(steps, lock || undefined) ? [{ label: "Save Motion Route to My Routes…", icon: "star", onSelect: () => d.saveRoute(slot, true) } satisfies MenuItem] : []),
     ...(sl.movable
       ? [
           moved
