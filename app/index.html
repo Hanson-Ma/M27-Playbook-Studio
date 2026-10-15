@@ -12,6 +12,28 @@
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <!-- Google Analytics (same GA4 property as hansonma.org). Skipped on localhost; the app routes by #/view, so each view is sent as a page view. -->
+    <script>
+      if (!/^(localhost|127.0.0.1|[::1])$/.test(location.hostname)) {
+        var gs = document.createElement("script");
+        gs.async = true;
+        gs.src = "https://www.googletagmanager.com/gtag/js?id=G-XGJ5CLCDZB";
+        document.head.appendChild(gs);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag("js", new Date());
+        gtag("config", "G-XGJ5CLCDZB", { send_page_view: false });
+        var lastView;
+        var sendView = function () {
+          var view = (location.hash.replace(/^#/?/, "").split(/[/?]/)[0]) || "playbook";
+          if (view === lastView) return;
+          lastView = view;
+          gtag("event", "page_view", { page_path: "/studio/" + view, page_title: "Playbook Studio · " + view, page_location: location.origin + location.pathname + "#/" + view });
+        };
+        window.addEventListener("hashchange", sendView);
+        sendView();
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
