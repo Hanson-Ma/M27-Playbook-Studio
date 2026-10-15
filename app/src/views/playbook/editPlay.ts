@@ -13,6 +13,64 @@ import { useWorkspace } from "../../state/workspace";
 import { toast } from "../../ui";
 import type { BookNode, BuilderData } from "./context";
 
+/**
+ * An editable copy made by "Edit this play" that hasn't been touched yet. Opening a play and leaving without changing
+ * anything must leave the playbook exactly as it was (no "Dagger Out 2" swapped in), so leaving the designer with the
+ * copy still pristine undoes it (see leaveCopy).
+ */
+interface PendingCopy {
+  file: string;
+  index: number;
+  bookPath: string;
+  original: string;
+  copy: string;
+  /** The copy's spec as JSON right after it was made: unchanged means the user never edited it. */
+  snapshot: string;
+}
+const pending = new Map<string, PendingCopy>();
+const timers = new Map<string, ReturnType<typeof setTimeout>>();
+const copyKey = (file: string, index: number) => file + "#" + index;
+
+/** The designer is showing this play (again): don't roll its copy back (React strict mode mounts twice). */
+export function stayCopy(file: string, index: number): void {
+  const k = copyKey(file, index);
+  const t = timers.get(k);
+  if (t) clearTimeout(t);
+  timers.delete(k);
+}
+
+/** The designer stopped showing this play: if it is still an untouched copy, remove it and put the original back. */
+export function leaveCopy(file: string, index: number): void {
+  const k = copyKey(file, index);
+  const p = pending.get(k);
+  if (!p) return;
+  stayCopy(file, index);
+  timers.set(
+    k,
+    setTimeout(() => {
+      timers.delete(k);
+      pending.delete(k);
+      const ws = useWorkspace.getState();
+      const plays = (ws.docs[p.file]?.data as PlaysFile | null | undefined)?.plays;
+      // Only an untouched copy, and only when it is the last play of the file (later plays' indexes must not shift).
+      if (!plays || plays.length !== p.index + 1 || JSON.stringify(plays[p.index]) !== p.snapshot) return;
+      ws.update<PlaysFile>(p.file, (d) => void d.plays.pop(), { label: `Undo editable copy of ${p.original}` });
+      ws.update<PlaybookSpec>(
+        p.bookPath,
+        (d) => {
+          for (const f of d.formations ?? [])
+            for (const st of f.sets ?? []) {
+              const list = (typeof st === "object" ? st.plays : undefined) as { play?: string }[] | undefined;
+              const entry = list?.find((e) => norm(String(e.play ?? "")) === norm(p.copy));
+              if (entry) entry.play = p.original;
+            }
+        },
+        { label: `Keep ${p.original}` },
+      );
+    }, 0),
+  );
+}
+
 export function canEditPlay(node: BookNode): boolean {
   return node.level === "play" && !!node.rp?.play && !node.rf?.template;
 }
@@ -61,6 +119,8 @@ export function editPlay(data: BuilderData, node: BookNode): void {
     toast.error("Couldn't Make an Editable Copy", { detail: e instanceof Error ? e.message : String(e) });
     return;
   }
+  const made = (useWorkspace.getState().docs[file]?.data as PlaysFile | null | undefined)?.plays?.[index];
+  if (made) pending.set(copyKey(file, index), { file, index, bookPath: data.path, original: play.name, copy: name, snapshot: JSON.stringify(made) });
   toast.success("Editable Copy Made", { detail: `${name} in ${file}. The playbook now uses the copy.`, duration: 4000 });
   navigate(designerHref(file, index));
 }

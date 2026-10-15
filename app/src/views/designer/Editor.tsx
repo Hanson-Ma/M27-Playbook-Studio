@@ -38,6 +38,7 @@ import { getCatalog, useCatalog } from "../../state/library";
 import { href, navigate, useRoute } from "../../state/router";
 import { toastSaved } from "../../state/saveWarnings";
 import { useSettings } from "../../state/settings";
+import { leaveCopy, stayCopy } from "../playbook/editPlay";
 import { selectDocsOfKind, useDoc, useWorkspace } from "../../state/workspace";
 import { Button, EmptyState, IconButton, Menu, PlayTypeTag, Tag, Tooltip, promptDialog, toast, type MenuItem } from "../../ui";
 import { CutMenu } from "./CutMenu";
@@ -119,12 +120,14 @@ export function Editor({ file, index }: { file: string; index: number }) {
   useEffect(() => {
     if (!exists) return;
     useWorkspace.getState().setActive(file);
+    stayCopy(file, index);
     if (file.startsWith("playbooks/plays/")) useSettings.getState().set({ lastPlaysFile: file });
     // Like the Builder: leaving the designer must not leave ⌘Z / ⌘S pointed at the plays file.
     return () => {
       if (useWorkspace.getState().activePath === file) useWorkspace.getState().setActive(undefined);
+      leaveCopy(file, index);
     };
-  }, [file, exists]);
+  }, [file, exists, index]);
 
   const track = useRef<Tracked | null>(null);
   const plays = exists && Array.isArray(doc!.data.plays) ? (doc!.data.plays as unknown[]) : undefined;
