@@ -24,6 +24,8 @@ The project has three parts:
   PlayDump library)                          app-data/*.json (editor-only)
 ```
 
+![Playbook Studio: a set's plays and its audibles](docs/screenshots/playbook.png)
+
 ## Quick start: from idea to playing it
 
 First-time setup (once):
@@ -64,6 +66,8 @@ A React + TypeScript (Vite) app. FUSION (`playbooks/FUSION.json`, Hanson Ma's wo
 PlayStation controller drives every screen. Its own README covers it in full: **[`app/README.md`](app/README.md)**. Module
 contracts are in [`app/ARCHITECTURE.md`](app/ARCHITECTURE.md).
 
+![The play designer](docs/screenshots/designer.png)
+
 What it does:
 - **Library**: browse all 11,055 game plays and 5,402 assignment chains, with play art drawn from the assignment steps
   the same way the game draws it.
@@ -73,6 +77,8 @@ What it does:
 - **Play Call**: a preview of the in-game play-call screen, driven by mouse, keyboard or controller.
 - **Overview**: the whole playbook on one pan-and-zoom wall (a column per formation, a card per play).
 - **Export**: checks for problems, then writes the playbook, play and set JSON (or a downloadable bundle when hosted).
+
+![Editing a route in the designer: the stem, an option route with its branches, and the game's own routes](docs/screenshots/designer-routes.png)
 
 ```sh
 cd app
@@ -91,6 +97,8 @@ Access API. Requires Node 22.18+.
 `Playbook Builder.exe` is the no-command-line way to run the game-side build. Nothing to install: it sits in
 `release\builder\` inside this project and runs `PlayDump.exe` for you. Windows 10/11, with Madden NFL 27 and the MMC
 Modding Tools installed. (Rebuild the folder from source with `tools\PlaybookBuilder\publish.ps1`.)
+
+![Playbook Builder](docs/screenshots/builder.png)
 
 **First run**
 1. It auto-detects MMC Editor, Madden 27 and the game key. Anything it can't find shows a red X: click *Locate…* next to

@@ -113,6 +113,9 @@ export function setOptionRouteSource(fn: ((leaf: string) => Step[] | undefined) 
 }
 const HOOK_TURNS = [60, 120, 170];
 const HOOK_SEG = 0.5;
+/** Zig: the short slant away from the break (length in yards, degrees it rises toward upfield). */
+const ZIG_SLANT = 1.5;
+const ZIG_RISE = 20;
 const RUN_EXTEND = 5;
 const HANDOFF_TURN = 1.5;
 const MIN_DROP = 0.8;
@@ -569,6 +572,16 @@ class SlotWalker {
         case "ReceiverCut":
         case "RunRouteFakeOut": {
           const pn = this.begin();
+          // A zig (a hinge-comeback after a straight stem, then a flat leg): the game draws a short slant away from the
+          // break before the flat leg, so it reads as a zig and not as a plain in / out.
+          if (t === "ReceiverCut" && s.cutType === "RECEIVER_CUT_ANGLE_HINGECOMEBACK" && Math.abs(this.heading - 90) <= 15) {
+            const next = steps.slice(i + 1).find((x) => LEG_TYPES.has(x.type) && num(x.distance, 0) > 0);
+            const d2 = next ? num(next.direction, NaN) : NaN;
+            if (Number.isFinite(d2)) {
+              const o = (((d2 + 180) % 360) + 360) % 360;
+              if (Math.abs(Math.cos(o * DEG)) > 0.5) this.lineTo(add(this.cur, polar(Math.cos(o * DEG) >= 0 ? o + ZIG_RISE : o - ZIG_RISE, ZIG_SLANT)));
+            }
+          }
           const cut = t === "ReceiverCut" ? String(s.cutType ?? "") : String(s.fakeout ?? "FAKEOUT");
           const v: ArtVertex = { index: pn.points.length - 1, cut, step: i };
           const style = cutStyle(cut);

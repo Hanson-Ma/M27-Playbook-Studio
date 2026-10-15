@@ -368,6 +368,14 @@ describe("cut styles", () => {
     expect(f.points).toHaveLength(3);
     expect(f.vertices!.find((v) => v.cut)).toMatchObject({ index: 1, style: "fake", cutDir: "RECEIVER_CUT_DIR_RIGHT" });
 
+    // A zig draws a short slant away from the break (opposite the flat leg, rising) before the flat leg.
+    const zig = computeArt(set, slotSteps(set, 4, [leg(3, 90), cutStep("LEFT", "HINGECOMEBACK"), leg(12, 180), GET_OPEN]), { vip: 4 });
+    const [zp] = pathsOf(zig, 4);
+    expect(zp.points).toHaveLength(4);
+    expect(zp.points[2].x).toBeGreaterThan(zp.points[1].x + 1);
+    expect(zp.points[2].y).toBeGreaterThan(zp.points[1].y);
+    expect(zp.points[3].x).toBeLessThan(zp.points[2].x - 10);
+
     const juke = computeArt(set, slotSteps(set, 4, [leg(5, 90), { type: "RunRouteFakeOut", fakeout: "JukeLeft45Degrees" }, leg(10, 90), GET_OPEN]));
     expect(pathsOf(juke, 4)[0].vertices!.find((v) => v.cut)).toMatchObject({ index: 1, cut: "JukeLeft45Degrees", style: "fake" });
   });
