@@ -572,9 +572,9 @@ class SlotWalker {
         case "ReceiverCut":
         case "RunRouteFakeOut": {
           const pn = this.begin();
-          // A zig (a hinge-comeback after a straight stem, then a flat leg): the game draws a short slant away from the
-          // break before the flat leg, so it reads as a zig and not as a plain in / out.
-          if (t === "ReceiverCut" && s.cutType === "RECEIVER_CUT_ANGLE_HINGECOMEBACK" && Math.abs(this.heading - 90) <= 15) {
+          // A zig / angle (a hinge-comeback, then a flat leg): the game draws a short slant away from the break before the
+          // flat leg, whatever the stem does (straight up, or already leaning out), so it reads as a zig and not as a plain in / out.
+          if (t === "ReceiverCut" && s.cutType === "RECEIVER_CUT_ANGLE_HINGECOMEBACK") {
             const next = steps.slice(i + 1).find((x) => LEG_TYPES.has(x.type) && num(x.distance, 0) > 0);
             const d2 = next ? num(next.direction, NaN) : NaN;
             if (Number.isFinite(d2)) {

@@ -375,6 +375,12 @@ describe("cut styles", () => {
     expect(zp.points[2].x).toBeGreaterThan(zp.points[1].x + 1);
     expect(zp.points[2].y).toBeGreaterThan(zp.points[1].y);
     expect(zp.points[3].x).toBeLessThan(zp.points[2].x - 10);
+    // An angle (stem already leaning out, flat leg back in) gets the same short slant, further out.
+    const ang = computeArt(set, slotSteps(set, 4, [leg(1.88, 112.5), cutStep("RIGHT", "HINGECOMEBACK"), leg(15, 2.81), GET_OPEN]), { vip: 4 });
+    const [ap] = pathsOf(ang, 4);
+    expect(ap.points).toHaveLength(4);
+    expect(ap.points[2].x).toBeLessThan(ap.points[1].x - 1);
+    expect(ap.points[3].x).toBeGreaterThan(ap.points[2].x + 10);
 
     const juke = computeArt(set, slotSteps(set, 4, [leg(5, 90), { type: "RunRouteFakeOut", fakeout: "JukeLeft45Degrees" }, leg(10, 90), GET_OPEN]));
     expect(pathsOf(juke, 4)[0].vertices!.find((v) => v.cut)).toMatchObject({ index: 1, cut: "JukeLeft45Degrees", style: "fake" });
