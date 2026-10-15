@@ -1,0 +1,629 @@
+{
+  "plays": [
+    {
+      "name": "Dagger Bubble",
+      "asset": "PBS_Dagger_Bubble",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Bunch_TE/PBS_BT_Mesh_Dig",
+      "vip": 3,
+      "players": {
+        "0": "Quarterback/Drop_Pistol_ScreenRt_NEW27",
+        "2": {
+          "new": "FUSION/R_4b02692712",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 6.25, "direction": 70.31, "speed": 100 },
+            { "type": "RunRoute", "distance": 6.88, "direction": 87.19, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            { "type": "RunRoute", "distance": 30, "direction": 59.06, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "FUSION/R_15b94b33a2",
+          "routeType": "AssignRouteType_RR_In_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.13, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 6.25, "direction": 101.25, "speed": 100 },
+            { "type": "RunRoute", "distance": 7.5, "direction": 92.81, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 15, "direction": 0, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "PBS_Y_ZigIn",
+          "routeType": "AssignRouteType_RR_Whip_In",
+          "steps": [
+            { "type": "RunRoute", "distance": 5, "direction": 55, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_HINGECOMEBACK"
+            },
+            { "type": "RunRoute", "distance": 13, "direction": 175, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Slot_Bubble",
+          "routeType": "AssignRouteType_RR_WR_Screen",
+          "steps": [
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_BUBBLE_SCREEN"
+            },
+            { "type": "RunRoute", "distance": 1, "direction": 125, "speed": 50 },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0.85, "concept": "Concept_Mesh", "combo": 1 },
+        { "pos": 4, "pct": 0.8, "concept": "Concept_Mesh", "combo": 1 },
+        { "pos": 5, "pct": 0.5, "concept": "Concept_Dagger", "combo": 2 },
+        { "pos": 2, "pct": 0.75, "concept": "Concept_Dagger", "combo": 2 },
+        { "pos": 1, "pct": 0.1, "concept": "Concept_Invalid", "combo": 0 }
+      ]
+    },
+    {
+      "name": "Split WR Option",
+      "asset": "PBS_Split_WR_Option",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Bunch_TE/PBS_BT_Crosser_PoCo",
+      "players": {
+        "0": {
+          "new": "PBS_QB_Route",
+          "steps": [
+            {
+              "type": "QBScramble",
+              "direction": 0,
+              "dropBackType": "DROP_TYPEENUM_QBDROP_SG_3_STEP",
+              "distance": 0
+            }
+          ]
+        },
+        "4": {
+          "new": "PBS_Speed_Out",
+          "routeType": "AssignRouteType_RR_Out_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.5, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 7, "direction": 81.56, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 20, "direction": 0, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Slot_Slant",
+          "routeType": "AssignRouteType_RR_Slant",
+          "steps": [
+            { "type": "OverrideFormPos", "stance": "Receiver", "offsetX": -3, "offsetY": -6 },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 0.5,
+              "direction": 90,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 8,
+              "direction": 60,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 25,
+              "direction": 35,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            { "type": "GetOpen" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "PM WR Option",
+      "asset": "PBS_PM_WR_Option",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Bunch_TE/PBS_BT_Crosser_PoCo",
+      "vip": 5,
+      "players": {
+        "0": {
+          "new": "PBS_QB_Route",
+          "steps": [
+            {
+              "type": "QBScramble",
+              "direction": 0,
+              "dropBackType": "DROP_TYPEENUM_QBDROP_SG_3_STEP",
+              "distance": 0
+            }
+          ]
+        },
+        "2": {
+          "new": "PBS_Slot_Post11",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 10.8, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 25, "direction": 50, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Speed_Out_Offset_2",
+          "routeType": "AssignRouteType_RR_Out_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.5, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 8, "direction": 98.44, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 20, "direction": 180, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "PBS_Speed_Out",
+          "routeType": "AssignRouteType_RR_Out_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.5, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 7, "direction": 81.56, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 20, "direction": 0, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Slot_Option",
+          "routeType": "AssignRouteType_RR_Option_Slant_Out",
+          "steps": [
+            { "type": "OverrideFormPos", "stance": "Receiver", "offsetX": -3, "offsetY": -6 },
+            { "type": "RunRoute", "distance": 4, "direction": 123.75, "speed": 100 },
+            { "type": "RunRoute", "distance": 4, "direction": 95.62, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "HitchRight", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "15" },
+                { "route": "SlantRt", "coverage": "OptionRouteCoverage_HotBlitz" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0.8, "concept": "Concept_Double_Moves", "combo": 0 },
+        { "pos": 4, "pct": 0.75, "concept": "Concept_Shallow_Cross", "combo": 1 },
+        { "pos": 5, "pct": 0.85, "concept": "Concept_Shallow_Cross", "combo": 1 },
+        { "pos": 2, "pct": 0.76, "concept": "Concept_Comeback", "combo": 0 },
+        { "pos": 1, "pct": 0.15, "concept": "Concept_Invalid", "combo": 0 }
+      ]
+    },
+    {
+      "name": "Bench Salem",
+      "asset": "PBS_Bench_Salem",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Bunch_TE/FUS_SC_Dig",
+      "vip": 5,
+      "players": {
+        "0": {
+          "new": "PBS_QB_Route",
+          "steps": [
+            {
+              "type": "QBScramble",
+              "direction": 0,
+              "dropBackType": "DROP_TYPEENUM_QBDROP_SG_3_STEP",
+              "distance": 0
+            }
+          ]
+        },
+        "2": {
+          "new": "PBS_Slot_Corner9",
+          "routeType": "AssignRouteType_RR_Corner_Middle",
+          "keep": 0,
+          "steps": [
+            { "type": "RunRoute", "distance": 10, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 23.87, "direction": 132.31, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Speed_Out_Offset_2",
+          "routeType": "AssignRouteType_RR_Out_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.5, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 8, "direction": 98.44, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            { "type": "RunRoute", "distance": 20, "direction": 180, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Slot_Stick",
+          "routeType": "AssignRouteType_RR_Option_Hitch_Out",
+          "steps": [
+            { "type": "RunRoute", "distance": 1.5, "direction": 90, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "HitchLeft", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "15" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 2, "pct": 0.93, "combo": 1, "concept": "Concept_Invalid" },
+        { "pos": 4, "pct": 0.6, "combo": 2, "concept": "Concept_Invalid" },
+        { "pos": 5, "pct": 0.98, "combo": 2, "concept": "Concept_Invalid" },
+        { "pos": 3, "pct": 0.88, "combo": 1, "concept": "Concept_Invalid" },
+        { "pos": 1, "pct": 0.1, "combo": 0, "concept": "Concept_Invalid" }
+      ]
+    },
+    {
+      "name": "YM PW Drive",
+      "asset": "PBS_YM_PW_Drive",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Bunch_Wk/FUS_JW_PW_Salem_Option",
+      "players": {
+        "0": "Quarterback/Drop_Pistol_ScreenRt_NEW27",
+        "2": {
+          "new": "FUSION/R_63e6f6b32a",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "steps": [
+            { "type": "RunRoute", "distance": 2, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            { "type": "RunRoute", "distance": 10.25, "direction": 104.06, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "CurlLeft", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "15" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "FUSION/R_88acef21a7",
+          "routeType": "AssignRouteType_RR_In_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 2, "direction": 112.5, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 25, "direction": 174.38, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_YM_Post",
+          "routeType": "AssignRouteType_RR_Corner_Deep",
+          "steps": [
+            {
+              "type": "AutoMotion",
+              "waypoints": [
+                {
+                  "speed": 69,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true,
+                  "position": { "x": -1.5, "y": -3 }
+                }
+              ],
+              "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+              "startDelay": 0,
+              "endDelay": 0,
+              "automotionOrderTransitID": 1,
+              "automotionOrderPlayer": 0,
+              "stanceAtTarget": "StanceType_None",
+              "useLegacyLocoPathing": false,
+              "shouldStopAtTarget": false
+            },
+            { "type": "RunRoute", "distance": 6.25, "direction": 168.75, "speed": 100 },
+            { "type": "RunRoute", "distance": 6.25, "direction": 140.63, "speed": 100 },
+            { "type": "RunRoute", "distance": 25, "direction": 112.5, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Stick Dagger",
+      "asset": "PBS_Stick_Dagger",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Stack_Y_Off_Wk/FUS_Dagger_Out",
+      "vip": 5,
+      "players": {
+        "1": {
+          "new": "PBS_Block_Release_Comeback_Lt",
+          "routeType": "AssignRouteType_RR_Block_and_Release",
+          "steps": [
+            { "type": "PassBlock", "time": 2.19, "flags": "PassBlockFlags_None" },
+            { "type": "RunRoute", "distance": 1, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_HINGECOMEBACK"
+            },
+            { "type": "RunRoute", "distance": 18, "direction": 165.94, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "FUSION/R_f6e505ad41",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.13, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 11.25, "direction": 67.5, "speed": 100 },
+            { "type": "RunRoute", "distance": 25, "direction": 42.19, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "FUSION/R_2c9e8760fa",
+          "routeType": "AssignRouteType_RR_Hitch",
+          "steps": [
+            { "type": "RunRoute", "distance": 1.88, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_CURL"
+            },
+            { "type": "Delay", "time": 1 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Motion_Flat_2",
+          "routeType": "AssignRouteType_RR_Flat_Lt",
+          "steps": [
+            { "type": "RunRoute", "distance": 7.5, "direction": 14.06, "speed": 100 },
+            { "type": "RunRoute", "distance": 10, "direction": 5.62, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0.85, "combo": 2, "concept": "Concept_Invalid" },
+        { "pos": 5, "pct": 0.95, "combo": 1, "concept": "Concept_Invalid" },
+        { "pos": 4, "pct": 0.55, "combo": 1, "concept": "Concept_Invalid" },
+        { "pos": 2, "pct": 0.9, "combo": 2, "concept": "Concept_Invalid" },
+        { "pos": 1, "pct": 0.05, "combo": 0, "concept": "Concept_Invalid" }
+      ]
+    },
+    {
+      "name": "YEM Options Dagger",
+      "asset": "PBS_YEM_Options_Dagger",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Stack_Y_Off_Wk/FUS_Dagger_Out",
+      "vip": 5,
+      "players": {
+        "1": {
+          "new": "PBS_Block_Release_Comeback_Lt",
+          "routeType": "AssignRouteType_RR_Block_and_Release",
+          "steps": [
+            { "type": "PassBlock", "time": 2.19, "flags": "PassBlockFlags_None" },
+            { "type": "RunRoute", "distance": 1, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_HINGECOMEBACK"
+            },
+            { "type": "RunRoute", "distance": 18, "direction": 165.94, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "FUSION/R_e6f7dda813",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 10, "direction": 78.75, "speed": 100 },
+            { "type": "RunRoute", "distance": 3.75, "direction": 78.75, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            { "type": "RunRoute", "distance": 30, "direction": 118.13, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "PBS_Z_Slant",
+          "routeType": "AssignRouteType_RR_Slant",
+          "steps": [
+            { "type": "RunRoute", "distance": 4, "direction": 125, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "HitchLeft", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutRight", "coverage": "15" },
+                { "route": "SlantLt", "coverage": "136" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Y_Option",
+          "routeType": "AssignRouteType_RR_Option_Curl_Fade",
+          "steps": [
+            {
+              "type": "AutoMotion",
+              "waypoints": [
+                {
+                  "position": { "x": 16, "y": -2.2 },
+                  "transitID": 0,
+                  "speed": 100,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                },
+                {
+                  "position": { "x": 18, "y": -2.2 },
+                  "transitID": 0,
+                  "speed": 50,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_STRAFE",
+                  "shouldFaceEndPoint": true
+                }
+              ],
+              "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+              "endDelay": 0,
+              "automotionOrderTransitID": 1,
+              "startDelay": 0,
+              "stanceAtTarget": "StanceType_None",
+              "automotionOrderPlayer": 0,
+              "useLegacyLocoPathing": false,
+              "shouldStopAtTarget": false
+            },
+            { "type": "RunRoute", "distance": 1.88, "direction": 90, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "CurlLeft", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "FadeStreakRt", "coverage": "23" },
+                { "route": "SlantLt", "coverage": "136" }
+              ]
+            },
+            { "type": "Delay", "time": 2 },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 3, "pct": 0.85, "combo": 2, "concept": "Concept_Invalid" },
+        { "pos": 5, "pct": 0.95, "combo": 1, "concept": "Concept_Invalid" },
+        { "pos": 4, "pct": 0.55, "combo": 1, "concept": "Concept_Invalid" },
+        { "pos": 2, "pct": 0.9, "combo": 2, "concept": "Concept_Invalid" },
+        { "pos": 1, "pct": 0.05, "combo": 0, "concept": "Concept_Invalid" }
+      ]
+    },
+    {
+      "name": "YEM Shallow",
+      "asset": "PBS_YEM_Shallow",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/FUS_Stack_Y_Off_Wk/FUS_YEM_SD",
+      "players": {
+        "0": "Quarterback/Drop_Pistol_ScreenRt_NEW27",
+        "1": {
+          "new": "PBS_HB_Option_Out_Lt",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "steps": [
+            { "type": "RunRoute", "distance": 4, "direction": 123.75, "speed": 100 },
+            { "type": "RunRoute", "distance": 4, "direction": 95.62, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "HitchRight", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "15" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "2": {
+          "new": "PBS_Deep_Post_8_Lt",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 6.25, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 6.25, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 25, "direction": 61.87, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Drag_4_Lt",
+          "routeType": "AssignRouteType_RR_In_Middle",
+          "steps": [
+            { "type": "RunRoute", "distance": 2, "direction": 67.5, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 25, "direction": 5.62, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "FUSION/R_00e97bafc4",
+          "routeType": "AssignRouteType_RR_In_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 0.13, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 6.25, "direction": 78.75, "speed": 100 },
+            { "type": "RunRoute", "distance": 7.5, "direction": 87.19, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 15, "direction": 180, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        }
+      }
+    }
+  ]
+}

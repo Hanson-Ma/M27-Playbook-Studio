@@ -30,6 +30,8 @@ export interface SettingsState {
   showPassPro: boolean;
   /** Hide minigame / tutorial / skills-trainer formations (MG_, ST_, NST_, skeleton drills) in pickers. */
   hideMinigames: boolean;
+  /** The first-open "create a playbook" welcome has been shown. */
+  welcomed: boolean;
   favorites: PlayKey[];
   recents: PlayKey[];
   /** Last opened playbook path (playbooks/<name>.json). Default: STUDIO (playbooks/studio-test.json). */
@@ -78,6 +80,7 @@ export const useSettings = create<SettingsState>()(
       assetPrefix: "PBS_",
       ballSpot: "middle",
       cardColumns: 3,
+      welcomed: false,
       cutDetection: true,
       showPassPro: true,
       hideMinigames: true,

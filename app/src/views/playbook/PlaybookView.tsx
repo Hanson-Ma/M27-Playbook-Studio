@@ -10,12 +10,18 @@ import { useDocsOfKind, useWorkspace } from "../../state/workspace";
 import { Button, EmptyState, Spinner } from "../../ui";
 import { Builder } from "./Builder";
 import { bookHref, newPlaybook } from "./books";
+import { Welcome } from "./Welcome";
 import s from "./Builder.module.css";
 
 export function PlaybookView() {
   const route = useRoute();
   const path = route.parts[0];
-  return path ? <Builder key={path} path={path} /> : <OpenDefaultBook />;
+  return (
+    <>
+      {path ? <Builder key={path} path={path} /> : <OpenDefaultBook />}
+      <Welcome />
+    </>
+  );
 }
 
 /** #/playbook: jump to the last opened playbook (else FUSION, else the first one); offer to create one when none exist. */

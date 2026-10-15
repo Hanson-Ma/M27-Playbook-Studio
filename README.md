@@ -5,13 +5,15 @@ mod and a custom playbook save. Offline use only: MMC rules forbid mods in onlin
 
 **Try it online: [playbook.hansonma.org](https://playbook.hansonma.org)**
 
-The project has two parts:
+The project has three parts:
 
 1. **[Playbook Studio](app/)**, the web app in `app/`. This is the main thing: the editor where you build playbooks,
    draw plays and export them. Everything else exists to feed it game data or to turn its output into something the
    game loads.
-2. **The Frosty Editor build**, the game-side tools in `tools/`. They take the JSON the app exports and build it into a
-   `.fbmod` for MMC Mod Manager, plus a `PBOOKOFF-*` save file for the custom playbook.
+2. **[Playbook Builder](#2-playbook-builder-app-releasebuilder)**, a small Windows app (`release/builder/`) that turns a
+   playbook you made in the Studio into a mod and a playbook save with one click. This is what most people use.
+3. **The Frosty Editor build**, the game-side tools in `tools/` that the Builder runs (or that you can run yourself with
+   `export.ps1`). They build the app JSON into a `.fbmod` for MMC Mod Manager, plus a `PBOOKOFF-*` save file.
 
 ```
  (any machine)                                        │ (game PC: Madden 27 + MMC Editor)
@@ -22,6 +24,35 @@ The project has two parts:
   PlayDump library)                          app-data/*.json (editor-only)
 ```
 
+## Quick start: from idea to playing it
+
+First-time setup (once):
+
+1. **Download this project** (Code → Download ZIP, or `git clone`) and unzip it somewhere you can write to, for example
+   `C:\Madden Modding\2026 Playbook`. Keep the folder as it is: the Builder finds the project by looking upward from its
+   own location, so `release\builder\` has to stay inside it.
+2. **Install the game-side tools**: Madden NFL 27 (PC) and the MMC Modding Tools (MMC Editor + Mod Manager).
+3. **Open Madden once in MMC Editor** and let it finish loading, then close it. That creates the cache the Builder reads.
+4. **Install Node 22.18+** if you want to run the Studio locally (`cd app && npm install`), or just use the hosted copy
+   (link above), which opens your project folder through the browser.
+
+**Create your own playbook first.** The first time you open Playbook Studio it asks you to: *New Playbook* (empty, with goal line
+and special teams from the template) or *New From Stock Template* (every stock formation and play, ready to trim). Pick a
+name (letters and digits; in-game it shows as `PBOOKOFF-<NAME>`). It is saved as `playbooks/<name>.json`. You can make more later
+from the *Playbooks* menu. **FUSION is Hanson Ma's own working playbook**, included as an example: look through it, but build
+your own rather than editing it.
+
+Every time you change a playbook:
+
+1. **Design** in Playbook Studio: formations, sets, plays, routes, audibles. Order the formations and the sets inside
+   them the way you want them listed in-game. Saving writes the JSON into `playbooks/` (and `app-data/`).
+2. **Close Madden.**
+3. **Build** with Playbook Builder: pick the playbook, click *Build and install* (about a minute).
+4. **In MMC Mod Manager**: add or refresh the new `.fbmod`, tick it, Apply, Launch.
+5. **In Madden**, go to an offline mode and pick your playbook as a custom offense.
+
+---
+
 The contract between the two halves is [`docs/FORMATS.md`](docs/FORMATS.md). If the app writes files that match it,
 the game side can build them.
 
@@ -29,7 +60,7 @@ the game side can build them.
 
 ## 1. Playbook Studio (`app/`)
 
-A React + TypeScript (Vite) app. The default playbook is FUSION (`playbooks/FUSION.json`), and a connected Xbox or
+A React + TypeScript (Vite) app. FUSION (`playbooks/FUSION.json`, Hanson Ma's working playbook) is the example that opens first, and the first-open welcome prompts you to create your own, and a connected Xbox or
 PlayStation controller drives every screen. Its own README covers it in full: **[`app/README.md`](app/README.md)**. Module
 contracts are in [`app/ARCHITECTURE.md`](app/ARCHITECTURE.md).
 
@@ -55,7 +86,36 @@ Access API. Requires Node 22.18+.
 
 ---
 
-## 2. Frosty Editor build (`tools/`)
+## 2. Playbook Builder app (`release/builder/`)
+
+`Playbook Builder.exe` is the no-command-line way to run the game-side build. Nothing to install: it sits in
+`release\builder\` inside this project and runs `PlayDump.exe` for you. Windows 10/11, with Madden NFL 27 and the MMC
+Modding Tools installed. (Rebuild the folder from source with `tools\PlaybookBuilder\publish.ps1`.)
+
+**First run**
+1. It auto-detects MMC Editor, Madden 27 and the game key. Anything it can't find shows a red X: click *Locate…* next to
+   it and point at `MMCEditor.exe` or `Madden27.exe`.
+2. It finds the **playbook folder** (the project root that contains `playbooks/`) by looking upward from where the exe
+   is, so it works as long as it stays inside the project. If you moved it, set the folder by hand.
+3. It also asks where the mod files go. The default is the project's `mods/` folder.
+4. Settings are remembered in `%LOCALAPPDATA%\PlaybookBuilder`.
+
+**Each build** (the order it runs, shown as four steps in the window)
+1. *Read your playbooks*: lists every spec in `playbooks/` (one entry per playbook, so you pick which to build) and finds the
+   library plays it uses that the game's global play sheet doesn't include.
+2. *Build the mod*: PlayDump loads the game headlessly and builds all custom sets and plays into one mod, named after the
+   playbook (FUSION makes `fusion.fbmod` and `fusion.fbproject`). It also puts the game's formation and set lists in the
+   same order as the playbook, since the game ignores the order stored in the save.
+3. *Write playbook saves*: writes the `PBOOKOFF-<NAME>` custom playbook save from a template and recomputes its CRCs.
+4. *Copy to Madden saves*: copies it to `Documents\Madden NFL 27\saves`. The old copy goes to `backups/` first.
+
+Close Madden before building (the Builder refuses while it runs). If a build fails, *Show log* opens the details. Only one
+playbook mod can be on in Mod Manager at a time, since they edit the same game files: untick any other, including an
+old `pbstudio.fbmod`.
+
+---
+
+## 3. Frosty Editor build (`tools/`)
 
 The app only writes JSON. Everything that touches Madden 27 runs on the game PC through one script:
 
@@ -128,6 +188,7 @@ dotnet build tools/PlayDump -c Release
 | `docs/` | `FORMATS.md` (the app ⇄ tools data contract) and the original app build prompts |
 | `data/library/` | the game's play library as JSON, read by the app |
 | `playbooks/` | playbook specs (→ saves), `plays/` and `sets/` (→ the mod), `mod.json` mod settings, `fusion/` the FUSION port |
-| `tools/` | PlayDump (C#), the save builder and helpers (Node), `export.ps1` |
+| `tools/` | PlayDump (C#), Playbook Builder source (`PlaybookBuilder/`), the save builder and helpers (Node), `export.ps1` |
+| `release/builder/` | the Playbook Builder app (`Playbook Builder.exe` + `PlayDump.exe`) |
 | `research/` | data model notes (`PHASE0_FINDINGS.md`) and id indexes. Raw dumps are gitignored and can be regenerated |
 | `mods/` | generated `.fbproject` / `.fbmod` files (build outputs are gitignored) |
