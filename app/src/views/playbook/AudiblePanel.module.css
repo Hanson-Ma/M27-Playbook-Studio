@@ -38,28 +38,20 @@
   color: var(--text-3);
 }
 
-/* Face-button diamond: top and bottom in the middle column, left/right straddling them. */
-.diamond {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 150px));
-  grid-template-rows: repeat(4, auto);
-  grid-template-areas:
-    ".    top    .    "
-    "left top    right"
-    "left bottom right"
-    ".    bottom .    ";
-  justify-content: center;
-  gap: 4px 8px;
+/* The in-game audible list: one row per button, X Y LB RB top to bottom. */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   margin-top: var(--s1);
 }
 .slot {
   position: relative;
-  align-self: center;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: var(--s3);
   min-width: 0;
-  padding: 5px;
+  padding: 6px 10px 6px 8px;
   border-radius: var(--r-md);
   border: 1px dashed var(--line-2);
   background: var(--bg-2);
@@ -70,18 +62,6 @@
     background var(--t-fast) var(--ease),
     box-shadow var(--t-fast) var(--ease);
 }
-.slot[data-pos="top"] {
-  grid-area: top;
-}
-.slot[data-pos="left"] {
-  grid-area: left;
-}
-.slot[data-pos="right"] {
-  grid-area: right;
-}
-.slot[data-pos="bottom"] {
-  grid-area: bottom;
-}
 .slot:hover,
 .slot:focus-visible {
   border-color: var(--line-3);
@@ -91,7 +71,7 @@
   border-style: solid;
   border-color: var(--line-2);
 }
-/* A play of this set is selected: every other slot is a click target. */
+/* A play of this set is selected: every other row is a click target. */
 .slotTarget:hover {
   border-color: var(--text-2);
   border-style: solid;
@@ -99,32 +79,21 @@
 .slotCursor {
   box-shadow: var(--focus);
 }
-.slotHead {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  min-height: 20px;
+.slotGlyph {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
 }
-.slotCat {
+.slotText {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 10.5px; /* title case: "Play Action" doesn't fit the tile in NB caps */
-  letter-spacing: 0;
-  color: var(--text-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-/* floats over the label's end (shown on hover) so the category name gets the tile's full width */
 .slotClear {
-  position: absolute !important;
-  top: 4px;
-  right: 4px;
-  width: 20px !important;
-  height: 20px !important;
-  background: var(--bg-2) !important;
+  flex: none;
   opacity: 0;
 }
 .slot:hover .slotClear {
@@ -132,6 +101,8 @@
 }
 .miniArt {
   position: relative;
+  flex: none;
+  width: 108px;
   aspect-ratio: 2.15 / 1;
   border-radius: 5px;
   overflow: hidden;
@@ -147,22 +118,15 @@
   white-space: nowrap;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fd-sm);
+  font-size: var(--fd-md);
   text-transform: uppercase;
   line-height: 1.1;
 }
 .slotEmpty {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 2.15 / 1;
-  border-radius: 5px;
-  background: color-mix(in srgb, var(--bg-0) 50%, transparent);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fd-sm);
-  letter-spacing: 0;
+  font-size: var(--fd-md);
   color: var(--text-4);
-  margin-bottom: 15px;
 }
 .hint {
   margin: 0;

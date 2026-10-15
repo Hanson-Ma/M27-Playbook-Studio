@@ -44,13 +44,14 @@ export interface SettingsState {
 }
 
 export const SETTINGS_KEY = "pbstudio.settings";
-export const SETTINGS_VERSION = 3;
+export const SETTINGS_VERSION = 4;
 
 /**
  * Upgrade persisted settings from an older version (pure; exported for tests).
  * v1 → v2: `inputMode` ("auto" | "xbox" | "ps" | "keyboard", the app-wide glyph set) becomes `audibleStyle`
  * ("ps" → "ps", "keyboard" → "keyboard", anything else → "xbox"); the v1 default book STUDIOLIB (or none) becomes STUDIO.
  * v2 → v3: the builder shows 3 cards per row by default (the control moved to the set header), so a stored 6 resets to 3.
+ * v3 → v4: the audible panel lists X, Y, LB, RB (was the X / A / Y / B diamond), so the old default mapping moves to the new one.
  */
 export function migrateSettings(persisted: unknown, version: number): Record<string, unknown> {
   const st: Record<string, unknown> = persisted && typeof persisted === "object" ? { ...(persisted as Record<string, unknown>) } : {};
@@ -62,6 +63,10 @@ export function migrateSettings(persisted: unknown, version: number): Record<str
     if (st.lastPlaybook === undefined || st.lastPlaybook === null || st.lastPlaybook === "playbooks/studio-lib.json" || st.lastPlaybook === "playbooks/studio-test.json") st.lastPlaybook = DEFAULT_PLAYBOOK;
   }
   if (version < 3) st.cardColumns = 3;
+  if (version < 4) {
+    const b = st.audibleButtons as Record<string, string> | undefined;
+    if (b && (b[1] === "X" && b[2] === "A" && b[3] === "Y" && b[4] === "B")) st.audibleButtons = { ...DEFAULT_AUDIBLE_BUTTONS };
+  }
   return st;
 }
 

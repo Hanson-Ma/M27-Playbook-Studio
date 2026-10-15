@@ -1,11 +1,11 @@
-// Step 3 — the set's audibles: four slots laid out like the controller's face buttons (Y top, X left, B right,
-// A bottom, per settings.audibleButtons), drawn in the user's audible style (Xbox / PS5 / Keyboard — the switch sits
-// right here). Select a play, then click a slot; or drag a card onto a slot. One play per slot (assignAudible).
+// Step 3 — the set's audibles, listed like the in-game panel: X, Y, LB, RB top to bottom (per settings.audibleButtons),
+// each row a play preview and the play's name, drawn in the user's audible style (Xbox / PS5 / Keyboard — the switch sits
+// right here). Select a play, then click a row; or drag a card onto a row. One play per slot (assignAudible).
 import { memo, useMemo } from "react";
 import { AudibleStyleSwitch } from "../../input/AudibleStyleSwitch";
 import { AudibleGlyph } from "../../input/glyphs";
 import { artForPlay } from "../../model/art";
-import { AUDIBLE_CATEGORY, AUDIBLE_SLOTS, BUTTON_DIAMOND } from "../../model/audibles";
+import { audibleListOrder } from "../../model/audibles";
 import type { AudibleSlot, ResolvedPlay } from "../../model/types";
 import { Field, PlayArtLayer, cardViewport } from "../../field";
 import { useSettings } from "../../state/settings";
@@ -44,9 +44,8 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
         <span className={s.styleLabel}>Show As</span>
         <AudibleStyleSwitch size="sm" />
       </div>
-      <div className={s.diamond}>
-        {AUDIBLE_SLOTS.map((slot) => {
-          const pos = BUTTON_DIAMOND[buttons[slot]] ?? "top";
+      <div className={s.list}>
+        {audibleListOrder(buttons).map((slot) => {
           const pi = bySlot.get(slot);
           const rp = pi === undefined ? undefined : rs.plays[pi];
           const pid = pi === undefined ? undefined : sIds?.plays[pi];
@@ -54,7 +53,7 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
           const action = cursorInSet
             ? selSlot === slot
               ? `Clear ${selName}'s audible`
-              : `Make ${selName} the ${AUDIBLE_CATEGORY[slot]} audible`
+              : `Make ${selName} the ${buttons[slot]} audible`
             : rp
               ? `Select ${String(rp.entry.play)}`
               : "Select a play first, then click here";
@@ -62,12 +61,11 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
             <div
               key={slot}
               className={cx(s.slot, rp && s.slotFilled, isCursorPlay && s.slotCursor, cursorInSet && !isCursorPlay && s.slotTarget)}
-              data-pos={pos}
               data-drop="audible"
               data-drop-id={`${setNode.id}|${slot}`}
               role="button"
               tabIndex={0}
-              title={`${AUDIBLE_CATEGORY[slot]} — ${action}`}
+              title={`${buttons[slot]} — ${action}`}
               onClick={() => {
                 if (cursorInSet?.ref) setAudibleAt(data, cursorInSet.ref, selSlot === slot ? undefined : slot);
                 else if (pid) useBuilderUi.getState().select(pid);
@@ -79,29 +77,24 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
                 }
               }}
             >
-              <div className={s.slotHead}>
-                <AudibleGlyph slot={slot} size="sm" />
-                <span className={s.slotCat}>{AUDIBLE_CATEGORY[slot]}</span>
-                {rp && (
-                  <IconButton
-                    icon="close"
-                    title="Clear this audible"
-                    size="sm"
-                    className={s.slotClear}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setAudibleAt(data, { f: ref.f, s: ref.s, p: pi }, undefined);
-                    }}
-                  />
-                )}
+              <span className={s.slotGlyph}>
+                <AudibleGlyph slot={slot} size="md" />
+              </span>
+              {rp?.play ? <MiniArt play={rp.play} /> : <div className={s.miniArt} />}
+              <div className={s.slotText}>
+                {rp ? <div className={s.slotName}>{String(rp.entry.play)}</div> : <div className={s.slotEmpty}>Empty</div>}
               </div>
-              {rp ? (
-                <>
-                  {rp.play ? <MiniArt play={rp.play} /> : <div className={s.miniArt} />}
-                  <div className={s.slotName}>{String(rp.entry.play)}</div>
-                </>
-              ) : (
-                <div className={s.slotEmpty}>Empty</div>
+              {rp && (
+                <IconButton
+                  icon="close"
+                  title="Clear this audible"
+                  size="sm"
+                  className={s.slotClear}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setAudibleAt(data, { f: ref.f, s: ref.s, p: pi }, undefined);
+                  }}
+                />
               )}
             </div>
           );
@@ -110,9 +103,9 @@ export function AudiblePanel({ setNode }: { setNode: BookNode }) {
       <p className={s.hint}>
         {cursorInSet
           ? selSlot
-            ? <><span className="caps">{selName}</span> is the {AUDIBLE_CATEGORY[selSlot as AudibleSlot]} audible. Click another button to move it, or the same one to clear it.</>
-            : <>Click a button to make <span className="caps">{selName}</span> that audible.</>
-          : "Select a play of this set (or drag its card here), then click a button. One play per button."}
+            ? <><span className="caps">{selName}</span> is the {buttons[selSlot as AudibleSlot]} audible. Click another row to move it, or the same one to clear it.</>
+            : <>Click a row to make <span className="caps">{selName}</span> that audible.</>
+          : "Select a play of this set (or drag its card here), then click a row. One play per button."}
       </p>
     </section>
   );

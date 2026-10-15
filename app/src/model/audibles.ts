@@ -5,8 +5,8 @@
 //   slot 2 (Flag 4)  → runs          (Inside Zone, HB Dive)
 //   slot 3 (Flag 16) → deep passes   (Four Verticals, Dagger, Flood)
 //   slot 4 (Flag 8)  → play action   (PA …)
-// Madden's audible menu puts Quick Pass on □/X, Run on ✕/A, Deep Pass on △/Y and Play Action on ○/B.
-// The mapping is a user setting (state/settings.ts) because it hasn't been confirmed in Madden 27 yet.
+// Madden 27's audible panel lists them top to bottom as X, Y, LB, RB (slot 1..4), with LT Reset Play / RT Flip Play beside it.
+// The mapping is a user setting (state/settings.ts).
 
 import type { AudibleSlot } from "./types";
 
@@ -26,13 +26,25 @@ export const AUDIBLE_CATEGORY: Record<AudibleSlot, string> = {
   4: "Play Action",
 };
 
-/** Xbox-named buttons (PS equivalents: A=✕, B=○, X=□, Y=△). */
+/** Xbox-named buttons (PS equivalents: A=✕, B=○, X=□, Y=△, LB=L1, RB=R1). */
 export const DEFAULT_AUDIBLE_BUTTONS: Record<AudibleSlot, PadButton> = {
   1: "X",
-  2: "A",
-  3: "Y",
-  4: "B",
+  2: "Y",
+  3: "LB",
+  4: "RB",
 };
+
+/** The buttons the audible panel can use, in the order its rows are listed. */
+export const AUDIBLE_LIST_BUTTONS: PadButton[] = ["X", "Y", "LB", "RB"];
+
+/** Slots in the order the in-game panel lists them: by button (X, Y, LB, RB, then any other), then slot. */
+export function audibleListOrder(buttons: Record<AudibleSlot, PadButton>): AudibleSlot[] {
+  const rank = (b: PadButton) => {
+    const i = AUDIBLE_LIST_BUTTONS.indexOf(b);
+    return i < 0 ? AUDIBLE_LIST_BUTTONS.length : i;
+  };
+  return [...AUDIBLE_SLOTS].sort((a, b) => rank(buttons[a]) - rank(buttons[b]) || a - b);
+}
 
 /** Keyboard keys used for audible slots in keyboard mode. */
 export const AUDIBLE_KEYS: Record<AudibleSlot, string> = { 1: "1", 2: "2", 3: "3", 4: "4" };

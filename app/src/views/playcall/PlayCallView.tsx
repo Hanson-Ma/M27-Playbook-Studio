@@ -269,6 +269,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
     if (!set) return [];
     return ([1, 2, 3, 4] as const).flatMap((slot) => (set.audibles[slot]?.play ? [{ slot, item: set.audibles[slot]! }] : []));
   }, [book, openItem]);
+  const presnapSetName = useMemo(() => (book && openItem ? book.sets.find((x) => x.plays.some((q) => q.id === openItem.id))?.name : undefined), [book, openItem]);
   const stepPresnap = (item: CallPlay) => {
     const i = view?.cards.findIndex((c) => c.id === item.id) ?? -1;
     if (i >= 0) setSt((cur) => ({ ...cur, play: i }));
@@ -453,6 +454,7 @@ function PlayCallScreen({ path, doc, docs, catalog }: ScreenProps) {
           onStep={stepPresnap}
           onClose={closePresnap}
           audibles={presnapAudibles}
+          setName={presnapSetName}
         />
       )}
     </div>

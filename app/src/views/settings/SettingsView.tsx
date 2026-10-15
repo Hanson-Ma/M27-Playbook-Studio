@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { getStatus, type ServerStatus } from "../../api/client";
 import { ArtGallery } from "../../field/ArtGallery";
-import { AudibleStyleSwitch, audibleStyleName } from "../../input/AudibleStyleSwitch";
+import { AudibleStyleSwitch } from "../../input/AudibleStyleSwitch";
 import { Glyph, KeyCap } from "../../input/glyphs";
-import { AUDIBLE_CATEGORY, AUDIBLE_KEYS, AUDIBLE_SLOTS, BUTTON_DIAMOND, DEFAULT_AUDIBLE_BUTTONS, type PadButton } from "../../model/audibles";
+import { AUDIBLE_CATEGORY, AUDIBLE_KEYS, AUDIBLE_SLOTS, AUDIBLE_LIST_BUTTONS, DEFAULT_AUDIBLE_BUTTONS, type PadButton } from "../../model/audibles";
 import type { AudibleSlot } from "../../model/types";
 import { lastMainHash, navigate, useRoute } from "../../state/router";
 import { useSettings, type BallSpot } from "../../state/settings";
@@ -79,7 +79,6 @@ function SettingsPage({ section }: { section: Section }) {
 
 // ─────────────────────────────── audibles ───────────────────────────────
 
-const DIAMOND_ORDER: PadButton[] = ["Y", "X", "B", "A"];
 
 function AudiblesSection() {
   const style = useSettings((st) => st.audibleStyle);
@@ -131,10 +130,10 @@ function AudiblesSection() {
       >
         <div className={s.audibleLayout}>
           <div className={s.diamond}>
-            {DIAMOND_ORDER.map((b) => {
+            {AUDIBLE_LIST_BUTTONS.map((b) => {
               const slot = slotOn(b);
               return (
-                <div key={b} className={s.diamondCell} data-pos={BUTTON_DIAMOND[b]}>
+                <div key={b} className={s.diamondCell}>
                   <span className={s.diamondGlyphs}>
                     <Glyph button={b} mode={padStyle} size="lg" />
                     {style === "keyboard" && slot && <KeyCap label={AUDIBLE_KEYS[slot]} size="lg" />}
@@ -157,16 +156,13 @@ function AudiblesSection() {
                 </div>
               );
             })}
-            <div className={s.diamondCenter}>{audibleStyleName(style)}</div>
           </div>
           <div className={s.audibleNotes}>
             <p className={s.note}>
-              Each set in a playbook has four audible slots. Madden usually puts <b>1 Quick Pass</b> on □ / X, <b>2 Run</b> on ✕ / A, <b>3 Deep Pass</b> on △ / Y
-              and <b>4 Play Action</b> on ○ / B.
+              Each set in a playbook has four audible slots. Madden 27 lists them as <b>X</b>, <b>Y</b>, <b>LB</b> and <b>RB</b> (□, △, L1, R1 on PlayStation), top to bottom.
             </p>
             <p className={s.note}>
-              That hasn't been confirmed in Madden 27 yet. If your game shows them on other buttons, change them here — choosing a slot that another button had swaps
-              the two.
+              If your game shows them on other buttons, change them here — choosing a slot that another button had swaps the two.
             </p>
             {style === "keyboard" && <p className={s.note}>The keyboard style shows each slot's number key (1–4).</p>}
           </div>

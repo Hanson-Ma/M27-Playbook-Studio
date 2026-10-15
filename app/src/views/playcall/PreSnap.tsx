@@ -12,8 +12,8 @@ import { useArtTween } from "../../field/useArtTween";
 import { ActionLayer, useActions } from "../../input/actions";
 import { isPadHeld, usePadConnected, usePadHandler, type PadFrame, type PadPress } from "../../input/gamepad";
 import { PadHints, type PadHint } from "../../input/PadHints";
-import { AudibleGlyph } from "../../input/glyphs";
-import { AUDIBLE_CATEGORY } from "../../model/audibles";
+import { AudibleGlyph, Glyph } from "../../input/glyphs";
+import { AUDIBLE_CATEGORY, audibleListOrder } from "../../model/audibles";
 import { artForPlay, matchPreset } from "../../model/art";
 import { HALF_WIDTH } from "../../model/geometry";
 import { leaf } from "../../model/names";
@@ -38,6 +38,8 @@ export interface PreSnapProps {
   onClose(): void;
   /** The set's audibles (slot order): X opens the audible menu, the slot's button picks one. */
   audibles?: { slot: AudibleSlot; item: CallPlay }[];
+  /** The open play's set name, shown in the audible panel's header. */
+  setName?: string;
 }
 
 const EMPTY_ART: PlayArt = { players: [], paths: [], zones: [], bounds: { minX: -10, maxX: 10, minY: -8, maxY: 12 }, flipped: false };
@@ -64,10 +66,11 @@ export function PreSnap(props: PreSnapProps) {
   return createPortal(<PreSnapInner {...props} />, document.body);
 }
 
-function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, audibles = [] }: PreSnapProps) {
+function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, audibles = [], setName }: PreSnapProps) {
   const audibleButtons = useSettings((st) => st.audibleButtons);
   // The audible menu (B): the set's audibles on their buttons, like calling an audible at the line.
   const [audMenu, setAudMenu] = useState(false);
+  const resetPlay = () => playback.seek(undefined);
   const pickAudible = (it: CallPlay) => {
     setAudMenu(false);
     if (it.id !== item.id) onStep(it);
@@ -205,7 +208,10 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
           // Audible menu: each slot's button picks it; B (when it isn't an audible button) or VIEW closes the menu.
           const hit = audibles.find((a) => audibleButtons[a.slot] === p.button);
           if (hit) pickAudible(hit.item);
-          else if (p.button === "B" || p.button === "VIEW") setAudMenu(false);
+          else if (p.button === "LT") resetPlay();
+          else if (p.button === "RT") {
+            if (play.canFlip) onFlip();
+          } else if (p.button === "B" || p.button === "VIEW") setAudMenu(false);
           return true;
         }
         switch (p.button) {
@@ -340,16 +346,34 @@ function PreSnapInner({ item, list, bookPath, flip, onFlip, onStep, onClose, aud
           )}
           {audMenu && (
             <div className={s.audMenu} role="menu" aria-label="Audibles">
-              <div className={s.audMenuTitle}>Audibles</div>
-              {audibles.map((a) => (
-                <button key={a.slot} type="button" role="menuitem" className={cx(s.audItem, a.item.id === item.id && s.audItemOn)} onClick={() => pickAudible(a.item)}>
-                  <AudibleGlyph slot={a.slot} size="md" />
-                  <span>
-                    <b className="caps">{a.item.name}</b>
-                    <i>{AUDIBLE_CATEGORY[a.slot]}</i>
-                  </span>
+              <div className={s.audMain}>
+                <div className={s.audMenuTitle}>Audibles</div>
+                {setName && (
+                  <div className={s.audSet}>
+                    <Icon name="chevronLeft" size={14} />
+                    <span className="caps">{setName}</span>
+                    <Icon name="chevronRight" size={14} />
+                  </div>
+                )}
+                {audibleListOrder(audibleButtons)
+                  .flatMap((sl) => audibles.filter((a) => a.slot === sl))
+                  .map((a) => (
+                    <button key={a.slot} type="button" role="menuitem" className={cx(s.audItem, a.item.id === item.id && s.audItemOn)} onClick={() => pickAudible(a.item)}>
+                      <AudibleGlyph slot={a.slot} size="md" />
+                      <b className="caps">{a.item.name}</b>
+                    </button>
+                  ))}
+              </div>
+              <div className={s.audSide}>
+                <button type="button" role="menuitem" className={s.audItem} onClick={resetPlay}>
+                  <Glyph button="LT" keys={["R"]} size="md" />
+                  <b className="caps">Reset Play</b>
                 </button>
-              ))}
+                <button type="button" role="menuitem" className={s.audItem} disabled={!play.canFlip} onClick={onFlip}>
+                  <Glyph button="RT" keys={["F"]} size="md" />
+                  <b className="caps">Flip Play</b>
+                </button>
+              </div>
             </div>
           )}
           {list.length > 1 && (

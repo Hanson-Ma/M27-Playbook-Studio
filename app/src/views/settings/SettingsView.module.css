@@ -143,8 +143,7 @@
 .diamond {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s2);
   align-items: center;
   justify-items: center;
@@ -162,18 +161,6 @@
   background: var(--bg-2);
   border: 1px solid var(--line);
 }
-.diamondCell[data-pos="top"] {
-  grid-area: 1 / 2;
-}
-.diamondCell[data-pos="left"] {
-  grid-area: 2 / 1;
-}
-.diamondCell[data-pos="right"] {
-  grid-area: 2 / 3;
-}
-.diamondCell[data-pos="bottom"] {
-  grid-area: 3 / 2;
-}
 .diamondCell > :nth-child(3) {
   width: 100%;
 }
@@ -185,14 +172,6 @@
   letter-spacing: 0.01em;
   text-transform: uppercase;
   line-height: 1;
-}
-.diamondCenter {
-  grid-area: 2 / 2;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: var(--fd-sm);
-  letter-spacing: 0;
-  color: var(--text-4);
 }
 
 /* tables */
