@@ -96,6 +96,21 @@ namespace PlayDump
                     // Library plays used by playbook specs but missing from the global play sheet (written by tools/pbook-build.mjs).
                     string pullFile = outIndex != null ? Path.Combine(outIndex, "pull-plays.json") : Path.Combine(repoDir, "build", "pull-plays.json");
                     if (File.Exists(pullFile)) spec["pull"] = Newtonsoft.Json.Linq.JArray.Parse(File.ReadAllText(pullFile));
+                    // PBS_BOOK=<playbook spec>: the game lists formations and sets in GlobalPlaySheet order, so put the book's order there.
+                    string bookFile = Environment.GetEnvironmentVariable("PBS_BOOK");
+                    if (!string.IsNullOrEmpty(bookFile) && File.Exists(bookFile))
+                    {
+                        var book = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText(bookFile).TrimStart('﻿'));
+                        var order = new Newtonsoft.Json.Linq.JArray();
+                        foreach (Newtonsoft.Json.Linq.JObject f in (Newtonsoft.Json.Linq.JArray)book["formations"] ?? new Newtonsoft.Json.Linq.JArray())
+                        {
+                            var o = new Newtonsoft.Json.Linq.JObject { ["formation"] = f["formation"] };
+                            if (f["sets"] is Newtonsoft.Json.Linq.JArray ss) o["sets"] = new Newtonsoft.Json.Linq.JArray(ss.Select(x => x["set"]));
+                            order.Add(o);
+                        }
+                        spec["bookOrder"] = order;
+                        spec["bookSide"] = book["side"];
+                    }
                     new PlayBuilder(am, spec, Path.Combine(repoDir, "research", "index"))
                         .Run(args[1], args[2], Path.Combine(outIndex ?? Path.Combine(repoDir, "research", "index"), "custom-plays.tsv"));
                     return 0;

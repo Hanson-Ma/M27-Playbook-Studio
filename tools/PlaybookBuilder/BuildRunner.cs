@@ -150,7 +150,8 @@ namespace PlaybookBuilder
                         string d = Path.Combine(c.PlaybookDir, "playbooks", sub);
                         if (Directory.Exists(d)) args.AddRange(Directory.GetFiles(d, "*.json").OrderBy(f => f));
                     }
-                    var (code, output) = RunTool(args.ToArray(), c, line => { Log(line); report(1, StepState.Running, Short(line)); });
+                    Environment.SetEnvironmentVariable("PBS_BOOK", book.File); // PlayDump orders the game's formation / set lists like the book
+                                        var (code, output) = RunTool(args.ToArray(), c, line => { Log(line); report(1, StepState.Running, Short(line)); });
                     if (code != 0) throw new InvalidOperationException(LastError(output) ?? "Building the mod failed.");
                     report(1, StepState.Done, Path.GetFileName(modFile));
 
