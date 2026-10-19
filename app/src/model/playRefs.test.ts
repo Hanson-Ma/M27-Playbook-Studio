@@ -74,3 +74,14 @@ describe("play references for rename-everywhere", () => {
     expect(danglingPlayRefs(old, cat, { playbooks: [{ path: "a", data: { formations: { x: 1 } } }, { path: "b", data: null }] }).total).toBe(0);
   });
 });
+
+describe("renaming a play that overrode its original", () => {
+  it("still finds the entries that named it, although the name resolves to the original again", () => {
+    // The playbook lists "Curls"; an edited copy of Curls took the name Curls (overriding it), then got renamed.
+    const spec: PlaybookSpec = { name: "ZZ", side: "offense", formations: [{ formation: "Shotgun", sets: [{ set: "Y Trips Wk", plays: [{ play: "Curls" }] }] }] };
+    const cat = buildCatalog(lib, [{ path: "playbooks/plays/x.json", data: { plays: [{ name: "Curls Mine", asset: "ZZ_Curls_Mine", base: SET.replace(/Y_Trips_Wk$/, "Curls") }] } }]);
+    const was = { set: SET, name: "Curls", asset: "ZZ_Curls_Mine" };
+    expect(danglingPlayRefs(was, cat, { playbooks: [{ path: "b.json", data: spec }] }).total).toBe(0);
+    expect(danglingPlayRefs({ ...was, overrode: true }, cat, { playbooks: [{ path: "b.json", data: spec }] }).playbooks).toEqual([{ path: "b.json", entries: 1 }]);
+  });
+});

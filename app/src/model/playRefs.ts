@@ -14,6 +14,11 @@ export interface PlayIdentity {
   name: string;
   /** Asset leaf (spec.asset). */
   asset: string;
+  /**
+   * The play had its base play's name, overriding it: entries naming it were this play's, even though the name now
+   * resolves to the original again.
+   */
+  overrode?: boolean;
 }
 
 export interface PlayRefs {
@@ -63,7 +68,7 @@ export function danglingPlayRefs(
   docs: { playbooks: readonly { path: string; data: unknown }[]; concepts?: ConceptsDoc | null; favorites?: readonly string[]; recents?: readonly string[] },
 ): PlayRefs {
   const out: PlayRefs = { playbooks: [], concepts: 0, favorite: false, recent: false, total: 0 };
-  if (old.name.trim() && !catalog.playInSetByName(old.set, old.name)) {
+  if (old.name.trim() && (old.overrode || !catalog.playInSetByName(old.set, old.name))) {
     for (const b of docs.playbooks) {
       let n = 0;
       forEachEntry(b.data, catalog, old.set, old.name, () => n++);

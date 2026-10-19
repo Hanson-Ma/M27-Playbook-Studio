@@ -379,7 +379,16 @@ function DocChip({ dirtyCount }: { dirtyCount: number }) {
   const conflict = useWorkspace((st) => (st.activePath ? !!st.conflicts[st.activePath] || !!st.docs[st.activePath]?.changedOnDisk : false));
   const otherConflicts = useWorkspace((st) => Object.keys(st.conflicts).filter((p) => p !== st.activePath).length);
   const [saving, setSaving] = useState(false);
-  if (!activePath) return null;
+  // Screens without a document of their own (Library, Play Call, Overview…) still offer Save All while files are unsaved.
+  if (!activePath)
+    return dirtyCount > 0 ? (
+      <div className={s.doc} title={`${dirtyCount} file${dirtyCount > 1 ? "s" : ""} unsaved (${comboLabel("shift+mod+s")})`}>
+        <span className={cx(s.dirtyDot, s.dirtyOthers)} aria-label="Unsaved files" />
+        <Button size="sm" variant="primary" icon="save" onClick={() => void saveAll()}>
+          Save All ({dirtyCount})
+        </Button>
+      </div>
+    ) : null;
 
   const others = dirtyCount - (dirty ? 1 : 0);
   const save = async () => {

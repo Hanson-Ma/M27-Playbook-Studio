@@ -192,10 +192,10 @@
                 "Playaction": 70
               }
             },
-            { "play": "Double Move Cross" },
+            { "play": "In n out" },
             { "play": "CM HB Counter" },
             { "play": "CM HB Stretch" },
-            { "play": "HB Dive 2" },
+            { "play": "HB Dive" },
             { "play": "EM Options Over" },
             { "play": "CM PA Shot" },
             { "play": "CM PA Option Over" }

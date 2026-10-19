@@ -178,7 +178,7 @@ export function PlayPanel() {
             }}
           />
         </FormRow>
-        <RenameRefs catalog={catalog} file={file} index={index} set={set.asset} name={name} asset={asset} blocked={!!nameErr || !!assetErr} />
+        <RenameRefs catalog={catalog} file={file} index={index} set={set.asset} name={name} asset={asset} base={baseKey} blocked={!!nameErr || !!assetErr} />
         <FormRow label="Base Play" hint="The play this one starts from: same formation and set, handoffs and protection.">
           <SearchSelect
             size="sm"
@@ -413,8 +413,16 @@ function initialIdentity(file: string, index: number, set: string, name: string,
  * Renaming a play (or changing its asset) breaks playbooks that list it by name and orphans concepts tags, notes and
  * favorites keyed by its PlayKey. Say what still points at the old identity and offer to update it in one step.
  */
-function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: string; name: string; asset: string; blocked: boolean }) {
-  const [orig, setOrig] = useState(() => initialIdentity(p.file, p.index, p.set, p.name, p.asset));
+function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: string; name: string; asset: string; base?: string; blocked: boolean }) {
+  // An edited copy that has its original's name overrides it: the playbook entries with that name are this play's.
+  const overrodeBase = (n: string) => {
+    const b = p.base ? p.catalog.get(p.base) : undefined;
+    return !!b && b.set === p.set && norm(b.name) === norm(n);
+  };
+  const [orig, setOrig] = useState(() => {
+    const id = initialIdentity(p.file, p.index, p.set, p.name, p.asset);
+    return { ...id, overrode: overrodeBase(id.name) };
+  });
   const books = useDocsOfKind<PlaybookSpec>("playbook");
   const concepts = useDoc<ConceptsDoc>(CONCEPTS_PATH);
   const favorites = useSettings((st) => st.favorites);
@@ -455,7 +463,7 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
       st.set({ favorites: rekeyList(st.favorites, oldKey, newKey), recents: rekeyList(st.recents, oldKey, newKey) });
       touched.push("favorites");
     }
-    setOrig({ set: p.set, name: p.name, asset: p.asset });
+    setOrig({ set: p.set, name: p.name, asset: p.asset, overrode: overrodeBase(p.name) });
     toast[auto ? "info" : "success"](`${auto ? "Renamed everywhere: " : "Updated "}"${orig.name}" → "${p.name}"`, {
       detail: `${touched.join(", ")}${touched.some((t) => t.endsWith(".json")) ? ` — unsaved until you save all (${comboLabel("shift+mod+s")})` : ""}`,
     });

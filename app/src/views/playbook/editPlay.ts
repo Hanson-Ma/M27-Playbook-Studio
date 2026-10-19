@@ -51,7 +51,10 @@ export function leaveCopy(file: string, index: number): void {
       timers.delete(k);
       pending.delete(k);
       const ws = useWorkspace.getState();
-      const plays = (ws.docs[p.file]?.data as PlaysFile | null | undefined)?.plays;
+      const doc = ws.docs[p.file];
+      // Saved since it was made: the user kept it on purpose.
+      if (!doc || !doc.dirty) return;
+      const plays = (doc.data as PlaysFile | null | undefined)?.plays;
       // Only an untouched copy, and only when it is the last play of the file (later plays' indexes must not shift).
       if (!plays || plays.length !== p.index + 1 || JSON.stringify(plays[p.index]) !== p.snapshot) return;
       ws.update<PlaysFile>(p.file, (d) => void d.plays.pop(), { label: `Undo editable copy of ${p.original}` });
