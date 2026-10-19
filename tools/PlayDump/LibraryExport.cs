@@ -47,7 +47,21 @@ namespace PlayDump
                 {
                     ["setId"] = (uint)r.setId, ["name"] = r.setName.ToString(), ["asset"] = e.Name, ["formation"] = Ext(r.form),
                     ["classification"] = r.Classification.ToString(), ["setType"] = r.setType.ToString(), ["canFlip"] = (bool)r.canFlip,
-                    ["movements"] = movements
+                    ["movements"] = movements,
+                    // Personnel packages (the in-game Packages menu, in list order): who lines up in each slot.
+                    ["packages"] = new JArray(((List<PointerRef>)r.packages).Select(p =>
+                    {
+                        dynamic pk = p.Internal;
+                        return new JObject
+                        {
+                            ["name"] = pk.name.ToString(),
+                            ["positions"] = new JArray(((List<PointerRef>)pk.packagePositions).Select(q =>
+                            {
+                                dynamic pp = q.Internal;
+                                return new JObject { ["slot"] = (int)pp.order, ["pos"] = pp.position.ToString(), ["depth"] = (int)pp.Depth };
+                            }))
+                        };
+                    }))
                 });
             }
             Write(outDir, "sets.json", sets);

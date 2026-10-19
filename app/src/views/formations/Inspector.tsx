@@ -17,6 +17,7 @@ import {
   customFormationAsset,
   customFormationAssets,
   depthPresetY,
+  effectiveNormal,
   flipPartner,
   flippedAlignment,
   depthPresetsFor,
@@ -36,6 +37,8 @@ import type { AlignmentPos, ArtBounds, CustomSetSpec, SetDef, SetsFile, Validati
 import { useSettings } from "../../state/settings";
 import { Button, FormRow, Icon, NumberField, SearchSelect, Select, Tag, TextInput, Toggle, cx, promptDialog } from "../../ui";
 import { Advanced } from "./Common";
+import { Packages } from "./Packages";
+import { packagesOf } from "../../model/packages";
 import { findCustomFormation, formationPathOf, refersToFormation, type CloneWarning } from "./setModel";
 import { titleCase } from "../designer/titleCase";
 import s from "./Editor.module.css";
@@ -579,6 +582,10 @@ export function SetPanel(p: SetPanelProps) {
             </button>
           ))}
         </div>
+      </Section>
+
+      <Section title={`Packages · ${packagesOf(base, spec).length}`}>
+        <Packages lib={lib} base={base} spec={spec} normal={effectiveNormal(base, spec)} update={(fn, label) => p.update((d) => fn(d), label)} />
       </Section>
 
       <Section

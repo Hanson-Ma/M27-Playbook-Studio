@@ -241,3 +241,12 @@
 .advanced {
   border-top: 1px solid var(--line);
 }
+/* "Reset Play": the last thing in the left column. */
+.resetSection {
+  margin-top: auto;
+  gap: 4px;
+}
+.resetHint {
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+}

@@ -75,7 +75,9 @@ namespace PlaybookBuilder
             }
             Dictionary<string, string> PlayInSet(Dictionary<string, string> set, string name)
             {
-                var p = plays.FirstOrDefault(x => x["set"] == set["asset"] && Norm(x["playName"]) == Norm(name));
+                // Last match: custom plays come after the library and, among them, edited plays after set clones, so a play
+                // that overrides its original (same name, same set) wins.
+                var p = plays.LastOrDefault(x => x["set"] == set["asset"] && Norm(x["playName"]) == Norm(name));
                 if (p == null && !collect) throw new InvalidOperationException($"unknown play \"{name}\" in set {set["setName"]}");
                 return p;
             }

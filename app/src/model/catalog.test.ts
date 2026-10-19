@@ -84,9 +84,13 @@ describe("buildCatalog with the example plays files", () => {
     const shadow = buildCatalog(lib, [
       { path: "playbooks/plays/x.json", data: { plays: [{ name: "Curls", asset: "PBS_Curls2", base: SET + "Curls" }] } },
     ]);
-    // pbook-build searches plays.tsv before custom-plays.tsv: the stock play is what gets built.
-    expect(shadow.playInSetByName(SET + "Y_Trips_Wk", "curls")?.key).toBe(SET + "Curls");
-    expect(shadow.custom[0].problems.join()).toMatch(/also a library play .*picks the library play; rename the custom play/);
+    // A copy that keeps its base play's name overrides it (the builders take the last match: the custom play).
+    expect(shadow.playInSetByName(SET + "Y_Trips_Wk", "curls")?.key).toBe(SET + "PBS_Curls2");
+    expect(shadow.custom[0].problems).toEqual([]);
+    // Based on another play, the name still clashes: the library play is what gets built.
+    const clash = buildCatalog(lib, [{ path: "playbooks/plays/x.json", data: { plays: [{ name: "Curls", asset: "PBS_Curls2", base: SET + "Slants" }] } }]);
+    expect(clash.playInSetByName(SET + "Y_Trips_Wk", "curls")?.key).toBe(SET + "Curls");
+    expect(clash.custom[0].problems.join()).toMatch(/also a library play .*picks the library play; rename the custom play/);
   });
 
   it("resolves library plays lazily and shares them across catalog versions", () => {
@@ -332,7 +336,8 @@ describe("custom formations, sets and clones (catalog overlay, FORMATS.md §5)",
       lib,
       [
         playsFile([
-          { name: "Power", asset: "PBS_Mine", base: TIGHT + "PBS_Power" },
+          // based on "Power 2", so the name clashes with the clone "Power" (it would override "Power" if based on it)
+          { name: "Power", asset: "PBS_Mine", base: TIGHT + "PBS_Power2" },
           { name: "Mine", asset: "PBS_Power2", base: TIGHT + "PBS_Power" },
         ]),
       ],

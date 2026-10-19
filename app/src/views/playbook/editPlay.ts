@@ -3,7 +3,7 @@
 // place (FORMATS.md §3), so it becomes an editable copy: a new custom play with the original as its base, written to
 // playbooks/plays/<playbook>-edits.json, swapped into the playbook at the same spot (audible and CPU weights stay),
 // and opened in the designer.
-import { suggestAsset, suggestPlayName, newPlaySpec } from "../../model/designer";
+import { newPlaySpec, playNameProblem, suggestAsset, suggestPlayName } from "../../model/designer";
 import { norm } from "../../model/names";
 import { slugify } from "../../model/concepts";
 import type { PlaybookSpec, PlaysFile } from "../../model/types";
@@ -92,7 +92,8 @@ export function editPlay(data: BuilderData, node: BookNode): void {
   }
   const ws = useWorkspace.getState();
   const prefix = useSettings.getState().assetPrefix;
-  const name = suggestPlayName(data.catalog, play.set, play.name);
+  // The copy keeps the original's name and overrides it (playNameProblem allows a play its base's name).
+  const name = playNameProblem(data.catalog, play.set, play.name, undefined, play.asset) ? suggestPlayName(data.catalog, play.set, play.name) : play.name;
   const asset = suggestAsset(data.catalog, play.set, name, prefix);
   const file = `playbooks/plays/${slugify(String(data.spec.name || "playbook"))}-edits.json`;
   const spec = newPlaySpec({ name, asset, base: play.asset });

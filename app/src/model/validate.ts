@@ -383,7 +383,8 @@ function customPlayIssues(spec: unknown, index: number, file: string, catalog: C
     if (name.trim()) {
       const dupes = other(ctx.names.get(`${base.set}|${norm(name)}`) ?? [], file, index);
       if (dupes.length) push("error", "play-name-duplicate", `${label}: name is also used in this set by ${dupes.join(", ")}`);
-      const clash = builtIn.find((bp) => norm(bp.name) === norm(name));
+      // Its own base play may share the name: the edited copy overrides it.
+      const clash = builtIn.find((bp) => norm(bp.name) === norm(name) && bp.key !== base.asset && bp.key !== p.base);
       if (clash)
         push(
           "error",

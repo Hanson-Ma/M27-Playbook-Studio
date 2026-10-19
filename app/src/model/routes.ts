@@ -1156,6 +1156,46 @@ export const BLOCK_TOOLS: { id: BlockToolId; label: string; hint: string }[] = [
   { id: "screen", label: "Screen release", hint: "Sell pass pro, then lead the screen" },
 ];
 
+// ───────────────────────────── block, then release ─────────────────────────────
+
+export type ReleaseRouteId =
+  | "swing_lt" | "swing_rt" | "flat_lt" | "flat_rt" | "shallow_lt" | "shallow_rt" | "seam" | "checkdown"
+  | "angle_lt" | "angle_rt" | "wheel_lt" | "wheel_rt" | "out_lt" | "out_rt" | "dump_lt" | "dump_rt";
+
+const L = "RECEIVER_CUT_DIR_LEFT";
+const R = "RECEIVER_CUT_DIR_RIGHT";
+const CUT = (angle: string, dir: string) => receiverCut("RECEIVER_CUT_ANGLE_" + angle, dir);
+
+/**
+ * Block-and-release routes: pass block for a beat, then a route. Shapes from the game's own block-and-release
+ * assignments (HB_Block_ALL_SwingLt, BlockNRelease_Cross_Left, TE_Block_Run90for05_Run10for10…). Left / right are
+ * field directions, not inside / outside, like the game names them.
+ */
+export const RELEASE_ROUTES: { id: ReleaseRouteId; label: string; hint: string; routeType: string; legs(side: RouteSide): Step[] }[] = [
+  { id: "swing_lt", label: "Swing left", hint: "Back out and around to the left flat", routeType: "AssignRouteType_RR_Swing_Lt", legs: () => [runLeg(3, 220), runLeg(2, 180), runLeg(6, 170), runLeg(3, 160), runLeg(3, 130), runLeg(3, 110), runLeg(3, 90)] },
+  { id: "swing_rt", label: "Swing right", hint: "Back out and around to the right flat", routeType: "AssignRouteType_RR_Swing_Rt", legs: () => [runLeg(3, 320), runLeg(2, 0), runLeg(6, 10), runLeg(3, 20), runLeg(3, 50), runLeg(3, 70), runLeg(3, 90)] },
+  { id: "flat_lt", label: "Flat left", hint: "Out to the left flat", routeType: "AssignRouteType_RR_Flat_Lt", legs: () => [runLeg(5, 145), CUT("45", L), runLeg(15, 175)] },
+  { id: "flat_rt", label: "Flat right", hint: "Out to the right flat", routeType: "AssignRouteType_RR_Flat_Rt", legs: () => [runLeg(5, 35), CUT("45", R), runLeg(15, 5)] },
+  { id: "shallow_lt", label: "Shallow cross left", hint: "Short release, then across the field to the left", routeType: "AssignRouteType_RR_Block_TE_Cross", legs: () => [runLeg(2, 110), CUT("67", L), runLeg(20, 180)] },
+  { id: "shallow_rt", label: "Shallow cross right", hint: "Short release, then across the field to the right", routeType: "AssignRouteType_RR_Block_TE_Cross", legs: () => [runLeg(2, 70), CUT("67", R), runLeg(20, 0)] },
+  { id: "seam", label: "Seam", hint: "Straight up the seam", routeType: "AssignRouteType_RR_Block_Streak", legs: () => [runLeg(2, 90), runLeg(25, 90)] },
+  { id: "checkdown", label: "Check down", hint: "Up a few yards and sit, facing the QB", routeType: "AssignRouteType_RR_Block_Hook_Mid", legs: (side) => [runLeg(6, 90), CUT("CURL", insideTurn(side)), { type: "Delay", time: 1 }] },
+  { id: "angle_lt", label: "Angle left", hint: "Out to the right, then break back in to the left", routeType: "AssignRouteType_RR_RB_Angle", legs: () => [runLeg(5, 23), CUT("90", L), runLeg(15, 140)] },
+  { id: "angle_rt", label: "Angle right", hint: "Out to the left, then break back in to the right", routeType: "AssignRouteType_RR_RB_Angle", legs: () => [runLeg(5, 157), CUT("90", R), runLeg(15, 40)] },
+  { id: "wheel_lt", label: "Wheel left", hint: "Along the line to the left, then up the sideline", routeType: "AssignRouteType_RR_Wheel_Lt", legs: () => [runLeg(12, 170), CUT("90", R), runLeg(25, 94)] },
+  { id: "wheel_rt", label: "Wheel right", hint: "Along the line to the right, then up the sideline", routeType: "AssignRouteType_RR_Wheel_Rt", legs: () => [runLeg(12, 10), CUT("90", L), runLeg(25, 86)] },
+  { id: "out_lt", label: "Out left", hint: "Up 5 yards, out to the left", routeType: "AssignRouteType_RR_Block_TE_In", legs: () => [runLeg(5, 90), CUT("90", L), runLeg(15, 170)] },
+  { id: "out_rt", label: "Out right", hint: "Up 5 yards, out to the right", routeType: "AssignRouteType_RR_Block_TE_Out", legs: () => [runLeg(5, 90), CUT("90", R), runLeg(15, 10)] },
+  { id: "dump_lt", label: "Delay dump left", hint: "Late release into the short middle, drifting left", routeType: "AssignRouteType_RR_Block_TE_Dump", legs: () => [runLeg(1, 30), runLeg(2, 90), runLeg(7, 110)] },
+  { id: "dump_rt", label: "Delay dump right", hint: "Late release into the short middle, drifting right", routeType: "AssignRouteType_RR_Block_TE_Dump", legs: () => [runLeg(1, 150), runLeg(2, 90), runLeg(7, 70)] },
+];
+
+/** A block-and-release chain: PassBlock for `time` seconds, then the release route. */
+export function releaseRouteSteps(id: ReleaseRouteId, side: RouteSide, time = 1): { steps: Step[]; routeType: string } {
+  const r = RELEASE_ROUTES.find((x) => x.id === id)!;
+  return { steps: [{ type: "PassBlock", time, flags: "PassBlockFlags_None" }, ...r.legs(side), GET_OPEN], routeType: r.routeType };
+}
+
 /** Family word for generated assignment names per block tool ("PBS_LG_Pull"). */
 export const BLOCK_FAMILY: Record<BlockToolId, string> = {
   pass: "PassBlock",

@@ -154,6 +154,7 @@ namespace PlayDump
             }
 
             if (s["presets"] is JObject presets) ReplacePresets(set, root, list, presets, (string)s["name"]);
+            if (s["packages"] is JArray packages) ReplacePackages(set, root, packages, (string)s["name"]);
 
             EbxAssetEntry entry = pb.AddAsset(asset, set, baseEntry);
             WithGlobalSheet((gps, gr) =>
@@ -236,6 +237,38 @@ namespace PlayDump
                 movements.Add(new PointerRef(mv));
             }
             Console.Error.WriteLine($"  presets: {string.Join(" ", presets.Properties().Select(p => p.Name))}");
+        }
+
+        // "packages": [{ name, positions: [{ slot, pos, depth }] }] replaces the set's personnel packages (the in-game
+        // Packages menu lists them in this order). Each package names who lines up in every slot (posOrder = slot).
+        void ReplacePackages(EbxAsset set, dynamic root, JArray packages, string setName)
+        {
+            List<PointerRef> list = root.packages;
+            foreach (PointerRef p in list.ToList())
+            {
+                foreach (PointerRef q in (List<PointerRef>)((dynamic)p.Internal).packagePositions) set.RemoveObject(q.Internal);
+                set.RemoveObject(p.Internal);
+            }
+            list.Clear();
+            foreach (JObject pk in packages)
+            {
+                string name = (string)pk["name"];
+                if (string.IsNullOrWhiteSpace(name)) throw new InvalidOperationException($"{setName}: a package has no name");
+                dynamic sp = NewObject(set, "SetPackage");
+                sp.__Id = new CString(name);
+                sp.name = new CString(name);
+                foreach (JObject q in (JArray)pk["positions"] ?? new JArray())
+                {
+                    dynamic pp = NewObject(set, "SetPackagePosition");
+                    pp.__Id = new CString("SetPackagePosition");
+                    pp.order = (int)q["slot"];
+                    PlayBuilder.SetEnum(pp, "position", (string)q["pos"]);
+                    pp.Depth = (int)q["depth"];
+                    ((List<PointerRef>)sp.packagePositions).Add(new PointerRef(pp));
+                }
+                list.Add(new PointerRef(sp));
+            }
+            Console.Error.WriteLine($"  packages: {string.Join(", ", packages.Select(p => (string)p["name"]))}");
         }
 
         // 11 players, 7 on the line of scrimmage, OL spacing intact (FORMATS.md §5).

@@ -624,6 +624,341 @@
           ]
         }
       }
+    },
+    {
+      "name": "CM Counter G",
+      "asset": "PBS_CM_Counter_G",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Pistol/FUS_Deuce_Close/PBS_DC_Mtn_Counter_Lt"
+    },
+    {
+      "name": "CM HB Counter",
+      "asset": "PBS_CM_HB_Counter",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_Fk_Cheat_HB_Counter"
+    },
+    {
+      "name": "CM HB Stretch",
+      "asset": "PBS_CM_HB_Stretch",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_Fk_Cheat_HB_Stretch_Wk"
+    },
+    {
+      "name": "HB Dive 2",
+      "asset": "PBS_HB_Dive_2",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_HB_Dive",
+      "players": {
+        "3": {
+          "new": "PBS_Slot_RunBlock",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [{ "type": "RunBlock" }]
+        }
+      }
+    },
+    {
+      "name": "EM Options Over",
+      "asset": "PBS_EM_Options_Over",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_Omaha",
+      "vip": 3,
+      "players": {
+        "1": {
+          "new": "PBS_HB_BlockRelease",
+          "routeType": "AssignRouteType_RR_Block_and_Release",
+          "steps": [
+            { "type": "PassBlock", "time": 1.55, "flags": "PassBlockFlags_None" },
+            { "type": "RunRoute", "distance": 9.5, "direction": 175, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            { "type": "RunRoute", "distance": 9.9, "direction": 147.41, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "2": {
+          "new": "PBS_X_Option",
+          "routeType": "AssignRouteType_RR_Option_Slant_Out",
+          "steps": [
+            { "type": "RunRoute", "distance": 2.5, "direction": 90, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "CurlRight", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "13" },
+                { "route": "SlantRt", "coverage": "130" }
+              ]
+            },
+            { "type": "Delay", "time": 2 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Slot_Option_2",
+          "routeType": "AssignRouteType_RR_Option_Hitch_Fade_Slant",
+          "steps": [
+            {
+              "type": "AutoMotion",
+              "waypoints": [
+                {
+                  "position": { "x": -18, "y": -2.2 },
+                  "transitID": 0,
+                  "speed": 80,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                }
+              ],
+              "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+              "endDelay": 0,
+              "automotionOrderTransitID": 1,
+              "startDelay": 0,
+              "stanceAtTarget": "StanceType_None",
+              "automotionOrderPlayer": 0,
+              "useLegacyLocoPathing": false,
+              "shouldStopAtTarget": false
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 4,
+              "direction": 90,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "HitchRight", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "FadeStreakLt", "coverage": "93" },
+                { "route": "SlantRt", "coverage": "130" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "PBS_Y_BlockRelease",
+          "routeType": "AssignRouteType_RR_Block_and_Release",
+          "steps": [
+            { "type": "PassBlock", "time": 1, "flags": "PassBlockFlags_None" },
+            { "type": "RunRoute", "distance": 2, "direction": 70, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 12, "direction": 10, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "FUSION/R_63e6f6b32a",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "steps": [
+            { "type": "RunRoute", "distance": 2, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            { "type": "RunRoute", "distance": 10.25, "direction": 104.06, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "CurlLeft", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "15" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 2, "pct": 0.99, "concept": "Concept_Omaha", "combo": 1 },
+        { "pos": 4, "pct": 0.02, "concept": "Concept_Invalid", "combo": 2 },
+        { "pos": 5, "pct": 0.75, "concept": "Concept_Omaha", "combo": 2 },
+        { "pos": 3, "pct": 1, "concept": "Concept_Invalid", "combo": 1 },
+        { "pos": 1, "pct": 0.02, "concept": "Concept_Invalid", "combo": 0 }
+      ]
+    },
+    {
+      "name": "CM PA Option Over",
+      "asset": "PBS_CM_PA_Option_Over",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_PA_Fk_Cheat_Flood_Crossers",
+      "vip": 3,
+      "players": {
+        "2": {
+          "new": "FUSION/R_f4c5d34372",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 13.75, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_22"
+            },
+            { "type": "RunRoute", "distance": 30, "direction": 64.69, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Slot_Option_3",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "keep": 3,
+          "steps": [
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 13.5,
+              "direction": 95,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "InOutLeft", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "CornerLt", "coverage": "83" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "PBS_Y_BlockRelease",
+          "routeType": "AssignRouteType_RR_Block_and_Release",
+          "steps": [
+            { "type": "PassBlock", "time": 1, "flags": "PassBlockFlags_None" },
+            { "type": "RunRoute", "distance": 2, "direction": 70, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 12, "direction": 10, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Z_Dig12",
+          "routeType": "AssignRouteType_RR_In_Middle",
+          "steps": [
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 2,
+              "direction": 110,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 10,
+              "direction": 90,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 5,
+              "direction": 140,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 30,
+              "direction": 175,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            { "type": "GetOpen" }
+          ]
+        }
+      },
+      "reads": [
+        { "pos": 2, "pct": 0.4, "concept": "Concept_Double_Cross", "combo": 1 },
+        { "pos": 4, "pct": 0.6, "concept": "Concept_Double_Cross", "combo": 2 },
+        { "pos": 5, "pct": 0.1, "concept": "Concept_Flood", "combo": 3 },
+        { "pos": 3, "pct": 0.65, "concept": "Concept_Invalid", "combo": 1 },
+        { "pos": 1, "pct": 0.15, "concept": "Concept_Flood", "combo": 2 }
+      ]
+    },
+    {
+      "name": "CM PA Shot",
+      "asset": "PBS_CM_PA_Shot",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_PA_Cheat_Post_Cross",
+      "players": {
+        "2": {
+          "new": "PBS_Deep_Over_Lt",
+          "routeType": "AssignRouteType_RR_In_Middle",
+          "steps": [
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 2,
+              "direction": 70,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 10,
+              "direction": 90,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_45"
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 5,
+              "direction": 40,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            {
+              "type": "RunRoute",
+              "facingDirectionOverride": 0,
+              "distance": 30,
+              "direction": 5,
+              "speed": 100,
+              "overrideFacingDirection": false
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Shot_Cross_Post_Double_Move",
+          "routeType": "AssignRouteType_RR_Post_Deep",
+          "steps": [
+            { "type": "RunRoute", "distance": 14, "direction": 90, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_LEFT",
+              "cutType": "RECEIVER_CUT_ANGLE_POSTCORNER"
+            },
+            { "type": "RunRoute", "distance": 17, "direction": 130, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        }
+      }
     }
   ]
 }

@@ -10,6 +10,7 @@ import {
   effectiveField,
   eligibleSlots,
   groupBasePlays,
+  isClonePlay,
   BASE_SECTION_LABEL,
   playNameProblem,
   setPlayAsset,
@@ -26,16 +27,16 @@ import {
 import { backfieldChanged, resetBackfield } from "../../model/backfield";
 import { CONCEPTS_PATH } from "../../model/conceptsDoc";
 import { parseJson } from "../../model/json";
-import { folder, leaf } from "../../model/names";
+import { folder, leaf, maddenName, norm } from "../../model/names";
 import { danglingPlayRefs, playKeyFor, rekeyConcepts, rekeyList, renamePlayInBook, type PlayIdentity } from "../../model/playRefs";
 import { playTypeInfo } from "../../model/playtypes";
 import { slotLabel } from "../../model/positions";
 import type { ConceptsDoc, PlaybookSpec, PlaysFile } from "../../model/types";
 import type { Catalog } from "../../model/catalog";
 import { comboLabel } from "../../input/keys";
-import { href, navigate } from "../../state/router";
+import { href, navigate, useRoute } from "../../state/router";
 import { useSettings } from "../../state/settings";
-import { useDoc, useDocsOfKind, useWorkspace } from "../../state/workspace";
+import { selectDocsOfKind, useDoc, useDocsOfKind, useWorkspace } from "../../state/workspace";
 import { Button, FormRow, IconButton, SearchSelect, TextInput, confirmDialog, cx, toast } from "../../ui";
 import { openAddToPlaybook } from "../library/AddToPlaybook";
 import { BackfieldModal } from "./BackfieldModal";
@@ -54,15 +55,16 @@ export function PlayPanel() {
   const selfKey = self?.key;
 
   const name = String(state.play.name ?? "");
+  const baseKey = typeof state.play.base === "string" ? state.play.base : undefined;
   const asset = String(state.play.asset ?? "");
   const autoAsset = asset === suggestAsset(catalog, set.asset, name, prefix, selfKey);
-  const nameErr = playNameProblem(catalog, set.asset, name, selfKey);
+  const nameErr = playNameProblem(catalog, set.asset, name, selfKey, baseKey);
   // A name another play in the set already has (or an empty one) is shown with its problem but NOT written to the play:
   // two plays with one name make every playbook entry for it ambiguous ("Unknown play"). The draft is dropped when you
   // switch plays, and a free name goes through as before.
   const [draft, setDraft] = useState<string | undefined>();
   useEffect(() => setDraft(undefined), [file, index]);
-  const draftErr = draft !== undefined ? playNameProblem(catalog, set.asset, draft, selfKey) : undefined;
+  const draftErr = draft !== undefined ? playNameProblem(catalog, set.asset, draft, selfKey, baseKey) : undefined;
   const assetErr = assetProblem(catalog, set.asset, asset, selfKey);
 
   const baseOptions = useMemo(
@@ -168,7 +170,7 @@ export function PlayPanel() {
             value={draft ?? name}
             invalid={!!(draftErr ?? nameErr)}
             onChange={(v) => {
-              if (playNameProblem(catalog, set.asset, v, selfKey)) setDraft(v);
+              if (playNameProblem(catalog, set.asset, v, selfKey, baseKey)) setDraft(v);
               else {
                 setDraft(undefined);
                 rename(v);
@@ -281,7 +283,53 @@ export function PlayPanel() {
           Add to Playbook…
         </Button>
       </section>
+
+      <ResetPlay />
     </div>
+  );
+}
+
+/**
+ * "Reset Play": back to the original this play was copied from (its base play — a library play or a play cloned into
+ * a custom set). The edited copy is deleted from its plays file and playbooks that list it list the original again.
+ */
+function ResetPlay() {
+  const d = useDesigner();
+  const { state, catalog, set, file, index } = d;
+  const back = useRoute().query.get("back");
+  const baseKey = typeof state.play.base === "string" ? state.play.base : "";
+  const original = baseKey ? catalog.get(baseKey) : undefined;
+  // Only an original from the game or a set clone (not another of your own plays).
+  if (!original || (original.source === "custom" && !isClonePlay(original)) || original.set !== set.asset) return null;
+  const name = String(state.play.name ?? "");
+  const reset = async () => {
+    const ok = await confirmDialog({
+      title: `Reset to "${maddenName(original.name)}"?`,
+      body: <>This edited play is deleted and every playbook that lists it uses the original <span className="caps">{original.name}</span> again. Undo brings it back until you leave.</>,
+      confirmLabel: "Reset Play",
+      danger: true,
+    });
+    if (!ok) return;
+    const ws = useWorkspace.getState();
+    const self = { set: set.asset, name, asset: String(state.play.asset ?? "") };
+    if (norm(name) !== norm(original.name))
+      for (const b of selectDocsOfKind<PlaybookSpec>(ws, "playbook")) {
+        if (!b.data || b.error) continue;
+        const probe = JSON.parse(JSON.stringify(b.data)) as PlaybookSpec;
+        if (renamePlayInBook(probe, catalog, self, original.name) > 0)
+          ws.update<PlaybookSpec>(b.path, (dd) => void renamePlayInBook(dd, catalog, self, original.name), { label: `Reset ${original.name}` });
+      }
+    ws.update<PlaysFile>(file, (draft) => void draft.plays.splice(index, 1), { label: `Reset ${original.name}` });
+    toast.success(`Back to "${maddenName(original.name)}"`, { detail: "Save to keep the change." });
+    navigate(back && back.startsWith("#/") ? back : "#/designer");
+  };
+  return (
+    <section className={cx(s.section, s.resetSection)}>
+      <Button size="sm" variant="secondary" icon="undo" onClick={() => void reset()} title={`Delete this edited copy and use the original ${original.name} again`}>
+        Reset Play
+      </Button>
+      <div className={s.resetHint}>Back to the original <span className="caps">{original.name}</span>.</div>
+    </section>
   );
 }
 

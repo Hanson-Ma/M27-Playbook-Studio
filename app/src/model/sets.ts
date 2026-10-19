@@ -553,10 +553,18 @@ export function effectiveMovements(base: SetDef, spec: Pick<CustomSetSpec, "posi
 /** The SetDef the builder creates for a custom set (base cloned: classification, setType, canFlip, presets). */
 export function buildCustomSetDef(
   base: SetDef,
-  spec: Pick<CustomSetSpec, "positions" | "movements" | "name">,
+  spec: Pick<CustomSetSpec, "positions" | "movements" | "name" | "packages">,
   at: { asset: Asset; formation: Asset; setId: number },
 ): SetDef {
-  return { ...base, setId: at.setId, name: typeof spec.name === "string" ? spec.name : "", asset: at.asset, formation: at.formation, movements: effectiveMovements(base, spec) };
+  return {
+    ...base,
+    setId: at.setId,
+    name: typeof spec.name === "string" ? spec.name : "",
+    asset: at.asset,
+    formation: at.formation,
+    movements: effectiveMovements(base, spec),
+    packages: Array.isArray(spec.packages) ? spec.packages : base.packages,
+  };
 }
 
 /**
@@ -1545,6 +1553,23 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
     // positions entries.
     const n = normalOf(base).length;
     const range = `0–${n - 1}`;
+    // packages (the in-game Packages menu): named, unique, every slot once.
+    if (spec.packages !== undefined) {
+      if (!Array.isArray(spec.packages)) p("error", "set-packages", "Packages must be an array", `${where}/packages`);
+      else {
+        const names = new Set<string>();
+        spec.packages.forEach((pk, k) => {
+          const w = `${where}/packages/${k}`;
+          const nm = isObj(pk) && typeof pk.name === "string" ? pk.name.trim() : "";
+          if (!nm) p("error", "set-package-name", `Package #${k + 1} has no name`, w);
+          else if (names.has(norm(nm))) p("error", "set-package-duplicate", `Two packages are called "${nm}"`, w);
+          names.add(norm(nm));
+          const slots = isObj(pk) && Array.isArray(pk.positions) ? pk.positions.map((q) => (isObj(q) ? q.slot : undefined)) : [];
+          const ok = slots.length === n && new Set(slots).size === n && slots.every((x) => typeof x === "number" && x >= 0 && x < n);
+          if (!ok) p("error", "set-package-slots", `Package "${nm || k + 1}" must name a player for each of the ${n} slots`, w);
+        });
+      }
+    }
     if (spec.positions !== undefined) {
       if (!Array.isArray(spec.positions)) p("error", "set-positions", "Positions must be an array", `${where}/positions`);
       else {

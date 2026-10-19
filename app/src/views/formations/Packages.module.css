@@ -1,0 +1,103 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 3px 4px 3px 6px;
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+.num {
+  flex: none;
+  width: 18px;
+  font-family: var(--font-num);
+  font-size: var(--fs-xs);
+  color: var(--text-4);
+  text-align: right;
+}
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 3px 4px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.main:hover {
+  background: var(--bg-3);
+}
+.name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fd-sm);
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.changes {
+  font-size: var(--fs-xs);
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.actions {
+  display: flex;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+.muted,
+.note {
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.4fr) minmax(0, 0.8fr);
+  gap: 4px 8px;
+  align-items: center;
+  margin: var(--s3) 0 var(--s2);
+}
+.gridRow {
+  display: contents;
+}
+.head {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fd-xs);
+  color: var(--text-3);
+}
+.slot {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gridRow[data-changed] .slot {
+  color: var(--text);
+  font-weight: 600;
+}

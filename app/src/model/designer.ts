@@ -918,11 +918,15 @@ export function normalizeReads(reads: ReadDef[]): ReadDef[] {
 // ───────────────────────────── names, assets, validation ─────────────────────────────
 
 /** Problem with a play name inside its set (vs library plays and other custom plays), or undefined. */
-export function playNameProblem(catalog: Catalog, set: Asset, name: string, selfKey?: string): string | undefined {
+/**
+ * Problem with a play name in a set, or undefined. `base`: the play's base play — a play may take its base's name and
+ * override it (an edited copy of a stock or cloned play that keeps the original name; the copy is used instead).
+ */
+export function playNameProblem(catalog: Catalog, set: Asset, name: string, selfKey?: string, base?: string): string | undefined {
   const n = norm(name);
   if (!n) return "Name is required";
-  if ((catalog.lib.playsBySet.get(set) ?? []).some((p) => norm(p.name) === n)) return "A library play in this set has this name";
-  const other = [...catalog.clones, ...catalog.custom].find((rp) => rp.set === set && norm(rp.name) === n && rp.key !== selfKey);
+  if ((catalog.lib.playsBySet.get(set) ?? []).some((p) => norm(p.name) === n && p.asset !== base)) return "A library play in this set has this name";
+  const other = [...catalog.clones, ...catalog.custom].find((rp) => rp.set === set && norm(rp.name) === n && rp.key !== selfKey && rp.key !== base);
   if (other) return `Already used by "${maddenName(other.name)}"${other.file ? ` (${other.file})` : " (a play copied into this set)"}`;
   return undefined;
 }

@@ -152,7 +152,7 @@ describe("plays files (FORMATS.md §3)", () => {
         base: SET + "HB_Base",
         players: { "1": { new: "ZZ_HB_Swing", steps: [{ type: "RunRoute", distance: 5, direction: 180, speed: 100 }] } },
       },
-      /* 5 */ { name: "Curls", asset: "Curls", base: SET + "Curls" },
+      /* 5 */ { name: "Curls", asset: "Curls", base: SET + "Slants" },
       /* 6 */ { name: "Twin", asset: "PBS_Snag", base: SET + "Curls" },
       /* 7 */ {
         name: "Redefines",
@@ -293,7 +293,7 @@ describe("custom play names and read concepts (PlayBuilder / pbook-build parity)
     plays: [
       {
         path: file,
-        data: { plays: [{ name: "Curls", asset: "ZZ_Curls2", base: SET + "Curls", reads: [{ pos: 2, pct: 0.5, concept: "Concept_Bogus" }] }] },
+        data: { plays: [{ name: "Curls", asset: "ZZ_Curls2", base: SET + "Slants", reads: [{ pos: 2, pct: 0.5, concept: "Concept_Bogus" }] }] },
       },
     ],
   });

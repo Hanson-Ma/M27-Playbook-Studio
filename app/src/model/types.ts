@@ -75,6 +75,23 @@ export interface SetDef {
    * that move, matched to Normal slots by (pos, depth).
    */
   movements: Record<string, AlignmentPos[]>;
+  /** Personnel packages (the in-game Packages menu, in this order). Absent in library data older than 2026-10-18. */
+  packages?: SetPackage[];
+}
+
+/**
+ * A personnel package of a set (EBX SetPackage): a named substitution, e.g. "HB Sub" puts HB2 in the halfback slot.
+ * `positions` names who lines up in every slot (slot = posOrder; depth 1 = starter, 2 = backup…).
+ */
+export interface SetPackage {
+  name: string;
+  positions: PackagePosition[];
+}
+
+export interface PackagePosition {
+  slot: number;
+  pos: string; // Position enum ("POSITION_HB")
+  depth: number;
 }
 
 export interface ReadDef {
@@ -243,6 +260,8 @@ export interface CustomSetSpec {
   movements?: Record<string, SlotPosition[]>;
   /** Plays cloned into the new set (built game-side, FORMATS.md §5). */
   plays?: CloneSpec[];
+  /** Replaces the starting set's personnel packages (all of them, in menu order). Absent = keep the starting set's. */
+  packages?: SetPackage[];
   [key: string]: unknown;
 }
 

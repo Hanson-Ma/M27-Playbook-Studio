@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { MiniRoute } from "../../field";
 import { slotSide } from "../../model/designer";
 import { isOffensiveLine } from "../../model/positions";
-import { BLOCK_FAMILY, BLOCK_TOOLS, PULL_ANIMS, TECHNIQUE_FOR, blockSteps, detectBlockTool, replaceBody, type BlockToolId } from "../../model/routes";
+import { BLOCK_FAMILY, BLOCK_TOOLS, PULL_ANIMS, RELEASE_ROUTES, TECHNIQUE_FOR, blockSteps, detectBlockTool, releaseRouteSteps, replaceBody, type BlockToolId, type ReleaseRouteId } from "../../model/routes";
 import type { Step } from "../../model/types";
 import { NumberField, SearchSelect, cx } from "../../ui";
 import { Disclosure } from "./Disclosure";
@@ -67,6 +67,22 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
     [steps, side, lineman, keep],
   );
 
+  // Block, then release: pass block for a beat (the Block time below), then a ready-made route.
+  const releaseTime = typeof timed?.time === "number" ? (timed.time as number) : time;
+  const releaseTiles = useMemo(
+    () =>
+      RELEASE_ROUTES.map((r) => {
+        const built = releaseRouteSteps(r.id, side, releaseTime);
+        return { route: r, built, steps: replaceBody(steps, built.steps, keep) };
+      }),
+    [steps, side, keep, releaseTime],
+  );
+  const bodyKey = JSON.stringify(body.filter((x) => x.type !== "None"));
+  const applyRelease = (id: ReleaseRouteId) => {
+    const r = releaseTiles.find((x) => x.route.id === id)!;
+    d.commitSlot(slot, r.steps, `Block & release: ${titleCase(r.route.label)}`, { routeType: r.built.routeType, family: BLOCK_FAMILY.release });
+  };
+
   const apply = (tool: BlockToolId) => {
     const built = blockSteps(tool, optsFor(tool));
     d.commitSlot(slot, replaceBody(steps, built.steps, keep), `Block: ${BLOCK_TOOLS.find((t) => t.id === tool)!.label}`, {
@@ -105,6 +121,29 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
           ))}
         </div>
       </section>
+
+      {!lineman && (
+        <section className={s.section}>
+          <div className={s.sectionHead}>
+            <span className={s.sectionTitle}>Block, Then Release</span>
+          </div>
+          <div className={s.tiles}>
+            {releaseTiles.map(({ route, built, steps: st }) => (
+              <button
+                key={route.id}
+                type="button"
+                className={cx(s.tile, JSON.stringify(built.steps) === bodyKey && s.tileActive)}
+                onClick={() => applyRelease(route.id)}
+                title={`${route.hint}. Blocks for ${releaseTime}s first.`}
+              >
+                <MiniRoute set={set} slot={slot} steps={st} size={58} />
+                <span className={s.tileLabel}>{titleCase(route.label)}</span>
+              </button>
+            ))}
+          </div>
+          <p className={s.note}>Pass blocks first, then runs the route. Change how long he blocks under Block, Then Release below once one is picked; tweak the route in the Route tab.</p>
+        </section>
+      )}
 
       {current && GAP_TOOLS.has(current) && lead && (
         <section className={s.section}>

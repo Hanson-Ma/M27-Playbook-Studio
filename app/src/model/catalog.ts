@@ -5,7 +5,8 @@
 // Resolution mirrors the game side (tools/PlayDump/PlayBuilder.cs + SetBuilder.cs, tools/pbook-build.mjs):
 //  - build order: every sets file's formations, then every sets file's sets with their clones (each clone right after
 //    its set), then every plays file's plays. research/index/custom-plays.tsv lists clones before custom plays, so
-//    pbook-build finds a library play first, then a clone, then a custom play with the same name in a set.
+//    pbook-build finds a library play first, then a clone, then a custom play with the same name in a set — except a
+//    custom play that keeps its base play's name: it overrides the original (both builders take the last match).
 //  - a play (clone or custom play) is a copy of its base (`from` / `base`): slots keep the base assignments unless
 //    overridden; a string player spec points at an existing assignment (path under ASSIGNMENT_ROOT, or "PBS/<name>"
 //    authored by an earlier play); a `new` spec = first `keep` steps of (`template` ?? base slot) + `steps` + None.
@@ -665,9 +666,10 @@ export function buildCatalog(
     if (stock.playByAsset.has(rp.key)) rp.problems.push(`asset ${leaf(rp.key)} already exists in the library`);
     const clone = cloneKeysLower.get(rp.key.toLowerCase());
     if (clone) rp.problems.push(`asset ${leaf(rp.key)} is also used by the cloned play "${maddenName(clone.name)}" (${clone.file})`);
-    if ((stock.playsBySet.get(rp.set) ?? []).some((p) => norm(p.name) === norm(rp.name))) {
+    // A play may keep its base play's name: it overrides the original (playInSetByName and the game-side builders pick it).
+    if ((stock.playsBySet.get(rp.set) ?? []).some((p) => norm(p.name) === norm(rp.name) && p.asset !== rp.base)) {
       rp.problems.push(`name "${maddenName(rp.name)}" is also a library play in this set (the game-side builder picks the library play; rename the custom play)`);
-    } else if ((clonesBySet.get(rp.set) ?? []).some((c) => norm(c.name) === norm(rp.name))) {
+    } else if ((clonesBySet.get(rp.set) ?? []).some((c) => norm(c.name) === norm(rp.name) && c.key !== rp.base)) {
       rp.problems.push(`name "${maddenName(rp.name)}" is also a cloned play in this set (the game-side builder picks the clone; rename the custom play)`);
     }
   }
@@ -705,8 +707,12 @@ export function buildCatalog(
     playInSetByName(set, name) {
       const key = norm(String(name ?? ""));
       const p = (stock.playsBySet.get(set) ?? []).find((pd) => norm(pd.name) === key);
+      const clone = (clonesBySet.get(set) ?? []).find((rp) => norm(rp.name) === key);
+      // An edited copy that kept its original's name overrides it (the game-side builders pick it too).
+      const over = (customBySet.get(set) ?? []).find((rp) => norm(rp.name) === key && !!rp.base && (rp.base === p?.asset || rp.base === clone?.key));
+      if (over) return over;
       if (p) return resolveLibraryPlay(stock, p);
-      return (clonesBySet.get(set) ?? []).find((rp) => norm(rp.name) === key) ?? (customBySet.get(set) ?? []).find((rp) => norm(rp.name) === key);
+      return clone ?? (customBySet.get(set) ?? []).find((rp) => norm(rp.name) === key);
     },
     custom,
     clones: ov.clones,

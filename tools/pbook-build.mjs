@@ -60,7 +60,8 @@ const setByName = (form, name) => {
   return s;
 };
 const playInSet = (set, name) => {
-  const p = plays.find(x => x.set === set.asset && norm(x.playName) === norm(name));
+  // Last match: custom plays (clones, then edited plays) come after the library, so an override of a play wins.
+  const p = plays.findLast(x => x.set === set.asset && norm(x.playName) === norm(name));
   if (!p && collect) return null;
   if (!p) throw new Error(`unknown play "${name}" in set ${set.setName}`);
   return p;
