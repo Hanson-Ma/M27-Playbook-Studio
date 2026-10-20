@@ -532,6 +532,11 @@ export interface ArtOptions {
   routeTypes?: (string | undefined)[];
   /** Steps of an option-route branch by its OptionRoutes leaf ("CurlRight", "InOutLeft"…), from the library. */
   optionRoute?: (leaf: string) => Step[] | undefined;
+  /**
+   * Show option routes against one coverage: only the branch each receiver runs against it (an OptionRouteCoverage
+   * flag bit, 0 = a coverage no branch is for, so the Default one). Undefined: every branch.
+   */
+  coverage?: number;
 }
 
 // ───────────────────────────── Workspace / documents ─────────────────────────────

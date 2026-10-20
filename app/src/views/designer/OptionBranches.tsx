@@ -1,9 +1,10 @@
 // ROUTE tab → "Option Route": the stem is the route's legs; the branches (what the player does once the game reads the
 // coverage) are listed here. Each branch is one of the game's OptionRoutes assets, a direction, and the coverages it's
 // for (Default = whatever isn't picked on another branch). Not an option route yet? One click turns the route into one.
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { MiniRoute } from "../../field";
-import { OPTION_ROUTE_ROOT } from "../../model/art";
+import { CoverageScenarios } from "../../field/CoverageScenarios";
+import { OPTION_ROUTE_ROOT, computeArt } from "../../model/art";
 import { slotSide } from "../../model/designer";
 import {
   ALL_MAN,
@@ -32,7 +33,7 @@ import {
 import { presetSteps, replaceBody, routeBody } from "../../model/routes";
 import type { Step } from "../../model/types";
 import { Button, Chip, IconButton, Segmented, Select } from "../../ui";
-import { slotGeometry, useDesigner } from "./shared";
+import { playerName, slotGeometry, useDesigner } from "./shared";
 import s from "./OptionBranches.module.css";
 import i from "./Inspector.module.css";
 
@@ -205,6 +206,26 @@ export function OptionBranches({ slot, lock }: { slot: number; lock: number }) {
           Add Branch
         </Button>
       </div>
+      <PlayScenarios />
+    </div>
+  );
+}
+
+/** How every option route on the play pairs up against each coverage (cards; a click shows that coverage on the field). */
+function PlayScenarios() {
+  const d = useDesigner();
+  const { state, set, ui, setUi } = d;
+  const slots = useMemo(() => state.slots.map((sl) => sl.steps), [state.slots]);
+  const routeTypes = useMemo(() => state.slots.map((sl) => sl.routeType), [state.slots]);
+  const players = useMemo(() => set.movements.Normal.map((a, i) => ({ label: playerName(set, i), x: a.x })), [set]);
+  const artFor = useCallback(
+    (bit: number) => computeArt(set, slots, { vip: d.vip, runHole: d.runHole, flip: ui.flip, side: "offense", routeTypes, coverage: bit }),
+    [set, slots, d.vip, d.runHole, ui.flip, routeTypes],
+  );
+  return (
+    <div className={s.scenarios}>
+      <div className={s.blockHead}>Against Each Coverage</div>
+      <CoverageScenarios slots={slots} routeTypes={routeTypes} players={players} artFor={artFor} active={ui.coverage} onPick={(c) => setUi({ coverage: c })} />
     </div>
   );
 }

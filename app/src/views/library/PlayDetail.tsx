@@ -2,8 +2,9 @@
 // panel (OVERVIEW · PLAYERS · READS · ROUTES). Players are selectable on the field and in the lists; the ROUTES tab
 // previews any library assignment (or a saved "My Routes" route) on the selected player. The ‹ › buttons walk the
 // grid's current results. Esc clears a route preview, then goes back to the grid.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Field, PlayArtLayer, cardSubtitle, sidelineXs } from "../../field";
+import { CoverageScenarios, CoverageSelect, coverageBit, hasOptionRoutes } from "../../field/CoverageScenarios";
 import { useActions } from "../../input/actions";
 import { artForPlay, artSideForPlay, computeArt } from "../../model/art";
 import type { Catalog } from "../../model/catalog";
@@ -29,6 +30,7 @@ const DETAIL_TABS: TabItem<DetailTab>[] = [
   { id: "reads", label: "Reads" },
   { id: "routes", label: "Routes" },
 ];
+const COVERAGE_TAB: TabItem<DetailTab> = { id: "coverage", label: "Coverage" };
 
 export function PlayDetail({ playKey }: { playKey: string }) {
   const catalog = useCatalog();
@@ -75,7 +77,10 @@ export interface Preview {
 
 function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
   const set: SetDef | undefined = catalog.lib.setByAsset.get(play.set);
-  const tab = useLibraryUi((st) => st.detailTab);
+  const hasOptions = useMemo(() => hasOptionRoutes(play.slots.map((sl) => sl.steps)), [play]);
+  const storedTab = useLibraryUi((st) => st.detailTab);
+  const tab: DetailTab = storedTab === "coverage" && !hasOptions ? "overview" : storedTab;
+  const [coverage, setCoverage] = useState<string | undefined>(undefined);
   const flipPref = useLibraryUi((st) => st.flip);
   const flip = flipPref && play.canFlip;
   const showPassPro = useSettings((st) => st.showPassPro);
@@ -94,8 +99,13 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
     useSettings.getState().pushRecent(play.key);
   }, [play.key]);
 
-  const opts = useMemo<ArtOptions>(() => ({ flip, preset, showPassPro }), [flip, preset, showPassPro]);
+  const opts = useMemo<ArtOptions>(() => ({ flip, preset, showPassPro, coverage: coverageBit(coverage) }), [flip, preset, showPassPro, coverage]);
   const baseArt = useMemo(() => artForPlay(catalog, play, opts), [catalog, play, opts]);
+  const artFor = useCallback((bit: number) => artForPlay(catalog, play, { ...opts, coverage: bit }), [catalog, play, opts]);
+  const scenarioPlayers = useMemo(
+    () => (set?.movements.Normal ?? []).map((a, i) => ({ label: baseArt.players.find((pl) => pl.slot === i)?.label ?? `#${i}`, x: a.x })),
+    [set, baseArt],
+  );
   const art = useMemo<PlayArt>(() => {
     if (!preview || !set) return baseArt;
     const slots: Step[][] = play.slots.map((sl, i) => (i === preview.slot ? preview.item.steps : sl.steps));
@@ -281,6 +291,12 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
             <Button size="sm" variant="secondary" icon="flip" active={flip} disabled={!play.canFlip} onClick={() => useLibraryUi.getState().set({ flip: !flipPref })} title={play.canFlip ? "Mirror the play" : "This play can't be flipped"}>
               Flip
             </Button>
+            {hasOptions && (
+              <div className={s.presetBox}>
+                <span className={s.toolLabel}>Option Routes</span>
+                <CoverageSelect value={coverage} onChange={setCoverage} />
+              </div>
+            )}
             {presets.length > 0 && (
               <div className={s.presetBox}>
                 <span className={s.toolLabel}>Motion</span>
@@ -313,7 +329,7 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
 
         <aside className={s.panel}>
           <div className={s.panelTabs}>
-            <TabBar items={DETAIL_TABS} active={tab} onChange={setTab} size="sm" aria-label="Detail tabs" />
+            <TabBar items={hasOptions ? [...DETAIL_TABS, COVERAGE_TAB] : DETAIL_TABS} active={tab} onChange={setTab} size="sm" aria-label="Detail tabs" />
           </div>
           <div className={cx(s.panelBody, tab === "routes" && s.panelBodyFlush)} ref={panelBody}>
             {tab === "overview" && <OverviewPanel play={play} catalog={catalog} />}
@@ -330,6 +346,16 @@ function Detail({ play, catalog }: { play: ResolvedPlay; catalog: Catalog }) {
               />
             )}
             {tab === "reads" && <ReadsPanel play={play} art={baseArt} selectedSlot={selectedSlot} onSelect={(slot) => selectSlot(selectedSlot === slot ? undefined : slot)} onHover={setHoverSlot} />}
+            {tab === "coverage" && (
+              <CoverageScenarios
+                slots={play.slots.map((sl) => sl.steps)}
+                routeTypes={play.slots.map((sl) => sl.routeType)}
+                players={scenarioPlayers}
+                artFor={artFor}
+                active={coverage}
+                onPick={setCoverage}
+              />
+            )}
             {tab === "routes" && set && (
               <RoutesPanel
                 play={play}

@@ -523,3 +523,39 @@ describe("option-route branches without an explicit lookup (the designer's art)"
     expect(branches.find((b) => b.option === "InOutRight")!.alt).toBe(true);
   });
 });
+
+describe("option routes against one coverage", () => {
+  it("draws only the branch run against it, as a normal route", async () => {
+    const { computeArt } = await import("./art");
+    const set = {
+      setId: 1,
+      name: "T",
+      asset: "A",
+      formation: "F",
+      classification: "",
+      setType: "",
+      canFlip: true,
+      movements: { Normal: [{ pos: "POSITION_QB", depth: 1, x: 0, y: -1.4, facing: 90, stance: "", group: "", motionMan: false }, { pos: "POSITION_WR", depth: 1, x: 10, y: -0.8, facing: 90, stance: "", group: "", motionMan: false }] },
+    } as never;
+    const steps = [[], [{ type: "RunRoute", distance: 6, direction: 90 }, { type: "OptionRoute", options: [{ route: "CurlRight", coverage: "OptionRouteCoverage_Default" }, { route: "InOutRight", coverage: "15" }] }, { type: "None" }]];
+    const optionRoute = (leaf: string) => (leaf === "InOutRight" ? [{ type: "RunRoute", distance: 20, direction: 0 }, { type: "GetOpen" }] : [{ type: "ReceiverCut", cutType: "RECEIVER_CUT_ANGLE_SMASH_QUICK" }, { type: "GetOpen" }]);
+    const branches = (coverage?: number) => computeArt(set, steps as never, { side: "offense", optionRoute, coverage }).paths.filter((p) => p.slot === 1 && p.option);
+    expect(branches().map((b) => b.option).sort()).toEqual(["CurlRight", "InOutRight"]);
+    expect(branches(2).map((b) => [b.option, !!b.alt])).toEqual([["InOutRight", false]]);
+    expect(branches(32).map((b) => b.option)).toEqual(["CurlRight"]);
+    expect(branches(0).map((b) => b.option)).toEqual(["CurlRight"]);
+  });
+  it("picks one guessed branch for library routes", async () => {
+    const { computeArt } = await import("./art");
+    const set = {
+      setId: 1, name: "T", asset: "A", formation: "F", classification: "", setType: "", canFlip: true,
+      movements: { Normal: [{ pos: "POSITION_WR", depth: 1, x: 10, y: -0.8, facing: 90, stance: "", group: "", motionMan: false }] },
+    } as never;
+    const steps = [[{ type: "RunRoute", distance: 6, direction: 90 }, { type: "OptionRoute", optionRouteInfo: [{ optionRouteCoverage: "OptionRouteCoverage_Default" }, { optionRouteCoverage: "OptionRouteCoverage_Cover2" }] }]];
+    const opts = (coverage?: number) => ({ side: "offense" as const, routeTypes: ["AssignRouteType_RR_Option_Hitch_Fade"], optionRoute: () => undefined, coverage });
+    expect(computeArt(set, steps as never, opts()).paths.filter((p) => p.kind === "option")).toHaveLength(2);
+    const c2 = computeArt(set, steps as never, opts(16)).paths.filter((p) => p.kind === "option");
+    expect(c2).toHaveLength(1);
+    expect(c2[0].alt).toBeFalsy();
+  });
+});

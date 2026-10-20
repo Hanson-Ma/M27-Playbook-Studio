@@ -7,6 +7,7 @@
 // plays use (model/motionLimits.ts), which is shaded while the MOTION tab is open.
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
 import { Field, MotionBounds, PlayArtLayer, ProximityGuides, artMetrics, useFieldTransform, type FieldPointerEvent } from "../../field";
+import { coverageBit } from "../../field/CoverageScenarios";
 import { usePlayback } from "../../field/usePlayback";
 import { patchPosition } from "../../model/sets";
 import { navigate } from "../../state/router";
@@ -65,8 +66,8 @@ export function EditField() {
 
   const slotsSteps = useMemo(() => state.slots.map((sl, i) => (draft && draft.slot === i ? draft.steps : sl.steps)), [state, draft]);
   const art = useMemo(
-    () => computeArt(set, slotsSteps, { vip: d.vip, runHole: d.runHole, flip: ui.flip, showPassPro, side: "offense" }),
-    [set, slotsSteps, d.vip, d.runHole, ui.flip, showPassPro],
+    () => computeArt(set, slotsSteps, { vip: d.vip, runHole: d.runHole, flip: ui.flip, showPassPro, side: "offense", coverage: coverageBit(ui.coverage) }),
+    [set, slotsSteps, d.vip, d.runHole, ui.flip, showPassPro, ui.coverage],
   );
   // Run / scrub the play on the field (the timeline bar); while it shows a moment of the play, that's what is drawn.
   const playback = usePlayback(art, "designer", false);

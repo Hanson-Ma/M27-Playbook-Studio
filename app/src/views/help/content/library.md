@@ -68,6 +68,7 @@ The four tabs on the right:
 | **Players** | Every player with his assignment (route, block, run path) |
 | **Reads** | The QB's read order with the percentage for each receiver; the primary receiver is the red one |
 | **Routes** | Every route the game has, drawn from the selected player's spot (see below) |
+| **Coverage** | Plays with option routes only: what every option receiver runs against each coverage (see below) |
 
 ![The Players tab: each player and his assignment.](/guide/library-players.png)
 
@@ -82,6 +83,16 @@ The four tabs on the right:
 4. Click **Use in Designer** to start a new play from this one with that route on that player.
 
 ![Previewing a hitch for the slot receiver in the Routes tab.](/guide/library-routes.png)
+
+### Option Routes Against Each Coverage (Coverage Tab)
+
+An option route runs one stem, then the receiver picks a finish from the coverage he sees. The **Coverage** tab lists
+the possible scenarios: coverages that lead to the same finishes share a card (for example **Cover 3 · Blitz · Other**),
+and each card names what every option receiver runs, so you can see how two or three option routes pair up. Click a
+card, or pick a coverage in **Option Routes** above the field, to draw only those branches on the field.
+
+Stock plays don't say which branch is which, so their branch names and shapes (dashed) are a guess from the route's
+name. Plays you made in the Designer show the real branches.
 
 ## Add a Play to a Playbook
 

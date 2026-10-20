@@ -81,3 +81,11 @@
   align-items: baseline;
   font-weight: 600;
 }
+.scenarios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  margin-top: var(--s3);
+  padding-top: var(--s3);
+  border-top: 1px solid var(--line);
+}

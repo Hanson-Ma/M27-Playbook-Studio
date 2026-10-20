@@ -6,67 +6,15 @@
 // matches), ManDeep0/1/2/AndUp3 = 1/2/4/8, Cover2/3/4 = 16/32/64, HotBlitz = 128. A branch can serve several coverages:
 // the stock Stick is Default + "15" (every man coverage) + Cover2. Branch leaves are named for the FIELD direction they
 // break to (HitchLeft, SlantRt), so inside/outside depends on which side of the formation the player is on.
+import { optionKinds } from "./art";
 import { mirrorOptionLeaf, type RouteSide } from "./routes";
 import type { Step } from "./types";
 
 export const OPTION_ROUTE_TYPE_PREFIX = "AssignRouteType_RR_Option_";
 export const GENERIC_OPTION_ROUTE_TYPE = "AssignRouteType_RR_Option_Route";
 
-// ───────────────────────────── coverages ─────────────────────────────
-
-export interface CoverageDef {
-  id: string;
-  /** OptionRouteCoverage_* enum member. */
-  enumName: string;
-  bit: number;
-  label: string;
-  hint: string;
-}
-
-/** The situations a branch can be for (everything but Default, which is "none of these"). */
-export const COVERAGES: CoverageDef[] = [
-  { id: "man0", enumName: "OptionRouteCoverage_ManDeep0", bit: 1, label: "Man · No Deep Help", hint: "Man coverage with no safety over the top" },
-  { id: "man1", enumName: "OptionRouteCoverage_ManDeep1", bit: 2, label: "Man · 1 Deep", hint: "Man free: one deep safety (Cover 1)" },
-  { id: "man2", enumName: "OptionRouteCoverage_ManDeep2", bit: 4, label: "Man · 2 Deep", hint: "Man under, two safeties deep" },
-  { id: "man3", enumName: "OptionRouteCoverage_ManDeepAndUp3", bit: 8, label: "Man · 3+ Deep", hint: "Man with three or more deep defenders" },
-  { id: "c2", enumName: "OptionRouteCoverage_Cover2", bit: 16, label: "Cover 2", hint: "Two-deep zone (also Tampa 2 shells)" },
-  { id: "c3", enumName: "OptionRouteCoverage_Cover3", bit: 32, label: "Cover 3", hint: "Three-deep zone" },
-  { id: "c4", enumName: "OptionRouteCoverage_Cover4", bit: 64, label: "Cover 4", hint: "Quarters" },
-  { id: "blitz", enumName: "OptionRouteCoverage_HotBlitz", bit: 128, label: "Hot Blitz", hint: "The defense sends extra rushers" },
-];
-export const DEFAULT_COVERAGE = "OptionRouteCoverage_Default";
-export const ALL_MAN = 15;
-export const ALL_ZONE = 16 + 32 + 64;
-
-const BY_ENUM = new Map(COVERAGES.map((c) => [c.enumName, c.bit]));
-
-/** Flag bits of a coverage value: an enum member name, a flag sum ("15"), or a number. Default = 0. */
-export function coverageFlags(v: unknown): number {
-  if (typeof v === "number" && Number.isFinite(v)) return v | 0;
-  const s = String(v ?? "");
-  if (s === DEFAULT_COVERAGE || s === "") return 0;
-  if (/^\d+$/.test(s)) return Number(s);
-  return BY_ENUM.get(s) ?? 0;
-}
-
-/** The value stored for these flags: the Default member for 0, the enum name for a single coverage, else the flag sum. */
-export function coverageValue(flags: number): string {
-  if (!flags) return DEFAULT_COVERAGE;
-  const one = COVERAGES.find((c) => c.bit === flags);
-  return one ? one.enumName : String(flags);
-}
-
-/** "Default", "Any man", "Cover 2 + Cover 3"… for a branch's coverage. */
-export function coverageSummary(v: unknown): string {
-  const f = coverageFlags(v);
-  if (!f) return "Default";
-  const parts: string[] = [];
-  let rest = f;
-  if ((rest & ALL_MAN) === ALL_MAN) (parts.push("Any Man"), (rest &= ~ALL_MAN));
-  if ((rest & ALL_ZONE) === ALL_ZONE) (parts.push("Any Zone"), (rest &= ~ALL_ZONE));
-  for (const c of COVERAGES) if (rest & c.bit) parts.push(c.label);
-  return parts.join(" + ");
-}
+export * from "./optionCoverage";
+import { ALL_MAN, ALL_ZONE, COVERAGES, DEFAULT_COVERAGE, branchCoverages, coverageFlags, coverageValue } from "./optionCoverage";
 
 // ───────────────────────────── branch types ─────────────────────────────
 
@@ -243,4 +191,29 @@ export function defaultBranches(side: RouteSide): Branch[] {
     { route: branchLeaf(hitch, side, "in")!, coverage: DEFAULT_COVERAGE },
     { route: branchLeaf(inout, side, "out")!, coverage: coverageValue(ALL_MAN | ALL_ZONE) },
   ];
+}
+
+// ───────────────────────────── names ─────────────────────────────
+
+/**
+ * What each branch of an OptionRoute step is called ("Hitch", "Out", "Dig"…), in step order, for a player on `side`.
+ * Library routes don't say which asset each branch is, so their names are guessed from the route type
+ * (RR_Option_Hitch_Fade → Hitch, Fade, in that order) and `guessed` is set.
+ */
+export function branchNames(step: Step | undefined, side: RouteSide, routeType?: string): { names: string[]; guessed: boolean } {
+  const authored = branchesOf(step);
+  if (authored.length)
+    return {
+      guessed: false,
+      names: authored.map((b) => {
+        const p = parseBranch(b.route);
+        if (!p) return b.route;
+        if (p.type.id === "inout") return branchDir(side, p.field) === "out" ? "Out" : "Dig";
+        return p.type.label;
+      }),
+    };
+  const kinds = optionKinds(routeType);
+  const n = branchCoverages(step).length;
+  if (!kinds.length || !n) return { names: [], guessed: true };
+  return { guessed: true, names: Array.from({ length: n }, (_, k) => kinds[Math.min(k, kinds.length - 1)].name) };
 }

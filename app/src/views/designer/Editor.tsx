@@ -30,6 +30,7 @@ import {
   type SlotMeta,
 } from "../../model/designer";
 import { cardSubtitle } from "../../field";
+import { CoverageSelect, hasOptionRoutes } from "../../field/CoverageScenarios";
 import { canSaveMotionRoute, canSaveRoute, makeSavedRoute, savedRouteNameBase } from "../../model/routeLibrary";
 import { removeVertex, editRoute, setWaypoints } from "../../model/routes";
 import { isEligible, isOffensiveLine } from "../../model/positions";
@@ -549,6 +550,11 @@ function EditorHeader() {
         <Button size="sm" variant="ghost" icon="flip" active={ui.flip} onClick={() => setUi({ flip: !ui.flip })} title="Show the play flipped (view only — the play itself isn't changed)">
           Flip View
         </Button>
+        {hasOptionRoutes(state.slots.map((sl) => sl.steps)) && (
+          <span title="Show the option routes against one coverage: only the branch each receiver runs (view only)">
+            <CoverageSelect value={ui.coverage} onChange={(c) => setUi({ coverage: c })} />
+          </span>
+        )}
         <Button size="sm" variant="ghost" onClick={() => navigate(href("library", "play", play?.key ?? ""))} disabled={!play} title="Open this play in the library">
           Details
         </Button>

@@ -5,7 +5,7 @@ import { persist } from "zustand/middleware";
 import type { PlayFilters, SideFacet } from "../../model/search";
 import type { PlayKey } from "../../model/types";
 
-export type DetailTab = "overview" | "players" | "reads" | "routes";
+export type DetailTab = "overview" | "players" | "reads" | "routes" | "coverage";
 
 export type LibTab = "formation" | "concept" | "type" | "favorites" | "recent";
 

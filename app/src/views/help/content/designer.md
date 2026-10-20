@@ -121,6 +121,13 @@ example **Motion Points · 22.3 yd**), and the Motion tab warns when a motion is
 35 yards (no motion in the game is) or when a second player motions. **Export** lists a motion over 35 yards as a
 warning too.
 
+## Option Routes Against Each Coverage
+
+With a receiver's **Option Route** open in the Route tab, **Against Each Coverage** below the branches shows every
+scenario on the play: the coverages that lead to the same finishes, and what each option receiver runs against them.
+Click a card, or pick a coverage in the dropdown next to **Flip View**, to draw only those branches on the field (view
+only; **All Branches** shows every one again). Playing the play then runs those branches.
+
 ## The Primary Receiver (Red Route)
 
 The **primary receiver** is the QB's first look. His route is drawn **red** on the play art in the game and in the

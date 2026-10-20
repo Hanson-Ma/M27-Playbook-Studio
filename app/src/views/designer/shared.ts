@@ -42,6 +42,8 @@ export interface EditorUi {
   vertex?: VertexSel;
   tab: InspectorTab;
   flip: boolean;
+  /** Option routes shown against one coverage (COVERAGE_CASES id; view only): only the branch each receiver runs. */
+  coverage?: string;
   /** Free placement (no grid / angle snapping). */
   free: boolean;
   /** Clicks on the empty field add route points. */

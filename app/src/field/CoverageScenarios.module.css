@@ -1,0 +1,90 @@
+/* Option routes vs coverage: one small card per scenario (coverages + what each option receiver runs). */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+.intro,
+.note,
+.empty {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.note {
+  color: var(--text-3);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--s3);
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--s2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  outline: none;
+  transition:
+    border-color var(--t-fast) var(--ease),
+    box-shadow var(--t-fast) var(--ease);
+}
+.clickable {
+  cursor: pointer;
+}
+.clickable:hover {
+  border-color: var(--line-3);
+}
+.clickable:focus-visible {
+  box-shadow: 0 0 0 2px var(--blue-2);
+}
+.on {
+  border-color: transparent;
+  box-shadow: var(--focus);
+}
+.title {
+  font-family: var(--font-display);
+  font-size: var(--fd-md);
+  font-weight: 700;
+  color: var(--text);
+}
+.art {
+  position: relative;
+  aspect-ratio: 2.15 / 1;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--field-bg);
+}
+.field {
+  position: absolute;
+  inset: 0;
+  /* the play-call card's field: black, no bands */
+  --field-bg: #0a0b0d;
+  --field-bg-2: #0a0b0d;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--s2);
+  font-size: var(--fs-sm);
+}
+.player {
+  color: var(--text-3);
+  font-weight: 500;
+}
+.branch {
+  color: var(--text);
+  font-weight: 700;
+}

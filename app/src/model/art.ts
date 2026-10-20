@@ -26,6 +26,7 @@
 //   drawn at each mirrored spot is the one the game puts there.
 import type { Catalog } from "./catalog";
 import { add, angleDeg, DEG, len, mirrorDeg, polar, sub } from "./geometry";
+import { branchCoverages, pickBranch } from "./optionCoverage";
 import { glyphFor, slotLabel } from "./positions";
 import { spyZone, ZONE_STEPS, zoneSpec } from "./zones";
 import type {
@@ -235,20 +236,24 @@ const OPTION_TOKENS: Record<string, string> = {
   juke: "in",
 };
 
-export function optionBranches(routeType: string | undefined, at: Vec, h: number): Vec[][] {
+/**
+ * The branch shapes an option route type names, in order, with the word that named each ("Hitch", "Fade"…):
+ * RR_Option_Curl_Post_Seam → curl, post, seam. HB choice routes and the generic "Option Route" name none: in, out.
+ */
+export function optionKinds(routeType: string | undefined): { kind: string; name: string }[] {
   const name = String(routeType ?? "").replace(/^AssignRouteType_/, "");
   if (!/^RR_Option_/.test(name)) return [];
-  const tokens = name
-    .replace(/^RR_Option_/, "")
-    .split("_")
-    .map((t) => t.toLowerCase());
-  const kinds: string[] = [];
-  for (const t of tokens) {
-    const k = OPTION_TOKENS[t];
-    if (k && !kinds.includes(k)) kinds.push(k);
+  const out: { kind: string; name: string }[] = [];
+  for (const word of name.replace(/^RR_Option_/, "").split("_")) {
+    const k = OPTION_TOKENS[word.toLowerCase()];
+    if (k && !out.some((o) => o.kind === k)) out.push({ kind: k, name: word });
   }
-  // HB choice routes and the generic "Option Route" name no shape: the usual two breaks.
-  if (!kinds.length) kinds.push("in", "out");
+  return out.length ? out : [{ kind: "in", name: "In" }, { kind: "out", name: "Out" }];
+}
+
+export function optionBranches(routeType: string | undefined, at: Vec, h: number): Vec[][] {
+  const kinds = optionKinds(routeType).map((o) => o.kind);
+  if (!kinds.length) return [];
   // Outward = away from the middle; a receiver on the hash goes the way his stem leans.
   const lean = Math.cos(h * DEG);
   const out: 1 | -1 = Math.abs(at.x) > 0.5 ? (at.x > 0 ? 1 : -1) : lean >= 0 ? 1 : -1;
@@ -324,6 +329,8 @@ interface Shared {
   /** Side the QB meshes toward on a read option: +1 right, −1 left (where the back runs). */
   meshSide: 1 | -1;
   optionRoute?: (leaf: string) => Step[] | undefined;
+  /** Draw only the option branch run against this coverage (ArtOptions.coverage). */
+  coverage?: number;
 }
 
 interface Pen {
@@ -508,7 +515,8 @@ class SlotWalker {
    * OptionRoutes assets the builder references): each is walked from here like the rest of the route, as the game's
    * cards draw them. The first (OptionRouteCoverage_Default) is the one the player runs; the others are `alt`.
    * Library option routes lost those references in the export, so they fall back to the branches the route type
-   * names (dashed).
+   * names (dashed). With a coverage set (ArtOptions.coverage), only the branch run against it is drawn (library
+   * routes: the branch in the same place in the list as the coverage's, a guess, so still dashed).
    */
   private optionRoute(s: Step): void {
     const at = this.cur;
@@ -518,8 +526,10 @@ class SlotWalker {
     const leaves = (Array.isArray(s.options) ? s.options : [])
       .map((o) => (o && typeof o === "object" ? String((o as { route?: unknown }).route ?? "") : ""))
       .filter(Boolean);
+    const picked = this.sh.coverage === undefined ? -1 : pickBranch(branchCoverages(s), this.sh.coverage);
     let drawn = 0;
     leaves.forEach((leaf, k) => {
+      if (picked >= 0 && k !== picked) return;
       const steps = this.sh.optionRoute?.(leaf);
       if (!steps) return;
       const before = this.sh.paths.length;
@@ -528,7 +538,7 @@ class SlotWalker {
       w.run(steps);
       for (let i = before; i < this.sh.paths.length; i++) {
         this.sh.paths[i].option = leaf;
-        if (k > 0) this.sh.paths[i].alt = true;
+        if (k > 0 && picked < 0) this.sh.paths[i].alt = true;
       }
       if (this.sh.paths.length > before) drawn++;
     });
@@ -537,7 +547,13 @@ class SlotWalker {
       if (stem) stem.cap = "none";
       return;
     }
-    optionBranches(this.routeType, at, h).forEach((alt, k) => {
+    const guesses = optionBranches(this.routeType, at, h);
+    if (picked >= 0 && guesses.length) {
+      const alt = guesses[Math.min(picked, guesses.length - 1)];
+      this.sh.paths.push({ slot: this.role.slot, kind: "option", points: [at, ...alt], cap: "arrow", dashed: true });
+      return;
+    }
+    guesses.forEach((alt, k) => {
       this.sh.paths.push({ slot: this.role.slot, kind: "option", points: [at, ...alt], cap: "arrow", dashed: true, alt: true, ...(k === 0 ? { label: "OPT" } : undefined) });
     });
   }
@@ -874,7 +890,7 @@ export function computeArt(set: SetDef, slots: Step[][], opts: ArtOptions = {}):
   const carriers = findBallcarriers(normal.map((_, i) => stepsOf(i)));
   const olRunDir = carriers.size && runHole > 0 ? (runHole % 2 === 1 ? 110 : 70) : 90;
 
-  const sh: Shared = { paths: [], zones: [], runHole, showPassPro: !!opts.showPassPro, olRunDir, meshSide: meshSideOf(normal, carriers, stepsOf), optionRoute: opts.optionRoute ?? defaultOptionRoute };
+  const sh: Shared = { paths: [], zones: [], runHole, showPassPro: !!opts.showPassPro, olRunDir, meshSide: meshSideOf(normal, carriers, stepsOf), optionRoute: opts.optionRoute ?? defaultOptionRoute, coverage: opts.coverage };
   const players: ArtPlayer[] = [];
 
   normal.forEach((a, slot) => {
@@ -966,6 +982,7 @@ export function artForPlay(catalog: Catalog, play: ResolvedPlay, opts: ArtOption
     showPassPro: !!opts.showPassPro,
     side: opts.side ?? artSideForPlay(catalog, play),
     routeTypes: play.slots.map((sl) => sl.routeType),
+    coverage: opts.coverage,
     optionRoute: (leaf) => catalog.lib.assignment(OPTION_ROUTE_ROOT + leaf)?.steps,
   };
   const key = [
@@ -977,6 +994,7 @@ export function artForPlay(catalog: Catalog, play: ResolvedPlay, opts: ArtOption
     o.preset ?? "",
     o.showPassPro ? 1 : 0,
     o.side ?? "",
+    o.coverage ?? "",
   ].join("|");
   const hit = artCache.get(key);
   if (hit && hit.play === play) {
