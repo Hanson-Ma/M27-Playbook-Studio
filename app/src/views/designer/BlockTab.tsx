@@ -1,12 +1,33 @@
 // BLOCK tab: pass block (and block-and-release), run block, lead / kickout / trap / wham / crack / stalk (LeadBlock
-// technique + gap), pull (pull animation + lead block), screen release (PassBlock ProtectReceiver).
+// technique + gap), pull (pull animation + lead block), screen release (PassBlock ProtectReceiver), and the path a
+// blocker runs before his block (MoveDirection legs). A block keeps the player's motion: motion, then lead.
 import { useMemo, useState } from "react";
 import { MiniRoute } from "../../field";
 import { slotSide } from "../../model/designer";
 import { isOffensiveLine } from "../../model/positions";
-import { BLOCK_FAMILY, BLOCK_TOOLS, PULL_ANIMS, RELEASE_ROUTES, TECHNIQUE_FOR, blockSteps, detectBlockTool, releaseRouteSteps, replaceBody, type BlockToolId, type ReleaseRouteId } from "../../model/routes";
+import {
+  BLOCK_FAMILY,
+  BLOCK_PATH_PRESETS,
+  BLOCK_PATH_TOOLS,
+  BLOCK_TOOLS,
+  PULL_ANIMS,
+  RELEASE_ROUTES,
+  TECHNIQUE_FOR,
+  blockPath,
+  blockPathLeg,
+  blockPathPreset,
+  blockSteps,
+  detectBlockTool,
+  keptPrefixLength,
+  releaseRouteSteps,
+  replaceBody,
+  withBlockPath,
+  type BlockToolId,
+  type ReleaseRouteId,
+} from "../../model/routes";
+import { stripNone } from "../../model/steps";
 import type { Step } from "../../model/types";
-import { NumberField, SearchSelect, cx } from "../../ui";
+import { Button, IconButton, NumberField, SearchSelect, cx } from "../../ui";
 import { Disclosure } from "./Disclosure";
 import { GapPicker } from "./GapDiagram";
 import { useDesigner } from "./shared";
@@ -39,6 +60,12 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
   const keep = lock > 0 ? lock : undefined;
   const body = steps.slice(lock);
   const current = detectBlockTool(body);
+  // The block part: after his motion / handoff (kept when a block is picked), then the path legs and the block.
+  const prefix = keptPrefixLength(steps, keep);
+  const blockBody = useMemo(() => stripNone(steps.slice(prefix) as Step[]), [steps, prefix]);
+  const path = useMemo(() => blockPath(blockBody), [blockBody]);
+  const withMotion = (bodySteps: Step[]) => replaceBody(steps, bodySteps, keep, { keepMotion: true });
+  const builtWithPath = (tool: BlockToolId, built: Step[]) => (BLOCK_PATH_TOOLS.has(tool) && path.length ? withBlockPath(built, path) : built);
 
   const lead = body.find((x) => x.type === "LeadBlock");
   const pull = body.find((x) => x.type === "InitialAnim" && /PULL/.test(String(x.anim ?? "")));
@@ -62,9 +89,9 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
     () =>
       BLOCK_TOOLS.map((t) => {
         const built = blockSteps(t.id, { side, lineman });
-        return { tool: t, steps: replaceBody(steps, built.steps, keep) };
+        return { tool: t, steps: withMotion(builtWithPath(t.id, built.steps)) };
       }),
-    [steps, side, lineman, keep],
+    [steps, side, lineman, keep, path], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   // Block, then release: pass block for a beat (the Block time below), then a ready-made route.
@@ -73,11 +100,11 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
     () =>
       RELEASE_ROUTES.map((r) => {
         const built = releaseRouteSteps(r.id, side, releaseTime);
-        return { route: r, built, steps: replaceBody(steps, built.steps, keep) };
+        return { route: r, built, steps: withMotion(built.steps) };
       }),
-    [steps, side, keep, releaseTime],
+    [steps, side, keep, releaseTime], // eslint-disable-line react-hooks/exhaustive-deps
   );
-  const bodyKey = JSON.stringify(body.filter((x) => x.type !== "None"));
+  const bodyKey = JSON.stringify(blockBody);
   const applyRelease = (id: ReleaseRouteId) => {
     const r = releaseTiles.find((x) => x.route.id === id)!;
     d.commitSlot(slot, r.steps, `Block & release: ${titleCase(r.route.label)}`, { routeType: r.built.routeType, family: BLOCK_FAMILY.release });
@@ -85,11 +112,15 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
 
   const apply = (tool: BlockToolId) => {
     const built = blockSteps(tool, optsFor(tool));
-    d.commitSlot(slot, replaceBody(steps, built.steps, keep), `Block: ${BLOCK_TOOLS.find((t) => t.id === tool)!.label}`, {
+    d.commitSlot(slot, withMotion(builtWithPath(tool, built.steps)), `Block: ${BLOCK_TOOLS.find((t) => t.id === tool)!.label}`, {
       routeType: built.routeType,
       family: BLOCK_FAMILY[tool],
     });
   };
+
+  const setPath = (legs: Step[], label: string, coalesceMs?: number) =>
+    d.commitSlot(slot, [...steps.slice(0, prefix), ...withBlockPath(blockBody, legs), { type: "None" }], label, undefined, coalesceMs);
+  const setLeg = (k: number, p: Record<string, unknown>) => setPath(path.map((l, i) => (i === k ? { ...l, ...p } : l)), "Path to the block", 700);
 
   const patch = (pred: (x: Step) => boolean, p: Record<string, unknown>, label: string, coalesceMs?: number) => {
     const next = patchFirst(steps, lock, pred, p);
@@ -167,6 +198,50 @@ export function BlockTab({ slot, lock }: { slot: number; lock: number }) {
               width="100%"
             />
           </Disclosure>
+        </section>
+      )}
+
+      {current && BLOCK_PATH_TOOLS.has(current) && (
+        <section className={s.section}>
+          <div className={s.sectionHead}>
+            <span className={s.sectionTitle}>Path to the Block</span>
+            <span className={s.muted}>{path.length ? `${path.length} leg${path.length === 1 ? "" : "s"}` : "Blocks from where he is"}</span>
+          </div>
+          <div className={s.tiles}>
+            {BLOCK_PATH_PRESETS.map((pr) => {
+              const legs = blockPathPreset(pr.id, side);
+              return (
+                <button
+                  key={pr.id}
+                  type="button"
+                  className={cx(s.tile, JSON.stringify(legs) === JSON.stringify(path) && s.tileActive)}
+                  onClick={() => setPath(legs, `Path to the block: ${pr.label}`)}
+                  title={pr.hint}
+                >
+                  <MiniRoute set={set} slot={slot} steps={[...steps.slice(0, prefix), ...withBlockPath(blockBody, legs), { type: "None" }]} size={58} />
+                  <span className={s.tileLabel}>{pr.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          {path.map((leg, k) => (
+            <div key={k} className={s.params}>
+              <NumberField size="sm" label="YD" value={Number(leg.distance)} min={0.5} max={30} step={0.5} onChange={(v) => setLeg(k, { distance: v })} />
+              <NumberField size="sm" label="DIR" suffix="°" value={Number(leg.direction)} min={0} max={359} step={5} onChange={(v) => setLeg(k, { direction: v })} />
+              <IconButton icon="trash" size="sm" title="Remove this leg" onClick={() => setPath(path.filter((_, i) => i !== k), "Remove path leg")} />
+            </div>
+          ))}
+          <div className={s.params}>
+            <Button size="sm" icon="plus" onClick={() => setPath([...path, blockPathLeg(3, 90)], "Add path leg")}>
+              Add Leg
+            </Button>
+            {path.length > 0 && (
+              <Button size="sm" variant="ghost" onClick={() => setPath([], "Clear path to the block")}>
+                Block From Where He Is
+              </Button>
+            )}
+          </div>
+          <p className={s.note}>He runs these legs after the snap (and after any motion), then makes his block. Direction: 90° = straight upfield, 0° = toward the right sideline.</p>
         </section>
       )}
 

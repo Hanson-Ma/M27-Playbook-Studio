@@ -1335,6 +1335,61 @@ export function detectBlockTool(steps: readonly Step[]): BlockToolId | undefined
   return undefined;
 }
 
+// ───────────────────────────── path to the block ─────────────────────────────
+// A blocker can run a path before he blocks: MoveDirection legs, then the LeadBlock / RunBlock (the game does it on 169
+// assignments: escorts that arc around the edge, backs that climb to the second level, a Y crossing the formation).
+
+/** Blocks a path can lead into (pass pro, block-and-release, stalk and screens bring their own movement). */
+export const BLOCK_PATH_TOOLS = new Set<BlockToolId>(["run", "lead", "kickout", "trap", "wham", "crack", "pull"]);
+
+const isBlockStep = (s: Step) => s.type === "LeadBlock" || s.type === "RunBlock";
+
+/** A leg of the path to the block, shaped like the library's MoveDirection steps. */
+export function blockPathLeg(distance: number, direction: number): Step {
+  return { type: "MoveDirection", facingDirectionOverride: 0, distance: r2(distance), direction: r2(normDeg(direction)), speed: 100, overrideFacingDirection: false };
+}
+
+/** The legs run before the block: the MoveDirection steps right in front of the first LeadBlock / RunBlock. */
+export function blockPath(body: readonly Step[]): Step[] {
+  const b = body.findIndex(isBlockStep);
+  if (b < 0) return [];
+  let a = b;
+  while (a > 0 && body[a - 1].type === "MoveDirection") a--;
+  return body.slice(a, b);
+}
+
+/** `body` (no trailing None) with its path to the block replaced by `legs` (unchanged when it has no block step). */
+export function withBlockPath(body: readonly Step[], legs: readonly Step[]): Step[] {
+  const b = body.findIndex(isBlockStep);
+  if (b < 0) return body.slice();
+  let a = b;
+  while (a > 0 && body[a - 1].type === "MoveDirection") a--;
+  return [...body.slice(0, a), ...legs, ...body.slice(b)];
+}
+
+export type BlockPathPresetId = "up" | "arc" | "inside" | "across";
+
+export const BLOCK_PATH_PRESETS: { id: BlockPathPresetId; label: string; hint: string }[] = [
+  { id: "up", label: "Climb", hint: "Straight upfield to the second level" },
+  { id: "arc", label: "Arc Outside", hint: "Bend around the edge, then turn up (escort the toss or sweep)" },
+  { id: "inside", label: "Inside", hint: "Angle inside and up" },
+  { id: "across", label: "Across", hint: "Cross the formation to the other side" },
+];
+
+/** The legs of a path preset for a player on `side`. */
+export function blockPathPreset(id: BlockPathPresetId, side: RouteSide): Step[] {
+  switch (id) {
+    case "up":
+      return [blockPathLeg(4, 90)];
+    case "arc":
+      return [blockPathLeg(3, sideHeading(side, "out", 75)), blockPathLeg(3, sideHeading(side, "out", 20))];
+    case "inside":
+      return [blockPathLeg(4, sideHeading(side, "in", 45))];
+    case "across":
+      return [blockPathLeg(6, sideHeading(side, "in", 90))];
+  }
+}
+
 // ───────────────────────────── motion ─────────────────────────────
 
 export const LOCO_RUN = "AUTOMOTIONLOCOSTYLE_NORMAL";

@@ -333,6 +333,13 @@ const type = (re: RegExp) => (a: BackfieldAction) => re.test(a.playType.replace(
 const left = (a: BackfieldAction) => a.runHole % 2 === 1 || a.runHole === 0;
 const right = (a: BackfieldAction) => a.runHole % 2 === 0;
 const qbLeaf = (a: BackfieldAction) => (a.qb.path ? leaf(a.qb.path) : "");
+/** Which way a toss goes: the QB's pitch asset says it (TossRt, PitchToHB_GetOpen_Left), else the run hole. */
+const tossDir = (a: BackfieldAction): "left" | "right" => {
+  const names = [qbLeaf(a), ...a.swaps.map((s) => (s.path ? leaf(s.path) : "")).filter((n) => /Pitch|Toss|Sweep/i.test(n))].join(" ");
+  if (/(Lt|Left)(?![a-z])/.test(names) && !/(Rt|Right)(?![a-z])/.test(names)) return "left";
+  if (/(Rt|Right)(?![a-z])/.test(names) && !/(Lt|Left)(?![a-z])/.test(names)) return "right";
+  return a.runHole % 2 === 1 ? "left" : "right";
+};
 
 export const BACKFIELD_PRESETS: BackfieldPreset[] = [
   { id: "inside-zone-l", label: "Inside Zone Left", group: "Run", match: (a) => type(/^RunInsideZone$/)(a) && left(a) },
@@ -346,7 +353,8 @@ export const BACKFIELD_PRESETS: BackfieldPreset[] = [
   { id: "dive", label: "Dive / Iso", group: "Run", match: type(/^(RunInsideTackle|RunOutsideTackle|RunISO)$/) },
   { id: "trap", label: "Trap", group: "Run", match: type(/^RunTrap$/) },
   { id: "draw", label: "Draw", group: "Run", match: type(/^RunDraw$/) },
-  { id: "toss", label: "Toss / Pitch", group: "Run", match: type(/^(RunPitch|RunSweep)$/) },
+  { id: "toss-l", label: "Toss Left", group: "Run", match: (a) => type(/^(RunPitch|RunSweep)$/)(a) && tossDir(a) === "left" },
+  { id: "toss-r", label: "Toss Right", group: "Run", match: (a) => type(/^(RunPitch|RunSweep)$/)(a) && tossDir(a) === "right" },
   { id: "fb-dive", label: "Fullback Dive", group: "Run", match: type(/^RunFB$/) },
   { id: "sneak", label: "QB Sneak", group: "Run", match: type(/^QBSneak$/) },
   { id: "read-option", label: "Read Option", group: "Option", match: type(/^OptionZoneRead$/) },

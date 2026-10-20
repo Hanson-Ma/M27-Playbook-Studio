@@ -552,3 +552,26 @@ describe("designer segment / branch / QB drop helpers", () => {
     expect(setQbDrop([{ type: "None" }], "X")).toEqual([{ type: "None" }]);
   });
 });
+
+describe("path to the block", () => {
+  it("reads, replaces and clears the legs in front of the block", async () => {
+    const { blockPath, blockPathLeg, blockPathPreset, blockSteps, withBlockPath, detectBlockTool } = await import("./routes");
+    const lead = blockSteps("lead", { side: "right" }).steps;
+    expect(blockPath(lead)).toEqual([]);
+    const arc = blockPathPreset("arc", "right");
+    expect(arc).toHaveLength(2);
+    expect(arc.every((l) => l.type === "MoveDirection")).toBe(true);
+    expect(Number(arc[0].direction)).toBeLessThan(90); // a right-side player arcs toward the right sideline
+    expect(Number(blockPathPreset("arc", "left")[0].direction)).toBeGreaterThan(90);
+    const withArc = withBlockPath(lead, arc);
+    expect(blockPath(withArc)).toEqual(arc);
+    expect(detectBlockTool(withArc)).toBe("lead");
+    const one = withBlockPath(withArc, [blockPathLeg(4, 90)]);
+    expect(blockPath(one)).toEqual([blockPathLeg(4, 90)]);
+    expect(withBlockPath(one, [])).toEqual(lead);
+    // a pull keeps its pull animation first; the path goes between it and the lead block
+    const pull = withBlockPath(blockSteps("pull").steps, arc);
+    expect(pull[0].type).toBe("InitialAnim");
+    expect(pull.slice(1, 3)).toEqual(arc);
+  });
+});
