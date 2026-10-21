@@ -28,7 +28,7 @@ import { backfieldChanged, resetBackfield } from "../../model/backfield";
 import { CONCEPTS_PATH } from "../../model/conceptsDoc";
 import { parseJson } from "../../model/json";
 import { folder, leaf, maddenName, norm } from "../../model/names";
-import { danglingPlayRefs, playKeyFor, rekeyConcepts, rekeyList, renamePlayInBook, type PlayIdentity } from "../../model/playRefs";
+import { addPlayAfterInBook, danglingPlayRefs, playKeyFor, rekeyConcepts, rekeyList, renamePlayInBook, type PlayIdentity } from "../../model/playRefs";
 import { playTypeInfo } from "../../model/playtypes";
 import { slotLabel } from "../../model/positions";
 import type { ConceptsDoc, PlaybookSpec, PlaysFile } from "../../model/types";
@@ -446,12 +446,20 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
       ].filter(Boolean)
     : [];
 
-  const updateAll = (auto = false) => {
+  // A renamed copy that stood in for its original: the playbook spots can go to the copy (replace), to both (the copy
+  // listed right after the original) or stay the original's. The app doesn't guess: you pick.
+  const choose = !!refs && !!orig.overrode && refs.playbooks.length > 0;
+
+  const updateAll = (auto = false, books: "rename" | "add" | "keep" = "rename") => {
     if (!refs || refs.total === 0) return;
     const ws = useWorkspace.getState();
     const touched: string[] = [];
-    for (const b of refs.playbooks) {
-      ws.update<PlaybookSpec>(b.path, (d) => void renamePlayInBook(d, p.catalog, orig, p.name), { label: "Rename play references" });
+    for (const b of books === "keep" ? [] : refs.playbooks) {
+      ws.update<PlaybookSpec>(
+        b.path,
+        (d) => void (books === "add" ? addPlayAfterInBook(d, p.catalog, orig, p.name) : renamePlayInBook(d, p.catalog, orig, p.name)),
+        { label: books === "add" ? "Add renamed copy to playbook" : "Rename play references" },
+      );
       touched.push(leaf(b.path));
     }
     if (refs.concepts && oldKey !== newKey) {
@@ -464,8 +472,10 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
       touched.push("favorites");
     }
     setOrig({ set: p.set, name: p.name, asset: p.asset, overrode: overrodeBase(p.name) });
-    toast[auto ? "info" : "success"](`${auto ? "Renamed everywhere: " : "Updated "}"${orig.name}" → "${p.name}"`, {
-      detail: `${touched.join(", ")}${touched.some((t) => t.endsWith(".json")) ? ` — unsaved until you save all (${comboLabel("shift+mod+s")})` : ""}`,
+    const title =
+      books === "add" ? `Added "${p.name}" next to "${orig.name}"` : books === "keep" ? `"${orig.name}" stays in the playbook` : `${auto ? "Renamed everywhere: " : "Updated "}"${orig.name}" → "${p.name}"`;
+    toast[auto ? "info" : "success"](title, {
+      detail: touched.length ? `${touched.join(", ")}${touched.some((t) => t.endsWith(".json")) ? ` — unsaved until you save all (${comboLabel("shift+mod+s")})` : ""}` : undefined,
     });
   };
 
@@ -473,7 +483,7 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
   // on its own: once the name settles, and right away if the designer is left first. (The banner below stays as a fallback
   // for a blocked name.)
   const flush = useRef<() => void>(undefined);
-  flush.current = !refs || refs.total === 0 || p.blocked ? undefined : () => updateAll(true);
+  flush.current = !refs || refs.total === 0 || p.blocked || choose ? undefined : () => updateAll(true);
   useEffect(() => {
     if (!flush.current) return;
     const timer = window.setTimeout(() => flush.current?.(), 700);
@@ -482,6 +492,26 @@ function RenameRefs(p: { catalog: Catalog; file: string; index: number; set: str
   useEffect(() => () => flush.current?.(), []);
 
   if (!refs || refs.total === 0) return null;
+
+  if (choose)
+    return (
+      <div className={s.refs} role="status">
+        <p className={s.refsText}>
+          <strong>“{orig.name}” is back as the original play.</strong> This copy is now its own play, “{p.name}”. In {parts.join(" · ")}:
+        </p>
+        <div className={s.inline}>
+          <Button size="sm" variant="secondary" disabled={p.blocked} onClick={() => updateAll(false, "add")} title={`Keep “${orig.name}” and list “${p.name}” right after it`}>
+            Add Next to It
+          </Button>
+          <Button size="sm" variant="ghost" disabled={p.blocked} onClick={() => updateAll(false, "rename")} title={`“${p.name}” takes “${orig.name}”'s spots (audibles, CPU weights)`}>
+            Replace It
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => updateAll(false, "keep")} title={`Leave the playbook as it is: “${orig.name}” stays, “${p.name}” isn't added`}>
+            Keep Original Only
+          </Button>
+        </div>
+      </div>
+    );
 
   return (
     <div className={s.refs} role="status">

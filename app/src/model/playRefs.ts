@@ -41,7 +41,7 @@ const str = (v: unknown) => (typeof v === "string" ? v : "");
  * Visit every explicit play entry of `spec` that names `name` inside the set `setAsset` (names resolve like
  * tools/pbook-build.mjs: formation by name for the book's side, set inside the formation, play name via norm()).
  */
-function forEachEntry(spec: unknown, catalog: Catalog, setAsset: Asset, name: string, visit: (entry: Record<string, unknown>) => void): void {
+function forEachEntry(spec: unknown, catalog: Catalog, setAsset: Asset, name: string, visit: (entry: Record<string, unknown>, list: unknown[]) => void): void {
   if (!isObj(spec) || !Array.isArray(spec.formations)) return;
   const lib = catalog.lib;
   const side = bookSide(spec as PlaybookSpec);
@@ -53,7 +53,7 @@ function forEachEntry(spec: unknown, catalog: Catalog, setAsset: Asset, name: st
     for (const se of fe.sets as unknown[]) {
       if (!isObj(se) || !Array.isArray(se.plays)) continue;
       if (lib.setByName(formation, str(se.set))?.asset !== setAsset) continue;
-      for (const pe of se.plays as unknown[]) if (isObj(pe) && norm(str(pe.play)) === want) visit(pe);
+      for (const pe of (se.plays as unknown[]).slice()) if (isObj(pe) && norm(str(pe.play)) === want) visit(pe, se.plays as unknown[]);
     }
   }
 }
@@ -91,6 +91,20 @@ export function renamePlayInBook(spec: PlaybookSpec, catalog: Catalog, old: Play
   let n = 0;
   forEachEntry(spec, catalog, old.set, old.name, (pe) => {
     pe.play = newName;
+    n++;
+  });
+  return n;
+}
+
+/**
+ * Add `newName` right after every entry for `old` (a renamed copy that stood in for its original: keep the original
+ * and list the copy next to it). Sets that already list `newName` are left alone. Returns the entries added.
+ */
+export function addPlayAfterInBook(spec: PlaybookSpec, catalog: Catalog, old: PlayIdentity, newName: string): number {
+  let n = 0;
+  forEachEntry(spec, catalog, old.set, old.name, (pe, list) => {
+    if (list.some((x) => isObj(x) && norm(str(x.play)) === norm(newName))) return;
+    list.splice(list.indexOf(pe) + 1, 0, { play: newName });
     n++;
   });
   return n;

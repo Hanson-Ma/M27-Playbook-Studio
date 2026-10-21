@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { buildCatalog } from "./catalog";
 import { loadLibraryData, loadPlaysDoc } from "./libFixture";
 import { buildLibraryIndex } from "./library";
-import { danglingPlayRefs, playKeyFor, rekeyConcepts, rekeyList, renamePlayInBook } from "./playRefs";
+import { addPlayAfterInBook, danglingPlayRefs, playKeyFor, rekeyConcepts, rekeyList, renamePlayInBook } from "./playRefs";
 import type { ConceptsDoc, PlaybookSpec, PlaysFile } from "./types";
 
 const SET = "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Shotgun/Y_Trips_Wk/Y_Trips_Wk";
@@ -83,5 +83,13 @@ describe("renaming a play that overrode its original", () => {
     const was = { set: SET, name: "Curls", asset: "ZZ_Curls_Mine" };
     expect(danglingPlayRefs(was, cat, { playbooks: [{ path: "b.json", data: spec }] }).total).toBe(0);
     expect(danglingPlayRefs({ ...was, overrode: true }, cat, { playbooks: [{ path: "b.json", data: spec }] }).playbooks).toEqual([{ path: "b.json", entries: 1 }]);
+  });
+  it("can keep the original and list the renamed copy right after it", () => {
+    const spec: PlaybookSpec = { name: "ZZ", side: "offense", formations: [{ formation: "Shotgun", sets: [{ set: "Y Trips Wk", plays: [{ play: "Curls", audible: 2 }, { play: "Mesh" }] }] }] };
+    const cat = buildCatalog(lib, [{ path: "playbooks/plays/x.json", data: { plays: [{ name: "Curls Mine", asset: "ZZ_Curls_Mine", base: SET.replace(/Y_Trips_Wk$/, "Curls") }] } }]);
+    const was = { set: SET, name: "Curls", asset: "ZZ_Curls_Mine", overrode: true };
+    expect(addPlayAfterInBook(spec, cat, was, "Curls Mine")).toBe(1);
+    expect((spec.formations[0].sets[0] as { plays: unknown[] }).plays).toEqual([{ play: "Curls", audible: 2 }, { play: "Curls Mine" }, { play: "Mesh" }]);
+    expect(addPlayAfterInBook(spec, cat, was, "Curls Mine")).toBe(0); // already listed
   });
 });

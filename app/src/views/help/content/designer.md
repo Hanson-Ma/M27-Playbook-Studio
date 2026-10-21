@@ -186,6 +186,11 @@ which players reset (players with a handoff in either base). Your other changes 
 If you rename a play that's already in a playbook, a note offers **Update Everywhere**: it renames the play in your
 playbooks, tags and favorites too.
 
+Editing a playbook play makes a copy that keeps the original's name and takes its place. If you then rename that copy
+(for example **PA Cross** → **PA Options**), the original comes back and the note asks what the playbook should do:
+**Add Next to It** lists both, **Replace It** gives the copy the original's spots (audible, CPU weights), and **Keep
+Original Only** leaves the playbook as it is.
+
 The icons next to the file name in the play panel **duplicate** or **delete** the current play. On the start screen,
 right-click a play card for **Edit**, **Add to Playbook…** and **Delete…**. Undo brings a deleted play back.
 
