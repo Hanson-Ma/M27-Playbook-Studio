@@ -151,8 +151,7 @@
               }
             },
             {
-              "play": "PA Cross",
-              "audible": 4,
+              "play": "PA Options",
               "cpu": {
                 "FirstDown": 0,
                 "2ndAndShort": 0,
@@ -196,7 +195,23 @@
             { "play": "CM HB Counter" },
             { "play": "CM HB Stretch" },
             { "play": "HB Dive" },
+            { "play": "YM Toss " },
             { "play": "EM Options Over" },
+            {
+              "play": "PA Options",
+              "audible": 4,
+              "cpu": {
+                "FirstDown": 0,
+                "2ndAndShort": 0,
+                "2ndAndMedium": 0,
+                "2ndAndLong": 0,
+                "3rdAndShort": 0,
+                "3rdAndMedium": 0,
+                "3rdAndLong": 0,
+                "4thAndShort": 0,
+                "4thAndMedium": 0
+              }
+            },
             { "play": "CM PA Shot" },
             { "play": "CM PA Option Over" }
           ]

@@ -653,6 +653,78 @@
       }
     },
     {
+      "name": "YM Toss ",
+      "asset": "PBS_YM_Toss",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_HB_Dive",
+      "playType": "OffensePlayType_RunPitch",
+      "blocking": "BTOutsideZone",
+      "runHole": 8,
+      "players": {
+        "0": "Quarterback/UC_PitchToHB_TossRt_Precan_6_8",
+        "1": "Halfback/ALL_PitchRt_0_Precan_6_8",
+        "3": {
+          "new": "PBS_Slot_RunBlock",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [{ "type": "RunBlock" }]
+        },
+        "4": {
+          "new": "PBS_Y_RunBlock",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [
+            {
+              "type": "AutoMotion",
+              "waypoints": [
+                {
+                  "position": { "x": 1.5, "y": -4 },
+                  "transitID": 0,
+                  "speed": 80,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                },
+                {
+                  "position": { "x": -4, "y": -3 },
+                  "transitID": 0,
+                  "speed": 100,
+                  "facingAngle": 0,
+                  "locoStyle": "AUTOMOTIONLOCOSTYLE_NORMAL",
+                  "shouldFaceEndPoint": true
+                }
+              ],
+              "startEvent": "AUTOMOTIONSTARTEVENT_SNAP",
+              "endDelay": 0,
+              "automotionOrderTransitID": 1,
+              "startDelay": 0,
+              "stanceAtTarget": "StanceType_None",
+              "automotionOrderPlayer": 0,
+              "useLegacyLocoPathing": false,
+              "shouldStopAtTarget": false
+            },
+            {
+              "type": "RunBlock",
+              "stalkDistance": 0,
+              "slamDuration": 0,
+              "time": 0,
+              "flags": "RunBlockFlags_None",
+              "receiverBlockType": "RECEIVERBLOCKTYPE_NORMAL"
+            }
+          ]
+        },
+        "5": {
+          "new": "PBS_Z_Crack",
+          "routeType": "AssignRouteType_Block_Run",
+          "steps": [
+            {
+              "type": "LeadBlock",
+              "blockingTechnique": "BLOCKINGTECHNIQUE_CRACK_BLOCK",
+              "blockingGap": "RUN_HOLE"
+            },
+            { "type": "RunBlock" }
+          ]
+        }
+      }
+    },
+    {
       "name": "EM Options Over",
       "asset": "PBS_EM_Options_Over",
       "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/PBS_DC_Omaha",
@@ -821,7 +893,7 @@
               "type": "OptionRoute",
               "options": [
                 { "route": "InOutLeft", "coverage": "OptionRouteCoverage_Default" },
-                { "route": "CornerLt", "coverage": "83" }
+                { "route": "CornerLt", "coverage": "18" }
               ]
             },
             { "type": "GetOpen" }
@@ -1021,6 +1093,32 @@
             { "type": "GetOpen" }
           ]
         },
+        "3": {
+          "new": "PBS_Slot_BlockRelease",
+          "routeType": "AssignRouteType_RR_Block_TE_Dump",
+          "keep": 1,
+          "steps": [
+            { "type": "RunRoute", "distance": 1, "direction": 150, "speed": 100 },
+            { "type": "RunRoute", "distance": 2, "direction": 90, "speed": 100 },
+            { "type": "RunRoute", "distance": 7, "direction": 70, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
+        "4": {
+          "new": "PBS_Y_BlockRelease_2",
+          "routeType": "AssignRouteType_RR_Block_TE_Cross",
+          "keep": 1,
+          "steps": [
+            { "type": "RunRoute", "distance": 2, "direction": 70, "speed": 100 },
+            {
+              "type": "ReceiverCut",
+              "direction": "RECEIVER_CUT_DIR_RIGHT",
+              "cutType": "RECEIVER_CUT_ANGLE_67"
+            },
+            { "type": "RunRoute", "distance": 20, "direction": 0, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        },
         "5": {
           "new": "PBS_Z_Out11",
           "routeType": "AssignRouteType_RR_Out_Middle",
@@ -1060,6 +1158,59 @@
               "cutType": "RECEIVER_CUT_ANGLE_45"
             },
             { "type": "RunRoute", "distance": 13.5, "direction": 5, "speed": 100 },
+            { "type": "GetOpen" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "PA Options",
+      "asset": "PBS_PA_Options",
+      "base": "football/Gameplay/playbooks/PlayLibrary/Formations/Offense/Singleback/FUS_Deuce_Close/FUS_PA_Cross",
+      "players": {
+        "2": {
+          "new": "PBS_X_Option_2",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "keep": 1,
+          "steps": [
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "SkinnyPostRt", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "InOutLeft", "coverage": "10" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "3": {
+          "new": "PBS_Slot_Option_4",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "steps": [
+            { "type": "PassBlock", "time": 1, "flags": "PassBlockFlags_None" },
+            { "type": "RunRoute", "distance": 4, "direction": 90, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "HitchRight", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "SlantRt", "coverage": "143" }
+              ]
+            },
+            { "type": "GetOpen" }
+          ]
+        },
+        "5": {
+          "new": "PBS_Z_Option",
+          "routeType": "AssignRouteType_RR_Option_Route",
+          "steps": [
+            { "type": "RunRoute", "distance": 10, "direction": 110, "speed": 100 },
+            {
+              "type": "OptionRoute",
+              "options": [
+                { "route": "SlantLt", "coverage": "OptionRouteCoverage_Default" },
+                { "route": "PostRight", "coverage": "OptionRouteCoverage_Cover2" }
+              ]
+            },
             { "type": "GetOpen" }
           ]
         }
