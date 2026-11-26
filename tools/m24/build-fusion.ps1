@@ -30,7 +30,9 @@ node tools\pbook-build.mjs --collect --index $out $book $Template $save
 if ($LASTEXITCODE -ne 0) { throw "pbook-build (collect) failed" }
 
 if (-not $SkipPlays) {
-    & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\fusion.fbproject mods\fusion.fbmod playbooks/mod.json playbooks/sets/fusion-sets.json --out-index $out
+    # Sets first (clones), then FUSION's edited plays (Playbook Studio "Edit this play" copies; some are based on clones).
+    $specs = @("playbooks/sets/fusion-sets.json") + @(Get-ChildItem playbooks\plays\fusion-*.json -ErrorAction SilentlyContinue | ForEach-Object FullName)
+    & .\tools\PlayDump\bin\Release\PlayDump.exe buildplays mods\fusion.fbproject mods\fusion.fbmod playbooks/mod.json $specs --out-index $out
     if ($LASTEXITCODE -ne 0) { throw "buildplays failed" }
 }
 
