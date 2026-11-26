@@ -14,6 +14,7 @@ import { Button, DialogHost, ErrorBoundary, cx, helpHref, Icon, IconButton, Prog
 import { HELP_SECTIONS } from "./views/help/sections";
 import { AddToPlaybookHost } from "./views/library/AddToPlaybook";
 import { ConflictHost, openConflict } from "./ConflictDialog";
+import { followSetEdits } from "./state/followSets";
 import s from "./App.module.css";
 
 // Views load on demand (one chunk each): the first paint stays small, and a broken view can't take down the shell —
@@ -168,6 +169,8 @@ export function App() {
     installPadNav();
   }, []);
   useEffect(followWorkspacePaths, []);
+  // Renaming or moving a custom set (Formations) updates the playbooks that list it.
+  useEffect(followSetEdits, []);
 
   return (
     <>

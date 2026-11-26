@@ -183,6 +183,31 @@ export function positionPatch(alignment: readonly AlignmentPos[], slot: number, 
   return { pos: choice.pos, depth };
 }
 
+/**
+ * Depth-chart spots a slot's player can be (1 = starter): one per player at that position in the set, plus one more
+ * backup (a third TE in a two-TE set), and never fewer than the deepest spot already used.
+ */
+export function depthChoices(alignment: readonly AlignmentPos[], slot: number): number[] {
+  const cur = alignment[slot];
+  if (!cur) return [];
+  const same = alignment.filter((a) => positionKey(a.pos) === positionKey(cur.pos));
+  const n = Math.max(same.length + 1, ...same.map((a) => a.depth || 1));
+  return Array.from({ length: n }, (_, i) => i + 1);
+}
+
+/**
+ * Put `slot` at depth-chart spot `depth` for its position. The player who had that spot (same position) takes this
+ * slot's old one, so each spot stays with one player. Returns the patches to apply, by slot (empty when nothing changes).
+ */
+export function depthSwap(alignment: readonly AlignmentPos[], slot: number, depth: number): [number, SlotPatch][] {
+  const cur = alignment[slot];
+  if (!cur || !Number.isInteger(depth) || depth < 1 || cur.depth === depth) return [];
+  const out: [number, SlotPatch][] = [[slot, { pos: cur.pos, depth }]];
+  const other = alignment.findIndex((a, i) => i !== slot && positionKey(a.pos) === positionKey(cur.pos) && a.depth === depth);
+  if (other >= 0) out.push([other, { pos: alignment[other].pos, depth: cur.depth || 1 }]);
+  return out;
+}
+
 let stanceCache: WeakMap<object, Map<string, string>> | undefined;
 
 /** The stance the game library uses most for a position ("POSITION_WR" gives the receiver stance). */

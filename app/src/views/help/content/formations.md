@@ -55,6 +55,13 @@ Pick a receiver, tight end or back, then choose **WR**, **SL**, **TE**, **HB** o
 gets the next free spot on that position's depth chart (a third tight end becomes TE3), and the game fills the slot from
 your team's depth chart at that spot. The QB and the linemen can't change position.
 
+To pick the depth chart spot yourself, click **TE1**, **TE2**, **TE3**… under the position. TE1 is the starter. If another
+player in the set already has that spot, the two swap (make your moved receiver the TE1 and the inline tight end becomes
+TE2).
+
+Renaming a set or giving it a new formation updates every playbook that lists it: the set keeps its plays and moves
+under the new formation in the playbook (added right after the old one; an old formation left empty is removed).
+
 Every set shows its **personnel** next to its name: backs, then tight ends. **11** is one back and one tight end (three
 receivers), **12** is one back and two tight ends, **10** is one back and no tight end. It updates as you change
 positions.

@@ -5,7 +5,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import type { LibraryIndex } from "../../model/library";
 import { formationShort, leaf, norm } from "../../model/names";
-import { playerFullName, positionKey, positionName } from "../../model/positions";
+import { playerFullName, positionKey, positionName, slotLabel } from "../../model/positions";
 import {
   POSITION_CHOICES,
   positionPatch,
@@ -25,6 +25,7 @@ import {
   isQB,
   libraryFormationLeaves,
   newCustomFormation,
+  depthChoices,
   playerLabel,
   presetLabel,
   setNamesInFormation,
@@ -90,6 +91,8 @@ export interface PlayerPanelProps {
   onDone(): void;
   /** "Stays put when flipped" on / off (rewires the flip partners). */
   onStayOnFlip?(on: boolean): void;
+  /** Move this player to depth-chart spot `depth` for its position, swapping with whoever had it (Normal view only). */
+  onDepth?(depth: number): void;
 }
 
 export function PlayerPanel(p: PlayerPanelProps) {
@@ -149,9 +152,37 @@ export function PlayerPanel(p: PlayerPanelProps) {
             p.onPatch(stance ? { ...patch, stance } : patch, `pos:${slot}`, 0);
           }}
         />
-        <div className={s.refLine}>
-          <span>The game fills the slot from that spot on the depth chart.</span>
-        </div>
+        {p.onDepth && (
+          <>
+            <div className={s.chips} role="group" aria-label="Depth chart spot">
+              {depthChoices(normal, slot).map((d) => {
+                const holder = normal.findIndex((x, i) => i !== slot && positionKey(x.pos) === positionKey(a.pos) && x.depth === d);
+                return (
+                  <button
+                    key={d}
+                    type="button"
+                    className={cx(s.chip, a.depth === d && s.chipOn)}
+                    title={holder >= 0 ? `Swap with ${playerLabel(normal[holder])} (slot ${holder})` : d === 1 ? "The starter" : `Backup ${d}`}
+                    onClick={() => a.depth !== d && p.onDepth!(d)}
+                  >
+                    {slotLabel(a.pos, d)}
+                  </button>
+                );
+              })}
+            </div>
+            <div className={s.refLine}>
+              <span>
+                The game puts the player from that spot on your depth chart here ({slotLabel(a.pos, 1)} is the starter). Picking a spot another player has
+                swaps the two.
+              </span>
+            </div>
+          </>
+        )}
+        {!p.onDepth && (
+          <div className={s.refLine}>
+            <span>The game fills the slot from that spot on the depth chart.</span>
+          </div>
+        )}
       </Section>
 
       <Section title="Stance">

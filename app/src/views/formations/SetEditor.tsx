@@ -14,6 +14,7 @@ import {
   basePresetKeys,
   changedPresetSlots,
   changedSlots,
+  depthSwap,
   effectiveNormal,
   effectivePreset,
   flippedAlignment,
@@ -544,6 +545,19 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
                           tidy(d);
                         },
                         on ? "Stay put when flipped" : "Mirror when flipped",
+                      )
+                  : undefined
+              }
+              onDepth={
+                mode === NORMAL
+                  ? (depth) =>
+                      update(
+                        (d) => {
+                          for (const [slot, patch] of depthSwap(effectiveNormal(base, d), sel, depth)) patchPosition(d, base, slot, patch);
+                          tidy(d);
+                        },
+                        "Depth chart spot",
+                        0,
                       )
                   : undefined
               }
