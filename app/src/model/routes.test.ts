@@ -278,6 +278,15 @@ describe("cuts", () => {
     const over = setCutAt(curl, 0, { cutType: "RECEIVER_CUT_ANGLE_CURL", direction: "RECEIVER_CUT_DIR_LEFT" });
     expect(cutAt(over, 0)?.direction).toBe("RECEIVER_CUT_DIR_LEFT");
     expect(fromEditableRoute(setCutAt(over, 0, null))).toEqual(fromEditableRoute(r));
+    // A cut with no direction (hand-written spec) or the text "undefined" gets the turn's direction instead.
+    const turn = toEditableRoute([
+      { type: "RunRoute", distance: 6, direction: 105, speed: 100 },
+      { type: "ReceiverCut" },
+      { type: "RunRoute", distance: 14, direction: 174, speed: 100 },
+      { type: "GetOpen" },
+    ]);
+    expect(cutAt(setCutAt(turn, 0, { cutType: "RECEIVER_CUT_ANGLE_45" }), 0)?.direction).toBe("RECEIVER_CUT_DIR_LEFT");
+    expect(cutAt(setCutAt(turn, 0, { cutType: "RECEIVER_CUT_ANGLE_45", direction: "undefined" }), 0)?.direction).toBe("RECEIVER_CUT_DIR_LEFT");
     // A loaded RunRouteFakeOut (the builder can't author one) can be removed; nothing else at the vertex changes.
     const loaded = toEditableRoute([
       { type: "RunRoute", distance: 10, direction: 90, speed: 100 },

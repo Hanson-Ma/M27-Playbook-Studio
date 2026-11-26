@@ -44,8 +44,10 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
 
   const apply = (fn: (r: EditableRoute) => EditableRoute, label: string) => d.commitSlot(slot, editRoute(steps, fn), label);
   const setCut = (cutType: string, direction?: string) => apply((r) => setCutAt(r, k, { cutType, direction }, geom.start), "Set cut");
+  // A cut without a direction (hand-written specs) gets the turn's direction, never the text "undefined".
+  const curDir = cut?.direction ? String(cut.direction) : undefined;
   const pick = (cutType: string) => {
-    setCut(cutType, cut ? String(cut.direction) : undefined);
+    setCut(cutType, curDir);
     onClose();
   };
 
@@ -53,7 +55,7 @@ export function CutMenu({ slot, k, at, onClose }: { slot: number; k: number; at:
   const groups = CUT_GROUPS.map((g) => ({ ...g, cuts: g.cuts.filter((c) => known.size === 0 || known.has(c.value)) })).filter((g) => g.cuts.length);
   const listed = new Set(groups.flatMap((g) => g.cuts.map((c) => c.value)));
   const other = [...known].filter((v) => !listed.has(v) && !/INVALID|NONEVALUE/.test(v));
-  const dir = cut ? String(cut.direction) : undefined;
+  const dir = curDir;
   // The leg the speed applies to: the one leaving this point (the last point has none — its own leg then).
   const speedLeg = next ? k + 1 : k;
   const speed = route.legs[speedLeg]?.speed;

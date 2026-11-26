@@ -356,7 +356,8 @@ export function setCutAt(
   return replaceVertexSteps(route, k, (steps) => {
     const i = steps.findIndex((s) => s.type === "ReceiverCut");
     if (!cut) return i < 0 ? steps : steps.filter((_, j) => j !== i);
-    const direction = cut.direction ?? autoCutDir(route, k, start);
+    // No direction (or a stringified missing one): the turn's own direction. PlayDump can't build "undefined".
+    const direction = cut.direction && /^RECEIVER_CUT_DIR_/.test(cut.direction) ? cut.direction : autoCutDir(route, k, start);
     if (i >= 0) {
       const next = steps.slice();
       next[i] = { ...steps[i], direction, cutType: cut.cutType };
