@@ -42,6 +42,18 @@ a set show how many audibles it has; the number is its play count.
 Drag formations and sets up and down the tree to reorder them. Your own sets (made in
 [Formations](#/help/formations)) show a **Custom** tag and appear in the **+ Set** list like any other set.
 
+### Edit a Set
+
+Click **Edit Set** at the top of the set (or in its **⋯** menu) to move its players or change its motions in
+[Formations](#/help/formations).
+
+- **One of your own sets** opens straight in the editor.
+- **One of the game's sets** can't be changed in place, so Edit Set makes your own copy with the **same name**, and
+  the copy replaces the game's set in your playbooks. The copy gets every play your playbooks list in that set, edited
+  plays included, so nothing in the playbook changes. It's saved in `playbooks/sets/<playbook>-sets.json` and needs the
+  Playbook Studio mod, like any custom set.
+- Go back without changing anything and the copy is taken out again.
+
 ## Add and Order Plays
 
 With a set selected, the middle column shows two lists:

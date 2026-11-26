@@ -20,6 +20,7 @@ import {
   setAudibleAt,
 } from "./ops";
 import { editPlay } from "./editPlay";
+import { canEditSet, editSet } from "./editSet";
 import { BOOK_ID, useBuilderUi } from "./store";
 
 export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: boolean } = {}): MenuItem[] {
@@ -31,6 +32,16 @@ export function nodeMenu(data: BuilderData, node: BookNode, opts: { expanded?: b
 
   if (node.level === "set" && node.rs)
     items.push(
+      ...(canEditSet(node)
+        ? [
+            {
+              label: "Edit Set",
+              icon: "field" as const,
+              hint: data.custom.set(node.rs.set?.asset) ? undefined : "makes your own copy",
+              onSelect: () => editSet(data, node),
+            },
+          ]
+        : []),
       {
         label: "Add Plays to This Set…",
         icon: "plus",

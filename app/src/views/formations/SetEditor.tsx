@@ -34,7 +34,7 @@ import {
   type SlotPatch,
 } from "../../model/sets";
 import type { AlignmentPos, CustomSetSpec, PlayDef, SetDef, SetsFile } from "../../model/types";
-import { navigate } from "../../state/router";
+import { navigate, useRoute } from "../../state/router";
 import { useDoc, useWorkspace } from "../../state/workspace";
 import { Button, EmptyState, Icon, IconButton, Menu, Segmented, Spinner, Tag, Toggle, cx } from "../../ui";
 import { ClonePlaysModal } from "./ClonePlaysModal";
@@ -43,12 +43,18 @@ import { FlippedPlayerPanel, PlayerPanel, PresetPlayerPanel, SetPanel } from "./
 import { checkGroups, cloneWarnings, presetTarget, type CheckGroup, type CloneWarning } from "./setModel";
 import { FLIPPED, activate, customSetArt, customSubtitle, fileName, formationNameOf, setDisplayIssues, useLib, useSetsDocs, useSetsIssues } from "./shared";
 import { titleCase } from "../designer/titleCase";
+import { leaveSetCopy, staySetCopy } from "../playbook/editSet";
 import s from "./Editor.module.css";
 
-const back = () => navigate("#/formations");
+/** Where Back goes: the playbook that opened this set (its Edit Set, via ?back=), else the list of sets. */
+function useBack(): { go(): void; label: string } {
+  const back = useRoute().query.get("back");
+  return back && back.startsWith("#/") ? { go: () => navigate(back), label: "Back to Playbook" } : { go: () => navigate("#/formations"), label: "Back to Sets" };
+}
 
 export function SetEditorScreen({ file, index }: { file: string; index: number }) {
   const lib = useLib();
+  const back = useBack();
   const ready = useWorkspace((st) => st.ready);
   const doc = useDoc<SetsFile | null>(file);
   const spec = doc && !doc.error ? doc.data?.sets?.[index] : undefined;
@@ -78,8 +84,8 @@ export function SetEditorScreen({ file, index }: { file: string; index: number }
           title={problem?.title ?? "Can't Open This Set"}
           body={problem?.body}
           action={
-            <Button variant="secondary" icon="chevronLeft" onClick={back}>
-              Back to Sets
+            <Button variant="secondary" icon="chevronLeft" onClick={back.go}>
+              {back.label}
             </Button>
           }
         />
@@ -146,7 +152,13 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
   const [playsOpen, setPlaysOpen] = useState(false);
   const [presetMenu, setPresetMenu] = useState<HTMLElement | null>(null);
 
-  useEffect(() => activate(file), [file]);
+  const back = useBack();
+  useEffect(() => {
+    activate(file);
+    staySetCopy(file, index);
+    // Leaving with an Edit Set copy still untouched takes it back out (playbook/editSet.ts).
+    return () => leaveSetCopy(file, index);
+  }, [file, index]);
 
   const keys = useMemo(() => basePresetKeys(base), [base]);
   const mode = !flipped && keys.includes(view) ? view : NORMAL;
@@ -311,7 +323,7 @@ function SetEditor({ lib, file, index, fileData, spec, base }: EditorProps) {
   return (
     <div className={s.page}>
       <header className={s.header}>
-        <IconButton icon="chevronLeft" title="Back to all sets" onClick={back} />
+        <IconButton icon="chevronLeft" title={back.label} onClick={back.go} />
         <div className={s.titles}>
           <div className={s.eyebrow}>
             <span className={s.eyebrowFile}>{fileName(file)}</span>

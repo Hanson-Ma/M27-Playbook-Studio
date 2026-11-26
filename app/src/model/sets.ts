@@ -951,12 +951,19 @@ export function suggestAsset(prefix: string, name: string, taken: Set<string>): 
 /**
  * Set names a playbook can't reuse in a formation: stock sets in the formation's folder + custom sets in it (by full
  * formation path; a bare custom leaf is matched too). `formation` may be a stock or custom formation asset.
+ * `library: false` leaves the stock names out (a custom set may take one and stand in for it, see standInSet.ts).
  */
-export function setNamesInFormation(lib: LibraryIndex, formation: Asset, files: { data: SetsFile | null | undefined }[], except?: CustomSetSpec): Set<string> {
+export function setNamesInFormation(
+  lib: LibraryIndex,
+  formation: Asset,
+  files: { data: SetsFile | null | undefined }[],
+  except?: CustomSetSpec,
+  opts: { library?: boolean } = {},
+): Set<string> {
   const stock = lib.stock ?? lib;
   const dir = folder(formation.includes("/") ? formation : customFormationAsset(formation));
   const out = new Set<string>();
-  for (const s of stock.data.sets) if (s.asset.startsWith(dir)) out.add(s.name);
+  if (opts.library !== false) for (const s of stock.data.sets) if (s.asset.startsWith(dir)) out.add(s.name);
   for (const f of files) {
     for (const s of setsOf(f.data)) {
       if (s === except || !isObj(s) || typeof s.name !== "string" || !s.name) continue;
@@ -1542,12 +1549,17 @@ export function validateSetsFile(data: SetsFile, lib: LibraryIndex, ctx: SetsVal
     }
     if (formAsset && typeof spec.name === "string" && spec.name.trim()) {
       const dir = folder(formAsset);
+      // A custom set may take a library set's name: set names resolve custom-first (library.ts setByName,
+      // tools/pbook-build.mjs), so it stands in for the library set in every playbook ("Edit Set" makes these).
       const stockClash = stock.data.sets.find((s) => s.asset.startsWith(dir) && norm(s.name) === norm(spec.name));
-      if (stockClash) p("error", "set-name-duplicate", `The library set ${leaf(stockClash.asset)} in this formation is also called "${maddenName(spec.name)}" — playbooks would get the library set; rename it`);
-      else {
-        const earlier = others(cross.setsInFolder.get(`${dir.toLowerCase()}|${norm(spec.name)}`), spec).filter((o) => before(o, me(i)));
-        if (earlier.length) p("error", "set-name-duplicate", `Custom set ${where1(earlier[0])} in this formation is also called "${maddenName(spec.name)}" — playbooks get that one; rename this one`);
-      }
+      if (stockClash)
+        p(
+          "info",
+          "set-stands-in",
+          `Stands in for the library set ${leaf(stockClash.asset)}: playbooks that list "${maddenName(spec.name)}" in this formation get this set and its copied plays`,
+        );
+      const earlier = others(cross.setsInFolder.get(`${dir.toLowerCase()}|${norm(spec.name)}`), spec).filter((o) => before(o, me(i)));
+      if (earlier.length) p("error", "set-name-duplicate", `Custom set ${where1(earlier[0])} in this formation is also called "${maddenName(spec.name)}" — playbooks get that one; rename this one`);
     }
 
     // positions entries.

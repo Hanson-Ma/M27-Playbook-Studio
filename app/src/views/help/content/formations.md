@@ -30,6 +30,10 @@ playbook on custom sets.
 
 6. Press **⌘S / Ctrl+S** to save.
 
+**Quicker, from a playbook:** click **Edit Set** on one of the game's sets in [Playbook](#/help/playbook). That makes
+your own copy with the same name, so it replaces the game's set in your playbooks, and copies in every play they list
+there. A custom set may share a game set's name like that; only two of your own sets in one formation can't.
+
 ## Move Players
 
 ![The set editor: drag players on the field; the checks are at the bottom, the set's details on the right.](/guide/formations-editor.png)

@@ -426,7 +426,9 @@ describe("validation (FORMATS.md §5, mirrors SetBuilder)", () => {
     const rules = (i: number) => issuesForSet(issues, i).filter((x) => x.level === "error").map((x) => x.rule);
     expect(rules(0)).toEqual(expect.arrayContaining(["set-name", "set-asset"]));
     expect(rules(1)).toEqual(["set-base"]);
-    expect(rules(2)).toEqual(expect.arrayContaining(["set-asset-duplicate", "set-name-duplicate"]));
+    // Taking the library set's name is allowed (it stands in for it); taking its asset isn't.
+    expect(rules(2)).toEqual(["set-asset-duplicate"]);
+    expect(issuesForSet(issues, 2).find((x) => x.rule === "set-stands-in")?.level).toBe("info");
     expect(rules(3)).toEqual(["set-formation"]);
     expect(rules(4)).toEqual(expect.arrayContaining(["set-positions", "set-stance", "set-flip-assign", "set-motion-man"]));
     expect(rules(5)).toEqual(["set-play-from"]);

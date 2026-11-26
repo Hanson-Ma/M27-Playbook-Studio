@@ -456,11 +456,17 @@ export function SetPanel(p: SetPanelProps) {
   const formValue = custom ? customFormationAsset(custom.cf.asset) : spec.formation;
   const legacyRef = !!custom && spec.formation !== formValue;
 
+  // Another custom set's name is taken; a game set's name isn't: this set then stands in for it (Edit Set makes these).
   const nameTaken = useMemo(() => {
     if (!spec.name?.trim()) return false;
-    const used = setNamesInFormation(lib, formationPath, p.allFiles, spec);
+    const used = setNamesInFormation(lib, formationPath, p.allFiles, spec, { library: false });
     return [...used].some((n) => norm(n) === norm(spec.name));
   }, [lib, formationPath, p.allFiles, spec]);
+  const standsIn = useMemo(() => {
+    if (!spec.name?.trim()) return false;
+    const library = setNamesInFormation(lib, formationPath, [], undefined);
+    return [...library].some((n) => norm(n) === norm(spec.name));
+  }, [lib, formationPath, spec.name]);
 
   const newFormation = async () => {
     const name = await promptDialog({
@@ -490,7 +496,11 @@ export function SetPanel(p: SetPanelProps) {
   return (
     <div className={s.inspectorBody}>
       <Section title="Set">
-        <FormRow label="Name" error={!spec.name?.trim() ? "Give the set a name" : nameTaken ? "Another set in this formation has this name" : undefined}>
+        <FormRow
+          label="Name"
+          error={!spec.name?.trim() ? "Give the set a name" : nameTaken ? "Another of your sets in this formation has this name" : undefined}
+          hint={standsIn && !nameTaken ? "Same name as the game's set: playbooks that list it get this one instead." : undefined}
+        >
           <TextInput value={spec.name ?? ""} onChange={(v) => p.update((d) => void (d.name = v), "name", 1500)} size="sm" invalid={!spec.name?.trim() || nameTaken} aria-label="Set name" />
         </FormRow>
         <FormRow label="Formation" hint={custom ? "Your own formation — it shows up in the game's formation list." : undefined}>

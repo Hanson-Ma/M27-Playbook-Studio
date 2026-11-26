@@ -8,7 +8,6 @@ import { PLAY_FAMILIES, familyColor, familyLabel, playTypeInfo, type PlayFamily 
 import { getSet, togglePlay } from "../../model/playbook";
 import type { AudibleSlot, ConceptCategory, ResolvedPlay } from "../../model/types";
 import { PlayCard } from "../../field";
-import { navigate } from "../../state/router";
 import { useSettings } from "../../state/settings";
 import { Button, Checkbox, Chip, EmptyState, Icon, PersonnelTag, Tag, TextInput, Toggle, VirtualList, cx } from "../../ui";
 import { normalOf, personnelOf } from "../../model/sets";
@@ -17,6 +16,7 @@ import { useBuilder, useDragHandlers, useOpenMenu, type BookNode } from "./conte
 import { CardColumnsPicker } from "./CardColumns";
 import { beginDrag } from "./dnd";
 import { editPlay } from "./editPlay";
+import { canEditSet, editSet } from "./editSet";
 import { LazyMount } from "./LazyMount";
 import { editorKey, labelOf } from "./ops";
 import { parentOf, useBuilderUi } from "./store";
@@ -28,7 +28,6 @@ export function SetPanel({ setNode }: { setNode: BookNode }) {
   const rf = setNode.rf!;
   const audibles = rs.plays.filter((p) => p.entry.audible).length;
   const custom = data.custom.set(rs.set?.asset);
-  const editHref = data.custom.editHref(rs.set?.asset);
   return (
     <div className={s.panel}>
       <header className={s.head}>
@@ -59,8 +58,17 @@ export function SetPanel({ setNode }: { setNode: BookNode }) {
         </div>
         <div className={s.headActions}>
           <CardColumnsPicker className={s.colPicker} />
-          {editHref && (
-            <Button size="sm" icon="field" onClick={() => navigate(editHref)} title="Change player spots and motions in the Formations editor">
+          {canEditSet(setNode) && (
+            <Button
+              size="sm"
+              icon="field"
+              onClick={() => editSet(data, setNode)}
+              title={
+                custom
+                  ? "Change player spots and motions in the Formations editor"
+                  : "Make your own copy of this set (same name, it replaces the game's set) and edit its player spots and motions"
+              }
+            >
               Edit Set
             </Button>
           )}
