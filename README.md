@@ -178,7 +178,7 @@ The Node helpers in `tools/*.mjs` read and write the save format (`tdb.mjs`, `td
 ### Requirements (game PC)
 
 .NET 8 SDK (builds net48), Node 20+, MMC Editor (the newest `MMC_Modding_Tools_v*` is auto-detected; currently
-v1.1.0.6), and Madden 27 with an existing MMC cache (open the game once in MMC Editor).
+v1.1.0.8), and Madden 27 with an existing MMC cache (open the game once in MMC Editor).
 `tools/PlayDump/key1.local.bin` (gitignored) holds the profile Key1 that MMC's FrostyCore uses.
 Paths default to the author's machine; override them with `MMC_EDITOR_DIR` and `MADDEN27_DIR`.
 
